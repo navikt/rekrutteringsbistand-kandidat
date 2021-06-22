@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import PropTypes from 'prop-types';
 
 import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
-import { Nettstatus } from '../api/remoteData.ts';
-import cvPropTypes from '../common/PropTypes';
-import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
+import { Nettressurs, Nettstatus } from '../api/remoteData';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
@@ -16,8 +14,47 @@ import StatusSelect from '../kandidatliste/kandidatrad/statusSelect/StatusSelect
 import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
 import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
 import '../common/ikoner.less';
+import Cv from './cv/reducer/cv-typer';
+import {
+    Kandidatliste,
+    Kandidatlistefilter,
+    Kandidatstatus,
+    Kandidattilstander,
+} from '../kandidatliste/kandidatlistetyper';
+import AppState from '../AppState';
+import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { ReactNode } from 'react';
 
-class VisKandidatFraLister extends React.Component {
+/*
+    kandidatliste: state.kandidatliste.kandidatliste,
+    hentStatus: state.cv.hentStatus,
+    cv: state.cv.cv,
+    midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
+    kandidatlistefilter: state.kandidatliste.filter,
+    kandidattilstander: state.kandidatliste.kandidattilstander,
+*/
+type Props = {
+    kandidatNr: string;
+    cv: Cv;
+    hentStatus: string;
+    hentCvForKandidat: (kandidatnr: string) => void;
+    hentKandidatliste: (kandidatlisteId: string) => void;
+    kandidatlisteId: string;
+    kandidatliste: Nettressurs<Kandidatliste>;
+    endreStatusKandidat: (
+        status: Kandidatstatus,
+        kandidatlisteId: string,
+        kandidatnr: string
+    ) => void;
+    filtrerteKandidatnumre?: string[];
+    settValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
+    kandidatlistefilter?: Kandidatlistefilter;
+    kandidattilstander: Kandidattilstander;
+    midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
+    children?: ReactNode;
+};
+
+class VisKandidatFraLister extends React.Component<Props> {
     componentDidMount() {
         window.scrollTo(0, 0);
         this.props.hentCvForKandidat(this.props.kandidatNr);
@@ -25,7 +62,7 @@ class VisKandidatFraLister extends React.Component {
         this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatNr);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const harNavigertTilNyKandidat =
             prevProps.kandidatNr !== this.props.kandidatNr && this.props.kandidatNr !== undefined;
 
@@ -36,7 +73,7 @@ class VisKandidatFraLister extends React.Component {
         }
     }
 
-    onKandidatStatusChange = (status) => {
+    onKandidatStatusChange = (status: Kandidatstatus) => {
         this.props.endreStatusKandidat(
             status,
             this.props.kandidatlisteId,
@@ -45,11 +82,13 @@ class VisKandidatFraLister extends React.Component {
     };
 
     hentGjeldendeKandidat = () =>
-        this.props.kandidatliste.kandidater.find(
-            (kandidat) => kandidat.kandidatnr === this.props.kandidatNr
-        );
+        this.props.kandidatliste.kind === Nettstatus.Suksess
+            ? this.props.kandidatliste.data.kandidater.find(
+                  (kandidat) => kandidat.kandidatnr === this.props.kandidatNr
+              )
+            : undefined;
 
-    hentLenkeTilKandidat = (kandidatnummer) =>
+    hentLenkeTilKandidat = (kandidatnummer: string) =>
         kandidatnummer
             ? lenkeTilCv(kandidatnummer, this.props.kandidatlisteId, undefined, true)
             : undefined;
@@ -65,7 +104,11 @@ class VisKandidatFraLister extends React.Component {
             kandidatlistefilter,
             kandidattilstander,
         } = this.props;
-        const filtrerteKandidatnumre = kandidatliste.kandidater
+
+        const filtrerteKandidatnumre = (kandidatliste.kind === Nettstatus.Suksess
+            ? kandidatliste.data.kandidater
+            : []
+        )
             .map((kandidat) => kandidat.kandidatnr)
             .filter((kandidatnr) => {
                 const tilstand = kandidattilstander[kandidatnr];
@@ -115,7 +158,10 @@ class VisKandidatFraLister extends React.Component {
                                 <div className="vis-kandidat__status-select">
                                     <span>Status:</span>
                                     <StatusSelect
-                                        kanEditere={kandidatliste.kanEditere}
+                                        kanEditere={
+                                            kandidatliste.kind === Nettstatus.Suksess &&
+                                            kandidatliste.data.kanEditere
+                                        }
                                         value={gjeldendeKandidat.status}
                                         onChange={this.onKandidatStatusChange}
                                     />
@@ -139,43 +185,8 @@ class VisKandidatFraLister extends React.Component {
     }
 }
 
-VisKandidatFraLister.defaultProps = {
-    kandidatliste: {
-        kandidater: [],
-    },
-};
-
-VisKandidatFraLister.propTypes = {
-    kandidatNr: PropTypes.string,
-    cv: cvPropTypes.isRequired,
-    hentStatus: PropTypes.string.isRequired,
-    hentCvForKandidat: PropTypes.func.isRequired,
-    hentKandidatliste: PropTypes.func.isRequired,
-    kandidatlisteId: PropTypes.string.isRequired,
-    kandidatliste: PropTypes.shape({
-        kandidater: PropTypes.arrayOf(
-            PropTypes.shape({
-                kandidatnr: PropTypes.string,
-            })
-        ),
-    }),
-    endreStatusKandidat: PropTypes.func.isRequired,
-    filtrerteKandidatnumre: PropTypes.arrayOf(PropTypes.string),
-    settValgtKandidat: PropTypes.func.isRequired,
-    kandidatlistefilter: PropTypes.shape({
-        visArkiverte: PropTypes.bool.isRequired,
-        status: PropTypes.object.isRequired,
-        utfall: PropTypes.object.isRequired,
-        navn: PropTypes.string.isRequired,
-    }),
-    kandidattilstander: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    kandidatliste:
-        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.kandidatliste.data
-            : undefined,
+const mapStateToProps = (state: AppState) => ({
+    kandidatliste: state.kandidatliste.kandidatliste,
     hentStatus: state.cv.hentStatus,
     cv: state.cv.cv,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
@@ -183,28 +194,28 @@ const mapStateToProps = (state) => ({
     kandidattilstander: state.kandidatliste.kandidattilstander,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    hentCvForKandidat: (arenaKandidatnr, profilId) =>
+const mapDispatchToProps = (dispatch: (action: any) => void) => ({
+    hentCvForKandidat: (arenaKandidatnr: string, profilId: string) =>
         dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr, profilId }),
-    hentKandidatliste: (kandidatlisteId) =>
+    hentKandidatliste: (kandidatlisteId: string) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         }),
-    settValgtKandidat: (kandidatlisteId, kandidatnr) =>
+    settValgtKandidat: (kandidatlisteId: string, kandidatnr: string) =>
         dispatch({
             type: KandidatlisteActionType.VELG_KANDIDAT,
             kandidatlisteId,
             kandidatnr,
         }),
-    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) =>
+    endreStatusKandidat: (status: Kandidatstatus, kandidatlisteId: string, kandidatnr: string) =>
         dispatch({
             type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,
             status,
             kandidatlisteId,
             kandidatnr,
         }),
-    settKandidatlistefilter: (filter) =>
+    settKandidatlistefilter: (filter: Kandidatlistefilter) =>
         dispatch({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
             filter,

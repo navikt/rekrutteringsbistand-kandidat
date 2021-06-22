@@ -6,7 +6,7 @@ export const appPrefiks = '';
 
 export const lenkeTilKandidatlisteoversikt = `${appPrefiks}/kandidater/lister`;
 
-export const lenkeTilKandidatliste = (kandidatlisteId: string, filterQuery?: string) => {
+export const lenkeTilKandidatliste = (kandidatlisteId: string, filterQuery?: URLSearchParams) => {
     let lenke = `${appPrefiks}/kandidater/lister/detaljer/${kandidatlisteId}`;
 
     if (filterQuery) {

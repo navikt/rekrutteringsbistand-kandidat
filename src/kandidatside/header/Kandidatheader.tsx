@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
 import ForrigeNeste from './forrige-neste/ForrigeNeste';
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
@@ -13,8 +13,8 @@ interface Props {
     tilbakeLink: string;
     antallKandidater: number;
     gjeldendeKandidatIndex: number;
-    forrigeKandidat: string;
-    nesteKandidat: string;
+    forrigeKandidat?: string;
+    nesteKandidat?: string;
     fantCv: boolean;
 }
 
@@ -27,11 +27,12 @@ const Kandidatheader: FunctionComponent<Props> = ({
     nesteKandidat,
     fantCv,
 }) => {
-    let fornavn;
+    let fornavn: string = '';
     if (cv.fornavn) {
         fornavn = capitalizeFirstLetter(cv.fornavn);
     }
-    let etternavn;
+
+    let etternavn: string = '';
     if (cv.etternavn) {
         etternavn = capitalizeFirstLetter(cv.etternavn);
     }
@@ -45,7 +46,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
         ? `${cv.veilederNavn} (${cv.veilederIdent})`
         : 'ikke tildelt';
 
-    let fødselsinfo;
+    let fødselsinfo: ReactNode;
     if (cv.fodselsdato) {
         fødselsinfo = (
             <span>
