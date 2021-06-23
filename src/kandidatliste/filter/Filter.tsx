@@ -73,7 +73,7 @@ const Filter: FunctionComponent<Props> = ({
                     <CheckboxGruppe legend="Hendelser">{hendelsescheckbokser}</CheckboxGruppe>
                 )}
             </KategoriStorSkjerm>
-            )<KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
+            <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
         </aside>
     ) : (
         <Ekspanderbartpanel
