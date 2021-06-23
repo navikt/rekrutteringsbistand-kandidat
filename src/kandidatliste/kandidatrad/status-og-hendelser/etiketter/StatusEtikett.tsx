@@ -25,6 +25,8 @@ export const statusToDisplayName = (status: Kandidatstatus) => {
             return 'Kontaktet';
         case Kandidatstatus.Aktuell:
             return 'Aktuell';
+        case Kandidatstatus.TilIntervju:
+            return 'Til intervju';
         case Kandidatstatus.Uaktuell:
             return 'Ikke aktuell';
         case Kandidatstatus.Uinteressert:
