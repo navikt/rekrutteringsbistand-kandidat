@@ -13,7 +13,12 @@ export enum Utfall {
 }
 
 const UtfallEtikett: FunctionComponent<Props> = ({ utfall }) => (
-    <Etikett mini type="info" className={`utfall-etikett utfall-etikett--${utfall.toLowerCase()}`}>
+    <Etikett
+        mini
+        type="info"
+        aria-label="Utfall"
+        className={`utfall-etikett utfall-etikett--${utfall.toLowerCase()}`}
+    >
         {tilVisning(utfall)}
     </Etikett>
 );

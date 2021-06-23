@@ -19,6 +19,7 @@ type Props = {
     kandidat: Kandidat;
     kanEditere: boolean;
     onStatusChange: (status: Kandidatstatus) => void;
+    id?: string;
 };
 
 const StatusOgHendelser: FunctionComponent<Props> = ({
@@ -26,6 +27,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
     kanEditere,
     onStatusChange,
+    id,
 }) => {
     const popoverRef = useRef<HTMLDivElement | null>(null);
     const { popoverAnker, togglePopover, lukkPopover } = usePopoverAnker(popoverRef);
@@ -37,7 +39,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     };
 
     return (
-        <div className="status-og-hendelser" ref={popoverRef}>
+        <div id={id} className="status-og-hendelser" ref={popoverRef}>
             <StatusEtikett status={kandidat.status} />
             {kandidat.utfall !== Utfall.IkkePresentert && (
                 <UtfallEtikett utfall={kandidat.utfall} />

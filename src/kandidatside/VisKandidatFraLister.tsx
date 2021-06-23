@@ -149,7 +149,9 @@ class VisKandidatFraLister extends React.Component<Props> {
                             />
                             {gjeldendeKandidat && (
                                 <div className="vis-kandidat__status-select">
+                                    <label htmlFor="cv-status-og-hendelse">Status/hendelse:</label>
                                     <StatusOgHendelser
+                                        id="cv-status-og-hendelse"
                                         kanEditere={
                                             kandidatliste.kind === Nettstatus.Suksess &&
                                             kandidatliste.data.kanEditere &&

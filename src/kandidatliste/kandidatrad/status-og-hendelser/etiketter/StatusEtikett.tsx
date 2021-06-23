@@ -11,7 +11,7 @@ const StatusEtikett: FunctionComponent<Props> = ({ status }) => {
     const etikettClassName = `status-etikett status-etikett--${status.toLowerCase()}`;
 
     return (
-        <Etikett mini type="info" className={etikettClassName}>
+        <Etikett aria-label="Status" mini type="info" className={etikettClassName}>
             {statusToDisplayName(status)}
         </Etikett>
     );
