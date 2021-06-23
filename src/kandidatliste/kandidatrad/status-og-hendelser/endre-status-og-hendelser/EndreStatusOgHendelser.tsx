@@ -15,6 +15,7 @@ type Props = {
     kandidat: Kandidat;
     kandidatlisteId: string;
     onStatusChange: (status: Kandidatstatus) => void;
+    kandidatlistenErKobletTilStilling: boolean;
 };
 
 const hentStatusbeskrivelse = (status: Kandidatstatus) => {
@@ -27,6 +28,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
     kandidatlisteId,
     onStatusChange,
+    kandidatlistenErKobletTilStilling,
 }) => {
     const [status, setStatus] = useState(kandidat.status);
 
@@ -76,22 +78,24 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     Lagre status
                 </Knapp>
             </div>
-            <div className="endre-status-og-hendelser__hendelser">
-                <Undertittel>Hendelser</Undertittel>
-                <ol className="endre-status-og-hendelser__hendelsesliste">
-                    <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                    <DelingAvCvForKandidat
-                        kanEndre
-                        kandidatlisteId={kandidatlisteId}
-                        kandidat={kandidat}
-                    />
-                    <FåttJobbenForKandidat
-                        kanEndre
-                        kandidatlisteId={kandidatlisteId}
-                        kandidat={kandidat}
-                    />
-                </ol>
-            </div>
+            {kandidatlistenErKobletTilStilling && (
+                <div className="endre-status-og-hendelser__hendelser">
+                    <Undertittel>Hendelser</Undertittel>
+                    <ol className="endre-status-og-hendelser__hendelsesliste">
+                        <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
+                        <DelingAvCvForKandidat
+                            kanEndre
+                            kandidatlisteId={kandidatlisteId}
+                            kandidat={kandidat}
+                        />
+                        <FåttJobbenForKandidat
+                            kanEndre
+                            kandidatlisteId={kandidatlisteId}
+                            kandidat={kandidat}
+                        />
+                    </ol>
+                </div>
+            )}
         </div>
     );
 };

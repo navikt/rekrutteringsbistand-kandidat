@@ -18,6 +18,7 @@ type Props = {
     kandidatlisteId: string;
     kandidat: Kandidat;
     kanEditere: boolean;
+    kandidatlistenErKobletTilStilling: boolean;
     onStatusChange: (status: Kandidatstatus) => void;
     id?: string;
 };
@@ -27,6 +28,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
     kanEditere,
     onStatusChange,
+    kandidatlistenErKobletTilStilling,
     id,
 }) => {
     const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -38,16 +40,22 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
         lukkPopover();
     };
 
+    const skalVisePopover = kanEditere || kandidatlistenErKobletTilStilling;
+
     return (
         <div id={id} className="status-og-hendelser" ref={popoverRef}>
             <StatusEtikett status={kandidat.status} />
-            {kandidat.utfall !== Utfall.IkkePresentert && (
+            {kandidat.utfall !== Utfall.IkkePresentert && kandidatlistenErKobletTilStilling && (
                 <UtfallEtikett utfall={kandidat.utfall} />
             )}
-            {kanEditere ? (
-                <EndreStatusOgHendelserKnapp onClick={togglePopover} />
-            ) : (
-                <SeHendelserKnapp onClick={togglePopover} />
+            {skalVisePopover && (
+                <>
+                    {kanEditere ? (
+                        <EndreStatusOgHendelserKnapp onClick={togglePopover} />
+                    ) : (
+                        <SeHendelserKnapp onClick={togglePopover} />
+                    )}
+                </>
             )}
             <Popover
                 orientering={popoverOrientering}
@@ -55,22 +63,32 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                 onRequestClose={lukkPopover}
             >
                 <div className="status-og-hendelser__popover">
-                    {kanEditere ? (
-                        <EndreStatusOgHendelser
-                            kandidat={kandidat}
-                            kandidatlisteId={kandidatlisteId}
-                            onStatusChange={endreStatusOgLukkPopover}
-                        />
-                    ) : (
-                        <SeHendelser kandidat={kandidat} kandidatlisteId={kandidatlisteId} />
+                    {skalVisePopover && (
+                        <>
+                            {kanEditere ? (
+                                <EndreStatusOgHendelser
+                                    kandidat={kandidat}
+                                    kandidatlisteId={kandidatlisteId}
+                                    onStatusChange={endreStatusOgLukkPopover}
+                                    kandidatlistenErKobletTilStilling={
+                                        kandidatlistenErKobletTilStilling
+                                    }
+                                />
+                            ) : (
+                                <SeHendelser
+                                    kandidat={kandidat}
+                                    kandidatlisteId={kandidatlisteId}
+                                />
+                            )}
+                            <Knapp
+                                mini
+                                className="status-og-hendelser__lukk-popover-knapp"
+                                onClick={lukkPopover}
+                            >
+                                <Close />
+                            </Knapp>
+                        </>
                     )}
-                    <Knapp
-                        mini
-                        className="status-og-hendelser__lukk-popover-knapp"
-                        onClick={lukkPopover}
-                    >
-                        <Close />
-                    </Knapp>
                 </div>
             </Popover>
         </div>

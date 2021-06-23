@@ -149,7 +149,12 @@ class VisKandidatFraLister extends React.Component<Props> {
                             />
                             {gjeldendeKandidat && (
                                 <div className="vis-kandidat__status-select">
-                                    <label htmlFor="cv-status-og-hendelse">Status/hendelse:</label>
+                                    <label htmlFor="cv-status-og-hendelse">
+                                        {kandidatliste.kind === Nettstatus.Suksess &&
+                                        kandidatliste.data.stillingId !== null
+                                            ? 'Status/hendelse:'
+                                            : 'Status:'}
+                                    </label>
                                     <StatusOgHendelser
                                         id="cv-status-og-hendelse"
                                         kanEditere={
@@ -160,6 +165,10 @@ class VisKandidatFraLister extends React.Component<Props> {
                                         kandidat={gjeldendeKandidat}
                                         kandidatlisteId={kandidatlisteId}
                                         onStatusChange={this.onKandidatStatusChange}
+                                        kandidatlistenErKobletTilStilling={
+                                            kandidatliste.kind === Nettstatus.Suksess &&
+                                            kandidatliste.data.stillingId !== null
+                                        }
                                     />
                                 </div>
                             )}

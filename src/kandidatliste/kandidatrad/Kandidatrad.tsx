@@ -216,6 +216,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             kandidat.kandidatnr
                         );
                     }}
+                    kandidatlistenErKobletTilStilling={kandidatliste.stillingId !== null}
                 />
 
                 <div role="cell">
