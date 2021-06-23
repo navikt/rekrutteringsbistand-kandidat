@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element, Undertekst } from 'nav-frontend-typografi';
 import { SuccessStroke } from '@navikt/ds-icons';
 import './Hendelse.less';
 
@@ -39,7 +39,7 @@ const Hendelse: FunctionComponent<Props> = ({
                 {(tittel || beskrivelse) && (
                     <div className="hendelse__tekst">
                         {tittel && <Element tag="h3">{tittel}</Element>}
-                        {beskrivelse && <Normaltekst>{beskrivelse}</Normaltekst>}
+                        {beskrivelse && <Undertekst>{beskrivelse}</Undertekst>}
                     </div>
                 )}
                 <div className="hendelse__children">{children}</div>

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 
 import { Kandidat, Kandidatstatus } from '../../../kandidatlistetyper';
 import Hendelse from './Hendelse';
@@ -62,11 +62,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                                         <Normaltekst>
                                             {statusToDisplayName(statusValue)}
                                         </Normaltekst>
-                                        {beskrivelse && (
-                                            <Normaltekst className="endre-status-og-hendelser__statusbeskrivelse">
-                                                {beskrivelse}
-                                            </Normaltekst>
-                                        )}
+                                        {beskrivelse && <Undertekst>{beskrivelse}</Undertekst>}
                                     </>
                                 }
                                 name={`kandidatstatus-${kandidat.kandidatnr}`}
