@@ -1,8 +1,8 @@
 import React, { useEffect, FunctionComponent, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { AddCircle, MinusCircle } from '@navikt/ds-icons';
-import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Hendelse from './Hendelse';
+import { Utfall } from '../etiketter/UtfallEtikett';
 
 type Props = {
     utfall: Utfall;

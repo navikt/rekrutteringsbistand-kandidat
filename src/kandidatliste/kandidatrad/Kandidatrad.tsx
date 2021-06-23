@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
@@ -15,16 +15,14 @@ import { Visningsstatus } from '../Kandidatliste';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
-import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../kandidatsøk/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
-import UtfallMedEndreIkon, { Utfall } from './utfall-med-endre-ikon/UtfallMedEndreIkon';
-import './Kandidatrad.less';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import MerInfo from './mer-info/MerInfo';
 import AppState from '../../AppState';
 import StatusOgHendelser from './status-og-hendelser/StatusOgHendelser';
+import './Kandidatrad.less';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -33,7 +31,6 @@ type Props = {
     onToggleKandidat: (kandidatnr: string) => void;
     onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
-    visEndreUtfallModal: (kandidat: KandidatIKandidatliste) => void;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
@@ -50,7 +47,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     onToggleKandidat,
     onVisningChange,
     onKandidatStatusChange,
-    visEndreUtfallModal,
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
@@ -58,10 +54,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const kandidatRadRef = useRef<HTMLDivElement>(null);
-
-    const visNyttKandidatstatusLayout = useSelector(
-        (state: AppState) => state.søk.featureToggles['nytt-kandidatstatus-layout']
-    );
 
     useEffect(() => {
         const erSistValgteKandidat =
@@ -136,11 +128,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(
-            kandidatliste.stillingId !== null,
-            visArkiveringskolonne,
-            visNyttKandidatstatusLayout
-        );
+        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
 
     const klassenavn = `kandidatliste-kandidat${
         kandidatliste.status === Kandidatlistestatus.Lukket
@@ -217,62 +205,18 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <span>{moment(kandidat.lagtTilTidspunkt).format('YYYY')}</span>
                 </div>
 
-                {visNyttKandidatstatusLayout ? (
-                    <StatusOgHendelser
-                        kandidatlisteId={kandidatliste.kandidatlisteId}
-                        kandidat={kandidat}
-                        kanEditere={kanEndreKandidatlisten}
-                        onStatusChange={(status) => {
-                            onKandidatStatusChange(
-                                status,
-                                kandidatliste.kandidatlisteId,
-                                kandidat.kandidatnr
-                            );
-                        }}
-                    />
-                ) : (
-                    <>
-                        <div
-                            role="cell"
-                            aria-label="Status"
-                            className="kandidatliste-kandidat__kolonne-sorterbar"
-                        >
-                            {visArkiveringskolonne ? (
-                                <StatusSelect
-                                    kanEditere={
-                                        kandidatliste.status === Kandidatlistestatus.Åpen &&
-                                        kandidatliste.kanEditere
-                                    }
-                                    value={kandidat.status}
-                                    onChange={(status) => {
-                                        onKandidatStatusChange(
-                                            status,
-                                            kandidatliste.kandidatlisteId,
-                                            kandidat.kandidatnr
-                                        );
-                                    }}
-                                />
-                            ) : (
-                                <Statusvisning status={kandidat.status} />
-                            )}
-                        </div>
-                        {kandidatliste.stillingId && (
-                            <div role="cell" className="kandidatliste-kandidat__kolonne-sorterbar">
-                                <UtfallMedEndreIkon
-                                    kanEndreUtfall={
-                                        kandidatliste.kanEditere &&
-                                        kandidatliste.status === Kandidatlistestatus.Åpen
-                                    }
-                                    utfall={kandidat.utfall as Utfall}
-                                    onClick={() => {
-                                        visEndreUtfallModal(kandidat);
-                                    }}
-                                    className="Notat kandidatliste-kandidat__fokuserbar-knapp"
-                                />
-                            </div>
-                        )}
-                    </>
-                )}
+                <StatusOgHendelser
+                    kandidatlisteId={kandidatliste.kandidatlisteId}
+                    kandidat={kandidat}
+                    kanEditere={kanEndreKandidatlisten}
+                    onStatusChange={(status) => {
+                        onKandidatStatusChange(
+                            status,
+                            kandidatliste.kandidatlisteId,
+                            kandidat.kandidatnr
+                        );
+                    }}
+                />
 
                 <div role="cell">
                     <Lenkeknapp

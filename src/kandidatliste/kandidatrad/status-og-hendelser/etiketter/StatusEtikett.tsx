@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Kandidatstatus } from '../../../kandidatlistetyper';
 import Etikett from 'nav-frontend-etiketter';
-import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import './StatusEtikett.less';
 
 type Props = {
@@ -16,6 +15,21 @@ const StatusEtikett: FunctionComponent<Props> = ({ status }) => {
             {statusToDisplayName(status)}
         </Etikett>
     );
+};
+
+export const statusToDisplayName = (status: Kandidatstatus) => {
+    switch (status) {
+        case Kandidatstatus.Vurderes:
+            return 'Vurderes';
+        case Kandidatstatus.Kontaktet:
+            return 'Kontaktet';
+        case Kandidatstatus.Aktuell:
+            return 'Aktuell';
+        case Kandidatstatus.Uaktuell:
+            return 'Ikke aktuell';
+        case Kandidatstatus.Uinteressert:
+            return 'Ikke interessert';
+    }
 };
 
 export default StatusEtikett;

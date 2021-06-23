@@ -4,9 +4,10 @@ import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../app/paths';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
 import { Undertekst } from 'nav-frontend-typografi';
-import UtfallEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import UtfallEtikett, {
+    Utfall,
+} from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import StatusEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
-import { Utfall } from '../../../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './Historikkrad.less';
 
 interface Props {

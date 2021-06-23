@@ -12,10 +12,10 @@ import {
     Kandidatliste,
     Kandidatstatus,
 } from '../kandidatlistetyper';
-import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
 import './SideHeader.less';
+import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];

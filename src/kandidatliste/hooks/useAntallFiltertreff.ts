@@ -1,6 +1,6 @@
-import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { useState, useEffect } from 'react';
 import { Kandidatstatus, KandidatIKandidatliste } from '../kandidatlistetyper';
+import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export type AntallFiltertreff = {
     arkiverte: number;

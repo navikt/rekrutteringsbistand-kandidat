@@ -2,14 +2,11 @@ import React, { FunctionComponent, useState } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
-import StatusHjelpetekst from './StatusHjelpetekst';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Kandidatsortering } from '../Kandidatliste';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
-import '../kandidatrad/Kandidatrad.less';
 import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
-import { useSelector } from 'react-redux';
-import AppState from '../../AppState';
+import '../kandidatrad/Kandidatrad.less';
 
 interface Props {
     kandidatliste: Kandidatliste;
@@ -22,27 +19,16 @@ interface Props {
 
 export const modifierTilListeradGrid = (
     visUtfallskolonne: boolean,
-    visArkiveringskolonne: boolean,
-    visNyttKandidatstatusLayout: boolean
+    visArkiveringskolonne: boolean
 ) => {
-    if (visNyttKandidatstatusLayout) {
-        if (visUtfallskolonne) {
-            return visArkiveringskolonne
-                ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering-nytt-layout'
-                : ' kandidatliste-kandidat__rad--vis-utfall-nytt-layout';
-        } else {
-            return visArkiveringskolonne
-                ? ' kandidatliste-kandidat__rad--vis-arkivering-nytt-layout'
-                : ' kandidatliste-kandidat__rad--nytt-layout';
-        }
+    if (visUtfallskolonne) {
+        return visArkiveringskolonne
+            ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering'
+            : ' kandidatliste-kandidat__rad--vis-utfall';
     } else {
-        if (visUtfallskolonne) {
-            return visArkiveringskolonne
-                ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering'
-                : ' kandidatliste-kandidat__rad--vis-utfall';
-        } else {
-            return visArkiveringskolonne ? ' kandidatliste-kandidat__rad--vis-arkivering' : '';
-        }
+        return visArkiveringskolonne
+            ? ' kandidatliste-kandidat__rad--vis-arkivering'
+            : ' kandidatliste-kandidat__rad';
     }
 };
 
@@ -75,17 +61,9 @@ const ListeHeader: FunctionComponent<Props> = ({
             ? ' kandidatliste-kandidat--disabled'
             : '');
 
-    const visNyttKandidatstatusLayout = useSelector(
-        (state: AppState) => state.søk.featureToggles['nytt-kandidatstatus-layout']
-    );
-
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(
-            kandidatliste.stillingId !== null,
-            visArkiveringskolonne,
-            visNyttKandidatstatusLayout
-        );
+        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
 
     const [aktivtSorteringsfelt, setAktivtSorteringsfelt] = useState<KandidatSorteringsfelt | null>(
         null
@@ -145,37 +123,13 @@ const ListeHeader: FunctionComponent<Props> = ({
                     aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
                 />
-                {visNyttKandidatstatusLayout ? (
-                    <SorterbarKolonneheader
-                        tekst="Status/hendelser"
-                        sorteringsfelt={KandidatSorteringsfelt.StatusOgHendelser}
-                        aktivtSorteringsfelt={aktivtSorteringsfelt}
-                        aktivSorteringsretning={aktivSorteringsretning}
-                        onClick={endreSortering}
-                    />
-                ) : (
-                    <>
-                        <SorterbarKolonneheader
-                            tekst="Status"
-                            sorteringsfelt={KandidatSorteringsfelt.Status}
-                            aktivtSorteringsfelt={aktivtSorteringsfelt}
-                            aktivSorteringsretning={aktivSorteringsretning}
-                            onClick={endreSortering}
-                            className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
-                        >
-                            <StatusHjelpetekst />
-                        </SorterbarKolonneheader>
-                        {kandidatliste.stillingId && (
-                            <SorterbarKolonneheader
-                                tekst="Utfall"
-                                sorteringsfelt={KandidatSorteringsfelt.Utfall}
-                                aktivtSorteringsfelt={aktivtSorteringsfelt}
-                                aktivSorteringsretning={aktivSorteringsretning}
-                                onClick={endreSortering}
-                            />
-                        )}
-                    </>
-                )}
+                <SorterbarKolonneheader
+                    tekst="Status/hendelser"
+                    sorteringsfelt={KandidatSorteringsfelt.StatusOgHendelser}
+                    aktivtSorteringsfelt={aktivtSorteringsfelt}
+                    aktivSorteringsretning={aktivSorteringsretning}
+                    onClick={endreSortering}
+                />
                 <Kolonne tekst="Notater" />
                 <Kolonne tekst="Info" className="kandidatliste-kandidat__kolonne-midtstilt" />
                 {visArkiveringskolonne && (

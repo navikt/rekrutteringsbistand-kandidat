@@ -1,12 +1,10 @@
 import { KandidatIKandidatliste, Kandidatstatus } from './kandidatlistetyper';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
-import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export enum KandidatSorteringsfelt {
     Navn,
     Fødselsnummer,
-    Status,
-    Utfall,
     LagtTilAv,
     LagtTilTidspunkt,
     StatusOgHendelser,
@@ -29,14 +27,6 @@ const sorterPåFnr = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
     return sorterAlfabetisk(k1.fodselsnr || '', k2.fodselsnr || '', retning === Retning.Stigende);
 };
 
-const sorterPåStatus = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
-    return sorterAlfabetisk(k1.status, k2.status, retning === Retning.Stigende);
-};
-
-const sorterPåUtfall = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
-    return sorterAlfabetisk(k1.utfall, k2.utfall, retning === Retning.Stigende);
-};
-
 const sorterPåLagtTilAv = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
     return sorterAlfabetisk(k1.lagtTilAv.navn, k2.lagtTilAv.navn, retning === Retning.Stigende);
 };
@@ -56,30 +46,37 @@ const sorterPåLagtTilTidspunkt = (retning: Retning): Kandidatsammenlikning => (
     }
 };
 
-const sorterPåStatusOgHendelser = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
-    return k1.utfall === k2.utfall
-        ? sorterKronologiskPåStatus(k1, k2, retning)
-        : sorterKronologiskPåHendelser(k1, k2, retning);
-};
-const kronologiskHendelseRekkefølge: Array<Utfall> = [
-    Utfall.IkkePresentert,
-    Utfall.Presentert,
-    Utfall.FåttJobben,
-];
-
-const sorterKronologiskPåHendelser = (
+const sorterPåHendelser = (
     k1: KandidatIKandidatliste,
     k2: KandidatIKandidatliste,
     retning: Retning
 ) => {
     return (
         (retning === Retning.Synkende ? 1 : -1) *
-        (kronologiskHendelseRekkefølge.indexOf(k1.utfall) -
-            kronologiskHendelseRekkefølge.indexOf(k2.utfall))
+        (hendelserIKronologiskRekkefølge.indexOf(k1.utfall) -
+            hendelserIKronologiskRekkefølge.indexOf(k2.utfall))
     );
 };
 
-const kronologiskStatusRekkefølge: Array<Kandidatstatus> = [
+const sorterPåStatus = (
+    k1: KandidatIKandidatliste,
+    k2: KandidatIKandidatliste,
+    retning: Retning
+) => {
+    return (
+        (retning === Retning.Synkende ? 1 : -1) *
+        (statuserIKronologiskRekkefølge.indexOf(k1.status) -
+            statuserIKronologiskRekkefølge.indexOf(k2.status))
+    );
+};
+
+const sorterPåStatusOgHendelser = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
+    return k1.utfall === k2.utfall
+        ? sorterPåStatus(k1, k2, retning)
+        : sorterPåHendelser(k1, k2, retning);
+};
+
+const statuserIKronologiskRekkefølge: Array<Kandidatstatus> = [
     Kandidatstatus.Uaktuell,
     Kandidatstatus.Uinteressert,
     Kandidatstatus.Vurderes,
@@ -87,17 +84,11 @@ const kronologiskStatusRekkefølge: Array<Kandidatstatus> = [
     Kandidatstatus.Aktuell,
 ];
 
-const sorterKronologiskPåStatus = (
-    k1: KandidatIKandidatliste,
-    k2: KandidatIKandidatliste,
-    retning: Retning
-) => {
-    return (
-        (retning === Retning.Synkende ? 1 : -1) *
-        (kronologiskStatusRekkefølge.indexOf(k1.status) -
-            kronologiskStatusRekkefølge.indexOf(k2.status))
-    );
-};
+const hendelserIKronologiskRekkefølge: Array<Utfall> = [
+    Utfall.IkkePresentert,
+    Utfall.Presentert,
+    Utfall.FåttJobben,
+];
 
 export const sorteringsalgoritmer: Record<
     KandidatSorteringsfelt,
@@ -110,14 +101,6 @@ export const sorteringsalgoritmer: Record<
     [KandidatSorteringsfelt.Fødselsnummer]: {
         [Retning.Stigende]: sorterPåFnr(Retning.Stigende),
         [Retning.Synkende]: sorterPåFnr(Retning.Synkende),
-    },
-    [KandidatSorteringsfelt.Status]: {
-        [Retning.Stigende]: sorterPåStatus(Retning.Stigende),
-        [Retning.Synkende]: sorterPåStatus(Retning.Synkende),
-    },
-    [KandidatSorteringsfelt.Utfall]: {
-        [Retning.Stigende]: sorterPåUtfall(Retning.Stigende),
-        [Retning.Synkende]: sorterPåUtfall(Retning.Synkende),
     },
     [KandidatSorteringsfelt.LagtTilAv]: {
         [Retning.Stigende]: sorterPåLagtTilAv(Retning.Stigende),

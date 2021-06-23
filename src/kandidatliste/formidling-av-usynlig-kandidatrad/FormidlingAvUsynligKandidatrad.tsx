@@ -4,15 +4,12 @@ import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallEtikett from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import UtfallEtikett, { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import EndreStatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
 import SeHendelserKnapp from '../kandidatrad/status-og-hendelser/se-hendelser/SeHendelserKnapp';
 import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker';
 import usePopoverOrientering from '../kandidatrad/status-og-hendelser/usePopoverOrientering';
 import Hendelse from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/Hendelse';
-import UtfallMedEndreIkon, {
-    Utfall,
-} from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { Undertittel } from 'nav-frontend-typografi';
 import DelingAvCv from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/DelingAvCv';
 import { datoformatNorskLang } from '../../utils/dateUtils';
@@ -27,23 +24,18 @@ import FåttJobben from '../kandidatrad/status-og-hendelser/endre-status-og-hend
 type Props = {
     kandidatlisteId: string;
     formidling: FormidlingAvUsynligKandidat;
-    visEndreUtfallModalUsynligKandidat: (formidling: FormidlingAvUsynligKandidat) => void;
     kandidatlistenErLukket: boolean;
     erEierAvKandidatlisten: boolean;
 };
 
 const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     formidling,
-    visEndreUtfallModalUsynligKandidat,
     kandidatlistenErLukket,
     erEierAvKandidatlisten,
     kandidatlisteId,
 }) => {
     const dispatch = useDispatch();
     const valgtNavKontor = useSelector((state: AppState) => state.navKontor.valgtNavKontor);
-    const visNyttKandidatstatusLayout = useSelector(
-        (state: AppState) => state.søk.featureToggles['nytt-kandidatstatus-layout']
-    );
 
     const popoverRef = useRef<HTMLDivElement | null>(null);
     const { popoverAnker, togglePopover, lukkPopover } = usePopoverAnker(popoverRef);
@@ -91,60 +83,52 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 role="cell"
                 className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne"
             >
-                {visNyttKandidatstatusLayout ? (
-                    <div className="status-og-hendelser" ref={popoverRef}>
-                        {formidling.utfall !== Utfall.IkkePresentert && (
-                            <UtfallEtikett utfall={formidling.utfall} />
-                        )}
-                        {kanEditere ? (
-                            <EndreStatusOgHendelserKnapp onClick={togglePopover} />
-                        ) : (
-                            <SeHendelserKnapp onClick={togglePopover} />
-                        )}
-                        <Popover
-                            orientering={popoverOrientering}
-                            ankerEl={popoverAnker}
-                            onRequestClose={lukkPopover}
-                        >
-                            <div className="status-og-hendelser__popover">
-                                <div className="endre-status-og-hendelser__hendelser">
-                                    <Undertittel>Hendelser</Undertittel>
-                                    <ol className="endre-status-og-hendelser__hendelsesliste">
-                                        <Hendelse
-                                            checked
-                                            tittel="Ny kandidat"
-                                            beskrivelse={cvDeltBeskrivelse}
-                                        />
-                                        <DelingAvCv
-                                            kanEndre={kanEditere}
-                                            utfall={formidling.utfall}
-                                            onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
-                                        />
-                                        <FåttJobben
-                                            kanEndre={kanEditere}
-                                            utfall={formidling.utfall}
-                                            navn={fulltNavn}
-                                            onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
-                                        />
-                                    </ol>
-                                </div>
-                                <Knapp
-                                    mini
-                                    className="status-og-hendelser__lukk-popover-knapp"
-                                    onClick={lukkPopover}
-                                >
-                                    <Close />
-                                </Knapp>
+                <div className="status-og-hendelser" ref={popoverRef}>
+                    {formidling.utfall !== Utfall.IkkePresentert && (
+                        <UtfallEtikett utfall={formidling.utfall} />
+                    )}
+                    {kanEditere ? (
+                        <EndreStatusOgHendelserKnapp onClick={togglePopover} />
+                    ) : (
+                        <SeHendelserKnapp onClick={togglePopover} />
+                    )}
+                    <Popover
+                        orientering={popoverOrientering}
+                        ankerEl={popoverAnker}
+                        onRequestClose={lukkPopover}
+                    >
+                        <div className="status-og-hendelser__popover">
+                            <div className="endre-status-og-hendelser__hendelser">
+                                <Undertittel>Hendelser</Undertittel>
+                                <ol className="endre-status-og-hendelser__hendelsesliste">
+                                    <Hendelse
+                                        checked
+                                        tittel="Ny kandidat"
+                                        beskrivelse={cvDeltBeskrivelse}
+                                    />
+                                    <DelingAvCv
+                                        kanEndre={kanEditere}
+                                        utfall={formidling.utfall}
+                                        onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
+                                    />
+                                    <FåttJobben
+                                        kanEndre={kanEditere}
+                                        utfall={formidling.utfall}
+                                        navn={fulltNavn}
+                                        onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
+                                    />
+                                </ol>
                             </div>
-                        </Popover>
-                    </div>
-                ) : (
-                    <UtfallMedEndreIkon
-                        kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
-                        utfall={formidling.utfall}
-                        onClick={() => visEndreUtfallModalUsynligKandidat(formidling)}
-                    />
-                )}
+                            <Knapp
+                                mini
+                                className="status-og-hendelser__lukk-popover-knapp"
+                                onClick={lukkPopover}
+                            >
+                                <Close />
+                            </Knapp>
+                        </div>
+                    </Popover>
+                </div>
             </div>
         </div>
     );

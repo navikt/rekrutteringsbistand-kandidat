@@ -4,11 +4,11 @@ import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 import { Kandidat, Kandidatstatus } from '../../../kandidatlistetyper';
-import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import Hendelse from './Hendelse';
-import DelingAvCvForKandidat from './DelingAvCvForKandidat';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
+import DelingAvCvForKandidat from './DelingAvCvForKandidat';
 import FåttJobbenForKandidat from './FåttJobbenForKandidat';
+import { statusToDisplayName } from '../etiketter/StatusEtikett';
 import './EndreStatusOgHendelser.less';
 
 type Props = {

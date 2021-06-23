@@ -1,7 +1,7 @@
-import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { RemoteData } from '../api/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../kandidatsøk/kandidater-tabell/Søkeresultat';
+import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export enum Delestatus {
     IkkeSpurt = 'IKKE_SPURT',

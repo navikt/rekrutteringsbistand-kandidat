@@ -1,4 +1,4 @@
-const FEATURE_TOGGLES = ['masker-fnr', 'nytt-kandidatstatus-layout'];
+const FEATURE_TOGGLES = ['masker-fnr'];
 
 export default FEATURE_TOGGLES;
 

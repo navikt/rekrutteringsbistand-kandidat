@@ -1,6 +1,6 @@
 import { Kandidat, Kandidatstatus } from '../kandidatlistetyper';
-import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
+import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 const QUERY_PARAM_SEPARATOR = '-';
 
