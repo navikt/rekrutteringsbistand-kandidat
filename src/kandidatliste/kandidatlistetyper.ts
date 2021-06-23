@@ -43,6 +43,7 @@ export enum Kandidatstatus {
     Vurderes = 'VURDERES',
     Kontaktet = 'KONTAKTET',
     Aktuell = 'AKTUELL',
+    TilIntervju = 'TIL_INTERVJU',
     Uaktuell = 'UAKTUELL',
     Uinteressert = 'UINTERESSERT',
 }

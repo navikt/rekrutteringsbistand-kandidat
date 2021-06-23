@@ -82,6 +82,7 @@ const statuserIKronologiskRekkefølge: Array<Kandidatstatus> = [
     Kandidatstatus.Vurderes,
     Kandidatstatus.Kontaktet,
     Kandidatstatus.Aktuell,
+    Kandidatstatus.TilIntervju,
 ];
 
 const hendelserIKronologiskRekkefølge: Array<Utfall> = [

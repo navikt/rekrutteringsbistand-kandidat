@@ -161,7 +161,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
     let standardKandidater: Kandidat[] = [
         {
             ...mockKandidat(0, meg),
-            status: Kandidatstatus.Aktuell,
+            status: Kandidatstatus.TilIntervju,
             utfall: Utfall.FåttJobben,
         },
         {
