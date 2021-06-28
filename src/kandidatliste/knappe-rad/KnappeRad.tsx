@@ -4,6 +4,7 @@ import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../k
 import MedPopover from '../../common/med-popover/MedPopover';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import './KnappeRad.less';
+import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
@@ -28,6 +29,13 @@ const Epostknapp: FunctionComponent = () => (
     <>
         <i className="Email__icon" />
         Kopier e-postadresser
+    </>
+);
+
+const DelMedKandidatknapp: FunctionComponent = () => (
+    <>
+        <i className="DelMedKandidat__icon" />
+        Del med kandidat
     </>
 );
 
@@ -103,6 +111,26 @@ const KnappeRad: FunctionComponent<Props> = ({
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Email">
                                     <Epostknapp />
+                                </Lenkeknapp>
+                            </MedPopover>
+                        ))}
+                    {erIkkeProd &&
+                        kandidatliste.kanEditere &&
+                        !visArkiverte &&
+                        (minstEnKandidatErMarkert ? (
+                            <Lenkeknapp
+                                className="kandidatlisteknapper__knapp DelMedKandidat"
+                                onClick={() => {}}
+                            >
+                                <DelMedKandidatknapp />
+                            </Lenkeknapp>
+                        ) : (
+                            <MedPopover
+                                hjelpetekst="Du må huke av for kandidatene du ønsker å dele stillingen med."
+                                tittel="Del stillingen med de markerte kandidatene"
+                            >
+                                <Lenkeknapp className="kandidatlisteknapper__knapp DelMedKandidat">
+                                    <DelMedKandidatknapp />
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
