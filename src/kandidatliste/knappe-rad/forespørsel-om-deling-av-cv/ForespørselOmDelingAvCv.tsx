@@ -10,6 +10,7 @@ import AppState from '../../../AppState';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Datovelger } from 'nav-datovelger';
+import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -65,6 +66,8 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
     const lukkModal = () => {
         setModalErÅpen(false);
     };
+
+    const onClickDelStilling = () => {};
 
     return (
         <div className="foresporsel-om-deling-av-cv">
@@ -122,19 +125,33 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                         />
                     ))}
                 </RadioGruppe>
-                <SkjemaGruppe
-                    className="foresporsel-om-deling-av-cv__velg-svarfrist"
-                    legend={<Element>Velg frist for svar (dd.mm.åååå)</Element>}
-                >
-                    <Datovelger
-                        locale="nb"
-                        avgrensninger={undefined} // TODO: Ikke tillat dato tilbake i tid
-                        onChange={onEgenvalgtDatoChange}
-                        kalender={{
-                            plassering: 'fullskjerm',
-                        }}
-                    />
-                </SkjemaGruppe>
+                {svarfrist === Svarfrist.Egenvalgt && (
+                    <SkjemaGruppe
+                        className="foresporsel-om-deling-av-cv__velg-svarfrist"
+                        legend={<Element>Velg frist for svar (dd.mm.åååå)</Element>}
+                    >
+                        <Datovelger
+                            locale="nb"
+                            avgrensninger={undefined} // TODO: Ikke tillat dato tilbake i tid
+                            onChange={onEgenvalgtDatoChange}
+                            kalender={{
+                                plassering: 'fullskjerm',
+                            }}
+                        />
+                    </SkjemaGruppe>
+                )}
+                <div className="foresporsel-om-deling-av-cv__knapper">
+                    <Hovedknapp
+                        className="foresporsel-om-deling-av-cv__del-stilling-knapp"
+                        mini
+                        onClick={onClickDelStilling}
+                    >
+                        Del stilling
+                    </Hovedknapp>
+                    <Knapp mini onClick={lukkModal}>
+                        Avbryt
+                    </Knapp>
+                </div>
             </ModalMedKandidatScope>
             <Popover
                 ankerEl={ingenMarkertPopover}
