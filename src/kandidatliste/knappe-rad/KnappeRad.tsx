@@ -4,7 +4,7 @@ import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import MedPopover from '../../common/med-popover/MedPopover';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
-import ForespørselOmDelingAvCvModal from './forespørsel-om-deling-av-cv-modal/ForespørselOmDelingAvCvModal';
+import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
 import './KnappeRad.less';
 
 type Props = {
@@ -81,7 +81,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                             </MedPopover>
                         ))}
                     {erIkkeProd && kandidatliste.kanEditere && !visArkiverte && (
-                        <ForespørselOmDelingAvCvModal />
+                        <ForespørselOmDelingAvCv />
                     )}
                     {kandidatliste.kanEditere &&
                         !visArkiverte &&
