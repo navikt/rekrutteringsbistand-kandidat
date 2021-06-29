@@ -37,7 +37,8 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
         (tilstand) => tilstand.markert
     ).length;
 
-    const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.TreDager);
+    const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
+    const [egenvalgtFrist, setEgenvalgtFrist] = useState<Date | undefined>();
 
     const minstEnKandidatErMarkert = useMinstEnKandidatErMarkert();
     const [ingenMarkertPopover, setIngenMarkertPopover] = useState<HTMLElement | undefined>(
@@ -48,8 +49,13 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
         setSvarfrist(event.target.value as Svarfrist);
     };
 
-    const onEgenvalgtDatoChange = (dato?: string) => {
-        console.log('Dato:', dato);
+    const onEgenvalgtFristChange = (dato?: string) => {
+        if (!dato) {
+            // TODO Feilmelding
+            return undefined;
+        }
+        const frist = moment(dato).add(1, 'days');
+        setEgenvalgtFrist(frist.toDate());
     };
 
     const toggleIngenMarkertPopover = (event: MouseEvent<HTMLElement>) => {
@@ -136,7 +142,7 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                         <Datovelger
                             locale="nb"
                             avgrensninger={undefined} // TODO: Ikke tillat dato tilbake i tid
-                            onChange={onEgenvalgtDatoChange}
+                            onChange={onEgenvalgtFristChange}
                             kalender={{
                                 plassering: 'fullskjerm',
                             }}
