@@ -1,11 +1,11 @@
-import React, { FunctionComponent, ReactNode, useState } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
+import { PopoverOrientering } from 'nav-frontend-popover';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import MedPopover from '../../common/med-popover/MedPopover';
-import { PopoverOrientering } from 'nav-frontend-popover';
-import './KnappeRad.less';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
 import ForespørselOmDelingAvCvModal from './forespørsel-om-deling-av-cv-modal/ForespørselOmDelingAvCvModal';
+import './KnappeRad.less';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
