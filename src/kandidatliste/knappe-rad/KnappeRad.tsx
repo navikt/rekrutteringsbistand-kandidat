@@ -1,10 +1,11 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent, ReactNode, useState } from 'react';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import MedPopover from '../../common/med-popover/MedPopover';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import './KnappeRad.less';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
+import ForespørselOmDelingAvCvModal from './forespørsel-om-deling-av-cv-modal/ForespørselOmDelingAvCvModal';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
@@ -17,41 +18,6 @@ type Props = {
     visArkiverte: boolean;
     children: ReactNode;
 };
-
-const SmsKnapp: FunctionComponent = () => (
-    <>
-        <i className="Sms__icon" />
-        <span>Send SMS</span>
-    </>
-);
-
-const Epostknapp: FunctionComponent = () => (
-    <>
-        <i className="Email__icon" />
-        Kopier e-postadresser
-    </>
-);
-
-const DelMedKandidatknapp: FunctionComponent = () => (
-    <>
-        <i className="DelMedKandidat__icon" />
-        Del med kandidat
-    </>
-);
-
-const Deleknapp: FunctionComponent = () => (
-    <>
-        <i className="Share__icon" />
-        <span>Del med arbeidsgiver (presenter)</span>
-    </>
-);
-
-const Sletteknapp: FunctionComponent = () => (
-    <>
-        <i className="Delete__icon" />
-        <span>Angre sletting</span>
-    </>
-);
 
 const KnappeRad: FunctionComponent<Props> = ({
     kandidater,
@@ -80,7 +46,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 onClick={onSendSmsClick}
                                 className="kandidatlisteknapper__knapp Sms"
                             >
-                                <SmsKnapp />
+                                <SmsIkon />
                             </Lenkeknapp>
                         ) : (
                             <MedPopover
@@ -92,7 +58,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 }
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Sms">
-                                    <SmsKnapp />
+                                    <SmsIkon />
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
@@ -102,7 +68,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 onClick={onEmailKandidater}
                                 className="kandidatlisteknapper__knapp Email"
                             >
-                                <Epostknapp />
+                                <EpostIkon />
                             </Lenkeknapp>
                         ) : (
                             <MedPopover
@@ -110,30 +76,13 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 tittel="Send e-post til de markerte kandidatene"
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Email">
-                                    <Epostknapp />
+                                    <EpostIkon />
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
-                    {erIkkeProd &&
-                        kandidatliste.kanEditere &&
-                        !visArkiverte &&
-                        (minstEnKandidatErMarkert ? (
-                            <Lenkeknapp
-                                className="kandidatlisteknapper__knapp DelMedKandidat"
-                                onClick={() => {}}
-                            >
-                                <DelMedKandidatknapp />
-                            </Lenkeknapp>
-                        ) : (
-                            <MedPopover
-                                hjelpetekst="Du må huke av for kandidatene du ønsker å dele stillingen med."
-                                tittel="Del stillingen med de markerte kandidatene"
-                            >
-                                <Lenkeknapp className="kandidatlisteknapper__knapp DelMedKandidat">
-                                    <DelMedKandidatknapp />
-                                </Lenkeknapp>
-                            </MedPopover>
-                        ))}
+                    {erIkkeProd && kandidatliste.kanEditere && !visArkiverte && (
+                        <ForespørselOmDelingAvCvModal />
+                    )}
                     {kandidatliste.kanEditere &&
                         !visArkiverte &&
                         kandidatliste.organisasjonNavn &&
@@ -142,7 +91,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 onClick={onKandidatShare}
                                 className="kandidatlisteknapper__knapp Share"
                             >
-                                <Deleknapp />
+                                <DeleIkon />
                             </Lenkeknapp>
                         ) : (
                             <MedPopover
@@ -150,7 +99,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Share">
-                                    <Deleknapp />
+                                    <DeleIkon />
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
@@ -160,7 +109,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 onClick={onKandidaterAngreArkivering}
                                 className="kandidatlisteknapper__knapp Delete"
                             >
-                                <Sletteknapp />
+                                <SletteIkon />
                             </Lenkeknapp>
                         ) : (
                             <MedPopover
@@ -169,7 +118,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 tittel="Angre sletting for de markerte kandidatene"
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Delete">
-                                    <Sletteknapp />
+                                    <SletteIkon />
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
@@ -178,5 +127,33 @@ const KnappeRad: FunctionComponent<Props> = ({
         </div>
     );
 };
+
+const SmsIkon: FunctionComponent = () => (
+    <>
+        <i className="Sms__icon" />
+        <span>Send SMS</span>
+    </>
+);
+
+const EpostIkon: FunctionComponent = () => (
+    <>
+        <i className="Email__icon" />
+        Kopier e-postadresser
+    </>
+);
+
+const DeleIkon: FunctionComponent = () => (
+    <>
+        <i className="Share__icon" />
+        <span>Del med arbeidsgiver (presenter)</span>
+    </>
+);
+
+const SletteIkon: FunctionComponent = () => (
+    <>
+        <i className="Delete__icon" />
+        <span>Angre sletting</span>
+    </>
+);
 
 export default KnappeRad;
