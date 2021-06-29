@@ -8,7 +8,8 @@ import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { useSelector } from 'react-redux';
 import AppState from '../../../AppState';
 import AlertStripe from 'nav-frontend-alertstriper';
-import { Radio, RadioGruppe } from 'nav-frontend-skjema';
+import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
+import { Datovelger } from 'nav-datovelger';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -25,7 +26,7 @@ const svarfristLabels: Record<Svarfrist, string> = {
 };
 
 const ForespørselOmDelingAvCv: FunctionComponent = () => {
-    const [modalErÅpen, setModalErÅpen] = useState<boolean>(false);
+    const [modalErÅpen, setModalErÅpen] = useState<boolean>(true); // TODO: Sett til false
 
     const kandidattilstander = useSelector(
         (state: AppState) => state.kandidatliste.kandidattilstander
@@ -34,7 +35,7 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
         (tilstand) => tilstand.markert
     ).length;
 
-    const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
+    const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.TreDager);
 
     const minstEnKandidatErMarkert = useMinstEnKandidatErMarkert();
     const [ingenMarkertPopover, setIngenMarkertPopover] = useState<HTMLElement | undefined>(
@@ -43,6 +44,10 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
 
     const onSvarfristChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSvarfrist(event.target.value as Svarfrist);
+    };
+
+    const onEgenvalgtDatoChange = (dato?: string) => {
+        console.log('Dato:', dato);
     };
 
     const toggleIngenMarkertPopover = (event: MouseEvent<HTMLElement>) => {
@@ -105,7 +110,11 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                     {Object.values(Svarfrist).map((value) => (
                         <Radio
                             key={value}
-                            label={svarfristLabels[value]}
+                            label={
+                                <span id={`svarfrist-label_${value}`}>
+                                    {svarfristLabels[value]}
+                                </span>
+                            }
                             name="svarfrist"
                             value={value}
                             checked={svarfrist === value}
@@ -113,6 +122,19 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                         />
                     ))}
                 </RadioGruppe>
+                <SkjemaGruppe
+                    className="foresporsel-om-deling-av-cv__velg-svarfrist"
+                    legend={<Element>Velg frist for svar (dd.mm.åååå)</Element>}
+                >
+                    <Datovelger
+                        locale="nb"
+                        avgrensninger={undefined} // TODO: Ikke tillat dato tilbake i tid
+                        onChange={onEgenvalgtDatoChange}
+                        kalender={{
+                            plassering: 'fullskjerm',
+                        }}
+                    />
+                </SkjemaGruppe>
             </ModalMedKandidatScope>
             <Popover
                 ankerEl={ingenMarkertPopover}
