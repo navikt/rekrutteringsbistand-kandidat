@@ -11,6 +11,7 @@ import AlertStripe from 'nav-frontend-alertstriper';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Datovelger } from 'nav-datovelger';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import moment from 'moment';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -115,7 +116,9 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                             key={value}
                             label={
                                 <span id={`svarfrist-label_${value}`}>
-                                    {svarfristLabels[value]}
+                                    {`${svarfristLabels[value]} ${lagBeskrivelseAvSvarfrist(
+                                        value
+                                    )}`}
                                 </span>
                             }
                             name="svarfrist"
@@ -164,6 +167,28 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
             </Popover>
         </div>
     );
+};
+
+const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
+    const idag = moment();
+
+    if (svarfrist === Svarfrist.ToDager) {
+        idag.add(2, 'days');
+    } else if (svarfrist === Svarfrist.TreDager) {
+        idag.add(3, 'days');
+    } else if (svarfrist === Svarfrist.SyvDager) {
+        idag.add(7, 'days');
+    } else {
+        return '';
+    }
+
+    const frist = idag.toDate().toLocaleString('no-NB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+    });
+
+    return `(Frist ut ${frist})`;
 };
 
 export default ForespørselOmDelingAvCv;
