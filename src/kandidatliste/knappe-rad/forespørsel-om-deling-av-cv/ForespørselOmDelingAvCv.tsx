@@ -12,10 +12,6 @@ import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Datovelger } from 'nav-datovelger';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import moment from 'moment';
-import {
-    maksDatoMidlertidigUtilgjengelig,
-    minDatoMidlertidigUtilgjengelig,
-} from '../../../kandidatside/midlertidig-utilgjengelig/validering';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -207,7 +203,7 @@ const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
     return `(Frist ut ${frist})`;
 };
 
-const minDatoForEgenvalgtFrist = moment().startOf('day').add(1, 'day').format('YYYY-MM-DD');
-const maksDatoForEgenvalgtFrist = moment().startOf('day').add(1, 'year').format('YYYY-MM-DD');
+const minDatoForEgenvalgtFrist = moment().add(2, 'days').format('YYYY-MM-DD');
+const maksDatoForEgenvalgtFrist = moment().add(1, 'month').format('YYYY-MM-DD');
 
 export default ForespørselOmDelingAvCv;
