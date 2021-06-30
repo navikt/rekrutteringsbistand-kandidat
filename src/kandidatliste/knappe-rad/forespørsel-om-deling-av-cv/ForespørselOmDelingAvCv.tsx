@@ -2,7 +2,7 @@ import React, { ChangeEvent, FunctionComponent, MouseEvent, useState } from 'rea
 import moment from 'moment';
 import { Datovelger } from 'nav-datovelger';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Normaltekst, Systemtittel, Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
 import { useSelector } from 'react-redux';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -29,7 +29,11 @@ const svarfristLabels: Record<Svarfrist, string> = {
     [Svarfrist.Egenvalgt]: 'Velg dato',
 };
 
-const ForespørselOmDelingAvCv: FunctionComponent = () => {
+type Props = {
+    stillingsId: string;
+};
+
+const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId }) => {
     const [modalErÅpen, setModalErÅpen] = useState<boolean>(true); // TODO: Sett til false
 
     const kandidattilstander = useSelector(
@@ -55,9 +59,6 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
     };
 
     const onEgenvalgtFristChange = (dato?: string) => {
-        //  - POST for å dele
-        //  - GET for å hente deling
-
         if (!dato || dato === 'Invalid date') {
             setEgenvalgtFristFeilmelding('Feil datoformat, skriv inn dd.mm.åååå');
         } else {
@@ -90,7 +91,7 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
 
         const forespørselOmDelingAvCv: ForespørselOutboundDto = {
             aktorIder: ['', ''],
-            stillingsId: '',
+            stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
         };
 

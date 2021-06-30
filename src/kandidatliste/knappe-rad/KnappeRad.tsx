@@ -83,7 +83,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
-                    {erIkkeProd && skalViseEkstraKnapper && <ForespørselOmDelingAvCv />}
+                    {erIkkeProd && skalViseEkstraKnapper && (
+                        <ForespørselOmDelingAvCv stillingsId={kandidatliste.stillingId!} />
+                    )}
                     {skalViseEkstraKnapper &&
                         (minstEnKandidatErMarkert ? (
                             <Lenkeknapp
