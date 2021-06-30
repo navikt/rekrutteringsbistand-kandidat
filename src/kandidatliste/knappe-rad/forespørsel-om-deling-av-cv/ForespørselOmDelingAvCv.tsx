@@ -2,7 +2,7 @@ import React, { ChangeEvent, FunctionComponent, MouseEvent, useState } from 'rea
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
-import { Normaltekst, Systemtittel, Element } from 'nav-frontend-typografi';
+import { Normaltekst, Systemtittel, Element, Feilmelding } from 'nav-frontend-typografi';
 import './ForespørselOmDelingAvCv.less';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { useSelector } from 'react-redux';
@@ -39,6 +39,9 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
 
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
     const [egenvalgtFrist, setEgenvalgtFrist] = useState<string | undefined>();
+    const [egenvalgtFristFeilmelding, setEgenvalgtFristFeilmelding] = useState<
+        string | undefined
+    >();
 
     const minstEnKandidatErMarkert = useMinstEnKandidatErMarkert();
     const [ingenMarkertPopover, setIngenMarkertPopover] = useState<HTMLElement | undefined>(
@@ -50,10 +53,19 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
     };
 
     const onEgenvalgtFristChange = (dato?: string) => {
+        // TODO
+        //  - Parse dato og vise feilmelding
+        //  - POST for å dele
+        //  - GET for å hente deling
+
+        console.log(dato);
         if (!dato) {
-            // TODO Feilmelding
+            console.log(new Date(dato!));
+            setEgenvalgtFristFeilmelding('Feil datoformat, skriv inn dd.mm.åååå');
             return undefined;
         }
+
+        setEgenvalgtFristFeilmelding(undefined);
         setEgenvalgtFrist(dato);
     };
 
@@ -137,6 +149,7 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                     <SkjemaGruppe
                         className="foresporsel-om-deling-av-cv__velg-svarfrist"
                         legend={<Element>Velg frist for svar (Frist ut valgt dato)</Element>}
+                        feil={egenvalgtFristFeilmelding}
                     >
                         <Datovelger
                             input={{
