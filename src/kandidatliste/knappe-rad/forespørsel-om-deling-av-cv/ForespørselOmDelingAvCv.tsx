@@ -12,6 +12,10 @@ import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Datovelger } from 'nav-datovelger';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import moment from 'moment';
+import {
+    maksDatoMidlertidigUtilgjengelig,
+    minDatoMidlertidigUtilgjengelig,
+} from '../../../kandidatside/midlertidig-utilgjengelig/validering';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -136,11 +140,17 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                 {svarfrist === Svarfrist.Egenvalgt && (
                     <SkjemaGruppe
                         className="foresporsel-om-deling-av-cv__velg-svarfrist"
-                        legend={<Element>Velg frist for svar (dd.mm.åååå)</Element>}
+                        legend={<Element>Velg frist for svar (Frist ut valgt dato)</Element>}
                     >
                         <Datovelger
+                            input={{
+                                placeholder: 'dd.mm.åååå',
+                            }}
                             locale="nb"
-                            avgrensninger={undefined} // TODO: Ikke tillat dato tilbake i tid
+                            avgrensninger={{
+                                minDato: minDatoForEgenvalgtFrist,
+                                maksDato: maksDatoForEgenvalgtFrist,
+                            }}
                             onChange={onEgenvalgtFristChange}
                             valgtDato={egenvalgtFrist}
                             kalender={{
@@ -196,5 +206,8 @@ const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
 
     return `(Frist ut ${frist})`;
 };
+
+const minDatoForEgenvalgtFrist = moment().startOf('day').add(1, 'day').format('YYYY-MM-DD');
+const maksDatoForEgenvalgtFrist = moment().startOf('day').add(1, 'year').format('YYYY-MM-DD');
 
 export default ForespørselOmDelingAvCv;
