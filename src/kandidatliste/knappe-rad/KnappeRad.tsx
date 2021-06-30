@@ -29,18 +29,21 @@ const KnappeRad: FunctionComponent<Props> = ({
     children,
     visArkiverte,
 }) => {
-    const skalViseSendSms = kandidatliste.kanEditere && kandidatliste.stillingId && !visArkiverte;
-
     const markerteKandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
     const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some((kandidat) => !kandidat.sms);
+
+    const skalViseEkstraKnapper =
+        kandidatliste.kanEditere && kandidatliste.stillingId && !visArkiverte;
+    const skalViseKopierEposterKnapp = !visArkiverte;
+    const skalViseAngreSlettingKnapp = visArkiverte;
 
     return (
         <div className="kandidatlisteknapper">
             <div className="kandidatlisteknapper__venstre">{children}</div>
             {kandidatliste.status === Kandidatlistestatus.Åpen && (
                 <div className="kandidatlisteknapper__høyre">
-                    {skalViseSendSms &&
+                    {skalViseEkstraKnapper &&
                         (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
                             <Lenkeknapp
                                 onClick={onSendSmsClick}
@@ -62,7 +65,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
-                    {!visArkiverte &&
+                    {skalViseKopierEposterKnapp &&
                         (minstEnKandidatErMarkert ? (
                             <Lenkeknapp
                                 onClick={onEmailKandidater}
@@ -80,12 +83,8 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
-                    {erIkkeProd && kandidatliste.kanEditere && !visArkiverte && (
-                        <ForespørselOmDelingAvCv />
-                    )}
-                    {kandidatliste.kanEditere &&
-                        !visArkiverte &&
-                        kandidatliste.organisasjonNavn &&
+                    {erIkkeProd && skalViseEkstraKnapper && <ForespørselOmDelingAvCv />}
+                    {skalViseEkstraKnapper &&
                         (minstEnKandidatErMarkert ? (
                             <Lenkeknapp
                                 onClick={onKandidatShare}
@@ -103,7 +102,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
-                    {visArkiverte &&
+                    {skalViseAngreSlettingKnapp &&
                         (minstEnKandidatErMarkert ? (
                             <Lenkeknapp
                                 onClick={onKandidaterAngreArkivering}

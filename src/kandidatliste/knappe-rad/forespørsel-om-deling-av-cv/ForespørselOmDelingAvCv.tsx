@@ -1,17 +1,19 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useState } from 'react';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
-import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
-import { Normaltekst, Systemtittel, Element, Feilmelding } from 'nav-frontend-typografi';
-import './ForespørselOmDelingAvCv.less';
-import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
-import { useSelector } from 'react-redux';
-import AppState from '../../../AppState';
-import AlertStripe from 'nav-frontend-alertstriper';
-import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
+import moment from 'moment';
 import { Datovelger } from 'nav-datovelger';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import moment from 'moment';
+import { Normaltekst, Systemtittel, Element } from 'nav-frontend-typografi';
+import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
+import { useSelector } from 'react-redux';
+import AlertStripe from 'nav-frontend-alertstriper';
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+
+import { ForespørselOutboundDto } from './Forespørsel';
+import AppState from '../../../AppState';
+import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
+import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
+import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
+import './ForespørselOmDelingAvCv.less';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -53,19 +55,15 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
     };
 
     const onEgenvalgtFristChange = (dato?: string) => {
-        // TODO
-        //  - Parse dato og vise feilmelding
         //  - POST for å dele
         //  - GET for å hente deling
 
-        console.log(dato);
-        if (!dato) {
-            console.log(new Date(dato!));
+        if (!dato || dato === 'Invalid date') {
             setEgenvalgtFristFeilmelding('Feil datoformat, skriv inn dd.mm.åååå');
-            return undefined;
+        } else {
+            setEgenvalgtFristFeilmelding(undefined);
         }
 
-        setEgenvalgtFristFeilmelding(undefined);
         setEgenvalgtFrist(dato);
     };
 
@@ -85,7 +83,19 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
         setModalErÅpen(false);
     };
 
-    const onClickDelStilling = () => {};
+    const onDelStillingClick = () => {
+        if (egenvalgtFristFeilmelding) {
+            return;
+        }
+
+        const forespørselOmDelingAvCv: ForespørselOutboundDto = {
+            aktorIder: ['', ''],
+            stillingsId: '',
+            svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
+        };
+
+        return forespørselOmDelingAvCv;
+    };
 
     return (
         <div className="foresporsel-om-deling-av-cv">
@@ -156,6 +166,7 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                                 placeholder: 'dd.mm.åååå',
                             }}
                             locale="nb"
+                            datoErGyldig={egenvalgtFristFeilmelding === undefined}
                             avgrensninger={{
                                 minDato: minDatoForEgenvalgtFrist,
                                 maksDato: maksDatoForEgenvalgtFrist,
@@ -172,7 +183,7 @@ const ForespørselOmDelingAvCv: FunctionComponent = () => {
                     <Hovedknapp
                         className="foresporsel-om-deling-av-cv__del-stilling-knapp"
                         mini
-                        onClick={onClickDelStilling}
+                        onClick={onDelStillingClick}
                     >
                         Del stilling
                     </Hovedknapp>
@@ -214,6 +225,19 @@ const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
     });
 
     return `(Frist ut ${frist})`;
+};
+
+const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: string) => {
+    switch (svarfrist) {
+        case Svarfrist.ToDager:
+            return moment().add(3, 'days').startOf('day').toDate();
+        case Svarfrist.TreDager:
+            return moment().add(4, 'days').startOf('day').toDate();
+        case Svarfrist.SyvDager:
+            return moment().add(8, 'days').startOf('day').toDate();
+        case Svarfrist.Egenvalgt:
+            return moment(egenvalgtFrist).startOf('day').add(1, 'day').toDate();
+    }
 };
 
 const minDatoForEgenvalgtFrist = moment().add(2, 'days').format('YYYY-MM-DD');
