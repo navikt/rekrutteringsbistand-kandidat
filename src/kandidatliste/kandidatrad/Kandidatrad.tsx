@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Normaltekst } from 'nav-frontend-typografi';
 import moment from 'moment';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
@@ -130,6 +131,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
     const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
+    const fulltNavn = `${etternavn}, ${fornavn}`;
 
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
@@ -174,19 +176,23 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     )}
                 </div>
                 <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__kolonne-sorterbar">
-                    <Link
-                        role="cell"
-                        title="Vis profil"
-                        className="lenke"
-                        to={lenkeTilCv(
-                            kandidat.kandidatnr,
-                            kandidatliste.kandidatlisteId,
-                            undefined,
-                            true
-                        )}
-                    >
-                        {`${etternavn}, ${fornavn}`}
-                    </Link>
+                    {erInaktiv(kandidat) ? (
+                        <Normaltekst>{fulltNavn}</Normaltekst>
+                    ) : (
+                        <Link
+                            role="cell"
+                            title="Vis profil"
+                            className="lenke"
+                            to={lenkeTilCv(
+                                kandidat.kandidatnr,
+                                kandidatliste.kandidatlisteId,
+                                undefined,
+                                true
+                            )}
+                        >
+                            {fulltNavn}
+                        </Link>
+                    )}
                     {kandidat.sms && <SmsStatusPopup sms={kandidat.sms} />}
                 </div>
                 <div
