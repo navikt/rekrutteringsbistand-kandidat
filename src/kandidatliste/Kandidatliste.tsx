@@ -24,7 +24,7 @@ import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
-import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
+import useErAlleMarkerte from './hooks/useErAlleMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import { sorteringsalgoritmer, KandidatSorteringsfelt } from './kandidatsortering';
@@ -75,7 +75,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     const antallFiltertreff = useAntallFiltertreff(props.kandidater);
     const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
-    const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
 
     useEffect(() => {
         const filter = queryParamsTilFilter(new URLSearchParams(location.search));
@@ -88,6 +87,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const filtrerteKandidater = props.kandidater.filter(
         (kandidat) => !kandidat.tilstand.filtrertBort
     );
+
+    const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
 
     const sorterteKandidater =
         sortering === null || sortering.retning === null

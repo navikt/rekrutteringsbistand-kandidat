@@ -34,7 +34,7 @@ type Props = {
 };
 
 const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, markerteKandidater }) => {
-    const [modalErÅpen, setModalErÅpen] = useState<boolean>(true); // TODO: Sett til false
+    const [modalErÅpen, setModalErÅpen] = useState<boolean>(false);
 
     const antallMarkerteKandidater = markerteKandidater.length;
 
