@@ -2,10 +2,17 @@ import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Normaltekst } from 'nav-frontend-typografi';
 import moment from 'moment';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
-import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
+import {
+    erInaktiv,
+    erKobletTilStilling,
+    KandidatIKandidatliste,
+    Kandidatliste,
+    Kandidatlistestatus,
+} from '../kandidatlistetyper';
 import { lenkeTilCv } from '../../app/paths';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
@@ -125,10 +132,11 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
     const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
+    const fulltNavn = `${etternavn}, ${fornavn}`;
 
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
+        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
 
     const klassenavn = `kandidatliste-kandidat${
         kandidatliste.status === Kandidatlistestatus.Lukket
@@ -139,13 +147,17 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const kanEndreKandidatlisten =
         kandidatliste.status === Kandidatlistestatus.Åpen && kandidatliste.kanEditere;
 
+    const kandidatenKanMarkeres =
+        kandidatliste.status === Kandidatlistestatus.Åpen &&
+        (!erInaktiv(kandidat) || kandidat.arkivert);
+
     return (
         <div role="rowgroup" tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
             <div role="row" className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
-                    disabled={kandidatliste.status === Kandidatlistestatus.Lukket}
+                    disabled={!kandidatenKanMarkeres}
                     checked={kandidat.tilstand.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
@@ -167,19 +179,23 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     )}
                 </div>
                 <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__kolonne-sorterbar">
-                    <Link
-                        role="cell"
-                        title="Vis profil"
-                        className="lenke"
-                        to={lenkeTilCv(
-                            kandidat.kandidatnr,
-                            kandidatliste.kandidatlisteId,
-                            undefined,
-                            true
-                        )}
-                    >
-                        {`${etternavn}, ${fornavn}`}
-                    </Link>
+                    {erInaktiv(kandidat) ? (
+                        <Normaltekst>{fulltNavn}</Normaltekst>
+                    ) : (
+                        <Link
+                            role="cell"
+                            title="Vis profil"
+                            className="lenke"
+                            to={lenkeTilCv(
+                                kandidat.kandidatnr,
+                                kandidatliste.kandidatlisteId,
+                                undefined,
+                                true
+                            )}
+                        >
+                            {fulltNavn}
+                        </Link>
+                    )}
                     {kandidat.sms && <SmsStatusPopup sms={kandidat.sms} />}
                 </div>
                 <div
@@ -216,7 +232,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             kandidat.kandidatnr
                         );
                     }}
-                    kandidatlistenErKobletTilStilling={kandidatliste.stillingId !== null}
+                    kandidatlistenErKobletTilStilling={erKobletTilStilling(kandidatliste)}
                 />
 
                 <div role="cell">
@@ -239,20 +255,22 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
                 <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
-                    <Lenkeknapp
-                        onClick={toggleMerInfo}
-                        className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
-                    >
-                        <i className="MerInfo__icon" />
-                        <NavFrontendChevron
-                            className="kandidatliste-kandidat__chevron"
-                            type={
-                                kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
-                                    ? 'opp'
-                                    : 'ned'
-                            }
-                        />
-                    </Lenkeknapp>
+                    {!erInaktiv(kandidat) && (
+                        <Lenkeknapp
+                            onClick={toggleMerInfo}
+                            className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
+                        >
+                            <i className="MerInfo__icon" />
+                            <NavFrontendChevron
+                                className="kandidatliste-kandidat__chevron"
+                                type={
+                                    kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
+                                        ? 'opp'
+                                        : 'ned'
+                                }
+                            />
+                        </Lenkeknapp>
+                    )}
                 </div>
                 {visArkiveringskolonne && (
                     <div role="cell" className="kandidatliste-kandidat__kolonne-høyrestilt">

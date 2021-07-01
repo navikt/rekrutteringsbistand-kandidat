@@ -14,6 +14,7 @@ import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
 import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
 import Cv from './cv/reducer/cv-typer';
 import {
+    erKobletTilStilling,
     Kandidatliste,
     Kandidatlistefilter,
     Kandidatlistestatus,
@@ -151,7 +152,7 @@ class VisKandidatFraLister extends React.Component<Props> {
                                 <div className="vis-kandidat__status-select">
                                     <label htmlFor="cv-status-og-hendelse">
                                         {kandidatliste.kind === Nettstatus.Suksess &&
-                                        kandidatliste.data.stillingId !== null
+                                        erKobletTilStilling(kandidatliste.data)
                                             ? 'Status/hendelse:'
                                             : 'Status:'}
                                     </label>
@@ -167,7 +168,7 @@ class VisKandidatFraLister extends React.Component<Props> {
                                         onStatusChange={this.onKandidatStatusChange}
                                         kandidatlistenErKobletTilStilling={
                                             kandidatliste.kind === Nettstatus.Suksess &&
-                                            kandidatliste.data.stillingId !== null
+                                            erKobletTilStilling(kandidatliste.data)
                                         }
                                     />
                                 </div>

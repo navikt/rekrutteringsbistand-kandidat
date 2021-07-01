@@ -4,16 +4,15 @@ import { Datovelger } from 'nav-datovelger';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
-import { useSelector } from 'react-redux';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { ForespørselOutboundDto } from './Forespørsel';
-import AppState from '../../../AppState';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
 import './ForespørselOmDelingAvCv.less';
+import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -31,17 +30,13 @@ const svarfristLabels: Record<Svarfrist, string> = {
 
 type Props = {
     stillingsId: string;
+    markerteKandidater: KandidatIKandidatliste[];
 };
 
-const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId }) => {
-    const [modalErÅpen, setModalErÅpen] = useState<boolean>(true); // TODO: Sett til false
+const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, markerteKandidater }) => {
+    const [modalErÅpen, setModalErÅpen] = useState<boolean>(false);
 
-    const kandidattilstander = useSelector(
-        (state: AppState) => state.kandidatliste.kandidattilstander
-    );
-    const antallMarkerteKandidater = Object.values(kandidattilstander).filter(
-        (tilstand) => tilstand.markert
-    ).length;
+    const antallMarkerteKandidater = markerteKandidater.length;
 
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
     const [egenvalgtFrist, setEgenvalgtFrist] = useState<string | undefined>();
@@ -90,7 +85,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId }) => 
         }
 
         const forespørselOmDelingAvCv: ForespørselOutboundDto = {
-            aktorIder: ['', ''],
+            aktorIder: markerteKandidater.map((kandidat) => kandidat.aktørid!),
             stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
         };

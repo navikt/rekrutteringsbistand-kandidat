@@ -5,7 +5,10 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { formatterDato } from '../../utils/dateUtils';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import MedPopover from '../../common/med-popover/MedPopover';
-import { KandidatlisteSammendrag } from '../../kandidatliste/kandidatlistetyper';
+import {
+    erKobletTilStilling,
+    KandidatlisteSammendrag,
+} from '../../kandidatliste/kandidatlistetyper';
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
@@ -23,7 +26,7 @@ export type FeilmeldingIMeny = {
 };
 
 type Props = {
-    kandidatlisteSammendrag;
+    kandidatlisteSammendrag: KandidatlisteSammendrag;
     endreKandidatliste: (kandidatlisteSammendrag: KandidatlisteSammendrag) => void;
     markerKandidatlisteSomMin: (kandidatlisteSammendrag: KandidatlisteSammendrag) => void;
     slettKandidatliste: () => void;
@@ -76,8 +79,8 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
         </Lenkeknapp>
     );
 
-    const visKanEndre = kandidatlisteSammendrag.stillingId
-        ? lenkeTilStillingElement(kandidatlisteSammendrag.stillingId)
+    const visKanEndre = erKobletTilStilling(kandidatlisteSammendrag)
+        ? lenkeTilStillingElement(kandidatlisteSammendrag.stillingId!)
         : lenkeknappTilEndreUtenStilling;
 
     const visKanIkkeEndre = (
@@ -114,8 +117,8 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                     className="FinnKandidater"
                     aria-label={`Finn kandidater til listen ${kandidatlisteSammendrag.tittel}`}
                     to={
-                        kandidatlisteSammendrag.stillingId
-                            ? lenkeTilFinnKandidaterMedStilling(kandidatlisteSammendrag.stillingId)
+                        erKobletTilStilling(kandidatlisteSammendrag)
+                            ? lenkeTilFinnKandidaterMedStilling(kandidatlisteSammendrag.stillingId!)
                             : lenkeTilFinnKandidaterUtenStilling(
                                   kandidatlisteSammendrag.kandidatlisteId
                               )

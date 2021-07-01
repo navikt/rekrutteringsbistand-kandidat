@@ -7,6 +7,8 @@ import { capitalizeEmployerName } from '../../kandidatsøk/utils';
 import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../app/paths';
 import {
+    erKobletTilArbeidsgiver,
+    erKobletTilStilling,
     FormidlingAvUsynligKandidat,
     KandidatIKandidatliste,
     Kandidatliste,
@@ -41,7 +43,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
     const oppsummeringTekst = `${
         kandidater.length
     } kandidater (${antallAktuelleKandidater} er aktuelle${
-        kandidatliste.stillingId ? ` / ${antallPresenterteKandidater} er presentert` : ''
+        erKobletTilStilling(kandidatliste) ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
 
     return (
@@ -62,7 +64,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                         {oppsummeringTekst}
                     </Element>
                     <div className="side-header__om-kandidatlisten">
-                        {kandidatliste.organisasjonNavn && (
+                        {erKobletTilArbeidsgiver(kandidatliste) && (
                             <span>
                                 Arbeidsgiver:{' '}
                                 {capitalizeEmployerName(kandidatliste.organisasjonNavn)}
@@ -72,10 +74,10 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                             Registrert av: {kandidatliste.opprettetAv.navn} (
                             {kandidatliste.opprettetAv.ident})
                         </span>
-                        {kandidatliste.stillingId && (
+                        {erKobletTilStilling(kandidatliste) && (
                             <span>
                                 <Link
-                                    to={lenkeTilStilling(kandidatliste.stillingId)}
+                                    to={lenkeTilStilling(kandidatliste.stillingId!)}
                                     className="lenke"
                                 >
                                     Se stillingsannonse
@@ -104,7 +106,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                 </div>
                 <Kandidatlistestatus
                     status={kandidatliste.status}
-                    erKnyttetTilStilling={kandidatliste.stillingId !== null}
+                    erKnyttetTilStilling={erKobletTilStilling(kandidatliste)}
                     kanEditere={kandidatliste.kanEditere}
                     besatteStillinger={antallKandidaterSomHarFåttJobb}
                     antallStillinger={kandidatliste.antallStillinger}

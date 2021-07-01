@@ -83,13 +83,13 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
                             key={kandidat.kandidatId}
                         >
                             <div className="kandidat-tabell-rad-navn">
-                                <span>{`${
+                                <Normaltekst>{`${
                                     kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : ''
                                 } ${
                                     kandidat.etternavn
                                         ? capitalizeFirstLetter(kandidat.etternavn)
                                         : ''
-                                }`}</span>
+                                }`}</Normaltekst>
                             </div>
                             <div className="kandidat-tabell-rad-epost">
                                 {kandidat.epost ? (

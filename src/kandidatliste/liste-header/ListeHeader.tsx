@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
-import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
+import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Kandidatsortering } from '../Kandidatliste';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
@@ -63,7 +63,7 @@ const ListeHeader: FunctionComponent<Props> = ({
 
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
+        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
 
     const [aktivtSorteringsfelt, setAktivtSorteringsfelt] = useState<KandidatSorteringsfelt | null>(
         null
@@ -124,7 +124,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onClick={endreSortering}
                 />
                 <SorterbarKolonneheader
-                    tekst={kandidatliste.stillingId ? 'Status/hendelser' : 'Status'}
+                    tekst={erKobletTilStilling(kandidatliste) ? 'Status/hendelser' : 'Status'}
                     sorteringsfelt={KandidatSorteringsfelt.StatusOgHendelser}
                     aktivtSorteringsfelt={aktivtSorteringsfelt}
                     aktivSorteringsretning={aktivSorteringsretning}
