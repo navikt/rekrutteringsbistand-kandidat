@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { erInaktiv, KandidatIKandidatliste } from '../kandidatlistetyper';
 
 const erAlleMarkerte = (kandidater: KandidatIKandidatliste[]) => {
-    const aktiveKandidater = kandidater.filter((kandidat) => !erInaktiv(kandidat));
-    if (aktiveKandidater.length === 0) {
+    const aktiveOgSlettaKandidater = kandidater.filter(
+        (kandidat) => !erInaktiv(kandidat) || kandidat.arkivert
+    );
+
+    if (aktiveOgSlettaKandidater.length === 0) {
         return false;
     }
 
-    return aktiveKandidater.every((kandidat) => kandidat.tilstand.markert);
+    return aktiveOgSlettaKandidater.every((kandidat) => kandidat.tilstand.markert);
 };
 
 const useErAlleMarkerte = (kandidater: KandidatIKandidatliste[]): boolean => {

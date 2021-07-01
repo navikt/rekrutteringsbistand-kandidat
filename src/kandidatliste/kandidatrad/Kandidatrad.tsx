@@ -147,15 +147,17 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const kanEndreKandidatlisten =
         kandidatliste.status === Kandidatlistestatus.Åpen && kandidatliste.kanEditere;
 
+    const kandidatenKanMarkeres =
+        kandidatliste.status === Kandidatlistestatus.Åpen &&
+        (!erInaktiv(kandidat) || kandidat.arkivert);
+
     return (
         <div role="rowgroup" tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
             <div role="row" className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
-                    disabled={
-                        kandidatliste.status === Kandidatlistestatus.Lukket || erInaktiv(kandidat)
-                    }
+                    disabled={!kandidatenKanMarkeres}
                     checked={kandidat.tilstand.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);

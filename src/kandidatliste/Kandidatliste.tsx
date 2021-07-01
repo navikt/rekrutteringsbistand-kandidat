@@ -148,7 +148,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         } else {
             props.onMarkerKandidater(
                 filtrerteKandidater
-                    .filter((kandidat) => !erInaktiv(kandidat))
+                    .filter((kandidat) => !erInaktiv(kandidat) || kandidat.arkivert)
                     .map((k) => k.kandidatnr)
             );
         }
