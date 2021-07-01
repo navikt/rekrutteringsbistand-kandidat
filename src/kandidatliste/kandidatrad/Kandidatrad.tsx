@@ -8,6 +8,7 @@ import moment from 'moment';
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import {
     erInaktiv,
+    erKobletTilStilling,
     KandidatIKandidatliste,
     Kandidatliste,
     Kandidatlistestatus,
@@ -135,7 +136,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
+        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
 
     const klassenavn = `kandidatliste-kandidat${
         kandidatliste.status === Kandidatlistestatus.Lukket
@@ -229,7 +230,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             kandidat.kandidatnr
                         );
                     }}
-                    kandidatlistenErKobletTilStilling={kandidatliste.stillingId !== null}
+                    kandidatlistenErKobletTilStilling={erKobletTilStilling(kandidatliste)}
                 />
 
                 <div role="cell">

@@ -71,9 +71,14 @@ export interface Kandidat {
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
 }
 
-export const erInaktiv = (kandidat: Kandidat): boolean => {
-    return kandidat.fodselsnr === null;
-};
+export const erInaktiv = (kandidat: Kandidat): boolean => kandidat.fodselsnr === null;
+
+export const erKobletTilStilling = (
+    kandidatliste: Kandidatliste | KandidatlisteSammendrag
+): boolean => kandidatliste.stillingId !== null;
+
+export const erKobletTilArbeidsgiver = (kandidatliste: Kandidatliste): boolean =>
+    kandidatliste.organisasjonReferanse !== null;
 
 export type LagtTilAv = {
     ident: string;

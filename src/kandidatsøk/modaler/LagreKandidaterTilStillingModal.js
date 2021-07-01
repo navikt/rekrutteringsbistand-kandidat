@@ -4,6 +4,7 @@ import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import './LagreKandidaterTilStillingModal.less';
+import { erKobletTilStilling } from '../../kandidatliste/kandidatlistetyper';
 
 const LagreKandidaterTilStillingModal = (props) => {
     const {
@@ -20,7 +21,7 @@ const LagreKandidaterTilStillingModal = (props) => {
     };
 
     const lagreTekst = () => {
-        if (kandidatliste.stillingId) {
+        if (erKobletTilStilling(kandidatliste)) {
             return `Ønsker du å lagre kandidaten${
                 antallMarkerteKandidater > 1 ? 'e' : ''
             } i kandidatlisten til stillingen «${kandidatliste.tittel}»?`;

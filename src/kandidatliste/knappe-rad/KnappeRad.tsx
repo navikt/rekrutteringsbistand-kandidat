@@ -1,7 +1,13 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
-import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
+import {
+    erKobletTilArbeidsgiver,
+    erKobletTilStilling,
+    KandidatIKandidatliste,
+    Kandidatliste,
+    Kandidatlistestatus,
+} from '../kandidatlistetyper';
 import MedPopover from '../../common/med-popover/MedPopover';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
@@ -34,10 +40,10 @@ const KnappeRad: FunctionComponent<Props> = ({
     const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some((kandidat) => !kandidat.sms);
 
     const skalViseEkstraKnapper =
-        kandidatliste.kanEditere && kandidatliste.stillingId && !visArkiverte;
+        kandidatliste.kanEditere && erKobletTilStilling(kandidatliste) && !visArkiverte;
 
     const skalViseDelMedArbeidsgiverKnapp =
-        kandidatliste.kanEditere && kandidatliste.organisasjonNavn && !visArkiverte;
+        kandidatliste.kanEditere && erKobletTilArbeidsgiver(kandidatliste) && !visArkiverte;
 
     const skalViseKopierEposterKnapp = !visArkiverte;
     const skalViseAngreSlettingKnapp = visArkiverte;
