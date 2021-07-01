@@ -15,7 +15,7 @@ import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Utfall } from '../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
-const baseUrl = `/rekrutteringsbistand-kandidat`;
+export const baseUrl = `/rekrutteringsbistand-kandidat`;
 
 export const KANDIDATSOK_API = `${baseUrl}/kandidat-api`;
 export const ENHETSREGISTER_API = `${baseUrl}/enhetsregister-api`;

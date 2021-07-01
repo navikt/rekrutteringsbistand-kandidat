@@ -59,6 +59,13 @@ const startServer = () => {
     app.use(setupProxy(`${basePath}/kandidat-api`, process.env.KANDIDATSOK_API_URL));
 
     app.use(
+        setupProxy(
+            `${basePath}/foresporsel-om-deling-av-cv-api`,
+            process.env.FORESPORSEL_OM_DELING_AV_CV_API
+        )
+    );
+
+    app.use(
         setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API, {
             'x-nav-apiKey': miljøvariablerFraVault.ENHETSREGISTER_GATEWAY_APIKEY,
         })

@@ -13,6 +13,7 @@ import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
 import './ForespørselOmDelingAvCv.less';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import { sendForespørselOmDelingAvCv } from '../../../api/forespørselOmDelingAvCvApi';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -79,18 +80,21 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         setModalErÅpen(false);
     };
 
-    const onDelStillingClick = () => {
+    const onDelStillingClick = async () => {
         if (egenvalgtFristFeilmelding) {
             return;
         }
 
-        const forespørselOmDelingAvCv: ForespørselOutboundDto = {
+        const outboundDto: ForespørselOutboundDto = {
             aktorIder: markerteKandidater.map((kandidat) => kandidat.aktørid!),
             stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
         };
 
-        return forespørselOmDelingAvCv;
+        const response = await sendForespørselOmDelingAvCv(outboundDto);
+        console.log(response);
+
+        lukkModal();
     };
 
     return (
