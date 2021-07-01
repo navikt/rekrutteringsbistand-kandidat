@@ -35,6 +35,10 @@ const KnappeRad: FunctionComponent<Props> = ({
 
     const skalViseEkstraKnapper =
         kandidatliste.kanEditere && kandidatliste.stillingId && !visArkiverte;
+
+    const skalViseDelMedArbeidsgiverKnapp =
+        kandidatliste.kanEditere && kandidatliste.organisasjonNavn && !visArkiverte;
+
     const skalViseKopierEposterKnapp = !visArkiverte;
     const skalViseAngreSlettingKnapp = visArkiverte;
 
@@ -86,7 +90,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                     {erIkkeProd && skalViseEkstraKnapper && (
                         <ForespørselOmDelingAvCv stillingsId={kandidatliste.stillingId!} />
                     )}
-                    {skalViseEkstraKnapper &&
+                    {skalViseDelMedArbeidsgiverKnapp &&
                         (minstEnKandidatErMarkert ? (
                             <Lenkeknapp
                                 onClick={onKandidatShare}
