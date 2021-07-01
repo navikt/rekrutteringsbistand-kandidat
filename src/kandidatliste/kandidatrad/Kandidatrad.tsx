@@ -5,7 +5,12 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
-import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
+import {
+    erInaktiv,
+    KandidatIKandidatliste,
+    Kandidatliste,
+    Kandidatlistestatus,
+} from '../kandidatlistetyper';
 import { lenkeTilCv } from '../../app/paths';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
@@ -145,7 +150,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
-                    disabled={kandidatliste.status === Kandidatlistestatus.Lukket}
+                    disabled={
+                        kandidatliste.status === Kandidatlistestatus.Lukket || erInaktiv(kandidat)
+                    }
                     checked={kandidat.tilstand.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);

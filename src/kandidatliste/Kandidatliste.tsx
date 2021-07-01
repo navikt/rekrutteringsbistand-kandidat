@@ -7,6 +7,7 @@ import {
     Kandidatlistefilter,
     Kandidatstatus,
     Kandidatlistestatus,
+    erInaktiv,
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -144,7 +145,11 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         if (alleFiltrerteErMarkerte) {
             props.onFjernAllMarkering();
         } else {
-            props.onMarkerKandidater(filtrerteKandidater.map((k) => k.kandidatnr));
+            props.onMarkerKandidater(
+                filtrerteKandidater
+                    .filter((kandidat) => !erInaktiv(kandidat))
+                    .map((k) => k.kandidatnr)
+            );
         }
     };
 

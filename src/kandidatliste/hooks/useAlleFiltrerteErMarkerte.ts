@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
+import { erInaktiv, KandidatIKandidatliste } from '../kandidatlistetyper';
 
 const erAlleFiltrerteMarkerte = (kandidater: KandidatIKandidatliste[]) => {
     return (
         kandidater.length > 0 &&
-        kandidater.filter(
-            (kandidat) => !kandidat.tilstand.filtrertBort && !kandidat.tilstand.markert
-        ).length === 0
+        kandidater.some(
+            (kandidat) =>
+                !kandidat.tilstand.filtrertBort &&
+                !kandidat.tilstand.markert &&
+                !erInaktiv(kandidat)
+        )
     );
 };
 

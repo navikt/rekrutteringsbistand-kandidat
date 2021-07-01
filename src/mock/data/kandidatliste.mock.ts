@@ -121,6 +121,15 @@ export const mockKandidat = (
     erSynlig: true,
 });
 
+const inaktivKandidat = {
+    telefon: null,
+    aktørid: null,
+    epost: null,
+    innsatsgruppe: null,
+    fodselsnr: null,
+    midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig,
+};
+
 const mockMidlertidigUtilgjengeligStatus = (cvIndex: number) => {
     return cvIndex === 3
         ? Tilgjengelighet.TilgjengeligInnen1Uke
@@ -168,6 +177,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
             ...mockKandidat(1, meg),
             status: Kandidatstatus.Kontaktet,
             utfall: Utfall.Presentert,
+            ...inaktivKandidat,
         },
         {
             ...mockKandidat(2, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
@@ -183,6 +193,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
             ...mockKandidat(4, meg),
             status: Kandidatstatus.Uaktuell,
             utfall: Utfall.FåttJobben,
+            ...inaktivKandidat,
         },
         {
             ...mockKandidat(5, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),

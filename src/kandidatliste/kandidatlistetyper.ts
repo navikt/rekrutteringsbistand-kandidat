@@ -56,20 +56,24 @@ export interface Kandidat {
     lagtTilAv: LagtTilAv;
     fornavn: string;
     etternavn: string;
-    epost?: string;
-    telefon?: string;
+    epost: string | null;
+    telefon: string | null;
     fodselsdato: string;
     fodselsnr: string | null;
-    innsatsgruppe: string;
+    innsatsgruppe: string | null;
     utfall: Utfall;
     erSynlig: boolean;
-    antallNotater?: number;
+    antallNotater: number;
     arkivert: boolean;
     arkivertTidspunkt: string | null;
     arkivertAv: string | null;
-    aktørid?: string;
+    aktørid: string | null;
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
 }
+
+export const erInaktiv = (kandidat: Kandidat): boolean => {
+    return kandidat.fodselsnr === null;
+};
 
 export type LagtTilAv = {
     ident: string;
