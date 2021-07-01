@@ -252,20 +252,22 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
                 <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
-                    <Lenkeknapp
-                        onClick={toggleMerInfo}
-                        className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
-                    >
-                        <i className="MerInfo__icon" />
-                        <NavFrontendChevron
-                            className="kandidatliste-kandidat__chevron"
-                            type={
-                                kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
-                                    ? 'opp'
-                                    : 'ned'
-                            }
-                        />
-                    </Lenkeknapp>
+                    {!erInaktiv(kandidat) && (
+                        <Lenkeknapp
+                            onClick={toggleMerInfo}
+                            className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
+                        >
+                            <i className="MerInfo__icon" />
+                            <NavFrontendChevron
+                                className="kandidatliste-kandidat__chevron"
+                                type={
+                                    kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
+                                        ? 'opp'
+                                        : 'ned'
+                                }
+                            />
+                        </Lenkeknapp>
+                    )}
                 </div>
                 {visArkiveringskolonne && (
                     <div role="cell" className="kandidatliste-kandidat__kolonne-høyrestilt">
