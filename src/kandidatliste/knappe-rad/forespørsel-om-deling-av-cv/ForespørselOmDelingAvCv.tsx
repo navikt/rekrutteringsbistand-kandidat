@@ -1,8 +1,8 @@
-import React, { ChangeEvent, FunctionComponent, MouseEvent, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
 import moment from 'moment';
 import { Datovelger } from 'nav-datovelger';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Feilmelding, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
 import AlertStripe from 'nav-frontend-alertstriper';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
@@ -58,6 +58,14 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     );
 
     const [senderForespørsler, setSenderForespørsler] = useState<boolean>(false);
+    const [feilUnderSending, setFeilUnderSending] = useState<string | undefined>();
+
+    useEffect(() => {
+        setFeilUnderSending(undefined);
+        setSvarfrist(Svarfrist.ToDager);
+        setEgenvalgtFrist(undefined);
+        setEgenvalgtFristFeilmelding(undefined);
+    }, [markerteKandidater]);
 
     const onSvarfristChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSvarfrist(event.target.value as Svarfrist);
@@ -87,6 +95,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
 
     const lukkModal = () => {
         setModalErÅpen(false);
+        setFeilUnderSending(undefined);
     };
 
     const fjernMarkeringAvAlleKandidater = () => {
@@ -115,7 +124,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             fjernMarkeringAvAlleKandidater();
             lukkModal();
         } catch (exception) {
-            // TODO: vis feilmelding
+            setFeilUnderSending('Kunne ikke sende dele stillingsannonsen. Prøv igjen senere.');
         }
 
         setSenderForespørsler(false);
@@ -216,6 +225,11 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         Avbryt
                     </Knapp>
                 </div>
+                {feilUnderSending && (
+                    <Feilmelding className="foresporsel-om-deling-av-cv__feilmelding">
+                        {feilUnderSending}
+                    </Feilmelding>
+                )}
             </ModalMedKandidatScope>
             <Popover
                 ankerEl={ingenMarkertPopover}
