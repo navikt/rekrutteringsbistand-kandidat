@@ -11,7 +11,7 @@ import { Visningsstatus } from '../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
 import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
-import { ForespørselInboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID;
@@ -437,7 +437,7 @@ export interface HentForespørslerOmDelingAvCvAction {
 
 export interface HentForespørslerOmDelingAvCvSuccessAction {
     type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS;
-    forespørslerOmDelingAvCv: ForespørselInboundDto[];
+    forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[];
 }
 
 export interface HentForespørslerOmDelingAvCvFailureAction {

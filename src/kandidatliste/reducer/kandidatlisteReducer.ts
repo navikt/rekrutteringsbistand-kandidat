@@ -32,7 +32,7 @@ import {
 import KandidatlisteAction from './KandidatlisteAction';
 import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
 import { SearchApiError } from '../../api/fetchUtils';
-import { ForespørselInboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 type FormidlingId = string;
 
@@ -56,7 +56,7 @@ export interface KandidatlisteState {
         sendteMeldinger: RemoteData<Sms[]>;
         error?: SearchApiError;
     };
-    forespørslerOmDelingAvCv: Nettressurs<ForespørselInboundDto[]>;
+    forespørslerOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>;
     fodselsnummer?: string;
     leggTilKandidater: {
         lagreStatus: string;
@@ -664,7 +664,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS:
             return {
                 ...state,
-                forespørslerOmDelingAvCv: suksess<ForespørselInboundDto[]>(
+                forespørslerOmDelingAvCv: suksess<ForespørselOmDelingAvCv[]>(
                     action.forespørslerOmDelingAvCv
                 ),
             };

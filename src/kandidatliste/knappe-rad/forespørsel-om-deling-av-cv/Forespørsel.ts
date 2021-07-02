@@ -4,7 +4,7 @@ export type ForespørselOutboundDto = {
     aktorIder: string[];
 };
 
-export type ForespørselInboundDto = {
+export type ForespørselOmDelingAvCv = {
     aktørId: string;
     deltStatus: ForespørselDeltStatus; // TODO: Alltid anta at sending på Kafka gikk bra?
     deltTidspunkt: Date;

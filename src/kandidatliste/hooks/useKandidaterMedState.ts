@@ -1,4 +1,4 @@
-import { RemoteData, Nettstatus } from '../../api/remoteData';
+import { RemoteData, Nettstatus, Nettressurs } from '../../api/remoteData';
 import {
     Kandidatliste,
     Kandidattilstander,
@@ -7,20 +7,32 @@ import {
     Sms,
 } from '../kandidatlistetyper';
 import { useEffect, useState } from 'react';
+import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 const hentMeldingForKandidat = (
     kandidatmeldinger: RemoteData<Sms[]>,
     fnr: string
-): Sms | undefined =>
-    kandidatmeldinger.kind === Nettstatus.Suksess
+): Sms | undefined => {
+    return kandidatmeldinger.kind === Nettstatus.Suksess
         ? kandidatmeldinger.data.find((melding) => melding.fnr === fnr)
         : undefined;
+};
+
+const hentForespørselOmDelingAvCvForKandidat = (
+    forespørslerOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>,
+    aktørId: string
+): ForespørselOmDelingAvCv | undefined => {
+    return forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
+        ? forespørslerOmDelingAvCv.data.find((forespørsel) => forespørsel.aktørId === aktørId)
+        : undefined;
+};
 
 const useKandidaterMedState = (
     kandidatliste: RemoteData<Kandidatliste>,
     kandidattilstander: Kandidattilstander,
     kandidatmeldinger: RemoteData<Sms[]>,
-    kandidatnotater: Kandidatnotater
+    kandidatnotater: Kandidatnotater,
+    forespørslerOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>
 ) => {
     const [kandidaterMedState, setKandidaterMedState] = useState<
         KandidatIKandidatliste[] | undefined
@@ -40,13 +52,25 @@ const useKandidaterMedState = (
                         sms: kandidat.fodselsnr
                             ? hentMeldingForKandidat(kandidatmeldinger, kandidat.fodselsnr)
                             : undefined,
+                        forespørselOmDelingAvCv: kandidat.aktørid
+                            ? hentForespørselOmDelingAvCvForKandidat(
+                                  forespørslerOmDelingAvCv,
+                                  kandidat.aktørid
+                              )
+                            : undefined,
                     })
                 );
 
                 setKandidaterMedState(kandidaterMedState);
             }
         }
-    }, [kandidatliste, kandidattilstander, kandidatnotater, kandidatmeldinger]);
+    }, [
+        kandidatliste,
+        kandidattilstander,
+        kandidatnotater,
+        kandidatmeldinger,
+        forespørslerOmDelingAvCv,
+    ]);
 
     return kandidaterMedState;
 };

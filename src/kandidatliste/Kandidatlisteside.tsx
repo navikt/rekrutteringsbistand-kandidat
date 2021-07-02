@@ -15,9 +15,13 @@ type Props = {
 };
 
 const Kandidatlisteside: FunctionComponent<Props> = ({ stillingsId, kandidatlisteId }) => {
-    const { kandidatliste, kandidattilstander, kandidatnotater, sms } = useSelector(
-        (state: AppState) => state.kandidatliste
-    );
+    const {
+        kandidatliste,
+        kandidattilstander,
+        kandidatnotater,
+        sms,
+        forespørslerOmDelingAvCv,
+    } = useSelector((state: AppState) => state.kandidatliste);
 
     useScrollTilToppen(kandidatliste);
     useHentKandidatlisteMedId(stillingsId, kandidatlisteId);
@@ -26,7 +30,8 @@ const Kandidatlisteside: FunctionComponent<Props> = ({ stillingsId, kandidatlist
         kandidatliste,
         kandidattilstander,
         sms.sendteMeldinger,
-        kandidatnotater
+        kandidatnotater,
+        forespørslerOmDelingAvCv
     );
 
     if (kandidatliste.kind === Nettstatus.LasterInn || kandidaterMedState === undefined) {

@@ -1,7 +1,8 @@
-import { RemoteData } from '../api/remoteData';
+import { Nettressurs, RemoteData } from '../api/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../kandidatsøk/kandidater-tabell/Søkeresultat';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import { ForespørselOmDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export enum Delestatus {
     IkkeSpurt = 'IKKE_SPURT',
@@ -171,7 +172,7 @@ export type KandidatIKandidatliste = Kandidat & {
     tilstand: Kandidattilstand;
     notater: RemoteData<Notat[]>;
     sms?: Sms;
-    // TODO: Legg til forespørsel
+    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
 };
 
 export type Kandidatlistefilter = {

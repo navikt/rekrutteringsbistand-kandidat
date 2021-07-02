@@ -1,13 +1,13 @@
 import moment from 'moment';
 import {
     ForespørselDeltStatus,
-    ForespørselInboundDto,
+    ForespørselOmDelingAvCv,
     SvarPåDelingAvCv,
 } from '../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { kandidatlister } from './kandidatliste.mock';
 import { meg } from './veiledere.mock';
 
-export const forespørslerOmDelingAvCv: ForespørselInboundDto[] = [
+export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
     {
         aktørId: kandidatlister[0].kandidater[0].aktørid!,
         deltAv: meg.ident,
