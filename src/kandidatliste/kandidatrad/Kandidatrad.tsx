@@ -202,7 +202,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     role="cell"
                     className="kandidatliste-kandidat__wrap-hvor-som-helst kandidatliste-kandidat__kolonne-sorterbar"
                 >
-                    {kandidat.fodselsnr}
+                    {erInaktiv(kandidat) ? 'Inaktiv' : kandidat.fodselsnr}
                 </div>
                 <div
                     role="cell"
