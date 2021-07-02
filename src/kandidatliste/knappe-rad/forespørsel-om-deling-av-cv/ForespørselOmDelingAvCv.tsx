@@ -2,9 +2,9 @@ import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState 
 import moment from 'moment';
 import { Datovelger } from 'nav-datovelger';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Element, Feilmelding, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
-import AlertStripe from 'nav-frontend-alertstriper';
+import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { ForespørselOutboundDto } from './Forespørsel';
@@ -16,9 +16,7 @@ import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { sendForespørselOmDelingAvCv } from '../../../api/forespørselOmDelingAvCvApi';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import { useDispatch } from 'react-redux';
-import KandidatlisteAction, {
-    EndreMarkeringAvKandidaterAction,
-} from '../../reducer/KandidatlisteAction';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -124,7 +122,9 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             fjernMarkeringAvAlleKandidater();
             lukkModal();
         } catch (exception) {
-            setFeilUnderSending('Kunne ikke sende dele stillingsannonsen. Prøv igjen senere.');
+            setFeilUnderSending(
+                'Kunne ikke dele stillingsannonsen med kandidatene. Prøv igjen senere.'
+            );
         }
 
         setSenderForespørsler(false);
@@ -226,9 +226,9 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                     </Knapp>
                 </div>
                 {feilUnderSending && (
-                    <Feilmelding className="foresporsel-om-deling-av-cv__feilmelding">
+                    <AlertStripeFeil className="foresporsel-om-deling-av-cv__feilmelding">
                         {feilUnderSending}
-                    </Feilmelding>
+                    </AlertStripeFeil>
                 )}
             </ModalMedKandidatScope>
             <Popover
