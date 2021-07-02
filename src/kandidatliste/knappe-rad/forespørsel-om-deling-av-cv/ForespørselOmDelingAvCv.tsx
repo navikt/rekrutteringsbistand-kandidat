@@ -118,6 +118,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
 
         try {
             await sendForespørselOmDelingAvCv(outboundDto);
+            // TODO: Hent forespørsler på nytt
 
             fjernMarkeringAvAlleKandidater();
             lukkModal();

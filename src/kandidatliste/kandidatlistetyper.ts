@@ -171,6 +171,7 @@ export type KandidatIKandidatliste = Kandidat & {
     tilstand: Kandidattilstand;
     notater: RemoteData<Notat[]>;
     sms?: Sms;
+    // TODO: Legg til forespørsel
 };
 
 export type Kandidatlistefilter = {

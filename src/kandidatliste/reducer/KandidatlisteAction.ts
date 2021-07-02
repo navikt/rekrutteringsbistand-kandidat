@@ -11,6 +11,7 @@ import { Visningsstatus } from '../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
 import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import { ForespørselInboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID;
@@ -429,6 +430,21 @@ export interface HentSendteMeldingerFailureAction {
     error: SearchApiError;
 }
 
+export interface HentForespørslerOmDelingAvCvAction {
+    type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV;
+    stillingsId: string;
+}
+
+export interface HentForespørslerOmDelingAvCvSuccessAction {
+    type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS;
+    forespørslerOmDelingAvCv: ForespørselInboundDto[];
+}
+
+export interface HentForespørslerOmDelingAvCvFailureAction {
+    type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_FAILURE;
+    error: SearchApiError;
+}
+
 export interface EndreKandidatlistefilterAction {
     type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER;
     filter: Kandidatlistefilter;
@@ -533,6 +549,9 @@ type KandidatlisteAction =
     | LeggTilKandidaterResetAction
     | EndreKandidatlistestatusAction
     | EndreKandidatlistestatusSuccessAction
-    | EndreKandidatlistestatusFailureAction;
+    | EndreKandidatlistestatusFailureAction
+    | HentForespørslerOmDelingAvCvAction
+    | HentForespørslerOmDelingAvCvSuccessAction
+    | HentForespørslerOmDelingAvCvFailureAction;
 
 export default KandidatlisteAction;

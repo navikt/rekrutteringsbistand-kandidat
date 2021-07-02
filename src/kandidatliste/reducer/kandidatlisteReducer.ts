@@ -32,6 +32,7 @@ import {
 import KandidatlisteAction from './KandidatlisteAction';
 import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
 import { SearchApiError } from '../../api/fetchUtils';
+import { ForespørselInboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 type FormidlingId = string;
 
@@ -55,7 +56,7 @@ export interface KandidatlisteState {
         sendteMeldinger: RemoteData<Sms[]>;
         error?: SearchApiError;
     };
-
+    forespørslerOmDelingAvCv: Nettressurs<ForespørselInboundDto[]>;
     fodselsnummer?: string;
     leggTilKandidater: {
         lagreStatus: string;
@@ -111,6 +112,7 @@ const initialState: KandidatlisteState = {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: ikkeLastet(),
     },
+    forespørslerOmDelingAvCv: ikkeLastet(),
     arkivering: {
         statusArkivering: Nettstatus.IkkeLastet,
         statusDearkivering: Nettstatus.IkkeLastet,
@@ -653,6 +655,23 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     ...state.sms,
                     sendteMeldinger: feil(action.error),
                 },
+            };
+        case KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV:
+            return {
+                ...state,
+                forespørslerOmDelingAvCv: lasterInn(),
+            };
+        case KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS:
+            return {
+                ...state,
+                forespørslerOmDelingAvCv: suksess<ForespørselInboundDto[]>(
+                    action.forespørslerOmDelingAvCv
+                ),
+            };
+        case KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_FAILURE:
+            return {
+                ...state,
+                forespørslerOmDelingAvCv: feil(action.error),
             };
         case KandidatlisteActionType.VELG_KANDIDAT: {
             const { kandidatlisteId, kandidatnr } = action;

@@ -33,6 +33,7 @@ import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
 import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import useHentForespørslerOmDelingAvCv from './hooks/useHentForespørslerOmDelingAvCv';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -70,6 +71,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     useMaskerFødselsnumre();
     useHentSendteMeldinger(props.kandidatliste.kandidatlisteId);
+    useHentForespørslerOmDelingAvCv(props.kandidatliste.stillingId);
 
     const [sortering, setSortering] = useState<Kandidatsortering>(null);
 

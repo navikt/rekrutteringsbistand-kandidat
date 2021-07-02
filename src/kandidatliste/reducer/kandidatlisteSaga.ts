@@ -36,6 +36,7 @@ import KandidatlisteAction, {
     EndreFormidlingsutfallForUsynligKandidatSuccessAction,
     EndreKandidatlistestatusAction,
     EndreKandidatlistestatusSuccessAction,
+    HentForespørslerOmDelingAvCvAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -57,6 +58,7 @@ import {
 } from '../../api/api';
 import { Kandidatliste } from '../kandidatlistetyper';
 import { SearchApiError } from '../../api/fetchUtils';
+import { fetchForespørslerOmDelingAvCv } from '../../api/forespørselOmDelingAvCvApi';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;
@@ -568,6 +570,18 @@ function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
     }
 }
 
+function* hentForespørslerOmDelingAvCv(action: HentForespørslerOmDelingAvCvAction) {
+    try {
+        const forespørsler = yield call(fetchForespørslerOmDelingAvCv, action.stillingsId);
+        yield put<KandidatlisteAction>({
+            type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS,
+            forespørslerOmDelingAvCv: forespørsler,
+        });
+    } catch (e) {
+        // TODO: Hva skal skje hvis det ikke gikk å hente forespørsler?
+    }
+}
+
 function* sendSmsTilKandidater(action: SendSmsAction) {
     try {
         yield call(postSmsTilKandidater, action.melding, action.fnr, action.kandidatlisteId);
@@ -642,6 +656,10 @@ function* kandidatlisteSaga() {
     yield takeLatest(
         [KandidatlisteActionType.HENT_SENDTE_MELDINGER, KandidatlisteActionType.SEND_SMS_SUCCESS],
         hentSendteMeldinger
+    );
+    yield takeLatest(
+        [KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV],
+        hentForespørslerOmDelingAvCv
     );
     yield takeLatest(KandidatlisteActionType.HENT_USYNLIG_KANDIDAT, hentUsynligKandidat);
     yield takeLatest(

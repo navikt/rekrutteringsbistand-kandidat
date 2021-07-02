@@ -21,6 +21,7 @@ import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandida
 import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
 import { meg } from './data/veiledere.mock';
+import { forespørslerOmDelingAvCv } from './data/forespørslerOmDelingAvCv';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import {
     KANDIDATSOK_API,
@@ -69,7 +70,8 @@ const url = {
     putFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat/:formidlingId/utfall`,
     putKandidatlistestatus: `${api}/veileder/kandidatlister/:kandidatlisteId/status`,
 
-    forespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
+    forespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/:stillingsId`,
+    postForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
 
     // Alternative backends
     sms: `${smsApi}/:kandidatlisteId`,
@@ -339,8 +341,8 @@ fetchMock
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
-
-    .post(url.forespørselOmDelingAvCv, log(201))
+    .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
+    .post(url.postForespørselOmDelingAvCv, log(201))
 
     // Misc
     .get(url.toggles, log(featureToggles))

@@ -11,7 +11,7 @@ export type ForespørselInboundDto = {
     deltAv: string;
     svarfrist: Date;
     svar: SvarPåDelingAvCv;
-    svarTidspunkt?: Date;
+    svarTidspunkt: Date | null;
 };
 
 export enum ForespørselDeltStatus {
