@@ -14,6 +14,11 @@ import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
 import './ForespørselOmDelingAvCv.less';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { sendForespørselOmDelingAvCv } from '../../../api/forespørselOmDelingAvCvApi';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import { useDispatch } from 'react-redux';
+import KandidatlisteAction, {
+    EndreMarkeringAvKandidaterAction,
+} from '../../reducer/KandidatlisteAction';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -35,6 +40,8 @@ type Props = {
 };
 
 const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, markerteKandidater }) => {
+    const dispatch = useDispatch();
+
     const [modalErÅpen, setModalErÅpen] = useState<boolean>(false);
 
     const antallMarkerteKandidater = markerteKandidater.length;
@@ -82,6 +89,13 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         setModalErÅpen(false);
     };
 
+    const fjernMarkeringAvAlleKandidater = () => {
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER,
+            kandidatnumre: [],
+        });
+    };
+
     const onDelStillingClick = async () => {
         if (egenvalgtFristFeilmelding) {
             return;
@@ -97,12 +111,14 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
 
         try {
             await sendForespørselOmDelingAvCv(outboundDto);
+
+            fjernMarkeringAvAlleKandidater();
+            lukkModal();
         } catch (exception) {
             // TODO: vis feilmelding
         }
 
         setSenderForespørsler(false);
-        lukkModal();
     };
 
     return (
