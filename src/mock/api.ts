@@ -29,12 +29,14 @@ import {
     ENHETSREGISTER_API,
 } from '../api/api';
 import { Utfall } from '../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
 
 fetchMock.config.fallbackToNetwork = true;
 
 const api = `express:${KANDIDATSOK_API}`;
 const smsApi = `express:${SMS_API}`;
 const midlertidigUtilgjengeligApi = `express:${MIDLERTIDIG_UTILGJENGELIG_API}`;
+const forespørselOmDelingAvCvApi = `express:${FORESPORSEL_OM_DELING_AV_CV_API}`;
 
 const url = {
     // Kandidatsøket
@@ -66,6 +68,8 @@ const url = {
     postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat`,
     putFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat/:formidlingId/utfall`,
     putKandidatlistestatus: `${api}/veileder/kandidatlister/:kandidatlisteId/status`,
+
+    forespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
 
     // Alternative backends
     sms: `${smsApi}/:kandidatlisteId`,
@@ -335,6 +339,8 @@ fetchMock
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
+
+    .post(url.forespørselOmDelingAvCv, log(201))
 
     // Misc
     .get(url.toggles, log(featureToggles))

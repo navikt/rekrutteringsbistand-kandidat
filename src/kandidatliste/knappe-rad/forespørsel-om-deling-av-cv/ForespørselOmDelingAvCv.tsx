@@ -50,6 +50,8 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         undefined
     );
 
+    const [senderForespørsler, setSenderForespørsler] = useState<boolean>(false);
+
     const onSvarfristChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSvarfrist(event.target.value as Svarfrist);
     };
@@ -85,15 +87,21 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             return;
         }
 
+        setSenderForespørsler(true);
+
         const outboundDto: ForespørselOutboundDto = {
             aktorIder: markerteKandidater.map((kandidat) => kandidat.aktørid!),
             stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
         };
 
-        const response = await sendForespørselOmDelingAvCv(outboundDto);
-        console.log(response);
+        try {
+            await sendForespørselOmDelingAvCv(outboundDto);
+        } catch (exception) {
+            // TODO: vis feilmelding
+        }
 
+        setSenderForespørsler(false);
         lukkModal();
     };
 
@@ -184,6 +192,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         className="foresporsel-om-deling-av-cv__del-stilling-knapp"
                         mini
                         onClick={onDelStillingClick}
+                        spinner={senderForespørsler}
                     >
                         Del stilling
                     </Hovedknapp>
