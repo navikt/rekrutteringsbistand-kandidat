@@ -14,13 +14,6 @@ const KandidatJobbprofil = ({ cv }) => (
             id="ekspanderbartpanel-jobbprofil"
             tittel={<Systemtittel>Jobbønsker</Systemtittel>}
         >
-            <Row className="kandidat-jobbprofil__row">
-                <Column xs="12">
-                    <Normaltekst>
-                        Kandidatens jobbønsker inneholder ønsker og krav for fremtidige jobber.
-                    </Normaltekst>
-                </Column>
-            </Row>
             {cv.yrkeJobbonsker && cv.yrkeJobbonsker.length !== 0 && (
                 <Row className="kandidat-jobbprofil__row">
                     <Column xs="12" sm="4">
