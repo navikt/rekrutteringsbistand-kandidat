@@ -1,4 +1,4 @@
-import { Nettressurs, RemoteData } from '../api/remoteData';
+import { RemoteData } from '../api/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../kandidatsøk/kandidater-tabell/Søkeresultat';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';

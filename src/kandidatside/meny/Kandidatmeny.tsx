@@ -13,7 +13,7 @@ const Kandidatmeny: FunctionComponent<Props> = (props) => {
         <div className="kandidatmeny">
             <div className="kandidatmeny__venstre">
                 <nav className="kandidatmeny__tabs">
-                    <Kandidattab sti="cv" label="CV og jobbprofil" />
+                    <Kandidattab sti="cv" label="CV og jobbønsker" />
                     <Kandidattab sti="historikk" label="Historikk" />
                 </nav>
                 <a
