@@ -30,7 +30,7 @@ const Kandidatside: FunctionComponent = ({ children }) => {
         </VisKandidatFraLister>
     ) : (
         <VisKandidat
-            kandidatNr={kandidatnr}
+            kandidatnr={kandidatnr}
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
         >

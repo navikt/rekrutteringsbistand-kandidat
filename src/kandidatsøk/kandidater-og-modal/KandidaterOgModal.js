@@ -9,7 +9,7 @@ import KandidaterTabell from '../kandidater-tabell/KandidaterTabell';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../common/konstanter';
 import KnappMedHjelpetekst from '../knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
-    LAST_FLERE_KANDIDATER,
+    KandidatsøkActionType,
     MARKER_KANDIDATER,
     OPPDATER_ANTALL_KANDIDATER,
 } from '../reducer/searchReducer';
@@ -280,7 +280,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidatliste, kandidater });
     },
     lastFlereKandidater: () => {
-        dispatch({ type: LAST_FLERE_KANDIDATER });
+        dispatch({ type: KandidatsøkActionType.LastFlereKandidater });
     },
     oppdaterAntallKandidater: (antallKandidater) => {
         dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater });

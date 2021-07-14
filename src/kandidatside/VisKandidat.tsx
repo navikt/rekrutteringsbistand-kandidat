@@ -1,27 +1,13 @@
 /* eslint-disable react/no-did-update-set-state */
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import PropTypes from 'prop-types';
 
-import { CvActionType, HentCvStatus } from './cv/reducer/cvReducer.ts';
+import { CvAction, CvActionType, HentCvStatus } from './cv/reducer/cvReducer';
+import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { LAGRE_STATUS } from '../common/konstanter';
-import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../kandidatsøk/reducer/searchReducer';
-import { sendEvent } from '../amplitude/amplitude';
-import { Nettstatus } from '../api/remoteData.ts';
-import cvPropTypes from '../common/PropTypes';
-import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
-import HjelpetekstFading from '../common/HjelpetekstFading.tsx';
-import IkkeFunnet from './ikke-funnet/IkkeFunnet';
-import Kandidatheader from './header/Kandidatheader';
-import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import Kandidatmeny from './meny/Kandidatmeny';
-import LagreKandidaterModal from '../kandidatsøk/modaler/LagreKandidaterModal';
-import LagreKandidaterTilStillingModal from '../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
-import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import './VisKandidat.less';
 import {
     lenkeTilCv,
     lenkeTilFinnKandidaterMedStilling,
@@ -29,24 +15,83 @@ import {
     lenkeTilKandidatliste,
     lenkeTilKandidatsøk,
 } from '../app/paths';
+import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { Nettressurs, Nettstatus } from '../api/remoteData';
+import { sendEvent } from '../amplitude/amplitude';
 import { toUrlQuery } from '../kandidatsøk/reducer/searchQuery';
+import AppState from '../AppState';
+import Cv, { Kandidatresultat } from './cv/reducer/cv-typer';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
+import HjelpetekstFading from '../common/HjelpetekstFading';
+import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import Kandidatheader from './header/Kandidatheader';
+import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
+import Kandidatmeny from './meny/Kandidatmeny';
+import LagreKandidaterModal from '../kandidatsøk/modaler/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from '../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
+import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import './VisKandidat.less';
+import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
+import { Dispatch } from 'redux';
 
-class VisKandidat extends React.Component {
-    constructor(props) {
+type Props = ConnectedProps & {
+    kandidatnr: string;
+    stillingsId: string | null;
+    kandidatlisteId: string | null;
+    children: ReactNode;
+};
+
+type ConnectedProps = {
+    cv: Cv;
+    hentCvForKandidat: (kandidatnr: string) => void;
+    kandidater: Kandidatresultat[];
+    antallKandidater: number;
+    lastFlereKandidater: () => void;
+    settValgtKandidat: (kandidatnr: string) => void;
+    hentStatus: string;
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId: string) => void;
+    hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
+    kandidatliste?: Kandidatliste;
+    midlertidigUtilgjengelig: Nettressurs<MidlertidigUtilgjengeligResponse>;
+    kandidatsøkFilterParams: string;
+    lagreKandidatIKandidatlisteStatus: string;
+    lagreKandidatIKandidatliste: (
+        kandidatliste: Kandidatliste,
+        fnr: string,
+        kandidatnr: string
+    ) => void;
+};
+
+type State = {
+    gjeldendeKandidat?: number;
+    gjeldendeKandidatIndex: number;
+    forrigeKandidat?: string;
+    nesteKandidat?: string;
+    lagreKandidaterModalVises: boolean;
+    lagreKandidaterModalTilStillingVises: boolean;
+    visKandidatLagret: boolean;
+};
+
+class VisKandidat extends React.Component<Props, State> {
+    kandidatnummer: string;
+    suksessmeldingCallbackId?: NodeJS.Timeout;
+
+    constructor(props: Props) {
         super(props);
-        const { kandidatNr } = props;
+        const { kandidatnr } = props;
 
         this.state = {
-            gjeldendeKandidat: this.gjeldendeKandidatIListen(kandidatNr),
-            gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(kandidatNr),
-            forrigeKandidat: this.forrigeKandidatnummerIListen(kandidatNr),
-            nesteKandidat: this.nesteKandidatnummerIListen(kandidatNr),
+            gjeldendeKandidat: this.gjeldendeKandidatIListen(kandidatnr),
+            gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(kandidatnr),
+            forrigeKandidat: this.forrigeKandidatnummerIListen(kandidatnr),
+            nesteKandidat: this.nesteKandidatnummerIListen(kandidatnr),
             lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false,
             visKandidatLagret: false,
         };
 
-        this.kandidatnummer = kandidatNr;
+        this.kandidatnummer = kandidatnr;
     }
 
     componentDidMount() {
@@ -78,7 +123,7 @@ class VisKandidat extends React.Component {
         sendEvent('cv', 'visning');
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         const {
             kandidater,
             antallKandidater,
@@ -93,13 +138,15 @@ class VisKandidat extends React.Component {
             this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
         }
 
-        if (this.kandidatnummer !== this.props.kandidatNr && this.props.kandidatNr !== undefined) {
-            this.kandidatnummer = this.props.kandidatNr;
+        // TODO: Implementer som en useEffect som reagerer på nytt kandidatnr?
+        if (this.kandidatnummer !== this.props.kandidatnr && this.props.kandidatnr !== undefined) {
+            this.kandidatnummer = this.props.kandidatnr;
             settValgtKandidat(this.kandidatnummer);
             hentCvForKandidat(this.kandidatnummer);
+
             this.setState({
                 gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer),
-                gjeldendeKandidatIndex: this.gjeldendeKandidatIListen(this.kandidatnummer) - 1,
+                gjeldendeKandidatIndex: this.gjeldendeKandidatIListen(this.kandidatnummer) ?? -1,
             });
         }
 
@@ -120,10 +167,12 @@ class VisKandidat extends React.Component {
     }
 
     componentWillUnmount() {
-        clearTimeout(this.suksessmeldingCallbackId);
+        if (this.suksessmeldingCallbackId) {
+            clearTimeout(this.suksessmeldingCallbackId);
+        }
     }
 
-    onLagreKandidatClick = (kandidatlisteId, stillingsId) => () => {
+    onLagreKandidatClick = (kandidatlisteId: string | null, stillingsId: string | null) => () => {
         this.setState({
             lagreKandidaterModalVises: kandidatlisteId === null && stillingsId === null,
             lagreKandidaterModalTilStillingVises: kandidatlisteId !== null || stillingsId !== null,
@@ -148,11 +197,15 @@ class VisKandidat extends React.Component {
     };
 
     visAlertstripeLagreKandidater = () => {
-        clearTimeout(this.suksessmeldingCallbackId);
+        if (this.suksessmeldingCallbackId) {
+            clearTimeout(this.suksessmeldingCallbackId);
+        }
+
         this.setState({
             lagreKandidaterModalTilStillingVises: false,
             visKandidatLagret: true,
         });
+
         this.suksessmeldingCallbackId = setTimeout(() => {
             this.setState({
                 visKandidatLagret: false,
@@ -160,26 +213,27 @@ class VisKandidat extends React.Component {
         }, 5000);
     };
 
-    gjeldendeKandidatIListen = (kandidatnummer) => {
-        const { kandidater } = this.props;
-        const gjeldendeIndex = kandidater.findIndex(
+    gjeldendeKandidatIListen = (kandidatnummer: string) => {
+        const gjeldendeIndex = this.props.kandidater.findIndex(
             (element) => element.arenaKandidatnr === kandidatnummer
         );
+
         if (gjeldendeIndex === -1) {
             return undefined;
         }
+
         return gjeldendeIndex + 1;
     };
 
-    gjeldendeKandidatIndexIListen = (kandidatnummer) => {
+    gjeldendeKandidatIndexIListen = (kandidatnr: string) => {
         const { kandidater } = this.props;
-        return kandidater.findIndex((element) => element.arenaKandidatnr === kandidatnummer);
+        return kandidater.findIndex((element) => element.arenaKandidatnr === kandidatnr);
     };
 
-    forrigeKandidatnummerIListen = (kandidatnummer) => {
+    forrigeKandidatnummerIListen = (kandidatnr: string) => {
         const { kandidater } = this.props;
         const gjeldendeIndex = kandidater.findIndex(
-            (element) => element.arenaKandidatnr === kandidatnummer
+            (element) => element.arenaKandidatnr === kandidatnr
         );
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
@@ -187,10 +241,11 @@ class VisKandidat extends React.Component {
         return kandidater[gjeldendeIndex - 1].arenaKandidatnr;
     };
 
-    nesteKandidatnummerIListen = (kandidatnummer) => {
+    nesteKandidatnummerIListen = (kandidatnr: string) => {
         const { kandidater } = this.props;
+
         const gjeldendeIndex = kandidater.findIndex(
-            (element) => element.arenaKandidatnr === kandidatnummer
+            (element) => element.arenaKandidatnr === kandidatnr
         );
         if (gjeldendeIndex === kandidater.length - 1) {
             return undefined;
@@ -208,12 +263,11 @@ class VisKandidat extends React.Component {
             lagreKandidatIKandidatlisteStatus,
             kandidatliste,
             midlertidigUtilgjengelig,
-            kandidatNr,
+            kandidatnr,
         } = this.props;
 
         const {
             visKandidatLagret,
-            gjeldendeKandidat,
             gjeldendeKandidatIndex,
             forrigeKandidat,
             nesteKandidat,
@@ -256,7 +310,7 @@ class VisKandidat extends React.Component {
         const kandidatLiggerAlleredeIKandidatlisten =
             kandidatliste &&
             (stillingsId || kandidatlisteId) &&
-            kandidatliste.kandidater.findIndex((kandidat) => kandidat.kandidatnr === kandidatNr) !==
+            kandidatliste.kandidater.findIndex((kandidat) => kandidat.kandidatnr === kandidatnr) !==
                 -1;
 
         if (hentStatus === HentCvStatus.Loading || hentStatus === HentCvStatus.IkkeHentet) {
@@ -291,7 +345,7 @@ class VisKandidat extends React.Component {
                                 <>
                                     Kandidaten er lagret i&nbsp;
                                     <Link
-                                        to={lenkeTilKandidatliste(kandidatliste.kandidatlisteId)}
+                                        to={lenkeTilKandidatliste(kandidatliste!.kandidatlisteId)}
                                         className="lenke"
                                     >
                                         kandidatlisten
@@ -315,7 +369,6 @@ class VisKandidat extends React.Component {
                                 lenkeClass="vis-kandidat__forrige-neste-lenke"
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}
-                                gjeldendeKandidat={gjeldendeKandidat}
                                 antallKandidater={antallKandidater}
                                 gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                             />
@@ -329,7 +382,7 @@ class VisKandidat extends React.Component {
                         onLagre={this.onLagreKandidatliste}
                     />
                 )}
-                {lagreKandidaterModalTilStillingVises && (
+                {lagreKandidaterModalTilStillingVises && kandidatliste && (
                     <LagreKandidaterTilStillingModal
                         vis={lagreKandidaterModalTilStillingVises}
                         onRequestClose={this.onCloseLagreKandidaterModal}
@@ -355,37 +408,7 @@ class VisKandidat extends React.Component {
     }
 }
 
-VisKandidat.defaultProps = {
-    kandidatlisteId: undefined,
-    stillingsId: undefined,
-    antallKandidater: undefined,
-    kandidat: {
-        arenaKandidatnr: undefined,
-    },
-    kandidatliste: undefined,
-};
-
-VisKandidat.propTypes = {
-    cv: cvPropTypes.isRequired,
-    hentCvForKandidat: PropTypes.func.isRequired,
-    kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
-    antallKandidater: PropTypes.number,
-    lastFlereKandidater: PropTypes.func.isRequired,
-    settValgtKandidat: PropTypes.func.isRequired,
-    hentStatus: PropTypes.string.isRequired,
-    kandidatlisteId: PropTypes.string,
-    stillingsId: PropTypes.string,
-    hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
-    hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.shape({
-        kandidatlisteId: PropTypes.string,
-        tittel: PropTypes.string,
-    }),
-    lagreKandidatIKandidatliste: PropTypes.func.isRequired,
-    lagreKandidatIKandidatlisteStatus: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
     cv: state.cv.cv,
     kandidater: state.søk.searchResultat.resultat.kandidater,
     antallKandidater: state.søk.searchResultat.resultat.totaltAntallTreff,
@@ -399,25 +422,27 @@ const mapStateToProps = (state) => ({
     kandidatsøkFilterParams: toUrlQuery(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    hentCvForKandidat: (arenaKandidatnr) =>
+const mapDispatchToProps = (
+    dispatch: Dispatch<CvAction | KandidatsøkAction | KandidatlisteAction>
+) => ({
+    hentCvForKandidat: (arenaKandidatnr: string) =>
         dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr }),
-    lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
-    settValgtKandidat: (kandidatnummer) =>
-        dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
-    lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer, kandidatnr) =>
+    lastFlereKandidater: () => dispatch({ type: KandidatsøkActionType.LastFlereKandidater }),
+    settValgtKandidat: (kandidatnr: string) =>
+        dispatch({ type: KandidatsøkActionType.SettKandidatnummer, kandidatnr }),
+    lagreKandidatIKandidatliste: (kandidatliste: Kandidatliste, fnr: string, kandidatnr: string) =>
         dispatch({
             type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
             kandidatliste,
-            fodselsnummer,
+            fodselsnummer: fnr,
             kandidatnr,
         }),
-    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) =>
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId: string) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         }),
-    hentKandidatlisteMedStillingsId: (stillingsId) =>
+    hentKandidatlisteMedStillingsId: (stillingsId: string) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
             stillingsId,
