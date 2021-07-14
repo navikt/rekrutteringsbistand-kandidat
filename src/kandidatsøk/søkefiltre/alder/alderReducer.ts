@@ -1,5 +1,5 @@
 import { KandidatsøkActionType } from '../../reducer/searchReducer';
-import { FellesSøkekriterieActions } from '../../reducer/typedSearchReducer';
+import { FellesSøkekriterieActions } from '../../reducer/searchSaga';
 
 export enum AlderActionType {
     ToggleAlderPanel = 'ToggleAlderPanel',

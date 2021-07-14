@@ -27,9 +27,9 @@ import midlertidigUtilgjengeligReducer, {
     midlertidigUtilgjengeligSaga,
 } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
-import { searchReducer } from './kandidatsøk/reducer/typedSearchReducer';
+import { searchReducer } from './kandidatsøk/reducer/searchSaga';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { saga } from './kandidatsøk/reducer/searchReducer';
+import { searchSaga } from './kandidatsøk/reducer/searchSaga';
 import kandidatlisteSaga from './kandidatliste/reducer/kandidatlisteSaga';
 import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
 import prioriterteMålgrupperReducer from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
@@ -71,7 +71,7 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-sagaMiddleware.run(saga);
+sagaMiddleware.run(searchSaga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
 sagaMiddleware.run(midlertidigUtilgjengeligSaga);

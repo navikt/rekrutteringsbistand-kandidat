@@ -11,7 +11,7 @@ import { KandidatlisteState } from './kandidatliste/reducer/kandidatlisteReducer
 import { MidlertidigUtilgjengeligState } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { NavKontorState } from './navKontor/navKontorReducer';
 import { PermitteringState } from './kandidatsøk/søkefiltre/permittering/permitteringReducer';
-import { SearchState } from './kandidatsøk/reducer/typedSearchReducer';
+import { SearchState } from './kandidatsøk/reducer/searchSaga';
 import { TilgjengelighetState } from './kandidatsøk/søkefiltre/tilgjengelighet/tilgjengelighetReducer';
 import { TilretteleggingsbehovState } from './kandidatsøk/søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 import { PrioriterteMålgrupperState } from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
