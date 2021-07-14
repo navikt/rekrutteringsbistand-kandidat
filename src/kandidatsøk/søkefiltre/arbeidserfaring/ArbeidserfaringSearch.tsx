@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import { TOGGLE_ARBEIDSERFARING_PANEL_OPEN } from './arbeidserfaringReducer';
+import { ArbeidserfaringAction, ArbeidserfaringActionType } from './arbeidserfaringReducer';
 import { ALERTTYPE } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
@@ -8,6 +8,7 @@ import AntallÅrArbeidserfaring from './antall-år-arbeidserfaring/AntallÅrArbe
 import Merkelapper from './merkelapper/Merkelapper';
 import AppState from '../../../AppState';
 import FerskArbeidserfaring from './fersk-arbeidserfaring/FerskArbeidserfaring';
+import { Dispatch } from 'redux';
 
 interface Props {
     togglePanelOpen: () => void;
@@ -40,8 +41,9 @@ const mapStateToProps = (state: AppState) => ({
     panelOpen: state.søkefilter.arbeidserfaring.arbeidserfaringPanelOpen,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-    togglePanelOpen: () => dispatch({ type: TOGGLE_ARBEIDSERFARING_PANEL_OPEN }),
+const mapDispatchToProps = (dispatch: Dispatch<ArbeidserfaringAction>) => ({
+    togglePanelOpen: () =>
+        dispatch({ type: ArbeidserfaringActionType.ToggleArbeidserfaringPanelOpen }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArbeidserfaringSearch);

@@ -1,31 +1,66 @@
-import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { KandidatsøkAction, KandidatsøkActionType } from '../../reducer/searchActions';
 import { harEnParameter } from '../../reducer/searchReducer';
 
-export const SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING = 'SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING';
-export const REMOVE_SELECTED_ARBEIDSERFARING = 'REMOVE_SELECTED_ARBEIDSERFARING';
+export enum ArbeidserfaringActionType {
+    SelectTypeAheadValueArbeidserfaring = 'SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING',
+    RemoveSelectedArbeidserfaring = 'REMOVE_SELECTED_ARBEIDSERFARING',
+    CheckTotalErfaring = 'CHECK_TOTAL_ERFARING',
+    UncheckTotalErfaring = 'UNCHECK_TOTAL_ERFARING',
+    ToggleArbeidserfaringPanelOpen = 'TOGGLE_ARBEIDSERFARING_PANEL_OPEN',
+    SetMaksAlderArbeidserfaring = 'SET_MAKS_ALDER_ARBEIDSERFARING',
+}
 
-export const CHECK_TOTAL_ERFARING = 'CHECK_TOTAL_ERFARING';
-export const UNCHECK_TOTAL_ERFARING = 'UNCHECK_TOTAL_ERFARING';
+type SelectTypeAheadValueArbeidserfaringAction = {
+    type: ArbeidserfaringActionType.SelectTypeAheadValueArbeidserfaring;
+    arbeidserfaring: string[];
+    value: string;
+};
 
-export const TOGGLE_ARBEIDSERFARING_PANEL_OPEN = 'TOGGLE_ARBEIDSERFARING_PANEL_OPEN';
+type RemoveSelectedArbeidserfaring = {
+    type: ArbeidserfaringActionType.RemoveSelectedArbeidserfaring;
+    value: string;
+};
 
-/** *********************************************************
- * REDUCER
- ********************************************************* */
+type CheckTotalErfaring = {
+    type: ArbeidserfaringActionType.CheckTotalErfaring;
+    value: string;
+};
 
-export interface ArbeidserfaringState {
+type UncheckTotalErfaring = {
+    type: ArbeidserfaringActionType.UncheckTotalErfaring;
+    value: string;
+};
+
+type ToggleArbeidserfaringPanelOpen = {
+    type: ArbeidserfaringActionType.ToggleArbeidserfaringPanelOpen;
+};
+
+type SetMaksAlderArbeidserfaring = {
+    type: ArbeidserfaringActionType.SetMaksAlderArbeidserfaring;
+    value?: number;
+};
+
+export type ArbeidserfaringAction =
+    | SelectTypeAheadValueArbeidserfaringAction
+    | RemoveSelectedArbeidserfaring
+    | CheckTotalErfaring
+    | UncheckTotalErfaring
+    | ToggleArbeidserfaringPanelOpen
+    | SetMaksAlderArbeidserfaring;
+
+export type ArbeidserfaringState = {
     arbeidserfaringPanelOpen: boolean;
     arbeidserfaringer: string[];
     totalErfaring: string[];
     maksAlderArbeidserfaring: number | undefined;
-}
+};
 
-interface Typeahead {
+type Typeahead = {
     value: string;
     suggestions: string[];
-}
+};
 
-export interface TypeaheadState {
+export type TypeaheadState = {
     kompetanse: Typeahead;
     stilling: Typeahead;
     arbeidserfaring: Typeahead;
@@ -35,7 +70,7 @@ export interface TypeaheadState {
     sprak: Typeahead;
     forerkort: Typeahead;
     navkontor: Typeahead;
-}
+};
 
 const initialState: ArbeidserfaringState = {
     arbeidserfaringer: [],
@@ -44,13 +79,9 @@ const initialState: ArbeidserfaringState = {
     maksAlderArbeidserfaring: undefined,
 };
 
-export enum ArbeidserfaringActionType {
-    SET_MAKS_ALDER_ARBEIDSERFARING = 'SET_MAKS_ALDER_ARBEIDSERFARING',
-}
-
 export default function arbeidserfaringReducer(
     state: ArbeidserfaringState = initialState,
-    action: any
+    action: ArbeidserfaringAction | KandidatsøkAction
 ): ArbeidserfaringState {
     switch (action.type) {
         case KandidatsøkActionType.SetState:
@@ -64,29 +95,29 @@ export default function arbeidserfaringReducer(
                     !!action.query.maksAlderArbeidserfaring,
                 maksAlderArbeidserfaring: action.query.maksAlderArbeidserfaring,
             };
-        case SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING:
+        case ArbeidserfaringActionType.SelectTypeAheadValueArbeidserfaring:
             return {
                 ...state,
                 arbeidserfaringer: state.arbeidserfaringer.includes(action.value)
                     ? state.arbeidserfaringer
                     : [...state.arbeidserfaringer, action.value],
             };
-        case REMOVE_SELECTED_ARBEIDSERFARING:
+        case ArbeidserfaringActionType.RemoveSelectedArbeidserfaring:
             return {
                 ...state,
                 arbeidserfaringer: state.arbeidserfaringer.filter((y) => y !== action.value),
             };
-        case CHECK_TOTAL_ERFARING:
+        case ArbeidserfaringActionType.CheckTotalErfaring:
             return {
                 ...state,
                 totalErfaring: [...state.totalErfaring, action.value],
             };
-        case UNCHECK_TOTAL_ERFARING:
+        case ArbeidserfaringActionType.UncheckTotalErfaring:
             return {
                 ...state,
                 totalErfaring: state.totalErfaring.filter((te) => te !== action.value),
             };
-        case TOGGLE_ARBEIDSERFARING_PANEL_OPEN:
+        case ArbeidserfaringActionType.ToggleArbeidserfaringPanelOpen:
             return {
                 ...state,
                 arbeidserfaringPanelOpen: !state.arbeidserfaringPanelOpen,
@@ -96,7 +127,7 @@ export default function arbeidserfaringReducer(
                 ...state,
                 arbeidserfaringPanelOpen: false,
             };
-        case ArbeidserfaringActionType.SET_MAKS_ALDER_ARBEIDSERFARING:
+        case ArbeidserfaringActionType.SetMaksAlderArbeidserfaring:
             return {
                 ...state,
                 maksAlderArbeidserfaring: action.value,

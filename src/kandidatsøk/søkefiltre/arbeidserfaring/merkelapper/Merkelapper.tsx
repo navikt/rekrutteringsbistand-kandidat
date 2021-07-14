@@ -7,10 +7,7 @@ import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
     FETCH_TYPE_AHEAD_SUGGESTIONS,
 } from '../../../../common/typeahead/typeaheadReducer';
-import {
-    REMOVE_SELECTED_ARBEIDSERFARING,
-    SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING,
-} from '../arbeidserfaringReducer';
+import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../../AppState';
 import { KandidatsøkActionType } from '../../../reducer/searchActions';
@@ -108,9 +105,9 @@ const mapDispatchToProps = (dispatch: any) => ({
     fetchTypeAheadSuggestions: (value: string) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.ARBEIDSERFARING, value }),
     selectTypeAheadValue: (value: string) =>
-        dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
+        dispatch({ type: ArbeidserfaringActionType.SelectTypeAheadValueArbeidserfaring, value }),
     removeArbeidserfaring: (value: string) =>
-        dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value }),
+        dispatch({ type: ArbeidserfaringActionType.RemoveSelectedArbeidserfaring, value }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Merkelapper);
