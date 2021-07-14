@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
+import { HentCvStatus, CvActionType, CvAction } from './cv/reducer/cvReducer';
 import { Nettressurs, Nettstatus } from '../api/remoteData';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
@@ -26,44 +26,49 @@ import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/mi
 import { ReactNode } from 'react';
 import StatusOgHendelser from '../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
 import '../common/ikoner.less';
+import { Dispatch } from 'redux';
+import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
 
-type Props = {
-    kandidatNr: string;
+type Props = ConnectedProps & {
+    kandidatnr: string;
+    children?: ReactNode;
+    kandidatlisteId: string;
+};
+
+type ConnectedProps = {
     cv: Cv;
     hentStatus: string;
     hentCvForKandidat: (kandidatnr: string) => void;
     hentKandidatliste: (kandidatlisteId: string) => void;
-    kandidatlisteId: string;
     kandidatliste: Nettressurs<Kandidatliste>;
-    endreStatusKandidat: (
-        status: Kandidatstatus,
-        kandidatlisteId: string,
-        kandidatnr: string
-    ) => void;
     filtrerteKandidatnumre?: string[];
     settValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
     kandidatlistefilter?: Kandidatlistefilter;
     kandidattilstander: Kandidattilstander;
     midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
-    children?: ReactNode;
+    endreStatusKandidat: (
+        status: Kandidatstatus,
+        kandidatlisteId: string,
+        kandidatnr: string
+    ) => void;
 };
 
 class VisKandidatFraLister extends React.Component<Props> {
     componentDidMount() {
         window.scrollTo(0, 0);
-        this.props.hentCvForKandidat(this.props.kandidatNr);
+        this.props.hentCvForKandidat(this.props.kandidatnr);
         this.props.hentKandidatliste(this.props.kandidatlisteId);
-        this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatNr);
+        this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatnr);
     }
 
     componentDidUpdate(prevProps: Props) {
         const harNavigertTilNyKandidat =
-            prevProps.kandidatNr !== this.props.kandidatNr && this.props.kandidatNr !== undefined;
+            prevProps.kandidatnr !== this.props.kandidatnr && this.props.kandidatnr !== undefined;
 
         if (harNavigertTilNyKandidat) {
             window.scrollTo(0, 0);
-            this.props.hentCvForKandidat(this.props.kandidatNr);
-            this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatNr);
+            this.props.hentCvForKandidat(this.props.kandidatnr);
+            this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatnr);
         }
     }
 
@@ -78,7 +83,7 @@ class VisKandidatFraLister extends React.Component<Props> {
     hentGjeldendeKandidat = () =>
         this.props.kandidatliste.kind === Nettstatus.Suksess
             ? this.props.kandidatliste.data.kandidater.find(
-                  (kandidat) => kandidat.kandidatnr === this.props.kandidatNr
+                  (kandidat) => kandidat.kandidatnr === this.props.kandidatnr
               )
             : undefined;
 
@@ -90,7 +95,7 @@ class VisKandidatFraLister extends React.Component<Props> {
     render() {
         const {
             cv,
-            kandidatNr,
+            kandidatnr,
             kandidatlisteId,
             kandidatliste,
             hentStatus,
@@ -109,7 +114,7 @@ class VisKandidatFraLister extends React.Component<Props> {
                 return !tilstand || !tilstand.filtrertBort;
             });
 
-        const gjeldendeKandidatIndex = filtrerteKandidatnumre.indexOf(kandidatNr);
+        const gjeldendeKandidatIndex = filtrerteKandidatnumre.indexOf(kandidatnr);
         if (hentStatus === HentCvStatus.Loading || gjeldendeKandidatIndex === -1) {
             return (
                 <div className="text-center">
@@ -200,7 +205,7 @@ const mapStateToProps = (state: AppState) => ({
     kandidattilstander: state.kandidatliste.kandidattilstander,
 });
 
-const mapDispatchToProps = (dispatch: (action: any) => void) => ({
+const mapDispatchToProps = (dispatch: Dispatch<CvAction | KandidatlisteAction>) => ({
     hentCvForKandidat: (arenaKandidatnr: string, profilId: string) =>
         dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr, profilId }),
     hentKandidatliste: (kandidatlisteId: string) =>
