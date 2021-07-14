@@ -15,7 +15,6 @@ export enum CvActionType {
 export type FetchCvAction = {
     type: CvActionType.FETCH_CV;
     arenaKandidatnr: string;
-    profilId?: string; // Er denne depracated? Brukes ikke i API.
 };
 
 export type FetchCvBeginAction = {

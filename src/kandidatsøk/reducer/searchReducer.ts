@@ -20,7 +20,6 @@ export const SEARCH = 'SEARCH';
 export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
-export const LAST_FLERE_KANDIDATER = 'LAST_FLERE_KANDIDATER';
 
 export const SET_STATE = 'SET_STATE';
 
@@ -42,8 +41,6 @@ export const INVALID_RESPONSE_STATUS = 'INVALID_RESPONSE_STATUS';
 
 export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
 
-export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
-
 export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
 
 export const SET_SCROLL_POSITION = 'SET_SCROLL_POSITION';
@@ -56,6 +53,21 @@ export const TOGGLE_VIKTIGE_YRKER_APEN = 'TOGGLE_VIKTIGE_YRKER_APEN';
 export const FERDIGUTFYLTESTILLINGER_KLIKK = 'FERDIGUTFYLTESTILLINGER_KLIKK';
 
 export const FJERN_ERROR = 'FJERN_ERROR';
+
+export enum KandidatsøkActionType {
+    SettKandidatnummer = 'SETT_KANDIDATNUMMER',
+    LastFlereKandidater = 'LAST_FLERE_KANDIDATER',
+}
+
+type SettKandidatnummerAction = {
+    type: KandidatsøkActionType.SettKandidatnummer;
+};
+
+type LastFlereKandidaterAction = {
+    type: KandidatsøkActionType.LastFlereKandidater;
+};
+
+export type KandidatsøkAction = SettKandidatnummerAction | LastFlereKandidaterAction;
 
 function* fetchKompetanseSuggestions() {
     try {
@@ -126,14 +138,13 @@ function* registrerFerdigutfylteStillingerKlikk(action) {
 export const harEnParameter = (...arrays) =>
     arrays.some((array) => array !== undefined && array.length > 0);
 
-/* tslint:disable */
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);
     yield takeLatest(SØK_MED_INFO_FRA_STILLING as any, leggInfoFraStillingIStateOgSøk);
     yield takeLatest(SØK_MED_URL_PARAMETERE as any, leggUrlParametereIStateOgSøk);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
-    yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
+    yield takeLatest(KandidatsøkActionType.LastFlereKandidater, hentFlereKandidater);
     yield takeLatest(HENT_FERDIGUTFYLTE_STILLINGER, hentFerdigutfylteStillinger);
     yield takeLatest(FERDIGUTFYLTESTILLINGER_KLIKK, registrerFerdigutfylteStillingerKlikk);
 };

@@ -25,12 +25,12 @@ const Kandidatside: FunctionComponent = ({ children }) => {
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (
-        <VisKandidatFraLister kandidatNr={kandidatnr} kandidatlisteId={kandidatlisteId}>
+        <VisKandidatFraLister kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
             {children}
         </VisKandidatFraLister>
     ) : (
         <VisKandidat
-            kandidatNr={kandidatnr}
+            kandidatnr={kandidatnr}
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
         >
