@@ -9,6 +9,7 @@ import {
     HENT_FERDIGUTFYLTE_STILLINGER_FAILURE,
     HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS,
     INVALID_RESPONSE_STATUS,
+    KandidatsøkActionType,
     MARKER_KANDIDATER,
     OPPDATER_ANTALL_KANDIDATER,
     REMOVE_KOMPETANSE_SUGGESTIONS,
@@ -20,7 +21,6 @@ import {
     SET_KOMPETANSE_SUGGESTIONS_SUCCESS,
     SET_SCROLL_POSITION,
     SET_STATE,
-    SETT_KANDIDATNUMMER,
     SØK_MED_INFO_FRA_STILLING,
     TOGGLE_VIKTIGE_YRKER_APEN,
 } from './searchReducer';
@@ -158,7 +158,7 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
                 ...state,
                 antallVisteKandidater: action.antall,
             };
-        case SETT_KANDIDATNUMMER:
+        case KandidatsøkActionType.SettKandidatnummer:
             return {
                 ...state,
                 valgtKandidatNr: action.kandidatnr,

@@ -138,7 +138,6 @@ function* registrerFerdigutfylteStillingerKlikk(action) {
 export const harEnParameter = (...arrays) =>
     arrays.some((array) => array !== undefined && array.length > 0);
 
-/* tslint:disable */
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);
     yield takeLatest(SØK_MED_INFO_FRA_STILLING as any, leggInfoFraStillingIStateOgSøk);

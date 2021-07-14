@@ -1,6 +1,7 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -31,9 +32,8 @@ import Kandidatmeny from './meny/Kandidatmeny';
 import LagreKandidaterModal from '../kandidatsøk/modaler/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import './VisKandidat.less';
 import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
-import { Dispatch } from 'redux';
+import './VisKandidat.less';
 
 type Props = ConnectedProps & {
     kandidatnr: string;
@@ -64,7 +64,6 @@ type ConnectedProps = {
 };
 
 type State = {
-    gjeldendeKandidat?: number;
     gjeldendeKandidatIndex: number;
     forrigeKandidat?: string;
     nesteKandidat?: string;
@@ -82,7 +81,6 @@ class VisKandidat extends React.Component<Props, State> {
         const { kandidatnr } = props;
 
         this.state = {
-            gjeldendeKandidat: this.gjeldendeKandidatIListen(kandidatnr),
             gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(kandidatnr),
             forrigeKandidat: this.forrigeKandidatnummerIListen(kandidatnr),
             nesteKandidat: this.nesteKandidatnummerIListen(kandidatnr),
@@ -116,7 +114,7 @@ class VisKandidat extends React.Component<Props, State> {
             }
         }
 
-        if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
+        if (this.state.gjeldendeKandidatIndex === this.props.kandidater.length) {
             this.props.lastFlereKandidater();
         }
 
@@ -132,31 +130,35 @@ class VisKandidat extends React.Component<Props, State> {
             lastFlereKandidater,
         } = this.props;
 
-        const { gjeldendeKandidat } = this.state;
-
+        // Sett neste kandidat-lenke hvis det er flere kandidater
         if (prevProps.kandidater.length < kandidater.length) {
             this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
         }
 
-        // TODO: Implementer som en useEffect som reagerer på nytt kandidatnr?
+        // Kan implementes som en useEffect som reagerer på nytt kandidatnr (med en function component)
         if (this.kandidatnummer !== this.props.kandidatnr && this.props.kandidatnr !== undefined) {
             this.kandidatnummer = this.props.kandidatnr;
             settValgtKandidat(this.kandidatnummer);
             hentCvForKandidat(this.kandidatnummer);
 
             this.setState({
-                gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer),
-                gjeldendeKandidatIndex: this.gjeldendeKandidatIListen(this.kandidatnummer) ?? -1,
+                gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(this.kandidatnummer),
             });
         }
 
-        if (gjeldendeKandidat !== prevState.gjeldendeKandidat) {
+        if (this.state.gjeldendeKandidatIndex !== prevState.gjeldendeKandidatIndex) {
             window.scrollTo(0, 0);
             sendEvent('cv', 'visning');
+
             this.setState({
                 forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer),
             });
-            if (gjeldendeKandidat === kandidater.length && kandidater.length < antallKandidater) {
+
+            const kandidatenErSisteResultat =
+                this.state.gjeldendeKandidatIndex === kandidater.length;
+            const kanLasteFlereKandidater = kandidater.length < antallKandidater;
+
+            if (kandidatenErSisteResultat && kanLasteFlereKandidater) {
                 lastFlereKandidater();
             } else {
                 this.setState({
@@ -186,7 +188,7 @@ class VisKandidat extends React.Component<Props, State> {
         });
     };
 
-    onLagreKandidatliste = (kandidatliste) => {
+    onLagreKandidatliste = (kandidatliste: Kandidatliste) => {
         const { cv, lagreKandidatIKandidatliste } = this.props;
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer, cv.kandidatnummer);
         sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
@@ -211,18 +213,6 @@ class VisKandidat extends React.Component<Props, State> {
                 visKandidatLagret: false,
             });
         }, 5000);
-    };
-
-    gjeldendeKandidatIListen = (kandidatnummer: string) => {
-        const gjeldendeIndex = this.props.kandidater.findIndex(
-            (element) => element.arenaKandidatnr === kandidatnummer
-        );
-
-        if (gjeldendeIndex === -1) {
-            return undefined;
-        }
-
-        return gjeldendeIndex + 1;
     };
 
     gjeldendeKandidatIndexIListen = (kandidatnr: string) => {
@@ -393,15 +383,15 @@ class VisKandidat extends React.Component<Props, State> {
                     />
                 )}
                 <HjelpetekstFading
+                    id="hjelpetekstfading"
+                    type="suksess"
                     synlig={
                         visKandidatLagret &&
                         lagreKandidatIKandidatlisteStatus === LAGRE_STATUS.SUCCESS
                     }
-                    type="suksess"
                     innhold={`${'Kandidaten'} er lagret i kandidatlisten «${
                         kandidatliste ? kandidatliste.tittel : ''
                     }»`}
-                    id="hjelpetekstfading"
                 />
             </div>
         );
