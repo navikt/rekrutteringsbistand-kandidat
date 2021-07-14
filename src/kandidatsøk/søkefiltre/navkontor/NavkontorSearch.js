@@ -19,6 +19,7 @@ import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Navkontor.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 const NavkontorSearch = ({ ...props }) => {
     const {

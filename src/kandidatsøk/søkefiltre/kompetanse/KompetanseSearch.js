@@ -18,6 +18,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Kompetanse.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 const KompetanseSearch = ({ ...props }) => {
     const {

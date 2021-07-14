@@ -13,6 +13,7 @@ import {
 import { ALERTTYPE, UTDANNING } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 import './Utdanning.less';
 
 const UtdanningSearch = ({ ...props }) => {

@@ -1,14 +1,11 @@
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_NAVKONTOR = 'SELECT_TYPE_AHEAD_VALUE_NAVKONTOR';
 export const REMOVE_SELECTED_NAVKONTOR = 'REMOVE_SELECTED_NAVKONTOR';
 
 export const TOGGLE_NAVKONTOR_PANEL_OPEN = 'TOGGLE_NAVKONTOR_PANEL_OPEN';
 export const TOGGLE_MINEKANDIDATER = 'TOGGLE_MINEKANDIDATER';
-
-/** *********************************************************
- * REDUCER
- ********************************************************* */
 
 const initialState = {
     navkontor: [],

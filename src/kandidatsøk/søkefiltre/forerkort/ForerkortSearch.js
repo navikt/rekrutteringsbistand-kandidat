@@ -18,6 +18,7 @@ import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { erGyldigForerkort } from './forerkort';
 import './Forerkort.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 const ForerkortSearch = ({ ...props }) => {
     const {

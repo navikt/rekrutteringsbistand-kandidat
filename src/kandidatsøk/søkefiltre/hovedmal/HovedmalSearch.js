@@ -11,6 +11,7 @@ import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Checkbox } from 'nav-frontend-skjema';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Hovedmal.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 const HovedmalEnum = {
     SKAFFE_ARBEID: 'SKAFFEA',

@@ -11,6 +11,7 @@ import {
     TOGGLE_INNSATSGRUPPE_PANEL_OPEN,
 } from './innsatsgruppeReducer';
 import './Innsatsgruppe.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 class InnsatsgruppeSearch extends React.Component {
     constructor(props) {

@@ -1,7 +1,5 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_UTDANNING = 'SELECT_TYPE_AHEAD_VALUE_UTDANNING';
 export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';
@@ -10,10 +8,6 @@ export const CHECK_UTDANNINGSNIVA = 'CHECK_UTDANNINGSNIVA';
 export const UNCHECK_UTDANNINGSNIVA = 'UNCHECK_UTDANNINGSNIVA';
 
 export const TOGGLE_UTDANNING_PANEL_OPEN = 'TOGGLE_UTDANNING_PANEL_OPEN';
-
-/** *********************************************************
- * REDUCER
- ********************************************************* */
 
 const initialState = {
     utdanninger: [],

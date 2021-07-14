@@ -1,13 +1,10 @@
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const CHECK_INNSATSGRUPPE = 'CHECK_INNSATSGRUPPE';
 export const UNCHECK_INNSATSGRUPPE = 'UNCHECK_INNSATSGRUPPE';
 
 export const TOGGLE_INNSATSGRUPPE_PANEL_OPEN = 'TOGGLE_INNSATSGRUPPE_PANEL_OPEN';
-
-/** *********************************************************
- * REDUCER
- ********************************************************* */
 
 const initialState = {
     kvalifiseringsgruppeKoder: [],

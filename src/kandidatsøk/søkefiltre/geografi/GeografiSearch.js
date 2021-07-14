@@ -19,6 +19,7 @@ import { Merkelapp } from 'pam-frontend-merkelapper';
 import CheckboxMedHjelpetekst from './checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Geografi.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 const GeografiSearch = ({ ...props }) => {
     const {
