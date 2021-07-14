@@ -1,12 +1,12 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { SEARCH } from '../../../reducer/searchReducer';
 import { ALERTTYPE } from '../../../../common/konstanter';
 import { CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../../AppState';
 import './AntallÅrArbeidserfaring.less';
+import { KandidatsøkActionType } from '../../../reducer/searchReducer';
 
 const aarMedErfaringer = [
     { label: 'Under 1 år', value: '0-11' },
@@ -65,7 +65,8 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.ARBEIDSERFARING }),
     checkTotalErfaring: (value: string) => dispatch({ type: CHECK_TOTAL_ERFARING, value }),
     uncheckTotalErfaring: (value: string) => dispatch({ type: UNCHECK_TOTAL_ERFARING, value }),
 });

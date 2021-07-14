@@ -4,7 +4,7 @@ import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 
 import { Fritekststatus } from './validering';
-import { SEARCH } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchReducer';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import AppState from '../../../AppState';
 import useFritekstvalidering from './useFritekstvalidering';
@@ -84,7 +84,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search }),
     setFritekstSøkeord: (fritekstSøkeord: string) =>
         dispatch({ type: SET_FRITEKST_SOKEORD, fritekst: fritekstSøkeord }),
 });

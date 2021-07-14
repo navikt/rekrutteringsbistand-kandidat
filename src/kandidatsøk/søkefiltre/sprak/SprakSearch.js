@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
     FETCH_TYPE_AHEAD_SUGGESTIONS,
@@ -17,6 +16,7 @@ import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
+import { KandidatsøkActionType } from '../../reducer/searchReducer';
 
 const SprakSearch = ({ ...props }) => {
     const {
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.SPRAK }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.SPRAK }),
     clearTypeAheadSprak: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK }),
     fetchTypeAheadSuggestions: (value) =>

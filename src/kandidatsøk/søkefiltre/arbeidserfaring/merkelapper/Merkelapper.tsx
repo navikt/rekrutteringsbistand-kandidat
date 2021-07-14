@@ -2,7 +2,6 @@ import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import { SEARCH } from '../../../reducer/searchReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../../common/konstanter';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
@@ -14,6 +13,7 @@ import {
 } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../../AppState';
+import { KandidatsøkActionType } from '../../../reducer/searchReducer';
 
 interface Props {
     search: () => void;
@@ -101,7 +101,8 @@ const mapStateToProps = (state: AppState) => {
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.ARBEIDSERFARING }),
     clearTypeAheadArbeidserfaring: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.ARBEIDSERFARING }),
     fetchTypeAheadSuggestions: (value: string) =>

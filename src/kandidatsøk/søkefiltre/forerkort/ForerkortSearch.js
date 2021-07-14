@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
     FETCH_TYPE_AHEAD_SUGGESTIONS,
@@ -151,7 +150,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.FORERKORT }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.FORERKORT }),
     clearTypeAheadForerkort: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.FORERKORT }),
     fetchTypeAheadSuggestionsForerkort: (value) =>

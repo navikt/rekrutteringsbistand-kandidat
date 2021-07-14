@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FunctionComponent, useState, KeyboardEvent, useEffect } from 'react';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import './AlderSearch.less';
-import { SEARCH } from '../../reducer/searchReducer';
 import { AlderActionType } from './alderReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from 'nav-frontend-skjema';
@@ -9,6 +8,7 @@ import { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import AppState from '../../../AppState';
 import { Element } from 'nav-frontend-typografi';
 import { sendEvent } from '../../../amplitude/amplitude';
+import { KandidatsøkActionType } from '../../reducer/searchReducer';
 
 const inputPropsForAlder = {
     type: 'number',
@@ -35,7 +35,7 @@ export const AlderSearch: FunctionComponent = () => {
     const setAlder = (fra: number | undefined, til: number | undefined) =>
         dispatch({ type: AlderActionType.SetAlder, fra, til });
 
-    const search = () => dispatch({ type: SEARCH });
+    const search = () => dispatch({ type: KandidatsøkActionType.Search });
     const togglePanel = () => dispatch({ type: AlderActionType.ToggleAlderPanel });
     const erÅpen = useSelector((state: AppState) => state.søkefilter.alder.panelOpen);
 

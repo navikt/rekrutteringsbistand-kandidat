@@ -1,14 +1,14 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 
-import { SEARCH } from '../../../reducer/searchReducer';
 import { Tilgjengelighet } from '../../../kandidater-tabell/Søkeresultat';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 import AppState from '../../../../AppState';
-import './MidlertidigUtilgjengeligSearch.less';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import TilgjengelighetIkon from '../../../../kandidatside/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
+import './MidlertidigUtilgjengeligSearch.less';
+import { KandidatsøkActionType } from '../../../reducer/searchReducer';
 
 interface Props {
     midlertidigUtilgjengelig: Tilgjengelighet[];
@@ -92,7 +92,7 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
             type: TilgjengelighetAction.UncheckMidlertidigUtilgjengelig,
             value: midlertidigUtilgjengelig,
         }),
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MidlertidigUtilgjengeligSearch);

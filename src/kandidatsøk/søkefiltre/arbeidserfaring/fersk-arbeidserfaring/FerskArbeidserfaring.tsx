@@ -4,10 +4,10 @@ import './FerskArbeidserfaring.less';
 import AppState from '../../../../AppState';
 import { connect } from 'react-redux';
 import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
-import { SEARCH } from '../../../reducer/searchReducer';
 import { ALERTTYPE } from '../../../../common/konstanter';
 import { Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
+import { KandidatsøkActionType } from '../../../reducer/searchReducer';
 
 interface Props {
     search: () => void;
@@ -161,7 +161,8 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.ARBEIDSERFARING }),
     setMaksAlderArbeidserfaring: (maksAlder: number | undefined) =>
         dispatch({
             type: ArbeidserfaringActionType.SET_MAKS_ALDER_ARBEIDSERFARING,

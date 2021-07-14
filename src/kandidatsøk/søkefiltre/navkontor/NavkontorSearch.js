@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
-import { SEARCH } from '../../reducer/searchReducer';
 import {
     REMOVE_SELECTED_NAVKONTOR,
     SELECT_TYPE_AHEAD_VALUE_NAVKONTOR,
@@ -156,7 +155,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.NAVKONTOR }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.NAVKONTOR }),
     clearTypeAheadNavkontor: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.NAVKONTOR }),
     fetchTypeAheadSuggestions: (value) =>

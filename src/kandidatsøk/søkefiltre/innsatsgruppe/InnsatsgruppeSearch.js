@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Checkbox } from 'nav-frontend-skjema';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
-import { SEARCH } from '../../reducer/searchReducer';
 import { ALERTTYPE, INNSATSGRUPPER } from '../../../common/konstanter';
 import {
     CHECK_INNSATSGRUPPE,
@@ -84,7 +83,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.INNSATSGRUPPE }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.INNSATSGRUPPE }),
     checkInnsatsgruppe: (value) => dispatch({ type: CHECK_INNSATSGRUPPE, value }),
     uncheckInnsatsgruppe: (value) => dispatch({ type: UNCHECK_INNSATSGRUPPE, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_INNSATSGRUPPE_PANEL_OPEN }),

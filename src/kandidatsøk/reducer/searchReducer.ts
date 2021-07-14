@@ -16,8 +16,6 @@ import { SearchApiError } from '../../api/fetchUtils';
 
 export const LUKK_ALLE_SOKEPANEL = 'LUKK_ALLE_SOKEPANEL';
 
-export const SEARCH = 'SEARCH';
-export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 
@@ -57,6 +55,32 @@ export const FJERN_ERROR = 'FJERN_ERROR';
 export enum KandidatsøkActionType {
     SettKandidatnummer = 'SETT_KANDIDATNUMMER',
     LastFlereKandidater = 'LAST_FLERE_KANDIDATER',
+    LukkAlleSokepanel = 'LUKK_ALLE_SOKEPANEL',
+    Search = 'SEARCH',
+    SearchBegin = 'SEARCH_BEGIN',
+    SearchSuccess = 'SEARCH_SUCCESS',
+    SearchFailure = 'SEARCH_FAILURE',
+    SetState = 'SET_STATE',
+    SøkMedInfoFraStilling = 'SØK_MED_INFO_FRA_STILLING',
+    SøkMedUrlParametere = 'SØK_MED_URL_PARAMETERE',
+    FetchFeatureTogglesBegin = 'FETCH_FEATURE_TOGGLES_BEGIN',
+    FetchFeatureTogglesSuccess = 'FETCH_FEATURE_TOGGLES_SUCCESS',
+    FetchFeatureTogglesFailure = 'FETCH_FEATURE_TOGGLES_FAILURE',
+    FetchKompetanseSuggestions = 'FETCH_KOMPETANSE_SUGGESTIONS',
+    SetKompetanseSuggestionsBegin = 'SET_KOMPETANSE_SUGGESTIONS_BEGIN',
+    SetKompetanseSuggestionsSuccess = 'SET_KOMPETANSE_SUGGESTIONS_SUCCESS',
+    RemoveKompetanseSuggestions = 'REMOVE_KOMPETANSE_SUGGESTIONS',
+    SetAlertTypeFaaKandidater = 'SET_ALERT_TYPE_FAA_KANDIDATER',
+    InvalidResponseStatus = 'INVALID_RESPONSE_STATUS',
+    OppdaterAntallKandidater = 'OPPDATER_ANTALL_KANDIDATER',
+    MarkerKandidater = 'MARKER_KANDIDATER',
+    SetScrollPosition = 'SET_SCROLL_POSITION',
+    HentFerdigutfylteStillinger = 'HENT_FERDIGUTFYLTE_STILLINGER',
+    HentFerdigutfylteStillingerSuccess = 'HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS',
+    HentFerdigutfylteStillingerFailure = 'HENT_FERDIGUTFYLTE_STILLINGER_FAILURE',
+    ToggleViktigeYrkerApen = 'TOGGLE_VIKTIGE_YRKER_APEN',
+    FerdigutfyltestillingerKlikk = 'FERDIGUTFYLTESTILLINGER_KLIKK',
+    FjernError = 'FJERN_ERROR',
 }
 
 type SettKandidatnummerAction = {
@@ -139,7 +163,7 @@ export const harEnParameter = (...arrays) =>
     arrays.some((array) => array !== undefined && array.length > 0);
 
 export const saga = function* saga() {
-    yield takeLatest(SEARCH, esSearch);
+    yield takeLatest(KandidatsøkActionType.Search, esSearch);
     yield takeLatest(SØK_MED_INFO_FRA_STILLING as any, leggInfoFraStillingIStateOgSøk);
     yield takeLatest(SØK_MED_URL_PARAMETERE as any, leggUrlParametereIStateOgSøk);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);

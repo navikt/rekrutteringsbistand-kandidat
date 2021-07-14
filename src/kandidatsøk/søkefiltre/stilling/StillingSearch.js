@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FETCH_KOMPETANSE_SUGGESTIONS, SEARCH } from '../../reducer/searchReducer';
+import { FETCH_KOMPETANSE_SUGGESTIONS } from '../../reducer/searchReducer';
 import {
     REMOVE_SELECTED_STILLING,
     SELECT_TYPE_AHEAD_VALUE_STILLING,
@@ -162,7 +162,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.STILLING }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.STILLING }),
     clearTypeAheadStilling: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.STILLING }),
     fetchTypeAheadSuggestions: (value) =>

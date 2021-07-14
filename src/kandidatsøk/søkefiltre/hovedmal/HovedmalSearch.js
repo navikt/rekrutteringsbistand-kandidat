@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
 import {
     CHECK_TOTAL_HOVEDMAL,
     UNCHECK_TOTAL_HOVEDMAL,
@@ -93,7 +92,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.HOVEDMAL }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.HOVEDMAL }),
     checkHovedmal: (value) => dispatch({ type: CHECK_TOTAL_HOVEDMAL, value }),
     uncheckHovedmal: (value) => dispatch({ type: UNCHECK_TOTAL_HOVEDMAL, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_HOVEDMAL_PANEL_OPEN }),

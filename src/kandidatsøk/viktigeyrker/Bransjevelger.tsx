@@ -5,10 +5,10 @@ import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
 import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import {
-    SEARCH,
     SET_STATE,
     FERDIGUTFYLTESTILLINGER_KLIKK,
     LUKK_ALLE_SOKEPANEL,
+    KandidatsøkActionType,
 } from '../reducer/searchReducer';
 
 import './Bransjevelger.less';
@@ -110,7 +110,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 
 const mapDispatchToProps = (dispatch) => ({
     setQuery: (query) => dispatch({ type: SET_STATE, query }),
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     ferdigutfylteStillingerKlikk: (ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk) =>
         dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),

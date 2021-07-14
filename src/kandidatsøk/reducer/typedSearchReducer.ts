@@ -2,28 +2,7 @@ import FEATURE_TOGGLES, {
     KANDIDATLISTE_CHUNK_SIZE,
     KANDIDATLISTE_INITIAL_CHUNK_SIZE,
 } from '../../common/konstanter';
-import {
-    FETCH_FEATURE_TOGGLES_FAILURE,
-    FETCH_FEATURE_TOGGLES_SUCCESS,
-    FJERN_ERROR,
-    HENT_FERDIGUTFYLTE_STILLINGER_FAILURE,
-    HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS,
-    INVALID_RESPONSE_STATUS,
-    KandidatsøkActionType,
-    MARKER_KANDIDATER,
-    OPPDATER_ANTALL_KANDIDATER,
-    REMOVE_KOMPETANSE_SUGGESTIONS,
-    SEARCH_BEGIN,
-    SEARCH_FAILURE,
-    SEARCH_SUCCESS,
-    SET_ALERT_TYPE_FAA_KANDIDATER,
-    SET_KOMPETANSE_SUGGESTIONS_BEGIN,
-    SET_KOMPETANSE_SUGGESTIONS_SUCCESS,
-    SET_SCROLL_POSITION,
-    SET_STATE,
-    SØK_MED_INFO_FRA_STILLING,
-    TOGGLE_VIKTIGE_YRKER_APEN,
-} from './searchReducer';
+import { KandidatsøkActionType } from './searchReducer';
 import { toUrlQuery } from './searchQuery';
 import { fetchKandidater, fetchKandidaterES } from '../../api/api';
 import { call, put, select } from 'redux-saga/effects';
@@ -32,16 +11,16 @@ import { mapTilSøkekriterierBackend } from './søkekriterierBackend';
 import { SearchApiError } from '../../api/fetchUtils';
 
 interface SetStateAction {
-    type: 'SET_STATE';
+    type: KandidatsøkActionType.SetState;
     query: any;
 }
 
 interface LukkAlleSøkepanelAction {
-    type: 'LUKK_ALLE_SOKEPANEL';
+    type: KandidatsøkActionType.LukkAlleSokepanel;
 }
 
 interface SearchAction {
-    type: 'SEARCH';
+    type: KandidatsøkActionType.Search;
 }
 
 export type FellesSøkekriterieActions = SetStateAction | LukkAlleSøkepanelAction | SearchAction;
@@ -102,17 +81,17 @@ const defaultState: SearchState = {
 
 export const searchReducer = (state: SearchState = defaultState, action: any): SearchState => {
     switch (action.type) {
-        case SØK_MED_INFO_FRA_STILLING:
+        case KandidatsøkActionType.SøkMedInfoFraStilling:
             return {
                 ...state,
                 maksAntallTreff: 0,
             };
-        case SEARCH_BEGIN:
+        case KandidatsøkActionType.SearchBegin:
             return {
                 ...state,
                 isSearching: true,
             };
-        case SEARCH_SUCCESS: {
+        case KandidatsøkActionType.SearchSuccess: {
             const { isPaginatedSok } = action;
             return {
                 ...state,
@@ -136,13 +115,13 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
                 maksAntallTreff: Math.max(state.maksAntallTreff, action.response.totaltAntallTreff),
             };
         }
-        case SEARCH_FAILURE:
+        case KandidatsøkActionType.SearchFailure:
             return {
                 ...state,
                 isSearching: false,
                 error: action.error,
             };
-        case MARKER_KANDIDATER:
+        case KandidatsøkActionType.MarkerKandidater:
             return {
                 ...state,
                 searchResultat: {
@@ -153,7 +132,7 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
                     },
                 },
             };
-        case OPPDATER_ANTALL_KANDIDATER:
+        case KandidatsøkActionType.OppdaterAntallKandidater:
             return {
                 ...state,
                 antallVisteKandidater: action.antall,
@@ -163,22 +142,22 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
                 ...state,
                 valgtKandidatNr: action.kandidatnr,
             };
-        case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
+        case KandidatsøkActionType.SetKompetanseSuggestionsBegin:
             return {
                 ...state,
             };
-        case SET_KOMPETANSE_SUGGESTIONS_SUCCESS:
+        case KandidatsøkActionType.SetKompetanseSuggestionsSuccess:
             return {
                 ...state,
                 isSearching: false,
                 searchResultat: { ...state.searchResultat, kompetanseSuggestions: action.response },
             };
-        case REMOVE_KOMPETANSE_SUGGESTIONS:
+        case KandidatsøkActionType.RemoveKompetanseSuggestions:
             return {
                 ...state,
                 searchResultat: { ...state.searchResultat, kompetanseSuggestions: [] },
             };
-        case FETCH_FEATURE_TOGGLES_SUCCESS:
+        case KandidatsøkActionType.FetchFeatureTogglesSuccess:
             return {
                 ...state,
                 harHentetFeatureToggles: true,
@@ -190,7 +169,7 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
                     {}
                 ),
             };
-        case FETCH_FEATURE_TOGGLES_FAILURE:
+        case KandidatsøkActionType.FetchFeatureTogglesFailure:
             return {
                 ...state,
                 harHentetFeatureToggles: true,
@@ -200,42 +179,42 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
                 ),
                 error: action.error,
             };
-        case SET_ALERT_TYPE_FAA_KANDIDATER:
+        case KandidatsøkActionType.SetAlertTypeFaaKandidater:
             return {
                 ...state,
                 visAlertFaKandidater: action.value,
             };
-        case INVALID_RESPONSE_STATUS:
+        case KandidatsøkActionType.InvalidResponseStatus:
             return {
                 ...state,
                 error: action.error,
             };
-        case SET_SCROLL_POSITION:
+        case KandidatsøkActionType.SetScrollPosition:
             return {
                 ...state,
                 scrolletFraToppen: action.scrolletFraToppen,
             };
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 kandidatlisteId: action.query.kandidatlisteId,
             };
-        case FJERN_ERROR:
+        case KandidatsøkActionType.FjernError:
             return {
                 ...state,
                 error: undefined,
             };
-        case HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS:
+        case KandidatsøkActionType.HentFerdigutfylteStillingerSuccess:
             return {
                 ...state,
                 ferdigutfylteStillinger: action.data,
             };
-        case HENT_FERDIGUTFYLTE_STILLINGER_FAILURE:
+        case KandidatsøkActionType.HentFerdigutfylteStillingerFailure:
             return {
                 ...state,
                 error: action.error,
             };
-        case TOGGLE_VIKTIGE_YRKER_APEN:
+        case KandidatsøkActionType.ToggleViktigeYrkerApen:
             return {
                 ...state,
                 viktigeYrkerApen: !state.viktigeYrkerApen,
@@ -255,7 +234,7 @@ export const oppdaterUrlTilÅReflektereSøkekriterier = (state: AppState): void 
 
 export function* search(action: any = '') {
     try {
-        yield put({ type: SEARCH_BEGIN });
+        yield put({ type: KandidatsøkActionType.SearchBegin });
         const state: AppState = yield select();
 
         oppdaterUrlTilÅReflektereSøkekriterier(state);
@@ -281,17 +260,20 @@ export function* search(action: any = '') {
         }
 
         yield put({
-            type: SEARCH_SUCCESS,
+            type: KandidatsøkActionType.SearchSuccess,
             response,
             isEmptyQuery: !søkekriterier.hasValues,
             isPaginatedSok,
             searchQueryHash,
             antallResultater: søkekriterier.antallResultater,
         });
-        yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
+        yield put({
+            type: KandidatsøkActionType.SetAlertTypeFaaKandidater,
+            value: action.alertType || '',
+        });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: SEARCH_FAILURE, error: e });
+            yield put({ type: KandidatsøkActionType.SearchFailure, error: e });
         } else {
             throw e;
         }

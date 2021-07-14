@@ -3,15 +3,15 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 
-import { SEARCH } from '../../reducer/searchReducer';
 import {
     TOGGLE_TILRETTELEGGINGSBEHOV,
     TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN,
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
 } from './tilretteleggingsbehovReducer';
-import './Tilretteleggingsbehov.less';
 import Kategori, { getKategoriLabel } from './Kategori';
 import AppState from '../../../AppState';
+import './Tilretteleggingsbehov.less';
+import { KandidatsøkActionType } from '../../reducer/searchReducer';
 
 interface TilretteleggingsbehovSearchProps {
     search: () => void;
@@ -98,7 +98,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search }),
     toggleTilretteleggingsbehov: (harValgtTilretteleggingsbehov: boolean) =>
         dispatch({
             type: TOGGLE_TILRETTELEGGINGSBEHOV,

@@ -9,7 +9,10 @@ import {
     putKandidatlistestatus,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { INVALID_RESPONSE_STATUS, SEARCH } from '../../kandidatsøk/reducer/searchReducer';
+import {
+    INVALID_RESPONSE_STATUS,
+    KandidatsøkActionType,
+} from '../../kandidatsøk/reducer/searchReducer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import KandidatlisteAction, {
     OpprettKandidatlisteAction,
@@ -323,7 +326,7 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
             lagretListe: action.kandidatliste,
             lagredeKandidater: action.kandidater,
         });
-        yield put({ type: SEARCH });
+        yield put({ type: KandidatsøkActionType.Search });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE, error: e });

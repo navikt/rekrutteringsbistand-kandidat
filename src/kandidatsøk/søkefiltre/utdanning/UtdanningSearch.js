@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
+import { Element } from 'nav-frontend-typografi';
+import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
+
 import {
     CHECK_UTDANNINGSNIVA,
     REMOVE_SELECTED_UTDANNING,
@@ -10,8 +12,6 @@ import {
 } from './utdanningReducer';
 import { ALERTTYPE, UTDANNING } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
-import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Utdanning.less';
 
@@ -87,7 +87,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.UTDANNING }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.UTDANNING }),
     removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value }),
     checkUtdanningsniva: (value) => dispatch({ type: CHECK_UTDANNINGSNIVA, value }),
     uncheckUtdanningsniva: (value) => dispatch({ type: UNCHECK_UTDANNINGSNIVA, value }),

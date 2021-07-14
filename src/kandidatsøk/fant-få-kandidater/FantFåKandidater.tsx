@@ -4,8 +4,8 @@ import { Ingress, Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import { connect } from 'react-redux';
 import {
     FETCH_KOMPETANSE_SUGGESTIONS,
+    KandidatsøkActionType,
     REMOVE_KOMPETANSE_SUGGESTIONS,
-    SEARCH,
 } from '../reducer/searchReducer';
 import {
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
@@ -135,7 +135,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     disableTilretteleggingsbehov: () =>
         dispatch({
