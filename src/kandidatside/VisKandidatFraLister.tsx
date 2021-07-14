@@ -206,7 +206,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<CvAction | KandidatlisteAction>) => ({
     hentCvForKandidat: (arenaKandidatnr: string) =>
-        dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr }),
+        dispatch({ type: CvActionType.FetchCv, arenaKandidatnr }),
     hentKandidatliste: (kandidatlisteId: string) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,

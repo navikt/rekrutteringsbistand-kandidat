@@ -416,7 +416,7 @@ const mapDispatchToProps = (
     dispatch: Dispatch<CvAction | KandidatsøkAction | KandidatlisteAction>
 ) => ({
     hentCvForKandidat: (arenaKandidatnr: string) =>
-        dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr }),
+        dispatch({ type: CvActionType.FetchCv, arenaKandidatnr }),
     lastFlereKandidater: () => dispatch({ type: KandidatsøkActionType.LastFlereKandidater }),
     settValgtKandidat: (kandidatnr: string) =>
         dispatch({ type: KandidatsøkActionType.SettKandidatnummer, kandidatnr }),
