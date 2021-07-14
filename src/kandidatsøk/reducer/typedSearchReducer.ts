@@ -21,6 +21,7 @@ interface LukkAlleSøkepanelAction {
 
 interface SearchAction {
     type: KandidatsøkActionType.Search;
+    alertType: string;
 }
 
 export type FellesSøkekriterieActions = SetStateAction | LukkAlleSøkepanelAction | SearchAction;
@@ -232,7 +233,7 @@ export const oppdaterUrlTilÅReflektereSøkekriterier = (state: AppState): void 
     }
 };
 
-export function* search(action: any = '') {
+export function* search(action?: SearchAction) {
     try {
         yield put({ type: KandidatsøkActionType.SearchBegin });
         const state: AppState = yield select();
@@ -269,7 +270,7 @@ export function* search(action: any = '') {
         });
         yield put({
             type: KandidatsøkActionType.SetAlertTypeFaaKandidater,
-            value: action.alertType || '',
+            value: action?.alertType || '',
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -280,7 +281,7 @@ export function* search(action: any = '') {
     }
 }
 
-export function* esSearch(action = '') {
+export function* esSearch(action: SearchAction) {
     yield search(action);
 }
 
