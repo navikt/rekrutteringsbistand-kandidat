@@ -1,18 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import { HentCvStatus, CvActionType, CvAction } from './cv/reducer/cvReducer';
-import { Nettressurs, Nettstatus } from '../api/remoteData';
-import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
-import IkkeFunnet from './ikke-funnet/IkkeFunnet';
-import Kandidatheader from './header/Kandidatheader';
-import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import Kandidatmeny from './meny/Kandidatmeny';
-import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
 import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
-import Cv from './cv/reducer/cv-typer';
+import { HentCvStatus, CvActionType, CvAction } from './cv/reducer/cvReducer';
+import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
+import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { Nettressurs, Nettstatus } from '../api/remoteData';
 import {
     erKobletTilStilling,
     Kandidatliste,
@@ -22,12 +17,16 @@ import {
     Kandidattilstander,
 } from '../kandidatliste/kandidatlistetyper';
 import AppState from '../AppState';
-import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { ReactNode } from 'react';
+import Cv from './cv/reducer/cv-typer';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
+import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import Kandidatheader from './header/Kandidatheader';
+import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
+import Kandidatmeny from './meny/Kandidatmeny';
+import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusOgHendelser from '../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
 import '../common/ikoner.less';
-import { Dispatch } from 'redux';
-import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
 
 type Props = ConnectedProps & {
     kandidatnr: string;
@@ -206,8 +205,8 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<CvAction | KandidatlisteAction>) => ({
-    hentCvForKandidat: (arenaKandidatnr: string, profilId: string) =>
-        dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr, profilId }),
+    hentCvForKandidat: (arenaKandidatnr: string) =>
+        dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr }),
     hentKandidatliste: (kandidatlisteId: string) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
