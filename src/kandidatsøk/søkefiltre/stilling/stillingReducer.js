@@ -1,4 +1,4 @@
-import { harEnParameter, KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export const SELECT_TYPE_AHEAD_VALUE_STILLING = 'SELECT_TYPE_AHEAD_VALUE_STILLING';
 export const REMOVE_SELECTED_STILLING = 'REMOVE_SELECTED_STILLING';

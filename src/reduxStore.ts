@@ -27,9 +27,9 @@ import midlertidigUtilgjengeligReducer, {
     midlertidigUtilgjengeligSaga,
 } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
-import { searchReducer } from './kandidatsøk/reducer/searchSaga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { searchSaga } from './kandidatsøk/reducer/searchSaga';
+import searchReducer from './kandidatsøk/reducer/searchReducer';
 import kandidatlisteSaga from './kandidatliste/reducer/kandidatlisteSaga';
 import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
 import prioriterteMålgrupperReducer from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';

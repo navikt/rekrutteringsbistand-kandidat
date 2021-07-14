@@ -1,4 +1,4 @@
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export const CHANGE_PRIORITERTE_MÅLGRUPPER = 'CHANGE_PRIORITERTE_MÅLGRUPPER';
 export const TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN = 'TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN';

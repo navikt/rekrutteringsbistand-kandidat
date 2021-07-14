@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Kandidatsøk } from './Kandidatsøk';
-import { KandidatsøkActionType } from './reducer/searchReducer';
+import { KandidatsøkActionType } from './reducer/searchActions';
 
 const KandidatsøkUtenKontekst: FunctionComponent = () => {
     const dispatch = useDispatch();

@@ -8,7 +8,7 @@ import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 import AppState from '../../../../AppState';
 import TilgjengelighetIkon from '../../../../kandidatside/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengeligSearch.less';
-import { KandidatsøkActionType } from '../../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../../reducer/searchActions';
 
 interface Props {
     midlertidigUtilgjengelig: Tilgjengelighet[];

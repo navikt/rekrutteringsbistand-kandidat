@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteChildrenProps } from 'react-router-dom';
-import { KandidatsøkActionType } from './reducer/searchReducer';
+import { KandidatsøkActionType } from './reducer/searchActions';
 import { harUrlParametere } from './reducer/searchQuery';
 import { Kandidatsøk } from './Kandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './kandidater-er-lagret-suksessmelding/KandidaterErLagretSuksessmelding';

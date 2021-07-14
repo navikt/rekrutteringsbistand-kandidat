@@ -11,7 +11,7 @@ import {
 import Kategori, { getKategoriLabel } from './Kategori';
 import AppState from '../../../AppState';
 import './Tilretteleggingsbehov.less';
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 interface TilretteleggingsbehovSearchProps {
     search: () => void;

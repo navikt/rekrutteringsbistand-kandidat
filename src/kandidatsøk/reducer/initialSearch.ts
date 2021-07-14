@@ -1,7 +1,7 @@
 import { InitialQuery, mapStillingTilInitialQuery, mapUrlToInitialQuery } from './searchQuery';
 import { call, put } from 'redux-saga/effects';
 import { fetchGeografiKode, fetchStillingFraListe } from '../../api/api';
-import { KandidatsøkActionType } from './searchReducer';
+import { KandidatsøkActionType } from './searchActions';
 import { search } from './searchSaga';
 import { Geografi } from '../fant-få-kandidater/FantFåKandidater';
 import { formatterStedsnavn } from '../utils';

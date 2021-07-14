@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import { KandidatsøkActionType } from './reducer/searchReducer';
+import { KandidatsøkActionType } from './reducer/searchActions';
 
 const useSlettAlleKriterier = (kandidatlisteId?: string) => {
     const dispatch = useDispatch();

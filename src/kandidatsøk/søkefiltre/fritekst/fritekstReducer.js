@@ -1,4 +1,4 @@
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export const SET_FRITEKST_SOKEORD = 'SET_FRITEKST_SOKEORD';
 

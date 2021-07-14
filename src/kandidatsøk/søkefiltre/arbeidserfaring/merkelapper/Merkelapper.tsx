@@ -13,7 +13,7 @@ import {
 } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../../AppState';
-import { KandidatsøkActionType } from '../../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../../reducer/searchActions';
 
 interface Props {
     search: () => void;

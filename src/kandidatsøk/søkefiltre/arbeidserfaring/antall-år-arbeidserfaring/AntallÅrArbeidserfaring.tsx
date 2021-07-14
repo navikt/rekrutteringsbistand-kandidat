@@ -6,7 +6,7 @@ import { CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from '../arbeidserfaring
 import { connect } from 'react-redux';
 import AppState from '../../../../AppState';
 import './AntallÅrArbeidserfaring.less';
-import { KandidatsøkActionType } from '../../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../../reducer/searchActions';
 
 const aarMedErfaringer = [
     { label: 'Under 1 år', value: '0-11' },

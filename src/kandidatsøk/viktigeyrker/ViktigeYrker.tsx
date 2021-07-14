@@ -5,7 +5,7 @@ import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import './ViktigeYrker.less';
 import ViktigeYrkerIkon from './ViktigeyrkerIkon';
 import Bransjevelger from './Bransjevelger';
-import { KandidatsøkActionType } from '../reducer/searchReducer';
+import { KandidatsøkActionType } from '../reducer/searchActions';
 import { FerdigutfylteStillinger, FerdigutfylteStillingerKlikk } from './Bransje';
 import AppState from '../../AppState';
 

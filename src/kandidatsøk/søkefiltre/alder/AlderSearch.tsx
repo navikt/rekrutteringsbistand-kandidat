@@ -8,7 +8,7 @@ import { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import AppState from '../../../AppState';
 import { Element } from 'nav-frontend-typografi';
 import { sendEvent } from '../../../amplitude/amplitude';
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 const inputPropsForAlder = {
     type: 'number',

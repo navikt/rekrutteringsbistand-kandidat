@@ -1,4 +1,4 @@
-import { harEnParameter, KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export const CHECK_INNSATSGRUPPE = 'CHECK_INNSATSGRUPPE';
 export const UNCHECK_INNSATSGRUPPE = 'UNCHECK_INNSATSGRUPPE';

@@ -1,4 +1,4 @@
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export enum PermitteringActionType {
     SET_PERMITTERT = 'SET_PERMITTERT',

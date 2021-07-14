@@ -1,5 +1,5 @@
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
-import { FellesSøkekriterieActions } from '../../reducer/searchSaga';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { KandidatsøkAction } from '../../reducer/searchActions';
 
 export enum AlderActionType {
     ToggleAlderPanel = 'ToggleAlderPanel',
@@ -16,10 +16,7 @@ interface SetAlderActionType {
     til: number | undefined;
 }
 
-export type AlderAction =
-    | ToggleAlderPanelActionType
-    | SetAlderActionType
-    | FellesSøkekriterieActions;
+export type AlderAction = ToggleAlderPanelActionType | SetAlderActionType | KandidatsøkAction;
 
 export interface AlderState {
     til: number | undefined;

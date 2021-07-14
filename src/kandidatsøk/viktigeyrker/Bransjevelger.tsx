@@ -4,7 +4,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
 import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import { KandidatsøkActionType } from '../reducer/searchReducer';
+import { KandidatsøkActionType } from '../reducer/searchActions';
 
 import './Bransjevelger.less';
 

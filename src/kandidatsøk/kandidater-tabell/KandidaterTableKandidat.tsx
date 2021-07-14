@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { capitalizeFirstLetter, capitalizePoststed } from '../utils';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { KandidatsøkActionType } from '../reducer/searchReducer';
+import { KandidatsøkActionType } from '../reducer/searchActions';
 import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Søkeresultat from './Søkeresultat';

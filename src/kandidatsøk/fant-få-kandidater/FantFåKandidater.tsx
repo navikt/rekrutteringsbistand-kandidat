@@ -7,7 +7,7 @@ import {
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
     TOGGLE_TILRETTELEGGINGSBEHOV,
 } from '../søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
-import { KandidatsøkActionType } from '../reducer/searchReducer';
+import { KandidatsøkActionType } from '../reducer/searchActions';
 import {
     REMOVE_SELECTED_GEOGRAFI,
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,

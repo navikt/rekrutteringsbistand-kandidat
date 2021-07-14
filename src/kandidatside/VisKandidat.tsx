@@ -32,7 +32,7 @@ import Kandidatmeny from './meny/Kandidatmeny';
 import LagreKandidaterModal from '../kandidatsøk/modaler/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import './VisKandidat.less';
 
 type Props = ConnectedProps & {

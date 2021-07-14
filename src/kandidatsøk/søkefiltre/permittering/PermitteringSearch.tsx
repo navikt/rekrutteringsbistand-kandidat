@@ -5,7 +5,7 @@ import AppState from '../../../AppState';
 import { connect } from 'react-redux';
 import { PermitteringActionType } from './permitteringReducer';
 import './PermitteringSearch.less';
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 interface Props {
     permittert: boolean;

@@ -8,7 +8,7 @@ import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/Kandidatlis
 import { LAGRE_STATUS } from '../common/konstanter';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { Nettressurs, Nettstatus } from '../api/remoteData';
-import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../common/HjelpetekstFading';

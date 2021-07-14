@@ -7,7 +7,7 @@ import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { ALERTTYPE } from '../../../../common/konstanter';
 import { Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
-import { KandidatsøkActionType } from '../../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../../reducer/searchActions';
 
 interface Props {
     search: () => void;

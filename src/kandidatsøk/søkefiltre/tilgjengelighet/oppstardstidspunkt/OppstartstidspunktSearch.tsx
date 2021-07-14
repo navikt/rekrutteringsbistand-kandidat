@@ -7,7 +7,7 @@ import AppState from '../../../../AppState';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 import { sendEvent } from '../../../../amplitude/amplitude';
 import './OppstartstidspunktSearch.less';
-import { KandidatsøkActionType } from '../../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../../reducer/searchActions';
 
 export enum Oppstartstidspunkt {
     LedigNå = 'LEDIG_NAA',

@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchCv } from '../../../api/api';
-import { KandidatsøkActionType } from '../../../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../../../kandidatsøk/reducer/searchActions';
 import Cv from './cv-typer';
 import { SearchApiError } from '../../../api/fetchUtils';
 

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import { sendEvent } from '../amplitude/amplitude';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
 import AppState from '../AppState';

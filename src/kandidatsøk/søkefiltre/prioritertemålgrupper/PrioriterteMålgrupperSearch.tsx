@@ -11,7 +11,7 @@ import AppState from '../../../AppState';
 import './PrioriterteMålgrupper.less';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 interface PrioriterteMålgrupperSearchProps {
     search: () => void;

@@ -1,43 +1,211 @@
-export enum KandidatsøkActionType {
-    SettKandidatnummer = 'SETT_KANDIDATNUMMER',
-    LastFlereKandidater = 'LAST_FLERE_KANDIDATER',
-    LukkAlleSokepanel = 'LUKK_ALLE_SOKEPANEL',
-    Search = 'SEARCH',
-    SearchBegin = 'SEARCH_BEGIN',
-    SearchSuccess = 'SEARCH_SUCCESS',
-    SearchFailure = 'SEARCH_FAILURE',
-    SetState = 'SET_STATE',
-    SøkMedInfoFraStilling = 'SØK_MED_INFO_FRA_STILLING',
-    SøkMedUrlParametere = 'SØK_MED_URL_PARAMETERE',
-    FetchFeatureTogglesBegin = 'FETCH_FEATURE_TOGGLES_BEGIN',
-    FetchFeatureTogglesSuccess = 'FETCH_FEATURE_TOGGLES_SUCCESS',
-    FetchFeatureTogglesFailure = 'FETCH_FEATURE_TOGGLES_FAILURE',
-    FetchKompetanseSuggestions = 'FETCH_KOMPETANSE_SUGGESTIONS',
-    SetKompetanseSuggestionsBegin = 'SET_KOMPETANSE_SUGGESTIONS_BEGIN',
-    SetKompetanseSuggestionsSuccess = 'SET_KOMPETANSE_SUGGESTIONS_SUCCESS',
-    RemoveKompetanseSuggestions = 'REMOVE_KOMPETANSE_SUGGESTIONS',
-    SetAlertTypeFaaKandidater = 'SET_ALERT_TYPE_FAA_KANDIDATER',
-    InvalidResponseStatus = 'INVALID_RESPONSE_STATUS',
-    OppdaterAntallKandidater = 'OPPDATER_ANTALL_KANDIDATER',
-    MarkerKandidater = 'MARKER_KANDIDATER',
-    SetScrollPosition = 'SET_SCROLL_POSITION',
-    HentFerdigutfylteStillinger = 'HENT_FERDIGUTFYLTE_STILLINGER',
-    HentFerdigutfylteStillingerSuccess = 'HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS',
-    HentFerdigutfylteStillingerFailure = 'HENT_FERDIGUTFYLTE_STILLINGER_FAILURE',
-    ToggleViktigeYrkerApen = 'TOGGLE_VIKTIGE_YRKER_APEN',
-    FerdigutfyltestillingerKlikk = 'FERDIGUTFYLTESTILLINGER_KLIKK',
-    FjernError = 'FJERN_ERROR',
-}
+import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../../common/konstanter';
+import { KandidatsøkActionType } from './searchActions';
 
-type SettKandidatnummerAction = {
-    type: KandidatsøkActionType.SettKandidatnummer;
+export type SearchState = {
+    searchResultat: Søkeresultat;
+    maksAntallTreff: number;
+    antallVisteKandidater: number;
+    searchQueryHash: string;
+    isSearching: boolean;
+    isInitialSearch: boolean;
+    error?: any;
+    harHentetFeatureToggles: boolean;
+    featureToggles: { [key: string]: boolean };
+    ferdigutfylteStillinger?: any;
+    isEmptyQuery: boolean;
+    visAlertFaKandidater: string; // TODO Dette er av typen ALERTTYPE
+    valgtKandidatNr: string;
+    scrolletFraToppen: number;
+    stillingsoverskrift?: string;
+    arbeidsgiver?: any;
+    annonseOpprettetAvNavn?: string;
+    annonseOpprettetAvIdent?: string;
+    viktigeYrkerApen?: boolean;
+    kandidatlisteId?: string;
 };
 
-type LastFlereKandidaterAction = {
-    type: KandidatsøkActionType.LastFlereKandidater;
+type Søkeresultat = {
+    resultat: {
+        kandidater: any[];
+        aggregeringer: any[];
+        totaltAntallTreff: number;
+    };
+    kompetanseSuggestions: any[];
 };
 
-export type KandidatsøkAction = SettKandidatnummerAction | LastFlereKandidaterAction;
+const featureTogglesDefaultFalse = FEATURE_TOGGLES.reduce(
+    (dict, key) => ({ ...dict, [key]: false }),
+    {}
+);
 
-export const harEnParameter = (...arrays) =>
+const defaultState: SearchState = {
+    searchResultat: {
+        resultat: {
+            kandidater: [],
+            aggregeringer: [],
+            totaltAntallTreff: 0,
+        },
+        kompetanseSuggestions: [],
+    },
+    maksAntallTreff: 0,
+    antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
+    searchQueryHash: '',
+    isSearching: false,
+    isInitialSearch: true,
+    harHentetFeatureToggles: false,
+    featureToggles: featureTogglesDefaultFalse,
+    isEmptyQuery: true,
+    visAlertFaKandidater: '',
+    valgtKandidatNr: '',
+    scrolletFraToppen: 0,
+};
+
+const searchReducer = (state: SearchState = defaultState, action: any): SearchState => {
+    switch (action.type) {
+        case KandidatsøkActionType.SøkMedInfoFraStilling:
+            return {
+                ...state,
+                maksAntallTreff: 0,
+            };
+        case KandidatsøkActionType.SearchBegin:
+            return {
+                ...state,
+                isSearching: true,
+            };
+        case KandidatsøkActionType.SearchSuccess: {
+            const { isPaginatedSok } = action;
+            return {
+                ...state,
+                isSearching: false,
+                searchQueryHash: action.searchQueryHash,
+                isInitialSearch: false,
+                error: undefined,
+                isEmptyQuery: action.isEmptyQuery,
+                searchResultat: {
+                    ...state.searchResultat,
+                    resultat: !isPaginatedSok
+                        ? action.response
+                        : {
+                              ...state.searchResultat.resultat,
+                              kandidater: [
+                                  ...state.searchResultat.resultat.kandidater,
+                                  ...action.response.kandidater,
+                              ],
+                          },
+                },
+                maksAntallTreff: Math.max(state.maksAntallTreff, action.response.totaltAntallTreff),
+            };
+        }
+        case KandidatsøkActionType.SearchFailure:
+            return {
+                ...state,
+                isSearching: false,
+                error: action.error,
+            };
+        case KandidatsøkActionType.MarkerKandidater:
+            return {
+                ...state,
+                searchResultat: {
+                    ...state.searchResultat,
+                    resultat: {
+                        ...state.searchResultat.resultat,
+                        kandidater: action.kandidater,
+                    },
+                },
+            };
+        case KandidatsøkActionType.OppdaterAntallKandidater:
+            return {
+                ...state,
+                antallVisteKandidater: action.antall,
+            };
+        case KandidatsøkActionType.SettKandidatnummer:
+            return {
+                ...state,
+                valgtKandidatNr: action.kandidatnr,
+            };
+        case KandidatsøkActionType.SetKompetanseSuggestionsBegin:
+            return {
+                ...state,
+            };
+        case KandidatsøkActionType.SetKompetanseSuggestionsSuccess:
+            return {
+                ...state,
+                isSearching: false,
+                searchResultat: { ...state.searchResultat, kompetanseSuggestions: action.response },
+            };
+        case KandidatsøkActionType.RemoveKompetanseSuggestions:
+            return {
+                ...state,
+                searchResultat: { ...state.searchResultat, kompetanseSuggestions: [] },
+            };
+        case KandidatsøkActionType.FetchFeatureTogglesSuccess:
+            return {
+                ...state,
+                harHentetFeatureToggles: true,
+                featureToggles: FEATURE_TOGGLES.reduce(
+                    (dict, key) => ({
+                        ...dict,
+                        [key]: Object.keys(action.data).includes(key) && action.data[key],
+                    }),
+                    {}
+                ),
+            };
+        case KandidatsøkActionType.FetchFeatureTogglesFailure:
+            return {
+                ...state,
+                harHentetFeatureToggles: true,
+                featureToggles: FEATURE_TOGGLES.reduce(
+                    (dict, key) => ({ ...dict, [key]: false }),
+                    {}
+                ),
+                error: action.error,
+            };
+        case KandidatsøkActionType.SetAlertTypeFaaKandidater:
+            return {
+                ...state,
+                visAlertFaKandidater: action.value,
+            };
+        case KandidatsøkActionType.InvalidResponseStatus:
+            return {
+                ...state,
+                error: action.error,
+            };
+        case KandidatsøkActionType.SetScrollPosition:
+            return {
+                ...state,
+                scrolletFraToppen: action.scrolletFraToppen,
+            };
+        case KandidatsøkActionType.SetState:
+            return {
+                ...state,
+                kandidatlisteId: action.query.kandidatlisteId,
+            };
+        case KandidatsøkActionType.FjernError:
+            return {
+                ...state,
+                error: undefined,
+            };
+        case KandidatsøkActionType.HentFerdigutfylteStillingerSuccess:
+            return {
+                ...state,
+                ferdigutfylteStillinger: action.data,
+            };
+        case KandidatsøkActionType.HentFerdigutfylteStillingerFailure:
+            return {
+                ...state,
+                error: action.error,
+            };
+        case KandidatsøkActionType.ToggleViktigeYrkerApen:
+            return {
+                ...state,
+                viktigeYrkerApen: !state.viktigeYrkerApen,
+            };
+        default:
+            return state;
+    }
+};
+
+export const harEnParameter = (...arrays: any[]) =>
     arrays.some((array) => array !== undefined && array.length > 0);
+
+export default searchReducer;

@@ -4,7 +4,7 @@ import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 
 import { Fritekststatus } from './validering';
-import { KandidatsøkActionType } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import AppState from '../../../AppState';
 import useFritekstvalidering from './useFritekstvalidering';

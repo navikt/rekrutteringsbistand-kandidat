@@ -8,7 +8,7 @@ import { Kandidatliste } from '../../kandidatliste/PropTypes';
 import KandidaterTabell from '../kandidater-tabell/KandidaterTabell';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../common/konstanter';
 import KnappMedHjelpetekst from '../knappMedHjelpetekst/KnappMedHjelpetekst';
-import { KandidatsøkActionType } from '../reducer/searchReducer';
+import { KandidatsøkActionType } from '../reducer/searchActions';
 import LagreKandidaterTilStillingModal from '../modaler/LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from '../modaler/LagreKandidaterModal';
 import { Nettstatus } from '../../api/remoteData.ts';
