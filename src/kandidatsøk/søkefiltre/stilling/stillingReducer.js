@@ -1,7 +1,4 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { harEnParameter, KandidatsøkActionType } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_STILLING = 'SELECT_TYPE_AHEAD_VALUE_STILLING';
 export const REMOVE_SELECTED_STILLING = 'REMOVE_SELECTED_STILLING';
@@ -19,7 +16,7 @@ const initialState = {
 
 export default function stillingReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 stillinger: action.query.stillinger || [],
@@ -43,7 +40,7 @@ export default function stillingReducer(state = initialState, action) {
                 ...state,
                 stillingPanelOpen: !state.stillingPanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 stillingPanelOpen: false,

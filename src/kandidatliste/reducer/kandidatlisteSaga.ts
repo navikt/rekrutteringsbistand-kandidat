@@ -9,10 +9,7 @@ import {
     putKandidatlistestatus,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import {
-    INVALID_RESPONSE_STATUS,
-    KandidatsøkActionType,
-} from '../../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import KandidatlisteAction, {
     OpprettKandidatlisteAction,
@@ -548,7 +545,7 @@ function* oppdaterKandidatliste(action) {
 }
 
 function* sjekkError(action) {
-    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+    yield put({ type: KandidatsøkActionType.InvalidResponseStatus, error: action.error });
 }
 
 function* hentSendteMeldinger(action: HentSendteMeldingerAction) {

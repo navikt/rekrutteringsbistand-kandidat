@@ -1,27 +1,24 @@
 import React from 'react';
-import './FantFåKandidater.less';
 import { Ingress, Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import { connect } from 'react-redux';
-import {
-    FETCH_KOMPETANSE_SUGGESTIONS,
-    KandidatsøkActionType,
-    REMOVE_KOMPETANSE_SUGGESTIONS,
-} from '../reducer/searchReducer';
+import { Knapp } from 'nav-frontend-knapper';
+
 import {
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
     TOGGLE_TILRETTELEGGINGSBEHOV,
 } from '../søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
-import Forstørrelsesglass from './Forstørrelsesglass';
-import ValgteKriterier from './ValgteKriterier';
-import useKriterier from './useKriterier';
-import Kategori from '../søkefiltre/tilretteleggingsbehov/Kategori';
-import { REMOVE_SELECTED_STILLING } from '../søkefiltre/stilling/stillingReducer';
+import { KandidatsøkActionType } from '../reducer/searchReducer';
 import {
     REMOVE_SELECTED_GEOGRAFI,
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from '../søkefiltre/geografi/geografiReducer';
-import { Knapp } from 'nav-frontend-knapper';
+import { REMOVE_SELECTED_STILLING } from '../søkefiltre/stilling/stillingReducer';
 import AppState from '../../AppState';
+import Forstørrelsesglass from './Forstørrelsesglass';
+import Kategori from '../søkefiltre/tilretteleggingsbehov/Kategori';
+import useKriterier from './useKriterier';
+import ValgteKriterier from './ValgteKriterier';
+import './FantFåKandidater.less';
 
 export type Geografi = {
     geografiKodeTekst: string;
@@ -136,7 +133,8 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: KandidatsøkActionType.Search }),
-    removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
+    removeKompetanseSuggestions: () =>
+        dispatch({ type: KandidatsøkActionType.RemoveKompetanseSuggestions }),
     disableTilretteleggingsbehov: () =>
         dispatch({
             type: TOGGLE_TILRETTELEGGINGSBEHOV,
@@ -144,7 +142,8 @@ const mapDispatchToProps = (dispatch) => ({
         }),
     changeTilretteleggingsbehovKategorier: (kategorier: Kategori[]) =>
         dispatch({ type: CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER, kategorier }),
-    fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS }),
+    fetchKompetanseSuggestions: () =>
+        dispatch({ type: KandidatsøkActionType.FetchKompetanseSuggestions }),
     removeStilling: (value: string) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
     removeGeografi: (value: Geografi) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
     toggleMaBoPaGeografi: () => dispatch({ type: TOGGLE_MA_BO_INNENFOR_GEOGRAFI }),

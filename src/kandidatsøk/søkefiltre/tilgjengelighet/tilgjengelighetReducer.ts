@@ -1,4 +1,4 @@
-import { harEnParameter, LUKK_ALLE_SOKEPANEL, SET_STATE } from '../../reducer/searchReducer';
+import { harEnParameter, KandidatsøkActionType } from '../../reducer/searchReducer';
 import { Oppstartstidspunkt } from './oppstardstidspunkt/OppstartstidspunktSearch';
 import { Tilgjengelighet } from '../../kandidater-tabell/Søkeresultat';
 
@@ -27,7 +27,7 @@ const tilgjengelighetReducer = (
     action
 ): TilgjengelighetState => {
     switch (action.type) {
-        case SET_STATE: {
+        case KandidatsøkActionType.SetState: {
             return {
                 panelOpen:
                     harEnParameter(action.query.oppstartstidspunkter) ||
@@ -66,7 +66,7 @@ const tilgjengelighetReducer = (
                     (midlertidigUtilgjengelig) => midlertidigUtilgjengelig !== action.value
                 ),
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 panelOpen: false,

@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { harEnParameter, KandidatsøkActionType } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
@@ -23,7 +23,7 @@ const initialState = {
 
 export default function geografiReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 geografiList: action.query.geografiList || [],
@@ -61,7 +61,7 @@ export default function geografiReducer(state = initialState, action) {
                 geografiPanelOpen: !state.geografiPanelOpen,
             };
 
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 geografiPanelOpen: false,

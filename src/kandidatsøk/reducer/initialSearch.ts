@@ -1,7 +1,7 @@
 import { InitialQuery, mapStillingTilInitialQuery, mapUrlToInitialQuery } from './searchQuery';
 import { call, put } from 'redux-saga/effects';
 import { fetchGeografiKode, fetchStillingFraListe } from '../../api/api';
-import { SEARCH_FAILURE, SET_STATE } from './searchReducer';
+import { KandidatsøkActionType } from './searchReducer';
 import { search } from './typedSearchReducer';
 import { Geografi } from '../fant-få-kandidater/FantFåKandidater';
 import { formatterStedsnavn } from '../utils';
@@ -20,11 +20,11 @@ export function* leggUrlParametereIStateOgSøk(action: SøkMedUrlParametreAction
     try {
         let initialQuery: InitialQuery = mapUrlToInitialQuery(action.href, action.kandidatlisteId);
         const initialQueryMedGeografi = yield call(leggPåGeografiInfoHvisKommune, initialQuery);
-        yield put({ type: SET_STATE, query: initialQueryMedGeografi });
+        yield put({ type: KandidatsøkActionType.SetState, query: initialQueryMedGeografi });
         yield call(search);
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: SEARCH_FAILURE, error: e });
+            yield put({ type: KandidatsøkActionType.SearchFailure, error: e });
         } else {
             throw e;
         }
@@ -43,11 +43,11 @@ export function* leggInfoFraStillingIStateOgSøk(action: SøkMedInfoFraStillingA
             leggPåGeografiInfoHvisKommune,
             initialQueryMedKandidatlisteId
         );
-        yield put({ type: SET_STATE, query: initialQueryMedGeografi });
+        yield put({ type: KandidatsøkActionType.SetState, query: initialQueryMedGeografi });
         yield call(search);
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: SEARCH_FAILURE, error: e });
+            yield put({ type: KandidatsøkActionType.SearchFailure, error: e });
         } else {
             throw e;
         }

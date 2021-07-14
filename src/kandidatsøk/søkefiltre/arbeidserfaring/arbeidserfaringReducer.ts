@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { harEnParameter, KandidatsøkActionType } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING = 'SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING';
 export const REMOVE_SELECTED_ARBEIDSERFARING = 'REMOVE_SELECTED_ARBEIDSERFARING';
@@ -55,7 +55,7 @@ export default function arbeidserfaringReducer(
     action: any
 ): ArbeidserfaringState {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 arbeidserfaringer: action.query.arbeidserfaringer || [],
@@ -93,7 +93,7 @@ export default function arbeidserfaringReducer(
                 ...state,
                 arbeidserfaringPanelOpen: !state.arbeidserfaringPanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 arbeidserfaringPanelOpen: false,

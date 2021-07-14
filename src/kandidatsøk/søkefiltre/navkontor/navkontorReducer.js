@@ -1,7 +1,4 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { harEnParameter, KandidatsøkActionType } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_NAVKONTOR = 'SELECT_TYPE_AHEAD_VALUE_NAVKONTOR';
 export const REMOVE_SELECTED_NAVKONTOR = 'REMOVE_SELECTED_NAVKONTOR';
@@ -21,7 +18,7 @@ const initialState = {
 
 export default function navkontorReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 navkontor: action.query.navkontor || [],
@@ -48,7 +45,7 @@ export default function navkontorReducer(state = initialState, action) {
                 ...state,
                 navkontorPanelOpen: !state.navkontorPanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 navkontorPanelOpen: false,

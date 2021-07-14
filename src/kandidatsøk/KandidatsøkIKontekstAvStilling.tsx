@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteChildrenProps } from 'react-router-dom';
-import { SØK_MED_INFO_FRA_STILLING, SØK_MED_URL_PARAMETERE } from './reducer/searchReducer';
+import { KandidatsøkActionType } from './reducer/searchReducer';
 import { harUrlParametere } from './reducer/searchQuery';
 import { KandidaterErLagretSuksessmelding } from './kandidater-er-lagret-suksessmelding/KandidaterErLagretSuksessmelding';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
@@ -28,14 +28,18 @@ const KandidatsøkIKontekstAvStilling: FunctionComponent<Props> = ({ match }) =>
 
     useEffect(() => {
         const oppdaterStateFraUrlOgSøk = (href: string, kandidatlisteId?: string) => {
-            dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId });
+            dispatch({ type: KandidatsøkActionType.SøkMedUrlParametere, href, kandidatlisteId });
         };
 
         const hentStillingOgOppdaterStateOgSøk = (
             stillingsId?: string,
             kandidatlisteId?: string
         ) => {
-            dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId, kandidatlisteId });
+            dispatch({
+                type: KandidatsøkActionType.SøkMedInfoFraStilling,
+                stillingsId,
+                kandidatlisteId,
+            });
         };
 
         if (kandidatlisteIdFraApi) {

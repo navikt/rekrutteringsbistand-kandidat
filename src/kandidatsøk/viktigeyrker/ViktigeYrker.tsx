@@ -5,11 +5,7 @@ import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import './ViktigeYrker.less';
 import ViktigeYrkerIkon from './ViktigeyrkerIkon';
 import Bransjevelger from './Bransjevelger';
-import {
-    HENT_FERDIGUTFYLTE_STILLINGER,
-    TOGGLE_VIKTIGE_YRKER_APEN,
-    FERDIGUTFYLTESTILLINGER_KLIKK,
-} from '../reducer/searchReducer';
+import { KandidatsøkActionType } from '../reducer/searchReducer';
 import { FerdigutfylteStillinger, FerdigutfylteStillingerKlikk } from './Bransje';
 import AppState from '../../AppState';
 
@@ -75,10 +71,14 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    hentFerdigutfylteStillinger: () => dispatch({ type: HENT_FERDIGUTFYLTE_STILLINGER }),
-    toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN }),
+    hentFerdigutfylteStillinger: () =>
+        dispatch({ type: KandidatsøkActionType.HentFerdigutfylteStillinger }),
+    toggleViktigeYrkerApen: () => dispatch({ type: KandidatsøkActionType.ToggleViktigeYrkerApen }),
     ferdigutfylteStillingerKlikk: (ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk) =>
-        dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),
+        dispatch({
+            type: KandidatsøkActionType.FerdigutfyltestillingerKlikk,
+            ferdigutfylteStillingerKlikk,
+        }),
 });
 
 const mapStateToProps = (state: AppState) => ({

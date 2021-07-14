@@ -1,4 +1,4 @@
-import { LUKK_ALLE_SOKEPANEL, SET_STATE } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchReducer';
 
 export enum PermitteringActionType {
     SET_PERMITTERT = 'SET_PERMITTERT',
@@ -29,7 +29,7 @@ const initialState = {
 
 export default function permitteringReducer(state: PermitteringState = initialState, action) {
     switch (action.type) {
-        case SET_STATE: {
+        case KandidatsøkActionType.SetState: {
             const { permittert } = action.query;
 
             return {
@@ -49,7 +49,7 @@ export default function permitteringReducer(state: PermitteringState = initialSt
                 ...state,
                 panelOpen: !state.panelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 panelOpen: false,

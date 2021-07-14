@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FETCH_KOMPETANSE_SUGGESTIONS } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchReducer';
 import {
     REMOVE_SELECTED_STILLING,
     SELECT_TYPE_AHEAD_VALUE_STILLING,
@@ -169,7 +169,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.STILLING, value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
     removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
-    fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS }),
+    fetchKompetanseSuggestions: () =>
+        dispatch({ type: KandidatsøkActionType.FetchKompetanseSuggestions }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_STILLING_PANEL_OPEN }),
 });
 

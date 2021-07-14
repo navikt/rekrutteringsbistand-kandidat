@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchCv } from '../../../api/api';
-import { INVALID_RESPONSE_STATUS } from '../../../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../../../kandidatsøk/reducer/searchReducer';
 import Cv from './cv-typer';
 import { SearchApiError } from '../../../api/fetchUtils';
 
@@ -108,7 +108,7 @@ function* fetchCvForKandidat(action: FetchCvAction) {
 }
 
 function* dispatchGenerellErrorAction(action: any) {
-    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+    yield put({ type: KandidatsøkActionType.InvalidResponseStatus, error: action.error });
 }
 
 export const cvSaga = function* cvSaga() {

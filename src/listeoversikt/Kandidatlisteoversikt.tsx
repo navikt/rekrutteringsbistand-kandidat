@@ -8,7 +8,7 @@ import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/Kandidatlis
 import { LAGRE_STATUS } from '../common/konstanter';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { Nettressurs, Nettstatus } from '../api/remoteData';
-import { LUKK_ALLE_SOKEPANEL, SET_STATE } from '../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../common/HjelpetekstFading';
@@ -370,7 +370,8 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: any) => void) => ({
-    nullstillSøkekriterierIKandidatsøk: (query: any) => dispatch({ type: SET_STATE, query }),
+    nullstillSøkekriterierIKandidatsøk: (query: any) =>
+        dispatch({ type: KandidatsøkActionType.SetState, query }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
         dispatch({
             type: ListeoversiktActionType.HENT_KANDIDATLISTER,
@@ -397,7 +398,7 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
         dispatch({
             type: KandidatlisteActionType.VELG_KANDIDAT,
         }),
-    lukkSøkepanelerIKandidatsøk: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    lukkSøkepanelerIKandidatsøk: () => dispatch({ type: KandidatsøkActionType.LukkAlleSokepanel }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlisteoversikt);

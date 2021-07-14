@@ -41,6 +41,7 @@ export interface HentKandidatlisterFailureAction {
 
 export interface MarkerKandidatlisteSomMinAction {
     type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN;
+    kandidatlisteId: string;
 }
 
 export interface MarkerKandidatlisteSomMinSuccessAction {
