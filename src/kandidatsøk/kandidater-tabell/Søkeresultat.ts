@@ -1,3 +1,5 @@
+import { Utdanning } from '../../kandidatside/cv/reducer/cv-typer';
+
 export enum Innsatsgruppe {
     Standard = 'Standard',
     SpesieltTilpasset = 'Spesielt tilpasset innsats',
@@ -18,10 +20,7 @@ type Søkeresultat = {
     fodselsdato: string;
     fodselsnummer: string;
     fornavn: string;
-    hoyesteUtdanning: {
-        nusKode: string;
-        nusKodeGrad: any;
-    };
+    hoyesteUtdanning: Utdanning;
     innsatsgruppe: Innsatsgruppe;
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
     poststed: string;

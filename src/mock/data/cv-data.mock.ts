@@ -1,4 +1,14 @@
-export const utdanning = [
+import {
+    Sertifikat,
+    Kurs,
+    Språkferdighet,
+    Språkferdighetsnivå,
+    Yrkeserfaring,
+    Kompetanse,
+    Utdanning,
+} from '../../kandidatside/cv/reducer/cv-typer';
+
+export const utdanning: Utdanning[] = [
     {
         utdannelsessted: 'Universitetet i Oslo',
         alternativtUtdanningsnavn: 'Universitet',
@@ -37,7 +47,7 @@ export const utdanning = [
     },
 ];
 
-export const yrkeserfaring = [
+export const yrkeserfaring: Yrkeserfaring[] = [
     {
         arbeidsgiver: 'Vestfold Anlegg',
         alternativStillingstittel: 'Anleggsmaskinfører/Grunnarbeider lærling',
@@ -180,7 +190,7 @@ export const yrkeserfaring = [
     },
 ];
 
-export const sertifikater = [
+export const sertifikater: Sertifikat[] = [
     {
         utsteder: 'testutsteder',
         sertifikatKode: '382068',
@@ -281,7 +291,7 @@ export const sertifikater = [
     },
 ];
 
-export const forerkort = [
+export const forerkort: Sertifikat[] = [
     {
         utsteder: null,
         sertifikatKode: null,
@@ -316,7 +326,7 @@ export const forerkort = [
     },
 ];
 
-export const kompetanse = [
+export const kompetanse: Kompetanse[] = [
     {
         kompetanseKode: null,
         kompetanseKodeTekst: 'Altmuligarbeid langs slakteprosedyren',
@@ -326,7 +336,7 @@ export const kompetanse = [
     },
 ];
 
-export const sprak = [
+export const sprak: Kompetanse[] = [
     {
         kompetanseKode: null,
         kompetanseKodeTekst: 'Engelsk',
@@ -343,20 +353,20 @@ export const sprak = [
     },
 ];
 
-export const sprakferdigheter = [
+export const sprakferdigheter: Språkferdighet[] = [
     {
         sprak: 'Engelsk',
-        ferdighetSkriftlig: 'FOERSTESPRAAK',
-        ferdighetMuntlig: 'FOERSTESPRAAK',
+        ferdighetSkriftlig: Språkferdighetsnivå.Førstespråk,
+        ferdighetMuntlig: Språkferdighetsnivå.Førstespråk,
     },
     {
         sprak: 'Norsk',
-        ferdighetSkriftlig: 'FOERSTESPRAAK',
-        ferdighetMuntlig: 'FOERSTESPRAAK',
+        ferdighetSkriftlig: Språkferdighetsnivå.Førstespråk,
+        ferdighetMuntlig: Språkferdighetsnivå.Førstespråk,
     },
 ];
 
-export const kurs = [
+export const kurs: Kurs[] = [
     {
         arrangor: 'Skagerak ',
         tittel: 'Innføringskurs i sikkerhetsrutiner høy og lavspent',

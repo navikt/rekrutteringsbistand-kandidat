@@ -3,21 +3,26 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import TruncatedTextList from './TruncatedTextList';
-import cvPropTypes from '../../../common/PropTypes';
 import { OPPSTARTSKODER } from '../../../common/konstanter';
-import './Jobbprofil.less';
+import { FunctionComponent } from 'react';
+import Cv from '../reducer/cv-typer';
+import './Jobbønsker.less';
 
-const KandidatJobbprofil = ({ cv }) => (
-    <div className="kandidat-jobbprofil">
+type Props = {
+    cv: Cv;
+};
+
+const Jobbønsker: FunctionComponent<Props> = ({ cv }) => (
+    <div className="kandidat-jobbønsker">
         <Ekspanderbartpanel
             apen
-            id="ekspanderbartpanel-jobbprofil"
+            id="ekspanderbartpanel-jobbønsker"
             tittel={<Systemtittel>Jobbønsker</Systemtittel>}
         >
             {cv.yrkeJobbonsker && cv.yrkeJobbonsker.length !== 0 && (
-                <Row className="kandidat-jobbprofil__row">
+                <Row className="kandidat-jobbønsker__row">
                     <Column xs="12" sm="4">
-                        <Element className="kandidat-jobbprofil__overskrift">Ønsket yrke</Element>
+                        <Element className="kandidat-jobbønsker__overskrift">Ønsket yrke</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -27,9 +32,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.kompetanse && cv.kompetanse.length !== 0 && (
-                <Row className="kandidat-jobbprofil__row">
+                <Row className="kandidat-jobbønsker__row">
                     <Column xs="12" sm="4">
-                        <Element className="kandidat-jobbprofil__overskrift">Kompetanse</Element>
+                        <Element className="kandidat-jobbønsker__overskrift">Kompetanse</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -39,9 +44,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.geografiJobbonsker && cv.geografiJobbonsker.length !== 0 && (
-                <Row className="kandidat-jobbprofil__row">
+                <Row className="kandidat-jobbønsker__row">
                     <Column xs="12" sm="4">
-                        <Element className="kandidat-jobbprofil__overskrift">Ønsket sted</Element>
+                        <Element className="kandidat-jobbønsker__overskrift">Ønsket sted</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -51,9 +56,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.omfangJobbprofil && cv.omfangJobbprofil.length !== 0 && (
-                <Row className="kandidat-jobbprofil__row">
+                <Row className="kandidat-jobbønsker__row">
                     <Column xs="12" sm="4">
-                        <Element className="kandidat-jobbprofil__overskrift">Heltid/deltid</Element>
+                        <Element className="kandidat-jobbønsker__overskrift">Heltid/deltid</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -63,9 +68,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.arbeidstidJobbprofil && cv.arbeidstidJobbprofil.length !== 0 && (
-                <Row className="kandidat-jobbprofil__row">
+                <Row className="kandidat-jobbønsker__row">
                     <Column xs="12" sm="4">
-                        <Element className="kandidat-jobbprofil__overskrift">Arbeidstid</Element>
+                        <Element className="kandidat-jobbønsker__overskrift">Arbeidstid</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -77,9 +82,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.arbeidstidsordningJobbprofil && cv.arbeidstidsordningJobbprofil.length !== 0 && (
-                <Row className="kandidat-jobbprofil__row">
+                <Row className="kandidat-jobbønsker__row">
                     <Column xs="12" sm="4">
-                        <Element className="kandidat-jobbprofil__overskrift">
+                        <Element className="kandidat-jobbønsker__overskrift">
                             Arbeidstidsordning
                         </Element>
                     </Column>
@@ -93,9 +98,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.ansettelsesformJobbprofil && cv.ansettelsesformJobbprofil.length !== 0 && (
-                <Row className="kandidat-jobbprofil__row">
+                <Row className="kandidat-jobbønsker__row">
                     <Column xs="12" sm="4">
-                        <Element className="kandidat-jobbprofil__overskrift">
+                        <Element className="kandidat-jobbønsker__overskrift">
                             Arbeidsforhold
                         </Element>
                     </Column>
@@ -111,9 +116,9 @@ const KandidatJobbprofil = ({ cv }) => (
             {cv.oppstartKode &&
                 cv.oppstartKode.length !== 0 &&
                 OPPSTARTSKODER[cv.oppstartKode.toUpperCase()] && (
-                    <Row className="kandidat-jobbprofil__row">
+                    <Row className="kandidat-jobbønsker__row">
                         <Column xs="12" sm="4">
-                            <Element className="kandidat-jobbprofil__overskrift">
+                            <Element className="kandidat-jobbønsker__overskrift">
                                 Når er kandidaten <br />
                                 ledig for ny jobb:
                             </Element>
@@ -129,8 +134,4 @@ const KandidatJobbprofil = ({ cv }) => (
     </div>
 );
 
-KandidatJobbprofil.propTypes = {
-    cv: cvPropTypes.isRequired,
-};
-
-export default KandidatJobbprofil;
+export default Jobbønsker;
