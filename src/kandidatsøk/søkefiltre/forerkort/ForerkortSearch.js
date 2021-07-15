@@ -6,7 +6,6 @@ import {
     SELECT_TYPE_AHEAD_VALUE_FORERKORT,
     TOGGLE_FORERKORT_PANEL_OPEN,
 } from './forerkortReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
@@ -15,7 +14,8 @@ import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { erGyldigForerkort } from './forerkort';
 import './Forerkort.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
-import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const ForerkortSearch = ({ ...props }) => {
     const {
@@ -116,7 +116,7 @@ const ForerkortSearch = ({ ...props }) => {
                     ))}
                 </div>
             </div>
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.FORERKORT && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Førerkort && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -148,16 +148,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.FORERKORT }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Førerkort }),
     clearTypeAheadForerkort: () =>
         dispatch({
             type: TypeaheadActionType.ClearTypeAheadSuggestions,
-            branch: BRANCHNAVN.FORERKORT,
+            branch: TypeaheadBranch.Forerkort,
         }),
     fetchTypeAheadSuggestionsForerkort: (value) =>
         dispatch({
             type: TypeaheadActionType.FetchTypeAheadSuggestions,
-            branch: BRANCHNAVN.FORERKORT,
+            branch: TypeaheadBranch.Forerkort,
             value,
         }),
     selectTypeAheadValueForerkort: (value) =>

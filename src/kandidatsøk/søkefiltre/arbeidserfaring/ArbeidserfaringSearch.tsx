@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { ArbeidserfaringAction, ArbeidserfaringActionType } from './arbeidserfaringReducer';
-import { ALERTTYPE } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import AntallÅrArbeidserfaring from './antall-år-arbeidserfaring/AntallÅrArbeidserfaring';
@@ -9,6 +8,7 @@ import Merkelapper from './merkelapper/Merkelapper';
 import AppState from '../../../AppState';
 import FerskArbeidserfaring from './fersk-arbeidserfaring/FerskArbeidserfaring';
 import { Dispatch } from 'redux';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 interface Props {
     togglePanelOpen: () => void;
@@ -29,7 +29,7 @@ const ArbeidserfaringSearch: FunctionComponent<Props> = (props) => (
         <FerskArbeidserfaring />
         <AntallÅrArbeidserfaring />
         {props.totaltAntallTreff <= 10 &&
-            props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
+            props.visAlertFaKandidater === KandidatsøkAlert.Arbeidserfaring && (
                 <FåKandidaterAlert totaltAntallTreff={props.totaltAntallTreff} />
             )}
     </SokekriteriePanel>

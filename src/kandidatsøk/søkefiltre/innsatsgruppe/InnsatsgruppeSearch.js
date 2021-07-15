@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Checkbox } from 'nav-frontend-skjema';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
-import { ALERTTYPE, INNSATSGRUPPER } from '../../../common/konstanter';
+import { INNSATSGRUPPER } from '../../../common/konstanter';
 import {
     CHECK_INNSATSGRUPPE,
     UNCHECK_INNSATSGRUPPE,
@@ -12,6 +12,7 @@ import {
 } from './innsatsgruppeReducer';
 import './Innsatsgruppe.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 class InnsatsgruppeSearch extends React.Component {
     constructor(props) {
@@ -57,9 +58,10 @@ class InnsatsgruppeSearch extends React.Component {
                         />
                     ))}
                 </div>
-                {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.INNSATSGRUPPE && (
-                    <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
-                )}
+                {totaltAntallTreff <= 10 &&
+                    visAlertFaKandidater === KandidatsøkAlert.Innsatsgruppe && (
+                        <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
+                    )}
             </SokekriteriePanel>
         );
     }
@@ -85,7 +87,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () =>
-        dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.INNSATSGRUPPE }),
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Innsatsgruppe }),
     checkInnsatsgruppe: (value) => dispatch({ type: CHECK_INNSATSGRUPPE, value }),
     uncheckInnsatsgruppe: (value) => dispatch({ type: UNCHECK_INNSATSGRUPPE, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_INNSATSGRUPPE_PANEL_OPEN }),

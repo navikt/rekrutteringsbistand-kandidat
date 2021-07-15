@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import {
     REMOVE_SELECTED_NAVKONTOR,
     SELECT_TYPE_AHEAD_VALUE_NAVKONTOR,
@@ -16,7 +15,8 @@ import { Checkbox } from 'nav-frontend-skjema';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Navkontor.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
-import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const NavkontorSearch = ({ ...props }) => {
     const {
@@ -120,7 +120,7 @@ const NavkontorSearch = ({ ...props }) => {
                     onChange={onToggleMineKandidater}
                 />
             </div>
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Navkontor && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -153,16 +153,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.NAVKONTOR }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Navkontor }),
     clearTypeAheadNavkontor: () =>
         dispatch({
             type: TypeaheadActionType.ClearTypeAheadSuggestions,
-            branch: BRANCHNAVN.NAVKONTOR,
+            branch: TypeaheadBranch.Navkontor,
         }),
     fetchTypeAheadSuggestions: (value) =>
         dispatch({
             type: TypeaheadActionType.FetchTypeAheadSuggestions,
-            branch: BRANCHNAVN.NAVKONTOR,
+            branch: TypeaheadBranch.Navkontor,
             value,
         }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_NAVKONTOR, value }),

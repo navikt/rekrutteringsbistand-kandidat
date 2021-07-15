@@ -7,7 +7,6 @@ import {
     TOGGLE_GEOGRAFI_PANEL_OPEN,
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from './geografiReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
@@ -16,7 +15,8 @@ import CheckboxMedHjelpetekst from './checkboxMedHjelpetekst/CheckboxMedHjelpete
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
 import './Geografi.less';
-import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const GeografiSearch = ({ ...props }) => {
     const {
@@ -146,7 +146,7 @@ const GeografiSearch = ({ ...props }) => {
                     />
                 </div>
             </div>
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Geografi && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -199,16 +199,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.GEOGRAFI }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Geografi }),
     clearTypeAheadGeografi: () =>
         dispatch({
             type: TypeaheadActionType.ClearTypeAheadSuggestions,
-            branch: BRANCHNAVN.GEOGRAFI,
+            branch: TypeaheadBranch.Geografi,
         }),
     fetchTypeAheadSuggestions: (value) =>
         dispatch({
             type: TypeaheadActionType.FetchTypeAheadSuggestions,
-            branch: BRANCHNAVN.GEOGRAFI,
+            branch: TypeaheadBranch.Geografi,
             value,
         }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),

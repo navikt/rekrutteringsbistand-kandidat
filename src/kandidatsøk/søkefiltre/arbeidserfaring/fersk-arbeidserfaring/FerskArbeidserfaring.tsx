@@ -7,8 +7,8 @@ import { Knapp } from 'nav-frontend-knapper';
 
 import AppState from '../../../../AppState';
 import { ArbeidserfaringAction, ArbeidserfaringActionType } from '../arbeidserfaringReducer';
-import { ALERTTYPE } from '../../../../common/konstanter';
 import { KandidatsøkAction, KandidatsøkActionType } from '../../../reducer/searchActions';
+import { KandidatsøkAlert } from '../../../reducer/searchReducer';
 import './FerskArbeidserfaring.less';
 
 interface Props {
@@ -164,7 +164,10 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction | ArbeidserfaringAction>) => ({
     search: () =>
-        dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.ARBEIDSERFARING }),
+        dispatch({
+            type: KandidatsøkActionType.Search,
+            alertType: KandidatsøkAlert.Arbeidserfaring,
+        }),
     setMaksAlderArbeidserfaring: (maksAlder: number | undefined) =>
         dispatch({
             type: ArbeidserfaringActionType.SetMaksAlderArbeidserfaring,

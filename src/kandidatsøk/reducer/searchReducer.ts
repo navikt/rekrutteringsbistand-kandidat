@@ -13,7 +13,7 @@ export type SearchState = {
     featureToggles: { [key: string]: boolean };
     ferdigutfylteStillinger?: any;
     isEmptyQuery: boolean;
-    visAlertFaKandidater: string; // TODO Dette er av typen ALERTTYPE
+    visAlertFaKandidater: KandidatsøkAlert | '';
     valgtKandidatNr: string;
     scrolletFraToppen: number;
     stillingsoverskrift?: string;
@@ -32,6 +32,20 @@ type Søkeresultat = {
     };
     kompetanseSuggestions: any[];
 };
+
+export enum KandidatsøkAlert {
+    Stilling = 'stilling',
+    Utdanning = 'utdanning',
+    Arbeidserfaring = 'arbeidserfaring',
+    Språk = 'sprak',
+    Kompetanse = 'kompetanse',
+    Geografi = 'geografi',
+    Førerkort = 'forerkort',
+    Innsatsgruppe = 'innsatsgruppe',
+    Sertifikat = 'sertifikat',
+    Navkontor = 'navkontor',
+    Hovedmål = 'hovedmal',
+}
 
 const featureTogglesDefaultFalse = FEATURE_TOGGLES.reduce(
     (dict, key) => ({ ...dict, [key]: false }),

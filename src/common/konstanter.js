@@ -13,32 +13,6 @@ export const UTDANNING = {
     DOKTORGRAD: { key: 'Doktorgrad', label: 'Doktorgrad (PhD)' },
 };
 
-export const ALERTTYPE = {
-    STILLING: 'stilling',
-    UTDANNING: 'utdanning',
-    ARBEIDSERFARING: 'arbeidserfaring',
-    SPRAK: 'sprak',
-    KOMPETANSE: 'kompetanse',
-    GEOGRAFI: 'geografi',
-    FORERKORT: 'forerkort',
-    INNSATSGRUPPE: 'innsatsgruppe',
-    SERTIFIKAT: 'sertifikat',
-    NAVKONTOR: 'navkontor',
-    HOVEDMAL: 'hovedmal',
-};
-
-export const BRANCHNAVN = {
-    KOMPETANSE: 'kompetanse',
-    STILLING: 'stilling',
-    ARBEIDSERFARING: 'arbeidserfaring',
-    UTDANNING: 'utdanning',
-    GEOGRAFI: 'geografi',
-    SPRAK: 'sprak',
-    FORERKORT: 'forerkort',
-    SERTIFIKAT: 'sertifikat',
-    NAVKONTOR: 'navkontor',
-};
-
 export const LAGRE_STATUS = {
     UNSAVED: 'UNSAVED',
     LOADING: 'LOADING',

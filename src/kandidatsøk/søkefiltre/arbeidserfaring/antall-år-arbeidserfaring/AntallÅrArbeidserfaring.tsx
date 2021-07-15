@@ -4,10 +4,10 @@ import { Dispatch } from 'redux';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 
-import { ALERTTYPE } from '../../../../common/konstanter';
 import { ArbeidserfaringAction, ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import AppState from '../../../../AppState';
 import { KandidatsøkAction, KandidatsøkActionType } from '../../../reducer/searchActions';
+import { KandidatsøkAlert } from '../../../reducer/searchReducer';
 import './AntallÅrArbeidserfaring.less';
 
 const aarMedErfaringer = [
@@ -68,7 +68,10 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction | ArbeidserfaringAction>) => ({
     search: () =>
-        dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.ARBEIDSERFARING }),
+        dispatch({
+            type: KandidatsøkActionType.Search,
+            alertType: KandidatsøkAlert.Arbeidserfaring,
+        }),
     checkTotalErfaring: (value: string) =>
         dispatch({ type: ArbeidserfaringActionType.CheckTotalErfaring, value }),
     uncheckTotalErfaring: (value: string) =>

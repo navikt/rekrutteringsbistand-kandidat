@@ -6,7 +6,6 @@ import {
     SELECT_TYPE_AHEAD_VALUE_KOMPETANSE,
     TOGGLE_KOMPETANSE_PANEL_OPEN,
 } from './kompetanseReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
@@ -15,7 +14,8 @@ import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Kompetanse.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
-import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const KompetanseSearch = ({ ...props }) => {
     const {
@@ -155,7 +155,7 @@ const KompetanseSearch = ({ ...props }) => {
                     </div>
                 </div>
             )}
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Kompetanse && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -200,16 +200,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.KOMPETANSE }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Kompetanse }),
     clearTypeAheadKompetanse: () =>
         dispatch({
             type: TypeaheadActionType.ClearTypeAheadSuggestions,
-            branch: BRANCHNAVN.KOMPETANSE,
+            branch: TypeaheadBranch.Kompetanse,
         }),
     fetchTypeAheadSuggestionsKompetanse: (value) =>
         dispatch({
             type: TypeaheadActionType.FetchTypeAheadSuggestions,
-            branch: BRANCHNAVN.KOMPETANSE,
+            branch: TypeaheadBranch.Kompetanse,
             value,
         }),
     selectTypeAheadValueKompetanse: (value) =>

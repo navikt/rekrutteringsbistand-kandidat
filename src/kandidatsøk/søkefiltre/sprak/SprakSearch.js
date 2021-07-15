@@ -6,14 +6,14 @@ import {
     REMOVE_SELECTED_SPRAK,
     TOGGLE_SPRAK_PANEL_OPEN,
 } from './sprakReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
-import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const SprakSearch = ({ ...props }) => {
     const {
@@ -101,7 +101,7 @@ const SprakSearch = ({ ...props }) => {
                     ))}
                 </div>
             </div>
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.SPRAK && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Språk && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -131,13 +131,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.SPRAK }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Språk }),
     clearTypeAheadSprak: () =>
-        dispatch({ type: TypeaheadActionType.ClearTypeAheadSuggestions, branch: BRANCHNAVN.SPRAK }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: TypeaheadBranch.Sprak,
+        }),
     fetchTypeAheadSuggestions: (value) =>
         dispatch({
             type: TypeaheadActionType.FetchTypeAheadSuggestions,
-            branch: BRANCHNAVN.SPRAK,
+            branch: TypeaheadBranch.Sprak,
             value,
         }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),

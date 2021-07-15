@@ -2,16 +2,17 @@ import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import { ALERTTYPE, BRANCHNAVN } from '../../../../common/konstanter';
 import {
     TypeaheadAction,
     TypeaheadActionType,
+    TypeaheadBranch,
 } from '../../../../common/typeahead/typeaheadReducer';
 import { ArbeidserfaringAction, ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../../AppState';
 import { KandidatsøkAction, KandidatsøkActionType } from '../../../reducer/searchActions';
 import { Dispatch } from 'redux';
+import { KandidatsøkAlert } from '../../../reducer/searchReducer';
 
 interface Props {
     search: () => void;
@@ -102,16 +103,19 @@ const mapDispatchToProps = (
     dispatch: Dispatch<KandidatsøkAction | TypeaheadAction | ArbeidserfaringAction>
 ) => ({
     search: () =>
-        dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.ARBEIDSERFARING }),
+        dispatch({
+            type: KandidatsøkActionType.Search,
+            alertType: KandidatsøkAlert.Arbeidserfaring,
+        }),
     clearTypeAheadArbeidserfaring: () =>
         dispatch({
             type: TypeaheadActionType.ClearTypeAheadSuggestions,
-            branch: BRANCHNAVN.ARBEIDSERFARING,
+            branch: TypeaheadBranch.Arbeidserfaring,
         }),
     fetchTypeAheadSuggestions: (value: string) =>
         dispatch({
             type: TypeaheadActionType.FetchTypeAheadSuggestions,
-            branch: BRANCHNAVN.ARBEIDSERFARING,
+            branch: TypeaheadBranch.Arbeidserfaring,
             value,
         }),
     selectTypeAheadValue: (value: string) =>

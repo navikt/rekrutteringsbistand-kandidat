@@ -7,13 +7,13 @@ import {
     SELECT_TYPE_AHEAD_VALUE_STILLING,
     TOGGLE_STILLING_PANEL_OPEN,
 } from './stillingReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
-import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const StillingSearch = ({ ...props }) => {
     const {
@@ -118,7 +118,7 @@ const StillingSearch = ({ ...props }) => {
                     Du kan kun legge til én stilling/yrke
                 </Normaltekst>
             )}
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.STILLING && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Stilling && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -159,16 +159,17 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.STILLING }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Stilling }),
     clearTypeAheadStilling: () =>
         dispatch({
             type: TypeaheadActionType.ClearTypeAheadSuggestions,
-            branch: BRANCHNAVN.STILLING,
+            branch: TypeaheadBranch.Stilling,
         }),
     fetchTypeAheadSuggestions: (value) =>
         dispatch({
             type: TypeaheadActionType.FetchTypeAheadSuggestions,
-            branch: BRANCHNAVN.STILLING,
+            branch: TypeaheadBranch.Stilling,
             value,
         }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
