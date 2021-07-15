@@ -14,7 +14,10 @@ import {
     Kandidatlistestatus,
 } from '../kandidatlistetyper';
 import { lenkeTilCv } from '../../app/paths';
-import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import {
+    MidlertidigUtilgjengeligActionType,
+    MidlertidigUtilgjengeligState,
+} from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../api/remoteData';
 import { sendEvent } from '../../amplitude/amplitude';
@@ -307,7 +310,11 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
-        dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
+        dispatch({
+            type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengelig,
+            aktørId,
+            kandidatnr,
+        });
     },
 });
 

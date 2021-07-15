@@ -1,24 +1,28 @@
 /* eslint-disable react/no-did-update-set-state */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Undertittel } from 'nav-frontend-typografi';
-import cvPropTypes from '../../common/PropTypes';
-import { Kandidatliste } from '../../kandidatliste/PropTypes';
-import KandidaterTabell from '../kandidater-tabell/KandidaterTabell';
-import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../common/konstanter';
-import KnappMedHjelpetekst from '../knappMedHjelpetekst/KnappMedHjelpetekst';
-import { KandidatsøkActionType } from '../reducer/searchActions';
-import LagreKandidaterTilStillingModal from '../modaler/LagreKandidaterTilStillingModal';
-import LagreKandidaterModal from '../modaler/LagreKandidaterModal';
-import { Nettstatus } from '../../api/remoteData.ts';
+
+import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import { formatterInt } from '../utils';
+import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
+import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../common/konstanter';
+import { KandidatOutboundDto } from '../../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { KandidatsøkAction, KandidatsøkActionType } from '../reducer/searchActions';
+import { Nettstatus } from '../../api/remoteData';
+import AppState from '../../AppState';
+import KandidaterTabell from '../kandidater-tabell/KandidaterTabell';
+import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import { sendEvent } from '../../amplitude/amplitude';
+import KnappMedHjelpetekst from '../knappMedHjelpetekst/KnappMedHjelpetekst';
+import LagreKandidaterModal from '../modaler/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from '../modaler/LagreKandidaterTilStillingModal';
 
-const antallKandidaterMarkert = (kandidater) => kandidater.filter((k) => k.markert).length;
+const hentAntallMarkerteResultater = (kandidater: MarkerbartSøkeresultat[]) =>
+    kandidater.filter((k) => k.markert).length;
 
-const lagreKandidaterTilStillingKnappTekst = (antall) => {
+const lagreKandidaterTilStillingKnappTekst = (antall: number) => {
     if (antall === 0) {
         return 'Lagre kandidater i kandidatliste';
     } else if (antall === 1) {
@@ -27,15 +31,51 @@ const lagreKandidaterTilStillingKnappTekst = (antall) => {
     return `Lagre ${antall} kandidater i kandidatliste`;
 };
 
-const markereKandidat = (kandidatnr, checked) => (k) => {
+const markereKandidat = (kandidatnr: string, checked: boolean) => (k: CvSøkeresultat) => {
     if (k.arenaKandidatnr === kandidatnr) {
         return { ...k, markert: checked };
     }
     return k;
 };
 
-class KandidaterOgModal extends React.Component {
-    constructor(props) {
+export type MarkerbartSøkeresultat = CvSøkeresultat & {
+    markert?: boolean;
+};
+
+type Props = ConnectedProps & {
+    skjulPaginering?: boolean;
+    kandidatlisteId?: string;
+    stillingsId?: string;
+};
+
+type ConnectedProps = {
+    kandidater: MarkerbartSøkeresultat[];
+    totaltAntallTreff: number;
+    isEmptyQuery: boolean;
+    isSearching: boolean;
+    lastFlereKandidater: () => void;
+    leggTilKandidatStatus: string;
+    searchQueryHash: string;
+    antallKandidater: number;
+    valgtKandidatNr: string;
+    oppdaterAntallKandidater: (antall: number) => void;
+    oppdaterMarkerteKandidater: (markerte: MarkerbartSøkeresultat[]) => void;
+    leggTilKandidaterIKandidatliste: (
+        kandidatliste: Kandidatliste,
+        kandidater: KandidatOutboundDto[]
+    ) => void;
+    kandidatliste?: Kandidatliste;
+};
+
+type State = {
+    alleKandidaterMarkert: boolean;
+    lagreKandidaterModalVises: boolean;
+    lagreKandidaterModalTilStillingVises: boolean;
+    kandidater: MarkerbartSøkeresultat[];
+};
+
+class KandidaterOgModal extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             alleKandidaterMarkert:
@@ -45,15 +85,9 @@ class KandidaterOgModal extends React.Component {
             lagreKandidaterModalTilStillingVises: false,
             kandidater: props.kandidater,
         };
-        if (props.midlertidigUtilgjengeligEndretTidspunkt) {
-            const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
-            if (tid < 10000) {
-                sendEvent('kandidatsøk', 'fra_midlertidig_utilgjengelig', { tid: tid });
-            }
-        }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const { kandidater, antallKandidater, leggTilKandidatStatus } = this.props;
         const harNyeSokekriterier = this.props.searchQueryHash !== prevProps.searchQueryHash;
         if (harNyeSokekriterier) {
@@ -83,10 +117,11 @@ class KandidaterOgModal extends React.Component {
         }
     }
 
-    onKandidatValgt = (checked, kandidatnr) => {
+    onKandidatValgt = (checked: boolean, kandidatnr: string) => {
         this.props.oppdaterMarkerteKandidater(
             this.state.kandidater.map(markereKandidat(kandidatnr, checked))
         );
+
         this.setState({
             alleKandidaterMarkert: false,
         });
@@ -112,12 +147,13 @@ class KandidaterOgModal extends React.Component {
         });
     };
 
-    onLagreKandidatliste = (kandidatliste) => {
+    onLagreKandidatliste = (kandidatliste: Kandidatliste) => {
         const kandidatnr = this.state.kandidater
             .filter((kandidat) => kandidat.markert)
             .map((kandidat) => ({
                 kandidatnr: kandidat.arenaKandidatnr,
             }));
+
         this.props.leggTilKandidaterIKandidatliste(kandidatliste, kandidatnr);
     };
 
@@ -180,14 +216,16 @@ class KandidaterOgModal extends React.Component {
             antallKandidater,
             valgtKandidatNr,
         } = this.props;
+
         const {
             kandidater,
             lagreKandidaterModalVises,
             lagreKandidaterModalTilStillingVises,
             alleKandidaterMarkert,
         } = this.state;
+
         const panelTekst = isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
-        const antallMarkert = antallKandidaterMarkert(kandidater);
+        const antallMarkert = hentAntallMarkerteResultater(kandidater);
 
         return (
             <div>
@@ -198,7 +236,7 @@ class KandidaterOgModal extends React.Component {
                         onLagre={this.onLagreKandidatliste}
                     />
                 )}
-                {lagreKandidaterModalTilStillingVises && (
+                {lagreKandidaterModalTilStillingVises && kandidatliste && (
                     <LagreKandidaterTilStillingModal
                         vis={lagreKandidaterModalTilStillingVises}
                         onRequestClose={this.lukkLagreKandidaterTilStillingModal}
@@ -244,52 +282,28 @@ class KandidaterOgModal extends React.Component {
     }
 }
 
-KandidaterOgModal.defaultProps = {
-    kandidatlisteId: undefined,
-    stillingsId: undefined,
-    kandidatliste: undefined,
-    skjulPaginering: false,
-};
-
-KandidaterOgModal.propTypes = {
-    skjulPaginering: PropTypes.bool,
-    kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
-    totaltAntallTreff: PropTypes.number.isRequired,
-    isEmptyQuery: PropTypes.bool.isRequired,
-    isSearching: PropTypes.bool.isRequired,
-    lastFlereKandidater: PropTypes.func.isRequired,
-    leggTilKandidatStatus: PropTypes.string.isRequired,
-    searchQueryHash: PropTypes.string.isRequired,
-    antallKandidater: PropTypes.number.isRequired,
-    valgtKandidatNr: PropTypes.string.isRequired,
-    oppdaterAntallKandidater: PropTypes.func.isRequired,
-    oppdaterMarkerteKandidater: PropTypes.func.isRequired,
-    leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
-    kandidatlisteId: PropTypes.string,
-    stillingsId: PropTypes.string,
-    kandidatliste: PropTypes.shape(Kandidatliste),
-    midlertidigUtilgjengeligEndretTidspunkt: PropTypes.number,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-    leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => {
+const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction>) => ({
+    leggTilKandidaterIKandidatliste: (
+        kandidatliste: Kandidatliste,
+        kandidater: KandidatOutboundDto[]
+    ) => {
         dispatch({ type: KandidatlisteActionType.LeggTilKandidater, kandidatliste, kandidater });
     },
     lastFlereKandidater: () => {
         dispatch({ type: KandidatsøkActionType.LastFlereKandidater });
     },
-    oppdaterAntallKandidater: (antallKandidater) => {
+    oppdaterAntallKandidater: (antallKandidater: number) => {
         dispatch({
             type: KandidatsøkActionType.OppdaterAntallKandidater,
             antall: antallKandidater,
         });
     },
-    oppdaterMarkerteKandidater: (markerteKandidater) => {
+    oppdaterMarkerteKandidater: (markerteKandidater: MarkerbartSøkeresultat[]) => {
         dispatch({ type: KandidatsøkActionType.MarkerKandidater, kandidater: markerteKandidater });
     },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
     kandidater: state.søk.searchResultat.resultat.kandidater,
     totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
     isEmptyQuery: state.søk.isEmptyQuery,
@@ -302,7 +316,6 @@ const mapStateToProps = (state) => ({
         state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatliste.kandidatliste.data
             : undefined,
-    midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterOgModal);

@@ -21,7 +21,7 @@ import KopierEpostModal from './modaler/KopierEpostModal';
 import PresenterKandidaterModal from './modaler/presenter-kandidater/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
-import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
+import { CvSøkeresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
@@ -48,13 +48,12 @@ type ConnectedProps = {
     resetSmsSendStatus: () => void;
     leggTilStatus: string;
     fodselsnummer?: string;
-    kandidat?: Kandidatresultat;
+    kandidat?: CvSøkeresultat;
     hentNotater: any;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
-    midlertidigUtilgjengeligEndretTidspunkt: any;
     valgtNavKontor: string;
     toggleMarkeringAvKandidat: (kandidatnr: string) => void;
     endreMarkeringAvKandidater: (kandidatnumre: string[]) => void;
@@ -92,12 +91,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                 type: 'suksess',
             },
         };
-        if (props.midlertidigUtilgjengeligEndretTidspunkt) {
-            const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
-            if (tid < 10000) {
-                sendEvent('kandidatliste', 'fra_midlertidig_utilgjengelig', { tid: tid });
-            }
-        }
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -381,7 +374,6 @@ const mapStateToProps = (state: AppState) => ({
     kandidat: state.kandidatliste.kandidat,
     statusArkivering: state.kandidatliste.arkivering.statusArkivering,
     statusDearkivering: state.kandidatliste.arkivering.statusDearkivering,
-    midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
     valgtNavKontor: state.navKontor.valgtNavKontor,
     formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
 });

@@ -2,11 +2,11 @@ import React, { FunctionComponent, useState } from 'react';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { Nettressurs } from '../../../api/remoteData';
-import { Tilgjengelighet } from '../Søkeresultat';
 import MerInformasjon from './MerInformasjon';
 import './TilgjengelighetFlagg.less';
 import { MidlertidigUtilgjengeligResponse } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import TilgjengelighetIkon from '../../../kandidatside/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
+import { Tilgjengelighet } from '../../../kandidatside/cv/reducer/cv-typer';
 
 type Props = {
     status: Tilgjengelighet;

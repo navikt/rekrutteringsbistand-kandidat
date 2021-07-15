@@ -1,33 +1,36 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Link } from 'react-router-dom';
+import { Checkbox } from 'nav-frontend-skjema';
 
 import { capitalizeFirstLetter, capitalizePoststed } from '../utils';
-import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { KandidatsøkActionType } from '../reducer/searchActions';
-import AppState from '../../AppState';
-import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
-import Søkeresultat from './Søkeresultat';
-import './KandidaterTabell.less';
-import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
-import { Checkbox } from 'nav-frontend-skjema';
 import { lenkeTilKandidat } from '../../app/paths';
+import {
+    MidlertidigUtilgjengeligAction,
+    MidlertidigUtilgjengeligActionType,
+    MidlertidigUtilgjengeligState,
+} from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import AppState from '../../AppState';
+import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
+import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
+import { KandidatsøkAction, KandidatsøkActionType } from '../reducer/searchActions';
+import { MarkerbartSøkeresultat } from '../kandidater-og-modal/KandidaterOgModal';
+import './KandidaterTabell.less';
 
 interface Props {
-    kandidat: Søkeresultat;
+    kandidatlisteId?: string;
+    stillingsId?: string;
+    kandidat: MarkerbartSøkeresultat;
     onKandidatValgt: (markert: boolean, kandidatnr: string) => void;
-    markert: boolean;
     nettoppValgt: boolean;
     setScrollPosition: (position: number) => void;
-    kandidatlisteId: string;
-    stillingsId: string;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
 }
 
 const KandidaterTableKandidat: FunctionComponent<Props> = ({
     kandidat,
-    markert = false,
     nettoppValgt,
     setScrollPosition,
     kandidatlisteId,
@@ -36,11 +39,11 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
 }) => {
-    const onCheck = (kandidatnr) => {
-        onKandidatValgt(!markert, kandidatnr);
+    const onCheck = (kandidatnr: string) => {
+        onKandidatValgt(!kandidat.markert, kandidatnr);
     };
 
-    const checkedClass = (markert, nettoppValgt) => {
+    const checkedClass = (markert?: boolean, nettoppValgt?: boolean) => {
         if (nettoppValgt) {
             return 'nettopp-valgt';
         } else if (markert) {
@@ -58,7 +61,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
 
     let klassenavn = 'kandidater-tabell__rad kandidater-tabell__rad--kandidat';
-    const markertRadKlasse = checkedClass(markert, nettoppValgt);
+    const markertRadKlasse = checkedClass(kandidat.markert, nettoppValgt);
     if (markertRadKlasse) {
         klassenavn += ' kandidater-tabell__' + markertRadKlasse;
     }
@@ -70,7 +73,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     label="&#8203;"
                     id={`marker-kandidat-${kandidatnummer}-checkbox`}
                     aria-label={`Marker kanidat med navn ${navn}`}
-                    checked={markert}
+                    checked={kandidat.markert}
                     onChange={() => {
                         onCheck(kandidat.arenaKandidatnr);
                     }}
@@ -109,14 +112,20 @@ const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setScrollPosition: (scrollPosisjon) =>
+const mapDispatchToProps = (
+    dispatch: Dispatch<KandidatsøkAction | MidlertidigUtilgjengeligAction>
+) => ({
+    setScrollPosition: (scrolletFraToppen: number) =>
         dispatch({
             type: KandidatsøkActionType.SetScrollPosition,
-            scrolletFraToppen: scrollPosisjon,
+            scrolletFraToppen,
         }),
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
-        dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
+        dispatch({
+            type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengelig,
+            aktørId,
+            kandidatnr,
+        });
     },
 });
 

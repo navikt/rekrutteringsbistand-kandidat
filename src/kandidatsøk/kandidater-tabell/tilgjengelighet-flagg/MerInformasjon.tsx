@@ -4,12 +4,12 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Nettressurs, Nettstatus } from '../../../api/remoteData';
-import { Tilgjengelighet } from '../Søkeresultat';
 import { MidlertidigUtilgjengeligResponse } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import {
     antallDagerMellom,
     dagensDato,
 } from '../../../kandidatside/midlertidig-utilgjengelig/validering';
+import { Tilgjengelighet } from '../../../kandidatside/cv/reducer/cv-typer';
 
 interface Props {
     status: Tilgjengelighet;

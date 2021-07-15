@@ -1,4 +1,5 @@
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../../common/konstanter';
+import { MarkerbartSøkeresultat } from '../kandidater-og-modal/KandidaterOgModal';
 import { KandidatsøkActionType } from './searchActions';
 
 export type SearchState = {
@@ -26,7 +27,7 @@ export type SearchState = {
 
 type Søkeresultat = {
     resultat: {
-        kandidater: any[];
+        kandidater: MarkerbartSøkeresultat[];
         aggregeringer: any[];
         totaltAntallTreff: number;
     };

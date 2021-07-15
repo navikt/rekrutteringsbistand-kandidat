@@ -1,6 +1,6 @@
 import AppState from '../../AppState';
+import { Tilgjengelighet } from '../../kandidatside/cv/reducer/cv-typer';
 import { getHashFromString } from '../utils';
-import { Tilgjengelighet } from '../kandidater-tabell/Søkeresultat';
 import { SearchAction } from './searchActions';
 
 type SøkekriterierBackend = any & {

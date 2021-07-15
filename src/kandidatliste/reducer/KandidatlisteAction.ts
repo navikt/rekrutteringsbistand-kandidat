@@ -6,7 +6,7 @@ import {
 import { ApiError } from '../../api/remoteData';
 import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
-import { Kandidatresultat } from '../../kandidatside/cv/reducer/cv-typer';
+import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import { Visningsstatus } from '../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
@@ -242,7 +242,7 @@ export interface HentKandidatMedFnrAction {
 
 export interface HentKandidatMedFnrSuccessAction {
     type: KandidatlisteActionType.HentKandidatMedFnrSuccess;
-    kandidat: Kandidatresultat;
+    kandidat: CvSøkeresultat;
 }
 
 export interface HentKandidatMedFnrNotFoundAction {

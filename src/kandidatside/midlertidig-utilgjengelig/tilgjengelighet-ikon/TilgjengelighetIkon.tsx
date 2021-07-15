@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
+import { Tilgjengelighet } from '../../cv/reducer/cv-typer';
 import SnartTilgjengeligFlagg from './SnartTilgjengeligFlagg';
 import UtilgjengeligFlagg from './UtilgjengeligFlagg';
-import { Tilgjengelighet } from '../../../kandidatsøk/kandidater-tabell/Søkeresultat';
 
 interface Props {
     tilgjengelighet: Tilgjengelighet;
