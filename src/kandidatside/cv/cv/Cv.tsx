@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 import { Column, Row } from 'nav-frontend-grid';
 import {
     Element,
@@ -9,27 +8,12 @@ import {
     Undertittel,
 } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import cvPropTypes from '../../../common/PropTypes';
 import sortByDato from './SortByDato';
 import Tidsperiode from './Tidsperiode';
+import Cv, { Omfang, Omfangenhet } from '../reducer/cv-typer';
+import Beskrivelse from './Beskrivelse';
+import Yrkeserfaring from './Yrkeserfaring';
 import './Cv.less';
-
-const VisCvBeskrivelse = ({ beskrivelse }) => {
-    if (beskrivelse.includes('¿')) {
-        const punktliste = beskrivelse.split('¿');
-        if (!punktliste[0]) {
-            punktliste.shift();
-        }
-        return (
-            <ul className="nokkelkvalifikasjoner">
-                {punktliste.map((punkt) => (
-                    <li key={punkt.toString()}>{punkt}</li>
-                ))}
-            </ul>
-        );
-    }
-    return <Normaltekst>{beskrivelse}</Normaltekst>;
-};
 
 const fjernDuplikater = (forerkortListe) => {
     const forerkortAlleredeILista = new Set();
@@ -42,24 +26,34 @@ const fjernDuplikater = (forerkortListe) => {
     });
 };
 
-const kursOmfang = (omfang) => {
-    if (omfang.enhet === 'TIME') return `${omfang.verdi} ${omfang.verdi > 1 ? 'timer' : 'time'}`;
-    else if (omfang.enhet === 'DAG') return `${omfang.verdi} ${omfang.verdi > 1 ? 'dager' : 'dag'}`;
-    else if (omfang.enhet === 'UKE') return `${omfang.verdi} ${omfang.verdi > 1 ? 'uker' : 'uke'}`;
-    else if (omfang.enhet === 'MND')
-        return `${omfang.verdi} ${omfang.verdi > 1 ? 'måneder' : 'måned'}`;
-    return '';
+const hentKursvarighet = (omfang: Omfang) => {
+    switch (omfang.enhet) {
+        case Omfangenhet.Time:
+            return `${omfang.verdi} ${omfang.verdi > 1 ? 'timer' : 'time'}`;
+        case Omfangenhet.Dag:
+            return `${omfang.verdi} ${omfang.verdi > 1 ? 'dager' : 'dag'}`;
+        case Omfangenhet.Uke:
+            return `${omfang.verdi} ${omfang.verdi > 1 ? 'uker' : 'uke'}`;
+        case Omfangenhet.Måned:
+            return `${omfang.verdi} ${omfang.verdi > 1 ? 'måneder' : 'måned'}`;
+        default:
+            return '';
+    }
 };
 
-const SprakLabels = {
-    IKKE_OPPGITT: 'Ikke oppgitt',
-    NYBEGYNNER: 'Nybegynner',
-    GODT: 'Godt',
-    VELDIG_GODT: 'Veldig godt',
-    FOERSTESPRAAK: 'Førstespråk (morsmål)',
+enum Språklabels {
+    IkkeOppgitt = 'Ikke oppgitt',
+    Nybegynner = 'Nybegynner',
+    Godt = 'Godt',
+    VeldigGodt = 'Veldig godt',
+    Foerstespraak = 'Førstespråk (morsmål)',
+}
+
+type Props = {
+    cv: Cv;
 };
 
-const KandidatCv = ({ cv }) => (
+const KandidatCv: FunctionComponent<Props> = ({ cv }) => (
     <div className="kandidat-cv">
         <Ekspanderbartpanel
             apen
@@ -70,7 +64,7 @@ const KandidatCv = ({ cv }) => (
                 <Row className="kandidat-cv__row">
                     <Column xs="12">
                         <Undertittel className="kandidat-cv__overskrift">Sammendrag</Undertittel>
-                        <VisCvBeskrivelse beskrivelse={cv.beskrivelse} />
+                        <Beskrivelse beskrivelse={cv.beskrivelse} />
                     </Column>
                 </Row>
             )}
@@ -135,34 +129,11 @@ const KandidatCv = ({ cv }) => (
                         </Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
-                        {sortByDato(cv.yrkeserfaring).map((a, i) => (
-                            <Row
-                                className="kandidat-cv__row-kategori"
-                                key={JSON.stringify({ ...a, index: i })}
-                            >
-                                <Undertekst className="kandidat-cv__tidsperiode">
-                                    <Tidsperiode
-                                        fradato={a.fraDato}
-                                        tildato={a.tilDato}
-                                        navarende={!a.tilDato}
-                                    />
-                                </Undertekst>
-                                {a.arbeidsgiver && !a.sted && (
-                                    <Normaltekst>{a.arbeidsgiver}</Normaltekst>
-                                )}
-                                {a.arbeidsgiver && a.sted && (
-                                    <Normaltekst>{`${a.arbeidsgiver} | ${a.sted}`}</Normaltekst>
-                                )}
-                                {!a.arbeidsgiver && a.sted && <Normaltekst>{a.sted}</Normaltekst>}
-                                {
-                                    <Element>
-                                        {a.alternativStillingstittel
-                                            ? a.alternativStillingstittel
-                                            : a.styrkKodeStillingstittel}
-                                    </Element>
-                                }
-                                {a.beskrivelse && <Normaltekst>{a.beskrivelse}</Normaltekst>}
-                            </Row>
+                        {sortByDato(cv.yrkeserfaring).map((erfaring, i) => (
+                            <Yrkeserfaring
+                                key={JSON.stringify({ ...erfaring, i })}
+                                erfaring={erfaring}
+                            />
                         ))}
                     </Column>
                 </Row>
@@ -290,8 +261,10 @@ const KandidatCv = ({ cv }) => (
                                 </Undertekst>
                                 {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
                                 {k.tittel && <Element>{k.tittel}</Element>}
-                                {kursOmfang(k.omfang) && (
-                                    <Normaltekst>{`Varighet: ${kursOmfang(k.omfang)}`}</Normaltekst>
+                                {hentKursvarighet(k.omfang) && (
+                                    <Normaltekst>{`Varighet: ${hentKursvarighet(
+                                        k.omfang
+                                    )}`}</Normaltekst>
                                 )}
                             </Row>
                         ))}
@@ -309,12 +282,12 @@ const KandidatCv = ({ cv }) => (
                                 <Element>{s.sprak}</Element>
                                 {s.ferdighetSkriftlig && (
                                     <Normaltekst>
-                                        Skriftlig: {SprakLabels[s.ferdighetSkriftlig]}
+                                        Skriftlig: {Språklabels[s.ferdighetSkriftlig]}
                                     </Normaltekst>
                                 )}
                                 {s.ferdighetMuntlig && (
                                     <Normaltekst>
-                                        Muntlig: {SprakLabels[s.ferdighetMuntlig]}
+                                        Muntlig: {Språklabels[s.ferdighetMuntlig]}
                                     </Normaltekst>
                                 )}
                             </Row>
@@ -325,13 +298,5 @@ const KandidatCv = ({ cv }) => (
         </Ekspanderbartpanel>
     </div>
 );
-
-KandidatCv.propTypes = {
-    cv: cvPropTypes.isRequired,
-};
-
-VisCvBeskrivelse.propTypes = {
-    beskrivelse: PropTypes.string.isRequired,
-};
 
 export default KandidatCv;

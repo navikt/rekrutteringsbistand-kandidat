@@ -1,8 +1,9 @@
 import { Tilgjengelighet, Innsatsgruppe } from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
 import cver, { antall } from './cv.mock';
 import Søkeresultat from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
+import Cv from '../../kandidatside/cv/reducer/cv-typer';
 
-const resultater: Søkeresultat[] = cver.map((cv) => ({
+const resultater: Søkeresultat[] = cver.map((cv: Cv) => ({
     aktorId: cv.aktorId,
     arenaKandidatnr: cv.kandidatnummer,
     fornavn: cv.fornavn,
@@ -17,7 +18,7 @@ const resultater: Søkeresultat[] = cver.map((cv) => ({
     hoyesteUtdanning: cv.utdanning[0],
     servicebehov: 'Varig tilpasset innsats',
     innsatsgruppe: Innsatsgruppe.Standard,
-    midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig, // TODO: Dynamisk midl.util.
+    midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig,
 }));
 
 const kompetanseAggregeringerFelt = [
