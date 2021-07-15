@@ -415,7 +415,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
     hentKandidatlisteMedAnnonsenummer: (annonsenummer) => {
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
+            type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer,
             annonsenummer,
         });
     },
