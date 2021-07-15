@@ -1,20 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Systemtittel } from 'nav-frontend-typografi';
+
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import { Nettstatus } from '../../api/remoteData';
+import { KandidatlisteSammendrag } from '../../kandidatliste/kandidatlistetyper';
+import KandidatlisteAction, {
+    Kandidatlisteinfo,
+} from '../../kandidatliste/reducer/KandidatlisteAction';
+import AppState from '../../AppState';
 
-const kandidatlisteInfoWrapper = (kandidatliste) => ({
+const kandidatlisteInfoWrapper = (kandidatliste: KandidatlisteSammendrag) => ({
     ...kandidatliste,
     tittel: kandidatliste.tittel || '',
     beskrivelse: kandidatliste.beskrivelse || '',
-    oppdragsgiver: kandidatliste.oppdragsgiver || '',
 });
 
-const EndreModal = ({
+type Props = {
+    oppdaterKandidatliste: (info: Kandidatlisteinfo) => void;
+    resetStatusTilUnsaved: () => void;
+    lagreStatus: Nettstatus;
+    onAvbrytClick: () => void;
+    kandidatliste: KandidatlisteSammendrag;
+};
+
+const EndreModal: FunctionComponent<Props> = ({
     oppdaterKandidatliste,
     resetStatusTilUnsaved,
     lagreStatus,
@@ -23,11 +36,10 @@ const EndreModal = ({
 }) => (
     <ModalMedKandidatScope
         isOpen
+        closeButton
         contentLabel="modal endre kandidatliste"
         onRequestClose={onAvbrytClick}
         className="modal--opprett-kandidatliste__veileder"
-        closeButton
-        appElement={document.getElementById('app')}
     >
         <Systemtittel className="blokk-s">Endre kandidatlisten</Systemtittel>
         <OpprettKandidatlisteForm
@@ -41,20 +53,12 @@ const EndreModal = ({
     </ModalMedKandidatScope>
 );
 
-EndreModal.propTypes = {
-    oppdaterKandidatliste: PropTypes.func,
-    resetStatusTilUnsaved: PropTypes.func,
-    lagreStatus: PropTypes.string,
-    onAvbrytClick: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
     lagreStatus: state.kandidatliste.opprett.lagreStatus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    oppdaterKandidatliste: (kandidatlisteInfo) => {
+const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
+    oppdaterKandidatliste: (kandidatlisteInfo: Kandidatlisteinfo) => {
         dispatch({ type: KandidatlisteActionType.OppdaterKandidatliste, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {

@@ -43,13 +43,15 @@ export interface HentKandidatlisteMedKandidatlisteIdFailureAction {
     error: ApiError;
 }
 
+export type Kandidatlisteinfo = {
+    tittel: string;
+    beskrivelse?: string;
+    bedrift?: any;
+};
+
 export interface OpprettKandidatlisteAction {
     type: KandidatlisteActionType.OpprettKandidatliste;
-    kandidatlisteInfo: {
-        tittel: string;
-        beskrivelse?: string;
-        bedrift?: any;
-    };
+    kandidatlisteInfo: Kandidatlisteinfo;
 }
 
 export interface OpprettKandidatlisteSuccessAction {
