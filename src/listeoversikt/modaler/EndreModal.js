@@ -5,6 +5,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import { Nettstatus } from '../../api/remoteData';
 
 const kandidatlisteInfoWrapper = (kandidatliste) => ({
     ...kandidatliste,
