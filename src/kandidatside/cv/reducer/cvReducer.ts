@@ -1,37 +1,37 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchCv } from '../../../api/api';
-import { INVALID_RESPONSE_STATUS } from '../../../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../../../kandidatsøk/reducer/searchActions';
 import Cv from './cv-typer';
 import { SearchApiError } from '../../../api/fetchUtils';
 
 export enum CvActionType {
-    FETCH_CV = 'FETCH_CV',
-    FETCH_CV_BEGIN = 'FETCH_CV_BEGIN',
-    FETCH_CV_SUCCESS = 'FETCH_CV_SUCCESS',
-    FETCH_CV_NOT_FOUND = 'FETCH_CV_NOT_FOUND',
-    FETCH_CV_FAILURE = 'FETCH_CV_FAILURE',
+    FetchCv = 'FETCH_CV',
+    FetchCvBegin = 'FETCH_CV_BEGIN',
+    FetchCvSuccess = 'FETCH_CV_SUCCESS',
+    FetchCvNotFound = 'FETCH_CV_NOT_FOUND',
+    FetchCvFailure = 'FETCH_CV_FAILURE',
 }
 
 export type FetchCvAction = {
-    type: CvActionType.FETCH_CV;
+    type: CvActionType.FetchCv;
     arenaKandidatnr: string;
 };
 
 export type FetchCvBeginAction = {
-    type: CvActionType.FETCH_CV_BEGIN;
+    type: CvActionType.FetchCvBegin;
 };
 
 export type FetchCvSuccessAction = {
-    type: CvActionType.FETCH_CV_SUCCESS;
+    type: CvActionType.FetchCvSuccess;
     response: Cv;
 };
 
 export type FetchCvNotFoundAction = {
-    type: CvActionType.FETCH_CV_NOT_FOUND;
+    type: CvActionType.FetchCvNotFound;
 };
 
 export type FetchCvFailureAction = {
-    type: CvActionType.FETCH_CV_FAILURE;
+    type: CvActionType.FetchCvFailure;
 };
 
 export type CvAction =
@@ -69,18 +69,18 @@ const initialState: any = {
 
 export default function cvReducer(state: CvState = initialState, action: CvAction) {
     switch (action.type) {
-        case CvActionType.FETCH_CV:
+        case CvActionType.FetchCv:
             return {
                 ...state,
                 hentStatus: HentCvStatus.Loading,
             };
-        case CvActionType.FETCH_CV_SUCCESS:
+        case CvActionType.FetchCvSuccess:
             return {
                 ...state,
                 cv: action.response,
                 hentStatus: HentCvStatus.Success,
             };
-        case CvActionType.FETCH_CV_NOT_FOUND:
+        case CvActionType.FetchCvNotFound:
             return {
                 ...state,
                 hentStatus: HentCvStatus.FinnesIkke,
@@ -93,13 +93,13 @@ export default function cvReducer(state: CvState = initialState, action: CvActio
 function* fetchCvForKandidat(action: FetchCvAction) {
     try {
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
-        yield put({ type: CvActionType.FETCH_CV_SUCCESS, response });
+        yield put({ type: CvActionType.FetchCvSuccess, response });
     } catch (e) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
-                yield put({ type: CvActionType.FETCH_CV_NOT_FOUND });
+                yield put({ type: CvActionType.FetchCvNotFound });
             } else {
-                yield put({ type: CvActionType.FETCH_CV_FAILURE, error: e });
+                yield put({ type: CvActionType.FetchCvFailure, error: e });
             }
         } else {
             throw e;
@@ -108,10 +108,10 @@ function* fetchCvForKandidat(action: FetchCvAction) {
 }
 
 function* dispatchGenerellErrorAction(action: any) {
-    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+    yield put({ type: KandidatsøkActionType.InvalidResponseStatus, error: action.error });
 }
 
 export const cvSaga = function* cvSaga() {
-    yield takeLatest(CvActionType.FETCH_CV, fetchCvForKandidat);
-    yield takeLatest(CvActionType.FETCH_CV_FAILURE, dispatchGenerellErrorAction);
+    yield takeLatest(CvActionType.FetchCv, fetchCvForKandidat);
+    yield takeLatest(CvActionType.FetchCvFailure, dispatchGenerellErrorAction);
 };

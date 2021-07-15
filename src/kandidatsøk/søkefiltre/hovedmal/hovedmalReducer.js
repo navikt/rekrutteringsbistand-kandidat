@@ -1,7 +1,5 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const CHECK_TOTAL_HOVEDMAL = 'CHECK_TOTAL_HOVEDMAL';
 export const UNCHECK_TOTAL_HOVEDMAL = 'UNCHECK_TOTAL_HOVEDMAL';
@@ -19,7 +17,7 @@ const initialState = {
 
 export default function hovedmalReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 totaltHovedmal: action.query.hovedmal || [],
@@ -40,7 +38,7 @@ export default function hovedmalReducer(state = initialState, action) {
                 ...state,
                 panelOpen: !state.panelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 panelOpen: false,

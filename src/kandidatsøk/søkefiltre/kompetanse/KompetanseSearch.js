@@ -1,17 +1,11 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
-import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
 import {
     REMOVE_SELECTED_KOMPETANSE,
     SELECT_TYPE_AHEAD_VALUE_KOMPETANSE,
     TOGGLE_KOMPETANSE_PANEL_OPEN,
 } from './kompetanseReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
@@ -19,6 +13,9 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Kompetanse.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const KompetanseSearch = ({ ...props }) => {
     const {
@@ -158,7 +155,7 @@ const KompetanseSearch = ({ ...props }) => {
                     </div>
                 </div>
             )}
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Kompetanse && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -203,11 +200,19 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.KOMPETANSE }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Kompetanse }),
     clearTypeAheadKompetanse: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: TypeaheadBranch.Kompetanse,
+        }),
     fetchTypeAheadSuggestionsKompetanse: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: TypeaheadBranch.Kompetanse,
+            value,
+        }),
     selectTypeAheadValueKompetanse: (value) =>
         dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
     removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),

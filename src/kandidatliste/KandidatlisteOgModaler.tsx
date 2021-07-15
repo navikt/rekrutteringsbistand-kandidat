@@ -25,6 +25,7 @@ import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { Dispatch } from 'redux';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -385,7 +386,7 @@ const mapStateToProps = (state: AppState) => ({
     formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
 });
 
-const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
+const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
     endreStatusKandidat: (status: Kandidatstatus, kandidatlisteId: string, kandidatnr: string) => {
         dispatch({
             type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,

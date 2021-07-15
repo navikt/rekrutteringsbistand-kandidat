@@ -4,12 +4,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
 import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import {
-    SEARCH,
-    SET_STATE,
-    FERDIGUTFYLTESTILLINGER_KLIKK,
-    LUKK_ALLE_SOKEPANEL,
-} from '../reducer/searchReducer';
+import { KandidatsøkActionType } from '../reducer/searchActions';
 
 import './Bransjevelger.less';
 
@@ -109,11 +104,14 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    setQuery: (query) => dispatch({ type: SET_STATE, query }),
-    search: () => dispatch({ type: SEARCH }),
-    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    setQuery: (query) => dispatch({ type: KandidatsøkActionType.SetState, query }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search }),
+    lukkAlleSokepanel: () => dispatch({ type: KandidatsøkActionType.LukkAlleSokepanel }),
     ferdigutfylteStillingerKlikk: (ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk) =>
-        dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),
+        dispatch({
+            type: KandidatsøkActionType.FerdigutfyltestillingerKlikk,
+            ferdigutfylteStillingerKlikk,
+        }),
 });
 
 export default connect(null, mapDispatchToProps)(Bransjevelger);

@@ -3,9 +3,9 @@ import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Checkbox } from 'nav-frontend-skjema';
 import AppState from '../../../AppState';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
 import { PermitteringActionType } from './permitteringReducer';
 import './PermitteringSearch.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 interface Props {
     permittert: boolean;
@@ -75,7 +75,7 @@ export default connect(
         panelOpen: state.søkefilter.permittering.panelOpen,
     }),
     (dispatch: (action: any) => void) => ({
-        search: () => dispatch({ type: SEARCH }),
+        search: () => dispatch({ type: KandidatsøkActionType.Search }),
         setPermittert: (permittert: boolean, ikkePermittert: boolean) =>
             dispatch({
                 type: PermitteringActionType.SET_PERMITTERT,

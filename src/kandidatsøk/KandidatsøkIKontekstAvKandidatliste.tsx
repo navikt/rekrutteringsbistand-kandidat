@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteChildrenProps } from 'react-router-dom';
-import { SEARCH, SØK_MED_URL_PARAMETERE } from './reducer/searchReducer';
+import { KandidatsøkActionType } from './reducer/searchActions';
 import { harUrlParametere } from './reducer/searchQuery';
 import { Kandidatsøk } from './Kandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './kandidater-er-lagret-suksessmelding/KandidaterErLagretSuksessmelding';
@@ -30,11 +30,11 @@ const KandidatsøkIKontekstAvKandidatliste: FunctionComponent<Props> = ({ match 
 
     useEffect(() => {
         const oppdaterStateFraUrlOgSøk = (href: string, kandidatlisteId?: string) => {
-            dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId });
+            dispatch({ type: KandidatsøkActionType.SøkMedUrlParametere, href, kandidatlisteId });
         };
 
         const oppdaterUrlFraStateOgSøk = () => {
-            dispatch({ type: SEARCH });
+            dispatch({ type: KandidatsøkActionType.Search });
         };
 
         const søkestateKommerFraDenneKandidatlisten =

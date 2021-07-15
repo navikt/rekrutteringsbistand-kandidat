@@ -1,13 +1,15 @@
 import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
-import { Input, Radio, SkjemaGruppe } from 'nav-frontend-skjema';
-import './FerskArbeidserfaring.less';
-import AppState from '../../../../AppState';
 import { connect } from 'react-redux';
-import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
-import { SEARCH } from '../../../reducer/searchReducer';
-import { ALERTTYPE } from '../../../../common/konstanter';
+import { Dispatch } from 'redux';
+import { Input, Radio, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
+
+import AppState from '../../../../AppState';
+import { ArbeidserfaringAction, ArbeidserfaringActionType } from '../arbeidserfaringReducer';
+import { KandidatsøkAction, KandidatsøkActionType } from '../../../reducer/searchActions';
+import { KandidatsøkAlert } from '../../../reducer/searchReducer';
+import './FerskArbeidserfaring.less';
 
 interface Props {
     search: () => void;
@@ -160,11 +162,15 @@ const mapStateToProps = (state: AppState) => ({
     maksAlderArbeidserfaring: state.søkefilter.arbeidserfaring.maksAlderArbeidserfaring,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
+const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction | ArbeidserfaringAction>) => ({
+    search: () =>
+        dispatch({
+            type: KandidatsøkActionType.Search,
+            alertType: KandidatsøkAlert.Arbeidserfaring,
+        }),
     setMaksAlderArbeidserfaring: (maksAlder: number | undefined) =>
         dispatch({
-            type: ArbeidserfaringActionType.SET_MAKS_ALDER_ARBEIDSERFARING,
+            type: ArbeidserfaringActionType.SetMaksAlderArbeidserfaring,
             value: maksAlder,
         }),
 });

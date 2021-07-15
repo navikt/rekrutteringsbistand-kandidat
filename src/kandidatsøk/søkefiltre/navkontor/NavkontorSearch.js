@@ -1,18 +1,12 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
-import { SEARCH } from '../../reducer/searchReducer';
 import {
     REMOVE_SELECTED_NAVKONTOR,
     SELECT_TYPE_AHEAD_VALUE_NAVKONTOR,
     TOGGLE_MINEKANDIDATER,
     TOGGLE_NAVKONTOR_PANEL_OPEN,
 } from './navkontorReducer';
-import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
@@ -20,6 +14,9 @@ import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Navkontor.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const NavkontorSearch = ({ ...props }) => {
     const {
@@ -123,7 +120,7 @@ const NavkontorSearch = ({ ...props }) => {
                     onChange={onToggleMineKandidater}
                 />
             </div>
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Navkontor && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -156,11 +153,19 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.NAVKONTOR }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Navkontor }),
     clearTypeAheadNavkontor: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.NAVKONTOR }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: TypeaheadBranch.Navkontor,
+        }),
     fetchTypeAheadSuggestions: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.NAVKONTOR, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: TypeaheadBranch.Navkontor,
+            value,
+        }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_NAVKONTOR, value }),
     removeNavkontor: (value) => dispatch({ type: REMOVE_SELECTED_NAVKONTOR, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_NAVKONTOR_PANEL_OPEN }),

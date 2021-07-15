@@ -1,16 +1,10 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_SPRAK = 'SELECT_TYPE_AHEAD_VALUE_SPRAK';
 export const REMOVE_SELECTED_SPRAK = 'REMOVE_SELECTED_SPRAK';
 
 export const TOGGLE_SPRAK_PANEL_OPEN = 'TOGGLE_SPRAK_PANEL_OPEN';
-
-/** *********************************************************
- * REDUCER
- ********************************************************* */
 
 const initialState = {
     sprak: [],
@@ -19,7 +13,7 @@ const initialState = {
 
 export default function sprakReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 sprak: action.query.sprak || [],
@@ -42,7 +36,7 @@ export default function sprakReducer(state = initialState, action) {
                 ...state,
                 sprakPanelOpen: !state.sprakPanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 sprakPanelOpen: false,

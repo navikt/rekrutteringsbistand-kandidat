@@ -4,10 +4,10 @@ import { Element } from 'nav-frontend-typografi';
 import { connect } from 'react-redux';
 
 import AppState from '../../../../AppState';
-import { SEARCH } from '../../../reducer/searchReducer';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
-import './OppstartstidspunktSearch.less';
 import { sendEvent } from '../../../../amplitude/amplitude';
+import './OppstartstidspunktSearch.less';
+import { KandidatsøkActionType } from '../../../reducer/searchActions';
 
 export enum Oppstartstidspunkt {
     LedigNå = 'LEDIG_NAA',
@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch: any) => ({
         dispatch({ type: TilgjengelighetAction.CheckOppstartstidspunkt, value: tidspunkt }),
     uncheckOppstartstidspunkt: (tidspunkt: Oppstartstidspunkt) =>
         dispatch({ type: TilgjengelighetAction.UncheckOppstartstidspunkt, value: tidspunkt }),
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OppstartstidspunktSearch);

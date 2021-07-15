@@ -1,22 +1,19 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
-import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
 import {
     SELECT_TYPE_AHEAD_VALUE_SPRAK,
     REMOVE_SELECTED_SPRAK,
     TOGGLE_SPRAK_PANEL_OPEN,
 } from './sprakReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const SprakSearch = ({ ...props }) => {
     const {
@@ -104,7 +101,7 @@ const SprakSearch = ({ ...props }) => {
                     ))}
                 </div>
             </div>
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.SPRAK && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Språk && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -134,11 +131,19 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.SPRAK }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Språk }),
     clearTypeAheadSprak: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: TypeaheadBranch.Sprak,
+        }),
     fetchTypeAheadSuggestions: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: TypeaheadBranch.Sprak,
+            value,
+        }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),
     removeSprak: (value) => dispatch({ type: REMOVE_SELECTED_SPRAK, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_SPRAK_PANEL_OPEN }),

@@ -119,7 +119,7 @@ const midlertidigUtilgjengeligReducer = (
     action: MidlertidigUtilgjengeligAction | CvAction
 ) => {
     switch (action.type) {
-        case CvActionType.FETCH_CV: {
+        case CvActionType.FetchCv: {
             return {
                 ...state,
                 [action.arenaKandidatnr]: ikkeLastet(),
@@ -277,7 +277,7 @@ function* slettMidlertidigUtilgjengelig(action: SlettMidlertidigUtilgjengeligAct
 }
 
 export const midlertidigUtilgjengeligSaga = function* () {
-    yield takeLatest(CvActionType.FETCH_CV_SUCCESS, hentMidlertidigUtilgjengeligMedCvResponse);
+    yield takeLatest(CvActionType.FetchCvSuccess, hentMidlertidigUtilgjengeligMedCvResponse);
     yield takeLatest('FETCH_MIDLERTIDIG_UTILGJENGELIG', hentMidlertidigUtilgjengeligMedAktørId);
     yield takeLatest('LAGRE_MIDLERTIDIG_UTILGJENGELIG', lagreMidlertidigUtilgjengelig);
     yield takeLatest('ENDRE_MIDLERTIDIG_UTILGJENGELIG', endreMidlertidigUtilgjengelig);

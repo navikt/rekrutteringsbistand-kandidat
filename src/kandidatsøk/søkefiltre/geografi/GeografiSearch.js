@@ -1,25 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
-import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
 import {
     REMOVE_SELECTED_GEOGRAFI,
     SELECT_TYPE_AHEAD_VALUE_GEOGRAFI,
     TOGGLE_GEOGRAFI_PANEL_OPEN,
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from './geografiReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import CheckboxMedHjelpetekst from './checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 import './Geografi.less';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const GeografiSearch = ({ ...props }) => {
     const {
@@ -149,7 +146,7 @@ const GeografiSearch = ({ ...props }) => {
                     />
                 </div>
             </div>
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Geografi && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -202,11 +199,19 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.GEOGRAFI }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Geografi }),
     clearTypeAheadGeografi: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: TypeaheadBranch.Geografi,
+        }),
     fetchTypeAheadSuggestions: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: TypeaheadBranch.Geografi,
+            value,
+        }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
     removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_GEOGRAFI_PANEL_OPEN }),

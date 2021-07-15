@@ -1,22 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FETCH_KOMPETANSE_SUGGESTIONS, SEARCH } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 import {
     REMOVE_SELECTED_STILLING,
     SELECT_TYPE_AHEAD_VALUE_STILLING,
     TOGGLE_STILLING_PANEL_OPEN,
 } from './stillingReducer';
-import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
+import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const StillingSearch = ({ ...props }) => {
     const {
@@ -121,7 +118,7 @@ const StillingSearch = ({ ...props }) => {
                     Du kan kun legge til én stilling/yrke
                 </Normaltekst>
             )}
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.STILLING && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Stilling && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -162,14 +159,23 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.STILLING }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Stilling }),
     clearTypeAheadStilling: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.STILLING }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: TypeaheadBranch.Stilling,
+        }),
     fetchTypeAheadSuggestions: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.STILLING, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: TypeaheadBranch.Stilling,
+            value,
+        }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
     removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
-    fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS }),
+    fetchKompetanseSuggestions: () =>
+        dispatch({ type: KandidatsøkActionType.FetchKompetanseSuggestions }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_STILLING_PANEL_OPEN }),
 });
 

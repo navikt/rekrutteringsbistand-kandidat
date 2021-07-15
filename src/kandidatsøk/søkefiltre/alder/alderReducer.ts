@@ -1,5 +1,5 @@
-import { LUKK_ALLE_SOKEPANEL, SET_STATE } from '../../reducer/searchReducer';
-import { FellesSøkekriterieActions } from '../../reducer/typedSearchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { KandidatsøkAction } from '../../reducer/searchActions';
 
 export enum AlderActionType {
     ToggleAlderPanel = 'ToggleAlderPanel',
@@ -16,10 +16,7 @@ interface SetAlderActionType {
     til: number | undefined;
 }
 
-export type AlderAction =
-    | ToggleAlderPanelActionType
-    | SetAlderActionType
-    | FellesSøkekriterieActions;
+export type AlderAction = ToggleAlderPanelActionType | SetAlderActionType | KandidatsøkAction;
 
 export interface AlderState {
     til: number | undefined;
@@ -41,10 +38,10 @@ export const alderReducer = (state: AlderState = initialState, action: AlderActi
         case AlderActionType.ToggleAlderPanel: {
             return { ...state, panelOpen: !state.panelOpen };
         }
-        case LUKK_ALLE_SOKEPANEL: {
+        case KandidatsøkActionType.LukkAlleSokepanel: {
             return { ...state, panelOpen: false };
         }
-        case SET_STATE: {
+        case KandidatsøkActionType.SetState: {
             const { alderFra, alderTil } = action.query;
             return {
                 fra: alderFra,

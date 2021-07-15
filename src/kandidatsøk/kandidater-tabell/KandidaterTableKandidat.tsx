@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { capitalizeFirstLetter, capitalizePoststed } from '../utils';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { SET_SCROLL_POSITION } from '../reducer/searchReducer';
+import { KandidatsøkActionType } from '../reducer/searchActions';
 import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Søkeresultat from './Søkeresultat';
@@ -111,7 +111,10 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setScrollPosition: (scrollPosisjon) =>
-        dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
+        dispatch({
+            type: KandidatsøkActionType.SetScrollPosition,
+            scrolletFraToppen: scrollPosisjon,
+        }),
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
         dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
     },

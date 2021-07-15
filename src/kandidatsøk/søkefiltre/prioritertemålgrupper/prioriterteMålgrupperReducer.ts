@@ -1,4 +1,4 @@
-import { LUKK_ALLE_SOKEPANEL, SET_STATE } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export const CHANGE_PRIORITERTE_MÅLGRUPPER = 'CHANGE_PRIORITERTE_MÅLGRUPPER';
 export const TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN = 'TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN';
@@ -18,7 +18,7 @@ export default function prioriterteMålgrupperReducer(
     action: any
 ) {
     switch (action.type) {
-        case SET_STATE: {
+        case KandidatsøkActionType.SetState: {
             const valgteMålgrupper = action.query.prioriterteMålgrupper;
 
             return {
@@ -32,7 +32,7 @@ export default function prioriterteMålgrupperReducer(
                 ...state,
                 prioriterteMålgrupperPanelOpen: !state.prioriterteMålgrupperPanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 prioriterteMålgrupperPanelOpen: false,

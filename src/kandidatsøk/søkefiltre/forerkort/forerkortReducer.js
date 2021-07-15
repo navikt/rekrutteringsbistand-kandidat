@@ -1,7 +1,5 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_FORERKORT = 'SELECT_TYPE_AHEAD_VALUE_FORERKORT';
 export const REMOVE_SELECTED_FORERKORT = 'REMOVE_SELECTED_FORERKORT';
@@ -19,7 +17,7 @@ const initialState = {
 
 export default function forerkortReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 forerkortList: action.query.forerkort || [],
@@ -43,7 +41,7 @@ export default function forerkortReducer(state = initialState, action) {
                 ...state,
                 forerkortPanelOpen: !state.forerkortPanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 forerkortPanelOpen: false,

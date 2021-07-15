@@ -1,11 +1,13 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { SEARCH } from '../../../reducer/searchReducer';
-import { ALERTTYPE } from '../../../../common/konstanter';
-import { CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from '../arbeidserfaringReducer';
-import { connect } from 'react-redux';
+
+import { ArbeidserfaringAction, ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import AppState from '../../../../AppState';
+import { KandidatsøkAction, KandidatsøkActionType } from '../../../reducer/searchActions';
+import { KandidatsøkAlert } from '../../../reducer/searchReducer';
 import './AntallÅrArbeidserfaring.less';
 
 const aarMedErfaringer = [
@@ -64,10 +66,16 @@ const mapStateToProps = (state: AppState) => ({
     totalErfaring: state.søkefilter.arbeidserfaring.totalErfaring,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
-    checkTotalErfaring: (value: string) => dispatch({ type: CHECK_TOTAL_ERFARING, value }),
-    uncheckTotalErfaring: (value: string) => dispatch({ type: UNCHECK_TOTAL_ERFARING, value }),
+const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction | ArbeidserfaringAction>) => ({
+    search: () =>
+        dispatch({
+            type: KandidatsøkActionType.Search,
+            alertType: KandidatsøkAlert.Arbeidserfaring,
+        }),
+    checkTotalErfaring: (value: string) =>
+        dispatch({ type: ArbeidserfaringActionType.CheckTotalErfaring, value }),
+    uncheckTotalErfaring: (value: string) =>
+        dispatch({ type: ArbeidserfaringActionType.UncheckTotalErfaring, value }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AntallÅrArbeidserfaring);

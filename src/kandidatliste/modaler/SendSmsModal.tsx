@@ -12,6 +12,7 @@ import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import './SendSmsModal.less';
+import { Dispatch } from 'redux';
 
 type OwnProps = {
     vis: boolean;
@@ -181,7 +182,7 @@ export default connect(
     (state: AppState) => ({
         sendStatus: state.kandidatliste.sms.sendStatus,
     }),
-    (dispatch: (action: KandidatlisteAction) => void) => ({
+    (dispatch: Dispatch<KandidatlisteAction>) => ({
         sendSmsTilKandidater: (melding: string, fnr: string[], kandidatlisteId: string) =>
             dispatch({
                 type: KandidatlisteActionType.SEND_SMS,

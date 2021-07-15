@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../reducer/searchReducer';
 import {
     CHECK_TOTAL_HOVEDMAL,
     UNCHECK_TOTAL_HOVEDMAL,
     TOGGLE_HOVEDMAL_PANEL_OPEN,
 } from './hovedmalReducer';
-import { ALERTTYPE } from '../../../common/konstanter';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Checkbox } from 'nav-frontend-skjema';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Hovedmal.less';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 const HovedmalEnum = {
     SKAFFE_ARBEID: 'SKAFFEA',
@@ -67,7 +67,7 @@ const HovedmalSearch = ({ ...props }) => {
                     />
                 ))}
             </div>
-            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.HOVEDMAL && (
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === KandidatsøkAlert.Hovedmål && (
                 <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
@@ -93,7 +93,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.HOVEDMAL }),
+    search: () =>
+        dispatch({ type: KandidatsøkActionType.Search, alertType: KandidatsøkAlert.Hovedmål }),
     checkHovedmal: (value) => dispatch({ type: CHECK_TOTAL_HOVEDMAL, value }),
     uncheckHovedmal: (value) => dispatch({ type: UNCHECK_TOTAL_HOVEDMAL, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_HOVEDMAL_PANEL_OPEN }),

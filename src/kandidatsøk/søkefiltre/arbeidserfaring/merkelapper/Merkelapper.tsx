@@ -2,18 +2,17 @@ import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import { SEARCH } from '../../../reducer/searchReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../../common/konstanter';
 import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
+    TypeaheadAction,
+    TypeaheadActionType,
+    TypeaheadBranch,
 } from '../../../../common/typeahead/typeaheadReducer';
-import {
-    REMOVE_SELECTED_ARBEIDSERFARING,
-    SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING,
-} from '../arbeidserfaringReducer';
+import { ArbeidserfaringAction, ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../../AppState';
+import { KandidatsøkAction, KandidatsøkActionType } from '../../../reducer/searchActions';
+import { Dispatch } from 'redux';
+import { KandidatsøkAlert } from '../../../reducer/searchReducer';
 
 interface Props {
     search: () => void;
@@ -100,16 +99,29 @@ const mapStateToProps = (state: AppState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
+const mapDispatchToProps = (
+    dispatch: Dispatch<KandidatsøkAction | TypeaheadAction | ArbeidserfaringAction>
+) => ({
+    search: () =>
+        dispatch({
+            type: KandidatsøkActionType.Search,
+            alertType: KandidatsøkAlert.Arbeidserfaring,
+        }),
     clearTypeAheadArbeidserfaring: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.ARBEIDSERFARING }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: TypeaheadBranch.Arbeidserfaring,
+        }),
     fetchTypeAheadSuggestions: (value: string) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.ARBEIDSERFARING, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: TypeaheadBranch.Arbeidserfaring,
+            value,
+        }),
     selectTypeAheadValue: (value: string) =>
-        dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
+        dispatch({ type: ArbeidserfaringActionType.SelectTypeAheadValueArbeidserfaring, value }),
     removeArbeidserfaring: (value: string) =>
-        dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value }),
+        dispatch({ type: ArbeidserfaringActionType.RemoveSelectedArbeidserfaring, value }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Merkelapper);

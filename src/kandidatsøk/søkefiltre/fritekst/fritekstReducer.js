@@ -1,7 +1,4 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-import { SET_STATE } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export const SET_FRITEKST_SOKEORD = 'SET_FRITEKST_SOKEORD';
 
@@ -15,7 +12,7 @@ const initialState = {
 
 export default function fritekstReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 fritekst: action.query.fritekst || '',

@@ -1,4 +1,5 @@
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const TOGGLE_TILRETTELEGGINGSBEHOV = 'TOGGLE_TILRETTELEGGINGSBEHOV';
 export const CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER = 'CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER';
@@ -21,7 +22,7 @@ export default function tilretteleggingsbehovReducer(
     action: any
 ) {
     switch (action.type) {
-        case SET_STATE: {
+        case KandidatsøkActionType.SetState: {
             const { tilretteleggingsbehov, kategorier } = action.query;
 
             return {
@@ -45,7 +46,7 @@ export default function tilretteleggingsbehovReducer(
                 ...state,
                 tilretteleggingsbehovPanelOpen: !state.tilretteleggingsbehovPanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 tilretteleggingsbehovPanelOpen: false,

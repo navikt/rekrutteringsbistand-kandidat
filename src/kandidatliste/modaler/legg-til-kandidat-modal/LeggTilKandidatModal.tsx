@@ -20,6 +20,7 @@ import RegistrerFormidlingAvUsynligKandidat from './RegistrerFormidlingAvUsynlig
 import './LeggTilKandidatModal.less';
 import { sendEvent } from '../../../amplitude/amplitude';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
+import { Dispatch } from 'redux';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -401,7 +402,7 @@ const mapStateToProps = (state: AppState) => ({
     navKontor: state.navKontor.valgtNavKontor,
 });
 
-const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
+const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
     setFodselsnummer: (fodselsnummer: string) => {
         dispatch({ type: KandidatlisteActionType.SET_FODSELSNUMMER, fodselsnummer });
     },

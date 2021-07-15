@@ -1,16 +1,10 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const CHECK_INNSATSGRUPPE = 'CHECK_INNSATSGRUPPE';
 export const UNCHECK_INNSATSGRUPPE = 'UNCHECK_INNSATSGRUPPE';
 
 export const TOGGLE_INNSATSGRUPPE_PANEL_OPEN = 'TOGGLE_INNSATSGRUPPE_PANEL_OPEN';
-
-/** *********************************************************
- * REDUCER
- ********************************************************* */
 
 const initialState = {
     kvalifiseringsgruppeKoder: [],
@@ -19,7 +13,7 @@ const initialState = {
 
 export default function innsatsgruppeReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 kvalifiseringsgruppeKoder: action.query.kvalifiseringsgruppeKoder || [],
@@ -44,7 +38,7 @@ export default function innsatsgruppeReducer(state = initialState, action) {
                 ...state,
                 innsatsgruppePanelOpen: !state.innsatsgruppePanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 innsatsgruppePanelOpen: false,

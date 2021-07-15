@@ -1,11 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import {
-    FETCH_FEATURE_TOGGLES_BEGIN,
-    FJERN_ERROR,
-    LUKK_ALLE_SOKEPANEL,
-} from '../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import { sendEvent } from '../amplitude/amplitude';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
 import AppState from '../AppState';
@@ -122,9 +118,9 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
-    fjernError: () => dispatch({ type: FJERN_ERROR }),
-    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    fetchFeatureToggles: () => dispatch({ type: KandidatsøkActionType.FetchFeatureTogglesBegin }),
+    fjernError: () => dispatch({ type: KandidatsøkActionType.FjernError }),
+    lukkAlleSokepanel: () => dispatch({ type: KandidatsøkActionType.LukkAlleSokepanel }),
     velgNavKontor: (valgtNavKontor: string) =>
         dispatch({ type: NavKontorActionTypes.VelgNavKontor, valgtNavKontor }),
 });

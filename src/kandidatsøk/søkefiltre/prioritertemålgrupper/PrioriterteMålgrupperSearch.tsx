@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
-import { SEARCH } from '../../reducer/searchReducer';
 import {
     CHANGE_PRIORITERTE_MÅLGRUPPER,
     TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN,
@@ -12,6 +11,7 @@ import AppState from '../../../AppState';
 import './PrioriterteMålgrupper.less';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import { PopoverOrientering } from 'nav-frontend-popover';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 interface PrioriterteMålgrupperSearchProps {
     search: () => void;
@@ -94,7 +94,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: KandidatsøkActionType.Search }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN }),
     changePrioriterteMålgrupper: (valgteMålgrupper: PrioritertMålgruppe[]) =>
         dispatch({ type: CHANGE_PRIORITERTE_MÅLGRUPPER, valgteMålgrupper }),

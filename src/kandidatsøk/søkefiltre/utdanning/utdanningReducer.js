@@ -1,7 +1,5 @@
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../../reducer/searchReducer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { harEnParameter } from '../../reducer/searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_UTDANNING = 'SELECT_TYPE_AHEAD_VALUE_UTDANNING';
 export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';
@@ -11,10 +9,6 @@ export const UNCHECK_UTDANNINGSNIVA = 'UNCHECK_UTDANNINGSNIVA';
 
 export const TOGGLE_UTDANNING_PANEL_OPEN = 'TOGGLE_UTDANNING_PANEL_OPEN';
 
-/** *********************************************************
- * REDUCER
- ********************************************************* */
-
 const initialState = {
     utdanninger: [],
     utdanningsniva: [],
@@ -23,7 +17,7 @@ const initialState = {
 
 export default function utdanningReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case KandidatsøkActionType.SetState:
             return {
                 ...state,
                 utdanninger: action.query.utdanninger || [],
@@ -58,7 +52,7 @@ export default function utdanningReducer(state = initialState, action) {
                 ...state,
                 utdanningPanelOpen: !state.utdanningPanelOpen,
             };
-        case LUKK_ALLE_SOKEPANEL:
+        case KandidatsøkActionType.LukkAlleSokepanel:
             return {
                 ...state,
                 utdanningPanelOpen: false,

@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import { TOGGLE_ARBEIDSERFARING_PANEL_OPEN } from './arbeidserfaringReducer';
-import { ALERTTYPE } from '../../../common/konstanter';
+import { ArbeidserfaringAction, ArbeidserfaringActionType } from './arbeidserfaringReducer';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import AntallÅrArbeidserfaring from './antall-år-arbeidserfaring/AntallÅrArbeidserfaring';
 import Merkelapper from './merkelapper/Merkelapper';
 import AppState from '../../../AppState';
 import FerskArbeidserfaring from './fersk-arbeidserfaring/FerskArbeidserfaring';
+import { Dispatch } from 'redux';
+import { KandidatsøkAlert } from '../../reducer/searchReducer';
 
 interface Props {
     togglePanelOpen: () => void;
@@ -28,7 +29,7 @@ const ArbeidserfaringSearch: FunctionComponent<Props> = (props) => (
         <FerskArbeidserfaring />
         <AntallÅrArbeidserfaring />
         {props.totaltAntallTreff <= 10 &&
-            props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
+            props.visAlertFaKandidater === KandidatsøkAlert.Arbeidserfaring && (
                 <FåKandidaterAlert totaltAntallTreff={props.totaltAntallTreff} />
             )}
     </SokekriteriePanel>
@@ -40,8 +41,9 @@ const mapStateToProps = (state: AppState) => ({
     panelOpen: state.søkefilter.arbeidserfaring.arbeidserfaringPanelOpen,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-    togglePanelOpen: () => dispatch({ type: TOGGLE_ARBEIDSERFARING_PANEL_OPEN }),
+const mapDispatchToProps = (dispatch: Dispatch<ArbeidserfaringAction>) => ({
+    togglePanelOpen: () =>
+        dispatch({ type: ArbeidserfaringActionType.ToggleArbeidserfaringPanelOpen }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArbeidserfaringSearch);

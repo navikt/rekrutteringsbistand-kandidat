@@ -1,5 +1,5 @@
 import { Nettstatus } from '../../api/remoteData';
-import { INVALID_RESPONSE_STATUS } from '../../kandidatsøk/reducer/searchReducer';
+import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
     deleteKandidatliste,
@@ -9,6 +9,7 @@ import {
 import AppState from '../../AppState';
 import {
     ListeoversiktActionType,
+    MarkerKandidatlisteSomMinAction,
     SlettKandidatlisteAction,
     SlettKandidatlisteFerdigAction,
 } from './ListeoversiktAction';
@@ -41,7 +42,7 @@ function* slettKandidatliste(action: SlettKandidatlisteAction) {
     });
 }
 
-function* markerKandidatlisteSomMin(action) {
+function* markerKandidatlisteSomMin(action: MarkerKandidatlisteSomMinAction) {
     try {
         yield endreEierskapPaKandidatliste(action.kandidatlisteId);
         yield put({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS });
@@ -58,12 +59,15 @@ function* markerKandidatlisteSomMin(action) {
 }
 
 function* sjekkError() {
-    yield put({ type: INVALID_RESPONSE_STATUS });
+    yield put({ type: KandidatsøkActionType.InvalidResponseStatus });
 }
 
 function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
     if (action.result.kind === Nettstatus.Feil) {
-        yield put({ type: INVALID_RESPONSE_STATUS, error: action.result.error });
+        yield put({
+            type: KandidatsøkActionType.InvalidResponseStatus,
+            error: action.result.error,
+        });
     }
 }
 
