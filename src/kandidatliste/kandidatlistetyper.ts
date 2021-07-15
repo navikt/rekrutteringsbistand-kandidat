@@ -1,6 +1,6 @@
 import { RemoteData } from '../api/remoteData';
+import { Tilgjengelighet } from '../kandidatside/cv/reducer/cv-typer';
 import { Visningsstatus } from './Kandidatliste';
-import { Tilgjengelighet } from '../kandidatsøk/kandidater-tabell/Søkeresultat';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import { ForespørselOmDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 

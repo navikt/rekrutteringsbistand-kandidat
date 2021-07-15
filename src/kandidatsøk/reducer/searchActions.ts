@@ -1,3 +1,5 @@
+import { MarkerbartSøkeresultat } from '../kandidater-og-modal/KandidaterOgModal';
+
 export enum KandidatsøkActionType {
     SettKandidatnummer = 'SETT_KANDIDATNUMMER',
     LastFlereKandidater = 'LAST_FLERE_KANDIDATER',
@@ -38,6 +40,16 @@ type LukkAlleSøkepanelAction = {
     type: KandidatsøkActionType.LukkAlleSokepanel;
 };
 
+export type OppdaterAntallKandidaterAction = {
+    type: KandidatsøkActionType.OppdaterAntallKandidater;
+    antall: number;
+};
+
+export type MarkerKandidaterAction = {
+    type: KandidatsøkActionType.MarkerKandidater;
+    kandidater: MarkerbartSøkeresultat[];
+};
+
 export type SearchAction = {
     type: KandidatsøkActionType.Search;
     alertType?: string;
@@ -53,9 +65,17 @@ type LastFlereKandidaterAction = {
     type: KandidatsøkActionType.LastFlereKandidater;
 };
 
+type SetScrollPositionAction = {
+    type: KandidatsøkActionType.SetScrollPosition;
+    scrolletFraToppen: number;
+};
+
 export type KandidatsøkAction =
     | SettKandidatnummerAction
     | LastFlereKandidaterAction
     | SetStateAction
     | LukkAlleSøkepanelAction
-    | SearchAction;
+    | SearchAction
+    | OppdaterAntallKandidaterAction
+    | MarkerKandidaterAction
+    | SetScrollPositionAction;

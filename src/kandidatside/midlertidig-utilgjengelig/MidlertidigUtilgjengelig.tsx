@@ -1,22 +1,23 @@
 import React, { FunctionComponent, useState } from 'react';
 import { connect } from 'react-redux';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+import moment from 'moment';
 import 'nav-datovelger/lib/styles/datovelger.less';
 
 import {
     MidlertidigUtilgjengeligAction,
+    MidlertidigUtilgjengeligActionType,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
+import { antallDagerMellom, dagensDato } from './validering';
 import { Nettressurs, Nettstatus } from '../../api/remoteData';
+import { sendEvent } from '../../amplitude/amplitude';
+import { Tilgjengelighet } from '../cv/reducer/cv-typer';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
+import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
 import './MidlertidigUtilgjengelig.less';
-import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
-import moment from 'moment';
-import { antallDagerMellom, dagensDato } from './validering';
-import { sendEvent } from '../../amplitude/amplitude';
-import { Tilgjengelighet } from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
 
 interface Props {
     aktørId: string;
@@ -168,21 +169,21 @@ export default connect(
     (dispatch: (action: MidlertidigUtilgjengeligAction) => void) => ({
         lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
             dispatch({
-                type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG',
+                type: MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengelig,
                 kandidatnr,
                 aktørId,
                 tilDato,
             }),
         endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
             dispatch({
-                type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG',
+                type: MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengelig,
                 kandidatnr,
                 aktørId,
                 tilDato,
             }),
         slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => {
             dispatch({
-                type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG',
+                type: MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengelig,
                 kandidatnr,
                 aktørId,
             });

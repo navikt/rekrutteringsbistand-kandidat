@@ -1,5 +1,5 @@
 import { FormidlingAvUsynligKandidatOutboundDto } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { Kandidatresultat } from '../../kandidatside/cv/reducer/cv-typer';
+import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -38,7 +38,7 @@ type FormidlingId = string;
 
 export interface KandidatlisteState {
     hentStatus: HentStatus;
-    kandidat?: Kandidatresultat;
+    kandidat?: CvSøkeresultat;
 
     lagreStatus: string;
     deleStatus: Delestatus;

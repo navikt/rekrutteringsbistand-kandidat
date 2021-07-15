@@ -3,12 +3,12 @@ import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 
-import { Tilgjengelighet } from '../../../kandidater-tabell/Søkeresultat';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 import AppState from '../../../../AppState';
 import TilgjengelighetIkon from '../../../../kandidatside/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
-import './MidlertidigUtilgjengeligSearch.less';
+import { Tilgjengelighet } from '../../../../kandidatside/cv/reducer/cv-typer';
 import { KandidatsøkActionType } from '../../../reducer/searchActions';
+import './MidlertidigUtilgjengeligSearch.less';
 
 interface Props {
     midlertidigUtilgjengelig: Tilgjengelighet[];

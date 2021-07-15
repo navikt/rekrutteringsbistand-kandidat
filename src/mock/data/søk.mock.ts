@@ -1,9 +1,11 @@
-import { Tilgjengelighet, Innsatsgruppe } from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
 import cver, { antall } from './cv.mock';
-import Søkeresultat from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
-import Cv from '../../kandidatside/cv/reducer/cv-typer';
+import Cv, {
+    CvSøkeresultat,
+    Innsatsgruppe,
+    Tilgjengelighet,
+} from '../../kandidatside/cv/reducer/cv-typer';
 
-const resultater: Søkeresultat[] = cver.map((cv: Cv) => ({
+const resultater: CvSøkeresultat[] = cver.map((cv: Cv) => ({
     aktorId: cv.aktorId,
     arenaKandidatnr: cv.kandidatnummer,
     fornavn: cv.fornavn,
@@ -15,7 +17,10 @@ const resultater: Søkeresultat[] = cver.map((cv: Cv) => ({
     erLagtTilKandidatliste: false,
     score: 'NaN',
     poststed: cv.adresse.poststednavn,
-    hoyesteUtdanning: cv.utdanning[0],
+    hoyesteUtdanning: {
+        nusKode: cv.utdanning[0].nusKode,
+        nusKodeGrad: cv.utdanning[0].nusKodeGrad,
+    },
     servicebehov: 'Varig tilpasset innsats',
     innsatsgruppe: Innsatsgruppe.Standard,
     midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig,

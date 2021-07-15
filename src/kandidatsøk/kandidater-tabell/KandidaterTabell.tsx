@@ -1,14 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
 import KandidaterTableRow from './KandidaterTableKandidat';
 import KandidaterTableHeader from './KandidaterTableHeader';
-import cvPropTypes from '../../common/PropTypes';
-import './KandidaterTabell.less';
 import useMaskerFødselsnumre from '../../app/useMaskerFødselsnumre';
+import { MarkerbartSøkeresultat } from '../kandidater-og-modal/KandidaterOgModal';
+import './KandidaterTabell.less';
+import { FunctionComponent } from 'react';
 
-export default function KandidaterTabell({
+type Props = {
+    kandidatlisteId?: string;
+    stillingsId?: string;
+    kandidater: MarkerbartSøkeresultat[];
+    skjulPaginering?: boolean;
+    totaltAntallTreff: number;
+    antallResultater: number;
+    onFlereResultaterClick: () => void;
+    onKandidatValgt: (markert: boolean, kandidatnr: string) => void;
+    alleKandidaterMarkert: boolean;
+    onToggleMarkeringAlleKandidater: () => void;
+    valgtKandidatNr: string;
+};
+
+const KandidaterTabell: FunctionComponent<Props> = ({
     antallResultater,
     skjulPaginering,
     onFlereResultaterClick,
@@ -20,14 +34,12 @@ export default function KandidaterTabell({
     valgtKandidatNr,
     kandidatlisteId,
     stillingsId,
-}) {
+}) => {
     useMaskerFødselsnumre();
 
     return (
         <div className="kandidater-tabell">
             <KandidaterTableHeader
-                from={0}
-                to={antallResultater}
                 alleKandidaterMarkert={alleKandidaterMarkert}
                 onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
             />
@@ -36,8 +48,6 @@ export default function KandidaterTabell({
                     kandidat={kandidat}
                     key={kandidat.arenaKandidatnr}
                     onKandidatValgt={onKandidatValgt}
-                    markert={kandidat.markert}
-                    visCheckbox={false}
                     nettoppValgt={valgtKandidatNr === kandidat.arenaKandidatnr}
                     kandidatlisteId={kandidatlisteId}
                     stillingsId={stillingsId}
@@ -62,23 +72,6 @@ export default function KandidaterTabell({
             </div>
         </div>
     );
-}
-
-KandidaterTabell.defaultProps = {
-    kandidatlisteId: undefined,
-    stillingsId: undefined,
 };
 
-KandidaterTabell.propTypes = {
-    kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
-    skjulPaginering: PropTypes.bool.isRequired,
-    totaltAntallTreff: PropTypes.number.isRequired,
-    antallResultater: PropTypes.number.isRequired,
-    onFlereResultaterClick: PropTypes.func.isRequired,
-    onKandidatValgt: PropTypes.func.isRequired,
-    alleKandidaterMarkert: PropTypes.bool.isRequired,
-    onToggleMarkeringAlleKandidater: PropTypes.func.isRequired,
-    valgtKandidatNr: PropTypes.string.isRequired,
-    kandidatlisteId: PropTypes.string,
-    stillingsId: PropTypes.string,
-};
+export default KandidaterTabell;

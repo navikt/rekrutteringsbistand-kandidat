@@ -1,7 +1,7 @@
-import { KandidatsøkActionType } from '../../reducer/searchActions';
 import { Oppstartstidspunkt } from './oppstardstidspunkt/OppstartstidspunktSearch';
-import { Tilgjengelighet } from '../../kandidater-tabell/Søkeresultat';
 import { harEnParameter } from '../../reducer/searchReducer';
+import { Tilgjengelighet } from '../../../kandidatside/cv/reducer/cv-typer';
+import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export interface TilgjengelighetState {
     panelOpen: boolean;

@@ -105,6 +105,18 @@ export type Jobbønske = {
     primaertJobbonske: boolean;
 };
 
+export enum Innsatsgruppe {
+    Standard = 'Standard',
+    SpesieltTilpasset = 'Spesielt tilpasset innsats',
+    Situasjonsbestemt = 'Situasjonsbestemt innsats',
+}
+
+export enum Tilgjengelighet {
+    Tilgjengelig = 'tilgjengelig',
+    TilgjengeligInnen1Uke = 'tilgjengeliginnen1uke',
+    MidlertidigUtilgjengelig = 'midlertidigutilgjengelig',
+}
+
 type Cv = {
     adresse: Adresse;
     aktorId: string;
@@ -148,11 +160,25 @@ type Cv = {
     yrkeserfaring: Yrkeserfaring[];
 };
 
-export type Kandidatresultat = {
-    aktørId: string;
+export type CvSøkeresultat = {
+    aktorId: string;
     arenaKandidatnr: string;
-    fornavn: string;
+    erFodselsdatoDnr: boolean;
+    erLagtTilKandidatliste: boolean;
     etternavn: string;
+    fodselsdato: string;
+    fodselsnummer: string;
+    fornavn: string;
+    hoyesteUtdanning: {
+        nusKode: string;
+        nusKodeGrad?: string | null;
+    };
+    innsatsgruppe: Innsatsgruppe;
+    midlertidigUtilgjengeligStatus: Tilgjengelighet;
+    poststed: string;
+    score: any;
+    servicebehov: string;
+    totalLengdeYrkeserfaring: number;
 };
 
 export default Cv;

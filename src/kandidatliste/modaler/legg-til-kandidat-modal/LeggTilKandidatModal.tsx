@@ -8,7 +8,7 @@ import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-ty
 import fnrValidator from '@navikt/fnrvalidator';
 
 import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';
-import { Kandidatresultat } from '../../../kandidatside/cv/reducer/cv-typer';
+import { CvSøkeresultat } from '../../../kandidatside/cv/reducer/cv-typer';
 import { LAGRE_STATUS } from '../../../common/konstanter';
 import { Nettstatus, Nettressurs } from '../../../api/remoteData';
 import AppState from '../../../AppState';
@@ -26,7 +26,7 @@ const MAKS_NOTATLENGDE = 2000;
 
 export type KandidatOutboundDto = {
     kandidatnr: string;
-    notat: string;
+    notat?: string;
 };
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
@@ -53,7 +53,7 @@ type Props = {
     ) => void;
     notat: string;
     setNotat: (notat: string) => void;
-    kandidat: Kandidatresultat;
+    kandidat: CvSøkeresultat;
     resetSøk: () => void;
     søkPåusynligKandidat: Nettressurs<Array<Navn>>;
     hentStatus: HentStatus;

@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import './MidlertidigUtilgjengeligKnapp.less';
-import TilgjengelighetIkon from '../tilgjengelighet-ikon/TilgjengelighetIkon';
-import Chevron from 'nav-frontend-chevron';
 import classNames from 'classnames';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Tilgjengelighet } from '../../../kandidatsøk/kandidater-tabell/Søkeresultat';
+import Chevron from 'nav-frontend-chevron';
+
+import TilgjengelighetIkon from '../tilgjengelighet-ikon/TilgjengelighetIkon';
+import { Tilgjengelighet } from '../../cv/reducer/cv-typer';
+import './MidlertidigUtilgjengeligKnapp.less';
 
 interface Props {
     chevronType: 'opp' | 'ned';

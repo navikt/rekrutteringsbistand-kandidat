@@ -21,7 +21,7 @@ import { Nettressurs, Nettstatus } from '../api/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
 import { toUrlQuery } from '../kandidatsøk/reducer/searchQuery';
 import AppState from '../AppState';
-import Cv, { Kandidatresultat } from './cv/reducer/cv-typer';
+import Cv, { CvSøkeresultat } from './cv/reducer/cv-typer';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
@@ -45,7 +45,7 @@ type Props = ConnectedProps & {
 type ConnectedProps = {
     cv: Cv;
     hentCvForKandidat: (kandidatnr: string) => void;
-    kandidater: Kandidatresultat[];
+    kandidater: CvSøkeresultat[];
     antallKandidater: number;
     lastFlereKandidater: () => void;
     settValgtKandidat: (kandidatnr: string) => void;

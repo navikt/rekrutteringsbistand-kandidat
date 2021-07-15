@@ -7,10 +7,9 @@ import {
     Kandidatstatus,
 } from '../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
-import { Tilgjengelighet } from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
 import { v5 as uuid } from 'uuid';
 import cver from './cv.mock';
-import Cv from '../../kandidatside/cv/reducer/cv-typer';
+import Cv, { Tilgjengelighet } from '../../kandidatside/cv/reducer/cv-typer';
 import { enAnnenVeileder, enVeileder, meg, Veileder } from './veiledere.mock';
 import { Utfall } from '../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 

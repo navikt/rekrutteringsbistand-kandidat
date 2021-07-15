@@ -10,74 +10,89 @@ import {
 } from '../../api/api';
 import { SearchApiError } from '../../api/fetchUtils';
 
+export enum MidlertidigUtilgjengeligActionType {
+    FetchMidlertidigUtilgjengelig = 'FETCH_MIDLERTIDIG_UTILGJENGELIG',
+    FetchMidlertidigUtilgjengeligSuccess = 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS',
+    FetchMidlertidigUtilgjengeligFailure = 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+    LagreMidlertidigUtilgjengelig = 'LAGRE_MIDLERTIDIG_UTILGJENGELIG',
+    LagreMidlertidigUtilgjengeligSuccess = 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS',
+    LagreMidlertidigUtilgjengeligFailure = 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+    EndreMidlertidigUtilgjengelig = 'ENDRE_MIDLERTIDIG_UTILGJENGELIG',
+    EndreMidlertidigUtilgjengeligSuksess = 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
+    EndreMidlertidigUtilgjengeligFailure = 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+    SlettMidlertidigUtilgjengelig = 'SLETT_MIDLERTIDIG_UTILGJENGELIG',
+    SlettMidlertidigUtilgjengeligSuksess = 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
+    SlettMidlertidigUtilgjengeligFailure = 'SLETT_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+}
+
 export type FetchMidlertidigUtilgjengeligAction = {
-    type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG';
+    type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengelig;
     aktørId: string;
     kandidatnr: string;
 };
 
 export type FetchMidlertidigUtilgjengeligSuccessAction = {
-    type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS';
+    type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengeligSuccess;
     response: MidlertidigUtilgjengeligResponse;
     kandidatnr: string;
 };
 
 export type FetchMidlertidigUtilgjengeligFailureAction = {
-    type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
+    type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengeligFailure;
     error: ApiError;
     kandidatnr: string;
 };
 
 export type LagreMidlertidigUtilgjengeligAction = {
-    type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG';
+    type: MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengelig;
     kandidatnr: string;
     aktørId: string;
     tilDato: string;
 };
 
 export type LagreMidlertidigUtilgjengeligSuccessAction = {
-    type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS';
+    type: MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengeligSuccess;
     kandidatnr: string;
     response: MidlertidigUtilgjengeligResponse;
     endretTidspunkt: number;
 };
 
 export type LagreMidlertidigUtilgjengeligFailureAction = {
-    type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
+    type: MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengeligFailure;
     kandidatnr: string;
     error: ApiError;
 };
 
 export type EndreMidlertidigUtilgjengeligAction = {
-    type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG';
+    type: MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengelig;
     kandidatnr: string;
     aktørId: string;
     tilDato: string;
 };
 export type EndreMidlertidigUtilgjengeligSuksessAction = {
-    type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS';
+    type: MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengeligSuksess;
     kandidatnr: string;
     response: MidlertidigUtilgjengeligResponse;
     endretTidspunkt: number;
 };
 export type EndreMidlertidigUtilgjengeligFailureAction = {
-    type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
+    type: MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengeligFailure;
     kandidatnr: string;
     error: ApiError;
 };
 
 export type SlettMidlertidigUtilgjengeligAction = {
-    type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG';
+    type: MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengelig;
     kandidatnr: string;
     aktørId: string;
 };
 export type SlettMidlertidigUtilgjengeligSuksessAction = {
-    type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS';
+    type: MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengeligSuksess;
     kandidatnr: string;
     endretTidspunkt: number;
 };
 export type SlettMidlertidigUtilgjengeligFailureAction = {
-    type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
+    type: MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengeligFailure;
     kandidatnr: string;
     error: ApiError;
 };
@@ -125,13 +140,13 @@ const midlertidigUtilgjengeligReducer = (
                 [action.arenaKandidatnr]: ikkeLastet(),
             };
         }
-        case 'FETCH_MIDLERTIDIG_UTILGJENGELIG':
+        case MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengelig:
             return {
                 ...state,
                 [action.kandidatnr]: lasterInn(),
             };
-        case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG':
-        case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG': {
+        case MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengelig:
+        case MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengelig: {
             const kandidat = state[action.kandidatnr];
             let data: MidlertidigUtilgjengeligResponse | undefined = undefined;
 
@@ -144,7 +159,7 @@ const midlertidigUtilgjengeligReducer = (
                 [action.kandidatnr]: senderInn(data),
             };
         }
-        case 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
+        case MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengeligSuksess:
             return {
                 ...state,
                 [action.kandidatnr]: suksess({
@@ -152,26 +167,26 @@ const midlertidigUtilgjengeligReducer = (
                 }),
                 endretTidspunkt: action.endretTidspunkt,
             };
-        case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
+        case MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengeligSuccess:
             return {
                 ...state,
                 [action.kandidatnr]: suksess(action.response),
             };
-        case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
-        case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
+        case MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengeligSuccess:
+        case MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengeligSuksess:
             return {
                 ...state,
                 [action.kandidatnr]: suksess(action.response),
                 endretTidspunkt: action.endretTidspunkt,
             };
-        case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
+        case MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengeligFailure:
             return {
                 ...state,
                 [action.kandidatnr]: feil(action.error),
             };
-        case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
-        case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
-        case 'SLETT_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
+        case MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengeligFailure:
+        case MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengeligFailure:
+        case MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengeligFailure:
             return {
                 ...state,
                 [action.kandidatnr]: feil(action.error),
@@ -193,14 +208,14 @@ function* hentMidlertidigUtilgjengelig(aktørId: string, kandidatnr: string) {
     try {
         const response = yield call(fetchMidlertidigUtilgjengelig, aktørId);
         yield put<MidlertidigUtilgjengeligAction>({
-            type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS',
+            type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengeligSuccess,
             response,
             kandidatnr,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put<MidlertidigUtilgjengeligAction>({
-                type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+                type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengeligFailure,
                 error: e,
                 kandidatnr,
             });
@@ -214,7 +229,7 @@ function* lagreMidlertidigUtilgjengelig(action: LagreMidlertidigUtilgjengeligAct
     try {
         const response = yield call(postMidlertidigUtilgjengelig, action.aktørId, action.tilDato);
         yield put<MidlertidigUtilgjengeligAction>({
-            type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS',
+            type: MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengeligSuccess,
             kandidatnr: action.kandidatnr,
             response,
             endretTidspunkt: Date.now(),
@@ -222,7 +237,7 @@ function* lagreMidlertidigUtilgjengelig(action: LagreMidlertidigUtilgjengeligAct
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put<MidlertidigUtilgjengeligAction>({
-                type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+                type: MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengeligFailure,
                 kandidatnr: action.kandidatnr,
                 error: e,
             });
@@ -237,7 +252,7 @@ function* endreMidlertidigUtilgjengelig(action: EndreMidlertidigUtilgjengeligAct
         const response = yield call(putMidlertidigUtilgjengelig, action.aktørId, action.tilDato);
 
         yield put<MidlertidigUtilgjengeligAction>({
-            type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
+            type: MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengeligSuksess,
             kandidatnr: action.kandidatnr,
             response,
             endretTidspunkt: Date.now(),
@@ -245,7 +260,7 @@ function* endreMidlertidigUtilgjengelig(action: EndreMidlertidigUtilgjengeligAct
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put<MidlertidigUtilgjengeligAction>({
-                type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+                type: MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengeligFailure,
                 kandidatnr: action.kandidatnr,
                 error: e,
             });
@@ -259,14 +274,14 @@ function* slettMidlertidigUtilgjengelig(action: SlettMidlertidigUtilgjengeligAct
     try {
         yield call(deleteMidlertidigUtilgjengelig, action.aktørId);
         yield put<MidlertidigUtilgjengeligAction>({
-            type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
+            type: MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengeligSuksess,
             kandidatnr: action.kandidatnr,
             endretTidspunkt: Date.now(),
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put<MidlertidigUtilgjengeligAction>({
-                type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+                type: MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengeligFailure,
                 kandidatnr: action.kandidatnr,
                 error: e,
             });
@@ -278,10 +293,22 @@ function* slettMidlertidigUtilgjengelig(action: SlettMidlertidigUtilgjengeligAct
 
 export const midlertidigUtilgjengeligSaga = function* () {
     yield takeLatest(CvActionType.FetchCvSuccess, hentMidlertidigUtilgjengeligMedCvResponse);
-    yield takeLatest('FETCH_MIDLERTIDIG_UTILGJENGELIG', hentMidlertidigUtilgjengeligMedAktørId);
-    yield takeLatest('LAGRE_MIDLERTIDIG_UTILGJENGELIG', lagreMidlertidigUtilgjengelig);
-    yield takeLatest('ENDRE_MIDLERTIDIG_UTILGJENGELIG', endreMidlertidigUtilgjengelig);
-    yield takeLatest('SLETT_MIDLERTIDIG_UTILGJENGELIG', slettMidlertidigUtilgjengelig);
+    yield takeLatest(
+        MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengelig,
+        hentMidlertidigUtilgjengeligMedAktørId
+    );
+    yield takeLatest(
+        MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengelig,
+        lagreMidlertidigUtilgjengelig
+    );
+    yield takeLatest(
+        MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengelig,
+        endreMidlertidigUtilgjengelig
+    );
+    yield takeLatest(
+        MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengelig,
+        slettMidlertidigUtilgjengelig
+    );
 };
 
 export default midlertidigUtilgjengeligReducer;
