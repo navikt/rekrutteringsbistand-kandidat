@@ -41,6 +41,8 @@ type LukkAlleSøkepanelAction = {
 export type SearchAction = {
     type: KandidatsøkActionType.Search;
     alertType: string;
+    fraIndex?: number;
+    antallResultater?: number;
 };
 
 type SettKandidatnummerAction = {

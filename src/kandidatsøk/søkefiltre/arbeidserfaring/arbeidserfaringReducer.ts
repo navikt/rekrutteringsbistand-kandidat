@@ -12,7 +12,7 @@ export enum ArbeidserfaringActionType {
 
 type SelectTypeAheadValueArbeidserfaringAction = {
     type: ArbeidserfaringActionType.SelectTypeAheadValueArbeidserfaring;
-    arbeidserfaring: string[];
+    arbeidserfaring?: string[];
     value: string;
 };
 

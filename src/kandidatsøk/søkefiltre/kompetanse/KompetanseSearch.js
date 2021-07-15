@@ -2,10 +2,6 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
-import {
     REMOVE_SELECTED_KOMPETANSE,
     SELECT_TYPE_AHEAD_VALUE_KOMPETANSE,
     TOGGLE_KOMPETANSE_PANEL_OPEN,
@@ -19,6 +15,7 @@ import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Kompetanse.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
 
 const KompetanseSearch = ({ ...props }) => {
     const {
@@ -205,9 +202,16 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.KOMPETANSE }),
     clearTypeAheadKompetanse: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: BRANCHNAVN.KOMPETANSE,
+        }),
     fetchTypeAheadSuggestionsKompetanse: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: BRANCHNAVN.KOMPETANSE,
+            value,
+        }),
     selectTypeAheadValueKompetanse: (value) =>
         dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
     removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),

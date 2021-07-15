@@ -8,10 +8,6 @@ import {
     TOGGLE_MINEKANDIDATER,
     TOGGLE_NAVKONTOR_PANEL_OPEN,
 } from './navkontorReducer';
-import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
@@ -20,6 +16,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Navkontor.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
 
 const NavkontorSearch = ({ ...props }) => {
     const {
@@ -158,9 +155,16 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.NAVKONTOR }),
     clearTypeAheadNavkontor: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.NAVKONTOR }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: BRANCHNAVN.NAVKONTOR,
+        }),
     fetchTypeAheadSuggestions: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.NAVKONTOR, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: BRANCHNAVN.NAVKONTOR,
+            value,
+        }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_NAVKONTOR, value }),
     removeNavkontor: (value) => dispatch({ type: REMOVE_SELECTED_NAVKONTOR, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_NAVKONTOR_PANEL_OPEN }),

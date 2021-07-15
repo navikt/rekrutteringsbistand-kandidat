@@ -2,10 +2,6 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
-import {
     SELECT_TYPE_AHEAD_VALUE_SPRAK,
     REMOVE_SELECTED_SPRAK,
     TOGGLE_SPRAK_PANEL_OPEN,
@@ -17,6 +13,7 @@ import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
 
 const SprakSearch = ({ ...props }) => {
     const {
@@ -136,9 +133,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.SPRAK }),
     clearTypeAheadSprak: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK }),
+        dispatch({ type: TypeaheadActionType.ClearTypeAheadSuggestions, branch: BRANCHNAVN.SPRAK }),
     fetchTypeAheadSuggestions: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: BRANCHNAVN.SPRAK,
+            value,
+        }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),
     removeSprak: (value) => dispatch({ type: REMOVE_SELECTED_SPRAK, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_SPRAK_PANEL_OPEN }),

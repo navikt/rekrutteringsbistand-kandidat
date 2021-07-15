@@ -1,6 +1,7 @@
 import AppState from '../../AppState';
 import { getHashFromString } from '../utils';
 import { Tilgjengelighet } from '../kandidater-tabell/Søkeresultat';
+import { SearchAction } from './searchActions';
 
 type SøkekriterierBackend = any & {
     hasValues: boolean;
@@ -12,11 +13,11 @@ type SøkekriterierBackend = any & {
 
 export const mapTilSøkekriterierBackend = (
     state: AppState,
-    action: any
+    action?: SearchAction
 ): [SøkekriterierBackend, string | number] => {
     const søkekriterierFraState = mapTilSøkekriterierBackendFraState(state);
-    const fraIndex = action.fraIndex || 0;
-    const antallResultater = action.antallResultater
+    const fraIndex = action?.fraIndex || 0;
+    const antallResultater = action?.antallResultater
         ? Math.max(action.antallResultater, state.søk.antallVisteKandidater)
         : state.søk.antallVisteKandidater;
 

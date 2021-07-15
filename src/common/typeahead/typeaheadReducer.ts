@@ -1,24 +1,51 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchTypeaheadSuggestionsRest } from '../../api/api.ts';
+import { fetchTypeaheadSuggestionsRest } from '../../api/api';
 import { BRANCHNAVN } from '../konstanter';
 import { forerkortSuggestions } from '../../kandidatsøk/søkefiltre/forerkort/forerkort';
 import { SearchApiError } from '../../api/fetchUtils';
 
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
+export enum TypeaheadActionType {
+    FetchTypeAheadSuggestions = 'FETCH_TYPE_AHEAD_SUGGESTIONS',
+    FetchTypeAheadSuggestionsSuccess = 'FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS',
+    FetchTypeAheadSuggestionsFailure = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE',
+    SetKomplettGeografi = 'SET_KOMPLETT_GEOGRAFI',
+    ClearTypeAheadSuggestions = 'CLEAR_TYPE_AHEAD_SUGGESTIONS',
+}
 
-export const FETCH_TYPE_AHEAD_SUGGESTIONS = 'FETCH_TYPE_AHEAD_SUGGESTIONS';
-export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS';
-export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
+type FetchTypeAheadSuggestionsAction = {
+    type: TypeaheadActionType.FetchTypeAheadSuggestions;
+    branch: string; // TODO: Bruk 'BRANCHNAVN' enum
+    value: string;
+};
 
-export const SET_KOMPLETT_GEOGRAFI = 'SET_KOMPLETT_GEOGRAFI';
+type FetchTypeAheadSuggestionsSuccessAction = {
+    type: TypeaheadActionType.FetchTypeAheadSuggestionsSuccess;
+    query: string;
+    branch: string; // TODO: Bruk 'BRANCHNAVN' enum
+    suggestions: string[];
+};
 
-export const CLEAR_TYPE_AHEAD_SUGGESTIONS = 'CLEAR_TYPE_AHEAD_SUGGESTIONS';
+type FetchTypeAheadSuggestionsFailureAction = {
+    type: TypeaheadActionType.FetchTypeAheadSuggestionsFailure;
+    error: SearchApiError;
+};
 
-/** *********************************************************
- * REDUCER
- ********************************************************* */
+type SetKomplettGeografiAction = {
+    type: TypeaheadActionType.SetKomplettGeografi;
+    value: string[];
+};
+
+type ClearTypeAheadSuggestionsAction = {
+    type: TypeaheadActionType.ClearTypeAheadSuggestions;
+    branch: string;
+};
+
+export type TypeaheadAction =
+    | FetchTypeAheadSuggestionsAction
+    | FetchTypeAheadSuggestionsSuccessAction
+    | FetchTypeAheadSuggestionsFailureAction
+    | SetKomplettGeografiAction
+    | ClearTypeAheadSuggestionsAction;
 
 const initialTypeaheadState = () => ({
     value: '',
@@ -37,9 +64,9 @@ const initialState = {
     navkontor: initialTypeaheadState(),
 };
 
-export default function typeaheadReducer(state = initialState, action) {
+export default function typeaheadReducer(state = initialState, action: TypeaheadAction) {
     switch (action.type) {
-        case FETCH_TYPE_AHEAD_SUGGESTIONS:
+        case TypeaheadActionType.FetchTypeAheadSuggestions:
             return {
                 ...state,
                 [action.branch]: {
@@ -47,7 +74,7 @@ export default function typeaheadReducer(state = initialState, action) {
                     value: action.value,
                 },
             };
-        case FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS:
+        case TypeaheadActionType.FetchTypeAheadSuggestionsSuccess:
             if (action.query === state[action.branch].value) {
                 return {
                     ...state,
@@ -58,7 +85,7 @@ export default function typeaheadReducer(state = initialState, action) {
                 };
             }
             return state;
-        case SET_KOMPLETT_GEOGRAFI:
+        case TypeaheadActionType.SetKomplettGeografi:
             return {
                 ...state,
                 geografiKomplett: {
@@ -66,7 +93,7 @@ export default function typeaheadReducer(state = initialState, action) {
                     suggestions: action.value,
                 },
             };
-        case CLEAR_TYPE_AHEAD_SUGGESTIONS:
+        case TypeaheadActionType.ClearTypeAheadSuggestions:
             if (action.branch === BRANCHNAVN.GEOGRAFI) {
                 return {
                     ...state,
@@ -119,17 +146,20 @@ function* fetchTypeaheadGeografiES(value, branch) {
                 s.geografiKode.substring(0, 2).toUpperCase() === 'NO'
         );
         const suggestions = totalSuggestionsUtenBydelerOgLand.map((r) => r.geografiKodeTekst);
-        yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestionsUtenBydelerOgLand });
+        yield put({
+            type: TypeaheadActionType.SetKomplettGeografi,
+            value: totalSuggestionsUtenBydelerOgLand,
+        });
 
         yield put({
-            type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+            type: TypeaheadActionType.FetchTypeAheadSuggestionsSuccess,
             suggestions,
             branch,
             query: value,
         });
     } catch (e) {
         yield put({
-            type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE,
+            type: TypeaheadActionType.FetchTypeAheadSuggestionsFailure,
             error: new SearchApiError({ message: e.message }),
         });
     }
@@ -144,7 +174,7 @@ function* fetchTypeAheadSuggestions(action) {
     const { branch, value } = action;
     if (branch === BRANCHNAVN.FORERKORT) {
         yield put({
-            type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+            type: TypeaheadActionType.FetchTypeAheadSuggestionsSuccess,
             suggestions: forerkortSuggestions(value),
             branch,
             query: value,
@@ -161,7 +191,7 @@ function* fetchTypeAheadSuggestions(action) {
                         [typeAheadBranch]: value,
                     });
                     yield put({
-                        type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+                        type: TypeaheadActionType.FetchTypeAheadSuggestionsSuccess,
                         suggestions: response.suggestions,
                         branch,
                         query: value,
@@ -169,7 +199,10 @@ function* fetchTypeAheadSuggestions(action) {
                 }
             } catch (e) {
                 if (e instanceof SearchApiError) {
-                    yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
+                    yield put({
+                        type: TypeaheadActionType.FetchTypeAheadSuggestionsFailure,
+                        error: e,
+                    });
                 } else {
                     throw e;
                 }
@@ -179,5 +212,5 @@ function* fetchTypeAheadSuggestions(action) {
 }
 
 export const typeaheadSaga = function* saga() {
-    yield takeLatest(FETCH_TYPE_AHEAD_SUGGESTIONS, fetchTypeAheadSuggestions);
+    yield takeLatest(TypeaheadActionType.FetchTypeAheadSuggestions, fetchTypeAheadSuggestions);
 };

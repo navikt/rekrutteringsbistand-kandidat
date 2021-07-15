@@ -2,10 +2,6 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
-import {
     REMOVE_SELECTED_FORERKORT,
     SELECT_TYPE_AHEAD_VALUE_FORERKORT,
     TOGGLE_FORERKORT_PANEL_OPEN,
@@ -19,6 +15,7 @@ import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { erGyldigForerkort } from './forerkort';
 import './Forerkort.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
 
 const ForerkortSearch = ({ ...props }) => {
     const {
@@ -153,9 +150,16 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.FORERKORT }),
     clearTypeAheadForerkort: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.FORERKORT }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: BRANCHNAVN.FORERKORT,
+        }),
     fetchTypeAheadSuggestionsForerkort: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.FORERKORT, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: BRANCHNAVN.FORERKORT,
+            value,
+        }),
     selectTypeAheadValueForerkort: (value) =>
         dispatch({ type: SELECT_TYPE_AHEAD_VALUE_FORERKORT, value }),
     removeForerkort: (value) => dispatch({ type: REMOVE_SELECTED_FORERKORT, value }),

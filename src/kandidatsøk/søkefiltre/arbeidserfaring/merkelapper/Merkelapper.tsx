@@ -4,13 +4,14 @@ import Typeahead from '../../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { ALERTTYPE, BRANCHNAVN } from '../../../../common/konstanter';
 import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
+    TypeaheadAction,
+    TypeaheadActionType,
 } from '../../../../common/typeahead/typeaheadReducer';
-import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
+import { ArbeidserfaringAction, ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../../AppState';
-import { KandidatsøkActionType } from '../../../reducer/searchActions';
+import { KandidatsøkAction, KandidatsøkActionType } from '../../../reducer/searchActions';
+import { Dispatch } from 'redux';
 
 interface Props {
     search: () => void;
@@ -97,13 +98,22 @@ const mapStateToProps = (state: AppState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (
+    dispatch: Dispatch<KandidatsøkAction | TypeaheadAction | ArbeidserfaringAction>
+) => ({
     search: () =>
         dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.ARBEIDSERFARING }),
     clearTypeAheadArbeidserfaring: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.ARBEIDSERFARING }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: BRANCHNAVN.ARBEIDSERFARING,
+        }),
     fetchTypeAheadSuggestions: (value: string) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.ARBEIDSERFARING, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: BRANCHNAVN.ARBEIDSERFARING,
+            value,
+        }),
     selectTypeAheadValue: (value: string) =>
         dispatch({ type: ArbeidserfaringActionType.SelectTypeAheadValueArbeidserfaring, value }),
     removeArbeidserfaring: (value: string) =>

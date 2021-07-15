@@ -2,10 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../../common/typeahead/typeaheadReducer';
-import {
     REMOVE_SELECTED_GEOGRAFI,
     SELECT_TYPE_AHEAD_VALUE_GEOGRAFI,
     TOGGLE_GEOGRAFI_PANEL_OPEN,
@@ -18,8 +14,9 @@ import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import CheckboxMedHjelpetekst from './checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
-import './Geografi.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
+import './Geografi.less';
+import { TypeaheadActionType } from '../../../common/typeahead/typeaheadReducer';
 
 const GeografiSearch = ({ ...props }) => {
     const {
@@ -204,9 +201,16 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: KandidatsøkActionType.Search, alertType: ALERTTYPE.GEOGRAFI }),
     clearTypeAheadGeografi: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI }),
+        dispatch({
+            type: TypeaheadActionType.ClearTypeAheadSuggestions,
+            branch: BRANCHNAVN.GEOGRAFI,
+        }),
     fetchTypeAheadSuggestions: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI, value }),
+        dispatch({
+            type: TypeaheadActionType.FetchTypeAheadSuggestions,
+            branch: BRANCHNAVN.GEOGRAFI,
+            value,
+        }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
     removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_GEOGRAFI_PANEL_OPEN }),
