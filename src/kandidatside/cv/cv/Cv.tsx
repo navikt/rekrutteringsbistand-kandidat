@@ -4,7 +4,7 @@ import { Element, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
 import sortByDato from './SortByDato';
-import Cv, { Sertifikat as SertifikatType } from '../reducer/cv-typer';
+import CvType, { Sertifikat as SertifikatType } from '../reducer/cv-typer';
 import Beskrivelse from './Beskrivelse';
 import Yrkeserfaring from './Yrkeserfaring';
 import Utdanning from './Utdanning';
@@ -17,10 +17,10 @@ import Kurs from './Kurs';
 import './Cv.less';
 
 type Props = {
-    cv: Cv;
+    cv: CvType;
 };
 
-const KandidatCv: FunctionComponent<Props> = ({ cv }) => {
+const Cv: FunctionComponent<Props> = ({ cv }) => {
     const autoriasjoner = cv.fagdokumentasjon?.filter((f) => f.type !== 'Autorisasjon') ?? [];
 
     return (
@@ -203,4 +203,4 @@ const fjernDuplikater = (forerkortListe: SertifikatType[]) => {
     });
 };
 
-export default KandidatCv;
+export default Cv;
