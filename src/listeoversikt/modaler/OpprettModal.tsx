@@ -1,13 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Systemtittel } from 'nav-frontend-typografi';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import { Nettstatus } from '../../api/remoteData';
+import KandidatlisteAction, {
+    Kandidatlisteinfo,
+} from '../../kandidatliste/reducer/KandidatlisteAction';
+import AppState from '../../AppState';
 
-const OpprettModal = ({
+type Props = ConnectedProps & {
+    onAvbrytClick: () => void;
+};
+
+type ConnectedProps = {
+    opprettKandidatliste: (info: Kandidatlisteinfo) => void;
+    resetStatusTilUnsaved: () => void;
+    lagreStatus: Nettstatus;
+};
+
+const OpprettModal: FunctionComponent<Props> = ({
     opprettKandidatliste,
     resetStatusTilUnsaved,
     lagreStatus,
@@ -15,11 +29,10 @@ const OpprettModal = ({
 }) => (
     <ModalMedKandidatScope
         isOpen
+        closeButton
         contentLabel="modal opprett kandidatliste"
         onRequestClose={onAvbrytClick}
         className="modal--opprett-kandidatliste__veileder"
-        closeButton
-        appElement={document.getElementById('app')}
     >
         <Systemtittel className="blokk-s">Opprett kandidatliste</Systemtittel>
         <OpprettKandidatlisteForm
@@ -33,19 +46,12 @@ const OpprettModal = ({
     </ModalMedKandidatScope>
 );
 
-OpprettModal.propTypes = {
-    opprettKandidatliste: PropTypes.func,
-    resetStatusTilUnsaved: PropTypes.func,
-    lagreStatus: PropTypes.string,
-    onAvbrytClick: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
     lagreStatus: state.kandidatliste.opprett.lagreStatus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    opprettKandidatliste: (kandidatlisteInfo) => {
+const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
+    opprettKandidatliste: (kandidatlisteInfo: Kandidatlisteinfo) => {
         dispatch({ type: KandidatlisteActionType.OpprettKandidatliste, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {
