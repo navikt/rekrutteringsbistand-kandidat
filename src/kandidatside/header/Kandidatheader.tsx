@@ -7,9 +7,10 @@ import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaForma
 import { formatterDato } from '../../utils/dateUtils';
 import './Kandidatheader.less';
 import useMaskerFødselsnumre from '../../app/useMaskerFødselsnumre';
+import Cv from '../cv/reducer/cv-typer';
 
 interface Props {
-    cv: any;
+    cv: Cv;
     tilbakeLink: string;
     antallKandidater: number;
     gjeldendeKandidatIndex: number;
