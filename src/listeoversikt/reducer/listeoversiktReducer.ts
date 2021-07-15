@@ -1,12 +1,11 @@
 import { ikkeLastet, lasterInn, Nettstatus, RemoteData, suksess } from '../../api/remoteData';
-import { HentStatus, MarkerSomMinStatus } from '../../kandidatliste/kandidatlistetyper';
 import { Reducer } from 'redux';
 import { ListeoversiktAction, ListeoversiktActionType } from './ListeoversiktAction';
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 
 export type ListeoversiktState = {
-    hentListerStatus: HentStatus;
+    hentListerStatus: Nettstatus;
     kandidatlister: {
         liste: Array<any>;
         antall?: number;
@@ -25,11 +24,11 @@ export type ListeoversiktState = {
     slettKandidatlisteStatus: RemoteData<{
         slettetTittel: string;
     }>;
-    markerSomMinStatus: MarkerSomMinStatus;
+    markerSomMinStatus: Nettstatus;
 };
 
 const initialState = {
-    hentListerStatus: HentStatus.IkkeHentet,
+    hentListerStatus: Nettstatus.IkkeLastet,
     kandidatlister: {
         liste: [],
     },
@@ -45,7 +44,7 @@ const initialState = {
         sortDirection: null,
     },
     slettKandidatlisteStatus: ikkeLastet(),
-    markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
+    markerSomMinStatus: Nettstatus.IkkeLastet,
 };
 
 const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
@@ -56,7 +55,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
         case ListeoversiktActionType.HentKandidatlister:
             return {
                 ...state,
-                hentListerStatus: HentStatus.Loading,
+                hentListerStatus: Nettstatus.LasterInn,
                 søkekriterier: {
                     query: action.query,
                     type: action.listetype,
@@ -68,7 +67,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
         case ListeoversiktActionType.HentKandidatlisterSuccess:
             return {
                 ...state,
-                hentListerStatus: HentStatus.Success,
+                hentListerStatus: Nettstatus.Suksess,
                 kandidatlister: {
                     liste: action.kandidatlister.liste,
                     antall: action.kandidatlister.antall,
@@ -77,22 +76,22 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
         case ListeoversiktActionType.HentKandidatlisterFailure:
             return {
                 ...state,
-                hentListerStatus: HentStatus.Failure,
+                hentListerStatus: Nettstatus.Feil,
             };
         case ListeoversiktActionType.MarkerKandidatlisteSomMin:
             return {
                 ...state,
-                markerSomMinStatus: MarkerSomMinStatus.Loading,
+                markerSomMinStatus: Nettstatus.LasterInn,
             };
         case ListeoversiktActionType.MarkerKandidatlisteSomMinSuccess:
             return {
                 ...state,
-                markerSomMinStatus: MarkerSomMinStatus.Success,
+                markerSomMinStatus: Nettstatus.Suksess,
             };
         case ListeoversiktActionType.MarkerKandidatlisteSomMinFailure:
             return {
                 ...state,
-                markerSomMinStatus: MarkerSomMinStatus.Failure,
+                markerSomMinStatus: Nettstatus.Feil,
             };
         case ListeoversiktActionType.SlettKandidatliste:
             return {
@@ -115,7 +114,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
         case ListeoversiktActionType.SetSortering:
             return {
                 ...state,
-                hentListerStatus: HentStatus.Loading,
+                hentListerStatus: Nettstatus.LasterInn,
                 sortering: {
                     sortField: action.sortering.sortField,
                     sortDirection: action.sortering.sortDirection,

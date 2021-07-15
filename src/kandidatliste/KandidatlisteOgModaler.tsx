@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-    Delestatus,
     KandidatIKandidatliste,
     Kandidatliste as Kandidatlistetype,
     Kandidatlistefilter,
@@ -42,7 +41,7 @@ type ConnectedProps = {
         navKontor: string
     ) => void;
     resetDeleStatus: () => void;
-    deleStatus: Delestatus;
+    deleStatus: Nettstatus;
     smsSendStatus: SmsStatus;
     resetSmsSendStatus: () => void;
     leggTilStatus: string;
@@ -95,7 +94,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
     componentDidUpdate(prevProps: Props) {
         const kandidaterHarNettoppBlittPresentert =
             this.props.deleStatus !== prevProps.deleStatus &&
-            this.props.deleStatus === Delestatus.Success;
+            this.props.deleStatus === Nettstatus.Suksess;
 
         const smsErNettoppSendtTilKandidater =
             this.props.smsSendStatus !== prevProps.smsSendStatus &&

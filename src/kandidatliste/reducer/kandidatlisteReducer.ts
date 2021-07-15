@@ -29,20 +29,20 @@ import {
     suksess,
 } from '../../api/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
-import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
+import { Kandidatliste } from '../kandidatlistetyper';
 import { SearchApiError } from '../../api/fetchUtils';
 import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 type FormidlingId = string;
 
 export interface KandidatlisteState {
-    hentStatus: HentStatus;
+    hentStatus: Nettstatus;
     kandidat?: CvSøkeresultat;
 
-    lagreStatus: string;
-    deleStatus: Delestatus;
+    lagreStatus: Nettstatus;
+    deleStatus: Nettstatus;
     opprett: {
-        lagreStatus: string;
+        lagreStatus: Nettstatus;
         opprettetKandidatlisteTittel?: string;
     };
 
@@ -65,7 +65,7 @@ export interface KandidatlisteState {
             tittel: string;
         };
     };
-    hentListeMedAnnonsenummerStatus: HentStatus;
+    hentListeMedAnnonsenummerStatus: Nettstatus;
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
     lagreKandidatIKandidatlisteStatus: string;
@@ -90,7 +90,7 @@ export interface KandidatlisteState {
 
 const initialState: KandidatlisteState = {
     lagreStatus: Nettstatus.IkkeLastet,
-    deleStatus: Delestatus.IkkeSpurt,
+    deleStatus: Nettstatus.IkkeLastet,
     opprett: {
         lagreStatus: Nettstatus.IkkeLastet,
     },
@@ -98,12 +98,12 @@ const initialState: KandidatlisteState = {
     kandidattilstander: {},
     kandidatnotater: {},
     fodselsnummer: undefined,
-    hentStatus: HentStatus.IkkeHentet,
+    hentStatus: Nettstatus.IkkeLastet,
     leggTilKandidater: {
         lagreStatus: Nettstatus.IkkeLastet,
         antallLagredeKandidater: 0,
     },
-    hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
+    hentListeMedAnnonsenummerStatus: Nettstatus.IkkeLastet,
     hentListeMedAnnonsenummerStatusMessage: '',
     kandidatlisteMedAnnonsenummer: undefined,
     lagreKandidatIKandidatlisteStatus: Nettstatus.IkkeLastet,
@@ -337,24 +337,24 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.PresenterKandidater:
             return {
                 ...state,
-                deleStatus: Delestatus.Loading,
+                deleStatus: Nettstatus.LasterInn,
             };
         case KandidatlisteActionType.PresenterKandidaterSuccess:
             return {
                 ...state,
                 kandidatliste: suksess(action.kandidatliste),
-                deleStatus: Delestatus.Success,
+                deleStatus: Nettstatus.Suksess,
             };
         case KandidatlisteActionType.PresenterKandidaterFailure:
             return {
                 ...state,
-                deleStatus: Delestatus.IkkeSpurt,
+                deleStatus: Nettstatus.IkkeLastet,
             };
 
         case KandidatlisteActionType.ResetDelestatus:
             return {
                 ...state,
-                deleStatus: Delestatus.IkkeSpurt,
+                deleStatus: Nettstatus.IkkeLastet,
             };
         case KandidatlisteActionType.SetFodselsnummer: {
             return {
@@ -370,32 +370,32 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HentKandidatMedFnr: {
             return {
                 ...state,
-                hentStatus: HentStatus.Loading,
+                hentStatus: Nettstatus.LasterInn,
             };
         }
         case KandidatlisteActionType.HentKandidatMedFnrSuccess: {
             return {
                 ...state,
-                hentStatus: HentStatus.Success,
+                hentStatus: Nettstatus.Suksess,
                 kandidat: action.kandidat,
             };
         }
         case KandidatlisteActionType.HentKandidatMedFnrNotFound: {
             return {
                 ...state,
-                hentStatus: HentStatus.FinnesIkke,
+                hentStatus: Nettstatus.FinnesIkke,
             };
         }
         case KandidatlisteActionType.HentKandidatMedFnrFailure: {
             return {
                 ...state,
-                hentStatus: HentStatus.Failure,
+                hentStatus: Nettstatus.Feil,
             };
         }
         case KandidatlisteActionType.LeggTilKandidatSøkReset: {
             return {
                 ...state,
-                hentStatus: HentStatus.IkkeHentet,
+                hentStatus: Nettstatus.IkkeLastet,
                 kandidat: initialState.kandidat,
                 søkPåusynligKandidat: ikkeLastet(),
                 formidlingAvUsynligKandidat: ikkeLastet(),
@@ -576,12 +576,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer:
             return {
                 ...state,
-                hentListeMedAnnonsenummerStatus: HentStatus.Loading,
+                hentListeMedAnnonsenummerStatus: Nettstatus.LasterInn,
             };
         case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerSuccess:
             return {
                 ...state,
-                hentListeMedAnnonsenummerStatus: HentStatus.Success,
+                hentListeMedAnnonsenummerStatus: Nettstatus.Suksess,
                 kandidatlisteMedAnnonsenummer: {
                     ...action.kandidatliste,
                     markert: true,
@@ -590,13 +590,13 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerNotFound:
             return {
                 ...state,
-                hentListeMedAnnonsenummerStatus: HentStatus.FinnesIkke,
+                hentListeMedAnnonsenummerStatus: Nettstatus.FinnesIkke,
                 hentListeMedAnnonsenummerStatusMessage: action.message,
             };
         case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerFailure:
             return {
                 ...state,
-                hentListeMedAnnonsenummerStatus: HentStatus.Failure,
+                hentListeMedAnnonsenummerStatus: Nettstatus.Feil,
             };
         case KandidatlisteActionType.SendSms:
             return {

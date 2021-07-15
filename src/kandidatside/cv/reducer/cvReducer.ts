@@ -3,6 +3,7 @@ import { fetchCv } from '../../../api/api';
 import { KandidatsøkActionType } from '../../../kandidatsøk/reducer/searchActions';
 import Cv from './cv-typer';
 import { SearchApiError } from '../../../api/fetchUtils';
+import { Nettstatus } from '../../../api/remoteData';
 
 export enum CvActionType {
     FetchCv = 'FETCH_CV',
@@ -41,16 +42,9 @@ export type CvAction =
     | FetchCvNotFoundAction
     | FetchCvFailureAction;
 
-export enum HentCvStatus {
-    IkkeHentet = 'IKKE_HENTET',
-    Loading = 'LOADING',
-    Success = 'SUCCESS',
-    FinnesIkke = 'FINNES_IKKE',
-}
-
 export type CvState = {
     cv: Cv;
-    hentStatus: HentCvStatus;
+    hentStatus: Nettstatus;
 };
 
 const initialState: any = {
@@ -64,7 +58,7 @@ const initialState: any = {
         sertifikater: [],
         sprak: [],
     },
-    hentStatus: HentCvStatus.IkkeHentet,
+    hentStatus: Nettstatus.IkkeLastet,
 };
 
 export default function cvReducer(state: CvState = initialState, action: CvAction) {
@@ -72,18 +66,18 @@ export default function cvReducer(state: CvState = initialState, action: CvActio
         case CvActionType.FetchCv:
             return {
                 ...state,
-                hentStatus: HentCvStatus.Loading,
+                hentStatus: Nettstatus.LasterInn,
             };
         case CvActionType.FetchCvSuccess:
             return {
                 ...state,
                 cv: action.response,
-                hentStatus: HentCvStatus.Success,
+                hentStatus: Nettstatus.Suksess,
             };
         case CvActionType.FetchCvNotFound:
             return {
                 ...state,
-                hentStatus: HentCvStatus.FinnesIkke,
+                hentStatus: Nettstatus.FinnesIkke,
             };
         default:
             return state;

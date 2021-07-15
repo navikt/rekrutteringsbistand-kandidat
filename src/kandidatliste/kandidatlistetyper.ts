@@ -4,32 +4,11 @@ import { Visningsstatus } from './Kandidatliste';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import { ForespørselOmDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
-export enum Delestatus {
-    IkkeSpurt = 'IKKE_SPURT',
-    Loading = 'LOADING',
-    Success = 'SUCCESS',
-}
-
-export enum HentStatus {
-    IkkeHentet = 'IKKE_HENTET',
-    Loading = 'LOADING',
-    Success = 'SUCCESS',
-    FinnesIkke = 'FINNES_IKKE',
-    Failure = 'FAILURE',
-}
-
 export enum SmsStatus {
     IkkeSendt = 'IKKE_SENDT',
     UnderUtsending = 'UNDER_UTSENDING',
     Sendt = 'SENDT',
     Feil = 'FEIL',
-}
-
-export enum MarkerSomMinStatus {
-    IkkeGjort = 'IKKE_GJORT',
-    Loading = 'LOADING',
-    Success = 'SUCCESS',
-    Failure = 'FAILURE',
 }
 
 export interface Sms {
