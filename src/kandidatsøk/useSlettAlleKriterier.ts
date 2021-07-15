@@ -18,7 +18,7 @@ const useSlettAlleKriterier = (kandidatlisteId?: string) => {
     useEffect(() => {
         const nullstillKandidaterErLagretIKandidatlisteAlert = () => {
             dispatch({
-                type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET,
+                type: KandidatlisteActionType.LeggTilKandidaterReset,
             });
         };
 

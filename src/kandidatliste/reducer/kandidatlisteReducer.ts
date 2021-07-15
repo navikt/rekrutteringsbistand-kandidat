@@ -216,8 +216,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
     action
 ): KandidatlisteState => {
     switch (action.type) {
-        case KandidatlisteActionType.OPPRETT_KANDIDATLISTE:
-        case KandidatlisteActionType.OPPDATER_KANDIDATLISTE:
+        case KandidatlisteActionType.OpprettKandidatliste:
+        case KandidatlisteActionType.OppdaterKandidatliste:
             return {
                 ...state,
                 opprett: {
@@ -226,8 +226,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     opprettetKandidatlisteTittel: undefined,
                 },
             };
-        case KandidatlisteActionType.OPPRETT_KANDIDATLISTE_SUCCESS:
-        case KandidatlisteActionType.OPPDATER_KANDIDATLISTE_SUCCESS:
+        case KandidatlisteActionType.OpprettKandidatlisteSuccess:
+        case KandidatlisteActionType.OppdaterKandidatlisteSuccess:
             return {
                 ...state,
                 opprett: {
@@ -236,8 +236,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     opprettetKandidatlisteTittel: action.tittel,
                 },
             };
-        case KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE:
-        case KandidatlisteActionType.OPPDATER_KANDIDATLISTE_FAILURE:
+        case KandidatlisteActionType.OpprettKandidatlisteFailure:
+        case KandidatlisteActionType.OppdaterKandidatlisteFailure:
             return {
                 ...state,
                 opprett: {
@@ -246,7 +246,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     opprettetKandidatlisteTittel: undefined,
                 },
             };
-        case KandidatlisteActionType.RESET_LAGRE_STATUS:
+        case KandidatlisteActionType.ResetLagreStatus:
             return {
                 ...state,
                 opprett: {
@@ -254,15 +254,15 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.UNSAVED,
                 },
             };
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID:
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID: {
+        case KandidatlisteActionType.HentKandidatlisteMedStillingsId:
+        case KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId: {
             return {
                 ...state,
                 kandidatliste: lasterInn(),
             };
         }
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS: {
+        case KandidatlisteActionType.HentKandidatlisteMedStillingsIdSuccess:
+        case KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdSuccess: {
             const id = action.kandidatliste.kandidatlisteId;
             const erNyListe = id !== state.id;
 
@@ -294,23 +294,23 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 kandidatnotater,
             };
         }
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE:
+        case KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure:
+        case KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure:
             return {
                 ...state,
                 kandidatliste: feil(action.error),
             };
-        case KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS:
+        case KandidatlisteActionType.EndreStatusKandidatSuccess:
             return {
                 ...state,
                 kandidatliste: suksess(action.kandidatliste),
             };
-        case KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS:
+        case KandidatlisteActionType.EndreUtfallKandidatSuccess:
             return {
                 ...state,
                 kandidatliste: suksess(action.kandidatliste),
             };
-        case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT:
+        case KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidat:
             return {
                 ...state,
                 endreFormidlingsutfallForUsynligKandidat: {
@@ -318,7 +318,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     [action.formidlingId]: senderInn(action.formidlingId),
                 },
             };
-        case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS:
+        case KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidatSuccess:
             return {
                 ...state,
                 kandidatliste: suksess(action.kandidatliste),
@@ -327,7 +327,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     [action.formidlingId]: suksess(action.formidlingId),
                 },
             };
-        case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE:
+        case KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidatFailure:
             return {
                 ...state,
                 endreFormidlingsutfallForUsynligKandidat: {
@@ -335,65 +335,65 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     [action.formidlingId]: feil(action.error),
                 },
             };
-        case KandidatlisteActionType.PRESENTER_KANDIDATER:
+        case KandidatlisteActionType.PresenterKandidater:
             return {
                 ...state,
                 deleStatus: Delestatus.Loading,
             };
-        case KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS:
+        case KandidatlisteActionType.PresenterKandidaterSuccess:
             return {
                 ...state,
                 kandidatliste: suksess(action.kandidatliste),
                 deleStatus: Delestatus.Success,
             };
-        case KandidatlisteActionType.PRESENTER_KANDIDATER_FAILURE:
+        case KandidatlisteActionType.PresenterKandidaterFailure:
             return {
                 ...state,
                 deleStatus: Delestatus.IkkeSpurt,
             };
 
-        case KandidatlisteActionType.RESET_DELESTATUS:
+        case KandidatlisteActionType.ResetDelestatus:
             return {
                 ...state,
                 deleStatus: Delestatus.IkkeSpurt,
             };
-        case KandidatlisteActionType.SET_FODSELSNUMMER: {
+        case KandidatlisteActionType.SetFodselsnummer: {
             return {
                 ...state,
                 fodselsnummer: action.fodselsnummer,
             };
         }
-        case KandidatlisteActionType.SET_NOTAT:
+        case KandidatlisteActionType.SetNotat:
             return {
                 ...state,
                 notat: action.notat,
             };
-        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR: {
+        case KandidatlisteActionType.HentKandidatMedFnr: {
             return {
                 ...state,
                 hentStatus: HentStatus.Loading,
             };
         }
-        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_SUCCESS: {
+        case KandidatlisteActionType.HentKandidatMedFnrSuccess: {
             return {
                 ...state,
                 hentStatus: HentStatus.Success,
                 kandidat: action.kandidat,
             };
         }
-        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_NOT_FOUND: {
+        case KandidatlisteActionType.HentKandidatMedFnrNotFound: {
             return {
                 ...state,
                 hentStatus: HentStatus.FinnesIkke,
             };
         }
-        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_FAILURE: {
+        case KandidatlisteActionType.HentKandidatMedFnrFailure: {
             return {
                 ...state,
                 hentStatus: HentStatus.Failure,
             };
         }
-        case KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET: {
+        case KandidatlisteActionType.LeggTilKandidatSøkReset: {
             return {
                 ...state,
                 hentStatus: HentStatus.IkkeHentet,
@@ -402,26 +402,26 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 formidlingAvUsynligKandidat: ikkeLastet(),
             };
         }
-        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {
+        case KandidatlisteActionType.HentUsynligKandidat: {
             return {
                 ...state,
                 søkPåusynligKandidat: lasterInn(),
             };
         }
-        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS: {
+        case KandidatlisteActionType.HentUsynligKandidatSuccess: {
             return {
                 ...state,
                 søkPåusynligKandidat: suksess(action.navn),
             };
         }
-        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE: {
+        case KandidatlisteActionType.HentUsynligKandidatFailure: {
             return {
                 ...state,
                 søkPåusynligKandidat:
                     action.error.status === 404 ? finnesIkke() : feil(action.error),
             };
         }
-        case KandidatlisteActionType.LEGG_TIL_KANDIDATER:
+        case KandidatlisteActionType.LeggTilKandidater:
             return {
                 ...state,
                 leggTilKandidater: {
@@ -429,7 +429,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.LOADING,
                 },
             };
-        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS: {
+        case KandidatlisteActionType.LeggTilKandidaterSuccess: {
             const kandidatnotater = {
                 ...state.kandidatnotater,
             };
@@ -456,7 +456,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 kandidatnotater,
             };
         }
-        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE:
+        case KandidatlisteActionType.LeggTilKandidaterFailure:
             return {
                 ...state,
                 leggTilKandidater: {
@@ -465,7 +465,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
             };
 
-        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET:
+        case KandidatlisteActionType.LeggTilKandidaterReset:
             return {
                 ...state,
                 leggTilKandidater: {
@@ -473,41 +473,41 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     antallLagredeKandidater: 0,
                 },
             };
-        case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE:
+        case KandidatlisteActionType.LagreKandidatIKandidatliste:
             return {
                 ...state,
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.LOADING,
             };
-        case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS:
+        case KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess:
             return {
                 ...state,
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.SUCCESS,
             };
-        case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE:
+        case KandidatlisteActionType.LagreKandidatIKandidatlisteFailure:
             return {
                 ...state,
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
             };
-        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT: {
+        case KandidatlisteActionType.FormidleUsynligKandidat: {
             return {
                 ...state,
                 formidlingAvUsynligKandidat: senderInn(action.formidling),
             };
         }
-        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS: {
+        case KandidatlisteActionType.FormidleUsynligKandidatSuccess: {
             return {
                 ...state,
                 formidlingAvUsynligKandidat: suksess(action.formidling),
                 kandidatliste: suksess(action.kandidatliste),
             };
         }
-        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE: {
+        case KandidatlisteActionType.FormidleUsynligKandidatFailure: {
             return {
                 ...state,
                 formidlingAvUsynligKandidat: feil(action.error),
             };
         }
-        case KandidatlisteActionType.HENT_NOTATER:
+        case KandidatlisteActionType.HentNotater:
             return {
                 ...state,
                 kandidatnotater: {
@@ -515,10 +515,10 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     [action.kandidatnr]: lasterInn(),
                 },
             };
-        case KandidatlisteActionType.HENT_NOTATER_SUCCESS:
-        case KandidatlisteActionType.OPPRETT_NOTAT_SUCCESS:
-        case KandidatlisteActionType.ENDRE_NOTAT_SUCCESS:
-        case KandidatlisteActionType.SLETT_NOTAT_SUCCESS:
+        case KandidatlisteActionType.HentNotaterSuccess:
+        case KandidatlisteActionType.OpprettNotatSuccess:
+        case KandidatlisteActionType.EndreNotatSuccess:
+        case KandidatlisteActionType.SlettNotatSuccess:
             return {
                 ...state,
                 kandidatnotater: {
@@ -526,7 +526,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     [action.kandidatnr]: suksess(action.notater),
                 },
             };
-        case KandidatlisteActionType.TOGGLE_ARKIVERT:
+        case KandidatlisteActionType.ToggleArkivert:
             return {
                 ...state,
                 arkivering: {
@@ -534,7 +534,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     statusArkivering: Nettstatus.LasterInn,
                 },
             };
-        case KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS:
+        case KandidatlisteActionType.ToggleArkivertSuccess:
             return {
                 ...oppdaterArkivertIKandidatlisteDetaljer(state, action.kandidat),
                 arkivering: {
@@ -542,7 +542,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     statusArkivering: Nettstatus.Suksess,
                 },
             };
-        case KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE:
+        case KandidatlisteActionType.ToggleArkivertFailure:
             return {
                 ...state,
                 arkivering: {
@@ -550,7 +550,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     statusArkivering: Nettstatus.Feil,
                 },
             };
-        case KandidatlisteActionType.ANGRE_ARKIVERING:
+        case KandidatlisteActionType.AngreArkivering:
             return {
                 ...state,
                 arkivering: {
@@ -558,7 +558,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     statusDearkivering: Nettstatus.LasterInn,
                 },
             };
-        case KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE:
+        case KandidatlisteActionType.AngreArkiveringFailure:
             return {
                 ...state,
                 arkivering: {
@@ -566,7 +566,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     statusDearkivering: Nettstatus.Feil,
                 },
             };
-        case KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS:
+        case KandidatlisteActionType.AngreArkiveringSuccess:
             return {
                 ...oppdaterDearkiverteKandidaterIKandidatlisteDetaljer(state, action.kandidatnumre),
                 arkivering: {
@@ -574,12 +574,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     statusDearkivering: Nettstatus.Suksess,
                 },
             };
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER:
+        case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer:
             return {
                 ...state,
                 hentListeMedAnnonsenummerStatus: HentStatus.Loading,
             };
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS:
+        case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerSuccess:
             return {
                 ...state,
                 hentListeMedAnnonsenummerStatus: HentStatus.Success,
@@ -588,18 +588,18 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     markert: true,
                 },
             };
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND:
+        case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerNotFound:
             return {
                 ...state,
                 hentListeMedAnnonsenummerStatus: HentStatus.FinnesIkke,
                 hentListeMedAnnonsenummerStatusMessage: action.message,
             };
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE:
+        case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerFailure:
             return {
                 ...state,
                 hentListeMedAnnonsenummerStatus: HentStatus.Failure,
             };
-        case KandidatlisteActionType.SEND_SMS:
+        case KandidatlisteActionType.SendSms:
             return {
                 ...state,
                 sms: {
@@ -607,7 +607,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendStatus: SmsStatus.UnderUtsending,
                 },
             };
-        case KandidatlisteActionType.SEND_SMS_SUCCESS:
+        case KandidatlisteActionType.SendSmsSuccess:
             return {
                 ...state,
                 sms: {
@@ -615,7 +615,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendStatus: SmsStatus.Sendt,
                 },
             };
-        case KandidatlisteActionType.SEND_SMS_FAILURE:
+        case KandidatlisteActionType.SendSmsFailure:
             return {
                 ...state,
                 sms: {
@@ -624,7 +624,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     error: action.error,
                 },
             };
-        case KandidatlisteActionType.RESET_SEND_SMS_STATUS:
+        case KandidatlisteActionType.ResetSendSmsStatus:
             return {
                 ...state,
                 sms: {
@@ -632,7 +632,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendStatus: SmsStatus.IkkeSendt,
                 },
             };
-        case KandidatlisteActionType.HENT_SENDTE_MELDINGER:
+        case KandidatlisteActionType.HentSendteMeldinger:
             return {
                 ...state,
                 sms: {
@@ -640,7 +640,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendteMeldinger: lasterInn(),
                 },
             };
-        case KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS:
+        case KandidatlisteActionType.HentSendteMeldingerSuccess:
             return {
                 ...state,
                 sms: {
@@ -648,7 +648,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendteMeldinger: suksess<Sms[]>(action.sendteMeldinger),
                 },
             };
-        case KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE:
+        case KandidatlisteActionType.HentSendteMeldingerFailure:
             return {
                 ...state,
                 sms: {
@@ -656,24 +656,24 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendteMeldinger: feil(action.error),
                 },
             };
-        case KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV:
+        case KandidatlisteActionType.HentForespørslerOmDelingAvCv:
             return {
                 ...state,
                 forespørslerOmDelingAvCv: lasterInn(),
             };
-        case KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS:
+        case KandidatlisteActionType.HentForespørslerOmDelingAvCvSuccess:
             return {
                 ...state,
                 forespørslerOmDelingAvCv: suksess<ForespørselOmDelingAvCv[]>(
                     action.forespørslerOmDelingAvCv
                 ),
             };
-        case KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_FAILURE:
+        case KandidatlisteActionType.HentForespørslerOmDelingAvCvFailure:
             return {
                 ...state,
                 forespørslerOmDelingAvCv: feil(action.error),
             };
-        case KandidatlisteActionType.VELG_KANDIDAT: {
+        case KandidatlisteActionType.VelgKandidat: {
             const { kandidatlisteId, kandidatnr } = action;
             const sistValgteKandidat =
                 kandidatlisteId && kandidatnr
@@ -687,7 +687,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sistValgteKandidat: sistValgteKandidat,
             };
         }
-        case KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER: {
+        case KandidatlisteActionType.EndreKandidatlisteFilter: {
             const kandidattilstander = {
                 ...state.kandidattilstander,
             };
@@ -718,7 +718,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             };
         }
 
-        case KandidatlisteActionType.TOGGLE_MARKERING_AV_KANDIDAT:
+        case KandidatlisteActionType.ToggleMarkeringAvKandidat:
             return {
                 ...state,
                 kandidattilstander: {
@@ -730,7 +730,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
             };
 
-        case KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER:
+        case KandidatlisteActionType.EndreMarkeringAvKandidater:
             return {
                 ...state,
                 kandidattilstander: markerGitteKandidater(
@@ -739,7 +739,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ),
             };
 
-        case KandidatlisteActionType.ENDRE_VISNINGSSTATUS_KANDIDAT:
+        case KandidatlisteActionType.EndreVisningsstatusKandidat:
             return {
                 ...state,
                 kandidattilstander: {
@@ -751,13 +751,13 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
             };
 
-        case KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS:
+        case KandidatlisteActionType.EndreKandidatlistestatus:
             return {
                 ...state,
                 endreKandidatlistestatus: Nettstatus.SenderInn,
             };
 
-        case KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_SUCCESS:
+        case KandidatlisteActionType.EndreKandidatlistestatusSuccess:
             return {
                 ...state,
                 endreKandidatlistestatus: Nettstatus.Suksess,

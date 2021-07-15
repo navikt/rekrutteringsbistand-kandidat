@@ -9,12 +9,12 @@ const useKandidatliste = (stillingsId?: string, kandidatlisteId?: string) => {
         (stillingsId?: string, kandidatlisteId?: string) => {
             if (stillingsId) {
                 dispatch({
-                    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+                    type: KandidatlisteActionType.HentKandidatlisteMedStillingsId,
                     stillingsId,
                 });
             } else if (kandidatlisteId) {
                 dispatch({
-                    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+                    type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
                     kandidatlisteId,
                 });
             }

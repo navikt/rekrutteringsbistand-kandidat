@@ -404,13 +404,13 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
     setFodselsnummer: (fodselsnummer: string) => {
-        dispatch({ type: KandidatlisteActionType.SET_FODSELSNUMMER, fodselsnummer });
+        dispatch({ type: KandidatlisteActionType.SetFodselsnummer, fodselsnummer });
     },
     hentKandidatMedFnr: (fodselsnummer: string) => {
-        dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR, fodselsnummer });
+        dispatch({ type: KandidatlisteActionType.HentKandidatMedFnr, fodselsnummer });
     },
     resetSøk: () => {
-        dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET });
+        dispatch({ type: KandidatlisteActionType.LeggTilKandidatSøkReset });
     },
     leggTilKandidatMedFnr: (
         kandidater: Array<KandidatOutboundDto>,
@@ -418,20 +418,20 @@ const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
             kandidatlisteId: string;
         }
     ) => {
-        dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
+        dispatch({ type: KandidatlisteActionType.LeggTilKandidater, kandidater, kandidatliste });
     },
     formidleUsynligKandidat: (
         kandidatlisteId: string,
         formidling: FormidlingAvUsynligKandidatOutboundDto
     ) => {
         dispatch({
-            type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT,
+            type: KandidatlisteActionType.FormidleUsynligKandidat,
             kandidatlisteId,
             formidling,
         });
     },
     setNotat: (notat: string) => {
-        dispatch({ type: KandidatlisteActionType.SET_NOTAT, notat });
+        dispatch({ type: KandidatlisteActionType.SetNotat, notat });
     },
 });
 

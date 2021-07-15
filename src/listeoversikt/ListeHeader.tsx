@@ -1,8 +1,8 @@
-import { Element } from 'nav-frontend-typografi';
 import React, { FunctionComponent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Element } from 'nav-frontend-typografi';
 import SorterbarKolonneheader from '../common/sorterbarKolonneheader/SorterbarKolonneheader';
 import { KandidatlisteSorteringsfelt } from './Kandidatlistesortering';
-import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../AppState';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { nesteSorteringsretning, Retning } from '../common/sorterbarKolonneheader/Retning';
@@ -37,7 +37,7 @@ const ListeHeader: FunctionComponent = () => {
                 : Object.keys(KandidatlisteSorteringsfelt)[sorteringsfeltIndex];
 
         dispatch({
-            type: ListeoversiktActionType.SET_SORTERING,
+            type: ListeoversiktActionType.SetSortering,
             sortering: { sortField: felt, sortDirection: nyRetning },
         });
     };

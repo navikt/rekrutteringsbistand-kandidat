@@ -389,7 +389,7 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
     endreStatusKandidat: (status: Kandidatstatus, kandidatlisteId: string, kandidatnr: string) => {
         dispatch({
-            type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,
+            type: KandidatlisteActionType.EndreStatusKandidat,
             status,
             kandidatlisteId,
             kandidatnr,
@@ -403,7 +403,7 @@ const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
         navKontor: string
     ) => {
         dispatch({
-            type: KandidatlisteActionType.PRESENTER_KANDIDATER,
+            type: KandidatlisteActionType.PresenterKandidater,
             beskjed,
             mailadresser,
             kandidatlisteId,
@@ -412,17 +412,17 @@ const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
         });
     },
     resetDeleStatus: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_DELESTATUS });
+        dispatch({ type: KandidatlisteActionType.ResetDelestatus });
     },
     resetSmsSendStatus: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_SEND_SMS_STATUS });
+        dispatch({ type: KandidatlisteActionType.ResetSendSmsStatus });
     },
     hentNotater: (kandidatlisteId: string, kandidatnr: string) => {
-        dispatch({ type: KandidatlisteActionType.HENT_NOTATER, kandidatlisteId, kandidatnr });
+        dispatch({ type: KandidatlisteActionType.HentNotater, kandidatlisteId, kandidatnr });
     },
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => {
         dispatch({
-            type: KandidatlisteActionType.TOGGLE_ARKIVERT,
+            type: KandidatlisteActionType.ToggleArkivert,
             kandidatlisteId,
             kandidatnr,
             arkivert,
@@ -430,26 +430,26 @@ const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
     },
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => {
         dispatch({
-            type: KandidatlisteActionType.ANGRE_ARKIVERING,
+            type: KandidatlisteActionType.AngreArkivering,
             kandidatlisteId,
             kandidatnumre,
         });
     },
     toggleMarkeringAvKandidat: (kandidatnr: string) => {
         dispatch({
-            type: KandidatlisteActionType.TOGGLE_MARKERING_AV_KANDIDAT,
+            type: KandidatlisteActionType.ToggleMarkeringAvKandidat,
             kandidatnr,
         });
     },
     endreMarkeringAvKandidater: (kandidatnumre: string[]) => {
         dispatch({
-            type: KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER,
+            type: KandidatlisteActionType.EndreMarkeringAvKandidater,
             kandidatnumre,
         });
     },
     endreVisningsstatusKandidat: (kandidatnr: string, visningsstatus: Visningsstatus) => {
         dispatch({
-            type: KandidatlisteActionType.ENDRE_VISNINGSSTATUS_KANDIDAT,
+            type: KandidatlisteActionType.EndreVisningsstatusKandidat,
             kandidatnr,
             visningsstatus,
         });

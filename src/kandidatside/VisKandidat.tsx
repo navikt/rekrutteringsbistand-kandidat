@@ -422,19 +422,19 @@ const mapDispatchToProps = (
         dispatch({ type: KandidatsøkActionType.SettKandidatnummer, kandidatnr }),
     lagreKandidatIKandidatliste: (kandidatliste: Kandidatliste, fnr: string, kandidatnr: string) =>
         dispatch({
-            type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
+            type: KandidatlisteActionType.LagreKandidatIKandidatliste,
             kandidatliste,
             fodselsnummer: fnr,
             kandidatnr,
         }),
     hentKandidatlisteMedKandidatlisteId: (kandidatlisteId: string) =>
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
             kandidatlisteId,
         }),
     hentKandidatlisteMedStillingsId: (stillingsId: string) =>
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+            type: KandidatlisteActionType.HentKandidatlisteMedStillingsId,
             stillingsId,
         }),
 });

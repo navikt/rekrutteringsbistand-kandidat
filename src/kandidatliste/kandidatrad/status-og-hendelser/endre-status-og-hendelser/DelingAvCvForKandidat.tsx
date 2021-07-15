@@ -24,7 +24,7 @@ const DelingAvCvForKandidat: FunctionComponent<Props> = ({
         dispatch({
             kandidatlisteId,
             utfall: nyttUtfall,
-            type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT,
+            type: KandidatlisteActionType.EndreUtfallKandidat,
             navKontor: valgtNavKontor,
             kandidatnr: kandidat.kandidatnr,
         });

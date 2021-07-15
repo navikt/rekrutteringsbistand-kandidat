@@ -8,14 +8,14 @@ const useHentKandidatlisteMedId = (stillingsIdFraUrl?: string, kandidatlisteIdFr
     useEffect(() => {
         const hentKandidatlisteMedStilling = (stillingsId: string) => {
             dispatch({
-                type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+                type: KandidatlisteActionType.HentKandidatlisteMedStillingsId,
                 stillingsId,
             });
         };
 
         const hentKandidatlisteUtenStilling = (kandidatlisteId: string) => {
             dispatch({
-                type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+                type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
                 kandidatlisteId,
             });
         };

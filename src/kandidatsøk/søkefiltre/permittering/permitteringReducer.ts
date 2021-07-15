@@ -1,8 +1,8 @@
 import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 export enum PermitteringActionType {
-    SET_PERMITTERT = 'SET_PERMITTERT',
-    TOGGLE_PERMITTERING_PANEL = 'TOGGLE_PERMITTERING_PANEL',
+    SetPermittert = 'SET_PERMITTERT',
+    TogglePermitteringPanel = 'TOGGLE_PERMITTERING_PANEL',
 }
 
 export type PermitteringState = {
@@ -11,15 +11,17 @@ export type PermitteringState = {
     panelOpen: boolean;
 };
 
-export type PermitteringAction =
-    | {
-          type: PermitteringActionType.SET_PERMITTERT;
-          permittert: boolean;
-          ikkePermittert: boolean;
-      }
-    | {
-          type: PermitteringActionType.TOGGLE_PERMITTERING_PANEL;
-      };
+type SetPermittertAction = {
+    type: PermitteringActionType.SetPermittert;
+    permittert: boolean;
+    ikkePermittert: boolean;
+};
+
+type TogglePermitteringPanelAction = {
+    type: PermitteringActionType.TogglePermitteringPanel;
+};
+
+export type PermitteringAction = SetPermittertAction | TogglePermitteringPanelAction;
 
 const initialState = {
     permittert: false,
@@ -38,13 +40,13 @@ export default function permitteringReducer(state: PermitteringState = initialSt
                 panelOpen: permittert !== undefined || state.panelOpen,
             };
         }
-        case PermitteringActionType.SET_PERMITTERT:
+        case PermitteringActionType.SetPermittert:
             return {
                 ...state,
                 permittert: action.permittert,
                 ikkePermittert: action.ikkePermittert,
             };
-        case PermitteringActionType.TOGGLE_PERMITTERING_PANEL:
+        case PermitteringActionType.TogglePermitteringPanel:
             return {
                 ...state,
                 panelOpen: !state.panelOpen,

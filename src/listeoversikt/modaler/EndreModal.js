@@ -55,10 +55,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     oppdaterKandidatliste: (kandidatlisteInfo) => {
-        dispatch({ type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE, kandidatlisteInfo });
+        dispatch({ type: KandidatlisteActionType.OppdaterKandidatliste, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS });
+        dispatch({ type: KandidatlisteActionType.ResetLagreStatus });
     },
 });
 

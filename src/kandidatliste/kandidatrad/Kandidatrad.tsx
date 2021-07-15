@@ -100,7 +100,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const onOpprettNotat = (tekst: string) => {
         dispatch<KandidatlisteAction>({
-            type: KandidatlisteActionType.OPPRETT_NOTAT,
+            type: KandidatlisteActionType.OpprettNotat,
             kandidatlisteId: kandidatliste.kandidatlisteId,
             kandidatnr: kandidat.kandidatnr,
             tekst,
@@ -109,7 +109,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const onEndreNotat = (notatId: string, tekst: string) => {
         dispatch<KandidatlisteAction>({
-            type: KandidatlisteActionType.ENDRE_NOTAT,
+            type: KandidatlisteActionType.EndreNotat,
             kandidatlisteId: kandidatliste.kandidatlisteId,
             kandidatnr: kandidat.kandidatnr,
             notatId,
@@ -119,7 +119,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const onSlettNotat = (notatId: string) => {
         dispatch({
-            type: KandidatlisteActionType.SLETT_NOTAT,
+            type: KandidatlisteActionType.SlettNotat,
             kandidatlisteId: kandidatliste.kandidatlisteId,
             kandidatnr: kandidat.kandidatnr,
             notatId,

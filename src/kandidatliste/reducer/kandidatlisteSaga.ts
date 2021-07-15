@@ -77,12 +77,12 @@ function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
     try {
         yield postKandidatliste(action.kandidatlisteInfo);
         yield put({
-            type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE_SUCCESS,
+            type: KandidatlisteActionType.OpprettKandidatlisteSuccess,
             tittel: action.kandidatlisteInfo.tittel,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.OpprettKandidatlisteFailure, error: e });
         } else {
             throw e;
         }
@@ -94,13 +94,13 @@ function* opprettKandidatlisteForStilling(stillingsId, opprinneligError) {
         yield putKandidatliste(stillingsId);
         const kandidatliste = yield fetchKandidatlisteMedStillingsId(stillingsId);
         yield put({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS,
+            type: KandidatlisteActionType.HentKandidatlisteMedStillingsIdSuccess,
             kandidatliste,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
+                type: KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure,
                 error: opprinneligError,
             });
         } else {
@@ -115,7 +115,7 @@ function* hentKandidatlisteMedStillingsId(action: HentKandidatlisteMedStillingsI
         const kandidatliste = yield fetchKandidatlisteMedStillingsId(stillingsId);
         loggManglendeAktørId(kandidatliste);
         yield put({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS,
+            type: KandidatlisteActionType.HentKandidatlisteMedStillingsIdSuccess,
             kandidatliste,
         });
     } catch (e) {
@@ -124,7 +124,7 @@ function* hentKandidatlisteMedStillingsId(action: HentKandidatlisteMedStillingsI
                 yield opprettKandidatlisteForStilling(stillingsId, e);
             } else {
                 yield put({
-                    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
+                    type: KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure,
                     error: e,
                 });
             }
@@ -140,13 +140,13 @@ function* hentKandidatlisteMedKandidatlisteId(action: HentKandidatlisteMedKandid
         const kandidatliste = yield fetchKandidatlisteMedKandidatlisteId(kandidatlisteId);
         loggManglendeAktørId(kandidatliste);
         yield put({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS,
+            type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdSuccess,
             kandidatliste,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE,
+                type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure,
                 error: e,
             });
         } else {
@@ -166,12 +166,12 @@ function* presenterKandidater(action: PresenterKandidaterAction) {
             navKontor
         );
         yield put({
-            type: KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS,
+            type: KandidatlisteActionType.PresenterKandidaterSuccess,
             kandidatliste: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.PRESENTER_KANDIDATER_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.PresenterKandidaterFailure, error: e });
         } else {
             throw e;
         }
@@ -183,12 +183,12 @@ function* endreKandidatstatus(action: EndreStatusKandidatAction) {
     try {
         const response = yield putStatusKandidat(status, kandidatlisteId, kandidatnr);
         yield put({
-            type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS,
+            type: KandidatlisteActionType.EndreStatusKandidatSuccess,
             kandidatliste: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.EndreStatusKandidatFailure, error: e });
         } else {
             throw e;
         }
@@ -204,12 +204,12 @@ function* endreKandidatUtfall(action: EndreUtfallKandidatAction) {
             action.kandidatnr
         );
         yield put<EndreUtfallKandidatSuccessAction>({
-            type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS,
+            type: KandidatlisteActionType.EndreUtfallKandidatSuccess,
             kandidatliste: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.EndreUtfallKandidatFailure, error: e });
         } else {
             throw e;
         }
@@ -228,14 +228,14 @@ function* endreUtfallForFormidlingAvUsynligKandidat(
         );
 
         yield put<EndreFormidlingsutfallForUsynligKandidatSuccessAction>({
-            type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS,
+            type: KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidatSuccess,
             formidlingId: action.formidlingId,
             kandidatliste: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE,
+                type: KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidatFailure,
                 formidlingId: action.formidlingId,
                 error: e,
             });
@@ -253,13 +253,13 @@ function* endreKandidatlistestatus(action: EndreKandidatlistestatusAction) {
         );
 
         yield put<EndreKandidatlistestatusSuccessAction>({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_SUCCESS,
+            type: KandidatlisteActionType.EndreKandidatlistestatusSuccess,
             kandidatliste,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_FAILURE,
+                type: KandidatlisteActionType.EndreKandidatlistestatusFailure,
                 error: e,
             });
         } else {
@@ -272,20 +272,20 @@ function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
     try {
         const response = yield fetchKandidatMedFnr(action.fodselsnummer);
         yield put({
-            type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_SUCCESS,
+            type: KandidatlisteActionType.HentKandidatMedFnrSuccess,
             kandidat: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
-                yield put({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_NOT_FOUND });
+                yield put({ type: KandidatlisteActionType.HentKandidatMedFnrNotFound });
                 yield put({
-                    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT,
+                    type: KandidatlisteActionType.HentUsynligKandidat,
                     fodselsnummer: action.fodselsnummer,
                 });
             } else {
                 yield put({
-                    type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_FAILURE,
+                    type: KandidatlisteActionType.HentKandidatMedFnrFailure,
                     error: e,
                 });
             }
@@ -299,12 +299,12 @@ function* hentUsynligKandidat(action: HentUsynligKandidatAction) {
     try {
         const response = yield fetchUsynligKandidat(action.fodselsnummer);
         yield put<KandidatlisteAction>({
-            type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS,
+            type: KandidatlisteActionType.HentUsynligKandidatSuccess,
             navn: response,
         });
     } catch (e) {
         yield put({
-            type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE,
+            type: KandidatlisteActionType.HentUsynligKandidatFailure,
             error: e,
         });
     }
@@ -317,7 +317,7 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
             action.kandidater
         );
         yield put<KandidatlisteAction>({
-            type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS,
+            type: KandidatlisteActionType.LeggTilKandidaterSuccess,
             kandidatliste: response,
             antallLagredeKandidater: action.kandidater.length,
             lagretListe: action.kandidatliste,
@@ -326,7 +326,7 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
         yield put({ type: KandidatsøkActionType.Search });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.LeggTilKandidaterFailure, error: e });
         } else {
             throw e;
         }
@@ -336,7 +336,7 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
 function* lagreKandidatIKandidatliste(action) {
     try {
         yield call(leggTilKandidater, {
-            type: KandidatlisteActionType.LEGG_TIL_KANDIDATER,
+            type: KandidatlisteActionType.LeggTilKandidater,
             kandidatliste: action.kandidatliste,
             kandidater: [
                 {
@@ -346,11 +346,11 @@ function* lagreKandidatIKandidatliste(action) {
             ],
         });
 
-        yield put({ type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS });
+        yield put({ type: KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,
+                type: KandidatlisteActionType.LagreKandidatIKandidatlisteFailure,
                 error: e,
             });
         } else {
@@ -366,14 +366,14 @@ function* formidleUsynligKandidat(action: FormidleUsynligKandidatAction) {
             action.formidling
         );
         yield put({
-            type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS,
+            type: KandidatlisteActionType.FormidleUsynligKandidatSuccess,
             formidling: action.formidling,
             kandidatliste: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE,
+                type: KandidatlisteActionType.FormidleUsynligKandidatFailure,
                 error: e,
             });
         } else {
@@ -386,13 +386,13 @@ function* hentNotater(action: HentNotaterAction) {
     try {
         const response = yield fetchNotater(action.kandidatlisteId, action.kandidatnr);
         yield put({
-            type: KandidatlisteActionType.HENT_NOTATER_SUCCESS,
+            type: KandidatlisteActionType.HentNotaterSuccess,
             notater: response.liste,
             kandidatnr: action.kandidatnr,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.HENT_NOTATER_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.HentNotaterFailure, error: e });
         } else {
             throw e;
         }
@@ -403,13 +403,13 @@ function* opprettNotat(action: OpprettNotatAction) {
     try {
         const response = yield postNotat(action.kandidatlisteId, action.kandidatnr, action.tekst);
         yield put({
-            type: KandidatlisteActionType.OPPRETT_NOTAT_SUCCESS,
+            type: KandidatlisteActionType.OpprettNotatSuccess,
             notater: response.liste,
             kandidatnr: action.kandidatnr,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.OPPRETT_NOTAT_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.OpprettNotatFailure, error: e });
         } else {
             throw e;
         }
@@ -420,19 +420,19 @@ function* hentKandidatlisteMedAnnonsenummer(action) {
     try {
         const kandidatliste = yield fetchKandidatlisteMedAnnonsenummer(action.annonsenummer);
         yield put({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS,
+            type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerSuccess,
             kandidatliste,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
                 yield put({
-                    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND,
+                    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerNotFound,
                     message: e.message,
                 });
             } else {
                 yield put({
-                    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE,
+                    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerFailure,
                     error: e,
                 });
             }
@@ -451,13 +451,13 @@ function* endreNotat(action: EndreNotatAction) {
             action.tekst
         );
         yield put({
-            type: KandidatlisteActionType.ENDRE_NOTAT_SUCCESS,
+            type: KandidatlisteActionType.EndreNotatSuccess,
             notater: response.liste,
             kandidatnr: action.kandidatnr,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.ENDRE_NOTAT_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.EndreNotatFailure, error: e });
         } else {
             throw e;
         }
@@ -472,13 +472,13 @@ function* slettNotat(action) {
             action.notatId
         );
         yield put({
-            type: KandidatlisteActionType.SLETT_NOTAT_SUCCESS,
+            type: KandidatlisteActionType.SlettNotatSuccess,
             notater: response.liste,
             kandidatnr: action.kandidatnr,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.SLETT_NOTAT_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.SlettNotatFailure, error: e });
         } else {
             throw e;
         }
@@ -494,12 +494,12 @@ function* toggleArkivert(action: ToggleArkivertAction) {
         );
 
         yield put<ToggleArkivertSuccessAction>({
-            type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS,
+            type: KandidatlisteActionType.ToggleArkivertSuccess,
             kandidat: arkivertKandidat,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.ToggleArkivertFailure, error: e });
         } else {
             throw e;
         }
@@ -520,11 +520,11 @@ function* angreArkiveringForKandidater(action: AngreArkiveringAction) {
         ) as string[];
 
         yield put<AngreArkiveringSuccessAction>({
-            type: KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS,
+            type: KandidatlisteActionType.AngreArkiveringSuccess,
             kandidatnumre: dearkiverteKandidater,
         });
     } catch (e) {
-        yield put({ type: KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE });
+        yield put({ type: KandidatlisteActionType.AngreArkiveringFailure });
     }
 }
 
@@ -532,12 +532,12 @@ function* oppdaterKandidatliste(action) {
     try {
         yield putOppdaterKandidatliste(action.kandidatlisteInfo);
         yield put({
-            type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE_SUCCESS,
+            type: KandidatlisteActionType.OppdaterKandidatlisteSuccess,
             tittel: action.kandidatlisteInfo.tittel,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.OppdaterKandidatlisteFailure, error: e });
         } else {
             throw e;
         }
@@ -552,15 +552,15 @@ function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
     try {
         const sendteMeldinger = yield call(fetchSendteMeldinger, action.kandidatlisteId);
         yield put({
-            type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS,
+            type: KandidatlisteActionType.HentSendteMeldingerSuccess,
             sendteMeldinger,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.HentSendteMeldingerFailure, error: e });
         } else {
             yield put({
-                type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE,
+                type: KandidatlisteActionType.HentSendteMeldingerFailure,
                 error: {
                     message: 'Det skjedde noe galt',
                     status: 0,
@@ -574,7 +574,7 @@ function* hentForespørslerOmDelingAvCv(action: HentForespørslerOmDelingAvCvAct
     try {
         const forespørsler = yield call(fetchForespørslerOmDelingAvCv, action.stillingsId);
         yield put<KandidatlisteAction>({
-            type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS,
+            type: KandidatlisteActionType.HentForespørslerOmDelingAvCvSuccess,
             forespørslerOmDelingAvCv: forespørsler,
         });
     } catch (e) {
@@ -586,15 +586,15 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
     try {
         yield call(postSmsTilKandidater, action.melding, action.fnr, action.kandidatlisteId);
         yield put({
-            type: KandidatlisteActionType.SEND_SMS_SUCCESS,
+            type: KandidatlisteActionType.SendSmsSuccess,
             kandidatlisteId: action.kandidatlisteId,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.SendSmsFailure, error: e });
         } else {
             yield put({
-                type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE,
+                type: KandidatlisteActionType.HentSendteMeldingerFailure,
                 error: {
                     message: 'Det skjedde noe galt',
                     status: 0,
@@ -605,68 +605,68 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
 }
 
 function* kandidatlisteSaga() {
-    yield takeLatest(KandidatlisteActionType.OPPRETT_KANDIDATLISTE, opprettKandidatliste);
+    yield takeLatest(KandidatlisteActionType.OpprettKandidatliste, opprettKandidatliste);
     yield takeLatest(
-        KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+        KandidatlisteActionType.HentKandidatlisteMedStillingsId,
         hentKandidatlisteMedStillingsId
     );
     yield takeLatest(
-        KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+        KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
         hentKandidatlisteMedKandidatlisteId
     );
-    yield takeLatest(KandidatlisteActionType.PRESENTER_KANDIDATER, presenterKandidater);
-    yield takeLatest(KandidatlisteActionType.ENDRE_STATUS_KANDIDAT, endreKandidatstatus);
-    yield takeLatest(KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT, endreKandidatUtfall);
-    yield takeLatest(KandidatlisteActionType.HENT_KANDIDAT_MED_FNR, hentKandidatMedFnr);
-    yield takeLatest(KandidatlisteActionType.LEGG_TIL_KANDIDATER, leggTilKandidater);
-    yield takeLatest(KandidatlisteActionType.HENT_NOTATER, hentNotater);
-    yield takeLatest(KandidatlisteActionType.OPPRETT_NOTAT, opprettNotat);
-    yield takeLatest(KandidatlisteActionType.ENDRE_NOTAT, endreNotat);
-    yield takeLatest(KandidatlisteActionType.SLETT_NOTAT, slettNotat);
-    yield takeLatest(KandidatlisteActionType.TOGGLE_ARKIVERT, toggleArkivert);
+    yield takeLatest(KandidatlisteActionType.PresenterKandidater, presenterKandidater);
+    yield takeLatest(KandidatlisteActionType.EndreStatusKandidat, endreKandidatstatus);
+    yield takeLatest(KandidatlisteActionType.EndreUtfallKandidat, endreKandidatUtfall);
+    yield takeLatest(KandidatlisteActionType.HentKandidatMedFnr, hentKandidatMedFnr);
+    yield takeLatest(KandidatlisteActionType.LeggTilKandidater, leggTilKandidater);
+    yield takeLatest(KandidatlisteActionType.HentNotater, hentNotater);
+    yield takeLatest(KandidatlisteActionType.OpprettNotat, opprettNotat);
+    yield takeLatest(KandidatlisteActionType.EndreNotat, endreNotat);
+    yield takeLatest(KandidatlisteActionType.SlettNotat, slettNotat);
+    yield takeLatest(KandidatlisteActionType.ToggleArkivert, toggleArkivert);
     yield takeLatest(
-        KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
+        KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer,
         hentKandidatlisteMedAnnonsenummer
     );
     yield takeLatest(
-        KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
+        KandidatlisteActionType.LagreKandidatIKandidatliste,
         lagreKandidatIKandidatliste
     );
-    yield takeLatest(KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT, formidleUsynligKandidat);
-    yield takeLatest(KandidatlisteActionType.OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
-    yield takeLatest(KandidatlisteActionType.ANGRE_ARKIVERING, angreArkiveringForKandidater);
+    yield takeLatest(KandidatlisteActionType.FormidleUsynligKandidat, formidleUsynligKandidat);
+    yield takeLatest(KandidatlisteActionType.OppdaterKandidatliste, oppdaterKandidatliste);
+    yield takeLatest(KandidatlisteActionType.AngreArkivering, angreArkiveringForKandidater);
     yield takeLatest(
         [
-            KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE,
-            KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
-            KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE,
-            KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_FAILURE,
-            KandidatlisteActionType.PRESENTER_KANDIDATER_FAILURE,
-            KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_FAILURE,
-            KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE,
-            KandidatlisteActionType.OPPRETT_NOTAT_FAILURE,
-            KandidatlisteActionType.ENDRE_NOTAT_FAILURE,
-            KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE,
-            KandidatlisteActionType.SLETT_NOTAT_FAILURE,
-            KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,
+            KandidatlisteActionType.OpprettKandidatlisteFailure,
+            KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure,
+            KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure,
+            KandidatlisteActionType.EndreStatusKandidatFailure,
+            KandidatlisteActionType.PresenterKandidaterFailure,
+            KandidatlisteActionType.HentKandidatMedFnrFailure,
+            KandidatlisteActionType.LeggTilKandidaterFailure,
+            KandidatlisteActionType.OpprettNotatFailure,
+            KandidatlisteActionType.EndreNotatFailure,
+            KandidatlisteActionType.ToggleArkivertFailure,
+            KandidatlisteActionType.SlettNotatFailure,
+            KandidatlisteActionType.LagreKandidatIKandidatlisteFailure,
         ],
         sjekkError
     );
-    yield takeLatest(KandidatlisteActionType.SEND_SMS, sendSmsTilKandidater);
+    yield takeLatest(KandidatlisteActionType.SendSms, sendSmsTilKandidater);
     yield takeLatest(
-        [KandidatlisteActionType.HENT_SENDTE_MELDINGER, KandidatlisteActionType.SEND_SMS_SUCCESS],
+        [KandidatlisteActionType.HentSendteMeldinger, KandidatlisteActionType.SendSmsSuccess],
         hentSendteMeldinger
     );
     yield takeLatest(
-        [KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV],
+        [KandidatlisteActionType.HentForespørslerOmDelingAvCv],
         hentForespørslerOmDelingAvCv
     );
-    yield takeLatest(KandidatlisteActionType.HENT_USYNLIG_KANDIDAT, hentUsynligKandidat);
+    yield takeLatest(KandidatlisteActionType.HentUsynligKandidat, hentUsynligKandidat);
     yield takeLatest(
-        KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT,
+        KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidat,
         endreUtfallForFormidlingAvUsynligKandidat
     );
-    yield takeLatest(KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS, endreKandidatlistestatus);
+    yield takeLatest(KandidatlisteActionType.EndreKandidatlistestatus, endreKandidatlistestatus);
 }
 
 export default kandidatlisteSaga;

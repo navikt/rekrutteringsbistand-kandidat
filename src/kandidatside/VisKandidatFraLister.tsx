@@ -209,25 +209,25 @@ const mapDispatchToProps = (dispatch: Dispatch<CvAction | KandidatlisteAction>) 
         dispatch({ type: CvActionType.FetchCv, arenaKandidatnr }),
     hentKandidatliste: (kandidatlisteId: string) =>
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
             kandidatlisteId,
         }),
     settValgtKandidat: (kandidatlisteId: string, kandidatnr: string) =>
         dispatch({
-            type: KandidatlisteActionType.VELG_KANDIDAT,
+            type: KandidatlisteActionType.VelgKandidat,
             kandidatlisteId,
             kandidatnr,
         }),
     endreStatusKandidat: (status: Kandidatstatus, kandidatlisteId: string, kandidatnr: string) =>
         dispatch({
-            type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,
+            type: KandidatlisteActionType.EndreStatusKandidat,
             status,
             kandidatlisteId,
             kandidatnr,
         }),
     settKandidatlistefilter: (filter: Kandidatlistefilter) =>
         dispatch({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
+            type: KandidatlisteActionType.EndreKandidatlisteFilter,
             filter,
         }),
 });

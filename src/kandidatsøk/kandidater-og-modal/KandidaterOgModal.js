@@ -273,7 +273,7 @@ KandidaterOgModal.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
     leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => {
-        dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidatliste, kandidater });
+        dispatch({ type: KandidatlisteActionType.LeggTilKandidater, kandidatliste, kandidater });
     },
     lastFlereKandidater: () => {
         dispatch({ type: KandidatsøkActionType.LastFlereKandidater });
