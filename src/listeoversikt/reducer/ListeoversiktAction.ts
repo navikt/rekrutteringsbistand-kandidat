@@ -3,21 +3,21 @@ import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 
 export enum ListeoversiktActionType {
-    HENT_KANDIDATLISTER = 'HENT_KANDIDATLISTER',
-    HENT_KANDIDATLISTER_SUCCESS = 'HENT_KANDIDATLISTER_SUCCESS',
-    HENT_KANDIDATLISTER_FAILURE = 'HENT_KANDIDATLISTER_FAILURE',
-    MARKER_KANDIDATLISTE_SOM_MIN = 'MARKER_KANDIDATLISTE_SOM_MIN',
-    MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS = 'MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS',
-    MARKER_KANDIDATLISTE_SOM_MIN_FAILURE = 'MARKER_KANDIDATLISTE_SOM_MIN',
-    SLETT_KANDIDATLISTE = 'SLETT_KANDIDATLISTE',
-    SLETT_KANDIDATLISTE_FERDIG = 'SLETT_KANDIDATLISTE_FERDIG',
-    RESET_SLETTE_STATUS = 'RESET_SLETTE_STATUS',
-    SET_SORTERING = 'SET_SORTERING',
-    RESET_KANDIDATLISTER_SOKEKRITERIER = 'RESET_KANDIDATLISTER_SOKEKRITERIER',
+    HentKandidatlister = 'HENT_KANDIDATLISTER',
+    HentKandidatlisterSuccess = 'HENT_KANDIDATLISTER_SUCCESS',
+    HentKandidatlisterFailure = 'HENT_KANDIDATLISTER_FAILURE',
+    MarkerKandidatlisteSomMin = 'MARKER_KANDIDATLISTE_SOM_MIN',
+    MarkerKandidatlisteSomMinSuccess = 'MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS',
+    MarkerKandidatlisteSomMinFailure = 'MARKER_KANDIDATLISTE_SOM_MIN',
+    SlettKandidatliste = 'SLETT_KANDIDATLISTE',
+    SlettKandidatlisteFerdig = 'SLETT_KANDIDATLISTE_FERDIG',
+    ResetSletteStatus = 'RESET_SLETTE_STATUS',
+    SetSortering = 'SET_SORTERING',
+    ResetKandidatlisterSokekriterier = 'RESET_KANDIDATLISTER_SOKEKRITERIER',
 }
 
 export interface HentKandidatlisterAction {
-    type: ListeoversiktActionType.HENT_KANDIDATLISTER;
+    type: ListeoversiktActionType.HentKandidatlister;
     query: string;
     listetype: string;
     kunEgne: boolean;
@@ -28,7 +28,7 @@ export interface HentKandidatlisterAction {
 }
 
 export interface HentKandidatlisterSuccessAction {
-    type: ListeoversiktActionType.HENT_KANDIDATLISTER_SUCCESS;
+    type: ListeoversiktActionType.HentKandidatlisterSuccess;
     kandidatlister: {
         liste: any;
         antall: number;
@@ -36,24 +36,24 @@ export interface HentKandidatlisterSuccessAction {
 }
 
 export interface HentKandidatlisterFailureAction {
-    type: ListeoversiktActionType.HENT_KANDIDATLISTER_FAILURE;
+    type: ListeoversiktActionType.HentKandidatlisterFailure;
 }
 
 export interface MarkerKandidatlisteSomMinAction {
-    type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN;
+    type: ListeoversiktActionType.MarkerKandidatlisteSomMin;
     kandidatlisteId: string;
 }
 
 export interface MarkerKandidatlisteSomMinSuccessAction {
-    type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS;
+    type: ListeoversiktActionType.MarkerKandidatlisteSomMinSuccess;
 }
 
 export interface MarkerKandidatlisteSomMinFailureAction {
-    type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE;
+    type: ListeoversiktActionType.MarkerKandidatlisteSomMinFailure;
 }
 
 export interface SlettKandidatlisteAction {
-    type: ListeoversiktActionType.SLETT_KANDIDATLISTE;
+    type: ListeoversiktActionType.SlettKandidatliste;
     kandidatliste: {
         tittel: string;
         kandidatlisteId: string;
@@ -61,17 +61,17 @@ export interface SlettKandidatlisteAction {
 }
 
 export interface SlettKandidatlisteFerdigAction {
-    type: ListeoversiktActionType.SLETT_KANDIDATLISTE_FERDIG;
+    type: ListeoversiktActionType.SlettKandidatlisteFerdig;
     result: ResponseData<any>;
     kandidatlisteTittel: string;
 }
 
 export interface ResetSletteStatusAction {
-    type: ListeoversiktActionType.RESET_SLETTE_STATUS;
+    type: ListeoversiktActionType.ResetSletteStatus;
 }
 
 export interface SetSortering {
-    type: ListeoversiktActionType.SET_SORTERING;
+    type: ListeoversiktActionType.SetSortering;
     sortering: {
         sortField: KandidatlisteSorteringsfelt;
         sortDirection: Retning;
@@ -79,7 +79,7 @@ export interface SetSortering {
 }
 
 export interface ResetKandidatlisterSokekriterierAction {
-    type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER;
+    type: ListeoversiktActionType.ResetKandidatlisterSokekriterier;
 }
 
 export type ListeoversiktAction =

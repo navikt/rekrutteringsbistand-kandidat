@@ -23,10 +23,10 @@ function* hentKandidatlister() {
             ...state.listeoversikt.sortering,
         };
         const kandidatlister = yield fetchKandidatlister(mergedQuery);
-        yield put({ type: ListeoversiktActionType.HENT_KANDIDATLISTER_SUCCESS, kandidatlister });
+        yield put({ type: ListeoversiktActionType.HentKandidatlisterSuccess, kandidatlister });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: ListeoversiktActionType.HENT_KANDIDATLISTER_FAILURE, error: e });
+            yield put({ type: ListeoversiktActionType.HentKandidatlisterFailure, error: e });
         } else {
             throw e;
         }
@@ -36,7 +36,7 @@ function* hentKandidatlister() {
 function* slettKandidatliste(action: SlettKandidatlisteAction) {
     const response = yield call(deleteKandidatliste, action.kandidatliste.kandidatlisteId);
     yield put({
-        type: ListeoversiktActionType.SLETT_KANDIDATLISTE_FERDIG,
+        type: ListeoversiktActionType.SlettKandidatlisteFerdig,
         result: response,
         kandidatlisteTittel: action.kandidatliste.tittel,
     });
@@ -45,11 +45,11 @@ function* slettKandidatliste(action: SlettKandidatlisteAction) {
 function* markerKandidatlisteSomMin(action: MarkerKandidatlisteSomMinAction) {
     try {
         yield endreEierskapPaKandidatliste(action.kandidatlisteId);
-        yield put({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS });
+        yield put({ type: ListeoversiktActionType.MarkerKandidatlisteSomMinSuccess });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE,
+                type: ListeoversiktActionType.MarkerKandidatlisteSomMinFailure,
                 error: e,
             });
         } else {
@@ -73,25 +73,19 @@ function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
 
 function* listeoversiktSaga() {
     yield takeLatest(
-        [ListeoversiktActionType.HENT_KANDIDATLISTER, ListeoversiktActionType.SET_SORTERING],
+        [ListeoversiktActionType.HentKandidatlister, ListeoversiktActionType.SetSortering],
         hentKandidatlister
     );
     yield takeLatest(
         [
-            ListeoversiktActionType.HENT_KANDIDATLISTER_FAILURE,
-            ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE,
+            ListeoversiktActionType.HentKandidatlisterFailure,
+            ListeoversiktActionType.MarkerKandidatlisteSomMinFailure,
         ],
         sjekkError
     );
-    yield takeLatest(
-        [ListeoversiktActionType.SLETT_KANDIDATLISTE_FERDIG],
-        sjekkFerdigActionForError
-    );
-    yield takeLatest(
-        ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN,
-        markerKandidatlisteSomMin
-    );
-    yield takeLatest(ListeoversiktActionType.SLETT_KANDIDATLISTE, slettKandidatliste);
+    yield takeLatest([ListeoversiktActionType.SlettKandidatlisteFerdig], sjekkFerdigActionForError);
+    yield takeLatest(ListeoversiktActionType.MarkerKandidatlisteSomMin, markerKandidatlisteSomMin);
+    yield takeLatest(ListeoversiktActionType.SlettKandidatliste, slettKandidatliste);
 }
 
 export default listeoversiktSaga;

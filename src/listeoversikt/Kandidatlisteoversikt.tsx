@@ -374,7 +374,7 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
         dispatch({ type: KandidatsøkActionType.SetState, query }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
         dispatch({
-            type: ListeoversiktActionType.HENT_KANDIDATLISTER,
+            type: ListeoversiktActionType.HentKandidatlister,
             query,
             listetype: type,
             kunEgne,
@@ -383,16 +383,16 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
         }),
     resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.ResetLagreStatus }),
     markerKandidatlisteSomMin: (kandidatlisteId: string) => {
-        dispatch({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
+        dispatch({ type: ListeoversiktActionType.MarkerKandidatlisteSomMin, kandidatlisteId });
     },
     slettKandidatliste: (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
         dispatch({
-            type: ListeoversiktActionType.SLETT_KANDIDATLISTE,
+            type: ListeoversiktActionType.SlettKandidatliste,
             kandidatliste: kandidatlisteSammendrag,
         });
     },
     resetSletteStatus: () => {
-        dispatch({ type: ListeoversiktActionType.RESET_SLETTE_STATUS });
+        dispatch({ type: ListeoversiktActionType.ResetSletteStatus });
     },
     nullstillValgtKandidatIKandidatliste: () =>
         dispatch({

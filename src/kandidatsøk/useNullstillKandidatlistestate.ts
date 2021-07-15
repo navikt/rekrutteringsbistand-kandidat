@@ -8,7 +8,7 @@ const useNullstillKandidatlisteState = () => {
 
     useEffect(() => {
         const nullstillSøkekriterierIKandidatlisteoversikt = () => {
-            dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+            dispatch({ type: ListeoversiktActionType.ResetKandidatlisterSokekriterier });
         };
 
         const nullstillValgtKandidatIKandidatliste = () => {

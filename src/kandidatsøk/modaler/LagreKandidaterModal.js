@@ -405,7 +405,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     hentEgneKandidatlister: (pagenumber, pagesize) => {
         dispatch({
-            type: ListeoversiktActionType.HENT_KANDIDATLISTER,
+            type: ListeoversiktActionType.HentKandidatlister,
             query: '',
             listetype: '',
             kunEgne: true,
@@ -420,7 +420,7 @@ const mapDispatchToProps = (dispatch) => ({
         });
     },
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: ListeoversiktActionType.ResetKandidatlisterSokekriterier });
     },
 });
 

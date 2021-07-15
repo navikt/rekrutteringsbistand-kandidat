@@ -53,7 +53,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
     action
 ) => {
     switch (action.type) {
-        case ListeoversiktActionType.HENT_KANDIDATLISTER:
+        case ListeoversiktActionType.HentKandidatlister:
             return {
                 ...state,
                 hentListerStatus: HentStatus.Loading,
@@ -65,7 +65,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
                     pagesize: action.pagesize,
                 },
             };
-        case ListeoversiktActionType.HENT_KANDIDATLISTER_SUCCESS:
+        case ListeoversiktActionType.HentKandidatlisterSuccess:
             return {
                 ...state,
                 hentListerStatus: HentStatus.Success,
@@ -74,32 +74,32 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
                     antall: action.kandidatlister.antall,
                 },
             };
-        case ListeoversiktActionType.HENT_KANDIDATLISTER_FAILURE:
+        case ListeoversiktActionType.HentKandidatlisterFailure:
             return {
                 ...state,
                 hentListerStatus: HentStatus.Failure,
             };
-        case ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN:
+        case ListeoversiktActionType.MarkerKandidatlisteSomMin:
             return {
                 ...state,
                 markerSomMinStatus: MarkerSomMinStatus.Loading,
             };
-        case ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS:
+        case ListeoversiktActionType.MarkerKandidatlisteSomMinSuccess:
             return {
                 ...state,
                 markerSomMinStatus: MarkerSomMinStatus.Success,
             };
-        case ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE:
+        case ListeoversiktActionType.MarkerKandidatlisteSomMinFailure:
             return {
                 ...state,
                 markerSomMinStatus: MarkerSomMinStatus.Failure,
             };
-        case ListeoversiktActionType.SLETT_KANDIDATLISTE:
+        case ListeoversiktActionType.SlettKandidatliste:
             return {
                 ...state,
                 slettKandidatlisteStatus: lasterInn(),
             };
-        case ListeoversiktActionType.SLETT_KANDIDATLISTE_FERDIG:
+        case ListeoversiktActionType.SlettKandidatlisteFerdig:
             return {
                 ...state,
                 slettKandidatlisteStatus:
@@ -107,12 +107,12 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
                         ? suksess({ slettetTittel: action.kandidatlisteTittel })
                         : action.result,
             };
-        case ListeoversiktActionType.RESET_SLETTE_STATUS:
+        case ListeoversiktActionType.ResetSletteStatus:
             return {
                 ...state,
                 slettKandidatlisteStatus: ikkeLastet(),
             };
-        case ListeoversiktActionType.SET_SORTERING:
+        case ListeoversiktActionType.SetSortering:
             return {
                 ...state,
                 hentListerStatus: HentStatus.Loading,
@@ -121,7 +121,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
                     sortDirection: action.sortering.sortDirection,
                 },
             };
-        case ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER:
+        case ListeoversiktActionType.ResetKandidatlisterSokekriterier:
             return {
                 ...state,
                 kandidatlister: {
