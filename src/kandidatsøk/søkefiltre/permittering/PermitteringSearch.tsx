@@ -1,11 +1,13 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
-import { Checkbox } from 'nav-frontend-skjema';
-import AppState from '../../../AppState';
 import { connect } from 'react-redux';
-import { PermitteringActionType } from './permitteringReducer';
+import { Dispatch } from 'redux';
+import { Checkbox } from 'nav-frontend-skjema';
+
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
+import AppState from '../../../AppState';
+import { PermitteringAction, PermitteringActionType } from './permitteringReducer';
+import { KandidatsøkAction, KandidatsøkActionType } from '../../reducer/searchActions';
 import './PermitteringSearch.less';
-import { KandidatsøkActionType } from '../../reducer/searchActions';
 
 interface Props {
     permittert: boolean;
@@ -74,14 +76,14 @@ export default connect(
         ikkePermittert: state.søkefilter.permittering.ikkePermittert,
         panelOpen: state.søkefilter.permittering.panelOpen,
     }),
-    (dispatch: (action: any) => void) => ({
+    (dispatch: Dispatch<KandidatsøkAction | PermitteringAction>) => ({
         search: () => dispatch({ type: KandidatsøkActionType.Search }),
         setPermittert: (permittert: boolean, ikkePermittert: boolean) =>
             dispatch({
-                type: PermitteringActionType.SET_PERMITTERT,
+                type: PermitteringActionType.SetPermittert,
                 permittert,
                 ikkePermittert,
             }),
-        togglePanel: () => dispatch({ type: PermitteringActionType.TOGGLE_PERMITTERING_PANEL }),
+        togglePanel: () => dispatch({ type: PermitteringActionType.TogglePermitteringPanel }),
     })
 )(PermitteringSearch);
