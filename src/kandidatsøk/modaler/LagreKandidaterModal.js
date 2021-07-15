@@ -16,6 +16,7 @@ import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { ListeoversiktActionType } from '../../listeoversikt/reducer/ListeoversiktAction';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import './LagreKandidaterModal.less';
+import { Nettstatus } from '../../api/remoteData';
 
 const PAGINERING_BATCH_SIZE = 5;
 
