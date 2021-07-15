@@ -45,7 +45,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
 
     const endreFormidlingsutfallForUsynligKandidat = (utfall: Utfall) => {
         dispatch({
-            type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT,
+            type: KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidat,
             utfall,
             kandidatlisteId,
             formidlingId: formidling.id,

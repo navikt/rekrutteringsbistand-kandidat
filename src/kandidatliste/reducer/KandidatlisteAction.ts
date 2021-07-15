@@ -14,37 +14,37 @@ import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtike
 import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export interface HentKandidatlisteMedStillingsIdAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID;
+    type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
     stillingsId: string;
 }
 
 export interface HentKandidatlisteMedStillingsIdSuccessAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS;
+    type: KandidatlisteActionType.HentKandidatlisteMedStillingsIdSuccess;
     kandidatliste: Kandidatliste;
 }
 
 export interface HentKandidatlisteMedStillingsIdFailureAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE;
+    type: KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure;
     error: ApiError;
 }
 
 export interface HentKandidatlisteMedKandidatlisteIdAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID;
+    type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId;
     kandidatlisteId: string;
 }
 
 export interface HentKandidatlisteMedKandidatlisteIdSuccessAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS;
+    type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdSuccess;
     kandidatliste: Kandidatliste;
 }
 
 export interface HentKandidatlisteMedKandidatlisteIdFailureAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE;
+    type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure;
     error: ApiError;
 }
 
 export interface OpprettKandidatlisteAction {
-    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE;
+    type: KandidatlisteActionType.OpprettKandidatliste;
     kandidatlisteInfo: {
         tittel: string;
         beskrivelse?: string;
@@ -53,33 +53,33 @@ export interface OpprettKandidatlisteAction {
 }
 
 export interface OpprettKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE_SUCCESS;
+    type: KandidatlisteActionType.OpprettKandidatlisteSuccess;
     tittel: string;
 }
 
 export interface OpprettKandidatlisteFailureAction {
-    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE;
+    type: KandidatlisteActionType.OpprettKandidatlisteFailure;
 }
 
 export interface OppdaterKandidatlisteAction {
-    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE;
+    type: KandidatlisteActionType.OppdaterKandidatliste;
 }
 
 export interface OppdaterKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE_SUCCESS;
+    type: KandidatlisteActionType.OppdaterKandidatlisteSuccess;
     tittel: string;
 }
 
 export interface OppdaterKandidatlisteFailureAction {
-    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE_FAILURE;
+    type: KandidatlisteActionType.OppdaterKandidatlisteFailure;
 }
 
 export interface ResetLagreStatusAction {
-    type: KandidatlisteActionType.RESET_LAGRE_STATUS;
+    type: KandidatlisteActionType.ResetLagreStatus;
 }
 
 export interface PresenterKandidaterAction {
-    type: KandidatlisteActionType.PRESENTER_KANDIDATER;
+    type: KandidatlisteActionType.PresenterKandidater;
     kandidatlisteId: string;
     kandidatnummerListe: Array<string>;
     beskjed?: string;
@@ -88,20 +88,20 @@ export interface PresenterKandidaterAction {
 }
 
 export interface PresenterKandidaterSuccessAction {
-    type: KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS;
+    type: KandidatlisteActionType.PresenterKandidaterSuccess;
     kandidatliste: Kandidatliste;
 }
 
 export interface PresenterKandidaterFailureAction {
-    type: KandidatlisteActionType.PRESENTER_KANDIDATER_FAILURE;
+    type: KandidatlisteActionType.PresenterKandidaterFailure;
 }
 
 export interface ResetDeleStatusAction {
-    type: KandidatlisteActionType.RESET_DELESTATUS;
+    type: KandidatlisteActionType.ResetDelestatus;
 }
 
 export interface LeggTilKandidaterAction {
-    type: KandidatlisteActionType.LEGG_TIL_KANDIDATER;
+    type: KandidatlisteActionType.LeggTilKandidater;
     kandidatliste: {
         kandidatlisteId: string;
     };
@@ -109,7 +109,7 @@ export interface LeggTilKandidaterAction {
 }
 
 export interface LeggTilKandidaterSuccessAction {
-    type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS;
+    type: KandidatlisteActionType.LeggTilKandidaterSuccess;
     antallLagredeKandidater: number;
     lagretListe: any;
     lagredeKandidater: Array<KandidatOutboundDto>;
@@ -117,63 +117,63 @@ export interface LeggTilKandidaterSuccessAction {
 }
 
 export interface LeggTilKandidaterFailureAction {
-    type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE;
+    type: KandidatlisteActionType.LeggTilKandidaterFailure;
 }
 
 export interface LeggTilKandidaterResetAction {
-    type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET;
+    type: KandidatlisteActionType.LeggTilKandidaterReset;
 }
 
 export interface LagreKandidatIKandidatlisteAction {
-    type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE;
+    type: KandidatlisteActionType.LagreKandidatIKandidatliste;
     kandidatliste: any;
     fodselsnummer: string;
     kandidatnr: string;
 }
 
 export interface LagreKandidatIKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS;
+    type: KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess;
 }
 
 export interface LagreKandidatIKandidatlisteFailureAction {
-    type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE;
+    type: KandidatlisteActionType.LagreKandidatIKandidatlisteFailure;
 }
 
 export interface FormidleUsynligKandidatAction {
-    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT;
+    type: KandidatlisteActionType.FormidleUsynligKandidat;
     kandidatlisteId: string;
     formidling: FormidlingAvUsynligKandidatOutboundDto;
 }
 
 export interface FormidleUsynligKandidatSuccessAction {
-    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS;
+    type: KandidatlisteActionType.FormidleUsynligKandidatSuccess;
     kandidatliste: Kandidatliste;
     formidling: FormidlingAvUsynligKandidatOutboundDto;
 }
 
 export interface FormidleUsynligKandidatFailureAction {
-    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE;
+    type: KandidatlisteActionType.FormidleUsynligKandidatFailure;
     error: ApiError;
 }
 
 export interface EndreStatusKandidatAction {
-    type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT;
+    type: KandidatlisteActionType.EndreStatusKandidat;
     status: Kandidatstatus;
     kandidatlisteId: string;
     kandidatnr: string;
 }
 
 export interface EndreStatusKandidatSuccessAction {
-    type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS;
+    type: KandidatlisteActionType.EndreStatusKandidatSuccess;
     kandidatliste: Kandidatliste;
 }
 
 export interface EndreStatusKandidatFailureAction {
-    type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_FAILURE;
+    type: KandidatlisteActionType.EndreStatusKandidatFailure;
 }
 
 export interface EndreUtfallKandidatAction {
-    type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT;
+    type: KandidatlisteActionType.EndreUtfallKandidat;
     utfall: Utfall;
     navKontor: string;
     kandidatlisteId: string;
@@ -181,32 +181,32 @@ export interface EndreUtfallKandidatAction {
 }
 
 export interface EndreUtfallKandidatSuccessAction {
-    type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS;
+    type: KandidatlisteActionType.EndreUtfallKandidatSuccess;
     kandidatliste: Kandidatliste;
 }
 
 export interface EndreUtfallKandidatFailureAction {
-    type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE;
+    type: KandidatlisteActionType.EndreUtfallKandidatFailure;
 }
 
 export interface EndreKandidatlistestatusAction {
-    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS;
+    type: KandidatlisteActionType.EndreKandidatlistestatus;
     kandidatlisteId: string;
     status: Kandidatlistestatus;
 }
 
 export interface EndreKandidatlistestatusSuccessAction {
-    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_SUCCESS;
+    type: KandidatlisteActionType.EndreKandidatlistestatusSuccess;
     kandidatliste: Kandidatliste;
 }
 
 export interface EndreKandidatlistestatusFailureAction {
-    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_FAILURE;
+    type: KandidatlisteActionType.EndreKandidatlistestatusFailure;
     error: SearchApiError;
 }
 
 export interface EndreFormidlingsutfallForUsynligKandidatAction {
-    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT;
+    type: KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidat;
     formidlingId: string;
     utfall: Utfall;
     navKontor: string;
@@ -214,117 +214,117 @@ export interface EndreFormidlingsutfallForUsynligKandidatAction {
 }
 
 export interface EndreFormidlingsutfallForUsynligKandidatSuccessAction {
-    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS;
+    type: KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidatSuccess;
     formidlingId: string;
     kandidatliste: Kandidatliste;
 }
 
 export interface EndreFormidlingsutfallForUsynligKandidatFailureAction {
-    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE;
+    type: KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidatFailure;
     formidlingId: string;
     error: SearchApiError;
 }
 
 export interface SetFodselsnummerAction {
-    type: KandidatlisteActionType.SET_FODSELSNUMMER;
+    type: KandidatlisteActionType.SetFodselsnummer;
     fodselsnummer: string;
 }
 
 export interface SetNotatAction {
-    type: KandidatlisteActionType.SET_NOTAT;
+    type: KandidatlisteActionType.SetNotat;
     notat: string;
 }
 
 export interface HentKandidatMedFnrAction {
-    type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR;
+    type: KandidatlisteActionType.HentKandidatMedFnr;
     fodselsnummer: string;
 }
 
 export interface HentKandidatMedFnrSuccessAction {
-    type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_SUCCESS;
+    type: KandidatlisteActionType.HentKandidatMedFnrSuccess;
     kandidat: Kandidatresultat;
 }
 
 export interface HentKandidatMedFnrNotFoundAction {
-    type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_NOT_FOUND;
+    type: KandidatlisteActionType.HentKandidatMedFnrNotFound;
 }
 
 export interface HentKandidatMedFnrFailureAction {
-    type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_FAILURE;
+    type: KandidatlisteActionType.HentKandidatMedFnrFailure;
 }
 
 export interface LeggTilKandidatSøkReset {
-    type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET;
+    type: KandidatlisteActionType.LeggTilKandidatSøkReset;
 }
 
 export interface HentUsynligKandidatAction {
-    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT;
+    type: KandidatlisteActionType.HentUsynligKandidat;
     fodselsnummer: string;
 }
 
 export interface HentUsynligKandidatSuccessAction {
-    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS;
+    type: KandidatlisteActionType.HentUsynligKandidatSuccess;
     navn: Navn[];
 }
 
 export interface HentUsynligKandidatFailureAction {
-    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE;
+    type: KandidatlisteActionType.HentUsynligKandidatFailure;
     error: ApiError;
 }
 
 export interface HentNotaterAction {
-    type: KandidatlisteActionType.HENT_NOTATER;
+    type: KandidatlisteActionType.HentNotater;
     kandidatlisteId: string;
     kandidatnr: string;
 }
 
 export interface HentNotaterSuccessAction {
-    type: KandidatlisteActionType.HENT_NOTATER_SUCCESS;
+    type: KandidatlisteActionType.HentNotaterSuccess;
     kandidatnr: string;
     notater: Array<Notat>;
 }
 
 export interface HentNotaterFailureAction {
-    type: KandidatlisteActionType.HENT_NOTATER_FAILURE;
+    type: KandidatlisteActionType.HentNotaterFailure;
 }
 
 export interface OpprettNotatAction {
-    type: KandidatlisteActionType.OPPRETT_NOTAT;
+    type: KandidatlisteActionType.OpprettNotat;
     kandidatlisteId: string;
     kandidatnr: string;
     tekst: string;
 }
 
 export interface OpprettNotatSuccessAction {
-    type: KandidatlisteActionType.OPPRETT_NOTAT_SUCCESS;
+    type: KandidatlisteActionType.OpprettNotatSuccess;
     kandidatnr: string;
     notater: Array<Notat>;
 }
 
 export interface OpprettNotatFailureAction {
-    type: KandidatlisteActionType.OPPRETT_NOTAT_FAILURE;
+    type: KandidatlisteActionType.OpprettNotatFailure;
 }
 
 export interface HentKandidatlisteMedAnnonsenummerAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER;
+    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer;
 }
 
 export interface HentKandidatlisteMedAnnonsenummerSuccessAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS;
+    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerSuccess;
     kandidatliste: Kandidatliste;
 }
 
 export interface HentKandidatlisteMedAnnonsenummerNotFoundAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND;
+    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerNotFound;
     message: string;
 }
 
 export interface HentKandidatlisteMedAnnonsenummerFailureAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE;
+    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerFailure;
 }
 
 export interface EndreNotatAction {
-    type: KandidatlisteActionType.ENDRE_NOTAT;
+    type: KandidatlisteActionType.EndreNotat;
     kandidatlisteId: string;
     kandidatnr: string;
     notatId: string;
@@ -332,136 +332,136 @@ export interface EndreNotatAction {
 }
 
 export interface EndreNotatSuccessAction {
-    type: KandidatlisteActionType.ENDRE_NOTAT_SUCCESS;
+    type: KandidatlisteActionType.EndreNotatSuccess;
     kandidatnr: string;
     notater: Array<Notat>;
 }
 
 export interface EndreNotatFailureAction {
-    type: KandidatlisteActionType.ENDRE_NOTAT_FAILURE;
+    type: KandidatlisteActionType.EndreNotatFailure;
 }
 
 export interface SlettNotatAction {
-    type: KandidatlisteActionType.SLETT_NOTAT;
+    type: KandidatlisteActionType.SlettNotat;
     kandidatlisteId: string;
     kandidatnr: string;
     notatId: string;
 }
 
 export interface SlettNotatSuccessAction {
-    type: KandidatlisteActionType.SLETT_NOTAT_SUCCESS;
+    type: KandidatlisteActionType.SlettNotatSuccess;
     kandidatnr: string;
     notater: Array<Notat>;
 }
 
 export interface SlettNotatFailureAction {
-    type: KandidatlisteActionType.SLETT_NOTAT_FAILURE;
+    type: KandidatlisteActionType.SlettNotatFailure;
 }
 
 export interface ToggleArkivertAction {
-    type: KandidatlisteActionType.TOGGLE_ARKIVERT;
+    type: KandidatlisteActionType.ToggleArkivert;
     kandidatlisteId: string;
     kandidatnr: string;
     arkivert: boolean;
 }
 
 export interface ToggleArkivertSuccessAction {
-    type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS;
+    type: KandidatlisteActionType.ToggleArkivertSuccess;
     kandidat: Kandidat;
 }
 
 export interface ToggleArkivertFailureAction {
-    type: KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE;
+    type: KandidatlisteActionType.ToggleArkivertFailure;
 }
 
 export interface AngreArkiveringAction {
-    type: KandidatlisteActionType.ANGRE_ARKIVERING;
+    type: KandidatlisteActionType.AngreArkivering;
     kandidatlisteId: string;
     kandidatnumre: string[];
 }
 
 export interface AngreArkiveringSuccessAction {
-    type: KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS;
+    type: KandidatlisteActionType.AngreArkiveringSuccess;
     kandidatnumre: string[];
 }
 
 export interface AngreArkiveringFailureAction {
-    type: KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE;
+    type: KandidatlisteActionType.AngreArkiveringFailure;
 }
 
 export interface VelgKandidatAction {
-    type: KandidatlisteActionType.VELG_KANDIDAT;
+    type: KandidatlisteActionType.VelgKandidat;
     kandidatlisteId?: string;
     kandidatnr?: string;
 }
 
 export interface SendSmsAction {
-    type: KandidatlisteActionType.SEND_SMS;
+    type: KandidatlisteActionType.SendSms;
     melding: string;
     fnr: string[];
     kandidatlisteId: string;
 }
 
 export interface SendSmsSuccessAction {
-    type: KandidatlisteActionType.SEND_SMS_SUCCESS;
+    type: KandidatlisteActionType.SendSmsSuccess;
 }
 
 export interface SendSmsFailureAction {
-    type: KandidatlisteActionType.SEND_SMS_FAILURE;
+    type: KandidatlisteActionType.SendSmsFailure;
     error: SearchApiError;
 }
 
 export interface ResetSendSmsStatusAction {
-    type: KandidatlisteActionType.RESET_SEND_SMS_STATUS;
+    type: KandidatlisteActionType.ResetSendSmsStatus;
 }
 
 export interface HentSendteMeldingerAction {
-    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER;
+    type: KandidatlisteActionType.HentSendteMeldinger;
     kandidatlisteId: string;
 }
 
 export interface HentSendteMeldingerSuccessAction {
-    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS;
+    type: KandidatlisteActionType.HentSendteMeldingerSuccess;
     sendteMeldinger: Sms[];
 }
 
 export interface HentSendteMeldingerFailureAction {
-    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE;
+    type: KandidatlisteActionType.HentSendteMeldingerFailure;
     error: SearchApiError;
 }
 
 export interface HentForespørslerOmDelingAvCvAction {
-    type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV;
+    type: KandidatlisteActionType.HentForespørslerOmDelingAvCv;
     stillingsId: string;
 }
 
 export interface HentForespørslerOmDelingAvCvSuccessAction {
-    type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS;
+    type: KandidatlisteActionType.HentForespørslerOmDelingAvCvSuccess;
     forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[];
 }
 
 export interface HentForespørslerOmDelingAvCvFailureAction {
-    type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV_FAILURE;
+    type: KandidatlisteActionType.HentForespørslerOmDelingAvCvFailure;
     error: SearchApiError;
 }
 
 export interface EndreKandidatlistefilterAction {
-    type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER;
+    type: KandidatlisteActionType.EndreKandidatlisteFilter;
     filter: Kandidatlistefilter;
 }
 
 export interface ToggleMarkeringAvKandidat {
-    type: KandidatlisteActionType.TOGGLE_MARKERING_AV_KANDIDAT;
+    type: KandidatlisteActionType.ToggleMarkeringAvKandidat;
     kandidatnr: string;
 }
 
 export interface EndreMarkeringAvKandidaterAction {
-    type: KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER;
+    type: KandidatlisteActionType.EndreMarkeringAvKandidater;
     kandidatnumre: string[];
 }
 
 export interface EndreVisningsstatusKandidatAction {
-    type: KandidatlisteActionType.ENDRE_VISNINGSSTATUS_KANDIDAT;
+    type: KandidatlisteActionType.EndreVisningsstatusKandidat;
     kandidatnr: string;
     visningsstatus: Visningsstatus;
 }

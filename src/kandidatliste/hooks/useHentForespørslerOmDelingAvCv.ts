@@ -10,7 +10,7 @@ const useHentForespørslerOmDelingAvCv = (stillingsId: string | null) => {
     useEffect(() => {
         if (stillingsId && erIkkeProd) {
             dispatch<KandidatlisteAction>({
-                type: KandidatlisteActionType.HENT_FORESPØRSLER_OM_DELING_AV_CV,
+                type: KandidatlisteActionType.HentForespørslerOmDelingAvCv,
                 stillingsId,
             });
         }

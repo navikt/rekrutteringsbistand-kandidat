@@ -61,7 +61,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         }
 
         dispatch<KandidatlisteAction>({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
+            type: KandidatlisteActionType.EndreKandidatlistestatus,
             kandidatlisteId: kandidatlisteId,
             status: status === Status.Åpen ? Status.Lukket : Status.Åpen,
         });
@@ -74,7 +74,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
 
     const bekreftNudgeAvsluttOppdragModal = () => {
         dispatch({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
+            type: KandidatlisteActionType.EndreKandidatlistestatus,
             kandidatlisteId: kandidatlisteId,
             status: Status.Lukket,
         });
@@ -108,7 +108,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                     </Normaltekst>
                 )}
                 {erKnyttetTilStilling &&
-                !antallStillinger && ( // TODO: fjerne denne bolken når alle kandidatlistene er oppdatert fra stilling
+                    !antallStillinger && ( // TODO: fjerne denne bolken når alle kandidatlistene er oppdatert fra stilling
                         <Normaltekst>
                             {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
                             {besatteStillinger === 1 ? '' : 'er'} er besatt

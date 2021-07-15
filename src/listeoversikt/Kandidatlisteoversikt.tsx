@@ -381,7 +381,7 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
             pagenumber,
             pagesize,
         }),
-    resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS }),
+    resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.ResetLagreStatus }),
     markerKandidatlisteSomMin: (kandidatlisteId: string) => {
         dispatch({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
@@ -396,7 +396,7 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
     },
     nullstillValgtKandidatIKandidatliste: () =>
         dispatch({
-            type: KandidatlisteActionType.VELG_KANDIDAT,
+            type: KandidatlisteActionType.VelgKandidat,
         }),
     lukkSøkepanelerIKandidatsøk: () => dispatch({ type: KandidatsøkActionType.LukkAlleSokepanel }),
 });

@@ -13,7 +13,7 @@ const useNullstillKandidatlisteState = () => {
 
         const nullstillValgtKandidatIKandidatliste = () => {
             dispatch({
-                type: KandidatlisteActionType.VELG_KANDIDAT,
+                type: KandidatlisteActionType.VelgKandidat,
             });
         };
 

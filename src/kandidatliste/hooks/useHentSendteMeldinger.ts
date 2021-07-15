@@ -6,7 +6,7 @@ const useHentSendteMeldinger = (kandidatlisteId: string) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch({
-            type: KandidatlisteActionType.HENT_SENDTE_MELDINGER,
+            type: KandidatlisteActionType.HentSendteMeldinger,
             kandidatlisteId: kandidatlisteId,
         });
     }, [dispatch, kandidatlisteId]);

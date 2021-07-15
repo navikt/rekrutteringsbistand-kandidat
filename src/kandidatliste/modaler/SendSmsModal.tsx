@@ -185,7 +185,7 @@ export default connect(
     (dispatch: Dispatch<KandidatlisteAction>) => ({
         sendSmsTilKandidater: (melding: string, fnr: string[], kandidatlisteId: string) =>
             dispatch({
-                type: KandidatlisteActionType.SEND_SMS,
+                type: KandidatlisteActionType.SendSms,
                 melding,
                 fnr,
                 kandidatlisteId,

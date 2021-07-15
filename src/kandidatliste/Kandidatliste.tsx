@@ -81,7 +81,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const filter = queryParamsTilFilter(new URLSearchParams(location.search));
         dispatch({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
+            type: KandidatlisteActionType.EndreKandidatlisteFilter,
             filter,
         });
     }, [dispatch, history, location.search, antallFilterTreffJSON]);
@@ -136,7 +136,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     const setNavnefilter = (navn: string) => {
         dispatch({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
+            type: KandidatlisteActionType.EndreKandidatlisteFilter,
             filter: {
                 ...props.filter,
                 navn,

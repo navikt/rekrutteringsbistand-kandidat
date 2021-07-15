@@ -98,7 +98,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
 
     const fjernMarkeringAvAlleKandidater = () => {
         dispatch<KandidatlisteAction>({
-            type: KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER,
+            type: KandidatlisteActionType.EndreMarkeringAvKandidater,
             kandidatnumre: [],
         });
     };
