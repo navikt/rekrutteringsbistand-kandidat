@@ -8,7 +8,6 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Kandidatliste } from '../../kandidatliste/PropTypes';
 import { formatterDato } from '../../utils/dateUtils';
 import { capitalizeEmployerName } from '../utils';
-import { LAGRE_STATUS } from '../../common/konstanter';
 import HjelpetekstFading from '../../common/HjelpetekstFading.tsx';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import { HentStatus } from '../../kandidatliste/kandidatlistetyper';
@@ -94,7 +93,7 @@ class LagreKandidaterModal extends React.Component {
         }
         if (
             this.state.visAlertstripeOnSuccess &&
-            this.props.leggTilKandidaterStatus === LAGRE_STATUS.SUCCESS
+            this.props.leggTilKandidaterStatus === Nettstatus.Suksess
         ) {
             this.visAlertstripeLagreKandidater();
         }
@@ -215,7 +214,7 @@ class LagreKandidaterModal extends React.Component {
                     {capitalizeEmployerName(liste.organisasjonNavn || '')}
                 </Normaltekst>
                 <div className="leggTil__col rowItem">
-                    {liste.alleredeLagtTil && leggTilKandidaterStatus !== LAGRE_STATUS.FAILURE ? (
+                    {liste.alleredeLagtTil && leggTilKandidaterStatus !== Nettstatus.Feil ? (
                         <div
                             className="ikon__lagtTil"
                             aria-label={`Lagre i liste: ${liste.tittel}`}

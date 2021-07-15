@@ -9,7 +9,6 @@ import fnrValidator from '@navikt/fnrvalidator';
 
 import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';
 import { CvSøkeresultat } from '../../../kandidatside/cv/reducer/cv-typer';
-import { LAGRE_STATUS } from '../../../common/konstanter';
 import { Nettstatus, Nettressurs } from '../../../api/remoteData';
 import AppState from '../../../AppState';
 import KandidatenFinnesIkke from './KandidatenFinnesIkke';
@@ -369,9 +368,9 @@ class LeggTilKandidatModal extends React.Component<Props> {
                         <Hovedknapp
                             className="legg-til--knapp"
                             onClick={this.leggTilKandidat}
-                            spinner={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                            spinner={leggTilKandidatStatus === Nettstatus.SenderInn}
                             disabled={
-                                leggTilKandidatStatus === LAGRE_STATUS.LOADING ||
+                                leggTilKandidatStatus === Nettstatus.SenderInn ||
                                 !this.kandidatenKanLeggesTil()
                             }
                         >
@@ -381,7 +380,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                     <Flatknapp
                         className="avbryt--knapp"
                         onClick={onClose}
-                        disabled={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                        disabled={leggTilKandidatStatus === Nettstatus.SenderInn}
                     >
                         Avbryt
                     </Flatknapp>

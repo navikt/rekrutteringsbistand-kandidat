@@ -4,14 +4,13 @@ import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from '.
 import { Nettstatus } from '../../api/remoteData';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
-import 'nav-frontend-tabell-style';
-import './Historikkside.less';
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../Kandidatside';
-import { LAGRE_STATUS } from '../../common/konstanter';
 import { sendEvent } from '../../amplitude/amplitude';
+import 'nav-frontend-tabell-style';
+import './Historikkside.less';
 
 const Historikkside: FunctionComponent = () => {
     const { params } = useRouteMatch<{ kandidatnr: string }>();
@@ -36,7 +35,7 @@ const Historikkside: FunctionComponent = () => {
     }, [kandidatnr, kandidatStatus, dispatch]);
 
     useEffect(() => {
-        if (lagreKandidatIKandidatlisteStatus === LAGRE_STATUS.SUCCESS) {
+        if (lagreKandidatIKandidatlisteStatus === Nettstatus.Suksess) {
             dispatch({
                 type: KandidatlisterForKandidatActionType.Fetch,
                 kandidatnr,

@@ -9,7 +9,6 @@ import {
     Kandidatstatus,
     SmsStatus,
 } from './kandidatlistetyper';
-import { LAGRE_STATUS } from '../common/konstanter';
 import { Nettressurs, Nettstatus } from '../api/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
 import AppState from '../AppState';
@@ -104,7 +103,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 
         const kandidaterHarNettoppBlittLagtTil =
             this.props.leggTilStatus !== prevProps.leggTilStatus &&
-            this.props.leggTilStatus === LAGRE_STATUS.SUCCESS;
+            this.props.leggTilStatus === Nettstatus.Suksess;
 
         const usynligKandidatHarNettoppBlittRegistrert =
             this.props.formidlingAvUsynligKandidat.kind !==

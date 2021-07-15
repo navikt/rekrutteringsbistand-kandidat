@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Systemtittel } from 'nav-frontend-typografi';
-import { LAGRE_STATUS } from '../../common/konstanter';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import { Nettstatus } from '../../api/remoteData';
 
 const OpprettModal = ({
     opprettKandidatliste,
@@ -26,7 +26,7 @@ const OpprettModal = ({
             onSave={opprettKandidatliste}
             resetStatusTilUnsaved={resetStatusTilUnsaved}
             kandidatlisteInfo={tomKandidatlisteInfo()}
-            saving={lagreStatus === LAGRE_STATUS.LOADING}
+            saving={lagreStatus === Nettstatus.SenderInn}
             onAvbrytClick={onAvbrytClick}
             knappTekst="Opprett"
         />

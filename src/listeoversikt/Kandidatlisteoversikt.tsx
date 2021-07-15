@@ -5,7 +5,6 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import { KandidatlisteSammendrag, MarkerSomMinStatus } from '../kandidatliste/kandidatlistetyper';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
-import { LAGRE_STATUS } from '../common/konstanter';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { Nettressurs, Nettstatus } from '../api/remoteData';
 import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
@@ -104,8 +103,8 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 
     componentDidUpdate(prevProps: Props) {
         if (
-            prevProps.lagreStatus === LAGRE_STATUS.LOADING &&
-            this.props.lagreStatus === LAGRE_STATUS.SUCCESS
+            prevProps.lagreStatus === Nettstatus.SenderInn &&
+            this.props.lagreStatus === Nettstatus.Suksess
         ) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);

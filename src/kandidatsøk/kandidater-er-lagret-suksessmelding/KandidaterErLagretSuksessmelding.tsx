@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import HjelpetekstFading from '../../common/HjelpetekstFading';
-import { LAGRE_STATUS } from '../../common/konstanter';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste } from '../../app/paths';
 import { useSelector } from 'react-redux';
 import AppState from '../../AppState';
+import { Nettstatus } from '../../api/remoteData';
 
 export const KandidaterErLagretSuksessmelding: FunctionComponent = () => {
     const { lagreStatus, antallLagredeKandidater, lagretListe } = useSelector(
@@ -17,7 +17,7 @@ export const KandidaterErLagretSuksessmelding: FunctionComponent = () => {
     ] = useState<boolean>(false);
 
     useEffect(() => {
-        if (lagreStatus === LAGRE_STATUS.SUCCESS) {
+        if (lagreStatus === Nettstatus.Suksess) {
             setSuksessmeldingLagreKandidatVises(true);
 
             const timer = setTimeout(() => {

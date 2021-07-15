@@ -16,7 +16,6 @@ import {
     Kandidattilstand,
 } from '../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
-import { LAGRE_STATUS } from '../../common/konstanter';
 import { Reducer } from 'redux';
 import {
     Nettressurs,
@@ -90,10 +89,10 @@ export interface KandidatlisteState {
 }
 
 const initialState: KandidatlisteState = {
-    lagreStatus: LAGRE_STATUS.UNSAVED,
+    lagreStatus: Nettstatus.IkkeLastet,
     deleStatus: Delestatus.IkkeSpurt,
     opprett: {
-        lagreStatus: LAGRE_STATUS.UNSAVED,
+        lagreStatus: Nettstatus.IkkeLastet,
     },
     kandidatliste: ikkeLastet(),
     kandidattilstander: {},
@@ -101,13 +100,13 @@ const initialState: KandidatlisteState = {
     fodselsnummer: undefined,
     hentStatus: HentStatus.IkkeHentet,
     leggTilKandidater: {
-        lagreStatus: LAGRE_STATUS.UNSAVED,
+        lagreStatus: Nettstatus.IkkeLastet,
         antallLagredeKandidater: 0,
     },
     hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
     hentListeMedAnnonsenummerStatusMessage: '',
     kandidatlisteMedAnnonsenummer: undefined,
-    lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
+    lagreKandidatIKandidatlisteStatus: Nettstatus.IkkeLastet,
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: ikkeLastet(),
@@ -222,7 +221,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 opprett: {
                     ...state.opprett,
-                    lagreStatus: LAGRE_STATUS.LOADING,
+                    lagreStatus: Nettstatus.SenderInn,
                     opprettetKandidatlisteTittel: undefined,
                 },
             };
@@ -232,7 +231,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 opprett: {
                     ...state.opprett,
-                    lagreStatus: LAGRE_STATUS.SUCCESS,
+                    lagreStatus: Nettstatus.Suksess,
                     opprettetKandidatlisteTittel: action.tittel,
                 },
             };
@@ -242,7 +241,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 opprett: {
                     ...state.opprett,
-                    lagreStatus: LAGRE_STATUS.FAILURE,
+                    lagreStatus: Nettstatus.Feil,
                     opprettetKandidatlisteTittel: undefined,
                 },
             };
@@ -251,7 +250,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 opprett: {
                     ...state.opprett,
-                    lagreStatus: LAGRE_STATUS.UNSAVED,
+                    lagreStatus: Nettstatus.IkkeLastet,
                 },
             };
         case KandidatlisteActionType.HentKandidatlisteMedStillingsId:
@@ -426,7 +425,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 leggTilKandidater: {
                     ...state.leggTilKandidater,
-                    lagreStatus: LAGRE_STATUS.LOADING,
+                    lagreStatus: Nettstatus.SenderInn,
                 },
             };
         case KandidatlisteActionType.LeggTilKandidaterSuccess: {
@@ -447,7 +446,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 leggTilKandidater: {
                     ...state.leggTilKandidater,
-                    lagreStatus: LAGRE_STATUS.SUCCESS,
+                    lagreStatus: Nettstatus.Suksess,
                     antallLagredeKandidater: action.antallLagredeKandidater,
                     lagretListe: action.lagretListe,
                 },
@@ -461,7 +460,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 leggTilKandidater: {
                     ...state.leggTilKandidater,
-                    lagreStatus: LAGRE_STATUS.FAILURE,
+                    lagreStatus: Nettstatus.Feil,
                 },
             };
 
@@ -469,24 +468,24 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 leggTilKandidater: {
-                    lagreStatus: LAGRE_STATUS.UNSAVED,
+                    lagreStatus: Nettstatus.IkkeLastet,
                     antallLagredeKandidater: 0,
                 },
             };
         case KandidatlisteActionType.LagreKandidatIKandidatliste:
             return {
                 ...state,
-                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.LOADING,
+                lagreKandidatIKandidatlisteStatus: Nettstatus.SenderInn,
             };
         case KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess:
             return {
                 ...state,
-                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.SUCCESS,
+                lagreKandidatIKandidatlisteStatus: Nettstatus.Suksess,
             };
         case KandidatlisteActionType.LagreKandidatIKandidatlisteFailure:
             return {
                 ...state,
-                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
+                lagreKandidatIKandidatlisteStatus: Nettstatus.Feil,
             };
         case KandidatlisteActionType.FormidleUsynligKandidat: {
             return {

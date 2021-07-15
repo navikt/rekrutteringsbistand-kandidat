@@ -7,7 +7,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import { formatterInt } from '../utils';
 import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
-import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../common/konstanter';
+import { KANDIDATLISTE_CHUNK_SIZE } from '../../common/konstanter';
 import { KandidatOutboundDto } from '../../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { KandidatsøkAction, KandidatsøkActionType } from '../reducer/searchActions';
 import { Nettstatus } from '../../api/remoteData';
@@ -109,7 +109,7 @@ class KandidaterOgModal extends React.Component<Props, State> {
         }
         if (
             prevProps.leggTilKandidatStatus !== leggTilKandidatStatus &&
-            leggTilKandidatStatus === LAGRE_STATUS.SUCCESS
+            leggTilKandidatStatus === Nettstatus.Suksess
         ) {
             if (this.state.lagreKandidaterModalTilStillingVises) {
                 this.lukkLagreKandidaterTilStillingModal();
@@ -185,7 +185,7 @@ class KandidaterOgModal extends React.Component<Props, State> {
             lagreKandidaterModalVises: false,
         });
 
-        if (this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+        if (this.props.leggTilKandidatStatus === Nettstatus.Suksess) {
             this.toggleMarkeringAlleKandidater(false);
         }
     };
@@ -201,7 +201,7 @@ class KandidaterOgModal extends React.Component<Props, State> {
             lagreKandidaterModalTilStillingVises: false,
         });
 
-        if (this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+        if (this.props.leggTilKandidatStatus === Nettstatus.Suksess) {
             this.toggleMarkeringAlleKandidater(false);
         }
     };
@@ -243,7 +243,7 @@ class KandidaterOgModal extends React.Component<Props, State> {
                         onLagre={this.onLagreKandidatliste}
                         antallMarkerteKandidater={antallMarkert}
                         kandidatliste={kandidatliste}
-                        isSaving={this.props.leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                        isSaving={this.props.leggTilKandidatStatus === Nettstatus.SenderInn}
                     />
                 )}
                 <div className="resultatvisning--header">

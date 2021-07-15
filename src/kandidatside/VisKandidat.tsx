@@ -8,7 +8,6 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { CvAction, CvActionType, HentCvStatus } from './cv/reducer/cvReducer';
 import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
-import { LAGRE_STATUS } from '../common/konstanter';
 import {
     lenkeTilCv,
     lenkeTilFinnKandidaterMedStilling,
@@ -379,7 +378,7 @@ class VisKandidat extends React.Component<Props, State> {
                         onLagre={this.onLagreKandidatliste}
                         antallMarkerteKandidater={1}
                         kandidatliste={kandidatliste}
-                        isSaving={lagreKandidatIKandidatlisteStatus === LAGRE_STATUS.LOADING}
+                        isSaving={lagreKandidatIKandidatlisteStatus === Nettstatus.SenderInn}
                     />
                 )}
                 <HjelpetekstFading
@@ -387,7 +386,7 @@ class VisKandidat extends React.Component<Props, State> {
                     type="suksess"
                     synlig={
                         visKandidatLagret &&
-                        lagreKandidatIKandidatlisteStatus === LAGRE_STATUS.SUCCESS
+                        lagreKandidatIKandidatlisteStatus === Nettstatus.Suksess
                     }
                     innhold={`${'Kandidaten'} er lagret i kandidatlisten «${
                         kandidatliste ? kandidatliste.tittel : ''

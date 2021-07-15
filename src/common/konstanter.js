@@ -13,13 +13,6 @@ export const UTDANNING = {
     DOKTORGRAD: { key: 'Doktorgrad', label: 'Doktorgrad (PhD)' },
 };
 
-export const LAGRE_STATUS = {
-    UNSAVED: 'UNSAVED',
-    LOADING: 'LOADING',
-    SUCCESS: 'SUCCESS',
-    FAILURE: 'FAILURE',
-};
-
 export const INNSATSGRUPPER = {
     STANDARDINNSATS: { key: 'IKVAL', label: 'Standardinnsats' },
     SITUASJONSBESTEMT_INNSATS: { key: 'BFORM', label: 'Situasjonsbestemt innsats' },
