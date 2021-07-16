@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-    KandidatIKandidatliste,
     Kandidatliste as Kandidatlistetype,
-    Kandidatlistefilter,
     Kandidatstatus,
+    Kandidattilstander,
+    Sms,
     SmsStatus,
 } from './kandidatlistetyper';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
@@ -18,20 +18,18 @@ import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';
 import PresenterKandidaterModal from './modaler/presenter-kandidater/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
-import './Kandidatliste.less';
 import { CvSøkeresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Dispatch } from 'redux';
+import './Kandidatliste.less';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
-    kandidater: KandidatIKandidatliste[];
 };
 
 type ConnectedProps = {
-    filter: Kandidatlistefilter;
     endreStatusKandidat: any;
     presenterKandidater: (
         beskjed: string,
@@ -57,6 +55,8 @@ type ConnectedProps = {
     endreMarkeringAvKandidater: (kandidatnumre: string[]) => void;
     endreVisningsstatusKandidat: (kandidatnr: string, visningsstatus: Visningsstatus) => void;
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
+    kandidattilstander: Kandidattilstander;
+    sendteMeldinger: Nettressurs<Sms[]>;
 };
 
 type Props = ConnectedProps & OwnProps;
@@ -132,8 +132,8 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         if (kandidaterHarNettoppBlittPresentert) {
             this.props.resetDeleStatus();
 
-            const antallMarkerteKandidater = (this.props.kandidater || []).filter(
-                (kandidat) => kandidat.tilstand.markert
+            const antallMarkerteKandidater = Object.values(this.props.kandidattilstander).filter(
+                (tilstand) => tilstand.markert
             ).length;
 
             this.fjernAllMarkering();
@@ -234,20 +234,30 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
+    hentMarkerteKandidater = () => {
+        const { kandidatliste, kandidattilstander } = this.props;
+
+        return kandidatliste.kandidater.filter(
+            (kandidat) => kandidattilstander[kandidat.kandidatnr].markert
+        );
+    };
+
+    hentKandidatnumrePåMarkerteKandidater = () => {
+        return this.hentMarkerteKandidater().map((kandidat) => kandidat.kandidatnr);
+    };
+
     onDelMedArbeidsgiver = (beskjed: string, mailadresser: string[]) => {
-        const kandidatNrTilPresentering = this.props.kandidater
-            .filter((kandidat) => kandidat.tilstand.markert)
-            .map((kandidat) => kandidat.kandidatnr);
+        const markerteKandidater = this.hentKandidatnumrePåMarkerteKandidater();
 
         sendEvent('kandidatliste', 'presenter_kandidater', {
-            antallKandidater: kandidatNrTilPresentering.length,
+            antallKandidater: markerteKandidater.length,
         });
 
         this.props.presenterKandidater(
             beskjed,
             mailadresser,
             this.props.kandidatliste.kandidatlisteId,
-            kandidatNrTilPresentering,
+            markerteKandidater,
             this.props.valgtNavKontor
         );
         this.setState({
@@ -256,14 +266,15 @@ class KandidatlisteOgModaler extends React.Component<Props> {
     };
 
     onKandidaterAngreArkivering = () => {
+        const markerteKandidater = this.hentKandidatnumrePåMarkerteKandidater();
+
         this.props.angreArkiveringForKandidater(
             this.props.kandidatliste.kandidatlisteId,
-            this.props.kandidater
-                .filter((kandidat) => kandidat.tilstand.markert)
-                .map((kandidat) => kandidat.kandidatnr)
+            markerteKandidater
         );
     };
 
+    // TODO: Flytt endring av visning til Kandidatrad-komponent
     onVisningChange = (visningsstatus: Visningsstatus, kandidatnr: string) => {
         if (visningsstatus === Visningsstatus.VisNotater) {
             this.props.hentNotater(this.props.kandidatliste.kandidatlisteId, kandidatnr);
@@ -299,7 +310,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 
     render() {
         const { deleModalOpen, infobanner, leggTilModalOpen, kopierEpostModalOpen } = this.state;
-        const { kandidater, kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
+        const { kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
+        const { kandidater } = kandidatliste;
+        const markerteKandidater = this.hentMarkerteKandidater();
 
         return (
             <div>
@@ -308,9 +321,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                         vis={this.state.deleModalOpen}
                         onClose={this.onToggleDeleModal}
                         onSubmit={this.onDelMedArbeidsgiver}
-                        antallKandidater={
-                            kandidater.filter((kandidat) => kandidat.tilstand.markert).length
-                        }
+                        antallKandidater={markerteKandidater.length}
                     />
                 )}
                 {leggTilModalOpen && (
@@ -321,21 +332,23 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                         kandidatliste={kandidatliste}
                     />
                 )}
-                {kandidatliste.stillingId && (
-                    <>
-                        <SendSmsModal
-                            vis={this.state.sendSmsModalOpen}
-                            onClose={() => this.onToggleSendSmsModal(false)}
-                            kandidatlisteId={kandidatliste.kandidatlisteId}
-                            kandidater={kandidater}
-                            stillingId={kandidatliste.stillingId}
-                        />
-                    </>
-                )}
+                {kandidatliste.stillingId &&
+                    this.props.sendteMeldinger.kind === Nettstatus.Suksess && (
+                        <>
+                            <SendSmsModal
+                                vis={this.state.sendSmsModalOpen}
+                                onClose={() => this.onToggleSendSmsModal(false)}
+                                kandidatlisteId={kandidatliste.kandidatlisteId}
+                                kandidater={kandidater}
+                                sendteMeldinger={this.props.sendteMeldinger.data}
+                                stillingId={kandidatliste.stillingId}
+                            />
+                        </>
+                    )}
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}
-                    kandidater={kandidater.filter((kandidat) => kandidat.tilstand.markert)}
+                    kandidater={markerteKandidater}
                 />
                 <HjelpetekstFading
                     synlig={infobanner.vis}
@@ -344,8 +357,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                 />
                 <Kandidatliste
                     kandidatliste={kandidatliste}
-                    kandidater={kandidater}
-                    filter={this.props.filter}
                     onToggleMarkert={this.toggleMarkert}
                     onFjernAllMarkering={this.fjernAllMarkering}
                     onMarkerKandidater={this.markerKandidater}
@@ -364,16 +375,17 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    filter: state.kandidatliste.filter,
     deleStatus: state.kandidatliste.deleStatus,
     smsSendStatus: state.kandidatliste.sms.sendStatus,
     leggTilStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatliste.fodselsnummer,
     kandidat: state.kandidatliste.kandidat,
+    sendteMeldinger: state.kandidatliste.sms.sendteMeldinger,
     statusArkivering: state.kandidatliste.arkivering.statusArkivering,
     statusDearkivering: state.kandidatliste.arkivering.statusDearkivering,
     valgtNavKontor: state.navKontor.valgtNavKontor,
     formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
+    kandidattilstander: state.kandidatliste.kandidattilstander,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({

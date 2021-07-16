@@ -9,7 +9,7 @@ import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import {
     erInaktiv,
     erKobletTilStilling,
-    KandidatIKandidatliste,
+    Kandidat,
     Kandidatliste,
     Kandidatlistestatus,
 } from '../kandidatlistetyper';
@@ -35,7 +35,7 @@ import StatusOgHendelser from './status-og-hendelser/StatusOgHendelser';
 import './Kandidatrad.less';
 
 type Props = {
-    kandidat: KandidatIKandidatliste;
+    kandidat: Kandidat;
     kandidatliste: Kandidatliste;
     toggleArkivert: any;
     onToggleKandidat: (kandidatnr: string) => void;
@@ -64,6 +64,8 @@ const Kandidatrad: FunctionComponent<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const kandidatRadRef = useRef<HTMLDivElement>(null);
+
+    // TODO: Hent kandidattilstand og notater og sms fra redux
 
     useEffect(() => {
         const erSistValgteKandidat =
@@ -199,6 +201,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             {fulltNavn}
                         </Link>
                     )}
+                    {/* TODO: Typegate for SMS her! */}
                     {kandidat.sms && <SmsStatusPopup sms={kandidat.sms} />}
                 </div>
                 <div
@@ -288,6 +291,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 )}
             </div>
             {kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater && (
+                // TODO: Typegate for kandidatens notater her.
                 <Notater
                     notater={kandidat.notater}
                     antallNotater={antallNotater}

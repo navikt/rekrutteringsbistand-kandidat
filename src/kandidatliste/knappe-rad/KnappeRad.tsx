@@ -14,7 +14,6 @@ import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/Forespørse
 import './KnappeRad.less';
 
 type Props = {
-    kandidater: KandidatIKandidatliste[];
     kandidatliste: Kandidatliste;
     onKandidatShare: () => void;
     onEmailKandidater: () => void;
@@ -26,7 +25,6 @@ type Props = {
 };
 
 const KnappeRad: FunctionComponent<Props> = ({
-    kandidater,
     kandidatliste,
     onKandidatShare,
     onEmailKandidater,
@@ -35,6 +33,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     children,
     visArkiverte,
 }) => {
+    // TODO: Hent tilstander eller lag en useMarkerteKandidater(kandidater)
     const markerteKandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
     const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some((kandidat) => !kandidat.sms);

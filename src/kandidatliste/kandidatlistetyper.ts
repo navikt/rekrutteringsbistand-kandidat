@@ -147,13 +147,6 @@ type Kandidatnr = string;
 export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand>;
 export type Kandidatnotater = Record<Kandidatnr, Nettressurs<Notat[]>>;
 
-export type KandidatIKandidatliste = Kandidat & {
-    tilstand: Kandidattilstand;
-    notater: Nettressurs<Notat[]>;
-    sms?: Sms;
-    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
-};
-
 export type Kandidatlistefilter = {
     visArkiverte: boolean;
     status: Record<Kandidatstatus, boolean>;
