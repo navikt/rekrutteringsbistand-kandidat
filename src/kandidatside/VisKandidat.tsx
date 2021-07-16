@@ -48,13 +48,13 @@ type ConnectedProps = {
     antallKandidater: number;
     lastFlereKandidater: () => void;
     settValgtKandidat: (kandidatnr: string) => void;
-    hentStatus: string;
+    hentStatus: Nettstatus;
     hentKandidatlisteMedKandidatlisteId: (kandidatlisteId: string) => void;
     hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
     kandidatliste?: Kandidatliste;
     midlertidigUtilgjengelig: Nettressurs<MidlertidigUtilgjengeligResponse>;
     kandidatsøkFilterParams: string;
-    lagreKandidatIKandidatlisteStatus: string;
+    lagreKandidatIKandidatlisteStatus: Nettstatus;
     lagreKandidatIKandidatliste: (
         kandidatliste: Kandidatliste,
         fnr: string,

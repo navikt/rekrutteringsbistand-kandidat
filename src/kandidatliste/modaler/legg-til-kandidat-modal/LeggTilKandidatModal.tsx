@@ -56,7 +56,7 @@ type Props = {
     resetSøk: () => void;
     søkPåusynligKandidat: Nettressurs<Array<Navn>>;
     hentStatus: Nettstatus;
-    leggTilKandidatStatus: string;
+    leggTilKandidatStatus: Nettstatus;
     formidleUsynligKandidat: (
         kandidatlisteId: string,
         formidling: FormidlingAvUsynligKandidatOutboundDto

@@ -58,7 +58,7 @@ export interface KandidatlisteState {
     forespørslerOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>;
     fodselsnummer?: string;
     leggTilKandidater: {
-        lagreStatus: string;
+        lagreStatus: Nettstatus;
         antallLagredeKandidater: number;
         lagretListe?: {
             kandidatlisteId: string;
@@ -68,7 +68,7 @@ export interface KandidatlisteState {
     hentListeMedAnnonsenummerStatus: Nettstatus;
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
-    lagreKandidatIKandidatlisteStatus: string;
+    lagreKandidatIKandidatlisteStatus: Nettstatus;
     arkivering: {
         statusArkivering: Nettstatus;
         statusDearkivering: Nettstatus;

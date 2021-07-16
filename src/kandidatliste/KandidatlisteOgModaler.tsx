@@ -44,7 +44,7 @@ type ConnectedProps = {
     deleStatus: Nettstatus;
     smsSendStatus: SmsStatus;
     resetSmsSendStatus: () => void;
-    leggTilStatus: string;
+    leggTilStatus: Nettstatus;
     fodselsnummer?: string;
     kandidat?: CvSøkeresultat;
     hentNotater: any;

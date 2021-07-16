@@ -54,7 +54,7 @@ type ConnectedProps = {
     isEmptyQuery: boolean;
     isSearching: boolean;
     lastFlereKandidater: () => void;
-    leggTilKandidatStatus: string;
+    leggTilKandidatStatus: Nettstatus;
     searchQueryHash: string;
     antallKandidater: number;
     valgtKandidatNr: string;

@@ -36,7 +36,7 @@ type Props = ConnectedProps & {
 
 type ConnectedProps = {
     cv: Cv;
-    hentStatus: string;
+    hentStatus: Nettstatus;
     hentCvForKandidat: (kandidatnr: string) => void;
     hentKandidatliste: (kandidatlisteId: string) => void;
     kandidatliste: Nettressurs<Kandidatliste>;
