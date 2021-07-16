@@ -206,6 +206,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                 onKandidaterAngreArkivering={onKandidaterAngreArkivering}
                                 onLeggTilKandidat={onLeggTilKandidat}
                                 visArkiverte={filter.visArkiverte}
+                                sendteMeldinger={sendteMeldinger}
                             >
                                 <Navnefilter
                                     value={filter.navn}

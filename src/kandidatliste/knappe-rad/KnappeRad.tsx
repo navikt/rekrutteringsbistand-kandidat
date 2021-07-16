@@ -4,14 +4,16 @@ import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import {
     erKobletTilArbeidsgiver,
     erKobletTilStilling,
-    KandidatIKandidatliste,
     Kandidatliste,
     Kandidatlistestatus,
+    Sms,
 } from '../kandidatlistetyper';
 import MedPopover from '../../common/med-popover/MedPopover';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
 import './KnappeRad.less';
+import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -21,6 +23,7 @@ type Props = {
     onSendSmsClick: () => void;
     onKandidaterAngreArkivering: () => void;
     visArkiverte: boolean;
+    sendteMeldinger: Nettressurs<Sms[]>;
     children: ReactNode;
 };
 
@@ -30,13 +33,18 @@ const KnappeRad: FunctionComponent<Props> = ({
     onEmailKandidater,
     onSendSmsClick,
     onKandidaterAngreArkivering,
+    sendteMeldinger,
     children,
     visArkiverte,
 }) => {
-    // TODO: Hent tilstander eller lag en useMarkerteKandidater(kandidater)
-    const markerteKandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
+    const markerteKandidater = useMarkerteKandidater(kandidatliste.kandidater);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
-    const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some((kandidat) => !kandidat.sms);
+    const minstEnKandidatHarIkkeFåttSms =
+        sendteMeldinger.kind === Nettstatus.Suksess &&
+        markerteKandidater.some(
+            (markertKandidat) =>
+                !sendteMeldinger.data.some((sms) => sms.fnr === markertKandidat.fodselsnr)
+        );
 
     const skalViseEkstraKnapper =
         kandidatliste.kanEditere && erKobletTilStilling(kandidatliste) && !visArkiverte;
