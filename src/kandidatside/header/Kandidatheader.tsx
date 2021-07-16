@@ -67,11 +67,21 @@ const Kandidatheader: FunctionComponent<Props> = ({
     }
 
     return (
-        <header className="kandidatheader">
-            <div className="kandidatheader__inner">
-                <div className="kandidatheader__tilbakeknapp">
+        <>
+            <div className="kandidat-sticky-header">
+                <div className="kandidat-sticky-header__inner">
                     <LenkeMedChevron type="venstre" to={tilbakeLink} text={tilbakeLenkeTekst} />
+                    {fantCv && (
+                        <ForrigeNeste
+                            forrigeKandidat={forrigeKandidat}
+                            nesteKandidat={nesteKandidat}
+                            gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                            antallKandidater={antallKandidater}
+                        />
+                    )}
                 </div>
+            </div>
+            <header className="kandidatheader">
                 <div>
                     <Systemtittel className="blokk-xs">
                         {fantCv
@@ -112,18 +122,8 @@ const Kandidatheader: FunctionComponent<Props> = ({
                         )}
                     </div>
                 </div>
-                {fantCv && (
-                    <ForrigeNeste
-                        className="kandidatheader__forrige-neste-knapper"
-                        lenkeClass=""
-                        forrigeKandidat={forrigeKandidat}
-                        nesteKandidat={nesteKandidat}
-                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                        antallKandidater={antallKandidater}
-                    />
-                )}
-            </div>
-        </header>
+            </header>
+        </>
     );
 };
 

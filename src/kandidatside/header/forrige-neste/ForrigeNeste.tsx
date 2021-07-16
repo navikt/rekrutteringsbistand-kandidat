@@ -5,7 +5,7 @@ import './ForrigeNeste.less';
 
 type Props = {
     className?: string;
-    lenkeClass: string;
+    lenkeClass?: string;
     forrigeKandidat?: string;
     nesteKandidat?: string;
     gjeldendeKandidatIndex?: number;
