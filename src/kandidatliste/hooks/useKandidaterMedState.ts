@@ -1,4 +1,4 @@
-import { RemoteData, Nettstatus, Nettressurs } from '../../api/remoteData';
+import { Nettstatus, Nettressurs } from '../../api/Nettressurs';
 import {
     Kandidatliste,
     Kandidattilstander,
@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 const hentMeldingForKandidat = (
-    kandidatmeldinger: RemoteData<Sms[]>,
+    kandidatmeldinger: Nettressurs<Sms[]>,
     fnr: string
 ): Sms | undefined => {
     return kandidatmeldinger.kind === Nettstatus.Suksess
@@ -28,9 +28,9 @@ const hentForespørselOmDelingAvCvForKandidat = (
 };
 
 const useKandidaterMedState = (
-    kandidatliste: RemoteData<Kandidatliste>,
+    kandidatliste: Nettressurs<Kandidatliste>,
     kandidattilstander: Kandidattilstander,
-    kandidatmeldinger: RemoteData<Sms[]>,
+    kandidatmeldinger: Nettressurs<Sms[]>,
     kandidatnotater: Kandidatnotater,
     forespørslerOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>
 ) => {

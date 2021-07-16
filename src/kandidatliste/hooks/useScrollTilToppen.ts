@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { RemoteData, Nettstatus } from '../../api/remoteData';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatliste } from '../kandidatlistetyper';
 import AppState from '../../AppState';
 
-const useScrollTilToppen = (kandidatliste: RemoteData<Kandidatliste>) => {
+const useScrollTilToppen = (kandidatliste: Nettressurs<Kandidatliste>) => {
     const sistValgteKandidat = useSelector(
         (state: AppState) => state.kandidatliste.sistValgteKandidat
     );

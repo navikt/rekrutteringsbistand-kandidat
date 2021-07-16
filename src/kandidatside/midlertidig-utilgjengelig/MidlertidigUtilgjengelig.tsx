@@ -10,7 +10,7 @@ import {
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
 import { antallDagerMellom, dagensDato } from './validering';
-import { Nettressurs, Nettstatus } from '../../api/remoteData';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { sendEvent } from '../../amplitude/amplitude';
 import { Tilgjengelighet } from '../cv/reducer/cv-typer';
 import AppState from '../../AppState';

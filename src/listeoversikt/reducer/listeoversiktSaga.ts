@@ -1,4 +1,4 @@
-import { Nettstatus } from '../../api/remoteData';
+import { Nettstatus } from '../../api/Nettressurs';
 import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {

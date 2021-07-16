@@ -24,10 +24,9 @@ import {
     feil,
     lasterInn,
     Nettstatus,
-    RemoteData,
     senderInn,
     suksess,
-} from '../../api/remoteData';
+} from '../../api/Nettressurs';
 import KandidatlisteAction from './KandidatlisteAction';
 import { Kandidatliste } from '../kandidatlistetyper';
 import { SearchApiError } from '../../api/fetchUtils';
@@ -47,12 +46,12 @@ export interface KandidatlisteState {
     };
 
     id?: string;
-    kandidatliste: RemoteData<Kandidatliste>;
+    kandidatliste: Nettressurs<Kandidatliste>;
     kandidattilstander: Kandidattilstander;
     kandidatnotater: Kandidatnotater;
     sms: {
         sendStatus: SmsStatus;
-        sendteMeldinger: RemoteData<Sms[]>;
+        sendteMeldinger: Nettressurs<Sms[]>;
         error?: SearchApiError;
     };
     forespørslerOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>;

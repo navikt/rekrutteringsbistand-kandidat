@@ -6,7 +6,7 @@ import { harUrlParametere } from './reducer/searchQuery';
 import { KandidaterErLagretSuksessmelding } from './kandidater-er-lagret-suksessmelding/KandidaterErLagretSuksessmelding';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Kandidatsøk } from './Kandidatsøk';
-import { Nettstatus } from '../api/remoteData';
+import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
 import useKandidatliste from './useKandidatliste';
 

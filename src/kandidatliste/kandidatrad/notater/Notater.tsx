@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Hovedknapp, Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Nettressurs } from '../../../api/remoteData';
+import { Nettressurs } from '../../../api/Nettressurs';
 import { Notat } from '../../kandidatlistetyper';
 import { Textarea } from 'nav-frontend-skjema';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';

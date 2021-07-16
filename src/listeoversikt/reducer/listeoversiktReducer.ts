@@ -1,4 +1,4 @@
-import { ikkeLastet, lasterInn, Nettstatus, RemoteData, suksess } from '../../api/remoteData';
+import { ikkeLastet, lasterInn, Nettstatus, Nettressurs, suksess } from '../../api/Nettressurs';
 import { Reducer } from 'redux';
 import { ListeoversiktAction, ListeoversiktActionType } from './ListeoversiktAction';
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
@@ -21,7 +21,7 @@ export type ListeoversiktState = {
         sortField: KandidatlisteSorteringsfelt | null;
         sortDirection: Retning | null;
     };
-    slettKandidatlisteStatus: RemoteData<{
+    slettKandidatlisteStatus: Nettressurs<{
         slettetTittel: string;
     }>;
     markerSomMinStatus: Nettstatus;

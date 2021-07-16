@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste } from '../../app/paths';
 import { useSelector } from 'react-redux';
 import AppState from '../../AppState';
-import { Nettstatus } from '../../api/remoteData';
+import { Nettstatus } from '../../api/Nettressurs';
 
 export const KandidaterErLagretSuksessmelding: FunctionComponent = () => {
     const { lagreStatus, antallLagredeKandidater, lagretListe } = useSelector(

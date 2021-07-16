@@ -66,8 +66,4 @@ export const feil = (error: ApiError): Feil => ({
     error,
 });
 
-export type RemoteData<T> = IkkeLastet | LasterInn | Feil | Suksess<T>;
-
 export type Nettressurs<T> = IkkeLastet | LasterInn | SenderInn<T> | Feil | Suksess<T> | FinnesIkke;
-
-export type ResponseData<T> = Feil | Suksess<T>;

@@ -1,4 +1,4 @@
-import { ResponseData } from '../../api/remoteData';
+import { Nettressurs } from '../../api/Nettressurs';
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 
@@ -62,7 +62,7 @@ export interface SlettKandidatlisteAction {
 
 export interface SlettKandidatlisteFerdigAction {
     type: ListeoversiktActionType.SlettKandidatlisteFerdig;
-    result: ResponseData<any>;
+    result: Nettressurs<any>;
     kandidatlisteTittel: string;
 }
 

@@ -10,7 +10,7 @@ import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
 import { KANDIDATLISTE_CHUNK_SIZE } from '../../common/konstanter';
 import { KandidatOutboundDto } from '../../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { KandidatsøkAction, KandidatsøkActionType } from '../reducer/searchActions';
-import { Nettstatus } from '../../api/remoteData';
+import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
 import KandidaterTabell from '../kandidater-tabell/KandidaterTabell';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';

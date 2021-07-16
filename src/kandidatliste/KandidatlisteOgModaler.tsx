@@ -8,7 +8,7 @@ import {
     Kandidatstatus,
     SmsStatus,
 } from './kandidatlistetyper';
-import { Nettressurs, Nettstatus } from '../api/remoteData';
+import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { sendEvent } from '../amplitude/amplitude';
 import AppState from '../AppState';
 import HjelpetekstFading from '../common/HjelpetekstFading';

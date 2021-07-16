@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Notat } from '../../kandidatlistetyper';
-import { Nettstatus, Nettressurs } from '../../../api/remoteData';
+import { Nettstatus, Nettressurs } from '../../../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NotatInfo from './NotatInfo';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';

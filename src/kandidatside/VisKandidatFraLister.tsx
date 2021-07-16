@@ -7,7 +7,7 @@ import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
 import { CvActionType, CvAction } from './cv/reducer/cvReducer';
 import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
 import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { Nettressurs, Nettstatus } from '../api/remoteData';
+import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import {
     erKobletTilStilling,
     Kandidatliste,

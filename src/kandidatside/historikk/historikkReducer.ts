@@ -1,5 +1,5 @@
 import { Kandidatstatus } from '../../kandidatliste/kandidatlistetyper';
-import { ApiError, feil, ikkeLastet, lasterInn, Nettressurs, suksess } from '../../api/remoteData';
+import { ApiError, feil, ikkeLastet, lasterInn, Nettressurs, suksess } from '../../api/Nettressurs';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api/api';
 import { SearchApiError } from '../../api/fetchUtils';

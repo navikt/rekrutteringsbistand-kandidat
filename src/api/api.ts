@@ -1,6 +1,6 @@
 import { Kandidatlistestatus, Kandidatstatus } from '../kandidatliste/kandidatlistetyper';
 import FEATURE_TOGGLES from '../common/konstanter';
-import { ResponseData } from './remoteData';
+import { Nettressurs } from './Nettressurs';
 import {
     createCallIdHeader,
     deleteJsonMedType,
@@ -301,7 +301,7 @@ export const fetchArbeidsgivereEnhetsregisterOrgnr = (orgnr) => {
 export const endreEierskapPaKandidatliste = (kandidatlisteId) =>
     putJson(`${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/eierskap`);
 
-export async function deleteKandidatliste(kandidatlisteId: string): Promise<ResponseData<any>> {
+export async function deleteKandidatliste(kandidatlisteId: string): Promise<Nettressurs<any>> {
     return await deleteJsonMedType<any>(
         `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}`
     );

@@ -3,7 +3,7 @@ import { fetchCv } from '../../../api/api';
 import { KandidatsøkActionType } from '../../../kandidatsøk/reducer/searchActions';
 import Cv from './cv-typer';
 import { SearchApiError } from '../../../api/fetchUtils';
-import { Nettstatus } from '../../../api/remoteData';
+import { Nettstatus } from '../../../api/Nettressurs';
 
 export enum CvActionType {
     FetchCv = 'FETCH_CV',

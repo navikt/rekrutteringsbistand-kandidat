@@ -1,4 +1,4 @@
-import { feil, ResponseData, suksess } from './remoteData';
+import { feil, Nettressurs, suksess } from './Nettressurs';
 
 export const createCallIdHeader = () => ({
     'Nav-CallId': Math.random().toString(16).substr(2),
@@ -51,7 +51,7 @@ export async function fetchJson(url: string, includeCredentials: boolean = false
 export async function deleteJsonMedType<T>(
     url: string,
     bodyString?: string
-): Promise<ResponseData<T>> {
+): Promise<Nettressurs<T>> {
     try {
         const response: unknown = await deleteReq(url, bodyString);
         return suksess(response as T);

@@ -1,6 +1,6 @@
-import { Nettressurs, Nettstatus, senderInn } from '../../api/remoteData';
+import { Nettressurs, Nettstatus, senderInn } from '../../api/Nettressurs';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { ApiError, feil, ikkeLastet, lasterInn, suksess } from '../../api/remoteData';
+import { ApiError, feil, ikkeLastet, lasterInn, suksess } from '../../api/Nettressurs';
 import { CvAction, CvActionType, FetchCvSuccessAction } from '../cv/reducer/cvReducer';
 import {
     deleteMidlertidigUtilgjengelig,

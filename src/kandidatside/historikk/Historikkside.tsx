@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
-import { Nettstatus } from '../../api/remoteData';
+import { Nettstatus } from '../../api/Nettressurs';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';

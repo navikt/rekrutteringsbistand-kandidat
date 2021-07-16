@@ -16,7 +16,7 @@ import {
     lenkeTilKandidatsøk,
 } from '../app/paths';
 import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { Nettressurs, Nettstatus } from '../api/remoteData';
+import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { sendEvent } from '../amplitude/amplitude';
 import { toUrlQuery } from '../kandidatsøk/reducer/searchQuery';
 import AppState from '../AppState';

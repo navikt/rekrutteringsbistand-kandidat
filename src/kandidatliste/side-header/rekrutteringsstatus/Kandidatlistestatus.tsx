@@ -10,7 +10,7 @@ import LåstHengelås from './LåstHengelås';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import './Kandidatlistestatus.less';
 import AppState from '../../../AppState';
-import { Nettstatus } from '../../../api/remoteData';
+import { Nettstatus } from '../../../api/Nettressurs';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';

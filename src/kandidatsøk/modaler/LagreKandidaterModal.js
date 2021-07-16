@@ -14,7 +14,7 @@ import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { ListeoversiktActionType } from '../../listeoversikt/reducer/ListeoversiktAction';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
-import { Nettstatus } from '../../api/remoteData';
+import { Nettstatus } from '../../api/Nettressurs';
 import './LagreKandidaterModal.less';
 
 const PAGINERING_BATCH_SIZE = 5;

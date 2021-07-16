@@ -6,7 +6,7 @@ import { KandidatlisteSammendrag } from '../kandidatliste/kandidatlistetyper';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
-import { Nettressurs, Nettstatus } from '../api/remoteData';
+import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';

@@ -3,7 +3,7 @@ import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
 } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { ApiError } from '../../api/remoteData';
+import { ApiError } from '../../api/Nettressurs';
 import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';

@@ -4,7 +4,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 import { KandidatlisteSammendrag } from '../kandidatliste/kandidatlistetyper';
-import { Nettstatus } from '../api/remoteData';
+import { Nettstatus } from '../api/Nettressurs';
 
 type Props = {
     fetching: Nettstatus;

@@ -9,7 +9,7 @@ import fnrValidator from '@navikt/fnrvalidator';
 
 import { Kandidatliste, Navn } from '../../kandidatlistetyper';
 import { CvSøkeresultat } from '../../../kandidatside/cv/reducer/cv-typer';
-import { Nettstatus, Nettressurs } from '../../../api/remoteData';
+import { Nettstatus, Nettressurs } from '../../../api/Nettressurs';
 import AppState from '../../../AppState';
 import KandidatenFinnesIkke from './KandidatenFinnesIkke';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';

@@ -5,7 +5,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
-import { Nettstatus } from '../../api/remoteData';
+import { Nettstatus } from '../../api/Nettressurs';
 import KandidatlisteAction, {
     Kandidatlisteinfo,
 } from '../../kandidatliste/reducer/KandidatlisteAction';

@@ -3,7 +3,7 @@ import moment from 'moment';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Nettressurs, Nettstatus } from '../../../api/remoteData';
+import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import { MidlertidigUtilgjengeligResponse } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import {
     antallDagerMellom,
