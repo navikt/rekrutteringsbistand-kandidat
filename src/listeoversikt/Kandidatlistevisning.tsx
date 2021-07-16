@@ -4,9 +4,10 @@ import { Systemtittel } from 'nav-frontend-typografi';
 
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 import { KandidatlisteSammendrag } from '../kandidatliste/kandidatlistetyper';
+import { Nettstatus } from '../api/remoteData';
 
 type Props = {
-    fetching: string;
+    fetching: Nettstatus;
     kandidatlister: KandidatlisteSammendrag[];
     endreKandidatliste: (kandidatliste: KandidatlisteSammendrag) => void;
     markerKandidatlisteSomMin: (kandidatliste: KandidatlisteSammendrag) => void;
@@ -20,7 +21,7 @@ const Kandidatlistevisning: FunctionComponent<Props> = ({
     markerKandidatlisteSomMin,
     slettKandidatliste,
 }) => {
-    if (fetching !== 'SUCCESS') {
+    if (fetching !== Nettstatus.Suksess) {
         return (
             <div className="hent-kandidatlister--spinner">
                 <NavFrontendSpinner type="L" />

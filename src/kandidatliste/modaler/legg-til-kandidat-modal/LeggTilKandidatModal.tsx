@@ -7,7 +7,7 @@ import { Input, Textarea } from 'nav-frontend-skjema';
 import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
 import fnrValidator from '@navikt/fnrvalidator';
 
-import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';
+import { Kandidatliste, Navn } from '../../kandidatlistetyper';
 import { CvSøkeresultat } from '../../../kandidatside/cv/reducer/cv-typer';
 import { Nettstatus, Nettressurs } from '../../../api/remoteData';
 import AppState from '../../../AppState';
@@ -55,8 +55,8 @@ type Props = {
     kandidat: CvSøkeresultat;
     resetSøk: () => void;
     søkPåusynligKandidat: Nettressurs<Array<Navn>>;
-    hentStatus: HentStatus;
-    leggTilKandidatStatus: string;
+    hentStatus: Nettstatus;
+    leggTilKandidatStatus: Nettstatus;
     formidleUsynligKandidat: (
         kandidatlisteId: string,
         formidling: FormidlingAvUsynligKandidatOutboundDto
@@ -93,13 +93,13 @@ class LeggTilKandidatModal extends React.Component<Props> {
     componentDidUpdate(prevProps: Props) {
         const { hentStatus, søkPåusynligKandidat, fodselsnummer } = this.props;
         if (prevProps.hentStatus !== hentStatus) {
-            if (hentStatus === HentStatus.Success) {
+            if (hentStatus === Nettstatus.Suksess) {
                 this.setState({
                     visResultatFraCvSøk: true,
                     errorMessage: undefined,
                     showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede(),
                 });
-            } else if (hentStatus === HentStatus.FinnesIkke) {
+            } else if (hentStatus === Nettstatus.FinnesIkke) {
                 this.setState({
                     visResultatFraCvSøk: false,
                     errorMessage: <KandidatenFinnesIkke />,
@@ -173,7 +173,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
     };
 
     kandidatenKanLeggesTil = () =>
-        this.props.hentStatus === HentStatus.Success &&
+        this.props.hentStatus === Nettstatus.Suksess &&
         !this.kandidatenFinnesAllerede() &&
         this.props.notat.length <= MAKS_NOTATLENGDE;
 

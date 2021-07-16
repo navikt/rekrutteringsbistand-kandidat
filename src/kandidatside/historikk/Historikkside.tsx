@@ -53,7 +53,7 @@ const Historikkside: FunctionComponent = () => {
 
     if (
         historikk.kandidatlisterForKandidat.kind !== Nettstatus.Suksess ||
-        cv.hentStatus !== 'SUCCESS'
+        cv.hentStatus !== Nettstatus.Suksess
     ) {
         return null;
     }

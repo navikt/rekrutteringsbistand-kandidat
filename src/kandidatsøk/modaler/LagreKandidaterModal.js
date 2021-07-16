@@ -10,13 +10,12 @@ import { formatterDato } from '../../utils/dateUtils';
 import { capitalizeEmployerName } from '../utils';
 import HjelpetekstFading from '../../common/HjelpetekstFading.tsx';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import { HentStatus } from '../../kandidatliste/kandidatlistetyper';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { ListeoversiktActionType } from '../../listeoversikt/reducer/ListeoversiktAction';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
-import './LagreKandidaterModal.less';
 import { Nettstatus } from '../../api/remoteData';
+import './LagreKandidaterModal.less';
 
 const PAGINERING_BATCH_SIZE = 5;
 
@@ -42,7 +41,7 @@ class LagreKandidaterModal extends React.Component {
     componentDidUpdate(prevProps) {
         if (
             prevProps.hentListerStatus !== this.props.hentListerStatus &&
-            this.props.hentListerStatus === HentStatus.Success
+            this.props.hentListerStatus === Nettstatus.Suksess
         ) {
             this.setState({
                 kandidatlister: [
@@ -60,13 +59,13 @@ class LagreKandidaterModal extends React.Component {
             prevProps.hentListeMedAnnonsenummerStatusMessage !==
                 this.props.hentListeMedAnnonsenummerStatusMessage
         ) {
-            if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Success) {
+            if (this.props.hentListeMedAnnonsenummerStatus === Nettstatus.Suksess) {
                 this.setState({
                     showHentetListe: true,
                     hentListeFeilmelding: undefined,
                     hentetListe: this.props.kandidatlisteMedAnnonsenummer,
                 });
-            } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.FinnesIkke) {
+            } else if (this.props.hentListeMedAnnonsenummerStatus === Nettstatus.FinnesIkke) {
                 this.props.hentListeMedAnnonsenummerStatusMessage &&
                 this.props.hentListeMedAnnonsenummerStatusMessage.includes(
                     'Kandidatliste for stilling'
@@ -83,7 +82,7 @@ class LagreKandidaterModal extends React.Component {
                           hentListeFeilmelding: 'Stillingen finnes ikke',
                       });
                 this.input.focus();
-            } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Failure) {
+            } else if (this.props.hentListeMedAnnonsenummerStatus === Nettstatus.Feil) {
                 this.setState({
                     hentetListe: undefined,
                     showHentetListe: false,
@@ -273,7 +272,7 @@ class LagreKandidaterModal extends React.Component {
                             <Element>Mine kandidatlister</Element>
                         </Row>
                         {antallKandidatlister === undefined &&
-                            hentListerStatus === HentStatus.Loading && (
+                            hentListerStatus === Nettstatus.LasterInn && (
                                 <div className="text-center">
                                     <NavFrontendSpinner type="L" />
                                 </div>
@@ -282,7 +281,7 @@ class LagreKandidaterModal extends React.Component {
                             <div>
                                 <ListerTableHeader />
                                 <ListerTableRows />
-                                {hentListerStatus === HentStatus.Loading && (
+                                {hentListerStatus === Nettstatus.LasterInn && (
                                     <div className="text-center">
                                         <NavFrontendSpinner type="L" />
                                     </div>

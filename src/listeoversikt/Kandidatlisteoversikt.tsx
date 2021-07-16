@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { Systemtittel } from 'nav-frontend-typografi';
 
-import { KandidatlisteSammendrag, MarkerSomMinStatus } from '../kandidatliste/kandidatlistetyper';
+import { KandidatlisteSammendrag } from '../kandidatliste/kandidatlistetyper';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
@@ -56,7 +56,7 @@ type Props = {
     opprettetTittel: any;
     kandidatlisterSokeKriterier: KandidatlisterSøkekriterier;
     markerKandidatlisteSomMin: (kandidatlisteId: string) => void;
-    markerSomMinStatus: any;
+    markerSomMinStatus: Nettstatus;
     slettKandidatliste: any;
     resetSletteStatus: any;
     sletteStatus: Nettressurs<{ slettetTittel: string }>;
@@ -125,8 +125,8 @@ class Kandidatlisteoversikt extends React.Component<Props> {
             this.props.resetSletteStatus();
         }
         if (
-            prevProps.markerSomMinStatus === MarkerSomMinStatus.Loading &&
-            this.props.markerSomMinStatus === MarkerSomMinStatus.Success
+            prevProps.markerSomMinStatus === Nettstatus.LasterInn &&
+            this.props.markerSomMinStatus === Nettstatus.Suksess
         ) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
@@ -342,14 +342,15 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                                 fetching={fetchingKandidatlister}
                             />
                         </div>
-                        {fetchingKandidatlister === 'SUCCESS' && totaltAntallKandidatlister > 0 && (
-                            <Paginering
-                                kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                                totaltAntallKandidatlister={totaltAntallKandidatlister}
-                                forrigeSide={this.onHentKandidatlisterForrigeSide}
-                                nesteSide={this.onHentKandidatlisterNesteSide}
-                            />
-                        )}
+                        {fetchingKandidatlister === Nettstatus.Suksess &&
+                            totaltAntallKandidatlister > 0 && (
+                                <Paginering
+                                    kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                                    totaltAntallKandidatlister={totaltAntallKandidatlister}
+                                    forrigeSide={this.onHentKandidatlisterForrigeSide}
+                                    nesteSide={this.onHentKandidatlisterNesteSide}
+                                />
+                            )}
                     </div>
                 </div>
             </div>

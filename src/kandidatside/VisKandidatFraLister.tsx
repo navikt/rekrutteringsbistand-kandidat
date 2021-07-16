@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
-import { HentCvStatus, CvActionType, CvAction } from './cv/reducer/cvReducer';
+import { CvActionType, CvAction } from './cv/reducer/cvReducer';
 import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
 import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { Nettressurs, Nettstatus } from '../api/remoteData';
@@ -36,7 +36,7 @@ type Props = ConnectedProps & {
 
 type ConnectedProps = {
     cv: Cv;
-    hentStatus: string;
+    hentStatus: Nettstatus;
     hentCvForKandidat: (kandidatnr: string) => void;
     hentKandidatliste: (kandidatlisteId: string) => void;
     kandidatliste: Nettressurs<Kandidatliste>;
@@ -114,7 +114,7 @@ class VisKandidatFraLister extends React.Component<Props> {
             });
 
         const gjeldendeKandidatIndex = filtrerteKandidatnumre.indexOf(kandidatnr);
-        if (hentStatus === HentCvStatus.Loading || gjeldendeKandidatIndex === -1) {
+        if (hentStatus === Nettstatus.LasterInn || gjeldendeKandidatIndex === -1) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -141,9 +141,9 @@ class VisKandidatFraLister extends React.Component<Props> {
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     nesteKandidat={nesteKandidatLink}
                     forrigeKandidat={forrigeKandidatLink}
-                    fantCv={hentStatus === HentCvStatus.Success}
+                    fantCv={hentStatus === Nettstatus.Suksess}
                 />
-                {hentStatus === HentCvStatus.FinnesIkke ? (
+                {hentStatus === Nettstatus.FinnesIkke ? (
                     <IkkeFunnet />
                 ) : (
                     <>

@@ -6,7 +6,7 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import { CvAction, CvActionType, HentCvStatus } from './cv/reducer/cvReducer';
+import { CvAction, CvActionType } from './cv/reducer/cvReducer';
 import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import {
     lenkeTilCv,
@@ -48,13 +48,13 @@ type ConnectedProps = {
     antallKandidater: number;
     lastFlereKandidater: () => void;
     settValgtKandidat: (kandidatnr: string) => void;
-    hentStatus: string;
+    hentStatus: Nettstatus;
     hentKandidatlisteMedKandidatlisteId: (kandidatlisteId: string) => void;
     hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
     kandidatliste?: Kandidatliste;
     midlertidigUtilgjengelig: Nettressurs<MidlertidigUtilgjengeligResponse>;
     kandidatsøkFilterParams: string;
-    lagreKandidatIKandidatlisteStatus: string;
+    lagreKandidatIKandidatlisteStatus: Nettstatus;
     lagreKandidatIKandidatliste: (
         kandidatliste: Kandidatliste,
         fnr: string,
@@ -302,7 +302,7 @@ class VisKandidat extends React.Component<Props, State> {
             kandidatliste.kandidater.findIndex((kandidat) => kandidat.kandidatnr === kandidatnr) !==
                 -1;
 
-        if (hentStatus === HentCvStatus.Loading || hentStatus === HentCvStatus.IkkeHentet) {
+        if (hentStatus === Nettstatus.LasterInn || hentStatus === Nettstatus.IkkeLastet) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -319,9 +319,9 @@ class VisKandidat extends React.Component<Props, State> {
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     nesteKandidat={nesteKandidatLink}
                     forrigeKandidat={forrigeKandidatLink}
-                    fantCv={hentStatus === HentCvStatus.Success}
+                    fantCv={hentStatus === Nettstatus.Suksess}
                 />
-                {hentStatus === HentCvStatus.FinnesIkke ? (
+                {hentStatus === Nettstatus.FinnesIkke ? (
                     <IkkeFunnet />
                 ) : (
                     <>
