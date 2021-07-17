@@ -124,6 +124,10 @@ class VisKandidatFraLister extends React.Component<Props> {
                 </div>
             );
         }
+
+        // TODO: Her er det en bug – forrige/neste-lenkene bryr seg ikke
+        // om sorteringen, altså rekkefølgen på kandidatene. Bryr seg heller ikke om
+        // man navigerer til en inaktiv kandidat, siden krasjer bare.
         const nesteKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex + 1];
         const forrigeKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex - 1];
 
