@@ -7,7 +7,6 @@ const useSorterteKandidater = (
     kandidater: Kandidat[]
 ): {
     sorterteKandidater: Kandidat[];
-    sortering: Kandidatsortering;
     setSortering: (sortering: Kandidatsortering) => void;
 } => {
     const [sortering, setSortering] = useState<Kandidatsortering>(null);
@@ -19,7 +18,6 @@ const useSorterteKandidater = (
 
     return {
         sorterteKandidater,
-        sortering,
         setSortering,
     };
 };

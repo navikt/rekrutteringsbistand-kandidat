@@ -152,7 +152,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                     {antallMarkerteKandidater === 1 ? 'kandidat' : 'kandidater'} i aktivitetsplanen
                 </Systemtittel>
                 <Normaltekst className="blokk-s">
-                    Det opprettes et stillingskort i Aktivitetsplanen. Kandidatene vil bli varlset
+                    Det opprettes et stillingskort i Aktivitetsplanen. Kandidatene vil bli varslet
                     på SMS, og kan svare "ja" eller "nei" til at CV-en skal bli delt med
                     arbeidsgiver. Du vil se svaret i kandidatlisten.
                 </Normaltekst>

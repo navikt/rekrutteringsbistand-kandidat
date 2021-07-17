@@ -58,6 +58,9 @@ class VisKandidatFraLister extends React.Component<Props> {
         this.props.hentCvForKandidat(this.props.kandidatnr);
         this.props.hentKandidatliste(this.props.kandidatlisteId);
         this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatnr);
+
+        // TODO for oppgave: https://trello.com/c/PAYah14K/272-refaktorere-kandidatikandidatliste
+        //    Må hente SMS-er her og plukke ut den som gjelder kandidaten vi er på.
     }
 
     componentDidUpdate(prevProps: Props) {

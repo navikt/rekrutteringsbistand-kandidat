@@ -92,9 +92,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
 
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
-    const { sorterteKandidater, sortering, setSortering } = useSorterteKandidater(
-        filtrerteKandidater
-    );
+    const { sorterteKandidater, setSortering } = useSorterteKandidater(filtrerteKandidater);
 
     const antallFiltertreff = useAntallFiltertreff(kandidatliste.kandidater);
     const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
@@ -226,7 +224,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                 alleMarkert={alleFiltrerteErMarkerte}
                                 onCheckAlleKandidater={onCheckAlleKandidater}
                                 visArkiveringskolonne={kanArkivereKandidater}
-                                sortering={sortering}
                                 setSortering={setSortering}
                             />
                             {kandidatliste.formidlingerAvUsynligKandidat.map(
