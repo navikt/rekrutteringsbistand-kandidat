@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react';
+import { Dispatch } from 'redux';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
 import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
@@ -12,7 +13,6 @@ import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import './SendSmsModal.less';
-import { Dispatch } from 'redux';
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
