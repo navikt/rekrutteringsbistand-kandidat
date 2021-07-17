@@ -274,9 +274,10 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         );
     };
 
-    // TODO: Flytt endring av visning til Kandidatrad-komponent
+    // TODO: Flytt endring av visning til Kandidatrad.tsx
     onVisningChange = (visningsstatus: Visningsstatus, kandidatnr: string) => {
         if (visningsstatus === Visningsstatus.VisNotater) {
+            // TODO: Flytt henting av notater til Notater.tsx
             this.props.hentNotater(this.props.kandidatliste.kandidatlisteId, kandidatnr);
         }
 

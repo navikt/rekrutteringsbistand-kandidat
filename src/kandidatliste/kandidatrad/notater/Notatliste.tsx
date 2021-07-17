@@ -7,7 +7,7 @@ import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
-    notater: Nettressurs<Array<Notat>>;
+    notater: Nettressurs<Notat[]>;
     onOpenRedigeringsModal: (notat: Notat) => void;
     onOpenSletteModal: (notat: Notat) => void;
 }

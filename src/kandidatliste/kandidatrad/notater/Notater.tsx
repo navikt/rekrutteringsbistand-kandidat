@@ -20,7 +20,7 @@ const initialState = {
 
 type NotaterProps = {
     antallNotater?: number;
-    notater: Nettressurs<Array<Notat>>;
+    notater: Nettressurs<Notat[]>;
     onOpprettNotat: (tekst: string) => void;
     onEndreNotat: (notatId: string, tekst: string) => void;
     onSlettNotat: (notatId: string) => void;
@@ -41,6 +41,8 @@ class Notater extends React.Component<NotaterProps> {
     }
 
     componentDidUpdate(nextProps: NotaterProps) {
+        // TODO: Hent notater her hvis de er Nettstatus.IkkeLastet?
+
         if (nextProps.notater !== this.props.notater) {
             this.setState(initialState);
         }

@@ -2,7 +2,6 @@ import { Nettressurs } from '../api/Nettressurs';
 import { Tilgjengelighet } from '../kandidatside/cv/reducer/cv-typer';
 import { Visningsstatus } from './Kandidatliste';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
-import { ForespørselOmDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export enum SmsStatus {
     IkkeSendt = 'IKKE_SENDT',

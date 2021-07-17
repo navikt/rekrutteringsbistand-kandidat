@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -8,10 +8,16 @@ import {
     Kandidatlistestatus,
     erInaktiv,
 } from './kandidatlistetyper';
+import { KandidatSorteringsfelt } from './kandidatsortering';
+import { Nettstatus } from '../api/Nettressurs';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
+import { Retning } from '../common/sorterbarKolonneheader/Retning';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import AppState from '../AppState';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
+import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import Kandidatrad from './kandidatrad/Kandidatrad';
@@ -23,18 +29,14 @@ import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
-import useErAlleMarkerte from './hooks/useErAlleMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
-import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
-import { sorteringsalgoritmer, KandidatSorteringsfelt } from './kandidatsortering';
-import '../common/ikoner.less';
-import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
-import { Retning } from '../common/sorterbarKolonneheader/Retning';
-import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
-import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import useErAlleMarkerte from './hooks/useErAlleMarkerte';
+import useFiltrerteKandidater from './hooks/useFiltrerteKandidater';
 import useHentForespørslerOmDelingAvCv from './hooks/useHentForespørslerOmDelingAvCv';
-import AppState from '../AppState';
-import { Nettstatus } from '../api/Nettressurs';
+import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
+import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
+import useSorterteKandidater from './hooks/useSorterteKandidater';
+import '../common/ikoner.less';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -76,40 +78,34 @@ const Kandidatliste: FunctionComponent<Props> = ({
     onVisningChange,
     onToggleArkivert,
 }) => {
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const location = useLocation();
-    const { filter, kandidattilstander, sms } = useSelector(
-        (state: AppState) => state.kandidatliste
-    );
-    const { sendteMeldinger } = sms;
-
+    // TODO: Flytt disse til Kandidatlisteside.tsx?
     useMaskerFødselsnumre();
     useHentSendteMeldinger(kandidatliste.kandidatlisteId);
     useHentForespørslerOmDelingAvCv(kandidatliste.stillingId);
 
-    const [sortering, setSortering] = useState<Kandidatsortering>(null);
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
+
+    const { filter, sms } = useSelector((state: AppState) => state.kandidatliste);
+    const { sendteMeldinger } = sms;
+
+    const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
+    const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
+    const { sorterteKandidater, sortering, setSortering } = useSorterteKandidater(
+        filtrerteKandidater
+    );
 
     const antallFiltertreff = useAntallFiltertreff(kandidatliste.kandidater);
     const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
 
     useEffect(() => {
-        const filter = queryParamsTilFilter(new URLSearchParams(location.search));
+        const oppdatertFilter = queryParamsTilFilter(new URLSearchParams(location.search));
         dispatch({
             type: KandidatlisteActionType.EndreKandidatlisteFilter,
-            filter,
+            filter: oppdatertFilter,
         });
     }, [dispatch, history, location.search, antallFilterTreffJSON]);
-
-    const filtrerteKandidater = kandidatliste.kandidater.filter(
-        (kandidat) => !kandidattilstander[kandidat.kandidatnr].filtrertBort
-    );
-    const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
-
-    const sorterteKandidater =
-        sortering === null || sortering.retning === null
-            ? filtrerteKandidater
-            : filtrerteKandidater.sort(sorteringsalgoritmer[sortering.felt][sortering.retning]);
 
     const setFilterIUrl = (filter: Kandidatlistefilter) => {
         const query = filterTilQueryParams(filter).toString();

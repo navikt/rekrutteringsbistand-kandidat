@@ -32,6 +32,9 @@ import Notater from './notater/Notater';
 import MerInfo from './mer-info/MerInfo';
 import AppState from '../../AppState';
 import StatusOgHendelser from './status-og-hendelser/StatusOgHendelser';
+import useKandidattilstand from '../hooks/useKandidattilstand';
+import useKandidatnotater from '../hooks/useKandidatnotater';
+import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
 import './Kandidatrad.less';
 
 type Props = {
@@ -65,7 +68,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const dispatch = useDispatch();
     const kandidatRadRef = useRef<HTMLDivElement>(null);
 
-    // TODO: Hent kandidattilstand og notater og sms fra redux
+    const tilstand = useKandidattilstand(kandidat.kandidatnr);
+    const notater = useKandidatnotater(kandidat.kandidatnr);
+    const melding = useSendtKandidatmelding(kandidat.fodselsnr);
 
     useEffect(() => {
         const erSistValgteKandidat =
@@ -79,13 +84,11 @@ const Kandidatrad: FunctionComponent<Props> = ({
     }, [sistValgteKandidat, kandidat.kandidatnr, kandidatliste.kandidatlisteId, kandidatRadRef]);
 
     const antallNotater =
-        kandidat.notater.kind === Nettstatus.Suksess
-            ? kandidat.notater.data.length
-            : kandidat.antallNotater;
+        notater.kind === Nettstatus.Suksess ? notater.data.length : kandidat.antallNotater;
 
     const toggleNotater = () => {
         onVisningChange(
-            kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater
+            tilstand.visningsstatus === Visningsstatus.VisNotater
                 ? Visningsstatus.SkjulPanel
                 : Visningsstatus.VisNotater,
             kandidat.kandidatnr
@@ -94,7 +97,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const toggleMerInfo = () => {
         const nyStatus =
-            kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
+            tilstand.visningsstatus === Visningsstatus.VisMerInfo
                 ? Visningsstatus.SkjulPanel
                 : Visningsstatus.VisMerInfo;
         onVisningChange(nyStatus, kandidat.kandidatnr);
@@ -147,7 +150,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
         kandidatliste.status === Kandidatlistestatus.Lukket
             ? ' kandidatliste-kandidat--disabled'
             : ''
-    } ${kandidat.tilstand.markert ? 'kandidatliste-kandidat--checked' : ''}`;
+    } ${tilstand.markert ? 'kandidatliste-kandidat--checked' : ''}`;
 
     const kanEndreKandidatlisten =
         kandidatliste.status === Kandidatlistestatus.Åpen && kandidatliste.kanEditere;
@@ -163,7 +166,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
                     disabled={!kandidatenKanMarkeres}
-                    checked={kandidat.tilstand.markert}
+                    checked={tilstand.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
                     }}
@@ -201,8 +204,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             {fulltNavn}
                         </Link>
                     )}
-                    {/* TODO: Typegate for SMS her! */}
-                    {kandidat.sms && <SmsStatusPopup sms={kandidat.sms} />}
+                    {melding && <SmsStatusPopup sms={melding} />}
                 </div>
                 <div
                     role="cell"
@@ -253,7 +255,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <NavFrontendChevron
                             className="kandidatliste-kandidat__chevron"
                             type={
-                                kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater
+                                tilstand.visningsstatus === Visningsstatus.VisNotater
                                     ? 'opp'
                                     : 'ned'
                             }
@@ -270,7 +272,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             <NavFrontendChevron
                                 className="kandidatliste-kandidat__chevron"
                                 type={
-                                    kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
+                                    tilstand.visningsstatus === Visningsstatus.VisMerInfo
                                         ? 'opp'
                                         : 'ned'
                                 }
@@ -290,17 +292,16 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </div>
                 )}
             </div>
-            {kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater && (
-                // TODO: Typegate for kandidatens notater her.
+            {tilstand.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater
-                    notater={kandidat.notater}
-                    antallNotater={antallNotater}
+                    notater={notater}
+                    antallNotater={antallNotater} // TODO: Flytt inn i komponent, bruk Hook? useNotaterPåKandidat elns.
                     onOpprettNotat={onOpprettNotat}
                     onEndreNotat={onEndreNotat}
                     onSlettNotat={onSlettNotat}
                 />
             )}
-            {kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo && (
+            {tilstand.visningsstatus === Visningsstatus.VisMerInfo && (
                 <MerInfo kandidat={kandidat} />
             )}
         </div>

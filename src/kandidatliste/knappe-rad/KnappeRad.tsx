@@ -11,9 +11,9 @@ import {
 import MedPopover from '../../common/med-popover/MedPopover';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
-import './KnappeRad.less';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import './KnappeRad.less';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -38,6 +38,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     visArkiverte,
 }) => {
     const markerteKandidater = useMarkerteKandidater(kandidatliste.kandidater);
+
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
     const minstEnKandidatHarIkkeFåttSms =
         sendteMeldinger.kind === Nettstatus.Suksess &&

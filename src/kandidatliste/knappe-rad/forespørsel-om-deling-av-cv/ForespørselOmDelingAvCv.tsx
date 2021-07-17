@@ -1,22 +1,22 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
-import moment from 'moment';
 import { Datovelger } from 'nav-datovelger';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
+import { useDispatch } from 'react-redux';
 import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
+import moment from 'moment';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { ForespørselOutboundDto } from './Forespørsel';
+import { sendForespørselOmDelingAvCv } from '../../../api/forespørselOmDelingAvCvApi';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
 import './ForespørselOmDelingAvCv.less';
-import { KandidatIKandidatliste } from '../../kandidatlistetyper';
-import { sendForespørselOmDelingAvCv } from '../../../api/forespørselOmDelingAvCvApi';
-import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import { useDispatch } from 'react-redux';
-import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import { Kandidat } from '../../kandidatlistetyper';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -34,7 +34,7 @@ const svarfristLabels: Record<Svarfrist, string> = {
 
 type Props = {
     stillingsId: string;
-    markerteKandidater: KandidatIKandidatliste[];
+    markerteKandidater: Kandidat[];
 };
 
 const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, markerteKandidater }) => {

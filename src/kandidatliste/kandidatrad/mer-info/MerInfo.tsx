@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import Lenke from 'nav-frontend-lenker';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
+import { Kandidat } from '../../kandidatlistetyper';
 
 interface Props {
-    kandidat: KandidatIKandidatliste;
+    kandidat: Kandidat;
 }
 
 const MerInfo: FunctionComponent<Props> = ({ kandidat }) => {

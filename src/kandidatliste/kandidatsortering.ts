@@ -1,4 +1,4 @@
-import { KandidatIKandidatliste, Kandidatstatus } from './kandidatlistetyper';
+import { Kandidat, Kandidatstatus } from './kandidatlistetyper';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
@@ -10,10 +10,7 @@ export enum KandidatSorteringsfelt {
     StatusOgHendelser,
 }
 
-export type Kandidatsammenlikning = (
-    k1: KandidatIKandidatliste,
-    k2: KandidatIKandidatliste
-) => number;
+export type Kandidatsammenlikning = (k1: Kandidat, k2: Kandidat) => number;
 
 const sorterAlfabetisk = (string1: string, string2: string, stigende: boolean) => {
     return stigende ? string1.localeCompare(string2, 'no') : string2.localeCompare(string1, 'no');
@@ -46,11 +43,7 @@ const sorterPåLagtTilTidspunkt = (retning: Retning): Kandidatsammenlikning => (
     }
 };
 
-const sorterPåHendelser = (
-    k1: KandidatIKandidatliste,
-    k2: KandidatIKandidatliste,
-    retning: Retning
-) => {
+const sorterPåHendelser = (k1: Kandidat, k2: Kandidat, retning: Retning) => {
     return (
         (retning === Retning.Synkende ? 1 : -1) *
         (hendelserIKronologiskRekkefølge.indexOf(k1.utfall) -
@@ -58,11 +51,7 @@ const sorterPåHendelser = (
     );
 };
 
-const sorterPåStatus = (
-    k1: KandidatIKandidatliste,
-    k2: KandidatIKandidatliste,
-    retning: Retning
-) => {
+const sorterPåStatus = (k1: Kandidat, k2: Kandidat, retning: Retning) => {
     return (
         (retning === Retning.Synkende ? 1 : -1) *
         (statuserIKronologiskRekkefølge.indexOf(k1.status) -
