@@ -45,7 +45,6 @@ type ConnectedProps = {
     leggTilStatus: Nettstatus;
     fodselsnummer?: string;
     kandidat?: CvSøkeresultat;
-    hentNotater: any;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
@@ -276,11 +275,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 
     // TODO: Flytt endring av visning til Kandidatrad.tsx
     onVisningChange = (visningsstatus: Visningsstatus, kandidatnr: string) => {
-        if (visningsstatus === Visningsstatus.VisNotater) {
-            // TODO: Flytt henting av notater til Notater.tsx
-            this.props.hentNotater(this.props.kandidatliste.kandidatlisteId, kandidatnr);
-        }
-
         this.props.endreVisningsstatusKandidat(kandidatnr, visningsstatus);
     };
 
@@ -419,9 +413,6 @@ const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
     },
     resetSmsSendStatus: () => {
         dispatch({ type: KandidatlisteActionType.ResetSendSmsStatus });
-    },
-    hentNotater: (kandidatlisteId: string, kandidatnr: string) => {
-        dispatch({ type: KandidatlisteActionType.HentNotater, kandidatlisteId, kandidatnr });
     },
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => {
         dispatch({

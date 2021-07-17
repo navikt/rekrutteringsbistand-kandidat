@@ -294,8 +294,10 @@ const Kandidatrad: FunctionComponent<Props> = ({
             </div>
             {tilstand.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater
+                    kandidat={kandidat}
+                    kandidatliste={kandidatliste}
                     notater={notater}
-                    antallNotater={antallNotater} // TODO: Flytt inn i komponent, bruk Hook? useNotaterPåKandidat elns.
+                    antallNotater={antallNotater}
                     onOpprettNotat={onOpprettNotat}
                     onEndreNotat={onEndreNotat}
                     onSlettNotat={onSlettNotat}

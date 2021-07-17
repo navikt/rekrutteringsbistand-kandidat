@@ -4,14 +4,22 @@ import { Hovedknapp, Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
-import { Notat } from '../../kandidatlistetyper';
+import { Kandidat, Kandidatliste, Notat } from '../../kandidatlistetyper';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
 import Notatliste from './Notatliste';
 import RedigerNotatModal from './RedigerNotatModal';
 import Slettemodal from './Slettemodal';
 import './Notater.less';
+import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import { useMemo } from 'react';
+import { useCallback } from 'react';
 
 type Props = {
+    kandidat: Kandidat;
+    kandidatliste: Kandidatliste;
     antallNotater?: number;
     notater: Nettressurs<Notat[]>;
     onOpprettNotat: (tekst: string) => void;
@@ -20,17 +28,32 @@ type Props = {
 };
 
 const Notater: FunctionComponent<Props> = ({
+    kandidat,
+    kandidatliste,
     antallNotater,
     notater,
     onOpprettNotat,
     onEndreNotat,
     onSlettNotat,
 }) => {
+    const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
+
     const [nyttNotatVises, setNyttNotatVises] = useState<boolean>(false);
     const [nyttNotatTekst, setNyttNotatTekst] = useState<string>('');
     const [nyttNotatFeil, setNyttNotatFeil] = useState<boolean>(false);
     const [notatSomRedigeres, setNotatSomRedigeres] = useState<Notat | undefined>(undefined);
     const [notatSomSlettes, setNotatSomSlettes] = useState<Notat | undefined>(undefined);
+
+    const hentKandidatensNotater = useCallback(() => {
+        const { kandidatlisteId } = kandidatliste;
+        const { kandidatnr } = kandidat;
+
+        dispatch({
+            type: KandidatlisteActionType.HentNotater,
+            kandidatlisteId,
+            kandidatnr,
+        });
+    }, [dispatch, kandidat, kandidatliste]);
 
     useEffect(() => {
         setNyttNotatVises(false);
@@ -40,25 +63,9 @@ const Notater: FunctionComponent<Props> = ({
         setNotatSomSlettes(undefined);
 
         if (notater.kind === Nettstatus.IkkeLastet) {
-            // Hent notater
+            hentKandidatensNotater();
         }
-    }, [notater]);
-
-    const onOpenRedigeringsModal = (notat: Notat) => {
-        setNotatSomRedigeres(notat);
-    };
-
-    const onCloseNotatModal = () => {
-        setNotatSomRedigeres(undefined);
-    };
-
-    const onOpenSletteModal = (notat: Notat) => {
-        setNotatSomSlettes(notat);
-    };
-
-    const onCloseSletteModal = () => {
-        setNotatSomSlettes(undefined);
-    };
+    }, [notater, hentKandidatensNotater]);
 
     const toggleNyttNotatVises = () => {
         setNyttNotatVises(!nyttNotatVises);
@@ -84,7 +91,7 @@ const Notater: FunctionComponent<Props> = ({
             {notatSomRedigeres && (
                 <RedigerNotatModal
                     notat={notatSomRedigeres}
-                    onClose={onCloseNotatModal}
+                    onClose={() => setNotatSomRedigeres(undefined)}
                     onSave={onEndreNotat}
                 />
             )}
@@ -92,7 +99,7 @@ const Notater: FunctionComponent<Props> = ({
                 <Slettemodal
                     notat={notatSomSlettes}
                     onSlettNotat={onSlettNotat}
-                    onCloseSletteModal={onCloseSletteModal}
+                    onCloseSletteModal={() => setNotatSomSlettes(undefined)}
                 />
             )}
 
@@ -134,8 +141,8 @@ const Notater: FunctionComponent<Props> = ({
             </div>
             <Notatliste
                 notater={notater}
-                onOpenRedigeringsModal={onOpenRedigeringsModal}
-                onOpenSletteModal={onOpenSletteModal}
+                onOpenRedigeringsModal={setNotatSomRedigeres}
+                onOpenSletteModal={setNotatSomSlettes}
             />
         </InfoUnderKandidat>
     );
