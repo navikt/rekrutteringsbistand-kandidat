@@ -12,7 +12,7 @@ import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { sendEvent } from '../amplitude/amplitude';
 import AppState from '../AppState';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import Kandidatliste, { Visningsstatus } from './Kandidatliste';
+import Kandidatliste from './Kandidatliste';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';
@@ -52,7 +52,6 @@ type ConnectedProps = {
     valgtNavKontor: string;
     toggleMarkeringAvKandidat: (kandidatnr: string) => void;
     endreMarkeringAvKandidater: (kandidatnumre: string[]) => void;
-    endreVisningsstatusKandidat: (kandidatnr: string, visningsstatus: Visningsstatus) => void;
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     kandidattilstander: Kandidattilstander;
     sendteMeldinger: Nettressurs<Sms[]>;
@@ -273,11 +272,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         );
     };
 
-    // TODO: Flytt endring av visning til Kandidatrad.tsx
-    onVisningChange = (visningsstatus: Visningsstatus, kandidatnr: string) => {
-        this.props.endreVisningsstatusKandidat(kandidatnr, visningsstatus);
-    };
-
     onEmailKandidater = () => {
         this.setState({
             kopierEpostModalOpen: true,
@@ -361,7 +355,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     onKandidaterAngreArkivering={this.onKandidaterAngreArkivering}
                     onSendSmsClick={() => this.onToggleSendSmsModal(true)}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
-                    onVisningChange={this.onVisningChange}
                     onToggleArkivert={toggleArkivert}
                 />
             </div>
@@ -439,13 +432,6 @@ const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
         dispatch({
             type: KandidatlisteActionType.EndreMarkeringAvKandidater,
             kandidatnumre,
-        });
-    },
-    endreVisningsstatusKandidat: (kandidatnr: string, visningsstatus: Visningsstatus) => {
-        dispatch({
-            type: KandidatlisteActionType.EndreVisningsstatusKandidat,
-            kandidatnr,
-            visningsstatus,
         });
     },
 });

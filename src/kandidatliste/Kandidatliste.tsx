@@ -60,7 +60,6 @@ type Props = {
     onKandidaterAngreArkivering: any;
     onSendSmsClick: any;
     onLeggTilKandidat: any;
-    onVisningChange: any;
     onToggleArkivert: any;
 };
 
@@ -75,7 +74,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
     onKandidaterAngreArkivering,
     onKandidatStatusChange,
     onToggleMarkert,
-    onVisningChange,
     onToggleArkivert,
 }) => {
     // TODO: Flytt disse til Kandidatlisteside.tsx?
@@ -245,7 +243,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                         kandidatliste={kandidatliste}
                                         onKandidatStatusChange={onKandidatStatusChange}
                                         onToggleKandidat={onToggleMarkert}
-                                        onVisningChange={onVisningChange}
                                         toggleArkivert={onToggleArkivert}
                                         visArkiveringskolonne={kanArkivereKandidater}
                                     />

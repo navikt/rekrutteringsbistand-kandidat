@@ -42,7 +42,6 @@ type Props = {
     kandidatliste: Kandidatliste;
     toggleArkivert: any;
     onToggleKandidat: (kandidatnr: string) => void;
-    onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
@@ -58,7 +57,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     kandidatliste,
     toggleArkivert,
     onToggleKandidat,
-    onVisningChange,
     onKandidatStatusChange,
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
@@ -86,24 +84,28 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const antallNotater =
         notater.kind === Nettstatus.Suksess ? notater.data.length : kandidat.antallNotater;
 
+    const endreVisningsstatus = (visningsstatus: Visningsstatus) => {
+        dispatch({
+            type: KandidatlisteActionType.EndreVisningsstatusKandidat,
+            kandidatnr: kandidat.kandidatnr,
+            visningsstatus,
+        });
+    };
+
     const toggleNotater = () => {
-        onVisningChange(
+        endreVisningsstatus(
             tilstand.visningsstatus === Visningsstatus.VisNotater
                 ? Visningsstatus.SkjulPanel
-                : Visningsstatus.VisNotater,
-            kandidat.kandidatnr
+                : Visningsstatus.VisNotater
         );
     };
 
     const toggleMerInfo = () => {
-        const nyStatus =
+        endreVisningsstatus(
             tilstand.visningsstatus === Visningsstatus.VisMerInfo
                 ? Visningsstatus.SkjulPanel
-                : Visningsstatus.VisMerInfo;
-        onVisningChange(nyStatus, kandidat.kandidatnr);
-        if (nyStatus === Visningsstatus.VisMerInfo) {
-            sendEvent('kandidatliste_mer_info', 'åpne');
-        }
+                : Visningsstatus.VisMerInfo
+        );
     };
 
     const onOpprettNotat = (tekst: string) => {
