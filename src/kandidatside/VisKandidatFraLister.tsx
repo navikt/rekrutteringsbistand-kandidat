@@ -58,6 +58,9 @@ class VisKandidatFraLister extends React.Component<Props> {
         this.props.hentCvForKandidat(this.props.kandidatnr);
         this.props.hentKandidatliste(this.props.kandidatlisteId);
         this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatnr);
+
+        // TODO for oppgave: https://trello.com/c/PAYah14K/272-refaktorere-kandidatikandidatliste
+        //    Må hente SMS-er her og plukke ut den som gjelder kandidaten vi er på.
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -121,6 +124,10 @@ class VisKandidatFraLister extends React.Component<Props> {
                 </div>
             );
         }
+
+        // TODO: Her er det en bug – forrige/neste-lenkene bryr seg ikke
+        // om sorteringen, altså rekkefølgen på kandidatene. Bryr seg heller ikke om
+        // man navigerer til en inaktiv kandidat, siden krasjer bare.
         const nesteKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex + 1];
         const forrigeKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex - 1];
 

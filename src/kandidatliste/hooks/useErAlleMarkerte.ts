@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { erInaktiv, KandidatIKandidatliste } from '../kandidatlistetyper';
+import { useSelector } from 'react-redux';
+import AppState from '../../AppState';
+import { erInaktiv, Kandidat, Kandidattilstander } from '../kandidatlistetyper';
 
-const erAlleMarkerte = (kandidater: KandidatIKandidatliste[]) => {
+const erAlleMarkerte = (kandidater: Kandidat[], kandidattilstander: Kandidattilstander) => {
     const aktiveOgSlettaKandidater = kandidater.filter(
         (kandidat) => !erInaktiv(kandidat) || kandidat.arkivert
     );
@@ -10,15 +12,21 @@ const erAlleMarkerte = (kandidater: KandidatIKandidatliste[]) => {
         return false;
     }
 
-    return aktiveOgSlettaKandidater.every((kandidat) => kandidat.tilstand.markert);
+    return aktiveOgSlettaKandidater.every(
+        (kandidat) => kandidattilstander[kandidat.kandidatnr].markert
+    );
 };
 
-const useErAlleMarkerte = (kandidater: KandidatIKandidatliste[]): boolean => {
-    const [alleErMarkerte, setAlleErMarkerte] = useState<boolean>(erAlleMarkerte(kandidater));
+const useErAlleMarkerte = (kandidater: Kandidat[]): boolean => {
+    const { kandidattilstander } = useSelector((state: AppState) => state.kandidatliste);
+
+    const [alleErMarkerte, setAlleErMarkerte] = useState<boolean>(
+        erAlleMarkerte(kandidater, kandidattilstander)
+    );
 
     useEffect(() => {
-        setAlleErMarkerte(erAlleMarkerte(kandidater));
-    }, [kandidater]);
+        setAlleErMarkerte(erAlleMarkerte(kandidater, kandidattilstander));
+    }, [kandidater, kandidattilstander]);
 
     return alleErMarkerte;
 };

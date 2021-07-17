@@ -10,29 +10,28 @@ import {
     erKobletTilArbeidsgiver,
     erKobletTilStilling,
     FormidlingAvUsynligKandidat,
-    KandidatIKandidatliste,
+    Kandidat,
     Kandidatliste,
     Kandidatstatus,
 } from '../kandidatlistetyper';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
-import './SideHeader.less';
 import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import './SideHeader.less';
 
 type Props = {
-    kandidater: KandidatIKandidatliste[];
     kandidatliste: Kandidatliste;
 };
 
-const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
-const erAktuell = (k: KandidatIKandidatliste) => k.status === Kandidatstatus.Aktuell;
-const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
-const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJobben;
+const erIkkeArkivert = (k: Kandidat) => !k.arkivert;
+const erAktuell = (k: Kandidat) => k.status === Kandidatstatus.Aktuell;
+const erPresentert = (k: Kandidat) => k.utfall === Utfall.Presentert;
+const harFåttJobb = (k: Kandidat) => k.utfall === Utfall.FåttJobben;
 const usynligKandidatHarFåttJobb = (f: FormidlingAvUsynligKandidat) =>
     f.utfall === Utfall.FåttJobben;
 
-const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => {
-    const ikkeArkiverteKandidater = kandidater.filter(erIkkeArkivert);
+const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
+    const ikkeArkiverteKandidater = kandidatliste.kandidater.filter(erIkkeArkivert);
     const antallAktuelleKandidater = ikkeArkiverteKandidater.filter(erAktuell).length;
     const antallPresenterteKandidater = ikkeArkiverteKandidater.filter(erPresentert).length;
     const antallKandidaterSomHarFåttJobb =
@@ -41,7 +40,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
 
     const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     const oppsummeringTekst = `${
-        kandidater.length
+        kandidatliste.kandidater.length
     } kandidater (${antallAktuelleKandidater} er aktuelle${
         erKobletTilStilling(kandidatliste) ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;

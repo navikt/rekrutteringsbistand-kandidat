@@ -2,7 +2,6 @@ import { Nettressurs } from '../api/Nettressurs';
 import { Tilgjengelighet } from '../kandidatside/cv/reducer/cv-typer';
 import { Visningsstatus } from './Kandidatliste';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
-import { ForespørselOmDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export enum SmsStatus {
     IkkeSendt = 'IKKE_SENDT',
@@ -146,13 +145,6 @@ type Kandidatnr = string;
 
 export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand>;
 export type Kandidatnotater = Record<Kandidatnr, Nettressurs<Notat[]>>;
-
-export type KandidatIKandidatliste = Kandidat & {
-    tilstand: Kandidattilstand;
-    notater: Nettressurs<Notat[]>;
-    sms?: Sms;
-    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
-};
 
 export type Kandidatlistefilter = {
     visArkiverte: boolean;

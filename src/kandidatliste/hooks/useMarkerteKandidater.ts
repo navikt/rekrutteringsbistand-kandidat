@@ -1,0 +1,11 @@
+import { useSelector } from 'react-redux';
+import AppState from '../../AppState';
+import { Kandidat } from '../kandidatlistetyper';
+
+const useMarkerteKandidater = (kandidater: Kandidat[]) => {
+    const { kandidattilstander } = useSelector((state: AppState) => state.kandidatliste);
+
+    return kandidater.filter((kandidat) => kandidattilstander[kandidat.kandidatnr].markert);
+};
+
+export default useMarkerteKandidater;

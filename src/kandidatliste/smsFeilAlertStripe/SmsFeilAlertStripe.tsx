@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { KandidatIKandidatliste, SmsStatus } from '../kandidatlistetyper';
-import './smsFeilAlertStripe.less';
 import Lukknapp from 'nav-frontend-lukknapp';
+import { Kandidat, Sms, SmsStatus } from '../kandidatlistetyper';
+import './smsFeilAlertStripe.less';
 
 const LESTE_SMS_IDER_KEY = 'lesteSmsIder';
 
 type Props = {
-    kandidater: KandidatIKandidatliste[];
+    kandidater: Kandidat[];
+    sendteMeldinger: Sms[];
 };
 
 const hentLesteSmsIder = () => {
@@ -25,12 +26,19 @@ const hentLesteSmsIder = () => {
     return lagredeIder;
 };
 
-const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater }) => {
+const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater, sendteMeldinger }) => {
     const [lesteSmsIder, setLesteSmsIder] = useState<number[]>(hentLesteSmsIder());
 
-    const kandidaterMedUlesteSmsFeil = kandidater
-        .filter((kandidat) => kandidat.sms && kandidat.sms.status === SmsStatus.Feil)
-        .filter((kandidat) => !lesteSmsIder.includes(kandidat.sms!.id));
+    const kandidaterMedUlesteSmsFeil = kandidater.filter((kandidat) => {
+        const sms = sendteMeldinger.find((sms) => sms.fnr === kandidat.fodselsnr);
+        if (sms && sms.status === SmsStatus.Feil) {
+            const erUlest = !lesteSmsIder.includes(sms.id);
+
+            return erUlest;
+        }
+
+        return false;
+    });
 
     const harLestAlleFeil = kandidaterMedUlesteSmsFeil.length === 0;
     if (harLestAlleFeil) return null;
@@ -38,7 +46,7 @@ const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater }) => {
     const lukkAlert = () => {
         const oppdatertLesteSmsIder = new Set<number>(lesteSmsIder);
         kandidaterMedUlesteSmsFeil
-            .map((kandidat) => kandidat.sms!.id)
+            .map((kandidat) => sendteMeldinger.find((sms) => sms.fnr === kandidat.fodselsnr)!.id)
             .forEach((id) => oppdatertLesteSmsIder.add(id));
 
         const oppdatertLesteSmsIderArray = Array.from(oppdatertLesteSmsIder);

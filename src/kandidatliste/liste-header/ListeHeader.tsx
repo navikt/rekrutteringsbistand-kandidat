@@ -13,7 +13,6 @@ interface Props {
     alleMarkert: boolean;
     onCheckAlleKandidater: () => void;
     visArkiveringskolonne: boolean;
-    sortering: Kandidatsortering;
     setSortering: (sortering: Kandidatsortering) => void;
 }
 

@@ -9,7 +9,7 @@ import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import {
     erInaktiv,
     erKobletTilStilling,
-    KandidatIKandidatliste,
+    Kandidat,
     Kandidatliste,
     Kandidatlistestatus,
 } from '../kandidatlistetyper';
@@ -32,14 +32,16 @@ import Notater from './notater/Notater';
 import MerInfo from './mer-info/MerInfo';
 import AppState from '../../AppState';
 import StatusOgHendelser from './status-og-hendelser/StatusOgHendelser';
+import useKandidattilstand from '../hooks/useKandidattilstand';
+import useKandidatnotater from '../hooks/useKandidatnotater';
+import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
 import './Kandidatrad.less';
 
 type Props = {
-    kandidat: KandidatIKandidatliste;
+    kandidat: Kandidat;
     kandidatliste: Kandidatliste;
     toggleArkivert: any;
     onToggleKandidat: (kandidatnr: string) => void;
-    onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
@@ -55,7 +57,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     kandidatliste,
     toggleArkivert,
     onToggleKandidat,
-    onVisningChange,
     onKandidatStatusChange,
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
@@ -64,6 +65,10 @@ const Kandidatrad: FunctionComponent<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const kandidatRadRef = useRef<HTMLDivElement>(null);
+
+    const tilstand = useKandidattilstand(kandidat.kandidatnr);
+    const notater = useKandidatnotater(kandidat.kandidatnr);
+    const melding = useSendtKandidatmelding(kandidat.fodselsnr);
 
     useEffect(() => {
         const erSistValgteKandidat =
@@ -77,28 +82,30 @@ const Kandidatrad: FunctionComponent<Props> = ({
     }, [sistValgteKandidat, kandidat.kandidatnr, kandidatliste.kandidatlisteId, kandidatRadRef]);
 
     const antallNotater =
-        kandidat.notater.kind === Nettstatus.Suksess
-            ? kandidat.notater.data.length
-            : kandidat.antallNotater;
+        notater.kind === Nettstatus.Suksess ? notater.data.length : kandidat.antallNotater;
+
+    const endreVisningsstatus = (visningsstatus: Visningsstatus) => {
+        dispatch({
+            type: KandidatlisteActionType.EndreVisningsstatusKandidat,
+            kandidatnr: kandidat.kandidatnr,
+            visningsstatus,
+        });
+    };
 
     const toggleNotater = () => {
-        onVisningChange(
-            kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater
+        endreVisningsstatus(
+            tilstand.visningsstatus === Visningsstatus.VisNotater
                 ? Visningsstatus.SkjulPanel
-                : Visningsstatus.VisNotater,
-            kandidat.kandidatnr
+                : Visningsstatus.VisNotater
         );
     };
 
     const toggleMerInfo = () => {
-        const nyStatus =
-            kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
+        endreVisningsstatus(
+            tilstand.visningsstatus === Visningsstatus.VisMerInfo
                 ? Visningsstatus.SkjulPanel
-                : Visningsstatus.VisMerInfo;
-        onVisningChange(nyStatus, kandidat.kandidatnr);
-        if (nyStatus === Visningsstatus.VisMerInfo) {
-            sendEvent('kandidatliste_mer_info', 'åpne');
-        }
+                : Visningsstatus.VisMerInfo
+        );
     };
 
     const onOpprettNotat = (tekst: string) => {
@@ -145,7 +152,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
         kandidatliste.status === Kandidatlistestatus.Lukket
             ? ' kandidatliste-kandidat--disabled'
             : ''
-    } ${kandidat.tilstand.markert ? 'kandidatliste-kandidat--checked' : ''}`;
+    } ${tilstand.markert ? 'kandidatliste-kandidat--checked' : ''}`;
 
     const kanEndreKandidatlisten =
         kandidatliste.status === Kandidatlistestatus.Åpen && kandidatliste.kanEditere;
@@ -161,7 +168,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
                     disabled={!kandidatenKanMarkeres}
-                    checked={kandidat.tilstand.markert}
+                    checked={tilstand.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
                     }}
@@ -199,7 +206,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             {fulltNavn}
                         </Link>
                     )}
-                    {kandidat.sms && <SmsStatusPopup sms={kandidat.sms} />}
+                    {melding && <SmsStatusPopup sms={melding} />}
                 </div>
                 <div
                     role="cell"
@@ -250,7 +257,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <NavFrontendChevron
                             className="kandidatliste-kandidat__chevron"
                             type={
-                                kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater
+                                tilstand.visningsstatus === Visningsstatus.VisNotater
                                     ? 'opp'
                                     : 'ned'
                             }
@@ -267,7 +274,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             <NavFrontendChevron
                                 className="kandidatliste-kandidat__chevron"
                                 type={
-                                    kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
+                                    tilstand.visningsstatus === Visningsstatus.VisMerInfo
                                         ? 'opp'
                                         : 'ned'
                                 }
@@ -287,16 +294,18 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </div>
                 )}
             </div>
-            {kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater && (
+            {tilstand.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater
-                    notater={kandidat.notater}
+                    kandidat={kandidat}
+                    kandidatliste={kandidatliste}
+                    notater={notater}
                     antallNotater={antallNotater}
                     onOpprettNotat={onOpprettNotat}
                     onEndreNotat={onEndreNotat}
                     onSlettNotat={onSlettNotat}
                 />
             )}
-            {kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo && (
+            {tilstand.visningsstatus === Visningsstatus.VisMerInfo && (
                 <MerInfo kandidat={kandidat} />
             )}
         </div>
