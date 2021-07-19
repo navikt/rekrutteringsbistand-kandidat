@@ -2,6 +2,7 @@ import { Nettressurs } from '../api/Nettressurs';
 import { Tilgjengelighet } from '../kandidatside/cv/reducer/cv-typer';
 import { Visningsstatus } from './Kandidatliste';
 import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import { ForespørselOmDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export enum SmsStatus {
     IkkeSendt = 'IKKE_SENDT',
@@ -12,7 +13,7 @@ export enum SmsStatus {
 
 export interface Sms {
     id: number;
-    fnr: string;
+    fnr: Fødselsnummer;
     opprettet: string;
     sendt: string;
     status: SmsStatus;
@@ -38,7 +39,7 @@ export interface Kandidat {
     epost: string | null;
     telefon: string | null;
     fodselsdato: string;
-    fodselsnr: string | null;
+    fodselsnr: Fødselsnummer | null;
     innsatsgruppe: string | null;
     utfall: Utfall;
     erSynlig: boolean;
@@ -141,10 +142,14 @@ export type Kandidattilstand = {
     visningsstatus: Visningsstatus;
 };
 
-type Kandidatnr = string;
+export type Kandidatnr = string;
+export type Fødselsnummer = string;
+export type AktørId = string;
 
 export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand>;
 export type Kandidatnotater = Record<Kandidatnr, Nettressurs<Notat[]>>;
+export type Kandidatforespørsler = Record<AktørId, ForespørselOmDelingAvCv>;
+export type Kandidatmeldinger = Record<Fødselsnummer, Sms>;
 
 export type Kandidatlistefilter = {
     visArkiverte: boolean;

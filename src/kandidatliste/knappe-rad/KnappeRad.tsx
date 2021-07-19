@@ -6,6 +6,7 @@ import {
     erKobletTilStilling,
     Kandidatliste,
     Kandidatlistestatus,
+    Kandidatmeldinger,
     Sms,
 } from '../kandidatlistetyper';
 import MedPopover from '../../common/med-popover/MedPopover';
@@ -23,7 +24,7 @@ type Props = {
     onSendSmsClick: () => void;
     onKandidaterAngreArkivering: () => void;
     visArkiverte: boolean;
-    sendteMeldinger: Nettressurs<Sms[]>;
+    sendteMeldinger: Nettressurs<Kandidatmeldinger>;
     children: ReactNode;
 };
 
@@ -40,11 +41,11 @@ const KnappeRad: FunctionComponent<Props> = ({
     const markerteKandidater = useMarkerteKandidater(kandidatliste.kandidater);
 
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
+    const markerteAktiveKandidater = markerteKandidater.filter((kandidat) => kandidat.fodselsnr);
     const minstEnKandidatHarIkkeFåttSms =
         sendteMeldinger.kind === Nettstatus.Suksess &&
-        markerteKandidater.some(
-            (markertKandidat) =>
-                !sendteMeldinger.data.some((sms) => sms.fnr === markertKandidat.fodselsnr)
+        markerteAktiveKandidater.some(
+            (markertKandidat) => !sendteMeldinger.data[markertKandidat.fodselsnr!]
         );
 
     const skalViseEkstraKnapper =

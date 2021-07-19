@@ -124,7 +124,7 @@ const inaktivKandidat = {
     telefon: null,
     aktørid: null,
     epost: null,
-    innsatsgruppe: null,
+    innsatsgruppe: '',
     fodselsnr: null,
     midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig,
 };

@@ -77,6 +77,7 @@ export default class PresenterKandidaterModal extends React.Component {
     };
 
     validerOgLagre = () => {
+        // TODO: Verifiser at NAV-kontor er valgt, send med i onSubmit
         const validerteMailadresser = this.state.mailadresser.map((mailadresseFelt) => {
             if (mailadresseFelt.id === 0 && !mailadresseFelt.value.trim()) {
                 return {

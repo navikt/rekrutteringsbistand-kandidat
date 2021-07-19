@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import Lukknapp from 'nav-frontend-lukknapp';
-import { Kandidat, Sms, SmsStatus } from '../kandidatlistetyper';
+import { Kandidat, Kandidatmeldinger, SmsStatus } from '../kandidatlistetyper';
 import './smsFeilAlertStripe.less';
 
 const LESTE_SMS_IDER_KEY = 'lesteSmsIder';
 
 type Props = {
     kandidater: Kandidat[];
-    sendteMeldinger: Sms[];
+    sendteMeldinger: Kandidatmeldinger;
 };
 
 const hentLesteSmsIder = () => {
@@ -30,7 +30,11 @@ const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater, sendteMeldin
     const [lesteSmsIder, setLesteSmsIder] = useState<number[]>(hentLesteSmsIder());
 
     const kandidaterMedUlesteSmsFeil = kandidater.filter((kandidat) => {
-        const sms = sendteMeldinger.find((sms) => sms.fnr === kandidat.fodselsnr);
+        if (!kandidat.fodselsnr) {
+            return false;
+        }
+
+        const sms = sendteMeldinger[kandidat.fodselsnr];
         if (sms && sms.status === SmsStatus.Feil) {
             const erUlest = !lesteSmsIder.includes(sms.id);
 
@@ -45,8 +49,10 @@ const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater, sendteMeldin
 
     const lukkAlert = () => {
         const oppdatertLesteSmsIder = new Set<number>(lesteSmsIder);
+
         kandidaterMedUlesteSmsFeil
-            .map((kandidat) => sendteMeldinger.find((sms) => sms.fnr === kandidat.fodselsnr)!.id)
+            .filter((kandidat) => kandidat.fodselsnr)
+            .map((kandidat) => sendteMeldinger[kandidat.fodselsnr!].id)
             .forEach((id) => oppdatertLesteSmsIder.add(id));
 
         const oppdatertLesteSmsIderArray = Array.from(oppdatertLesteSmsIder);

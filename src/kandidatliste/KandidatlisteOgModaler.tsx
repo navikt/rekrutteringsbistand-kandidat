@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import {
     Kandidatliste as Kandidatlistetype,
+    Kandidatmeldinger,
     Kandidatstatus,
     Kandidattilstander,
     Sms,
@@ -49,12 +50,12 @@ type ConnectedProps = {
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
-    valgtNavKontor: string;
+    valgtNavKontor: string | null;
     toggleMarkeringAvKandidat: (kandidatnr: string) => void;
     endreMarkeringAvKandidater: (kandidatnumre: string[]) => void;
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     kandidattilstander: Kandidattilstander;
-    sendteMeldinger: Nettressurs<Sms[]>;
+    sendteMeldinger: Nettressurs<Kandidatmeldinger>;
 };
 
 type Props = ConnectedProps & OwnProps;
@@ -245,6 +246,10 @@ class KandidatlisteOgModaler extends React.Component<Props> {
     };
 
     onDelMedArbeidsgiver = (beskjed: string, mailadresser: string[]) => {
+        if (this.props.valgtNavKontor === null) {
+            return; // TODO: Ikke la PresenterKandidaterModal submitte hvis ikke Nav-kontor er valgt
+        }
+
         const markerteKandidater = this.hentKandidatnumrePåMarkerteKandidater();
 
         sendEvent('kandidatliste', 'presenter_kandidater', {

@@ -7,7 +7,7 @@ import { Select } from 'nav-frontend-skjema';
 import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
-import { Kandidat, Sms, SmsStatus } from '../kandidatlistetyper';
+import { Kandidat, Kandidatmeldinger, SmsStatus } from '../kandidatlistetyper';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
@@ -27,7 +27,7 @@ type Props = {
     kandidater: Kandidat[];
     kandidatlisteId: string;
     stillingId: string;
-    sendteMeldinger: Sms[];
+    sendteMeldinger: Kandidatmeldinger;
 };
 
 const SendSmsModal: FunctionComponent<Props> = (props) => {
@@ -49,11 +49,11 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
     const markerteKandidater = kandidater.filter(
         (kandidat) => kandidattilstander[kandidat.kandidatnr].markert
     );
-    const kandidaterSomHarFåttSms = markerteKandidater.filter((kandidat) =>
-        sendteMeldinger.some((melding) => melding.fnr === kandidat.fodselsnr)
+    const kandidaterSomHarFåttSms = markerteKandidater.filter(
+        (kandidat) => kandidat.fodselsnr && sendteMeldinger[kandidat.fodselsnr]
     );
     const kandidaterSomIkkeHarFåttSms = markerteKandidater.filter(
-        (kandidat) => !sendteMeldinger.some((melding) => melding.fnr === kandidat.fodselsnr)
+        (kandidat) => !(kandidat.fodselsnr && sendteMeldinger[kandidat.fodselsnr])
     );
     const harInaktiveKandidater = markerteKandidater.some(
         (kandidat) => kandidat.fodselsnr === null
