@@ -76,7 +76,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
     onToggleMarkert,
     onToggleArkivert,
 }) => {
-    // TODO: Flytt disse til Kandidatlisteside.tsx?
     useMaskerFødselsnumre();
     useHentSendteMeldinger(kandidatliste.kandidatlisteId);
     useHentForespørslerOmDelingAvCv(kandidatliste.stillingId);
@@ -92,7 +91,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
     const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
     const { sorterteKandidater, setSortering } = useSorterteKandidater(filtrerteKandidater);
 
-    const antallFiltertreff = useAntallFiltertreff(kandidatliste.kandidater);
+    const antallFiltertreff = useAntallFiltertreff(kandidatliste.kandidater, filter);
     const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
 
     useEffect(() => {
