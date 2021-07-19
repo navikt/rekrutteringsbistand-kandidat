@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
-import { Kandidatliste } from '../kandidatlistetyper';
+import { Kandidatliste } from '../domene/Kandidatliste';
 import AppState from '../../AppState';
 
 const useScrollTilToppen = (kandidatliste: Nettressurs<Kandidatliste>) => {

@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../../../../AppState';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import DelingAvCv from './DelingAvCv';
-import { Kandidat } from '../../../kandidatlistetyper';
-import { Utfall } from '../etiketter/UtfallEtikett';
+import { Kandidat, Kandidatutfall } from '../../../domene/Kandidat';
 
 type Props = {
     kanEndre: boolean;
@@ -20,7 +19,7 @@ const DelingAvCvForKandidat: FunctionComponent<Props> = ({
     const dispatch = useDispatch();
     const valgtNavKontor = useSelector((state: AppState) => state.navKontor.valgtNavKontor);
 
-    const endreUtfallForKandidat = (nyttUtfall: Utfall) => {
+    const endreUtfallForKandidat = (nyttUtfall: Kandidatutfall) => {
         dispatch({
             kandidatlisteId,
             utfall: nyttUtfall,

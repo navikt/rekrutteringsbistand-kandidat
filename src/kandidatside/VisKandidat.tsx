@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { CvAction, CvActionType } from './cv/reducer/cvReducer';
-import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
+import { Kandidatliste } from '../kandidatliste/domene/Kandidatliste';
 import {
     lenkeTilCv,
     lenkeTilFinnKandidaterMedStilling,

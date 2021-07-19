@@ -7,7 +7,7 @@ import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import { Nettstatus } from '../../api/Nettressurs';
-import { KandidatlisteSammendrag } from '../../kandidatliste/kandidatlistetyper';
+import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
 import KandidatlisteAction, {
     Kandidatlisteinfo,
 } from '../../kandidatliste/reducer/KandidatlisteAction';

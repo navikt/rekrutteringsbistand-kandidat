@@ -5,7 +5,8 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Hovedknapp, Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 
-import { Kandidat, Kandidatliste, Notat } from '../../kandidatlistetyper';
+import { Kandidatliste } from '../../domene/Kandidatliste';
+import { Kandidat } from '../../domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
@@ -13,6 +14,7 @@ import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Notatliste from './Notatliste';
 import RedigerNotatModal from './RedigerNotatModal';
 import Slettemodal from './Slettemodal';
+import { Notat } from '../../domene/Kandidatressurser';
 import './Notater.less';
 
 type Props = {

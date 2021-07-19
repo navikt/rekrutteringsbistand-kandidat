@@ -1,6 +1,5 @@
-import { Kandidatstatus } from '../../kandidatliste/kandidatlistetyper';
+import { Kandidatstatus, Kandidatutfall } from '../../kandidatliste/domene/Kandidat';
 import { KandidatlisteForKandidat } from '../../kandidatside/historikk/historikkReducer';
-import { Utfall } from '../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 const kandidatlisteId = 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29';
 const kandidatlisteId2 = '53d32269-08df-4950-a4f9-41ad6f36129f';
@@ -12,7 +11,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         lagtTilTidspunkt: '2020-05-18T15:05:53.147',
         tittel: 'test',
         kandidatnr: 'CD430805',
-        utfall: Utfall.IkkePresentert,
+        utfall: Kandidatutfall.IkkePresentert,
         status: Kandidatstatus.Vurderes,
         fornavn: 'OLA',
         etternavn: 'NORDMANN',
@@ -30,7 +29,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         lagtTilTidspunkt: '2020-05-19T17:01:39.147',
         tittel: 'Stillingsliste til stillingen min',
         kandidatnr: 'FK185344',
-        utfall: Utfall.Presentert,
+        utfall: Kandidatutfall.Presentert,
         status: Kandidatstatus.Vurderes,
         fornavn: 'kurt',
         etternavn: 'helmer',
@@ -44,7 +43,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         lagtTilTidspunkt: '2020-01-19T17:01:39.147',
         tittel: 'Liste til gammel jobbmesse',
         kandidatnr: 'FZ856234',
-        utfall: Utfall.Presentert,
+        utfall: Kandidatutfall.Presentert,
         status: Kandidatstatus.Uinteressert,
         fornavn: 'helga',
         etternavn: 'håsblås',

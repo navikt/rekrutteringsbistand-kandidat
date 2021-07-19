@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { Systemtittel } from 'nav-frontend-typografi';
 
-import { KandidatlisteSammendrag } from '../kandidatliste/kandidatlistetyper';
+import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';

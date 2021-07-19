@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import { Navn } from '../../kandidatlistetyper';
+import { UsynligKandidat } from '../../domene/Kandidat';
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 type Props = {
-    navn: Array<Navn>;
+    navn: UsynligKandidat[];
     fnr?: string;
 };
 

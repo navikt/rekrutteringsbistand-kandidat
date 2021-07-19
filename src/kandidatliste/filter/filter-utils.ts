@@ -1,6 +1,5 @@
-import { Kandidat, Kandidatstatus } from '../kandidatlistetyper';
-import { Kandidatlistefilter } from '../kandidatlistetyper';
-import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import { Kandidat, Kandidatstatus, Kandidatutfall } from '../domene/Kandidat';
+import { Kandidatlistefilter } from '../reducer/kandidatlisteReducer';
 
 const QUERY_PARAM_SEPARATOR = '-';
 
@@ -43,9 +42,9 @@ export const lagTomtStatusfilter = (): Record<Kandidatstatus, boolean> => {
     return statusfilter;
 };
 
-export const lagTomtUtfallsfilter = (): Record<Utfall, boolean> => {
+export const lagTomtUtfallsfilter = (): Record<Kandidatutfall, boolean> => {
     const utfallsfilter: Record<string, boolean> = {};
-    Object.values(Utfall).forEach((utfall) => {
+    Object.values(Kandidatutfall).forEach((utfall) => {
         utfallsfilter[utfall] = false;
     });
 

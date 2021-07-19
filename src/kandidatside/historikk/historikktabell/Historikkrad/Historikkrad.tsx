@@ -4,10 +4,9 @@ import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../app/paths';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
 import { Undertekst } from 'nav-frontend-typografi';
-import UtfallEtikett, {
-    Utfall,
-} from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import StatusEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
+import { Kandidatutfall } from '../../../../kandidatliste/domene/Kandidat';
+import UtfallEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import './Historikkrad.less';
 
 interface Props {
@@ -41,7 +40,7 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
             </td>
             <td>
                 <StatusEtikett status={kandidatliste.status} />
-                {kandidatliste.utfall !== Utfall.IkkePresentert && (
+                {kandidatliste.utfall !== Kandidatutfall.IkkePresentert && (
                     <UtfallEtikett utfall={kandidatliste.utfall} />
                 )}
             </td>

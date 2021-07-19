@@ -6,7 +6,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 
 import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import { formatterInt } from '../utils';
-import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
+import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import { KANDIDATLISTE_CHUNK_SIZE } from '../../common/konstanter';
 import { KandidatOutboundDto } from '../../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { KandidatsøkAction, KandidatsøkActionType } from '../reducer/searchActions';

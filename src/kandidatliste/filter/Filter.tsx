@@ -1,23 +1,23 @@
 import React, { FunctionComponent } from 'react';
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
 import { Undertittel } from 'nav-frontend-typografi';
+
+import { Kandidatstatus, Kandidatutfall } from '../domene/Kandidat';
 import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
-import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
-import './Filter.less';
-import { Kandidatstatus } from '../kandidatlistetyper';
 import { statusToDisplayName } from '../kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
-import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
+import './Filter.less';
 
 interface Props {
     antallTreff: AntallFiltertreff;
     visArkiverte: boolean;
     statusfilter: Record<Kandidatstatus, boolean>;
-    utfallsfilter?: Record<Utfall, boolean>;
+    utfallsfilter?: Record<Kandidatutfall, boolean>;
     onToggleArkiverte: () => void;
     onToggleStatus: (status: Kandidatstatus) => void;
-    onToggleUtfall: (utfall: Utfall) => void;
+    onToggleUtfall: (utfall: Kandidatutfall) => void;
 }
 
 const Filter: FunctionComponent<Props> = ({
@@ -44,7 +44,7 @@ const Filter: FunctionComponent<Props> = ({
     ));
 
     const hendelsescheckbokser = utfallsfilter
-        ? Object.values(Utfall).map((utfall) => (
+        ? Object.values(Kandidatutfall).map((utfall) => (
               <Checkbox
                   key={utfall}
                   value={utfall}
@@ -52,7 +52,7 @@ const Filter: FunctionComponent<Props> = ({
                   checked={utfallsfilter[utfall]}
                   name="hendelsesfilter"
                   className="kandidatliste-filter__checkbox"
-                  onChange={(e) => onToggleUtfall(e.currentTarget.value as Utfall)}
+                  onChange={(e) => onToggleUtfall(e.currentTarget.value as Kandidatutfall)}
               />
           ))
         : undefined;
@@ -92,13 +92,13 @@ const Filter: FunctionComponent<Props> = ({
     );
 };
 
-const utfallTilHendelse = (utfall: Utfall) => {
+const utfallTilHendelse = (utfall: Kandidatutfall) => {
     switch (utfall) {
-        case Utfall.FåttJobben:
+        case Kandidatutfall.FåttJobben:
             return 'Fått jobben';
-        case Utfall.Presentert:
+        case Kandidatutfall.Presentert:
             return 'Delt med arbeidsgiver';
-        case Utfall.IkkePresentert:
+        case Kandidatutfall.IkkePresentert:
             return 'Ikke delt med arbeidsgiver';
     }
 };

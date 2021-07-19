@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import AppState from '../../AppState';
-import { Kandidat } from '../kandidatlistetyper';
+import { Kandidat } from '../domene/Kandidat';
 
 const useMarkerteKandidater = (kandidater: Kandidat[]) => {
     const { kandidattilstander } = useSelector((state: AppState) => state.kandidatliste);

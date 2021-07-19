@@ -3,7 +3,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Systemtittel } from 'nav-frontend-typografi';
 
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
-import { KandidatlisteSammendrag } from '../kandidatliste/kandidatlistetyper';
+import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
 import { Nettstatus } from '../api/Nettressurs';
 
 type Props = {

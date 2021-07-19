@@ -1,19 +1,13 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-    Kandidatliste as Kandidatlistetype,
-    Kandidatlistefilter,
-    Kandidatstatus,
-    Kandidatlistestatus,
-    erInaktiv,
-} from './kandidatlistetyper';
+import { Kandidatliste as Kandidatlistetype, Kandidatlistestatus } from './domene/Kandidatliste';
+import { Kandidatstatus, erInaktiv, Kandidatutfall } from './domene/Kandidat';
 import { KandidatSorteringsfelt } from './kandidatsortering';
 import { Nettstatus } from '../api/Nettressurs';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import AppState from '../AppState';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
@@ -37,12 +31,7 @@ import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
 import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import useSorterteKandidater from './hooks/useSorterteKandidater';
 import '../common/ikoner.less';
-
-export enum Visningsstatus {
-    SkjulPanel = 'SKJUL_PANEL',
-    VisNotater = 'VIS_NOTATER',
-    VisMerInfo = 'VIS_MER_INFO',
-}
+import { Kandidatlistefilter } from './reducer/kandidatlisteReducer';
 
 export type Kandidatsortering = null | {
     felt: KandidatSorteringsfelt;
@@ -129,7 +118,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
         });
     };
 
-    const onToggleUtfall = (utfall: Utfall) => {
+    const onToggleUtfall = (utfall: Kandidatutfall) => {
         setFilterIUrl({
             ...filter,
             utfall: {

@@ -1,16 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import Etikett from 'nav-frontend-etiketter';
+import { Kandidatutfall } from '../../../domene/Kandidat';
 import './UtfallEtikett.less';
 
 type Props = {
-    utfall: Utfall;
+    utfall: Kandidatutfall;
 };
-
-export enum Utfall {
-    IkkePresentert = 'IKKE_PRESENTERT',
-    Presentert = 'PRESENTERT',
-    FåttJobben = 'FATT_JOBBEN',
-}
 
 const UtfallEtikett: FunctionComponent<Props> = ({ utfall }) => (
     <Etikett
@@ -23,8 +18,8 @@ const UtfallEtikett: FunctionComponent<Props> = ({ utfall }) => (
     </Etikett>
 );
 
-const tilVisning = (utfall: Utfall) => {
-    if (utfall === Utfall.Presentert) {
+const tilVisning = (utfall: Kandidatutfall) => {
+    if (utfall === Kandidatutfall.Presentert) {
         return 'CV delt';
     } else {
         return 'Fått jobben';

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
-import { Kandidat } from '../../kandidatlistetyper';
+import { Kandidat } from '../../domene/Kandidat';
 
 interface Props {
     kandidat: Kandidat;

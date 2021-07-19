@@ -29,8 +29,8 @@ import {
     SMS_API,
     ENHETSREGISTER_API,
 } from '../api/api';
-import { Utfall } from '../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
+import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
 
 fetchMock.config.fallbackToNetwork = true;
 
@@ -165,7 +165,7 @@ const postFormidlingerAvUsynligKandidat = (
             ...kandidatliste.formidlingerAvUsynligKandidat,
             {
                 ...mockUsynligKandidat(7),
-                utfall: body.fåttJobb ? Utfall.FåttJobben : Utfall.Presentert,
+                utfall: body.fåttJobb ? Kandidatutfall.FåttJobben : Kandidatutfall.Presentert,
             },
         ],
     };
@@ -264,7 +264,7 @@ const postDelKandidater = (url: string, options: fetchMock.MockOptionsMethodPost
                 return delteKandidater.includes(kandidat.kandidatnr)
                     ? {
                           ...kandidat,
-                          utfall: Utfall.Presentert,
+                          utfall: Kandidatutfall.Presentert,
                       }
                     : kandidat;
             }),

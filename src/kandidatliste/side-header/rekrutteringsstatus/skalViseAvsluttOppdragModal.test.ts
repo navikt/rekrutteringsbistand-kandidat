@@ -1,5 +1,5 @@
+import { Kandidatlistestatus } from '../../domene/Kandidatliste';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
-import { Kandidatlistestatus } from '../../kandidatlistetyper';
 
 describe('Nudging av lukking av kandidatliste', () => {
     test('Skal vise modal hvis alle stillinger er besatte og du eier kandidatlisten', () => {

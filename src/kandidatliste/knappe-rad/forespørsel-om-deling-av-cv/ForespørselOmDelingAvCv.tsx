@@ -16,7 +16,7 @@ import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
 import './ForespørselOmDelingAvCv.less';
-import { Kandidat } from '../../kandidatlistetyper';
+import { Kandidat } from '../../domene/Kandidat';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',

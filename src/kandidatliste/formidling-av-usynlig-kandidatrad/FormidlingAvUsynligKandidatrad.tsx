@@ -1,25 +1,25 @@
 import React, { FunctionComponent, useRef } from 'react';
 import { Close } from '@navikt/ds-icons';
 import { Knapp } from 'nav-frontend-knapper';
+import { Undertittel } from 'nav-frontend-typografi';
+import { useDispatch, useSelector } from 'react-redux';
 import Popover from 'nav-frontend-popover';
 
-import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallEtikett, { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import { datoformatNorskLang } from '../../utils/dateUtils';
+import { FormidlingAvUsynligKandidat, Kandidatutfall } from '../domene/Kandidat';
+import AppState from '../../AppState';
+import DelingAvCv from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/DelingAvCv';
 import EndreStatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
+import FåttJobben from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/FåttJobben';
+import Hendelse from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/Hendelse';
+import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import SeHendelserKnapp from '../kandidatrad/status-og-hendelser/se-hendelser/SeHendelserKnapp';
 import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker';
 import usePopoverOrientering from '../kandidatrad/status-og-hendelser/usePopoverOrientering';
-import Hendelse from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/Hendelse';
-import { Undertittel } from 'nav-frontend-typografi';
-import DelingAvCv from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/DelingAvCv';
-import { datoformatNorskLang } from '../../utils/dateUtils';
-import { useDispatch, useSelector } from 'react-redux';
-import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import AppState from '../../AppState';
 import './FormidlingAvUsynligKandidatrad.less';
 import '../kandidatrad/status-og-hendelser/StatusOgHendelser.less';
 import '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.less';
-import FåttJobben from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/FåttJobben';
+import UtfallEtikett from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 type Props = {
     kandidatlisteId: string;
@@ -43,7 +43,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
 
     const kanEditere = erEierAvKandidatlisten && !kandidatlistenErLukket;
 
-    const endreFormidlingsutfallForUsynligKandidat = (utfall: Utfall) => {
+    const endreFormidlingsutfallForUsynligKandidat = (utfall: Kandidatutfall) => {
         dispatch({
             type: KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidat,
             utfall,
@@ -84,7 +84,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne"
             >
                 <div className="status-og-hendelser" ref={popoverRef}>
-                    {formidling.utfall !== Utfall.IkkePresentert && (
+                    {formidling.utfall !== Kandidatutfall.IkkePresentert && (
                         <UtfallEtikett utfall={formidling.utfall} />
                     )}
                     {kanEditere ? (

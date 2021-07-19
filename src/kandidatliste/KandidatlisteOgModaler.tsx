@@ -1,19 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import {
-    Kandidatliste as Kandidatlistetype,
-    Kandidatmeldinger,
-    Kandidatstatus,
-    Kandidattilstander,
-    Sms,
-    SmsStatus,
-} from './kandidatlistetyper';
+import { Kandidatliste as Kandidatlistetype } from './domene/Kandidatliste';
+import { Kandidatstatus } from './domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { sendEvent } from '../amplitude/amplitude';
 import AppState from '../AppState';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import Kandidatliste from './Kandidatliste';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';
@@ -23,8 +17,9 @@ import { CvSøkeresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { Dispatch } from 'redux';
+import { SmsStatus, Kandidattilstander, Kandidatmeldinger } from './domene/Kandidatressurser';
 import './Kandidatliste.less';
+import Kandidatliste from './Kandidatliste';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;

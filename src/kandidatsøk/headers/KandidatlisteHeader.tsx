@@ -3,7 +3,7 @@ import { capitalizeEmployerName } from '../utils';
 import { Flatknapp } from 'nav-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import React, { FunctionComponent, useState } from 'react';
-import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
+import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import { Container } from 'nav-frontend-grid';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../../app/paths';

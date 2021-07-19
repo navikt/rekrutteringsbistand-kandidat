@@ -1,4 +1,4 @@
-import { Kandidatlistestatus, Kandidatstatus } from '../kandidatliste/kandidatlistetyper';
+import { Kandidatstatus, Kandidatutfall } from '../kandidatliste/domene/Kandidat';
 import FEATURE_TOGGLES from '../common/konstanter';
 import { Nettressurs } from './Nettressurs';
 import {
@@ -11,9 +11,8 @@ import {
     putJson,
 } from './fetchUtils';
 import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Bransje';
-import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { Utfall } from '../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
 
 export const baseUrl = `/rekrutteringsbistand-kandidat`;
 
@@ -112,7 +111,7 @@ export const putStatusKandidat = (
     );
 
 export const putUtfallKandidat = (
-    utfall: Utfall,
+    utfall: Kandidatutfall,
     navKontor: string,
     kandidatlisteId: string,
     kandidatnr: string
@@ -187,7 +186,7 @@ export const postFormidlingerAvUsynligKandidat = (
 export const putFormidlingsutfallForUsynligKandidat = (
     kandidatlisteId: string,
     formidlingId: string,
-    utfall: Utfall,
+    utfall: Kandidatutfall,
     navKontor: string
 ): Promise<Kandidatliste> =>
     putJson(

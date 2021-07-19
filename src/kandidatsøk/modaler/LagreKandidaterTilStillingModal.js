@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import { erKobletTilStilling } from '../../kandidatliste/domene/Kandidatliste';
 import './LagreKandidaterTilStillingModal.less';
-import { erKobletTilStilling } from '../../kandidatliste/kandidatlistetyper';
 
 const LagreKandidaterTilStillingModal = (props) => {
     const {

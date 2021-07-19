@@ -8,7 +8,7 @@ import MedPopover from '../../common/med-popover/MedPopover';
 import {
     erKobletTilStilling,
     KandidatlisteSammendrag,
-} from '../../kandidatliste/kandidatlistetyper';
+} from '../../kandidatliste/domene/Kandidatliste';
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';

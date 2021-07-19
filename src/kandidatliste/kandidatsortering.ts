@@ -1,6 +1,5 @@
-import { Kandidat, Kandidatstatus } from './kandidatlistetyper';
+import { Kandidat, Kandidatstatus, Kandidatutfall } from './domene/Kandidat';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
-import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export enum KandidatSorteringsfelt {
     Navn,
@@ -74,10 +73,10 @@ const statuserIKronologiskRekkefølge: Array<Kandidatstatus> = [
     Kandidatstatus.TilIntervju,
 ];
 
-const hendelserIKronologiskRekkefølge: Array<Utfall> = [
-    Utfall.IkkePresentert,
-    Utfall.Presentert,
-    Utfall.FåttJobben,
+const hendelserIKronologiskRekkefølge: Array<Kandidatutfall> = [
+    Kandidatutfall.IkkePresentert,
+    Kandidatutfall.Presentert,
+    Kandidatutfall.FåttJobben,
 ];
 
 export const sorteringsalgoritmer: Record<

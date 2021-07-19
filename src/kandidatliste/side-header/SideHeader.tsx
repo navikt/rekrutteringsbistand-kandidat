@@ -9,14 +9,16 @@ import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../app/paths
 import {
     erKobletTilArbeidsgiver,
     erKobletTilStilling,
+    Kandidatliste,
+} from '../domene/Kandidatliste';
+import {
     FormidlingAvUsynligKandidat,
     Kandidat,
-    Kandidatliste,
     Kandidatstatus,
-} from '../kandidatlistetyper';
+    Kandidatutfall,
+} from '../domene/Kandidat';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
-import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import './SideHeader.less';
 
 type Props = {
@@ -25,10 +27,10 @@ type Props = {
 
 const erIkkeArkivert = (k: Kandidat) => !k.arkivert;
 const erAktuell = (k: Kandidat) => k.status === Kandidatstatus.Aktuell;
-const erPresentert = (k: Kandidat) => k.utfall === Utfall.Presentert;
-const harFåttJobb = (k: Kandidat) => k.utfall === Utfall.FåttJobben;
+const erPresentert = (k: Kandidat) => k.utfall === Kandidatutfall.Presentert;
+const harFåttJobb = (k: Kandidat) => k.utfall === Kandidatutfall.FåttJobben;
 const usynligKandidatHarFåttJobb = (f: FormidlingAvUsynligKandidat) =>
-    f.utfall === Utfall.FåttJobben;
+    f.utfall === Kandidatutfall.FåttJobben;
 
 const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
     const ikkeArkiverteKandidater = kandidatliste.kandidater.filter(erIkkeArkivert);

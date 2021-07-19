@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Notat } from '../../kandidatlistetyper';
+import { Notat } from '../../domene/Kandidatressurser';
 import { Nettstatus, Nettressurs } from '../../../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NotatInfo from './NotatInfo';

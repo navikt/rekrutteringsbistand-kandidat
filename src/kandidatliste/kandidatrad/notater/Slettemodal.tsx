@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Notat } from '../../kandidatlistetyper';
+import { Notat } from '../../domene/Kandidatressurser';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NotatInfo from './NotatInfo';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';

@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
 import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
-import { Fødselsnummer, Sms } from '../kandidatlistetyper';
+import { Sms } from '../domene/Kandidatressurser';
+import { Fødselsnummer } from '../domene/Kandidat';
 
 const useSendtKandidatmelding = (kandidatensFnr: Fødselsnummer | null): Sms | undefined => {
     const { sendteMeldinger } = useSelector((state: AppState) => state.kandidatliste.sms);

@@ -7,7 +7,8 @@ import { Select } from 'nav-frontend-skjema';
 import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
-import { Kandidat, Kandidatmeldinger, SmsStatus } from '../kandidatlistetyper';
+import { Kandidatmeldinger, SmsStatus } from '../domene/Kandidatressurser';
+import { Kandidat } from '../domene/Kandidat';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';

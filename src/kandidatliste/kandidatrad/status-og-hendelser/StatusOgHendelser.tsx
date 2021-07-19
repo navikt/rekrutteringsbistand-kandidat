@@ -3,8 +3,7 @@ import { Close } from '@navikt/ds-icons';
 import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
-import { Kandidat, Kandidatstatus } from '../../kandidatlistetyper';
-import UtfallEtikett, { Utfall } from './etiketter/UtfallEtikett';
+import { Kandidat, Kandidatstatus, Kandidatutfall } from '../../domene/Kandidat';
 import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
 import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
 import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
@@ -13,6 +12,7 @@ import usePopoverOrientering from './usePopoverOrientering';
 import usePopoverAnker from './usePopoverAnker';
 import StatusEtikett from './etiketter/StatusEtikett';
 import './StatusOgHendelser.less';
+import UtfallEtikett from './etiketter/UtfallEtikett';
 
 type Props = {
     kandidatlisteId: string;
@@ -45,9 +45,8 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     return (
         <div id={id} className="status-og-hendelser" ref={popoverRef}>
             <StatusEtikett status={kandidat.status} />
-            {kandidat.utfall !== Utfall.IkkePresentert && kandidatlistenErKobletTilStilling && (
-                <UtfallEtikett utfall={kandidat.utfall} />
-            )}
+            {kandidat.utfall !== Kandidatutfall.IkkePresentert &&
+                kandidatlistenErKobletTilStilling && <UtfallEtikett utfall={kandidat.utfall} />}
             {skalVisePopover && (
                 <>
                     {kanEditere ? (

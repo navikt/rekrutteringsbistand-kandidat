@@ -5,20 +5,7 @@ import {
     lagTomtStatusfilter,
     lagTomtUtfallsfilter,
 } from '../filter/filter-utils';
-import {
-    Kandidatforespørsler,
-    Kandidatlistefilter,
-    Kandidatmeldinger,
-    Navn,
-} from '../kandidatlistetyper';
-import { Visningsstatus } from '../Kandidatliste';
-import {
-    Kandidat,
-    SmsStatus,
-    Kandidattilstander,
-    Kandidatnotater,
-    Kandidattilstand,
-} from '../kandidatlistetyper';
+import { Kandidat, Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { Reducer } from 'redux';
 import {
@@ -32,12 +19,20 @@ import {
     suksess,
 } from '../../api/Nettressurs';
 import KandidatlisteAction from './KandidatlisteAction';
-import { Kandidatliste } from '../kandidatlistetyper';
 import { SearchApiError } from '../../api/fetchUtils';
+import { Kandidatliste } from '../domene/Kandidatliste';
+import {
+    Kandidattilstander,
+    Kandidatnotater,
+    Kandidatforespørsler,
+    Kandidattilstand,
+    Visningsstatus,
+} from '../domene/Kandidatressurser';
+import { SmsStatus, Kandidatmeldinger } from '../domene/Kandidatressurser';
 
 type FormidlingId = string;
 
-export interface KandidatlisteState {
+export type KandidatlisteState = {
     hentStatus: Nettstatus;
     kandidat?: CvSøkeresultat;
 
@@ -84,11 +79,18 @@ export interface KandidatlisteState {
     };
     filter: Kandidatlistefilter;
     notat?: string;
-    søkPåusynligKandidat: Nettressurs<Navn[]>;
+    søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     endreFormidlingsutfallForUsynligKandidat: Record<FormidlingId, Nettressurs<FormidlingId>>;
     endreKandidatlistestatus: Nettstatus;
-}
+};
+
+export type Kandidatlistefilter = {
+    visArkiverte: boolean;
+    status: Record<Kandidatstatus, boolean>;
+    utfall: Record<Kandidatutfall, boolean>;
+    navn: string;
+};
 
 const initialState: KandidatlisteState = {
     lagreStatus: Nettstatus.IkkeLastet,

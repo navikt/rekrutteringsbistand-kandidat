@@ -4,11 +4,9 @@ import { Knapp } from 'nav-frontend-knapper';
 import { useDispatch, useSelector } from 'react-redux';
 import Panel from 'nav-frontend-paneler';
 
-import { Kandidatlistestatus as Status } from '../../kandidatlistetyper';
 import ÅpenHengelås from './ÅpenHengelås';
 import LåstHengelås from './LåstHengelås';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import './Kandidatlistestatus.less';
 import AppState from '../../../AppState';
 import { Nettstatus } from '../../../api/Nettressurs';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
@@ -16,6 +14,8 @@ import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
 import useLagreKandidatlisteIder from './useLagreKandidatlisteIder';
 import useSletteKandidatlisteIderFraLukkedata from './useSletteLagredeStillinger';
+import { Kandidatlistestatus as Status } from '../../domene/Kandidatliste';
+import './Kandidatlistestatus.less';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';

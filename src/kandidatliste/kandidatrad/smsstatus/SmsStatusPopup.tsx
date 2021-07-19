@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import SendSmsIkon from './SendSmsIkon';
-import { Sms, SmsStatus } from '../../kandidatlistetyper';
+import { Sms, SmsStatus } from '../../domene/Kandidatressurser';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import MedPopover from '../../../common/med-popover/MedPopover';
 import './SmsStatusPopup.less';

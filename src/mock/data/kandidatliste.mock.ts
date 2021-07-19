@@ -1,17 +1,19 @@
 import {
-    FormidlingAvUsynligKandidat,
-    Kandidat,
     Kandidatliste,
     KandidatlisteSammendrag,
     Kandidatlistestatus,
+} from '../../kandidatliste/domene/Kandidatliste';
+import {
+    FormidlingAvUsynligKandidat,
+    Kandidat,
     Kandidatstatus,
-} from '../../kandidatliste/kandidatlistetyper';
+    Kandidatutfall,
+} from '../../kandidatliste/domene/Kandidat';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
 import { v5 as uuid } from 'uuid';
 import cver from './cv.mock';
 import Cv, { Tilgjengelighet } from '../../kandidatside/cv/reducer/cv-typer';
 import { enAnnenVeileder, enVeileder, meg, Veileder } from './veiledere.mock';
-import { Utfall } from '../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
@@ -95,7 +97,6 @@ export const mockKandidat = (
     lagtTilAv: Veileder = meg,
     lagtTilTidspunkt = iDag
 ): Kandidat => ({
-    kandidatId: lagUuid(cver[cvIndex].kandidatnummer),
     kandidatnr: cver[cvIndex].kandidatnummer,
     status: Kandidatstatus.Vurderes,
     lagtTilTidspunkt: lagtTilTidspunkt.toISOString(),
@@ -107,7 +108,7 @@ export const mockKandidat = (
     etternavn: cver[cvIndex].etternavn,
     fodselsdato: cver[cvIndex].fodselsdato,
     fodselsnr: cver[cvIndex].fodselsnummer,
-    utfall: Utfall.IkkePresentert,
+    utfall: Kandidatutfall.IkkePresentert,
     telefon: '(+47) 123456789',
     epost: 'spammenot@mailinator.com',
     innsatsgruppe: 'Situasjonsbestemt innsats',
@@ -124,9 +125,8 @@ const inaktivKandidat = {
     telefon: null,
     aktørid: null,
     epost: null,
-    innsatsgruppe: '',
+    innsatsgruppe: null,
     fodselsnr: null,
-    midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig,
 };
 
 const mockMidlertidigUtilgjengeligStatus = (cvIndex: number) => {
@@ -145,7 +145,7 @@ const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({
     lagtTilAvIdent: cv.veilederIdent || meg.ident,
     lagtTilAvNavn: cv.veilederNavn || meg.navn,
     lagtTilTidspunkt: new Date().toISOString(),
-    utfall: Utfall.Presentert,
+    utfall: Kandidatutfall.Presentert,
     arkivert: false,
     arkivertAvIdent: null,
     arkivertAvNavn: null,
@@ -170,39 +170,39 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         {
             ...mockKandidat(0, meg),
             status: Kandidatstatus.TilIntervju,
-            utfall: Utfall.FåttJobben,
+            utfall: Kandidatutfall.FåttJobben,
         },
         {
             ...mockKandidat(1, meg),
             status: Kandidatstatus.Kontaktet,
-            utfall: Utfall.Presentert,
+            utfall: Kandidatutfall.Presentert,
             ...inaktivKandidat,
         },
         {
             ...mockKandidat(2, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
             status: Kandidatstatus.Kontaktet,
-            utfall: Utfall.IkkePresentert,
+            utfall: Kandidatutfall.IkkePresentert,
         },
         {
             ...mockKandidat(3, meg, forrigeUke),
             status: Kandidatstatus.Aktuell,
-            utfall: Utfall.IkkePresentert,
+            utfall: Kandidatutfall.IkkePresentert,
         },
         {
             ...mockKandidat(4, meg),
             status: Kandidatstatus.Uaktuell,
-            utfall: Utfall.FåttJobben,
+            utfall: Kandidatutfall.FåttJobben,
             ...inaktivKandidat,
         },
         {
             ...mockKandidat(5, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
             status: Kandidatstatus.Uinteressert,
-            utfall: Utfall.IkkePresentert,
+            utfall: Kandidatutfall.IkkePresentert,
         },
         {
             ...mockKandidat(6, meg, forrigeUke),
             status: Kandidatstatus.Vurderes,
-            utfall: Utfall.FåttJobben,
+            utfall: Kandidatutfall.FåttJobben,
         },
     ];
     if (!erTomListe) {
@@ -212,7 +212,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
     if (harAlleSomFåttJobb) {
         kandidater = kandidater.map((kandidat) => ({
             ...kandidat,
-            utfall: Utfall.FåttJobben,
+            utfall: Kandidatutfall.FåttJobben,
         }));
     }
 

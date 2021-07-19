@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Kandidatstatus } from '../../../kandidatlistetyper';
+import { Kandidatstatus } from '../../../domene/Kandidat';
 import Etikett from 'nav-frontend-etiketter';
 import './StatusEtikett.less';
 

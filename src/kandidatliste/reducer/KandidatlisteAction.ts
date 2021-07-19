@@ -1,17 +1,19 @@
-import { Kandidatstatus, Kandidatlistestatus } from '../kandidatlistetyper';
+import { Kandidatlistestatus } from '../domene/Kandidatliste';
+import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
 import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
 } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { ApiError } from '../../api/Nettressurs';
-import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper';
-import { Kandidatlistefilter } from '../kandidatlistetyper';
+import { Kandidatliste } from '../domene/Kandidatliste';
+import { Notat, Visningsstatus } from '../domene/Kandidatressurser';
+import { Kandidat } from '../domene/Kandidat';
 import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
-import { Visningsstatus } from '../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
-import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Sms } from '../domene/Kandidatressurser';
+import { Kandidatlistefilter } from './kandidatlisteReducer';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
@@ -176,7 +178,7 @@ export interface EndreStatusKandidatFailureAction {
 
 export interface EndreUtfallKandidatAction {
     type: KandidatlisteActionType.EndreUtfallKandidat;
-    utfall: Utfall;
+    utfall: Kandidatutfall;
     navKontor: string;
     kandidatlisteId: string;
     kandidatnr: string;
@@ -210,7 +212,7 @@ export interface EndreKandidatlistestatusFailureAction {
 export interface EndreFormidlingsutfallForUsynligKandidatAction {
     type: KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidat;
     formidlingId: string;
-    utfall: Utfall;
+    utfall: Kandidatutfall;
     navKontor: string;
     kandidatlisteId: string;
 }
@@ -266,7 +268,7 @@ export interface HentUsynligKandidatAction {
 
 export interface HentUsynligKandidatSuccessAction {
     type: KandidatlisteActionType.HentUsynligKandidatSuccess;
-    navn: Navn[];
+    navn: UsynligKandidat[];
 }
 
 export interface HentUsynligKandidatFailureAction {

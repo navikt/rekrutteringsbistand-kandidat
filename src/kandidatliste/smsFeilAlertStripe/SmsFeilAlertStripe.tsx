@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import Lukknapp from 'nav-frontend-lukknapp';
-import { Kandidat, Kandidatmeldinger, SmsStatus } from '../kandidatlistetyper';
+import { Kandidatmeldinger, SmsStatus } from '../domene/Kandidatressurser';
+import { Kandidat } from '../domene/Kandidat';
 import './smsFeilAlertStripe.less';
 
 const LESTE_SMS_IDER_KEY = 'lesteSmsIder';

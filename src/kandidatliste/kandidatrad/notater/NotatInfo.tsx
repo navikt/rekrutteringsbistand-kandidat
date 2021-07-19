@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Notat } from '../../kandidatlistetyper';
+import { Notat } from '../../domene/Kandidatressurser';
 import { formatterDato, formatterTid } from '../../../utils/dateUtils';
 
 interface NotatInfoProps {

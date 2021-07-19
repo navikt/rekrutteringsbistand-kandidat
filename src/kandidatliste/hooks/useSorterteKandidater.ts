@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { Kandidat } from '../domene/Kandidat';
 import { Kandidatsortering } from '../Kandidatliste';
-import { Kandidat } from '../kandidatlistetyper';
 import { sorteringsalgoritmer } from '../kandidatsortering';
 
 const useSorterteKandidater = (

@@ -3,7 +3,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 
-import { Kandidat, Kandidatstatus } from '../../../kandidatlistetyper';
+import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';
 import Hendelse from './Hendelse';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
 import DelingAvCvForKandidat from './DelingAvCvForKandidat';

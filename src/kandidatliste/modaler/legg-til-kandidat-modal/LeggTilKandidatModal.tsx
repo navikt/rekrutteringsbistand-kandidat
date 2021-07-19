@@ -2,12 +2,12 @@
 import React, { Component, ChangeEvent } from 'react';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
 import fnrValidator from '@navikt/fnrvalidator';
 
-import { Kandidatliste, Navn } from '../../kandidatlistetyper';
 import { CvSøkeresultat } from '../../../kandidatside/cv/reducer/cv-typer';
 import { Nettstatus, Nettressurs } from '../../../api/Nettressurs';
 import AppState from '../../../AppState';
@@ -16,10 +16,11 @@ import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
 import RegistrerFormidlingAvUsynligKandidat from './RegistrerFormidlingAvUsynligKandidat';
-import './LeggTilKandidatModal.less';
 import { sendEvent } from '../../../amplitude/amplitude';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
-import { Dispatch } from 'redux';
+import { Kandidatliste } from '../../domene/Kandidatliste';
+import { UsynligKandidat } from '../../domene/Kandidat';
+import './LeggTilKandidatModal.less';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -54,7 +55,7 @@ type Props = {
     setNotat: (notat: string) => void;
     kandidat: CvSøkeresultat;
     resetSøk: () => void;
-    søkPåusynligKandidat: Nettressurs<Array<Navn>>;
+    søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
     hentStatus: Nettstatus;
     leggTilKandidatStatus: Nettstatus;
     formidleUsynligKandidat: (

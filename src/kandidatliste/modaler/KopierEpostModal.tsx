@@ -6,7 +6,7 @@ import Lenke from 'nav-frontend-lenker';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { FadingAlertStripeLiten } from '../../common/HjelpetekstFading';
-import { Kandidat } from '../kandidatlistetyper';
+import { Kandidat } from '../domene/Kandidat';
 import { useTimeoutState } from '../../common/useTimeoutState';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import './KopierEpostModal.less';
@@ -80,7 +80,7 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
                             className={`kandidat-tabell-rad ${
                                 kandidat.epost ? '' : 'kandidat-tabell-rad__inaktiv'
                             }`}
-                            key={kandidat.kandidatId}
+                            key={kandidat.kandidatnr}
                         >
                             <div className="kandidat-tabell-rad-navn">
                                 <Normaltekst>{`${

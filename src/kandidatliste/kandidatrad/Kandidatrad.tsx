@@ -6,13 +6,8 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import moment from 'moment';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
-import {
-    erInaktiv,
-    erKobletTilStilling,
-    Kandidat,
-    Kandidatliste,
-    Kandidatlistestatus,
-} from '../kandidatlistetyper';
+import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
+import { erInaktiv, Kandidat } from '../domene/Kandidat';
 import { lenkeTilCv } from '../../app/paths';
 import {
     MidlertidigUtilgjengeligActionType,
@@ -20,7 +15,7 @@ import {
 } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../api/Nettressurs';
-import { Visningsstatus } from '../Kandidatliste';
+import { Visningsstatus } from '../domene/Kandidatressurser';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';

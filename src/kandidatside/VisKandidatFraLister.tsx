@@ -11,11 +11,9 @@ import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import {
     erKobletTilStilling,
     Kandidatliste,
-    Kandidatlistefilter,
     Kandidatlistestatus,
-    Kandidatstatus,
-    Kandidattilstander,
-} from '../kandidatliste/kandidatlistetyper';
+} from '../kandidatliste/domene/Kandidatliste';
+import { Kandidatstatus } from '../kandidatliste/domene/Kandidat';
 import AppState from '../AppState';
 import Cv from './cv/reducer/cv-typer';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
@@ -26,6 +24,8 @@ import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActio
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusOgHendelser from '../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
+import { Kandidatlistefilter } from '../kandidatliste/reducer/kandidatlisteReducer';
+import { Kandidattilstander } from '../kandidatliste/domene/Kandidatressurser';
 import '../common/ikoner.less';
 
 type Props = ConnectedProps & {

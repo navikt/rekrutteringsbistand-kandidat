@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 
 export const Kandidat = {
-    kandidatId: PropTypes.string,
     kandidatnr: PropTypes.string,
     status: PropTypes.string,
     lagtTilTidspunkt: PropTypes.string,

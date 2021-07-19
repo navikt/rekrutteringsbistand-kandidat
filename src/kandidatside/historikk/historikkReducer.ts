@@ -1,9 +1,8 @@
-import { Kandidatstatus } from '../../kandidatliste/kandidatlistetyper';
+import { Kandidatstatus, Kandidatutfall } from '../../kandidatliste/domene/Kandidat';
 import { ApiError, feil, ikkeLastet, lasterInn, Nettressurs, suksess } from '../../api/Nettressurs';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api/api';
 import { SearchApiError } from '../../api/fetchUtils';
-import { Utfall } from '../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;
@@ -14,7 +13,7 @@ export interface KandidatlisteForKandidat {
     lagtTilAvEpost: string;
     lagtTilAvNavn: string;
     status: Kandidatstatus;
-    utfall: Utfall;
+    utfall: Kandidatutfall;
     uuid: string;
     tittel: string;
     organisasjonReferanse?: string;

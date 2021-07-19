@@ -2,13 +2,13 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { AddCircle, MinusCircle } from '@navikt/ds-icons';
 import Hendelse from './Hendelse';
-import { Utfall } from '../etiketter/UtfallEtikett';
+import { Kandidatutfall } from '../../../domene/Kandidat';
 
 type Props = {
     kanEndre?: boolean;
-    utfall: Utfall;
+    utfall: Kandidatutfall;
     navn: string;
-    onEndreUtfall: (nyttUtfall: Utfall) => void;
+    onEndreUtfall: (nyttUtfall: Kandidatutfall) => void;
 };
 
 enum Visning {
@@ -20,11 +20,13 @@ enum Visning {
 
 const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndreUtfall }) => {
     const [visning, setVisning] = useState<Visning>(
-        utfall === Utfall.FåttJobben ? Visning.FjernRegistrering : Visning.Registrer
+        utfall === Kandidatutfall.FåttJobben ? Visning.FjernRegistrering : Visning.Registrer
     );
 
     useEffect(() => {
-        setVisning(utfall === Utfall.FåttJobben ? Visning.FjernRegistrering : Visning.Registrer);
+        setVisning(
+            utfall === Kandidatutfall.FåttJobben ? Visning.FjernRegistrering : Visning.Registrer
+        );
     }, [utfall]);
 
     const onRegistrer = () => setVisning(Visning.BekreftRegistrer);
@@ -33,14 +35,14 @@ const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndre
     const onAvbrytFjerningAvRegistrering = () => setVisning(Visning.FjernRegistrering);
 
     const onBekreftRegistreringClick = () => {
-        onEndreUtfall(Utfall.FåttJobben);
+        onEndreUtfall(Kandidatutfall.FåttJobben);
     };
 
     const onBekreftFjerningAvRegistrering = () => {
-        onEndreUtfall(Utfall.Presentert);
+        onEndreUtfall(Kandidatutfall.Presentert);
     };
 
-    const checked = utfall === Utfall.FåttJobben;
+    const checked = utfall === Kandidatutfall.FåttJobben;
 
     switch (visning) {
         case Visning.Registrer:

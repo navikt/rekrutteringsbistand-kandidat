@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Kandidat } from '../../../kandidatlistetyper';
+import { Kandidat } from '../../../domene/Kandidat';
 import { Undertittel } from 'nav-frontend-typografi';
 import Hendelse from '../endre-status-og-hendelser/Hendelse';
 import DelingAvCvForKandidat from '../endre-status-og-hendelser/DelingAvCvForKandidat';

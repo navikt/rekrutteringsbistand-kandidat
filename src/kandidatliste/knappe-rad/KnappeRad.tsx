@@ -6,14 +6,13 @@ import {
     erKobletTilStilling,
     Kandidatliste,
     Kandidatlistestatus,
-    Kandidatmeldinger,
-    Sms,
-} from '../kandidatlistetyper';
+} from '../domene/Kandidatliste';
 import MedPopover from '../../common/med-popover/MedPopover';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import './KnappeRad.less';
 
 type Props = {
