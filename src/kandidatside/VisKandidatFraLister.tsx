@@ -1,21 +1,15 @@
-import React, { ReactNode } from 'react';
-import { connect } from 'react-redux';
+import React, { FunctionComponent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
 import { CvActionType, CvAction } from './cv/reducer/cvReducer';
+import { erKobletTilStilling, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
+import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
+import { erInaktiv, Kandidatstatus } from '../kandidatliste/domene/Kandidat';
 import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
-import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { Nettressurs, Nettstatus } from '../api/Nettressurs';
-import {
-    erKobletTilStilling,
-    Kandidatliste,
-    Kandidatlistestatus,
-} from '../kandidatliste/domene/Kandidatliste';
-import { Kandidatstatus } from '../kandidatliste/domene/Kandidat';
+import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
-import Cv from './cv/reducer/cv-typer';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
@@ -24,219 +18,162 @@ import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActio
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusOgHendelser from '../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
-import { Kandidatlistefilter } from '../kandidatliste/reducer/kandidatlisteReducer';
-import { Kandidattilstander } from '../kandidatliste/domene/Kandidatressurser';
+import useSorterteKandidater from '../kandidatliste/hooks/useSorterteKandidater';
 import '../common/ikoner.less';
+import useFiltrerteKandidater from '../kandidatliste/hooks/useFiltrerteKandidater';
 
-type Props = ConnectedProps & {
+type Props = {
     kandidatnr: string;
-    children?: ReactNode;
     kandidatlisteId: string;
 };
 
-type ConnectedProps = {
-    cv: Cv;
-    hentStatus: Nettstatus;
-    hentCvForKandidat: (kandidatnr: string) => void;
-    hentKandidatliste: (kandidatlisteId: string) => void;
-    kandidatliste: Nettressurs<Kandidatliste>;
-    filtrerteKandidatnumre?: string[];
-    settValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
-    kandidatlistefilter?: Kandidatlistefilter;
-    kandidattilstander: Kandidattilstander;
-    midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
-    endreStatusKandidat: (
-        status: Kandidatstatus,
-        kandidatlisteId: string,
-        kandidatnr: string
-    ) => void;
-};
+const VisKandidatFraLister: FunctionComponent<Props> = (props) => {
+    const { kandidatnr, kandidatlisteId, children } = props;
 
-class VisKandidatFraLister extends React.Component<Props> {
-    componentDidMount() {
+    const dispatch: Dispatch<KandidatlisteAction | CvAction> = useDispatch();
+
+    useEffect(() => {
         window.scrollTo(0, 0);
-        this.props.hentCvForKandidat(this.props.kandidatnr);
-        this.props.hentKandidatliste(this.props.kandidatlisteId);
-        this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatnr);
 
-        // TODO for oppgave: https://trello.com/c/PAYah14K/272-refaktorere-kandidatikandidatliste
-        //    Må hente SMS-er her og plukke ut den som gjelder kandidaten vi er på.
-    }
+        const hentCvForKandidat = (arenaKandidatnr: string) => {
+            dispatch({ type: CvActionType.FetchCv, arenaKandidatnr });
+        };
 
-    componentDidUpdate(prevProps: Props) {
-        const harNavigertTilNyKandidat =
-            prevProps.kandidatnr !== this.props.kandidatnr && this.props.kandidatnr !== undefined;
-
-        if (harNavigertTilNyKandidat) {
-            window.scrollTo(0, 0);
-            this.props.hentCvForKandidat(this.props.kandidatnr);
-            this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatnr);
-        }
-    }
-
-    onKandidatStatusChange = (status: Kandidatstatus) => {
-        this.props.endreStatusKandidat(
-            status,
-            this.props.kandidatlisteId,
-            this.props.cv.kandidatnummer
-        );
-    };
-
-    hentGjeldendeKandidat = () =>
-        this.props.kandidatliste.kind === Nettstatus.Suksess
-            ? this.props.kandidatliste.data.kandidater.find(
-                  (kandidat) => kandidat.kandidatnr === this.props.kandidatnr
-              )
-            : undefined;
-
-    hentLenkeTilKandidat = (kandidatnummer: string) =>
-        kandidatnummer
-            ? lenkeTilCv(kandidatnummer, this.props.kandidatlisteId, undefined, true)
-            : undefined;
-
-    render() {
-        const {
-            cv,
-            kandidatnr,
-            kandidatlisteId,
-            kandidatliste,
-            hentStatus,
-            midlertidigUtilgjengelig,
-            kandidatlistefilter,
-            kandidattilstander,
-        } = this.props;
-
-        const filtrerteKandidatnumre = (kandidatliste.kind === Nettstatus.Suksess
-            ? kandidatliste.data.kandidater
-            : []
-        )
-            .map((kandidat) => kandidat.kandidatnr)
-            .filter((kandidatnr) => {
-                const tilstand = kandidattilstander[kandidatnr];
-                return !tilstand || !tilstand.filtrertBort;
+        const hentKandidatliste = (kandidatlisteId: string) => {
+            dispatch({
+                type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
+                kandidatlisteId,
             });
+        };
 
-        const gjeldendeKandidatIndex = filtrerteKandidatnumre.indexOf(kandidatnr);
-        if (hentStatus === Nettstatus.LasterInn || gjeldendeKandidatIndex === -1) {
-            return (
-                <div className="text-center">
-                    <NavFrontendSpinner type="L" />
-                </div>
-            );
-        }
+        const settValgtKandidat = (kandidatlisteId: string, kandidatnr: string) => {
+            dispatch({
+                type: KandidatlisteActionType.VelgKandidat,
+                kandidatlisteId,
+                kandidatnr,
+            });
+        };
 
-        // TODO: Her er det en bug – forrige/neste-lenkene bryr seg ikke
-        // om sorteringen, altså rekkefølgen på kandidatene. Bryr seg heller ikke om
-        // man navigerer til en inaktiv kandidat, siden krasjer bare.
-        const nesteKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex + 1];
-        const forrigeKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex - 1];
+        hentCvForKandidat(kandidatnr);
+        hentKandidatliste(kandidatlisteId);
+        settValgtKandidat(kandidatlisteId, kandidatnr);
+    }, [kandidatnr, kandidatlisteId, dispatch]);
 
-        const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
-        const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
+    const { hentStatus, cv } = useSelector((state: AppState) => state.cv);
+    const { kandidatliste, filter } = useSelector((state: AppState) => state.kandidatliste);
 
-        const gjeldendeKandidat = this.hentGjeldendeKandidat();
+    // TODO: Lag hook useMidlertidigUtilgjengelig(kandidatnr);
+    const midlertidigUtilgjengeligForAlle = useSelector(
+        (state: AppState) => state.midlertidigUtilgjengelig
+    );
+    const midlertidigUtilgjengelig = midlertidigUtilgjengeligForAlle[cv.kandidatnummer];
 
-        return (
-            <div>
-                <Kandidatheader
-                    cv={cv}
-                    tilbakeLink={lenkeTilKandidatliste(
-                        kandidatlisteId,
-                        filterTilQueryParams(kandidatlistefilter)
-                    )}
-                    antallKandidater={filtrerteKandidatnumre.length}
-                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                    nesteKandidat={nesteKandidatLink}
-                    forrigeKandidat={forrigeKandidatLink}
-                    fantCv={hentStatus === Nettstatus.Suksess}
-                />
-                {hentStatus === Nettstatus.FinnesIkke ? (
-                    <IkkeFunnet />
-                ) : (
-                    <>
-                        <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
-                            <MidlertidigUtilgjengelig
-                                midlertidigUtilgjengelig={midlertidigUtilgjengelig}
-                                kandidatnr={cv.kandidatnummer}
-                            />
-                            {gjeldendeKandidat && (
-                                <div className="vis-kandidat__status-select">
-                                    <label htmlFor="cv-status-og-hendelse">
-                                        {kandidatliste.kind === Nettstatus.Suksess &&
-                                        erKobletTilStilling(kandidatliste.data)
-                                            ? 'Status/hendelse:'
-                                            : 'Status:'}
-                                    </label>
-                                    <StatusOgHendelser
-                                        id="cv-status-og-hendelse"
-                                        kanEditere={
-                                            kandidatliste.kind === Nettstatus.Suksess &&
-                                            kandidatliste.data.kanEditere &&
-                                            kandidatliste.data.status === Kandidatlistestatus.Åpen
-                                        }
-                                        kandidat={gjeldendeKandidat}
-                                        kandidatlisteId={kandidatlisteId}
-                                        onStatusChange={this.onKandidatStatusChange}
-                                        kandidatlistenErKobletTilStilling={
-                                            kandidatliste.kind === Nettstatus.Suksess &&
-                                            erKobletTilStilling(kandidatliste.data)
-                                        }
-                                    />
-                                </div>
-                            )}
-                        </Kandidatmeny>
-                        {this.props.children}
-                        <div className="vis-kandidat__forrige-neste-wrapper">
-                            <ForrigeNeste
-                                lenkeClass="vis-kandidat__forrige-neste-lenke"
-                                forrigeKandidat={forrigeKandidatLink}
-                                nesteKandidat={nesteKandidatLink}
-                                gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                                antallKandidater={filtrerteKandidatnumre.length}
-                            />
-                        </div>
-                    </>
-                )}
-            </div>
-        );
-    }
-}
-
-const mapStateToProps = (state: AppState) => ({
-    kandidatliste: state.kandidatliste.kandidatliste,
-    hentStatus: state.cv.hentStatus,
-    cv: state.cv.cv,
-    midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
-    kandidatlistefilter: state.kandidatliste.filter,
-    kandidattilstander: state.kandidatliste.kandidattilstander,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<CvAction | KandidatlisteAction>) => ({
-    hentCvForKandidat: (arenaKandidatnr: string) =>
-        dispatch({ type: CvActionType.FetchCv, arenaKandidatnr }),
-    hentKandidatliste: (kandidatlisteId: string) =>
-        dispatch({
-            type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
-            kandidatlisteId,
-        }),
-    settValgtKandidat: (kandidatlisteId: string, kandidatnr: string) =>
-        dispatch({
-            type: KandidatlisteActionType.VelgKandidat,
-            kandidatlisteId,
-            kandidatnr,
-        }),
-    endreStatusKandidat: (status: Kandidatstatus, kandidatlisteId: string, kandidatnr: string) =>
+    const onKandidatStatusChange = (status: Kandidatstatus) => {
         dispatch({
             type: KandidatlisteActionType.EndreStatusKandidat,
             status,
             kandidatlisteId,
             kandidatnr,
-        }),
-    settKandidatlistefilter: (filter: Kandidatlistefilter) =>
-        dispatch({
-            type: KandidatlisteActionType.EndreKandidatlisteFilter,
-            filter,
-        }),
-});
+        });
+    };
 
-export default connect(mapStateToProps, mapDispatchToProps)(VisKandidatFraLister);
+    const hentGjeldendeKandidat = () => {
+        return kandidatliste.kind === Nettstatus.Suksess
+            ? kandidatliste.data.kandidater.find((kandidat) => kandidat.kandidatnr === kandidatnr)
+            : undefined;
+    };
+
+    const hentLenkeTilKandidat = (kandidatnummer: string) =>
+        kandidatnummer ? lenkeTilCv(kandidatnummer, kandidatlisteId, undefined, true) : undefined;
+
+    const kandidater =
+        kandidatliste.kind === Nettstatus.Suksess ? kandidatliste.data.kandidater : [];
+    const filtrerteKandidater = useFiltrerteKandidater(kandidater);
+    const aktiveKandidater = filtrerteKandidater.filter((kandidat) => !erInaktiv(kandidat));
+    const { sorterteKandidater } = useSorterteKandidater(aktiveKandidater);
+    const kandidatnumre = sorterteKandidater.map((kandidat) => kandidat.kandidatnr);
+
+    const gjeldendeKandidatIndex = kandidatnumre.indexOf(kandidatnr);
+
+    if (hentStatus === Nettstatus.LasterInn || gjeldendeKandidatIndex === -1) {
+        return (
+            <div className="text-center">
+                <NavFrontendSpinner type="L" />
+            </div>
+        );
+    }
+
+    // TODO: Her er det en bug – forrige/neste-lenkene bryr seg ikke
+    // om sorteringen, altså rekkefølgen på kandidatene. Bryr seg heller ikke om
+    // man navigerer til en inaktiv kandidat, siden krasjer bare.
+    const nesteKandidatNummer = kandidatnumre[gjeldendeKandidatIndex + 1];
+    const forrigeKandidatNummer = kandidatnumre[gjeldendeKandidatIndex - 1];
+
+    const forrigeKandidatLink = hentLenkeTilKandidat(forrigeKandidatNummer);
+    const nesteKandidatLink = hentLenkeTilKandidat(nesteKandidatNummer);
+
+    const gjeldendeKandidat = hentGjeldendeKandidat();
+
+    return (
+        <div>
+            <Kandidatheader
+                cv={cv}
+                tilbakeLink={lenkeTilKandidatliste(kandidatlisteId, filterTilQueryParams(filter))}
+                antallKandidater={kandidatnumre.length}
+                gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                nesteKandidat={nesteKandidatLink}
+                forrigeKandidat={forrigeKandidatLink}
+                fantCv={hentStatus === Nettstatus.Suksess}
+            />
+            {hentStatus === Nettstatus.FinnesIkke ? (
+                <IkkeFunnet />
+            ) : (
+                <>
+                    <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
+                        <MidlertidigUtilgjengelig
+                            midlertidigUtilgjengelig={midlertidigUtilgjengelig}
+                            kandidatnr={cv.kandidatnummer}
+                        />
+                        {gjeldendeKandidat && (
+                            <div className="vis-kandidat__status-select">
+                                <label htmlFor="cv-status-og-hendelse">
+                                    {kandidatliste.kind === Nettstatus.Suksess &&
+                                    erKobletTilStilling(kandidatliste.data)
+                                        ? 'Status/hendelse:'
+                                        : 'Status:'}
+                                </label>
+                                <StatusOgHendelser
+                                    id="cv-status-og-hendelse"
+                                    kanEditere={
+                                        kandidatliste.kind === Nettstatus.Suksess &&
+                                        kandidatliste.data.kanEditere &&
+                                        kandidatliste.data.status === Kandidatlistestatus.Åpen
+                                    }
+                                    kandidat={gjeldendeKandidat}
+                                    kandidatlisteId={kandidatlisteId}
+                                    onStatusChange={onKandidatStatusChange}
+                                    kandidatlistenErKobletTilStilling={
+                                        kandidatliste.kind === Nettstatus.Suksess &&
+                                        erKobletTilStilling(kandidatliste.data)
+                                    }
+                                />
+                            </div>
+                        )}
+                    </Kandidatmeny>
+                    {children}
+                    <div className="vis-kandidat__forrige-neste-wrapper">
+                        <ForrigeNeste
+                            lenkeClass="vis-kandidat__forrige-neste-lenke"
+                            forrigeKandidat={forrigeKandidatLink}
+                            nesteKandidat={nesteKandidatLink}
+                            gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                            antallKandidater={kandidatnumre.length}
+                        />
+                    </div>
+                </>
+            )}
+        </div>
+    );
+};
+
+export default VisKandidatFraLister;
