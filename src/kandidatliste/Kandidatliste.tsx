@@ -1,18 +1,23 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { FunctionComponent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
     Kandidatliste as Kandidatlistetype,
-    KandidatIKandidatliste,
     Kandidatlistefilter,
     Kandidatstatus,
     Kandidatlistestatus,
     erInaktiv,
 } from './kandidatlistetyper';
+import { KandidatSorteringsfelt } from './kandidatsortering';
+import { Nettstatus } from '../api/Nettressurs';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
+import { Retning } from '../common/sorterbarKolonneheader/Retning';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import AppState from '../AppState';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
+import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import Kandidatrad from './kandidatrad/Kandidatrad';
@@ -24,16 +29,14 @@ import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
-import useErAlleMarkerte from './hooks/useErAlleMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
-import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
-import { sorteringsalgoritmer, KandidatSorteringsfelt } from './kandidatsortering';
-import '../common/ikoner.less';
-import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
-import { Retning } from '../common/sorterbarKolonneheader/Retning';
-import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
-import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import useErAlleMarkerte from './hooks/useErAlleMarkerte';
+import useFiltrerteKandidater from './hooks/useFiltrerteKandidater';
 import useHentForespørslerOmDelingAvCv from './hooks/useHentForespørslerOmDelingAvCv';
+import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
+import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
+import useSorterteKandidater from './hooks/useSorterteKandidater';
+import '../common/ikoner.less';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -47,10 +50,7 @@ export type Kandidatsortering = null | {
 };
 
 type Props = {
-    kandidater: KandidatIKandidatliste[];
     kandidatliste: Kandidatlistetype;
-
-    filter: Kandidatlistefilter;
     onToggleMarkert: (kandidatnr: string) => void;
     onFjernAllMarkering: () => void;
     onMarkerKandidater: (kandidatnumre: string[]) => void;
@@ -60,42 +60,47 @@ type Props = {
     onKandidaterAngreArkivering: any;
     onSendSmsClick: any;
     onLeggTilKandidat: any;
-    onVisningChange: any;
     onToggleArkivert: any;
 };
 
-const Kandidatliste: FunctionComponent<Props> = (props) => {
+const Kandidatliste: FunctionComponent<Props> = ({
+    kandidatliste,
+    onFjernAllMarkering,
+    onMarkerKandidater,
+    onLeggTilKandidat,
+    onEmailKandidater,
+    onSendSmsClick,
+    onKandidatShare,
+    onKandidaterAngreArkivering,
+    onKandidatStatusChange,
+    onToggleMarkert,
+    onToggleArkivert,
+}) => {
+    useMaskerFødselsnumre();
+    useHentSendteMeldinger(kandidatliste.kandidatlisteId);
+    useHentForespørslerOmDelingAvCv(kandidatliste.stillingId);
+
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
 
-    useMaskerFødselsnumre();
-    useHentSendteMeldinger(props.kandidatliste.kandidatlisteId);
-    useHentForespørslerOmDelingAvCv(props.kandidatliste.stillingId);
+    const { filter, sms } = useSelector((state: AppState) => state.kandidatliste);
+    const { sendteMeldinger } = sms;
 
-    const [sortering, setSortering] = useState<Kandidatsortering>(null);
+    const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
+    const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
+    const { sorterteKandidater, setSortering } = useSorterteKandidater(filtrerteKandidater);
 
-    const antallFiltertreff = useAntallFiltertreff(props.kandidater);
+    const antallFiltertreff = useAntallFiltertreff(kandidatliste.kandidater, filter);
     const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
 
     useEffect(() => {
-        const filter = queryParamsTilFilter(new URLSearchParams(location.search));
+        const oppdatertFilter = queryParamsTilFilter(new URLSearchParams(location.search));
         dispatch({
             type: KandidatlisteActionType.EndreKandidatlisteFilter,
-            filter,
+            filter: oppdatertFilter,
         });
     }, [dispatch, history, location.search, antallFilterTreffJSON]);
-
-    const filtrerteKandidater = props.kandidater.filter(
-        (kandidat) => !kandidat.tilstand.filtrertBort
-    );
-
-    const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
-
-    const sorterteKandidater =
-        sortering === null || sortering.retning === null
-            ? filtrerteKandidater
-            : filtrerteKandidater.sort(sorteringsalgoritmer[sortering.felt][sortering.retning]);
 
     const setFilterIUrl = (filter: Kandidatlistefilter) => {
         const query = filterTilQueryParams(filter).toString();
@@ -107,29 +112,29 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         setFilterIUrl({
-            ...props.filter,
-            visArkiverte: !props.filter.visArkiverte,
+            ...filter,
+            visArkiverte: !filter.visArkiverte,
         });
 
-        props.onFjernAllMarkering();
+        onFjernAllMarkering();
     };
 
     const onToggleStatus = (status: Kandidatstatus) => {
         setFilterIUrl({
-            ...props.filter,
+            ...filter,
             status: {
-                ...props.filter.status,
-                [status]: !props.filter.status[status],
+                ...filter.status,
+                [status]: !filter.status[status],
             },
         });
     };
 
     const onToggleUtfall = (utfall: Utfall) => {
         setFilterIUrl({
-            ...props.filter,
+            ...filter,
             utfall: {
-                ...props.filter.utfall,
-                [utfall]: !props.filter.utfall[utfall],
+                ...filter.utfall,
+                [utfall]: !filter.utfall[utfall],
             },
         });
     };
@@ -138,7 +143,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         dispatch({
             type: KandidatlisteActionType.EndreKandidatlisteFilter,
             filter: {
-                ...props.filter,
+                ...filter,
                 navn,
             },
         });
@@ -146,9 +151,9 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     const onCheckAlleKandidater = () => {
         if (alleFiltrerteErMarkerte) {
-            props.onFjernAllMarkering();
+            onFjernAllMarkering();
         } else {
-            props.onMarkerKandidater(
+            onMarkerKandidater(
                 filtrerteKandidater
                     .filter((kandidat) => !erInaktiv(kandidat) || kandidat.arkivert)
                     .map((k) => k.kandidatnr)
@@ -157,40 +162,45 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     };
 
     const listenInneholderKandidater =
-        props.kandidater.length > 0 || props.kandidatliste.formidlingerAvUsynligKandidat.length > 0;
+        kandidatliste.kandidater.length > 0 ||
+        kandidatliste.formidlingerAvUsynligKandidat.length > 0;
 
-    const kandidatlistenErÅpen = props.kandidatliste.status === Kandidatlistestatus.Åpen;
-    const kanArkivereKandidater = !props.filter.visArkiverte && kandidatlistenErÅpen;
+    const kandidatlistenErÅpen = kandidatliste.status === Kandidatlistestatus.Åpen;
+    const kanArkivereKandidater = !filter.visArkiverte && kandidatlistenErÅpen;
 
     return (
         <div className="kandidatliste">
-            <SideHeader kandidater={props.kandidater} kandidatliste={props.kandidatliste} />
+            <SideHeader kandidatliste={kandidatliste} />
             {listenInneholderKandidater ? (
                 <>
                     {kandidatlistenErÅpen && (
                         <Meny
-                            kandidatlisteId={props.kandidatliste.kandidatlisteId}
-                            stillingId={props.kandidatliste.stillingId}
-                            onLeggTilKandidat={props.onLeggTilKandidat}
+                            kandidatlisteId={kandidatliste.kandidatlisteId}
+                            stillingId={kandidatliste.stillingId}
+                            onLeggTilKandidat={onLeggTilKandidat}
                         />
                     )}
                     <div className="kandidatliste__grid">
                         <div className="kandidatliste__knapperad-container">
-                            {props.kandidatliste.kanEditere && (
-                                <SmsFeilAlertStripe kandidater={props.kandidater} />
-                            )}
+                            {kandidatliste.kanEditere &&
+                                sendteMeldinger.kind === Nettstatus.Suksess && (
+                                    <SmsFeilAlertStripe
+                                        kandidater={kandidatliste.kandidater}
+                                        sendteMeldinger={sendteMeldinger.data}
+                                    />
+                                )}
                             <KnappeRad
-                                kandidater={props.kandidater}
-                                kandidatliste={props.kandidatliste}
-                                onEmailKandidater={props.onEmailKandidater}
-                                onSendSmsClick={props.onSendSmsClick}
-                                onKandidatShare={props.onKandidatShare}
-                                onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
-                                onLeggTilKandidat={props.onLeggTilKandidat}
-                                visArkiverte={props.filter.visArkiverte}
+                                kandidatliste={kandidatliste}
+                                onEmailKandidater={onEmailKandidater}
+                                onSendSmsClick={onSendSmsClick}
+                                onKandidatShare={onKandidatShare}
+                                onKandidaterAngreArkivering={onKandidaterAngreArkivering}
+                                onLeggTilKandidat={onLeggTilKandidat}
+                                visArkiverte={filter.visArkiverte}
+                                sendteMeldinger={sendteMeldinger}
                             >
                                 <Navnefilter
-                                    value={props.filter.navn}
+                                    value={filter.navn}
                                     onChange={(e) => setNavnefilter(e.currentTarget.value)}
                                     onReset={() => setNavnefilter('')}
                                 />
@@ -198,51 +208,47 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                         </div>
                         <Filter
                             antallTreff={antallFiltertreff}
-                            visArkiverte={props.filter.visArkiverte}
-                            statusfilter={props.filter.status}
-                            utfallsfilter={
-                                props.kandidatliste.stillingId ? props.filter.utfall : undefined
-                            }
+                            visArkiverte={filter.visArkiverte}
+                            statusfilter={filter.status}
+                            utfallsfilter={kandidatliste.stillingId ? filter.utfall : undefined}
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
                             onToggleUtfall={onToggleUtfall}
                         />
                         <div role="table" aria-label="Kandidater" className="kandidatliste__liste">
                             <ListeHeader
-                                kandidatliste={props.kandidatliste}
+                                kandidatliste={kandidatliste}
                                 alleMarkert={alleFiltrerteErMarkerte}
                                 onCheckAlleKandidater={onCheckAlleKandidater}
                                 visArkiveringskolonne={kanArkivereKandidater}
-                                sortering={sortering}
                                 setSortering={setSortering}
                             />
-                            {props.kandidatliste.formidlingerAvUsynligKandidat.map(
+                            {kandidatliste.formidlingerAvUsynligKandidat.map(
                                 (formidlingAvUsynligKandidat) => (
                                     <FormidlingAvUsynligKandidatrad
-                                        kandidatlisteId={props.kandidatliste.kandidatlisteId}
+                                        kandidatlisteId={kandidatliste.kandidatlisteId}
                                         kandidatlistenErLukket={!kandidatlistenErÅpen}
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
-                                        erEierAvKandidatlisten={props.kandidatliste.kanEditere}
+                                        erEierAvKandidatlisten={kandidatliste.kanEditere}
                                     />
                                 )
                             )}
                             {sorterteKandidater.length > 0 ? (
-                                sorterteKandidater.map((kandidat: KandidatIKandidatliste) => (
+                                sorterteKandidater.map((kandidat) => (
                                     <Kandidatrad
                                         key={kandidat.kandidatnr}
                                         kandidat={kandidat}
-                                        kandidatliste={props.kandidatliste}
-                                        onKandidatStatusChange={props.onKandidatStatusChange}
-                                        onToggleKandidat={props.onToggleMarkert}
-                                        onVisningChange={props.onVisningChange}
-                                        toggleArkivert={props.onToggleArkivert}
+                                        kandidatliste={kandidatliste}
+                                        onKandidatStatusChange={onKandidatStatusChange}
+                                        onToggleKandidat={onToggleMarkert}
+                                        toggleArkivert={onToggleArkivert}
                                         visArkiveringskolonne={kanArkivereKandidater}
                                     />
                                 ))
                             ) : (
                                 <IngenKandidater>
-                                    {props.filter.visArkiverte
+                                    {filter.visArkiverte
                                         ? 'Det er ingen vanlige kandidater som passer med valgte kriterier'
                                         : 'Du har ingen vanlige kandidater i kandidatlisten'}
                                 </IngenKandidater>
@@ -255,10 +261,10 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                     {kandidatlistenErÅpen && (
                         <>
                             <FinnKandidaterLenke
-                                kandidatlisteId={props.kandidatliste.kandidatlisteId}
-                                stillingId={props.kandidatliste.stillingId}
+                                kandidatlisteId={kandidatliste.kandidatlisteId}
+                                stillingId={kandidatliste.stillingId}
                             />
-                            <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                            <LeggTilKandidatKnapp onLeggTilKandidat={onLeggTilKandidat} />
                         </>
                     )}
                 </TomListe>

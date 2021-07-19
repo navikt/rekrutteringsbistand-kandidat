@@ -1,33 +1,18 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react';
+import { Dispatch } from 'redux';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
 import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
-import { KandidatIKandidatliste, SmsStatus } from '../kandidatlistetyper';
+import { Kandidat, Sms, SmsStatus } from '../kandidatlistetyper';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import './SendSmsModal.less';
-import { Dispatch } from 'redux';
-
-type OwnProps = {
-    vis: boolean;
-    onClose: () => void;
-    kandidater: KandidatIKandidatliste[];
-    kandidatlisteId: string;
-    stillingId: string;
-};
-
-type ConnectedProps = {
-    sendStatus: SmsStatus;
-    sendSmsTilKandidater: (melding: string, fnr: string[], kandidatlisteId: string) => void;
-};
-
-type Props = OwnProps & ConnectedProps;
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
@@ -36,40 +21,40 @@ enum Meldingsmal {
     Webinar = 'webinar',
 }
 
-const genererLenkeTilStilling = (stillingId: string) => {
-    return `nav.no/arbeid/stilling/${stillingId}`;
-};
-
-const genererMeldingUtenLenke = (valgtMal: Meldingsmal) => {
-    if (valgtMal === Meldingsmal.VurdertSomAktuell) {
-        return `Hei, vi har vurdert at kompetansen din kan passe til denne stillingen, hilsen NAV`;
-    } else if (valgtMal === Meldingsmal.EtterspurtPgaKorona) {
-        return `Hei, koronasituasjonen gjør kompetansen din etterspurt. Se denne stillingen, hilsen NAV`;
-    } else if (valgtMal === Meldingsmal.Jobbarrangement) {
-        return `Hei, vi har et jobbarrangement som kan passe for deg, hilsen NAV. Se mer info:`;
-    } else if (valgtMal === Meldingsmal.Webinar) {
-        return `Hei, vi har et webinar som kan passe for deg, hilsen NAV. Se mer info:`;
-    }
-};
-
-const genererMelding = (valgtMal: Meldingsmal, stillingId: string) => {
-    return `${genererMeldingUtenLenke(valgtMal)} ${genererLenkeTilStilling(stillingId)}`;
+type Props = {
+    vis: boolean;
+    onClose: () => void;
+    kandidater: Kandidat[];
+    kandidatlisteId: string;
+    stillingId: string;
+    sendteMeldinger: Sms[];
 };
 
 const SendSmsModal: FunctionComponent<Props> = (props) => {
-    const {
-        vis,
-        onClose,
-        kandidater,
-        kandidatlisteId,
-        stillingId,
-        sendStatus,
-        sendSmsTilKandidater,
-    } = props;
+    const { vis, onClose, kandidater, kandidatlisteId, stillingId, sendteMeldinger } = props;
 
-    const markerteKandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
-    const kandidaterSomHarFåttSms = markerteKandidater.filter((kandidat) => kandidat.sms);
-    const kandidaterSomIkkeHarFåttSms = markerteKandidater.filter((kandidat) => !kandidat.sms);
+    const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
+    const { sendStatus } = useSelector((state: AppState) => state.kandidatliste.sms);
+    const { kandidattilstander } = useSelector((state: AppState) => state.kandidatliste);
+
+    const sendSmsTilKandidater = (melding: string, fnr: string[], kandidatlisteId: string) => {
+        dispatch({
+            type: KandidatlisteActionType.SendSms,
+            melding,
+            fnr,
+            kandidatlisteId,
+        });
+    };
+
+    const markerteKandidater = kandidater.filter(
+        (kandidat) => kandidattilstander[kandidat.kandidatnr].markert
+    );
+    const kandidaterSomHarFåttSms = markerteKandidater.filter((kandidat) =>
+        sendteMeldinger.some((melding) => melding.fnr === kandidat.fodselsnr)
+    );
+    const kandidaterSomIkkeHarFåttSms = markerteKandidater.filter(
+        (kandidat) => !sendteMeldinger.some((melding) => melding.fnr === kandidat.fodselsnr)
+    );
     const harInaktiveKandidater = markerteKandidater.some(
         (kandidat) => kandidat.fodselsnr === null
     );
@@ -178,17 +163,24 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
     );
 };
 
-export default connect(
-    (state: AppState) => ({
-        sendStatus: state.kandidatliste.sms.sendStatus,
-    }),
-    (dispatch: Dispatch<KandidatlisteAction>) => ({
-        sendSmsTilKandidater: (melding: string, fnr: string[], kandidatlisteId: string) =>
-            dispatch({
-                type: KandidatlisteActionType.SendSms,
-                melding,
-                fnr,
-                kandidatlisteId,
-            }),
-    })
-)(SendSmsModal);
+const genererLenkeTilStilling = (stillingId: string) => {
+    return `nav.no/arbeid/stilling/${stillingId}`;
+};
+
+const genererMeldingUtenLenke = (valgtMal: Meldingsmal) => {
+    if (valgtMal === Meldingsmal.VurdertSomAktuell) {
+        return `Hei, vi har vurdert at kompetansen din kan passe til denne stillingen, hilsen NAV`;
+    } else if (valgtMal === Meldingsmal.EtterspurtPgaKorona) {
+        return `Hei, koronasituasjonen gjør kompetansen din etterspurt. Se denne stillingen, hilsen NAV`;
+    } else if (valgtMal === Meldingsmal.Jobbarrangement) {
+        return `Hei, vi har et jobbarrangement som kan passe for deg, hilsen NAV. Se mer info:`;
+    } else if (valgtMal === Meldingsmal.Webinar) {
+        return `Hei, vi har et webinar som kan passe for deg, hilsen NAV. Se mer info:`;
+    }
+};
+
+const genererMelding = (valgtMal: Meldingsmal, stillingId: string) => {
+    return `${genererMeldingUtenLenke(valgtMal)} ${genererLenkeTilStilling(stillingId)}`;
+};
+
+export default SendSmsModal;

@@ -1,168 +1,149 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, FunctionComponent, useState, useEffect, useCallback } from 'react';
+import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Hovedknapp, Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Nettressurs } from '../../../api/Nettressurs';
-import { Notat } from '../../kandidatlistetyper';
 import { Textarea } from 'nav-frontend-skjema';
+
+import { Kandidat, Kandidatliste, Notat } from '../../kandidatlistetyper';
+import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Notatliste from './Notatliste';
 import RedigerNotatModal from './RedigerNotatModal';
 import Slettemodal from './Slettemodal';
 import './Notater.less';
 
-const initialState = {
-    nyttNotatVises: false,
-    nyttNotatTekst: '',
-    nyttNotatFeil: false,
-    notatSomRedigeres: undefined,
-    notatSomSlettes: undefined,
-};
-
-type NotaterProps = {
+type Props = {
+    kandidat: Kandidat;
+    kandidatliste: Kandidatliste;
     antallNotater?: number;
-    notater: Nettressurs<Array<Notat>>;
+    notater: Nettressurs<Notat[]>;
     onOpprettNotat: (tekst: string) => void;
     onEndreNotat: (notatId: string, tekst: string) => void;
     onSlettNotat: (notatId: string) => void;
 };
 
-class Notater extends React.Component<NotaterProps> {
-    state: {
-        nyttNotatVises: boolean;
-        nyttNotatTekst: string;
-        nyttNotatFeil: boolean;
-        notatSomRedigeres?: Notat;
-        notatSomSlettes?: Notat;
-    };
+const Notater: FunctionComponent<Props> = ({
+    kandidat,
+    kandidatliste,
+    antallNotater,
+    notater,
+    onOpprettNotat,
+    onEndreNotat,
+    onSlettNotat,
+}) => {
+    const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
 
-    constructor(props: NotaterProps) {
-        super(props);
-        this.state = initialState;
-    }
+    const [nyttNotatVises, setNyttNotatVises] = useState<boolean>(false);
+    const [nyttNotatTekst, setNyttNotatTekst] = useState<string>('');
+    const [nyttNotatFeil, setNyttNotatFeil] = useState<boolean>(false);
+    const [notatSomRedigeres, setNotatSomRedigeres] = useState<Notat | undefined>(undefined);
+    const [notatSomSlettes, setNotatSomSlettes] = useState<Notat | undefined>(undefined);
 
-    componentDidUpdate(nextProps: NotaterProps) {
-        if (nextProps.notater !== this.props.notater) {
-            this.setState(initialState);
+    const hentKandidatensNotater = useCallback(() => {
+        const { kandidatlisteId } = kandidatliste;
+        const { kandidatnr } = kandidat;
+
+        dispatch({
+            type: KandidatlisteActionType.HentNotater,
+            kandidatlisteId,
+            kandidatnr,
+        });
+    }, [dispatch, kandidat, kandidatliste]);
+
+    useEffect(() => {
+        setNyttNotatVises(false);
+        setNyttNotatTekst('');
+        setNyttNotatFeil(false);
+        setNotatSomRedigeres(undefined);
+        setNotatSomSlettes(undefined);
+
+        if (notater.kind === Nettstatus.IkkeLastet) {
+            hentKandidatensNotater();
         }
-    }
+    }, [notater, hentKandidatensNotater]);
 
-    onOpenRedigeringsModal = (notat: Notat) => {
-        this.setState({
-            notatSomRedigeres: notat,
-        });
+    const toggleNyttNotatVises = () => {
+        setNyttNotatVises(!nyttNotatVises);
+        setNyttNotatTekst('');
+        setNyttNotatFeil(false);
     };
 
-    onCloseNotatModal = () => {
-        this.setState({
-            notatSomRedigeres: undefined,
-        });
+    const oppdaterNyttNotatTekst = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setNyttNotatTekst(e.target.value);
+        setNyttNotatFeil(false);
     };
 
-    onOpenSletteModal = (notat: Notat) => {
-        this.setState({
-            notatSomSlettes: notat,
-        });
-    };
-
-    onCloseSletteModal = () => {
-        this.setState({
-            notatSomSlettes: undefined,
-        });
-    };
-
-    toggleNyttNotatVises = () => {
-        this.setState({
-            nyttNotatVises: !this.state.nyttNotatVises,
-            nyttNotatTekst: '',
-            nyttNotatFeil: false,
-        });
-    };
-
-    oppdaterNyttNotatTekst = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        this.setState({
-            nyttNotatTekst: e.target.value,
-            nyttNotatFeil: false,
-        });
-    };
-
-    lagreNyttNotat = () => {
-        if (this.state.nyttNotatTekst.trim().length === 0) {
-            this.setState({
-                nyttNotatFeil: true,
-            });
+    const lagreNyttNotat = () => {
+        if (nyttNotatTekst.trim().length === 0) {
+            setNyttNotatFeil(true);
         } else {
-            this.props.onOpprettNotat(this.state.nyttNotatTekst);
+            onOpprettNotat(nyttNotatTekst);
         }
     };
 
-    render() {
-        const { notater, antallNotater, onEndreNotat, onSlettNotat } = this.props;
-
-        return (
-            <InfoUnderKandidat>
-                {this.state.notatSomRedigeres && (
-                    <RedigerNotatModal
-                        notat={this.state.notatSomRedigeres}
-                        onClose={this.onCloseNotatModal}
-                        onSave={onEndreNotat}
-                    />
-                )}
-                {this.state.notatSomSlettes && (
-                    <Slettemodal
-                        notat={this.state.notatSomSlettes}
-                        onSlettNotat={onSlettNotat}
-                        onCloseSletteModal={this.onCloseSletteModal}
-                    />
-                )}
-
-                <Element>Notater ({antallNotater})</Element>
-                <Normaltekst className="notater__avsnitt">
-                    Her skal du kun skrive korte meldinger og statusoppdateringer. Sensitive
-                    opplysninger skrives <strong>ikke</strong> her. Ta direkte kontakt med veileder
-                    hvis du har spørsmål om en kandidat. Notatene følger ikke brukeren og er bare
-                    tilgjengelig via stillingen.
-                </Normaltekst>
-                <Normaltekst className="notater__avsnitt">
-                    Notatene vil være synlige for alle veiledere.
-                </Normaltekst>
-                <div className="notater__nytt-notat-form">
-                    {this.state.nyttNotatVises ? (
-                        <div>
-                            <Textarea
-                                label="Skriv inn notat"
-                                textareaClass="notater__nytt-notat-tekst"
-                                value={this.state.nyttNotatTekst}
-                                onChange={this.oppdaterNyttNotatTekst}
-                                autoFocus
-                                feil={
-                                    this.state.nyttNotatFeil
-                                        ? 'Tekstfeltet kan ikke være tomt'
-                                        : undefined
-                                }
-                            />
-                            <div className="notater__nytt-notat-knapperad">
-                                <Hovedknapp mini onClick={this.lagreNyttNotat}>
-                                    Lagre
-                                </Hovedknapp>
-                                <Flatknapp mini onClick={this.toggleNyttNotatVises}>
-                                    Avbryt
-                                </Flatknapp>
-                            </div>
-                        </div>
-                    ) : (
-                        <Knapp mini onClick={this.toggleNyttNotatVises}>
-                            Skriv notat
-                        </Knapp>
-                    )}
-                </div>
-                <Notatliste
-                    notater={notater}
-                    onOpenRedigeringsModal={this.onOpenRedigeringsModal}
-                    onOpenSletteModal={this.onOpenSletteModal}
+    return (
+        <InfoUnderKandidat>
+            {notatSomRedigeres && (
+                <RedigerNotatModal
+                    notat={notatSomRedigeres}
+                    onClose={() => setNotatSomRedigeres(undefined)}
+                    onSave={onEndreNotat}
                 />
-            </InfoUnderKandidat>
-        );
-    }
-}
+            )}
+            {notatSomSlettes && (
+                <Slettemodal
+                    notat={notatSomSlettes}
+                    onSlettNotat={onSlettNotat}
+                    onCloseSletteModal={() => setNotatSomSlettes(undefined)}
+                />
+            )}
+
+            <Element>Notater ({antallNotater})</Element>
+            <Normaltekst className="notater__avsnitt">
+                Her skal du kun skrive korte meldinger og statusoppdateringer. Sensitive
+                opplysninger skrives <strong>ikke</strong> her. Ta direkte kontakt med veileder hvis
+                du har spørsmål om en kandidat. Notatene følger ikke brukeren og er bare
+                tilgjengelig via stillingen.
+            </Normaltekst>
+            <Normaltekst className="notater__avsnitt">
+                Notatene vil være synlige for alle veiledere.
+            </Normaltekst>
+            <div className="notater__nytt-notat-form">
+                {nyttNotatVises ? (
+                    <div>
+                        <Textarea
+                            label="Skriv inn notat"
+                            textareaClass="notater__nytt-notat-tekst"
+                            value={nyttNotatTekst}
+                            onChange={oppdaterNyttNotatTekst}
+                            autoFocus
+                            feil={nyttNotatFeil ? 'Tekstfeltet kan ikke være tomt' : undefined}
+                        />
+                        <div className="notater__nytt-notat-knapperad">
+                            <Hovedknapp mini onClick={lagreNyttNotat}>
+                                Lagre
+                            </Hovedknapp>
+                            <Flatknapp mini onClick={toggleNyttNotatVises}>
+                                Avbryt
+                            </Flatknapp>
+                        </div>
+                    </div>
+                ) : (
+                    <Knapp mini onClick={toggleNyttNotatVises}>
+                        Skriv notat
+                    </Knapp>
+                )}
+            </div>
+            <Notatliste
+                notater={notater}
+                onOpenRedigeringsModal={setNotatSomRedigeres}
+                onOpenSletteModal={setNotatSomSlettes}
+            />
+        </InfoUnderKandidat>
+    );
+};
 
 export default Notater;

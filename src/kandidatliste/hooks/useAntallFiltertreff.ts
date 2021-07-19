@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Kandidatstatus, KandidatIKandidatliste } from '../kandidatlistetyper';
+import { Kandidatstatus, Kandidat, Kandidatlistefilter } from '../kandidatlistetyper';
 import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export type AntallFiltertreff = {
@@ -8,7 +8,10 @@ export type AntallFiltertreff = {
     utfall: Record<Utfall, number>;
 };
 
-const useAntallFiltertreff = (kandidater: KandidatIKandidatliste[]): AntallFiltertreff => {
+const useAntallFiltertreff = (
+    kandidater: Kandidat[],
+    filter: Kandidatlistefilter
+): AntallFiltertreff => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
     const [antallMedStatus, setAntallMedStatus] = useState<Record<Kandidatstatus, number>>(
         hentAntallMedStatus(kandidater)
@@ -18,10 +21,14 @@ const useAntallFiltertreff = (kandidater: KandidatIKandidatliste[]): AntallFilte
     );
 
     useEffect(() => {
+        const ikkeSlettedeKandidater = kandidater.filter((kandidat) =>
+            filter.visArkiverte ? kandidat.arkivert : !kandidat.arkivert
+        );
+
         setAntallArkiverte(hentAntallArkiverte(kandidater));
-        setAntallMedStatus(hentAntallMedStatus(kandidater));
-        setAntallMedUtfall(hentAntallMedUtfall(kandidater));
-    }, [kandidater]);
+        setAntallMedStatus(hentAntallMedStatus(ikkeSlettedeKandidater));
+        setAntallMedUtfall(hentAntallMedUtfall(ikkeSlettedeKandidater));
+    }, [kandidater, filter.visArkiverte]);
 
     const antallTreff = {
         arkiverte: antallArkiverte,
@@ -32,11 +39,11 @@ const useAntallFiltertreff = (kandidater: KandidatIKandidatliste[]): AntallFilte
     return antallTreff;
 };
 
-const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
+const hentAntallArkiverte = (kandidater: Kandidat[]) => {
     return kandidater.filter((kandidat) => kandidat.arkivert).length;
 };
 
-const hentAntallMedStatus = (kandidater: KandidatIKandidatliste[]) => {
+const hentAntallMedStatus = (kandidater: Kandidat[]) => {
     const antallMedStatus: Record<string, number> = {};
     Object.values(Kandidatstatus).forEach((status) => {
         antallMedStatus[status] = 0;
@@ -49,7 +56,7 @@ const hentAntallMedStatus = (kandidater: KandidatIKandidatliste[]) => {
     return antallMedStatus;
 };
 
-const hentAntallMedUtfall = (kandidater: KandidatIKandidatliste[]) => {
+const hentAntallMedUtfall = (kandidater: Kandidat[]) => {
     const antallMedUtfall: Record<string, number> = {};
     Object.values(Utfall).forEach((utfall) => {
         antallMedUtfall[utfall] = 0;

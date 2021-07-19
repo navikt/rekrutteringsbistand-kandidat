@@ -5,7 +5,6 @@ import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
 import KandidatlisteOgModaler from './KandidatlisteOgModaler';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import useKandidaterMedState from './hooks/useKandidaterMedState';
 import useScrollTilToppen from './hooks/useScrollTilToppen';
 import useHentKandidatlisteMedId from './hooks/useHentKandidatlisteMedId';
 
@@ -15,26 +14,12 @@ type Props = {
 };
 
 const Kandidatlisteside: FunctionComponent<Props> = ({ stillingsId, kandidatlisteId }) => {
-    const {
-        kandidatliste,
-        kandidattilstander,
-        kandidatnotater,
-        sms,
-        forespørslerOmDelingAvCv,
-    } = useSelector((state: AppState) => state.kandidatliste);
+    const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
 
     useScrollTilToppen(kandidatliste);
     useHentKandidatlisteMedId(stillingsId, kandidatlisteId);
 
-    const kandidaterMedState = useKandidaterMedState(
-        kandidatliste,
-        kandidattilstander,
-        sms.sendteMeldinger,
-        kandidatnotater,
-        forespørslerOmDelingAvCv
-    );
-
-    if (kandidatliste.kind === Nettstatus.LasterInn || kandidaterMedState === undefined) {
+    if (kandidatliste.kind === Nettstatus.LasterInn) {
         return (
             <div className="fullscreen-spinner">
                 <NavFrontendSpinner type="L" />
@@ -44,14 +29,7 @@ const Kandidatlisteside: FunctionComponent<Props> = ({ stillingsId, kandidatlist
         return null;
     }
 
-    return (
-        <div>
-            <KandidatlisteOgModaler
-                kandidatliste={kandidatliste.data}
-                kandidater={kandidaterMedState}
-            />
-        </div>
-    );
+    return <KandidatlisteOgModaler kandidatliste={kandidatliste.data} />;
 };
 
 export default Kandidatlisteside;
