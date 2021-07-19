@@ -20,7 +20,6 @@ import {
 } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../api/Nettressurs';
-import { sendEvent } from '../../amplitude/amplitude';
 import { Visningsstatus } from '../Kandidatliste';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
