@@ -19,14 +19,6 @@ const Kandidatlisteside: FunctionComponent<Props> = ({ stillingsId, kandidatlist
     useScrollTilToppen(kandidatliste);
     useHentKandidatlisteMedId(stillingsId, kandidatlisteId);
 
-    // const kandidaterMedState = useKandidaterMedState(
-    //     kandidatliste,
-    //     kandidattilstander,
-    //     sms.sendteMeldinger,
-    //     kandidatnotater,
-    //     forespørslerOmDelingAvCv
-    // );
-
     if (kandidatliste.kind === Nettstatus.LasterInn) {
         return (
             <div className="fullscreen-spinner">
