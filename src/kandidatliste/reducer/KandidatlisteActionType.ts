@@ -85,6 +85,7 @@ enum KandidatlisteActionType {
     HentForespørslerOmDelingAvCv = 'HENT_FORESPØRSLER_OM_DELING_AV_CV',
     HentForespørslerOmDelingAvCvSuccess = 'HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS',
     HentForespørslerOmDelingAvCvFailure = 'HENT_FORESPØRSLER_OM_DELING_AV_CV_FAILURE',
+    EndreSortering = 'ENDRE_SORTERING',
 }
 
 export default KandidatlisteActionType;

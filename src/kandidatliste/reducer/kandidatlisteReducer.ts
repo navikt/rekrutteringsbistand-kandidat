@@ -29,8 +29,15 @@ import {
     Visningsstatus,
 } from '../domene/Kandidatressurser';
 import { SmsStatus, Kandidatmeldinger } from '../domene/Kandidatressurser';
+import { KandidatSorteringsfelt } from '../kandidatsortering';
+import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 
 type FormidlingId = string;
+
+export type Kandidatsortering = null | {
+    felt: KandidatSorteringsfelt;
+    retning: Retning | null;
+};
 
 export type KandidatlisteState = {
     hentStatus: Nettstatus;
@@ -42,7 +49,6 @@ export type KandidatlisteState = {
         lagreStatus: Nettstatus;
         opprettetKandidatlisteTittel?: string;
     };
-
     id?: string;
     kandidatliste: Nettressurs<Kandidatliste>;
     kandidattilstander: Kandidattilstander;
@@ -77,6 +83,7 @@ export type KandidatlisteState = {
         kandidatlisteId: string;
         kandidatnr: string;
     };
+    sortering: Kandidatsortering;
     filter: Kandidatlistefilter;
     notat?: string;
     søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
@@ -127,91 +134,11 @@ const initialState: KandidatlisteState = {
         utfall: lagTomtUtfallsfilter(),
         navn: '',
     },
+    sortering: null,
     søkPåusynligKandidat: ikkeLastet(),
     formidlingAvUsynligKandidat: ikkeLastet(),
     endreFormidlingsutfallForUsynligKandidat: {},
     endreKandidatlistestatus: Nettstatus.IkkeLastet,
-};
-
-const initialKandidattilstand = (): Kandidattilstand => ({
-    markert: false,
-    filtrertBort: false,
-    visningsstatus: Visningsstatus.SkjulPanel,
-});
-
-const oppdaterArkivertIKandidatlisteDetaljer = (
-    state: KandidatlisteState,
-    kandidat: Kandidat
-): KandidatlisteState => {
-    const kandidatliste = state.kandidatliste;
-    if (kandidatliste.kind === Nettstatus.Suksess) {
-        const stateMedOppdatertKandidat = {
-            ...state,
-            kandidatliste: {
-                ...kandidatliste,
-                data: {
-                    ...kandidatliste.data,
-                    kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
-                        utdatertKandidat.kandidatnr === kandidat.kandidatnr
-                            ? {
-                                  ...utdatertKandidat,
-                                  arkivert: kandidat.arkivert,
-                                  arkivertAv: kandidat.arkivertAv,
-                                  arkivertTidspunkt: kandidat.arkivertTidspunkt,
-                              }
-                            : utdatertKandidat
-                    ),
-                },
-            },
-        };
-
-        return stateMedOppdatertKandidat;
-    }
-
-    return state;
-};
-
-const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
-    state: KandidatlisteState,
-    kandidatnumre: string[]
-): KandidatlisteState => {
-    const kandidatliste = state.kandidatliste;
-    if (kandidatliste.kind === Nettstatus.Suksess) {
-        return {
-            ...state,
-            kandidatliste: {
-                ...kandidatliste,
-                data: {
-                    ...kandidatliste.data,
-                    kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
-                        kandidatnumre.includes(utdatertKandidat.kandidatnr)
-                            ? {
-                                  ...utdatertKandidat,
-                                  arkivert: false,
-                                  arkivertTidspunkt: null,
-                              }
-                            : utdatertKandidat
-                    ),
-                },
-            },
-        };
-    }
-    return state;
-};
-
-const markerGitteKandidater = (kandidattilstander: Kandidattilstander, kandidatnumre: string[]) => {
-    const nyeTilstander = {
-        ...kandidattilstander,
-    };
-
-    Object.entries(nyeTilstander).forEach(([kandidatnr, tilstand]) => {
-        nyeTilstander[kandidatnr] = {
-            ...tilstand,
-            markert: kandidatnumre.includes(kandidatnr),
-        };
-    });
-
-    return nyeTilstander;
 };
 
 const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
@@ -722,9 +649,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                         kandidattilstander[kandidatnr].filtrertBort = false;
                     } else {
                         kandidattilstander[kandidatnr].filtrertBort = true;
-
-                        // Kan fjernes hvis man ønsker at kandidater fremdeles skal
-                        // være markerte etter de er filtrert bort.
                         kandidattilstander[kandidatnr].markert = false;
                     }
                 });
@@ -783,9 +707,96 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 kandidatliste: suksess(action.kandidatliste),
             };
 
+        case KandidatlisteActionType.EndreSortering:
+            return {
+                ...state,
+                sortering: action.sortering,
+            };
+
         default:
             return state;
     }
+};
+
+const initialKandidattilstand = (): Kandidattilstand => ({
+    markert: false,
+    filtrertBort: false,
+    visningsstatus: Visningsstatus.SkjulPanel,
+});
+
+const oppdaterArkivertIKandidatlisteDetaljer = (
+    state: KandidatlisteState,
+    kandidat: Kandidat
+): KandidatlisteState => {
+    const kandidatliste = state.kandidatliste;
+    if (kandidatliste.kind === Nettstatus.Suksess) {
+        const stateMedOppdatertKandidat = {
+            ...state,
+            kandidatliste: {
+                ...kandidatliste,
+                data: {
+                    ...kandidatliste.data,
+                    kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
+                        utdatertKandidat.kandidatnr === kandidat.kandidatnr
+                            ? {
+                                  ...utdatertKandidat,
+                                  arkivert: kandidat.arkivert,
+                                  arkivertAv: kandidat.arkivertAv,
+                                  arkivertTidspunkt: kandidat.arkivertTidspunkt,
+                              }
+                            : utdatertKandidat
+                    ),
+                },
+            },
+        };
+
+        return stateMedOppdatertKandidat;
+    }
+
+    return state;
+};
+
+const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
+    state: KandidatlisteState,
+    kandidatnumre: string[]
+): KandidatlisteState => {
+    const kandidatliste = state.kandidatliste;
+    if (kandidatliste.kind === Nettstatus.Suksess) {
+        return {
+            ...state,
+            kandidatliste: {
+                ...kandidatliste,
+                data: {
+                    ...kandidatliste.data,
+                    kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
+                        kandidatnumre.includes(utdatertKandidat.kandidatnr)
+                            ? {
+                                  ...utdatertKandidat,
+                                  arkivert: false,
+                                  arkivertTidspunkt: null,
+                              }
+                            : utdatertKandidat
+                    ),
+                },
+            },
+        };
+    }
+    return state;
+};
+
+const markerGitteKandidater = (kandidattilstander: Kandidattilstander, kandidatnumre: string[]) => {
+    const nyeTilstander = {
+        ...kandidattilstander,
+    };
+
+    Object.entries(nyeTilstander).forEach(([kandidatnr, tilstand]) => {
+        nyeTilstander[kandidatnr] = {
+            ...tilstand,
+            markert: kandidatnumre.includes(kandidatnr),
+        };
+    });
+
+    return nyeTilstander;
 };
 
 export default reducer;

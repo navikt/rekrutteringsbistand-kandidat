@@ -5,7 +5,7 @@ import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../dome
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
 import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
-import { Kandidatsortering } from '../Kandidatliste';
+import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
 import '../kandidatrad/Kandidatrad.less';
 
 interface Props {

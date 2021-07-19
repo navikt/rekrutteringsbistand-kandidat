@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { Dispatch } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import AppState from '../../AppState';
 import { Kandidat } from '../domene/Kandidat';
-import { Kandidatsortering } from '../Kandidatliste';
 import { sorteringsalgoritmer } from '../kandidatsortering';
+import KandidatlisteAction from '../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
+import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
 
 const useSorterteKandidater = (
     kandidater: Kandidat[]
@@ -9,7 +13,15 @@ const useSorterteKandidater = (
     sorterteKandidater: Kandidat[];
     setSortering: (sortering: Kandidatsortering) => void;
 } => {
-    const [sortering, setSortering] = useState<Kandidatsortering>(null);
+    const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
+    const { sortering } = useSelector((state: AppState) => state.kandidatliste);
+
+    const setSortering = (sortering: Kandidatsortering) => {
+        dispatch({
+            type: KandidatlisteActionType.EndreSortering,
+            sortering,
+        });
+    };
 
     const sorterteKandidater =
         sortering === null || sortering.retning === null
