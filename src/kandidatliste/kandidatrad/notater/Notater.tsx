@@ -1,21 +1,19 @@
-import React, { ChangeEvent, FunctionComponent, useState, useEffect } from 'react';
+import React, { ChangeEvent, FunctionComponent, useState, useEffect, useCallback } from 'react';
+import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Hovedknapp, Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 
-import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import { Kandidat, Kandidatliste, Notat } from '../../kandidatlistetyper';
+import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Notatliste from './Notatliste';
 import RedigerNotatModal from './RedigerNotatModal';
 import Slettemodal from './Slettemodal';
 import './Notater.less';
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
-import KandidatlisteAction from '../../reducer/KandidatlisteAction';
-import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import { useMemo } from 'react';
-import { useCallback } from 'react';
 
 type Props = {
     kandidat: Kandidat;
