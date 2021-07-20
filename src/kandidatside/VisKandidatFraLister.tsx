@@ -66,50 +66,40 @@ const VisKandidatFraLister: FunctionComponent<Props> = ({ kandidat, kandidatlist
                 nesteKandidat={lenkeTilNeste}
                 forrigeKandidat={lenkeTilForrige}
             />
-            {cv.kind === Nettstatus.FinnesIkke ? (
-                <IkkeFunnet />
-            ) : (
-                <>
-                    <Kandidatmeny cv={cv}>
-                        {cv.kind === Nettstatus.Suksess && (
-                            <MidlertidigUtilgjengelig
-                                cv={cv.data}
-                                midlertidigUtilgjengelig={tilgjengelighet}
-                            />
-                        )}
-                        <div className="vis-kandidat__status-select">
-                            <label htmlFor="cv-status-og-hendelse">
-                                {erKobletTilStilling(kandidatliste)
-                                    ? 'Status/hendelse:'
-                                    : 'Status:'}
-                            </label>
-                            <StatusOgHendelser
-                                id="cv-status-og-hendelse"
-                                kanEditere={
-                                    kandidatliste.kanEditere &&
-                                    kandidatliste.status === Kandidatlistestatus.Åpen
-                                }
-                                kandidat={kandidat}
-                                kandidatlisteId={kandidatliste.kandidatlisteId}
-                                onStatusChange={onKandidatStatusChange}
-                                kandidatlistenErKobletTilStilling={erKobletTilStilling(
-                                    kandidatliste
-                                )}
-                            />
-                        </div>
-                    </Kandidatmeny>
-                    {children}
-                    <div className="vis-kandidat__forrige-neste-wrapper">
-                        <ForrigeNeste
-                            lenkeClass="vis-kandidat__forrige-neste-lenke"
-                            forrigeKandidat={lenkeTilForrige}
-                            nesteKandidat={lenkeTilNeste}
-                            gjeldendeKandidatIndex={aktivKandidat}
-                            antallKandidater={antallKandidater}
-                        />
-                    </div>
-                </>
-            )}
+            <Kandidatmeny cv={cv}>
+                {cv.kind === Nettstatus.Suksess && (
+                    <MidlertidigUtilgjengelig
+                        cv={cv.data}
+                        midlertidigUtilgjengelig={tilgjengelighet}
+                    />
+                )}
+                <div className="vis-kandidat__status-select">
+                    <label htmlFor="cv-status-og-hendelse">
+                        {erKobletTilStilling(kandidatliste) ? 'Status/hendelse:' : 'Status:'}
+                    </label>
+                    <StatusOgHendelser
+                        id="cv-status-og-hendelse"
+                        kanEditere={
+                            kandidatliste.kanEditere &&
+                            kandidatliste.status === Kandidatlistestatus.Åpen
+                        }
+                        kandidat={kandidat}
+                        kandidatlisteId={kandidatliste.kandidatlisteId}
+                        onStatusChange={onKandidatStatusChange}
+                        kandidatlistenErKobletTilStilling={erKobletTilStilling(kandidatliste)}
+                    />
+                </div>
+            </Kandidatmeny>
+            {children}
+            <div className="vis-kandidat__forrige-neste-wrapper">
+                <ForrigeNeste
+                    lenkeClass="vis-kandidat__forrige-neste-lenke"
+                    forrigeKandidat={lenkeTilForrige}
+                    nesteKandidat={lenkeTilNeste}
+                    gjeldendeKandidatIndex={aktivKandidat}
+                    antallKandidater={antallKandidater}
+                />
+            </div>
         </div>
     );
 };

@@ -322,51 +322,42 @@ class VisKandidat extends React.Component<Props, State> {
                     nesteKandidat={nesteKandidatLink}
                     forrigeKandidat={forrigeKandidatLink}
                 />
-                {cv.kind === Nettstatus.FinnesIkke ? (
-                    <IkkeFunnet />
-                ) : (
-                    <>
-                        <Kandidatmeny cv={cv}>
-                            {cv.kind === Nettstatus.Suksess && (
-                                <MidlertidigUtilgjengelig
-                                    cv={cv.data}
-                                    midlertidigUtilgjengelig={midlertidigUtilgjengelig}
-                                />
-                            )}
-                            {kandidatLiggerAlleredeIKandidatlisten ? (
-                                <>
-                                    Kandidaten er lagret i&nbsp;
-                                    <Link
-                                        to={lenkeTilKandidatliste(kandidatliste!.kandidatlisteId)}
-                                        className="lenke"
-                                    >
-                                        kandidatlisten
-                                    </Link>
-                                </>
-                            ) : (
-                                <Hovedknapp
-                                    className="vis-kandidat__lagreknapp"
-                                    onClick={this.onLagreKandidatClick(
-                                        kandidatlisteId,
-                                        stillingsId
-                                    )}
-                                >
-                                    Lagre kandidat i kandidatliste
-                                </Hovedknapp>
-                            )}
-                        </Kandidatmeny>
-                        {this.props.children}
-                        <div className="vis-kandidat__forrige-neste-wrapper">
-                            <ForrigeNeste
-                                lenkeClass="vis-kandidat__forrige-neste-lenke"
-                                forrigeKandidat={forrigeKandidatLink}
-                                nesteKandidat={nesteKandidatLink}
-                                antallKandidater={antallKandidater}
-                                gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                            />
-                        </div>
-                    </>
-                )}
+                <Kandidatmeny cv={cv}>
+                    {cv.kind === Nettstatus.Suksess && (
+                        <MidlertidigUtilgjengelig
+                            cv={cv.data}
+                            midlertidigUtilgjengelig={midlertidigUtilgjengelig}
+                        />
+                    )}
+                    {kandidatLiggerAlleredeIKandidatlisten ? (
+                        <>
+                            Kandidaten er lagret i&nbsp;
+                            <Link
+                                to={lenkeTilKandidatliste(kandidatliste!.kandidatlisteId)}
+                                className="lenke"
+                            >
+                                kandidatlisten
+                            </Link>
+                        </>
+                    ) : (
+                        <Hovedknapp
+                            className="vis-kandidat__lagreknapp"
+                            onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
+                        >
+                            Lagre kandidat i kandidatliste
+                        </Hovedknapp>
+                    )}
+                </Kandidatmeny>
+                {this.props.children}
+                <div className="vis-kandidat__forrige-neste-wrapper">
+                    <ForrigeNeste
+                        lenkeClass="vis-kandidat__forrige-neste-lenke"
+                        forrigeKandidat={forrigeKandidatLink}
+                        nesteKandidat={nesteKandidatLink}
+                        antallKandidater={antallKandidater}
+                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                    />
+                </div>
                 {lagreKandidaterModalVises && (
                     <LagreKandidaterModal
                         vis={lagreKandidaterModalVises}

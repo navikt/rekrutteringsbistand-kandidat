@@ -1,14 +1,16 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
-import { Nettstatus } from '../../api/Nettressurs';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../Kandidatside';
 import { sendEvent } from '../../amplitude/amplitude';
-import { hentNavnFraCv } from '../header/Kandidatheader';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import Cv from '../cv/reducer/cv-typer';
+import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
 
@@ -54,26 +56,57 @@ const Historikkside: FunctionComponent = () => {
     }, [kandidatnr, historikk.kandidatlisterForKandidat]);
 
     if (
-        historikk.kandidatlisterForKandidat.kind !== Nettstatus.Suksess ||
-        cv.kind !== Nettstatus.Suksess // TODO: Ikke krev at kandidaten har CV?
+        historikk.kandidatlisterForKandidat.kind === Nettstatus.IkkeLastet ||
+        historikk.kandidatlisterForKandidat.kind === Nettstatus.LasterInn
     ) {
-        return null;
+        return (
+            <div className="text-center">
+                <NavFrontendSpinner type="L" />
+            </div>
+        );
     }
 
-    const kandidatlister = sorterPåDato(historikk.kandidatlisterForKandidat.data);
+    if (historikk.kandidatlisterForKandidat.kind === Nettstatus.Suksess) {
+        const kandidatlister = sorterPåDato(historikk.kandidatlisterForKandidat.data);
+        const navn = hentKandidatensNavnFraCvEllerKandidatlister(cv, kandidatlister);
 
-    return (
-        <div className="historikkside">
-            <Ingress className="blokk-m">
-                <b>{hentNavnFraCv(cv.data)}</b> er lagt til i <b>{kandidatlister.length}</b>{' '}
-                kandidatlister
-            </Ingress>
-            <Historikktabell
-                kandidatlister={kandidatlister}
-                aktivKandidatlisteId={kandidatlisteId}
-            />
-        </div>
-    );
+        return (
+            <div className="historikkside">
+                <Ingress className="blokk-m">
+                    <b>{navn}</b> er lagt til i <b>{kandidatlister.length}</b> kandidatlister
+                </Ingress>
+                <Historikktabell
+                    kandidatlister={kandidatlister}
+                    aktivKandidatlisteId={kandidatlisteId}
+                />
+            </div>
+        );
+    }
+
+    return null;
+};
+
+const formaterNavn = (fornavn: string, etternavn: string) => {
+    const formatertFornavn = capitalizeFirstLetter(fornavn);
+    const formatertEtternavn = capitalizeFirstLetter(etternavn);
+
+    return `${formatertFornavn} ${formatertEtternavn}`;
+};
+
+export const hentKandidatensNavnFraCvEllerKandidatlister = (
+    cv: Nettressurs<Cv>,
+    kandidatlister: KandidatlisteForKandidat[]
+) => {
+    if (cv.kind === Nettstatus.Suksess) {
+        return formaterNavn(cv.data.fornavn, cv.data.etternavn);
+    }
+
+    if (kandidatlister.length > 0) {
+        const kandidatliste = kandidatlister[0];
+        return formaterNavn(kandidatliste.fornavn, kandidatliste.etternavn);
+    }
+
+    return null;
 };
 
 const hentStatus = (kandidatnr: string) => (state: AppState) => {

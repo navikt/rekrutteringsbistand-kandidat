@@ -8,6 +8,7 @@ import { formatterDato } from '../../utils/dateUtils';
 import useMaskerFødselsnumre from '../../app/useMaskerFødselsnumre';
 import Cv from '../cv/reducer/cv-typer';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import Skeleton from 'react-loading-skeleton';
 import './Kandidatheader.less';
 
 interface Props {
@@ -33,7 +34,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
         ? 'Til kandidatlisten'
         : 'Til kandidatsøket';
 
-    let fødselsinfo: ReactNode = '';
+    let fødselsinfo: ReactNode;
     if (cv.kind === Nettstatus.Suksess) {
         fødselsinfo = cv.data.fodselsdato ? (
             <span>
@@ -62,25 +63,27 @@ const Kandidatheader: FunctionComponent<Props> = ({
                         {cv.kind === Nettstatus.FinnesIkke ||
                             (cv.kind === Nettstatus.Feil &&
                                 'Informasjonen om kandidaten kan ikke vises')}
-                        {cv.kind === Nettstatus.LasterInn && <span></span>}
+                        {cv.kind === Nettstatus.LasterInn && <Skeleton width={200} />}
                     </Systemtittel>
                     <div className="kandidatheader__kontaktinfo blokk-xxs">
-                        {fødselsinfo}
-                        {cv.kind === Nettstatus.Suksess ? (
-                            <span>
-                                Veileder:{' '}
-                                <strong>
-                                    {cv.data.veilederNavn
-                                        ? `${cv.data.veilederNavn} (${cv.data.veilederIdent})`
-                                        : 'ikke tildelt'}
-                                </strong>
-                            </span>
-                        ) : (
-                            <span></span>
+                        {cv.kind === Nettstatus.LasterInn && <Skeleton width={300} />}
+                        {cv.kind === Nettstatus.Suksess && (
+                            <>
+                                {fødselsinfo}
+                                <span>
+                                    Veileder:{' '}
+                                    <strong>
+                                        {cv.data.veilederNavn
+                                            ? `${cv.data.veilederNavn} (${cv.data.veilederIdent})`
+                                            : 'ikke tildelt'}
+                                    </strong>
+                                </span>
+                            </>
                         )}
                     </div>
                     <div className="kandidatheader__kontaktinfo">
-                        {cv.kind === Nettstatus.Suksess ? (
+                        {cv.kind === Nettstatus.LasterInn && <Skeleton width={600} />}
+                        {cv.kind === Nettstatus.Suksess && (
                             <>
                                 {cv.data.epost && (
                                     <span>
@@ -111,8 +114,6 @@ const Kandidatheader: FunctionComponent<Props> = ({
                                     </span>
                                 )}
                             </>
-                        ) : (
-                            <span></span>
                         )}
                     </div>
                 </div>
@@ -129,7 +130,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
     );
 };
 
-export const hentNavnFraCv = (cv: Cv) => {
+const hentNavnFraCv = (cv: Cv) => {
     const fornavn = capitalizeFirstLetter(cv.fornavn);
     const etternavn = capitalizeFirstLetter(cv.etternavn);
 
