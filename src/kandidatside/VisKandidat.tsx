@@ -23,7 +23,6 @@ import AppState from '../AppState';
 import Cv, { CvSøkeresultat } from './cv/reducer/cv-typer';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
 import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
