@@ -13,6 +13,7 @@ interface Props {
     alleMarkert: boolean;
     onCheckAlleKandidater: () => void;
     visArkiveringskolonne: boolean;
+    sortering: Kandidatsortering;
     setSortering: (sortering: Kandidatsortering) => void;
 }
 
@@ -52,6 +53,7 @@ const ListeHeader: FunctionComponent<Props> = ({
     alleMarkert,
     onCheckAlleKandidater,
     visArkiveringskolonne,
+    sortering,
     setSortering,
 }) => {
     const klassenavn =
@@ -65,9 +67,12 @@ const ListeHeader: FunctionComponent<Props> = ({
         modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
 
     const [aktivtSorteringsfelt, setAktivtSorteringsfelt] = useState<KandidatSorteringsfelt | null>(
-        null
+        sortering ? sortering.felt : null
     );
-    const [aktivSorteringsretning, setAktivSorteringsretning] = useState<Retning | null>(null);
+
+    const [aktivSorteringsretning, setAktivSorteringsretning] = useState<Retning | null>(
+        sortering ? sortering.retning : null
+    );
 
     const endreSortering = (sorteringsfeltIndex: number) => {
         const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfeltIndex;

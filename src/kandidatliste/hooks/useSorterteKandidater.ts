@@ -11,6 +11,7 @@ const useSorterteKandidater = (
     kandidater: Kandidat[]
 ): {
     sorterteKandidater: Kandidat[];
+    sortering: Kandidatsortering;
     setSortering: (sortering: Kandidatsortering) => void;
 } => {
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
@@ -30,6 +31,7 @@ const useSorterteKandidater = (
 
     return {
         sorterteKandidater,
+        sortering,
         setSortering,
     };
 };
