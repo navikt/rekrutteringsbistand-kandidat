@@ -29,13 +29,6 @@ const VisKandidatMedKandidatliste: FunctionComponent<Props> = ({
             dispatch({ type: CvActionType.FetchCv, arenaKandidatnr });
         };
 
-        const hentKandidatliste = (kandidatlisteId: string) => {
-            dispatch({
-                type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
-                kandidatlisteId,
-            });
-        };
-
         const settValgtKandidat = (kandidatlisteId: string, kandidatnr: string) => {
             dispatch({
                 type: KandidatlisteActionType.VelgKandidat,
@@ -45,9 +38,19 @@ const VisKandidatMedKandidatliste: FunctionComponent<Props> = ({
         };
 
         hentCvForKandidat(kandidatnr);
-        hentKandidatliste(kandidatlisteId);
         settValgtKandidat(kandidatlisteId, kandidatnr);
     }, [kandidatnr, kandidatlisteId, dispatch]);
+
+    useEffect(() => {
+        const hentKandidatliste = (kandidatlisteId: string) => {
+            dispatch({
+                type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
+                kandidatlisteId,
+            });
+        };
+
+        hentKandidatliste(kandidatlisteId);
+    }, [kandidatlisteId, dispatch]);
 
     if (
         kandidatliste.kind === Nettstatus.IkkeLastet ||
