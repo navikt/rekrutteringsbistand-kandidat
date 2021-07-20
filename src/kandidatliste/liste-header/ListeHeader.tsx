@@ -66,26 +66,19 @@ const ListeHeader: FunctionComponent<Props> = ({
         'kandidatliste-kandidat__rad' +
         modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
 
-    const [aktivtSorteringsfelt, setAktivtSorteringsfelt] = useState<KandidatSorteringsfelt | null>(
-        sortering ? sortering.felt : null
-    );
-
-    const [aktivSorteringsretning, setAktivSorteringsretning] = useState<Retning | null>(
-        sortering ? sortering.retning : null
-    );
-
     const endreSortering = (sorteringsfeltIndex: number) => {
-        const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfeltIndex;
+        const endringPåAktivtFelt = sortering?.felt === sorteringsfeltIndex;
 
         const felt = KandidatSorteringsfelt[KandidatSorteringsfelt[sorteringsfeltIndex]];
         const retning = endringPåAktivtFelt
-            ? nesteSorteringsretning(aktivSorteringsretning)
+            ? nesteSorteringsretning(sortering?.retning || null)
             : Retning.Stigende;
 
-        setAktivSorteringsretning(retning);
-        setAktivtSorteringsfelt(felt);
         setSortering({ felt, retning });
     };
+
+    const aktivtSorteringsfelt = sortering?.felt ?? null;
+    const aktivSorteringsretning = sortering?.retning ?? null;
 
     return (
         <div role="rowgroup" className={klassenavn}>
