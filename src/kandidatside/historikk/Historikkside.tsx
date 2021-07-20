@@ -4,28 +4,30 @@ import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from '.
 import { Nettstatus } from '../../api/Nettressurs';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
-import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../Kandidatside';
 import { sendEvent } from '../../amplitude/amplitude';
+import { hentNavnFraCv } from '../header/Kandidatheader';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
 
 const Historikkside: FunctionComponent = () => {
-    const { params } = useRouteMatch<{ kandidatnr: string }>();
-    const kandidatnr = params.kandidatnr;
-    const historikk = useSelector((state: AppState) => state.historikk);
-    const cv = useSelector((state: AppState) => state.cv);
-    const lagreKandidatIKandidatlisteStatus = useSelector(
-        (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
-    );
     const dispatch = useDispatch();
 
     const { search } = useLocation();
+    const { params } = useRouteMatch<{ kandidatnr: string }>();
     const queryParams = new URLSearchParams(search);
+    const kandidatnr = params.kandidatnr;
     const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
+
+    const historikk = useSelector((state: AppState) => state.historikk);
+    const cv = useSelector((state: AppState) => state.cv.cv);
     const kandidatStatus = useSelector(hentStatus(kandidatnr));
+
+    const lagreKandidatIKandidatlisteStatus = useSelector(
+        (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
+    );
 
     useEffect(() => {
         dispatch({
@@ -53,7 +55,7 @@ const Historikkside: FunctionComponent = () => {
 
     if (
         historikk.kandidatlisterForKandidat.kind !== Nettstatus.Suksess ||
-        cv.hentStatus !== Nettstatus.Suksess
+        cv.kind !== Nettstatus.Suksess // TODO: Ikke krev at kandidaten har CV?
     ) {
         return null;
     }
@@ -63,10 +65,8 @@ const Historikkside: FunctionComponent = () => {
     return (
         <div className="historikkside">
             <Ingress className="blokk-m">
-                <b>
-                    {capitalizeFirstLetter(cv.cv.fornavn)} {capitalizeFirstLetter(cv.cv.etternavn)}
-                </b>{' '}
-                er lagt til i <b>{kandidatlister.length}</b> kandidatlister
+                <b>{hentNavnFraCv(cv.data)}</b> er lagt til i <b>{kandidatlister.length}</b>{' '}
+                kandidatlister
             </Ingress>
             <Historikktabell
                 kandidatlister={kandidatlister}
@@ -78,7 +78,9 @@ const Historikkside: FunctionComponent = () => {
 
 const hentStatus = (kandidatnr: string) => (state: AppState) => {
     const kandidatliste = state.kandidatliste.kandidatliste;
+
     if (kandidatliste.kind !== Nettstatus.Suksess) return;
+
     const kandidat = kandidatliste.data.kandidater.find((k) => k.kandidatnr === kandidatnr);
     return kandidat?.status;
 };

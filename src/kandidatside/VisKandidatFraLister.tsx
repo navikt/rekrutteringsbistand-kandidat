@@ -33,7 +33,7 @@ type Props = {
 const VisKandidatFraLister: FunctionComponent<Props> = ({ kandidat, kandidatliste, children }) => {
     const dispatch: Dispatch<KandidatlisteAction | CvAction> = useDispatch();
 
-    const { hentStatus, cv } = useSelector((state: AppState) => state.cv);
+    const { cv } = useSelector((state: AppState) => state.cv);
     const { filter } = useSelector((state: AppState) => state.kandidatliste);
     const tilgjengelighet = useMidlertidigUtilgjengelig(kandidat.kandidatnr);
 
@@ -65,17 +65,18 @@ const VisKandidatFraLister: FunctionComponent<Props> = ({ kandidat, kandidatlist
                 antallKandidater={antallKandidater}
                 nesteKandidat={lenkeTilNeste}
                 forrigeKandidat={lenkeTilForrige}
-                fantCv={hentStatus === Nettstatus.Suksess}
             />
-            {hentStatus === Nettstatus.FinnesIkke ? (
+            {cv.kind === Nettstatus.FinnesIkke ? (
                 <IkkeFunnet />
             ) : (
                 <>
-                    <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
-                        <MidlertidigUtilgjengelig
-                            midlertidigUtilgjengelig={tilgjengelighet}
-                            kandidatnr={cv.kandidatnummer}
-                        />
+                    <Kandidatmeny cv={cv}>
+                        {cv.kind === Nettstatus.Suksess && (
+                            <MidlertidigUtilgjengelig
+                                cv={cv.data}
+                                midlertidigUtilgjengelig={tilgjengelighet}
+                            />
+                        )}
                         <div className="vis-kandidat__status-select">
                             <label htmlFor="cv-status-og-hendelse">
                                 {erKobletTilStilling(kandidatliste)

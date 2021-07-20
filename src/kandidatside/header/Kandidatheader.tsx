@@ -5,18 +5,18 @@ import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
 import { formatterDato } from '../../utils/dateUtils';
-import './Kandidatheader.less';
 import useMaskerFødselsnumre from '../../app/useMaskerFødselsnumre';
 import Cv from '../cv/reducer/cv-typer';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import './Kandidatheader.less';
 
 interface Props {
-    cv: Cv;
+    cv: Nettressurs<Cv>;
     tilbakeLink: string;
     antallKandidater: number;
     gjeldendeKandidatIndex: number;
     forrigeKandidat?: string;
     nesteKandidat?: string;
-    fantCv: boolean;
 }
 
 const Kandidatheader: FunctionComponent<Props> = ({
@@ -26,42 +26,26 @@ const Kandidatheader: FunctionComponent<Props> = ({
     gjeldendeKandidatIndex,
     forrigeKandidat,
     nesteKandidat,
-    fantCv,
 }) => {
-    let fornavn: string = '';
-    if (cv.fornavn) {
-        fornavn = capitalizeFirstLetter(cv.fornavn);
-    }
-
-    let etternavn: string = '';
-    if (cv.etternavn) {
-        etternavn = capitalizeFirstLetter(cv.etternavn);
-    }
-
     useMaskerFødselsnumre();
 
     const tilbakeLenkeTekst = tilbakeLink.includes('kandidater/lister')
         ? 'Til kandidatlisten'
         : 'Til kandidatsøket';
-    const veilederinfo = cv.veilederNavn
-        ? `${cv.veilederNavn} (${cv.veilederIdent})`
-        : 'ikke tildelt';
 
-    let fødselsinfo: ReactNode;
-    if (cv.fodselsdato) {
-        fødselsinfo = (
+    let fødselsinfo: ReactNode = '';
+    if (cv.kind === Nettstatus.Suksess) {
+        fødselsinfo = cv.data.fodselsdato ? (
             <span>
                 Fødselsdato:{' '}
                 <strong>
-                    {formatterDato(new Date(cv.fodselsdato))}{' '}
-                    {cv.fodselsnummer && <>({cv.fodselsnummer})</>}
+                    {formatterDato(new Date(cv.data.fodselsdato))}{' '}
+                    {cv.data.fodselsnummer && <>({cv.data.fodselsnummer})</>}
                 </strong>
             </span>
-        );
-    } else if (cv.fodselsnummer) {
-        fødselsinfo = (
+        ) : (
             <span>
-                Fødselsnummer: <strong>{cv.fodselsnummer}</strong>
+                Fødselsnummer: <strong>{cv.data.fodselsnummer}</strong>
             </span>
         );
     }
@@ -74,57 +58,82 @@ const Kandidatheader: FunctionComponent<Props> = ({
                 </div>
                 <div>
                     <Systemtittel className="blokk-xs">
-                        {fantCv
-                            ? `${fornavn} ${etternavn}`
-                            : 'Informasjonen om kandidaten kan ikke vises'}
+                        {cv.kind === Nettstatus.Suksess && hentNavnFraCv(cv.data)}
+                        {cv.kind === Nettstatus.FinnesIkke ||
+                            (cv.kind === Nettstatus.Feil &&
+                                'Informasjonen om kandidaten kan ikke vises')}
+                        {cv.kind === Nettstatus.LasterInn && <span></span>}
                     </Systemtittel>
                     <div className="kandidatheader__kontaktinfo blokk-xxs">
                         {fødselsinfo}
-                        <span>
-                            Veileder: <strong>{veilederinfo}</strong>
-                        </span>
-                    </div>
-                    <div className="kandidatheader__kontaktinfo">
-                        {cv.epost && (
+                        {cv.kind === Nettstatus.Suksess ? (
                             <span>
-                                E-post:{' '}
-                                <a className="lenke" href={`mailto:${cv.epost}`}>
-                                    {cv.epost}
-                                </a>
-                            </span>
-                        )}
-                        {cv.telefon && (
-                            <span>
-                                Telefon: <strong>{formatMobileTelephoneNumber(cv.telefon)}</strong>
-                            </span>
-                        )}
-                        {cv.adresse && cv.adresse.adrlinje1 && (
-                            <span>
-                                Adresse:{' '}
+                                Veileder:{' '}
                                 <strong>
-                                    {formatterAdresse(
-                                        cv.adresse.adrlinje1,
-                                        cv.adresse.postnr,
-                                        cv.adresse.poststednavn
-                                    )}
+                                    {cv.data.veilederNavn
+                                        ? `${cv.data.veilederNavn} (${cv.data.veilederIdent})`
+                                        : 'ikke tildelt'}
                                 </strong>
                             </span>
+                        ) : (
+                            <span></span>
+                        )}
+                    </div>
+                    <div className="kandidatheader__kontaktinfo">
+                        {cv.kind === Nettstatus.Suksess ? (
+                            <>
+                                {cv.data.epost && (
+                                    <span>
+                                        E-post:{' '}
+                                        <a className="lenke" href={`mailto:${cv.data.epost}`}>
+                                            {cv.data.epost}
+                                        </a>
+                                    </span>
+                                )}
+                                {cv.data.telefon && (
+                                    <span>
+                                        Telefon:{' '}
+                                        <strong>
+                                            {formatMobileTelephoneNumber(cv.data.telefon)}
+                                        </strong>
+                                    </span>
+                                )}
+                                {cv.data.adresse && cv.data.adresse.adrlinje1 && (
+                                    <span>
+                                        Adresse:{' '}
+                                        <strong>
+                                            {formatterAdresse(
+                                                cv.data.adresse.adrlinje1,
+                                                cv.data.adresse.postnr,
+                                                cv.data.adresse.poststednavn
+                                            )}
+                                        </strong>
+                                    </span>
+                                )}
+                            </>
+                        ) : (
+                            <span></span>
                         )}
                     </div>
                 </div>
-                {fantCv && (
-                    <ForrigeNeste
-                        className="kandidatheader__forrige-neste-knapper"
-                        lenkeClass=""
-                        forrigeKandidat={forrigeKandidat}
-                        nesteKandidat={nesteKandidat}
-                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                        antallKandidater={antallKandidater}
-                    />
-                )}
+                <ForrigeNeste
+                    className="kandidatheader__forrige-neste-knapper"
+                    lenkeClass=""
+                    forrigeKandidat={forrigeKandidat}
+                    nesteKandidat={nesteKandidat}
+                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                    antallKandidater={antallKandidater}
+                />
             </div>
         </header>
     );
+};
+
+export const hentNavnFraCv = (cv: Cv) => {
+    const fornavn = capitalizeFirstLetter(cv.fornavn);
+    const etternavn = capitalizeFirstLetter(cv.etternavn);
+
+    return `${fornavn} ${etternavn}`;
 };
 
 export default Kandidatheader;

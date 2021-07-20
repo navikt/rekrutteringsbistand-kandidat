@@ -3,7 +3,7 @@ import { fetchCv } from '../../../api/api';
 import { KandidatsøkActionType } from '../../../kandidatsøk/reducer/searchActions';
 import Cv from './cv-typer';
 import { SearchApiError } from '../../../api/fetchUtils';
-import { Nettstatus } from '../../../api/Nettressurs';
+import { ApiError, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 
 export enum CvActionType {
     FetchCv = 'FETCH_CV',
@@ -33,6 +33,7 @@ export type FetchCvNotFoundAction = {
 
 export type FetchCvFailureAction = {
     type: CvActionType.FetchCvFailure;
+    error: ApiError;
 };
 
 export type CvAction =
@@ -43,50 +44,56 @@ export type CvAction =
     | FetchCvFailureAction;
 
 export type CvState = {
-    cv: Cv;
-    hentStatus: Nettstatus;
+    cv: Nettressurs<Cv>;
 };
 
-const initialState: any = {
+const initialState: CvState = {
     cv: {
-        aktorId: '',
-        kandidatnummer: '',
-
-        utdanning: [],
-        yrkeserfaring: [],
-        kurs: [],
-        sertifikater: [],
-        sprak: [],
+        kind: Nettstatus.IkkeLastet,
     },
-    hentStatus: Nettstatus.IkkeLastet,
 };
 
-export default function cvReducer(state: CvState = initialState, action: CvAction) {
+const cvReducer = (state: CvState = initialState, action: CvAction): CvState => {
     switch (action.type) {
         case CvActionType.FetchCv:
             return {
                 ...state,
-                hentStatus: Nettstatus.LasterInn,
+                cv: {
+                    kind: Nettstatus.LasterInn,
+                },
             };
         case CvActionType.FetchCvSuccess:
             return {
                 ...state,
-                cv: action.response,
-                hentStatus: Nettstatus.Suksess,
+                cv: {
+                    kind: Nettstatus.Suksess,
+                    data: action.response,
+                },
             };
         case CvActionType.FetchCvNotFound:
             return {
                 ...state,
-                hentStatus: Nettstatus.FinnesIkke,
+                cv: {
+                    kind: Nettstatus.FinnesIkke,
+                },
+            };
+        case CvActionType.FetchCvFailure:
+            return {
+                ...state,
+                cv: {
+                    kind: Nettstatus.Feil,
+                    error: action.error,
+                },
             };
         default:
             return state;
     }
-}
+};
 
 function* fetchCvForKandidat(action: FetchCvAction) {
     try {
-        const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
+        const response = yield call(fetchCv, action.arenaKandidatnr);
+
         yield put({ type: CvActionType.FetchCvSuccess, response });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -109,3 +116,5 @@ export const cvSaga = function* cvSaga() {
     yield takeLatest(CvActionType.FetchCv, fetchCvForKandidat);
     yield takeLatest(CvActionType.FetchCvFailure, dispatchGenerellErrorAction);
 };
+
+export default cvReducer;

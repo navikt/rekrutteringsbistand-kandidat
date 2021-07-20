@@ -316,7 +316,9 @@ fetchMock
     .get(url.typeahead, log(typeaheadgeo))
 
     // CV
-    .get(url.cv, log(getCv))
+    .get(url.cv, log(getCv), {
+        delay: 1000,
+    })
     .get(url.listeoversikt, log(kandidatlisterForKandidatMock))
     .mock(url.midlertidigUtilgjengelig, log(midlertidigUtilgjengelig))
 
