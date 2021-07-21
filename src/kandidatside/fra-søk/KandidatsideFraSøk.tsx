@@ -26,6 +26,14 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
 
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
+    const kommerFraKandidatliste = kandidatlisteId !== null || stillingsId !== null;
+    const kandidatlisteKontekst = kommerFraKandidatliste
+        ? {
+              stillingsId: stillingsId ?? undefined,
+              kandidatlisteId: stillingsId ?? undefined,
+              kandidatliste,
+          }
+        : undefined;
 
     const scrollTilToppen = () => {
         window.scrollTo(0, 0);
@@ -44,8 +52,6 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
         markerKandidatISøket();
         hentKandidatensCv();
         sendEvent('cv', 'visning');
-
-        console.log('Navigert');
     };
 
     const onFørsteSidelast = () => {
@@ -63,9 +69,7 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
             });
         };
 
-        const erIKontekstAvKandidatliste = kandidatlisteId !== null || stillingsId !== null;
-        if (erIKontekstAvKandidatliste && kandidatliste.kind === Nettstatus.IkkeLastet) {
-            console.log('Hentet');
+        if (kommerFraKandidatliste && kandidatliste.kind === Nettstatus.IkkeLastet) {
             if (kandidatlisteId) {
                 hentKandidatlisteMedKandidatlisteId(kandidatlisteId);
             } else if (stillingsId) {
@@ -75,13 +79,18 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
     };
 
     useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
-    useEffect(onFørsteSidelast, [dispatch, kandidatliste, stillingsId, kandidatlisteId]);
+    useEffect(onFørsteSidelast, [
+        dispatch,
+        kandidatliste,
+        stillingsId,
+        kandidatlisteId,
+        kommerFraKandidatliste,
+    ]);
 
     return (
         <KandidatsideFraSøkInner
             kandidatnr={kandidatnr}
-            stillingsId={stillingsId}
-            kandidatlisteId={kandidatlisteId}
+            kandidatlisteKontekst={kandidatlisteKontekst}
         >
             {children}
         </KandidatsideFraSøkInner>

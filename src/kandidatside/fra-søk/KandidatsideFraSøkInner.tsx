@@ -1,382 +1,192 @@
-import React, { ReactNode } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { Hovedknapp } from 'nav-frontend-knapper';
+import React, { FunctionComponent, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-
-import { CvAction } from '../cv/reducer/cvReducer';
-import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
-import {
-    lenkeTilCv,
-    lenkeTilFinnKandidaterMedStilling,
-    lenkeTilFinnKandidaterUtenStilling,
-    lenkeTilKandidatliste,
-    lenkeTilKandidatsøk,
-} from '../../app/paths';
-import { MidlertidigUtilgjengeligResponse } from '../midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { Dispatch } from 'redux';
 import { sendEvent } from '../../amplitude/amplitude';
-import { toUrlQuery } from '../../kandidatsøk/reducer/searchQuery';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { lenkeTilKandidatliste, lenkeTilKandidatsøk } from '../../app/paths';
 import AppState from '../../AppState';
-import Cv, { CvSøkeresultat } from '../cv/reducer/cv-typer';
-import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
 import HjelpetekstFading from '../../common/HjelpetekstFading';
-import Kandidatheader from '../header/Kandidatheader';
+import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import Kandidatmeny from '../meny/Kandidatmeny';
 import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
+import { toUrlQuery } from '../../kandidatsøk/reducer/searchQuery';
+import { kandidatliste } from '../../mock/data/kandidatliste.mock';
+import Cv from '../cv/reducer/cv-typer';
+import useMidlertidigUtilgjengelig from '../fra-kandidatliste/useMidlertidigUtilgjengelig';
+import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
+import Kandidatheader from '../header/Kandidatheader';
+import Kandidatmeny from '../meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { KandidatsøkAction, KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
+import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 
-type Props = ConnectedProps & {
+type Props = {
     kandidatnr: string;
-    stillingsId: string | null;
-    kandidatlisteId: string | null;
-    children: ReactNode;
+    kandidatlisteKontekst?: {
+        stillingsId?: string;
+        kandidatlisteId?: string;
+        kandidatliste: Nettressurs<Kandidatliste>;
+    };
 };
 
-type ConnectedProps = {
-    cv: Nettressurs<Cv>;
-    kandidater: CvSøkeresultat[];
-    antallKandidater: number;
-    lastFlereKandidater: () => void;
-    kandidatliste?: Kandidatliste;
-    midlertidigUtilgjengelig: Nettressurs<MidlertidigUtilgjengeligResponse>;
-    kandidatsøkFilterParams: string;
-    lagreKandidatIKandidatlisteStatus: Nettstatus;
-    lagreKandidatIKandidatliste: (
+const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
+    kandidatnr,
+    kandidatlisteKontekst,
+    children,
+}) => {
+    const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
+    const tilgjengelighet = useMidlertidigUtilgjengelig(kandidatnr);
+    const leggTilKandidatStatus = useSelector(
+        (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
+    );
+    const cv = useSelector((state: AppState) => state.cv.cv);
+    const søkeparametre = useSelector((state: AppState) => toUrlQuery(state));
+    const lenkeTilKandidatsøket = lenkeTilKandidatsøk(
+        søkeparametre,
+        kandidatlisteKontekst?.stillingsId,
+        kandidatlisteKontekst?.kandidatlisteId
+    );
+
+    const [visLeggTilKandidatModal, setVisLeggTilKandidatModal] = useState<boolean>(false);
+    const [visKandidatenErLagtTil, setVisKandidatenErLagtTil] = useState<boolean>(false);
+
+    const {
+        aktivKandidat,
+        lenkeTilForrige,
+        lenkeTilNeste,
+        antallKandidater,
+    } = useNavigerbareKandidaterFraSøk(
+        kandidatnr,
+        kandidatlisteKontekst?.kandidatlisteId,
+        kandidatlisteKontekst?.stillingsId
+    );
+
+    useEffect(() => {
+        if (kandidatlisteKontekst && leggTilKandidatStatus === Nettstatus.Suksess) {
+            setVisKandidatenErLagtTil(true);
+
+            const timeout = setTimeout(() => {
+                setVisKandidatenErLagtTil(false);
+            }, 5000);
+
+            return () => {
+                clearTimeout(timeout);
+            };
+        }
+    }, [kandidatlisteKontekst, leggTilKandidatStatus]);
+
+    const onLeggTilKandidat = (cv: Cv) => (kandidatliste: Kandidatliste) => {
+        sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
+        lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer, cv.kandidatnummer);
+    };
+
+    const kandidatenLiggerAlleredeIKandidatlistekonteksten = () => {
+        return (
+            kandidatlisteKontekst &&
+            kandidatlisteKontekst.kandidatliste.kind === Nettstatus.Suksess &&
+            kandidatlisteKontekst.kandidatliste.data.kandidater.some(
+                (kandidat) => kandidat.kandidatnr === kandidatnr
+            )
+        );
+    };
+
+    const lagreKandidatIKandidatliste = (
         kandidatliste: Kandidatliste,
         fnr: string,
         kandidatnr: string
-    ) => void;
-};
-
-type State = {
-    gjeldendeKandidatIndex: number;
-    forrigeKandidat?: string;
-    nesteKandidat?: string;
-    lagreKandidaterModalVises: boolean;
-    lagreKandidaterModalTilStillingVises: boolean;
-    visKandidatLagret: boolean;
-};
-
-class KandidatsideFraSøkInner extends React.Component<Props, State> {
-    kandidatnummer: string;
-    suksessmeldingCallbackId?: NodeJS.Timeout;
-
-    constructor(props: Props) {
-        super(props);
-        const { kandidatnr } = props;
-
-        this.state = {
-            gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(kandidatnr),
-            forrigeKandidat: this.forrigeKandidatnummerIListen(kandidatnr),
-            nesteKandidat: this.nesteKandidatnummerIListen(kandidatnr),
-            lagreKandidaterModalVises: false,
-            lagreKandidaterModalTilStillingVises: false,
-            visKandidatLagret: false,
-        };
-
-        this.kandidatnummer = kandidatnr;
-    }
-
-    componentDidMount() {
-        if (this.state.gjeldendeKandidatIndex === this.props.kandidater.length) {
-            this.props.lastFlereKandidater();
-        }
-    }
-
-    componentDidUpdate(prevProps: Props, prevState: State) {
-        const { kandidater, antallKandidater, lastFlereKandidater } = this.props;
-
-        // Sett neste kandidat-lenke hvis det er flere kandidater
-        if (prevProps.kandidater.length < kandidater.length) {
-            this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
-        }
-
-        // Kan implementes som en useEffect som reagerer på nytt kandidatnr (med en function component)
-        if (this.kandidatnummer !== this.props.kandidatnr && this.props.kandidatnr !== undefined) {
-            this.kandidatnummer = this.props.kandidatnr;
-
-            this.setState({
-                gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(this.kandidatnummer),
-            });
-        }
-
-        if (this.state.gjeldendeKandidatIndex !== prevState.gjeldendeKandidatIndex) {
-            this.setState({
-                forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer),
-            });
-
-            const kandidatenErSisteResultat =
-                this.state.gjeldendeKandidatIndex === kandidater.length;
-            const kanLasteFlereKandidater = kandidater.length < antallKandidater;
-
-            if (kandidatenErSisteResultat && kanLasteFlereKandidater) {
-                lastFlereKandidater();
-            } else {
-                this.setState({
-                    nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer),
-                });
-            }
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.suksessmeldingCallbackId) {
-            clearTimeout(this.suksessmeldingCallbackId);
-        }
-    }
-
-    onLagreKandidatClick = (kandidatlisteId: string | null, stillingsId: string | null) => () => {
-        this.setState({
-            lagreKandidaterModalVises: kandidatlisteId === null && stillingsId === null,
-            lagreKandidaterModalTilStillingVises: kandidatlisteId !== null || stillingsId !== null,
-        });
-    };
-
-    onCloseLagreKandidaterModal = () => {
-        this.setState({
-            lagreKandidaterModalVises: false,
-            lagreKandidaterModalTilStillingVises: false,
-        });
-    };
-
-    onLagreKandidatliste = (kandidatliste: Kandidatliste) => {
-        const { cv, lagreKandidatIKandidatliste } = this.props;
-
-        if (cv.kind === Nettstatus.Suksess) {
-            lagreKandidatIKandidatliste(kandidatliste, cv.data.fodselsnummer, this.kandidatnummer);
-            sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
-
-            if (this.props.kandidatlisteId || this.props.stillingsId) {
-                this.visAlertstripeLagreKandidater();
-            }
-        }
-    };
-
-    visAlertstripeLagreKandidater = () => {
-        if (this.suksessmeldingCallbackId) {
-            clearTimeout(this.suksessmeldingCallbackId);
-        }
-
-        this.setState({
-            lagreKandidaterModalTilStillingVises: false,
-            visKandidatLagret: true,
-        });
-
-        this.suksessmeldingCallbackId = setTimeout(() => {
-            this.setState({
-                visKandidatLagret: false,
-            });
-        }, 5000);
-    };
-
-    gjeldendeKandidatIndexIListen = (kandidatnr: string) => {
-        const { kandidater } = this.props;
-        return kandidater.findIndex((element) => element.arenaKandidatnr === kandidatnr);
-    };
-
-    forrigeKandidatnummerIListen = (kandidatnr: string) => {
-        const { kandidater } = this.props;
-        const gjeldendeIndex = kandidater.findIndex(
-            (element) => element.arenaKandidatnr === kandidatnr
-        );
-        if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
-            return undefined;
-        }
-        return kandidater[gjeldendeIndex - 1].arenaKandidatnr;
-    };
-
-    nesteKandidatnummerIListen = (kandidatnr: string) => {
-        const { kandidater } = this.props;
-
-        const gjeldendeIndex = kandidater.findIndex(
-            (element) => element.arenaKandidatnr === kandidatnr
-        );
-        if (gjeldendeIndex === kandidater.length - 1) {
-            return undefined;
-        }
-        return kandidater[gjeldendeIndex + 1].arenaKandidatnr;
-    };
-
-    render() {
-        const {
-            cv,
-            antallKandidater,
-            kandidatlisteId,
-            stillingsId,
-            lagreKandidatIKandidatlisteStatus,
-            kandidatliste,
-            midlertidigUtilgjengelig,
-            kandidatnr,
-        } = this.props;
-
-        const {
-            visKandidatLagret,
-            gjeldendeKandidatIndex,
-            forrigeKandidat,
-            nesteKandidat,
-            lagreKandidaterModalVises,
-            lagreKandidaterModalTilStillingVises,
-        } = this.state;
-
-        let tilbakeLink = lenkeTilKandidatsøk(this.props.kandidatsøkFilterParams);
-        let forrigeKandidatLink = forrigeKandidat ? lenkeTilCv(forrigeKandidat) : undefined;
-        let nesteKandidatLink = nesteKandidat ? lenkeTilCv(nesteKandidat) : undefined;
-
-        if (kandidatlisteId) {
-            tilbakeLink = lenkeTilFinnKandidaterUtenStilling(
-                kandidatlisteId,
-                this.props.kandidatsøkFilterParams
-            );
-
-            forrigeKandidatLink = forrigeKandidat
-                ? lenkeTilCv(forrigeKandidat, kandidatlisteId)
-                : undefined;
-
-            nesteKandidatLink = nesteKandidat
-                ? lenkeTilCv(nesteKandidat, kandidatlisteId)
-                : undefined;
-        } else if (stillingsId) {
-            tilbakeLink = lenkeTilFinnKandidaterMedStilling(
-                stillingsId,
-                this.props.kandidatsøkFilterParams
-            );
-
-            forrigeKandidatLink = forrigeKandidat
-                ? lenkeTilCv(forrigeKandidat, undefined, stillingsId)
-                : undefined;
-
-            nesteKandidatLink = nesteKandidat
-                ? lenkeTilCv(nesteKandidat, undefined, stillingsId)
-                : undefined;
-        }
-
-        const kandidatLiggerAlleredeIKandidatlisten =
-            kandidatliste &&
-            (stillingsId || kandidatlisteId) &&
-            kandidatliste.kandidater.findIndex((kandidat) => kandidat.kandidatnr === kandidatnr) !==
-                -1;
-
-        if (cv.kind === Nettstatus.LasterInn || cv.kind === Nettstatus.IkkeLastet) {
-            // TODO: Burde kunne vise noe mens CV laster inn, som i VisKandidatFraLister?
-            return (
-                <div className="text-center">
-                    <NavFrontendSpinner type="L" />
-                </div>
-            );
-        }
-
-        return (
-            <div>
-                <Kandidatheader
-                    cv={cv}
-                    tilbakeLink={tilbakeLink}
-                    antallKandidater={antallKandidater}
-                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                    nesteKandidat={nesteKandidatLink}
-                    forrigeKandidat={forrigeKandidatLink}
-                />
-                <Kandidatmeny cv={cv}>
-                    {cv.kind === Nettstatus.Suksess && (
-                        <MidlertidigUtilgjengelig
-                            cv={cv.data}
-                            midlertidigUtilgjengelig={midlertidigUtilgjengelig}
-                        />
-                    )}
-                    {kandidatLiggerAlleredeIKandidatlisten ? (
-                        <>
-                            Kandidaten er lagret i&nbsp;
-                            <Link
-                                to={lenkeTilKandidatliste(kandidatliste!.kandidatlisteId)}
-                                className="lenke"
-                            >
-                                kandidatlisten
-                            </Link>
-                        </>
-                    ) : (
-                        <Hovedknapp
-                            className="kandidatside__lagreknapp"
-                            onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
-                        >
-                            Lagre kandidat i kandidatliste
-                        </Hovedknapp>
-                    )}
-                </Kandidatmeny>
-                {this.props.children}
-                <div className="kandidatside__forrige-neste-wrapper">
-                    <ForrigeNeste
-                        lenkeClass="kandidatside__forrige-neste-lenke"
-                        forrigeKandidat={forrigeKandidatLink}
-                        nesteKandidat={nesteKandidatLink}
-                        antallKandidater={antallKandidater}
-                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                    />
-                </div>
-                {lagreKandidaterModalVises && (
-                    <LagreKandidaterModal
-                        vis={lagreKandidaterModalVises}
-                        onRequestClose={this.onCloseLagreKandidaterModal}
-                        onLagre={this.onLagreKandidatliste}
-                    />
-                )}
-                {lagreKandidaterModalTilStillingVises && kandidatliste && (
-                    <LagreKandidaterTilStillingModal
-                        vis={lagreKandidaterModalTilStillingVises}
-                        onRequestClose={this.onCloseLagreKandidaterModal}
-                        onLagre={this.onLagreKandidatliste}
-                        antallMarkerteKandidater={1}
-                        kandidatliste={kandidatliste}
-                        isSaving={lagreKandidatIKandidatlisteStatus === Nettstatus.SenderInn}
-                    />
-                )}
-                <HjelpetekstFading
-                    id="hjelpetekstfading"
-                    type="suksess"
-                    synlig={
-                        visKandidatLagret &&
-                        lagreKandidatIKandidatlisteStatus === Nettstatus.Suksess
-                    }
-                    innhold={`${'Kandidaten'} er lagret i kandidatlisten «${
-                        kandidatliste ? kandidatliste.tittel : ''
-                    }»`}
-                />
-            </div>
-        );
-    }
-}
-
-const mapStateToProps = (state: AppState) => ({
-    cv: state.cv.cv,
-    kandidater: state.søk.searchResultat.resultat.kandidater,
-    antallKandidater: state.søk.searchResultat.resultat.totaltAntallTreff,
-    kandidatliste:
-        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.kandidatliste.data
-            : undefined,
-    lagreKandidatIKandidatlisteStatus: state.kandidatliste.lagreKandidatIKandidatlisteStatus,
-    midlertidigUtilgjengelig:
-        state.cv.cv.kind === Nettstatus.Suksess
-            ? state.midlertidigUtilgjengelig[state.cv.cv.data.kandidatnummer]
-            : undefined,
-    kandidatsøkFilterParams: toUrlQuery(state),
-});
-
-const mapDispatchToProps = (
-    dispatch: Dispatch<CvAction | KandidatsøkAction | KandidatlisteAction>
-) => ({
-    lastFlereKandidater: () => dispatch({ type: KandidatsøkActionType.LastFlereKandidater }),
-    lagreKandidatIKandidatliste: (kandidatliste: Kandidatliste, fnr: string, kandidatnr: string) =>
+    ) => {
         dispatch({
             type: KandidatlisteActionType.LagreKandidatIKandidatliste,
             kandidatliste,
             fodselsnummer: fnr,
             kandidatnr,
-        }),
-});
+        });
+    };
 
-export default connect(mapStateToProps, mapDispatchToProps)(KandidatsideFraSøkInner);
+    return (
+        <>
+            <Kandidatheader
+                cv={cv}
+                tilbakeLink={lenkeTilKandidatsøket}
+                antallKandidater={antallKandidater}
+                gjeldendeKandidatIndex={aktivKandidat}
+                nesteKandidat={lenkeTilNeste}
+                forrigeKandidat={lenkeTilForrige}
+            />
+            <Kandidatmeny cv={cv}>
+                {cv.kind === Nettstatus.Suksess && (
+                    <MidlertidigUtilgjengelig
+                        cv={cv.data}
+                        midlertidigUtilgjengelig={tilgjengelighet}
+                    />
+                )}
+                {kandidatenLiggerAlleredeIKandidatlistekonteksten() ? (
+                    <>
+                        Kandidaten er lagret i&nbsp;
+                        <Link
+                            to={lenkeTilKandidatliste(kandidatliste!.kandidatlisteId)}
+                            className="lenke"
+                        >
+                            kandidatlisten
+                        </Link>
+                    </>
+                ) : (
+                    <Hovedknapp
+                        className="kandidatside__lagreknapp"
+                        onClick={() => setVisLeggTilKandidatModal(true)}
+                    >
+                        Lagre kandidat i kandidatliste
+                    </Hovedknapp>
+                )}
+            </Kandidatmeny>
+            {children}
+            <div className="kandidatside__forrige-neste-wrapper">
+                <ForrigeNeste
+                    lenkeClass="kandidatside__forrige-neste-lenke"
+                    forrigeKandidat={lenkeTilForrige}
+                    nesteKandidat={lenkeTilNeste}
+                    antallKandidater={antallKandidater}
+                    gjeldendeKandidatIndex={aktivKandidat}
+                />
+            </div>
+            <HjelpetekstFading
+                id="hjelpetekstfading"
+                type="suksess"
+                synlig={visKandidatenErLagtTil}
+                innhold={`${'Kandidaten'} er lagret i kandidatlisten «${
+                    kandidatliste ? kandidatliste.tittel : ''
+                }»`}
+            />
+            {visLeggTilKandidatModal && cv.kind === Nettstatus.Suksess && (
+                <>
+                    {kandidatlisteKontekst ? (
+                        <>
+                            {kandidatlisteKontekst.kandidatliste.kind === Nettstatus.Suksess && (
+                                <LagreKandidaterTilStillingModal
+                                    antallMarkerteKandidater={1}
+                                    vis={visLeggTilKandidatModal}
+                                    onRequestClose={() => setVisLeggTilKandidatModal(false)}
+                                    onLagre={onLeggTilKandidat(cv.data)}
+                                    kandidatliste={kandidatlisteKontekst.kandidatliste.data}
+                                    isSaving={leggTilKandidatStatus === Nettstatus.SenderInn}
+                                />
+                            )}
+                        </>
+                    ) : (
+                        <LagreKandidaterModal
+                            vis={visLeggTilKandidatModal}
+                            onRequestClose={() => setVisLeggTilKandidatModal(false)}
+                            onLagre={onLeggTilKandidat(cv.data)}
+                        />
+                    )}
+                </>
+            )}
+        </>
+    );
+};
+
+export default KandidatsideFraSøkInner;

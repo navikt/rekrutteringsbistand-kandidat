@@ -33,8 +33,19 @@ export const lenkeTilStilling = (stillingsId: string, redigeringsmodus?: boolean
         redigeringsmodus ? '?redigeringsmodus=true' : ''
     }`;
 
-export const lenkeTilKandidatsøk = (params?: string) =>
-    `${appPrefiks}/kandidater${params ? '?' + params : ''}`;
+export const lenkeTilKandidatsøk = (
+    params?: string,
+    stillingsId?: string,
+    kandidatlisteId?: string
+) => {
+    if (stillingsId) {
+        return lenkeTilFinnKandidaterMedStilling(stillingsId);
+    } else if (kandidatlisteId) {
+        return lenkeTilFinnKandidaterUtenStilling(kandidatlisteId);
+    } else {
+        return `${appPrefiks}/kandidater${params ? '?' + params : ''}`;
+    }
+};
 
 export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string, params?: string) =>
     `${appPrefiks}/kandidater/stilling/${stillingsId}${params ? '?' + params : ''}`;

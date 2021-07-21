@@ -1,13 +1,12 @@
-import { useLocation } from 'react-router-dom';
 import { lenkeTilKandidatside, Kandidatfane } from '../../app/paths';
 import { erInaktiv } from '../../kandidatliste/domene/Kandidat';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import useFiltrerteKandidater from '../../kandidatliste/hooks/useFiltrerteKandidater';
 import useSorterteKandidater from '../../kandidatliste/hooks/useSorterteKandidater';
+import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
 
 const useNavigerbareKandidater = (kandidatnr: string, kandidatliste: Kandidatliste) => {
-    const aktivFane = hentAktivFane(useLocation().pathname);
-
+    const aktivFane = useAktivKandidatsidefane();
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const aktiveKandidater = filtrerteKandidater.filter((kandidat) => !erInaktiv(kandidat));
     const sorterteKandidater = useSorterteKandidater(aktiveKandidater).sorterteKandidater;
@@ -39,7 +38,7 @@ const useNavigerbareKandidater = (kandidatnr: string, kandidatliste: Kandidatlis
     };
 };
 
-const hentAktivFane = (path: string): Kandidatfane => {
+export const hentAktivFane = (path: string): Kandidatfane => {
     if (path.split('/').pop() === 'cv') {
         return Kandidatfane.Cv;
     } else {
