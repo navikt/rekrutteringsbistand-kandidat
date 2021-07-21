@@ -39,9 +39,9 @@ export const lenkeTilKandidatsøk = (
     kandidatlisteId?: string
 ) => {
     if (stillingsId) {
-        return lenkeTilFinnKandidaterMedStilling(stillingsId);
+        return lenkeTilFinnKandidaterMedStilling(stillingsId, params);
     } else if (kandidatlisteId) {
-        return lenkeTilFinnKandidaterUtenStilling(kandidatlisteId);
+        return lenkeTilFinnKandidaterUtenStilling(kandidatlisteId, params);
     } else {
         return `${appPrefiks}/kandidater${params ? '?' + params : ''}`;
     }
