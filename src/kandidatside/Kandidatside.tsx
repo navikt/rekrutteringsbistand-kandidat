@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
-import VisKandidat from './VisKandidat';
-import VisKandidatMedKandidatliste from './VisKandidatMedKandidatliste';
+import KandidatsideFraSøk from './fra-søk/KandidatsideFraSøk';
+import KandidatsideFraKandidatliste from './fra-kandidatliste/KandidatsideFraKandidatliste';
+import './Kandidatside.less';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -20,22 +21,22 @@ const Kandidatside: FunctionComponent = ({ children }) => {
     const kandidatnr = params.kandidatnr;
 
     const queryParams = new URLSearchParams(search);
-    const stillingId = queryParams.get(KandidatQueryParam.StillingId);
-    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
+    const stillingId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
+    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId) ?? undefined;
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (
-        <VisKandidatMedKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
+        <KandidatsideFraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
             {children}
-        </VisKandidatMedKandidatliste>
+        </KandidatsideFraKandidatliste>
     ) : (
-        <VisKandidat
+        <KandidatsideFraSøk
             kandidatnr={kandidatnr}
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
         >
             {children}
-        </VisKandidat>
+        </KandidatsideFraSøk>
     );
 };
 

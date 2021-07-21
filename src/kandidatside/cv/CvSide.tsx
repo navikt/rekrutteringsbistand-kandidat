@@ -8,7 +8,7 @@ import AppState from '../../AppState';
 import { Nettstatus } from '../../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import IkkeFunnet from '../ikke-funnet/IkkeFunnet';
+import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 
 const CvSide: FunctionComponent = () => {
     const { cv } = useSelector((state: AppState) => state.cv);
@@ -38,7 +38,7 @@ const CvSide: FunctionComponent = () => {
         );
     }
 
-    return <AlertStripeFeil>Det skjedde en feil</AlertStripeFeil>;
+    return <AlertStripeFeil>Klarte ikke å hente kandidatens CV</AlertStripeFeil>;
 };
 
 export default CvSide;
