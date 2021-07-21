@@ -69,6 +69,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     useEffect(() => {
         if (kandidatlisteKontekst && leggTilKandidatStatus === Nettstatus.Suksess) {
             setVisKandidatenErLagtTil(true);
+            setVisLeggTilKandidatModal(false);
 
             const timeout = setTimeout(() => {
                 setVisKandidatenErLagtTil(false);
