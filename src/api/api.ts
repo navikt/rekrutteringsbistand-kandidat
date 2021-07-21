@@ -13,6 +13,7 @@ import {
 import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Bransje';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
+import Cv from '../kandidatside/cv/reducer/cv-typer';
 
 export const baseUrl = `/rekrutteringsbistand-kandidat`;
 
@@ -25,7 +26,7 @@ if (process.env.REACT_APP_MOCK) {
     require('../mock/api.ts');
 }
 
-const convertToUrlParams = (query) =>
+const convertToUrlParams = (query: object) =>
     Object.keys(query)
         .map((key) => {
             if (Array.isArray(query[key])) {
@@ -87,17 +88,17 @@ export function fetchKandidaterES(query = {}) {
     );
 }
 
-export function fetchCv(arenaKandidatnr) {
+export function fetchCv(kandidatnr: string): Promise<Cv> {
     return fetchJson(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/hentcv?${convertToUrlParams(arenaKandidatnr)}`,
+        `${KANDIDATSOK_API}/veileder/kandidatsok/hentcv?${convertToUrlParams({ kandidatnr })}`,
         true
     );
 }
 
-export const fetchKandidatlisteMedStillingsId = (stillingsId) =>
+export const fetchKandidatlisteMedStillingsId = (stillingsId: string) =>
     fetchJson(`${KANDIDATSOK_API}/veileder/stilling/${stillingsId}/kandidatliste`, true);
 
-export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) =>
+export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId: string) =>
     fetchJson(`${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}`, true);
 
 export const putStatusKandidat = (

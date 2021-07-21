@@ -1,13 +1,12 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { Kandidatliste as Kandidatlistetype, Kandidatlistestatus } from './domene/Kandidatliste';
+import { Kandidatlistefilter } from './reducer/kandidatlisteReducer';
 import { Kandidatstatus, erInaktiv, Kandidatutfall } from './domene/Kandidat';
-import { KandidatSorteringsfelt } from './kandidatsortering';
 import { Nettstatus } from '../api/Nettressurs';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
-import { Retning } from '../common/sorterbarKolonneheader/Retning';
-import { useHistory, useLocation } from 'react-router-dom';
 import AppState from '../AppState';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
@@ -31,12 +30,6 @@ import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
 import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import useSorterteKandidater from './hooks/useSorterteKandidater';
 import '../common/ikoner.less';
-import { Kandidatlistefilter } from './reducer/kandidatlisteReducer';
-
-export type Kandidatsortering = null | {
-    felt: KandidatSorteringsfelt;
-    retning: Retning | null;
-};
 
 type Props = {
     kandidatliste: Kandidatlistetype;
@@ -78,7 +71,9 @@ const Kandidatliste: FunctionComponent<Props> = ({
 
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
-    const { sorterteKandidater, setSortering } = useSorterteKandidater(filtrerteKandidater);
+    const { sorterteKandidater, sortering, setSortering } = useSorterteKandidater(
+        filtrerteKandidater
+    );
 
     const antallFiltertreff = useAntallFiltertreff(kandidatliste.kandidater, filter);
     const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
@@ -210,6 +205,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                 alleMarkert={alleFiltrerteErMarkerte}
                                 onCheckAlleKandidater={onCheckAlleKandidater}
                                 visArkiveringskolonne={kanArkivereKandidater}
+                                sortering={sortering}
                                 setSortering={setSortering}
                             />
                             {kandidatliste.formidlingerAvUsynligKandidat.map(

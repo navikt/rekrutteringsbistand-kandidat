@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import VisKandidat from './VisKandidat';
-import VisKandidatFraLister from './VisKandidatFraLister';
+import VisKandidatMedKandidatliste from './VisKandidatMedKandidatliste';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -25,9 +25,9 @@ const Kandidatside: FunctionComponent = ({ children }) => {
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (
-        <VisKandidatFraLister kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
+        <VisKandidatMedKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
             {children}
-        </VisKandidatFraLister>
+        </VisKandidatMedKandidatliste>
     ) : (
         <VisKandidat
             kandidatnr={kandidatnr}

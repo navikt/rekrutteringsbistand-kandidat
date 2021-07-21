@@ -23,7 +23,6 @@ import AppState from '../AppState';
 import Cv, { CvSøkeresultat } from './cv/reducer/cv-typer';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
 import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
@@ -42,13 +41,12 @@ type Props = ConnectedProps & {
 };
 
 type ConnectedProps = {
-    cv: Cv;
+    cv: Nettressurs<Cv>;
     hentCvForKandidat: (kandidatnr: string) => void;
     kandidater: CvSøkeresultat[];
     antallKandidater: number;
     lastFlereKandidater: () => void;
     settValgtKandidat: (kandidatnr: string) => void;
-    hentStatus: Nettstatus;
     hentKandidatlisteMedKandidatlisteId: (kandidatlisteId: string) => void;
     hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
     kandidatliste?: Kandidatliste;
@@ -189,11 +187,14 @@ class VisKandidat extends React.Component<Props, State> {
 
     onLagreKandidatliste = (kandidatliste: Kandidatliste) => {
         const { cv, lagreKandidatIKandidatliste } = this.props;
-        lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer, cv.kandidatnummer);
-        sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
 
-        if (this.props.kandidatlisteId || this.props.stillingsId) {
-            this.visAlertstripeLagreKandidater();
+        if (cv.kind === Nettstatus.Suksess) {
+            lagreKandidatIKandidatliste(kandidatliste, cv.data.fodselsnummer, this.kandidatnummer);
+            sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
+
+            if (this.props.kandidatlisteId || this.props.stillingsId) {
+                this.visAlertstripeLagreKandidater();
+            }
         }
     };
 
@@ -245,7 +246,6 @@ class VisKandidat extends React.Component<Props, State> {
     render() {
         const {
             cv,
-            hentStatus,
             antallKandidater,
             kandidatlisteId,
             stillingsId,
@@ -302,7 +302,8 @@ class VisKandidat extends React.Component<Props, State> {
             kandidatliste.kandidater.findIndex((kandidat) => kandidat.kandidatnr === kandidatnr) !==
                 -1;
 
-        if (hentStatus === Nettstatus.LasterInn || hentStatus === Nettstatus.IkkeLastet) {
+        if (cv.kind === Nettstatus.LasterInn || cv.kind === Nettstatus.IkkeLastet) {
+            // TODO: Burde kunne vise noe mens CV laster inn, som i VisKandidatFraLister?
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -319,51 +320,43 @@ class VisKandidat extends React.Component<Props, State> {
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     nesteKandidat={nesteKandidatLink}
                     forrigeKandidat={forrigeKandidatLink}
-                    fantCv={hentStatus === Nettstatus.Suksess}
                 />
-                {hentStatus === Nettstatus.FinnesIkke ? (
-                    <IkkeFunnet />
-                ) : (
-                    <>
-                        <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
-                            <MidlertidigUtilgjengelig
-                                midlertidigUtilgjengelig={midlertidigUtilgjengelig}
-                                kandidatnr={cv.kandidatnummer}
-                            />
-                            {kandidatLiggerAlleredeIKandidatlisten ? (
-                                <>
-                                    Kandidaten er lagret i&nbsp;
-                                    <Link
-                                        to={lenkeTilKandidatliste(kandidatliste!.kandidatlisteId)}
-                                        className="lenke"
-                                    >
-                                        kandidatlisten
-                                    </Link>
-                                </>
-                            ) : (
-                                <Hovedknapp
-                                    className="vis-kandidat__lagreknapp"
-                                    onClick={this.onLagreKandidatClick(
-                                        kandidatlisteId,
-                                        stillingsId
-                                    )}
-                                >
-                                    Lagre kandidat i kandidatliste
-                                </Hovedknapp>
-                            )}
-                        </Kandidatmeny>
-                        {this.props.children}
-                        <div className="vis-kandidat__forrige-neste-wrapper">
-                            <ForrigeNeste
-                                lenkeClass="vis-kandidat__forrige-neste-lenke"
-                                forrigeKandidat={forrigeKandidatLink}
-                                nesteKandidat={nesteKandidatLink}
-                                antallKandidater={antallKandidater}
-                                gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                            />
-                        </div>
-                    </>
-                )}
+                <Kandidatmeny cv={cv}>
+                    {cv.kind === Nettstatus.Suksess && (
+                        <MidlertidigUtilgjengelig
+                            cv={cv.data}
+                            midlertidigUtilgjengelig={midlertidigUtilgjengelig}
+                        />
+                    )}
+                    {kandidatLiggerAlleredeIKandidatlisten ? (
+                        <>
+                            Kandidaten er lagret i&nbsp;
+                            <Link
+                                to={lenkeTilKandidatliste(kandidatliste!.kandidatlisteId)}
+                                className="lenke"
+                            >
+                                kandidatlisten
+                            </Link>
+                        </>
+                    ) : (
+                        <Hovedknapp
+                            className="vis-kandidat__lagreknapp"
+                            onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
+                        >
+                            Lagre kandidat i kandidatliste
+                        </Hovedknapp>
+                    )}
+                </Kandidatmeny>
+                {this.props.children}
+                <div className="vis-kandidat__forrige-neste-wrapper">
+                    <ForrigeNeste
+                        lenkeClass="vis-kandidat__forrige-neste-lenke"
+                        forrigeKandidat={forrigeKandidatLink}
+                        nesteKandidat={nesteKandidatLink}
+                        antallKandidater={antallKandidater}
+                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                    />
+                </div>
                 {lagreKandidaterModalVises && (
                     <LagreKandidaterModal
                         vis={lagreKandidaterModalVises}
@@ -401,13 +394,15 @@ const mapStateToProps = (state: AppState) => ({
     cv: state.cv.cv,
     kandidater: state.søk.searchResultat.resultat.kandidater,
     antallKandidater: state.søk.searchResultat.resultat.totaltAntallTreff,
-    hentStatus: state.cv.hentStatus,
     kandidatliste:
         state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatliste.kandidatliste.data
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatliste.lagreKandidatIKandidatlisteStatus,
-    midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
+    midlertidigUtilgjengelig:
+        state.cv.cv.kind === Nettstatus.Suksess
+            ? state.midlertidigUtilgjengelig[state.cv.cv.data.kandidatnummer]
+            : undefined,
     kandidatsøkFilterParams: toUrlQuery(state),
 });
 

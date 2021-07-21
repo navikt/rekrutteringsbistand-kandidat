@@ -8,7 +8,7 @@ import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
 import sms from './json/sms.json';
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 import enhetsregister from './json/enhetsregister.json';
-import cver from './data/cv.mock';
+import cver, { finnerIkkeCv } from './data/cv.mock';
 
 import {
     kandidatliste,
@@ -87,10 +87,10 @@ const getCv = (url: string) => {
     const queryParams = url.split('?').pop();
     const kandidatnr = new URLSearchParams(queryParams).get('kandidatnr');
 
-    if (kandidatnr) {
-        return cver.find((cv) => cv.kandidatnummer === kandidatnr);
+    if (!kandidatnr || finnerIkkeCv.includes(kandidatnr || '')) {
+        return 404;
     } else {
-        return null;
+        return cver.find((cv) => cv.kandidatnummer === kandidatnr);
     }
 };
 
@@ -316,7 +316,9 @@ fetchMock
     .get(url.typeahead, log(typeaheadgeo))
 
     // CV
-    .get(url.cv, log(getCv))
+    .get(url.cv, log(getCv), {
+        delay: 1000,
+    })
     .get(url.listeoversikt, log(kandidatlisterForKandidatMock))
     .mock(url.midlertidigUtilgjengelig, log(midlertidigUtilgjengelig))
 

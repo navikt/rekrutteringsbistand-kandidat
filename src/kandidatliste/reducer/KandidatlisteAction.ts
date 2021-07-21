@@ -13,7 +13,7 @@ import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
 import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Sms } from '../domene/Kandidatressurser';
-import { Kandidatlistefilter } from './kandidatlisteReducer';
+import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
@@ -470,6 +470,11 @@ export interface EndreVisningsstatusKandidatAction {
     visningsstatus: Visningsstatus;
 }
 
+export interface EndreSortering {
+    type: KandidatlisteActionType.EndreSortering;
+    sortering: Kandidatsortering;
+}
+
 type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -556,6 +561,7 @@ type KandidatlisteAction =
     | EndreKandidatlistestatusFailureAction
     | HentForespørslerOmDelingAvCvAction
     | HentForespørslerOmDelingAvCvSuccessAction
-    | HentForespørslerOmDelingAvCvFailureAction;
+    | HentForespørslerOmDelingAvCvFailureAction
+    | EndreSortering;
 
 export default KandidatlisteAction;

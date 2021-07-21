@@ -170,6 +170,8 @@ export const kandidatnumre = tomListe.map((_, i) => {
     return toBokstaver + '123456';
 });
 
+export const finnerIkkeCv = ['AB123456'];
+
 const cver = tomListe.map((_, i) => ({
     ...baseCv,
     kandidatnummer: kandidatnumre[i],

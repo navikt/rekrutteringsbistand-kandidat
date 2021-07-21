@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
 import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
-import { Kandidatsortering } from '../Kandidatliste';
+import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
 import '../kandidatrad/Kandidatrad.less';
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
     alleMarkert: boolean;
     onCheckAlleKandidater: () => void;
     visArkiveringskolonne: boolean;
+    sortering: Kandidatsortering;
     setSortering: (sortering: Kandidatsortering) => void;
 }
 
@@ -52,6 +53,7 @@ const ListeHeader: FunctionComponent<Props> = ({
     alleMarkert,
     onCheckAlleKandidater,
     visArkiveringskolonne,
+    sortering,
     setSortering,
 }) => {
     const klassenavn =
@@ -64,23 +66,19 @@ const ListeHeader: FunctionComponent<Props> = ({
         'kandidatliste-kandidat__rad' +
         modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
 
-    const [aktivtSorteringsfelt, setAktivtSorteringsfelt] = useState<KandidatSorteringsfelt | null>(
-        null
-    );
-    const [aktivSorteringsretning, setAktivSorteringsretning] = useState<Retning | null>(null);
-
     const endreSortering = (sorteringsfeltIndex: number) => {
-        const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfeltIndex;
+        const endringPåAktivtFelt = sortering?.felt === sorteringsfeltIndex;
 
         const felt = KandidatSorteringsfelt[KandidatSorteringsfelt[sorteringsfeltIndex]];
         const retning = endringPåAktivtFelt
-            ? nesteSorteringsretning(aktivSorteringsretning)
+            ? nesteSorteringsretning(sortering?.retning || null)
             : Retning.Stigende;
 
-        setAktivSorteringsretning(retning);
-        setAktivtSorteringsfelt(felt);
         setSortering({ felt, retning });
     };
+
+    const aktivtSorteringsfelt = sortering?.felt ?? null;
+    const aktivSorteringsretning = sortering?.retning ?? null;
 
     return (
         <div role="rowgroup" className={klassenavn}>

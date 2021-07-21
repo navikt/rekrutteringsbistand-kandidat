@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import moment from 'moment';
 import 'nav-datovelger/lib/styles/datovelger.less';
@@ -12,62 +13,27 @@ import {
 import { antallDagerMellom, dagensDato } from './validering';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { sendEvent } from '../../amplitude/amplitude';
-import { Tilgjengelighet } from '../cv/reducer/cv-typer';
-import AppState from '../../AppState';
+import Cv, { Tilgjengelighet } from '../cv/reducer/cv-typer';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
 import './MidlertidigUtilgjengelig.less';
 
-interface Props {
-    aktørId: string;
-    kandidatnr: string;
+type OwnProps = {
+    cv: Cv;
+    midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
+};
+
+type ConnectedProps = {
     lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => void;
-    midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
-}
-
-const getTilgjengelighet = (
-    response: Nettressurs<MidlertidigUtilgjengeligResponse>
-): Tilgjengelighet | undefined => {
-    if (response.kind !== Nettstatus.Suksess) {
-        return undefined;
-    }
-
-    const registrertData = response.data.midlertidigUtilgjengelig;
-    if (registrertData === null) {
-        return Tilgjengelighet.Tilgjengelig;
-    }
-
-    const idag = dagensDato();
-    const fraDato = moment(registrertData.fraDato).startOf('day');
-    const tilDato = moment(registrertData.tilDato).startOf('day');
-
-    if (!idag.isBetween(fraDato, tilDato, 'days', '[]')) {
-        return Tilgjengelighet.Tilgjengelig;
-    }
-
-    if (tilDato.diff(idag, 'days') < 7) {
-        return Tilgjengelighet.TilgjengeligInnen1Uke;
-    }
-
-    return Tilgjengelighet.MidlertidigUtilgjengelig;
 };
 
-const kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt = (
-    midlertidigUtilgjengelig: Nettressurs<MidlertidigUtilgjengeligResponse>
-) => {
-    return (
-        midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
-        midlertidigUtilgjengelig.data.midlertidigUtilgjengelig !== null &&
-        getTilgjengelighet(midlertidigUtilgjengelig) === Tilgjengelighet.Tilgjengelig
-    );
-};
+type Props = OwnProps & ConnectedProps;
 
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
-    kandidatnr,
-    aktørId,
+    cv,
     midlertidigUtilgjengelig,
     lagreMidlertidigUtilgjengelig,
     endreMidlertidigUtilgjengelig,
@@ -83,7 +49,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 
     const endre = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
-        endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        endreMidlertidigUtilgjengelig(cv.kandidatnummer, cv.aktorId, dato);
 
         sendEvent('cv_midlertidig_utilgjengelig', 'endre', {
             antallDager: antallDagerMellom(dagensDato(), tilOgMedDato),
@@ -99,23 +65,21 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
         });
 
         if (kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt(midlertidigUtilgjengelig)) {
-            endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+            endreMidlertidigUtilgjengelig(cv.kandidatnummer, cv.aktorId, dato);
         } else {
-            lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+            lagreMidlertidigUtilgjengelig(cv.kandidatnummer, cv.aktorId, dato);
         }
 
         lukkPopup();
     };
 
     const slett = () => {
-        slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
+        slettMidlertidigUtilgjengelig(cv.kandidatnummer, cv.aktorId);
         sendEvent('cv_midlertidig_utilgjengelig', 'slett');
         lukkPopup();
     };
 
-    const tilgjengelighet = midlertidigUtilgjengelig
-        ? getTilgjengelighet(midlertidigUtilgjengelig)
-        : undefined;
+    const tilgjengelighet = getTilgjengelighet(midlertidigUtilgjengelig);
 
     const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const skalÅpnes = !anker;
@@ -162,11 +126,46 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
     );
 };
 
+const getTilgjengelighet = (
+    response: Nettressurs<MidlertidigUtilgjengeligResponse>
+): Tilgjengelighet | undefined => {
+    if (response.kind !== Nettstatus.Suksess) {
+        return undefined;
+    }
+
+    const registrertData = response.data.midlertidigUtilgjengelig;
+    if (registrertData === null) {
+        return Tilgjengelighet.Tilgjengelig;
+    }
+
+    const idag = dagensDato();
+    const fraDato = moment(registrertData.fraDato).startOf('day');
+    const tilDato = moment(registrertData.tilDato).startOf('day');
+
+    if (!idag.isBetween(fraDato, tilDato, 'days', '[]')) {
+        return Tilgjengelighet.Tilgjengelig;
+    }
+
+    if (tilDato.diff(idag, 'days') < 7) {
+        return Tilgjengelighet.TilgjengeligInnen1Uke;
+    }
+
+    return Tilgjengelighet.MidlertidigUtilgjengelig;
+};
+
+const kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt = (
+    midlertidigUtilgjengelig: Nettressurs<MidlertidigUtilgjengeligResponse>
+) => {
+    return (
+        midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
+        midlertidigUtilgjengelig.data.midlertidigUtilgjengelig !== null &&
+        getTilgjengelighet(midlertidigUtilgjengelig) === Tilgjengelighet.Tilgjengelig
+    );
+};
+
 export default connect(
-    (state: AppState) => ({
-        aktørId: state.cv.cv.aktorId,
-    }),
-    (dispatch: (action: MidlertidigUtilgjengeligAction) => void) => ({
+    () => ({}),
+    (dispatch: Dispatch<MidlertidigUtilgjengeligAction>) => ({
         lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
             dispatch({
                 type: MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengelig,
