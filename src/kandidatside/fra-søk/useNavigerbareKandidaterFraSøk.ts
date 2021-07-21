@@ -23,10 +23,10 @@ const useNavigerbareKandidaterFraSøk = (
     );
 
     useEffect(() => {
-        const aktivKandidatErSisteResultat = aktivKandidat === kandidater.length - 2;
+        const aktivKandidatErNestSisteResultat = aktivKandidat === kandidater.length - 2;
         const kanLasteFlereResultater = kandidater.length < totaltAntallTreff;
 
-        if (aktivKandidatErSisteResultat && kanLasteFlereResultater) {
+        if (aktivKandidatErNestSisteResultat && kanLasteFlereResultater) {
             dispatch({ type: KandidatsøkActionType.LastFlereKandidater });
         }
     }, [dispatch, aktivKandidat, kandidater, totaltAntallTreff]);
