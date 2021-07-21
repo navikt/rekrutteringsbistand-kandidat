@@ -45,6 +45,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     );
     const cv = useSelector((state: AppState) => state.cv.cv);
     const søkeparametre = useSelector((state: AppState) => toUrlQuery(state));
+
     const lenkeTilKandidatsøket = lenkeTilKandidatsøk(
         søkeparametre,
         kandidatlisteKontekst?.stillingsId,

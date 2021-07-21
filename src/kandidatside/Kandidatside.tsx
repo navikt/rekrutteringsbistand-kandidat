@@ -21,8 +21,8 @@ const Kandidatside: FunctionComponent = ({ children }) => {
     const kandidatnr = params.kandidatnr;
 
     const queryParams = new URLSearchParams(search);
-    const stillingId = queryParams.get(KandidatQueryParam.StillingId);
-    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
+    const stillingId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
+    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId) ?? undefined;
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (

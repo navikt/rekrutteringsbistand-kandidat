@@ -13,8 +13,8 @@ import KandidatsideFraSøkInner from './KandidatsideFraSøkInner';
 
 type Props = {
     kandidatnr: string;
-    stillingsId: string | null;
-    kandidatlisteId: string | null;
+    stillingsId?: string;
+    kandidatlisteId?: string;
 };
 
 const KandidatsideFraSøk: FunctionComponent<Props> = ({
@@ -29,8 +29,8 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
     const kommerFraKandidatliste = kandidatlisteId !== null || stillingsId !== null;
     const kandidatlisteKontekst = kommerFraKandidatliste
         ? {
-              stillingsId: stillingsId ?? undefined,
-              kandidatlisteId: stillingsId ?? undefined,
+              stillingsId,
+              kandidatlisteId,
               kandidatliste,
           }
         : undefined;
