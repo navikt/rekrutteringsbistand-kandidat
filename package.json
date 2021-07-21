@@ -21,8 +21,7 @@
         "docker-stop": "docker stop rekrutteringsbistand-kandidat",
         "docker:labs:build": "docker build --tag rekbis-kandidat-lab . -f labs/Dockerfile",
         "docker:labs:run": "docker run -p 8080:8080 rekbis-kandidat-lab",
-        "docker:labs": "npm run docker:build-labs && npm run docker:run-labs",
-        "test:snyk": "snyk test"
+        "docker:labs": "npm run docker:build-labs && npm run docker:run-labs"
     },
     "eslintConfig": {
         "extends": [
@@ -128,12 +127,10 @@
         "prettier": "^2.2.1",
         "redux": "^4.0.5",
         "redux-devtools-extension": "^2.13.5",
-        "snyk": "^1.455.0",
         "ts-loader": "^8.0.17",
         "typescript": "^4.1.5",
         "uuid": "^8.3.2"
     },
-    "snyk": true,
     "browserslist": {
         "production": [
             ">0.2%",
