@@ -38,7 +38,7 @@ const CvSide: FunctionComponent = () => {
         );
     }
 
-    return <AlertStripeFeil>Det skjedde en feil</AlertStripeFeil>;
+    return <AlertStripeFeil>Klarte ikke å hente kandidatens CV</AlertStripeFeil>;
 };
 
 export default CvSide;
