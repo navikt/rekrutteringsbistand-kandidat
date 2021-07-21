@@ -22,9 +22,13 @@ const KandidatsideFraKandidatliste: FunctionComponent<Props> = ({
     const dispatch: Dispatch<KandidatlisteAction | CvAction> = useDispatch();
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
 
-    useEffect(() => {
+    const onNavigeringTilKandidat = () => {
         window.scrollTo(0, 0);
+    };
 
+    useEffect(onNavigeringTilKandidat, [kandidatnr]);
+
+    useEffect(() => {
         const hentCvForKandidat = (arenaKandidatnr: string) => {
             dispatch({ type: CvActionType.FetchCv, arenaKandidatnr });
         };

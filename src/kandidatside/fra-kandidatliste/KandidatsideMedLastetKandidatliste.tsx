@@ -21,7 +21,7 @@ import Kandidatmeny from '../meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusOgHendelser from '../../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
 import useMidlertidigUtilgjengelig from './useMidlertidigUtilgjengelig';
-import useNavigerbareKandidater from '../header/useNavigerbareKandidater';
+import useNavigerbareKandidater from './useNavigerbareKandidater';
 import '../../common/ikoner.less';
 
 type Props = {
