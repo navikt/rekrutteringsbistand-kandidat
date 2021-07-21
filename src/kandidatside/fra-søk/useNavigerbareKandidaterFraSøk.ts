@@ -23,7 +23,7 @@ const useNavigerbareKandidaterFraSøk = (
     );
 
     useEffect(() => {
-        const aktivKandidatErSisteResultat = aktivKandidat === kandidater.length;
+        const aktivKandidatErSisteResultat = aktivKandidat === kandidater.length - 2;
         const kanLasteFlereResultater = kandidater.length < totaltAntallTreff;
 
         if (aktivKandidatErSisteResultat && kanLasteFlereResultater) {
