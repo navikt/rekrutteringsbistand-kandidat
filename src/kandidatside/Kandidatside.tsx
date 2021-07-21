@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
-import VisKandidat from './VisKandidat';
-import VisKandidatMedKandidatliste from './VisKandidatMedKandidatliste';
+import KandidatsideFraSøk from './fra-søk/KandidatsideFraSøk';
+import KandidatsideFraKandidatliste from './fra-kandidatliste/KandidatsideFraKandidatliste';
+import './Kandidatside.less';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -25,17 +26,17 @@ const Kandidatside: FunctionComponent = ({ children }) => {
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (
-        <VisKandidatMedKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
+        <KandidatsideFraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
             {children}
-        </VisKandidatMedKandidatliste>
+        </KandidatsideFraKandidatliste>
     ) : (
-        <VisKandidat
+        <KandidatsideFraSøk
             kandidatnr={kandidatnr}
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
         >
             {children}
-        </VisKandidat>
+        </KandidatsideFraSøk>
     );
 };
 

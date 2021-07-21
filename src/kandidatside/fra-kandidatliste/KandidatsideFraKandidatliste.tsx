@@ -2,19 +2,19 @@ import React from 'react';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { FunctionComponent, Dispatch, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Nettstatus } from '../api/Nettressurs';
-import AppState from '../AppState';
-import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
-import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import { CvAction, CvActionType } from './cv/reducer/cvReducer';
-import VisKandidatFraLister from './VisKandidatFraLister';
+import { Nettstatus } from '../../api/Nettressurs';
+import AppState from '../../AppState';
+import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import { CvAction, CvActionType } from '../cv/reducer/cvReducer';
+import KandidatsideMedLastetKandidatliste from './KandidatsideMedLastetKandidatliste';
 
 type Props = {
     kandidatnr: string;
     kandidatlisteId: string;
 };
 
-const VisKandidatMedKandidatliste: FunctionComponent<Props> = ({
+const KandidatsideFraKandidatliste: FunctionComponent<Props> = ({
     kandidatnr,
     kandidatlisteId,
     children,
@@ -73,13 +73,16 @@ const VisKandidatMedKandidatliste: FunctionComponent<Props> = ({
         }
 
         return (
-            <VisKandidatFraLister kandidat={kandidat} kandidatliste={kandidatliste.data}>
+            <KandidatsideMedLastetKandidatliste
+                kandidat={kandidat}
+                kandidatliste={kandidatliste.data}
+            >
                 {children}
-            </VisKandidatFraLister>
+            </KandidatsideMedLastetKandidatliste>
         );
     }
 
     return null;
 };
 
-export default VisKandidatMedKandidatliste;
+export default KandidatsideFraKandidatliste;

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import AppState from '../AppState';
+import AppState from '../../AppState';
 
 const useMidlertidigUtilgjengelig = (kandidatnr: string) => {
     const state = useSelector((state: AppState) => state.midlertidigUtilgjengelig);

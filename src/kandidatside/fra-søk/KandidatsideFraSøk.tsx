@@ -6,32 +6,31 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import { CvAction, CvActionType } from './cv/reducer/cvReducer';
-import { Kandidatliste } from '../kandidatliste/domene/Kandidatliste';
+import { CvAction, CvActionType } from '../cv/reducer/cvReducer';
+import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import {
     lenkeTilCv,
     lenkeTilFinnKandidaterMedStilling,
     lenkeTilFinnKandidaterUtenStilling,
     lenkeTilKandidatliste,
     lenkeTilKandidatsøk,
-} from '../app/paths';
-import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { Nettressurs, Nettstatus } from '../api/Nettressurs';
-import { sendEvent } from '../amplitude/amplitude';
-import { toUrlQuery } from '../kandidatsøk/reducer/searchQuery';
-import AppState from '../AppState';
-import Cv, { CvSøkeresultat } from './cv/reducer/cv-typer';
-import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
-import HjelpetekstFading from '../common/HjelpetekstFading';
-import Kandidatheader from './header/Kandidatheader';
-import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
-import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import Kandidatmeny from './meny/Kandidatmeny';
-import LagreKandidaterModal from '../kandidatsøk/modaler/LagreKandidaterModal';
-import LagreKandidaterTilStillingModal from '../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
-import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
-import './VisKandidat.less';
+} from '../../app/paths';
+import { MidlertidigUtilgjengeligResponse } from '../midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { sendEvent } from '../../amplitude/amplitude';
+import { toUrlQuery } from '../../kandidatsøk/reducer/searchQuery';
+import AppState from '../../AppState';
+import Cv, { CvSøkeresultat } from '../cv/reducer/cv-typer';
+import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
+import HjelpetekstFading from '../../common/HjelpetekstFading';
+import Kandidatheader from '../header/Kandidatheader';
+import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import Kandidatmeny from '../meny/Kandidatmeny';
+import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from '../../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
+import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import { KandidatsøkAction, KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
 
 type Props = ConnectedProps & {
     kandidatnr: string;
@@ -69,7 +68,7 @@ type State = {
     visKandidatLagret: boolean;
 };
 
-class VisKandidat extends React.Component<Props, State> {
+class KandidatsideFraSøk extends React.Component<Props, State> {
     kandidatnummer: string;
     suksessmeldingCallbackId?: NodeJS.Timeout;
 
@@ -340,7 +339,7 @@ class VisKandidat extends React.Component<Props, State> {
                         </>
                     ) : (
                         <Hovedknapp
-                            className="vis-kandidat__lagreknapp"
+                            className="kandidatside__lagreknapp"
                             onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
                         >
                             Lagre kandidat i kandidatliste
@@ -348,9 +347,9 @@ class VisKandidat extends React.Component<Props, State> {
                     )}
                 </Kandidatmeny>
                 {this.props.children}
-                <div className="vis-kandidat__forrige-neste-wrapper">
+                <div className="kandidatside__forrige-neste-wrapper">
                     <ForrigeNeste
-                        lenkeClass="vis-kandidat__forrige-neste-lenke"
+                        lenkeClass="kandidatside__forrige-neste-lenke"
                         forrigeKandidat={forrigeKandidatLink}
                         nesteKandidat={nesteKandidatLink}
                         antallKandidater={antallKandidater}
@@ -433,4 +432,4 @@ const mapDispatchToProps = (
         }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(VisKandidat);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidatsideFraSøk);

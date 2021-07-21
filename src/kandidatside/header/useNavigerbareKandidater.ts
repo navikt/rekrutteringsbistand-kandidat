@@ -1,10 +1,13 @@
-import { lenkeTilCv } from '../../app/paths';
+import { useLocation } from 'react-router-dom';
+import { lenkeTilKandidatside, Kandidatfane } from '../../app/paths';
 import { erInaktiv } from '../../kandidatliste/domene/Kandidat';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import useFiltrerteKandidater from '../../kandidatliste/hooks/useFiltrerteKandidater';
 import useSorterteKandidater from '../../kandidatliste/hooks/useSorterteKandidater';
 
 const useNavigerbareKandidater = (kandidatnr: string, kandidatliste: Kandidatliste) => {
+    const aktivFane = hentAktivFane(useLocation().pathname);
+
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const aktiveKandidater = filtrerteKandidater.filter((kandidat) => !erInaktiv(kandidat));
     const sorterteKandidater = useSorterteKandidater(aktiveKandidater).sorterteKandidater;
@@ -12,7 +15,13 @@ const useNavigerbareKandidater = (kandidatnr: string, kandidatliste: Kandidatlis
 
     const hentLenkeTilKandidat = (kandidatnummer: string) =>
         kandidatnummer
-            ? lenkeTilCv(kandidatnummer, kandidatliste.kandidatlisteId, undefined, true)
+            ? lenkeTilKandidatside(
+                  kandidatnummer,
+                  aktivFane,
+                  kandidatliste.kandidatlisteId,
+                  undefined,
+                  true
+              )
             : undefined;
 
     const aktivKandidat = kandidatnumre.indexOf(kandidatnr);
@@ -28,6 +37,14 @@ const useNavigerbareKandidater = (kandidatnr: string, kandidatliste: Kandidatlis
         lenkeTilForrige: forrigeKandidatLink,
         lenkeTilNeste: nesteKandidatLink,
     };
+};
+
+const hentAktivFane = (path: string): Kandidatfane => {
+    if (path.split('/').pop() === 'cv') {
+        return Kandidatfane.Cv;
+    } else {
+        return Kandidatfane.Historikk;
+    }
 };
 
 export default useNavigerbareKandidater;

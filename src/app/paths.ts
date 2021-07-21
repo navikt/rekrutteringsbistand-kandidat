@@ -42,6 +42,22 @@ export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string, params?: 
 export const lenkeTilFinnKandidaterUtenStilling = (stillingsId: string, params?: string) =>
     `${appPrefiks}/kandidater/kandidatliste/${stillingsId}${params ? '?' + params : ''}`;
 
+export enum Kandidatfane {
+    Cv,
+    Historikk,
+}
+
+export const lenkeTilKandidatside = (
+    kandidatnr: string,
+    aktivFane: Kandidatfane,
+    kandidatlisteId?: string,
+    stillingsId?: string,
+    fraKandidatliste?: boolean
+) =>
+    aktivFane === Kandidatfane.Cv
+        ? lenkeTilCv(kandidatnr, kandidatlisteId, stillingsId, fraKandidatliste)
+        : lenkeTilHistorikk(kandidatnr, kandidatlisteId, stillingsId, fraKandidatliste);
+
 export const lenkeTilCv = (
     kandidatnr: string,
     kandidatlisteId?: string,
@@ -49,18 +65,40 @@ export const lenkeTilCv = (
     fraKandidatliste?: boolean
 ) => {
     let lenke = `${appPrefiks}/kandidater/kandidat/${kandidatnr}/cv`;
+    return lenke + queryParamsForKandidatside(kandidatlisteId, stillingsId, fraKandidatliste);
+};
+
+export const lenkeTilHistorikk = (
+    kandidatnr: string,
+    kandidatlisteId?: string,
+    stillingsId?: string,
+    fraKandidatliste?: boolean
+) => {
+    let lenke = `${appPrefiks}/kandidater/kandidat/${kandidatnr}/historikk`;
+    return lenke + queryParamsForKandidatside(kandidatlisteId, stillingsId, fraKandidatliste);
+};
+
+const queryParamsForKandidatside = (
+    kandidatlisteId?: string,
+    stillingsId?: string,
+    fraKandidatliste?: boolean
+) => {
+    let queryParams = '';
 
     if (kandidatlisteId) {
-        lenke += nesteSeparator(lenke) + `${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
+        queryParams +=
+            nesteSeparator(queryParams) +
+            `${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
     }
 
     if (stillingsId) {
-        lenke += nesteSeparator(lenke) + `${KandidatQueryParam.StillingId}=${stillingsId}`;
+        queryParams +=
+            nesteSeparator(queryParams) + `${KandidatQueryParam.StillingId}=${stillingsId}`;
     }
 
     if (fraKandidatliste) {
-        lenke += nesteSeparator(lenke) + `${KandidatQueryParam.FraKandidatliste}=true`;
+        queryParams += nesteSeparator(queryParams) + `${KandidatQueryParam.FraKandidatliste}=true`;
     }
 
-    return lenke;
+    return queryParams;
 };
