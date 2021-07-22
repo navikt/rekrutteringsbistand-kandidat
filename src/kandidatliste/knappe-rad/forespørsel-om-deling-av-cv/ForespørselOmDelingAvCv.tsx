@@ -15,8 +15,8 @@ import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
-import './ForespørselOmDelingAvCv.less';
 import { Kandidat } from '../../domene/Kandidat';
+import './ForespørselOmDelingAvCv.less';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -203,15 +203,16 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                             locale="nb"
                             inputProps={{
                                 placeholder: 'dd.mm.åååå',
+                                'aria-invalid': egenvalgtFristFeilmelding !== undefined,
                             }}
                             value={egenvalgtFrist}
-                            // datoErGyldig={egenvalgtFristFeilmelding === undefined} TODO erstatning
                             limitations={{
                                 minDate: minDatoForEgenvalgtFrist,
                                 maxDate: maksDatoForEgenvalgtFrist,
                             }}
                             onChange={onEgenvalgtFristChange}
                             calendarSettings={{
+                                showWeekNumbers: true,
                                 position: 'fullscreen',
                             }}
                         />
