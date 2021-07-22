@@ -72,6 +72,10 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     const onEgenvalgtFristChange = (dato?: string) => {
         if (!dato || dato === 'Invalid date') {
             setEgenvalgtFristFeilmelding('Feil datoformat, skriv inn dd.mm.åååå');
+        } else if (moment(dato).isBefore(minDatoForEgenvalgtFrist)) {
+            setEgenvalgtFristFeilmelding('Svarfristen må settes minst to dager frem i tid.');
+        } else if (moment(dato).isAfter(maksDatoForEgenvalgtFrist)) {
+            setEgenvalgtFristFeilmelding('Svarfristen må settes senest én måned frem i tid.');
         } else {
             setEgenvalgtFristFeilmelding(undefined);
         }
