@@ -30,6 +30,7 @@ const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = (props) => 
                     name: 'applicationDue',
                     placeholder: 'dd.mm.åååå',
                     'aria-label': 'Sett søknadsfrist',
+                    'aria-invalid': feilmelding !== undefined,
                 }}
                 locale="nb"
                 onChange={setDato}
