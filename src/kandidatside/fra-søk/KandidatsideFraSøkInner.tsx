@@ -15,7 +15,6 @@ import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteAc
 import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
 import { toUrlQuery } from '../../kandidatsøk/reducer/searchQuery';
-import { kandidatliste } from '../../mock/data/kandidatliste.mock';
 import Cv from '../cv/reducer/cv-typer';
 import useMidlertidigUtilgjengelig from '../fra-kandidatliste/useMidlertidigUtilgjengelig';
 import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
@@ -55,16 +54,12 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     const [visLeggTilKandidatModal, setVisLeggTilKandidatModal] = useState<boolean>(false);
     const [visKandidatenErLagtTil, setVisKandidatenErLagtTil] = useState<boolean>(false);
 
-    const {
-        aktivKandidat,
-        lenkeTilForrige,
-        lenkeTilNeste,
-        antallKandidater,
-    } = useNavigerbareKandidaterFraSøk(
-        kandidatnr,
-        kandidatlisteKontekst?.kandidatlisteId,
-        kandidatlisteKontekst?.stillingsId
-    );
+    const { aktivKandidat, lenkeTilForrige, lenkeTilNeste, antallKandidater } =
+        useNavigerbareKandidaterFraSøk(
+            kandidatnr,
+            kandidatlisteKontekst?.kandidatlisteId,
+            kandidatlisteKontekst?.stillingsId
+        );
 
     useEffect(() => {
         if (kandidatlisteKontekst && leggTilKandidatStatus === Nettstatus.Suksess) {
@@ -84,16 +79,6 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     const onLeggTilKandidat = (cv: Cv) => (kandidatliste: Kandidatliste) => {
         sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer, cv.kandidatnummer);
-    };
-
-    const kandidatenLiggerAlleredeIKandidatlistekonteksten = () => {
-        return (
-            kandidatlisteKontekst &&
-            kandidatlisteKontekst.kandidatliste.kind === Nettstatus.Suksess &&
-            kandidatlisteKontekst.kandidatliste.data.kandidater.some(
-                (kandidat) => kandidat.kandidatnr === kandidatnr
-            )
-        );
     };
 
     const lagreKandidatIKandidatliste = (
@@ -126,11 +111,17 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                         midlertidigUtilgjengelig={tilgjengelighet}
                     />
                 )}
-                {kandidatenLiggerAlleredeIKandidatlistekonteksten() ? (
+                {kandidatlisteKontekst &&
+                kandidatlisteKontekst.kandidatliste.kind === Nettstatus.Suksess &&
+                kandidatlisteKontekst.kandidatliste.data.kandidater.some(
+                    (kandidat) => kandidat.kandidatnr === kandidatnr
+                ) ? (
                     <>
                         Kandidaten er lagret i&nbsp;
                         <Link
-                            to={lenkeTilKandidatliste(kandidatliste!.kandidatlisteId)}
+                            to={lenkeTilKandidatliste(
+                                kandidatlisteKontekst.kandidatliste.data.kandidatlisteId
+                            )}
                             className="lenke"
                         >
                             kandidatlisten
