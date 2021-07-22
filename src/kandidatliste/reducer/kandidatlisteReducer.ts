@@ -196,22 +196,14 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             const id = action.kandidatliste.kandidatlisteId;
             const erNyListe = id !== state.id;
 
-            const eksisterendeKandidattilstander = Object.keys(state.kandidattilstander);
-            const noenKandidaterManglerTilstand = action.kandidatliste.kandidater.some(
-                ({ kandidatnr }) => !eksisterendeKandidattilstander.includes(kandidatnr)
-            );
-
-            let kandidattilstander = state.kandidattilstander;
             let kandidatnotater = state.kandidatnotater;
 
             // Reset kandidattilstander hvis bruker laster inn ny liste eller
             // en kandidat er lagt til i listen siden sist.
-            if (erNyListe || noenKandidaterManglerTilstand) {
-                kandidattilstander = {};
+            if (erNyListe) {
                 kandidatnotater = {};
 
                 action.kandidatliste.kandidater.forEach((kandidat) => {
-                    kandidattilstander[kandidat.kandidatnr] = initialKandidattilstand();
                     kandidatnotater[kandidat.kandidatnr] = ikkeLastet();
                 });
             }
@@ -220,8 +212,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 id,
                 kandidatliste: suksess(action.kandidatliste),
-                kandidattilstander,
                 kandidatnotater,
+                kandidattilstander: {},
             };
         }
         case KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure:
@@ -364,12 +356,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state.kandidatnotater,
             };
 
-            const kandidattilstander = {
-                ...state.kandidattilstander,
-            };
-
             action.lagredeKandidater.forEach((lagretKandidat) => {
-                kandidattilstander[lagretKandidat.kandidatnr] = initialKandidattilstand();
                 kandidatnotater[lagretKandidat.kandidatnr] = ikkeLastet();
             });
 
@@ -382,7 +369,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagretListe: action.lagretListe,
                 },
                 kandidatliste: suksess(action.kandidatliste),
-                kandidattilstander,
                 kandidatnotater,
             };
         }
@@ -645,11 +631,15 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 );
 
                 Object.keys(kandidattilstander).forEach((kandidatnr) => {
+                    if (kandidattilstander[kandidatnr] === undefined) {
+                        kandidattilstander[kandidatnr] = initialKandidattilstand();
+                    }
+
                     if (filtrerteKandidater.includes(kandidatnr)) {
-                        kandidattilstander[kandidatnr].filtrertBort = false;
+                        kandidattilstander[kandidatnr]!.filtrertBort = false;
                     } else {
-                        kandidattilstander[kandidatnr].filtrertBort = true;
-                        kandidattilstander[kandidatnr].markert = false;
+                        kandidattilstander[kandidatnr]!.filtrertBort = true;
+                        kandidattilstander[kandidatnr]!.markert = false;
                     }
                 });
             }
@@ -661,17 +651,21 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             };
         }
 
-        case KandidatlisteActionType.ToggleMarkeringAvKandidat:
+        case KandidatlisteActionType.ToggleMarkeringAvKandidat: {
+            const tilstand =
+                state.kandidattilstander[action.kandidatnr] || initialKandidattilstand();
+
             return {
                 ...state,
                 kandidattilstander: {
                     ...state.kandidattilstander,
                     [action.kandidatnr]: {
-                        ...state.kandidattilstander[action.kandidatnr],
+                        ...tilstand,
                         markert: !state.kandidattilstander[action.kandidatnr]?.markert,
                     },
                 },
             };
+        }
 
         case KandidatlisteActionType.EndreMarkeringAvKandidater:
             return {
@@ -682,17 +676,21 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ),
             };
 
-        case KandidatlisteActionType.EndreVisningsstatusKandidat:
+        case KandidatlisteActionType.EndreVisningsstatusKandidat: {
+            const tilstand =
+                state.kandidattilstander[action.kandidatnr] || initialKandidattilstand();
+
             return {
                 ...state,
                 kandidattilstander: {
                     ...state.kandidattilstander,
                     [action.kandidatnr]: {
-                        ...state.kandidattilstander[action.kandidatnr],
+                        ...tilstand,
                         visningsstatus: action.visningsstatus,
                     },
                 },
             };
+        }
 
         case KandidatlisteActionType.EndreKandidatlistestatus:
             return {
@@ -789,7 +787,7 @@ const markerGitteKandidater = (kandidattilstander: Kandidattilstander, kandidatn
         ...kandidattilstander,
     };
 
-    Object.entries(nyeTilstander).forEach(([kandidatnr, tilstand]) => {
+    Object.entries(nyeTilstander).forEach(([kandidatnr, tilstand]: [string, Kandidattilstand]) => {
         nyeTilstander[kandidatnr] = {
             ...tilstand,
             markert: kandidatnumre.includes(kandidatnr),

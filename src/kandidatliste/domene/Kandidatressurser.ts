@@ -41,7 +41,7 @@ export enum Visningsstatus {
     VisMerInfo = 'VIS_MER_INFO',
 }
 
-export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand>;
-export type Kandidatnotater = Record<Kandidatnr, Nettressurs<Notat[]>>;
+export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand | undefined>;
+export type Kandidatnotater = Record<Kandidatnr, Nettressurs<Notat[]> | undefined>;
 export type Kandidatforespørsler = Record<AktørId, ForespørselOmDelingAvCv>;
 export type Kandidatmeldinger = Record<Fødselsnummer, Sms>;

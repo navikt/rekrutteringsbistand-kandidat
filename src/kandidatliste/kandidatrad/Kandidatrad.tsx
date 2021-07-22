@@ -76,7 +76,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     }, [sistValgteKandidat, kandidat.kandidatnr, kandidatliste.kandidatlisteId, kandidatRadRef]);
 
     const antallNotater =
-        notater.kind === Nettstatus.Suksess ? notater.data.length : kandidat.antallNotater;
+        notater?.kind === Nettstatus.Suksess ? notater.data.length : kandidat.antallNotater;
 
     const endreVisningsstatus = (visningsstatus: Visningsstatus) => {
         dispatch({
@@ -88,7 +88,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const toggleNotater = () => {
         endreVisningsstatus(
-            tilstand.visningsstatus === Visningsstatus.VisNotater
+            tilstand?.visningsstatus === Visningsstatus.VisNotater
                 ? Visningsstatus.SkjulPanel
                 : Visningsstatus.VisNotater
         );
@@ -96,7 +96,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const toggleMerInfo = () => {
         endreVisningsstatus(
-            tilstand.visningsstatus === Visningsstatus.VisMerInfo
+            tilstand?.visningsstatus === Visningsstatus.VisMerInfo
                 ? Visningsstatus.SkjulPanel
                 : Visningsstatus.VisMerInfo
         );
@@ -146,7 +146,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
         kandidatliste.status === Kandidatlistestatus.Lukket
             ? ' kandidatliste-kandidat--disabled'
             : ''
-    } ${tilstand.markert ? 'kandidatliste-kandidat--checked' : ''}`;
+    } ${tilstand?.markert ? 'kandidatliste-kandidat--checked' : ''}`;
 
     const kanEndreKandidatlisten =
         kandidatliste.status === Kandidatlistestatus.Åpen && kandidatliste.kanEditere;
@@ -162,7 +162,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
                     disabled={!kandidatenKanMarkeres}
-                    checked={tilstand.markert}
+                    checked={tilstand?.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
                     }}
@@ -251,7 +251,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <NavFrontendChevron
                             className="kandidatliste-kandidat__chevron"
                             type={
-                                tilstand.visningsstatus === Visningsstatus.VisNotater
+                                tilstand?.visningsstatus === Visningsstatus.VisNotater
                                     ? 'opp'
                                     : 'ned'
                             }
@@ -268,7 +268,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             <NavFrontendChevron
                                 className="kandidatliste-kandidat__chevron"
                                 type={
-                                    tilstand.visningsstatus === Visningsstatus.VisMerInfo
+                                    tilstand?.visningsstatus === Visningsstatus.VisMerInfo
                                         ? 'opp'
                                         : 'ned'
                                 }
@@ -288,7 +288,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </div>
                 )}
             </div>
-            {tilstand.visningsstatus === Visningsstatus.VisNotater && (
+            {notater && tilstand?.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater
                     kandidat={kandidat}
                     kandidatliste={kandidatliste}
@@ -299,7 +299,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     onSlettNotat={onSlettNotat}
                 />
             )}
-            {tilstand.visningsstatus === Visningsstatus.VisMerInfo && (
+            {tilstand?.visningsstatus === Visningsstatus.VisMerInfo && (
                 <MerInfo kandidat={kandidat} />
             )}
         </div>
