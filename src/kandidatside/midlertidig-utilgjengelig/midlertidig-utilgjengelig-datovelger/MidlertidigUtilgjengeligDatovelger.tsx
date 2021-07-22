@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { Datovelger } from 'nav-datovelger';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Datepicker } from 'nav-datovelger';
 import classNames from 'classnames';
-import './MidlertidigUtilgjengeligDatovelger.less';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { maksDatoMidlertidigUtilgjengelig, minDatoMidlertidigUtilgjengelig } from '../validering';
+import './MidlertidigUtilgjengeligDatovelger.less';
 
 interface Props {
     dato: string | undefined;
@@ -24,21 +24,21 @@ const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = (props) => 
                 <Element tag="span">Hvor lenge er kandidaten utilgjengelig?</Element>
                 <Normaltekst tag="span">Du kan velge maks en måned frem i tid.</Normaltekst>
             </label>
-            <Datovelger
-                input={{
-                    id: 'midlertidig-utilgjengelig-datovelger__input',
+            <Datepicker
+                inputId="midlertidig-utilgjengelig-datovelger__input"
+                inputProps={{
                     name: 'applicationDue',
                     placeholder: 'dd.mm.åååå',
-                    ariaLabel: 'Sett søknadsfrist',
+                    'aria-label': 'Sett søknadsfrist',
+                    'aria-invalid': feilmelding !== undefined,
                 }}
                 locale="nb"
                 onChange={setDato}
-                valgtDato={dato}
-                avgrensninger={{
-                    minDato: minDatoMidlertidigUtilgjengelig().format(),
-                    maksDato: maksDatoMidlertidigUtilgjengelig().format(),
+                value={dato}
+                limitations={{
+                    minDate: minDatoMidlertidigUtilgjengelig().format(),
+                    maxDate: maksDatoMidlertidigUtilgjengelig().format(),
                 }}
-                id="midlertidig-utilgjengelig-datovelger"
             />
             {feilmelding && (
                 <Element

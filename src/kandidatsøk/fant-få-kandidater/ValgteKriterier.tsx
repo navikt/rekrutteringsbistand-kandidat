@@ -1,5 +1,5 @@
 import React from 'react';
-import { Merkelapp } from 'pam-frontend-merkelapper';
+import Merkelapp from '../../common/merkelapp/Merkelapp';
 import { Kriterie } from './useKriterier';
 
 const ValgteKriterier = ({ kriterier }: { kriterier: Kriterie[] }) => {

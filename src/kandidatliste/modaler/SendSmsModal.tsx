@@ -48,7 +48,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
     };
 
     const markerteKandidater = kandidater.filter(
-        (kandidat) => kandidattilstander[kandidat.kandidatnr].markert
+        (kandidat) => kandidattilstander[kandidat.kandidatnr]?.markert
     );
     const kandidaterSomHarFåttSms = markerteKandidater.filter(
         (kandidat) => kandidat.fodselsnr && sendteMeldinger[kandidat.fodselsnr]

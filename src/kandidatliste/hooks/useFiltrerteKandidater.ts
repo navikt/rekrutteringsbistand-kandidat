@@ -6,7 +6,7 @@ const useFiltrerteKandidater = (kandidater: Kandidat[]) => {
     const { kandidattilstander } = useSelector((state: AppState) => state.kandidatliste);
 
     const filtrerteKandidater = kandidater.filter(
-        (kandidat) => !kandidattilstander[kandidat.kandidatnr].filtrertBort
+        (kandidat) => !kandidattilstander[kandidat.kandidatnr]?.filtrertBort
     );
 
     return filtrerteKandidater;

@@ -10,13 +10,13 @@ import {
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Merkelapp } from 'pam-frontend-merkelapper';
 import CheckboxMedHjelpetekst from './checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
 import './Geografi.less';
 import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
 import { KandidatsøkAlert } from '../../reducer/searchReducer';
+import Merkelapp from '../../../common/merkelapp/Merkelapp';
 
 const GeografiSearch = ({ ...props }) => {
     const {

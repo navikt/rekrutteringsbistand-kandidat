@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import moment from 'moment';
-import 'nav-datovelger/lib/styles/datovelger.less';
+// import 'nav-datovelger/lib/styles/datovelger.less'; // TODO Fiks
 
 import {
     MidlertidigUtilgjengeligAction,

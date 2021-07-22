@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
-import { Datovelger } from 'nav-datovelger';
+import { Datepicker } from 'nav-datovelger';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
@@ -15,8 +15,8 @@ import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
-import './ForespørselOmDelingAvCv.less';
 import { Kandidat } from '../../domene/Kandidat';
+import './ForespørselOmDelingAvCv.less';
 
 enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -199,20 +199,21 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         legend={<Element>Velg frist for svar (Frist ut valgt dato)</Element>}
                         feil={egenvalgtFristFeilmelding}
                     >
-                        <Datovelger
-                            input={{
-                                placeholder: 'dd.mm.åååå',
-                            }}
+                        <Datepicker
                             locale="nb"
-                            datoErGyldig={egenvalgtFristFeilmelding === undefined}
-                            avgrensninger={{
-                                minDato: minDatoForEgenvalgtFrist,
-                                maksDato: maksDatoForEgenvalgtFrist,
+                            inputProps={{
+                                placeholder: 'dd.mm.åååå',
+                                'aria-invalid': egenvalgtFristFeilmelding !== undefined,
+                            }}
+                            value={egenvalgtFrist}
+                            limitations={{
+                                minDate: minDatoForEgenvalgtFrist,
+                                maxDate: maksDatoForEgenvalgtFrist,
                             }}
                             onChange={onEgenvalgtFristChange}
-                            valgtDato={egenvalgtFrist}
-                            kalender={{
-                                plassering: 'fullskjerm',
+                            calendarSettings={{
+                                showWeekNumbers: true,
+                                position: 'fullscreen',
                             }}
                         />
                     </SkjemaGruppe>

@@ -10,10 +10,10 @@ import {
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
 import { KandidatsøkAlert } from '../../reducer/searchReducer';
+import Merkelapp from '../../../common/merkelapp/Merkelapp';
 
 const StillingSearch = ({ ...props }) => {
     const {
