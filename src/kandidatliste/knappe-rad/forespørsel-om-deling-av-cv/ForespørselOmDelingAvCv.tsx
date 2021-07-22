@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
-import { Datovelger } from 'nav-datovelger';
+import { Datepicker } from 'nav-datovelger';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
@@ -199,20 +199,20 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         legend={<Element>Velg frist for svar (Frist ut valgt dato)</Element>}
                         feil={egenvalgtFristFeilmelding}
                     >
-                        <Datovelger
-                            input={{
+                        <Datepicker
+                            locale="nb"
+                            inputProps={{
                                 placeholder: 'dd.mm.åååå',
                             }}
-                            locale="nb"
-                            datoErGyldig={egenvalgtFristFeilmelding === undefined}
-                            avgrensninger={{
-                                minDato: minDatoForEgenvalgtFrist,
-                                maksDato: maksDatoForEgenvalgtFrist,
+                            value={egenvalgtFrist}
+                            // datoErGyldig={egenvalgtFristFeilmelding === undefined} TODO erstatning
+                            limitations={{
+                                minDate: minDatoForEgenvalgtFrist,
+                                maxDate: maksDatoForEgenvalgtFrist,
                             }}
                             onChange={onEgenvalgtFristChange}
-                            valgtDato={egenvalgtFrist}
-                            kalender={{
-                                plassering: 'fullskjerm',
+                            calendarSettings={{
+                                position: 'fullscreen',
                             }}
                         />
                     </SkjemaGruppe>

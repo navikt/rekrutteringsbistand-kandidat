@@ -9,11 +9,11 @@ import {
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Merkelapp } from 'pam-frontend-merkelapper';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
 import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
 import { KandidatsøkAlert } from '../../reducer/searchReducer';
+import Merkelapp from '../../../common/merkelapp/Merkelapp';
 
 const SprakSearch = ({ ...props }) => {
     const {

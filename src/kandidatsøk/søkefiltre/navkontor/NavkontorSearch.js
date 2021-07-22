@@ -10,13 +10,13 @@ import {
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
 import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Navkontor.less';
 import { KandidatsøkActionType } from '../../reducer/searchActions';
 import { TypeaheadActionType, TypeaheadBranch } from '../../../common/typeahead/typeaheadReducer';
 import { KandidatsøkAlert } from '../../reducer/searchReducer';
+import Merkelapp from '../../../common/merkelapp/Merkelapp';
 
 const NavkontorSearch = ({ ...props }) => {
     const {

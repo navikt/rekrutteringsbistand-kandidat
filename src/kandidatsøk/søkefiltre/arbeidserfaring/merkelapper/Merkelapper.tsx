@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../../typeahead/Typeahead';
-import { Merkelapp } from 'pam-frontend-merkelapper';
 import {
     TypeaheadAction,
     TypeaheadActionType,
@@ -13,6 +12,7 @@ import AppState from '../../../../AppState';
 import { KandidatsøkAction, KandidatsøkActionType } from '../../../reducer/searchActions';
 import { Dispatch } from 'redux';
 import { KandidatsøkAlert } from '../../../reducer/searchReducer';
+import Merkelapp from '../../../../common/merkelapp/Merkelapp';
 
 interface Props {
     search: () => void;
