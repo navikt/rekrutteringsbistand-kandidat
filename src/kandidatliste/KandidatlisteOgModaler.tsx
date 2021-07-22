@@ -232,7 +232,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         const { kandidatliste, kandidattilstander } = this.props;
 
         return kandidatliste.kandidater.filter(
-            (kandidat) => kandidattilstander[kandidat.kandidatnr].markert
+            (kandidat) => kandidattilstander[kandidat.kandidatnr]?.markert
         );
     };
 
