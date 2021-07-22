@@ -26,7 +26,7 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
 
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
-    const kommerFraKandidatliste = kandidatlisteId !== null || stillingsId !== null;
+    const kommerFraKandidatliste = kandidatlisteId !== undefined || stillingsId !== undefined;
     const kandidatlisteKontekst = kommerFraKandidatliste
         ? {
               stillingsId,
