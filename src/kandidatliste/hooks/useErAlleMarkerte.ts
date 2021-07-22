@@ -14,7 +14,7 @@ const erAlleMarkerte = (kandidater: Kandidat[], kandidattilstander: Kandidattils
     }
 
     return aktiveOgSlettaKandidater.every(
-        (kandidat) => kandidattilstander[kandidat.kandidatnr].markert
+        (kandidat) => kandidattilstander[kandidat.kandidatnr]?.markert
     );
 };
 

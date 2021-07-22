@@ -668,7 +668,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     ...state.kandidattilstander,
                     [action.kandidatnr]: {
                         ...state.kandidattilstander[action.kandidatnr],
-                        markert: !state.kandidattilstander[action.kandidatnr].markert,
+                        markert: !state.kandidattilstander[action.kandidatnr]?.markert,
                     },
                 },
             };
