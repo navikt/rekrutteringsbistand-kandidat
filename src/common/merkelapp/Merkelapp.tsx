@@ -1,4 +1,6 @@
 import React, { FunctionComponent } from 'react';
+import { Normaltekst } from 'nav-frontend-typografi';
+import './Merkelapp.less';
 
 type Props = {
     value: string;
@@ -7,10 +9,15 @@ type Props = {
 
 const Merkelapp: FunctionComponent<Props> = ({ value, onRemove, children }) => {
     return (
-        <div>
-            {children}
-            <button onClick={() => onRemove(value)}>X</button>
-        </div>
+        <button
+            title="Fjern"
+            aria-label="Fjern"
+            className="merkelapp"
+            onClick={() => onRemove(value)}
+        >
+            <Normaltekst className="merkelapp__tekst">{children}</Normaltekst>
+            <div className="merkelapp__ikon">✕</div>
+        </button>
     );
 };
 
