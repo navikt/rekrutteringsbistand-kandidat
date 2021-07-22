@@ -146,14 +146,16 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                     gjeldendeKandidatIndex={aktivKandidat}
                 />
             </div>
-            <HjelpetekstFading
-                id="hjelpetekstfading"
-                type="suksess"
-                synlig={visKandidatenErLagtTil}
-                innhold={`${'Kandidaten'} er lagret i kandidatlisten «${
-                    kandidatliste ? kandidatliste.tittel : ''
-                }»`}
-            />
+            {kandidatlisteKontekst?.kandidatliste.kind === Nettstatus.Suksess && (
+                <HjelpetekstFading
+                    id="hjelpetekstfading"
+                    type="suksess"
+                    synlig={visKandidatenErLagtTil}
+                    innhold={`${'Kandidaten'} er lagret i kandidatlisten «${
+                        kandidatlisteKontekst.kandidatliste.data.tittel
+                    }»`}
+                />
+            )}
             {visLeggTilKandidatModal && cv.kind === Nettstatus.Suksess && (
                 <>
                     {kandidatlisteKontekst ? (
