@@ -5,7 +5,7 @@ import { Systemtittel, Normaltekst, Ingress, Element } from 'nav-frontend-typogr
 import Lenke from 'nav-frontend-lenker';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
-import { FadingAlertStripeLiten } from '../../common/HjelpetekstFading';
+import { FadingAlertStripeLiten } from '../../common/varsling/HjelpetekstFading';
 import { Kandidat } from '../domene/Kandidat';
 import { useTimeoutState } from '../../common/useTimeoutState';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';

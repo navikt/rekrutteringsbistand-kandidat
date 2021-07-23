@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RouteChildrenProps } from 'react-router-dom';
 import { KandidatsøkActionType } from './reducer/searchActions';
 import { harUrlParametere } from './reducer/searchQuery';
-import { KandidaterErLagretSuksessmelding } from './kandidater-er-lagret-suksessmelding/KandidaterErLagretSuksessmelding';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Kandidatsøk } from './Kandidatsøk';
 import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
 import useKandidatliste from './useKandidatliste';
+import useKandidaterErLagretSuksessmelding from './useKandidaterErLagretSuksessmelding';
 
 type Props = RouteChildrenProps<{ stillingsId: string }>;
 
@@ -25,6 +25,7 @@ const KandidatsøkIKontekstAvStilling: FunctionComponent<Props> = ({ match }) =>
     const kandidatlisteIdFraApi = kandidatliste?.kandidatlisteId;
 
     useKandidatliste(stillingsIdFraUrl);
+    useKandidaterErLagretSuksessmelding();
 
     useEffect(() => {
         const oppdaterStateFraUrlOgSøk = (href: string, kandidatlisteId?: string) => {
@@ -52,19 +53,16 @@ const KandidatsøkIKontekstAvStilling: FunctionComponent<Props> = ({ match }) =>
     }, [dispatch, stillingsIdFraUrl, kandidatlisteIdFraApi]);
 
     return (
-        <>
-            <KandidaterErLagretSuksessmelding />
-            <Kandidatsøk
-                visFantFåKandidater={maksAntallTreff < 5}
-                stillingsId={stillingsIdFraUrl}
-                header={
-                    <KandidatlisteHeader
-                        kandidatliste={kandidatliste}
-                        stillingsId={stillingsIdFraUrl}
-                    />
-                }
-            />
-        </>
+        <Kandidatsøk
+            visFantFåKandidater={maksAntallTreff < 5}
+            stillingsId={stillingsIdFraUrl}
+            header={
+                <KandidatlisteHeader
+                    kandidatliste={kandidatliste}
+                    stillingsId={stillingsIdFraUrl}
+                />
+            }
+        />
     );
 };
 

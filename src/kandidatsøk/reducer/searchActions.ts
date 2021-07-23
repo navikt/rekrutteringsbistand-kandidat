@@ -40,6 +40,14 @@ type LukkAlleSøkepanelAction = {
     type: KandidatsøkActionType.LukkAlleSokepanel;
 };
 
+type FetchFeatureTogglesBeginAction = {
+    type: KandidatsøkActionType.FetchFeatureTogglesBegin;
+};
+
+type FjernErrorAction = {
+    type: KandidatsøkActionType.FjernError;
+};
+
 export type OppdaterAntallKandidaterAction = {
     type: KandidatsøkActionType.OppdaterAntallKandidater;
     antall: number;
@@ -78,4 +86,6 @@ export type KandidatsøkAction =
     | SearchAction
     | OppdaterAntallKandidaterAction
     | MarkerKandidaterAction
-    | SetScrollPositionAction;
+    | SetScrollPositionAction
+    | FetchFeatureTogglesBeginAction
+    | FjernErrorAction;

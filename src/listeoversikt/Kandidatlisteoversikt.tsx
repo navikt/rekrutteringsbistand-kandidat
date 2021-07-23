@@ -10,7 +10,7 @@ import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
-import HjelpetekstFading from '../common/HjelpetekstFading';
+import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatlistevisning from './Kandidatlistevisning';
 import ListeHeader from './ListeHeader';
@@ -269,13 +269,8 @@ class Kandidatlisteoversikt extends React.Component<Props> {
             fetchingKandidatlister,
             kandidatlisterSokeKriterier,
         } = this.props;
-        const {
-            modalstatus,
-            kandidatlisteIEndring,
-            visSuccessMelding,
-            successMelding,
-            søkeOrd,
-        } = this.state;
+        const { modalstatus, kandidatlisteIEndring, visSuccessMelding, successMelding, søkeOrd } =
+            this.state;
         return (
             <div>
                 {modalstatus === Modalvisning.Opprett && (
