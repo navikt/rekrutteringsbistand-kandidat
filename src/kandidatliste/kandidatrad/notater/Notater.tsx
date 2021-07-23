@@ -62,7 +62,7 @@ const Notater: FunctionComponent<Props> = ({
         setNotatSomRedigeres(undefined);
         setNotatSomSlettes(undefined);
 
-        if (notater.kind === Nettstatus.IkkeLastet) {
+        if (!notater || notater.kind === Nettstatus.IkkeLastet) {
             hentKandidatensNotater();
         }
     }, [notater, hentKandidatensNotater]);

@@ -127,7 +127,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             this.props.resetDeleStatus();
 
             const antallMarkerteKandidater = Object.values(this.props.kandidattilstander).filter(
-                (tilstand) => tilstand.markert
+                (tilstand) => tilstand?.markert
             ).length;
 
             this.fjernAllMarkering();

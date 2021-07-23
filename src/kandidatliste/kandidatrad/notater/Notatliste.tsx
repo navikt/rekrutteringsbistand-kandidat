@@ -17,7 +17,7 @@ const Notatliste: FunctionComponent<Props> = ({
     onOpenRedigeringsModal,
     onOpenSletteModal,
 }) => {
-    if (notater.kind === Nettstatus.LasterInn) {
+    if (notater?.kind === Nettstatus.LasterInn) {
         return (
             <div className="notater__spinner">
                 <NavFrontendSpinner />
@@ -25,7 +25,7 @@ const Notatliste: FunctionComponent<Props> = ({
         );
     }
 
-    if (notater.kind === Nettstatus.Suksess && notater.data.length !== 0) {
+    if (notater?.kind === Nettstatus.Suksess && notater.data.length !== 0) {
         return (
             <div className="notater__liste">
                 {notater.data.map((notat) => (
