@@ -2,6 +2,7 @@ import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
 
 import notater from './json/notater.json';
 import sokeord from './json/sokeord.json';
+import kandidatlisteBasertPaAnnonsenummer from './json/kandidatlisteBasertPaAnnonsenummer.json';
 import arenageografikoder from './json/arenageografikoder.json';
 import typeaheadgeo from './json/typeaheadgeo.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
@@ -69,6 +70,7 @@ const url = {
     postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat`,
     putFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat/:formidlingId/utfall`,
     putKandidatlistestatus: `${api}/veileder/kandidatlister/:kandidatlisteId/status`,
+    getKandidatlisteBasertPåAnnonsenummer: `${api}/veileder/stilling/byNr/:annonsenummer/kandidatliste`,
 
     forespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/:stillingsId`,
     postForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
@@ -345,6 +347,7 @@ fetchMock
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
     .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
     .post(url.postForespørselOmDelingAvCv, log(201))
+    .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
 
     // Misc
     .get(url.toggles, log(featureToggles))
