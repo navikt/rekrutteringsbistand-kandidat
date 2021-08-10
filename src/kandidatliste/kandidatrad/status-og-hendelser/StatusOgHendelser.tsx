@@ -3,20 +3,23 @@ import { Close } from '@navikt/ds-icons';
 import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
+import { ForespørselOmDelingAvCv } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Kandidat, Kandidatstatus, Kandidatutfall } from '../../domene/Kandidat';
+import { Nettressurs } from '../../../api/Nettressurs';
 import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
 import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
-import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
 import SeHendelser from './se-hendelser/SeHendelser';
-import usePopoverOrientering from './usePopoverOrientering';
-import usePopoverAnker from './usePopoverAnker';
+import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
 import StatusEtikett from './etiketter/StatusEtikett';
-import './StatusOgHendelser.less';
+import usePopoverAnker from './usePopoverAnker';
+import usePopoverOrientering from './usePopoverOrientering';
 import UtfallEtikett from './etiketter/UtfallEtikett';
+import './StatusOgHendelser.less';
 
 type Props = {
     kandidatlisteId: string;
     kandidat: Kandidat;
+    forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
     kanEditere: boolean;
     kandidatlistenErKobletTilStilling: boolean;
     onStatusChange: (status: Kandidatstatus) => void;
@@ -26,6 +29,7 @@ type Props = {
 const StatusOgHendelser: FunctionComponent<Props> = ({
     kandidatlisteId,
     kandidat,
+    forespørselOmDelingAvCv,
     kanEditere,
     onStatusChange,
     kandidatlistenErKobletTilStilling,
@@ -67,6 +71,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                             {kanEditere ? (
                                 <EndreStatusOgHendelser
                                     kandidat={kandidat}
+                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                                     kandidatlisteId={kandidatlisteId}
                                     onStatusChange={endreStatusOgLukkPopover}
                                     kandidatlistenErKobletTilStilling={

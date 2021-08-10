@@ -22,6 +22,8 @@ import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUt
 import StatusOgHendelser from '../../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
 import useMidlertidigUtilgjengelig from './useMidlertidigUtilgjengelig';
 import useNavigerbareKandidater from './useNavigerbareKandidater';
+import useHentForespørslerOmDelingAvCv from '../../kandidatliste/hooks/useHentForespørslerOmDelingAvCv';
+import useForespørselOmDelingAvCv from '../../kandidatliste/hooks/useForespørselOmDelingAvCv';
 import '../../common/ikoner.less';
 
 type Props = {
@@ -36,16 +38,15 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
 }) => {
     const dispatch: Dispatch<KandidatlisteAction | CvAction> = useDispatch();
 
+    useHentForespørslerOmDelingAvCv(kandidatliste.stillingId);
+
     const { cv } = useSelector((state: AppState) => state.cv);
     const { filter } = useSelector((state: AppState) => state.kandidatliste);
     const tilgjengelighet = useMidlertidigUtilgjengelig(kandidat.kandidatnr);
+    const forespørselOmDelingAvCv = useForespørselOmDelingAvCv(kandidat.aktørid);
 
-    const {
-        aktivKandidat,
-        lenkeTilForrige,
-        lenkeTilNeste,
-        antallKandidater,
-    } = useNavigerbareKandidater(kandidat.kandidatnr, kandidatliste);
+    const { aktivKandidat, lenkeTilForrige, lenkeTilNeste, antallKandidater } =
+        useNavigerbareKandidater(kandidat.kandidatnr, kandidatliste);
 
     const onKandidatStatusChange = (status: Kandidatstatus) => {
         dispatch({
@@ -87,6 +88,7 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
                             kandidatliste.status === Kandidatlistestatus.Åpen
                         }
                         kandidat={kandidat}
+                        forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                         kandidatlisteId={kandidatliste.kandidatlisteId}
                         onStatusChange={onKandidatStatusChange}
                         kandidatlistenErKobletTilStilling={erKobletTilStilling(kandidatliste)}
