@@ -6,12 +6,12 @@ export type ForespørselOutboundDto = {
 
 export type ForespørselOmDelingAvCv = {
     aktørId: string;
-    deltStatus: ForespørselDeltStatus; // TODO: Alltid anta at sending på Kafka gikk bra?
-    deltTidspunkt: Date;
+    deltStatus: ForespørselDeltStatus;
+    deltTidspunkt: string;
     deltAv: string;
-    svarfrist: Date;
+    svarfrist: string;
     svar: SvarPåDelingAvCv;
-    svarTidspunkt: Date | null;
+    svarTidspunkt: string | null;
 };
 
 export enum ForespørselDeltStatus {

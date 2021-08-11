@@ -4,10 +4,10 @@ import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 
 import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';
-import Hendelse from './Hendelse';
-import { datoformatNorskLang } from '../../../../utils/dateUtils';
-import DelingAvCvForKandidat from './DelingAvCvForKandidat';
-import FåttJobbenForKandidat from './FåttJobbenForKandidat';
+import Hendelse from '../hendelser/Hendelse';
+import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
+import HarFåttJobben from '../hendelser/HarFåttJobben';
+import DelStillingMedKandidat from '../hendelser/DelStillingMedKandidat';
 import { statusToDisplayName } from '../etiketter/StatusEtikett';
 import { erIkkeProd } from '../../../../utils/featureToggleUtils';
 import {
@@ -15,6 +15,7 @@ import {
     SvarPåDelingAvCv,
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
+import NyKandidat from '../hendelser/NyKandidat';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
@@ -45,10 +46,6 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     const onConfirmStatus = () => {
         onStatusChange(status);
     };
-
-    const cvDeltBeskrivelse = `Lagt til i listen av ${kandidat.lagtTilAv.navn} (${
-        kandidat.lagtTilAv.ident
-    }) ${datoformatNorskLang(kandidat.lagtTilTidspunkt)}`;
 
     return (
         <div className="endre-status-og-hendelser">
@@ -86,16 +83,12 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                 <div className="endre-status-og-hendelser__hendelser">
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">
-                        <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                        {erIkkeProd &&
-                            (forespørselOmDelingAvCv.kind === Nettstatus.Suksess ||
-                                forespørselOmDelingAvCv.kind === Nettstatus.FinnesIkke) && (
-                                <Hendelse
-                                    checked={forespørselOmDelingAvCv.kind === Nettstatus.Suksess}
-                                    tittel="Stillingen er delt med kandidaten"
-                                    beskrivelse="2. april 2021 av Ola Nordmann (N121212)" // TODO: "Deles fra kandidatlisten" hvis ikke delt ennå
-                                />
-                            )}
+                        <NyKandidat kandidat={kandidat} />
+                        {erIkkeProd && (
+                            <DelStillingMedKandidat
+                                forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                            />
+                        )}
                         {erIkkeProd &&
                             (forespørselOmDelingAvCv.kind === Nettstatus.Suksess ||
                                 forespørselOmDelingAvCv.kind === Nettstatus.FinnesIkke) && (
@@ -109,12 +102,12 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                                     beskrivelse="3. april 2021 hentet fra aktivitetsplanen" // TODO: "Hentes automatisk fra aktivitetsplan" hvis ikke svart ennå
                                 />
                             )}
-                        <DelingAvCvForKandidat
+                        <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
                             kandidat={kandidat}
                         />
-                        <FåttJobbenForKandidat
+                        <HarFåttJobben
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
                             kandidat={kandidat}
