@@ -64,7 +64,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const tilstand = useKandidattilstand(kandidat.kandidatnr);
     const notater = useKandidatnotater(kandidat.kandidatnr);
     const melding = useSendtKandidatmelding(kandidat.fodselsnr);
-    const forespørselOmDelingAvCv = useForespørselOmDelingAvCv(kandidat.aktørid); // Hva med usynlige, som ikke har aktørId?
+    const forespørselOmDelingAvCv = useForespørselOmDelingAvCv(kandidat.aktørid);
 
     useEffect(() => {
         const erSistValgteKandidat =
