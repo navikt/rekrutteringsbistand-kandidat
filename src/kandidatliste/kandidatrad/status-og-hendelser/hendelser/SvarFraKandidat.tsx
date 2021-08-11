@@ -6,7 +6,7 @@ import {
     ForespørselOmDelingAvCv,
     SvarPåDelingAvCv,
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import Hendelse from './Hendelse';
+import Hendelse, { Hendelsesstatus } from './Hendelse';
 
 type Props = {
     forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
@@ -16,7 +16,7 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
     if (forespørselOmDelingAvCv.kind === Nettstatus.FinnesIkke) {
         return (
             <Hendelse
-                checked={false}
+                status={Hendelsesstatus.Hvit}
                 tittel="Svar fra kandidat om deling av CV"
                 beskrivelse="Hentes automatisk fra aktivitetsplanen"
             />
@@ -30,7 +30,7 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
 
             return (
                 <Hendelse
-                    checked={false}
+                    status={Hendelsesstatus.Hvit}
                     tittel="Svar fra kandidat om deling av CV"
                     beskrivelse={formaterSvarfrist(dagerTilSvarfristDesimal)}
                 />
@@ -42,14 +42,13 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
 
             return forespørselOmDelingAvCv.data.svar === SvarPåDelingAvCv.Ja ? (
                 <Hendelse
-                    checked={true}
+                    status={Hendelsesstatus.Grønn}
                     tittel="Svar fra kandidat: Ja, del CV-en min"
                     beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
                 />
             ) : (
                 <Hendelse
-                    // negativ
-                    checked={true}
+                    status={Hendelsesstatus.Oransje}
                     tittel="Svar fra kandidat: Nei, ikke del CV-en min"
                     beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
                 />

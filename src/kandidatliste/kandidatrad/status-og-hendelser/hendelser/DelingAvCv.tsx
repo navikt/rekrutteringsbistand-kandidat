@@ -1,7 +1,7 @@
 import React, { useEffect, FunctionComponent, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { AddCircle, MinusCircle } from '@navikt/ds-icons';
-import Hendelse from './Hendelse';
+import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { Kandidatutfall } from '../../../domene/Kandidat';
 
 type Props = {
@@ -41,13 +41,16 @@ const DelingAvCv: FunctionComponent<Props> = ({ kanEndre, utfall, onEndreUtfall 
         onEndreUtfall(Kandidatutfall.IkkePresentert);
     };
 
-    const checked = utfall === Kandidatutfall.FåttJobben || utfall === Kandidatutfall.Presentert;
+    const hendelsesstatus =
+        utfall === Kandidatutfall.FåttJobben || utfall === Kandidatutfall.Presentert
+            ? Hendelsesstatus.Grønn
+            : Hendelsesstatus.Hvit;
 
     switch (visning) {
         case Visning.Registrer:
             return (
                 <Hendelse
-                    checked={checked}
+                    status={hendelsesstatus}
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse="Gjøres i kandidatlisten"
                 >
@@ -68,7 +71,7 @@ const DelingAvCv: FunctionComponent<Props> = ({ kanEndre, utfall, onEndreUtfall 
         case Visning.FjernRegistrering:
             return (
                 <Hendelse
-                    checked={checked}
+                    status={hendelsesstatus}
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={undefined}
                 >
@@ -90,7 +93,7 @@ const DelingAvCv: FunctionComponent<Props> = ({ kanEndre, utfall, onEndreUtfall 
             return (
                 <Hendelse
                     renderChildrenBelowContent
-                    checked={checked}
+                    status={hendelsesstatus}
                     tittel="Registrer at CV-en er blitt delt"
                     beskrivelse="Når du registrerer at CV-en er blitt delt med arbeidsgiver vil det bli telt, og tellingen vil bli brukt til statistikk"
                 >
@@ -116,7 +119,7 @@ const DelingAvCv: FunctionComponent<Props> = ({ kanEndre, utfall, onEndreUtfall 
             return (
                 <Hendelse
                     renderChildrenBelowContent
-                    checked={checked}
+                    status={hendelsesstatus}
                     tittel={'Fjern registreringen "delt med arbeidsgiver"'}
                     beskrivelse={
                         'Hvis du fjerner registreringen vil tellingen på "presentert" taes bort.'

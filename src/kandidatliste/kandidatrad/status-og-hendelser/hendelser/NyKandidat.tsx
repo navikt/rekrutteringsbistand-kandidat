@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
 import { Kandidat } from '../../../domene/Kandidat';
-import Hendelse from './Hendelse';
+import Hendelse, { Hendelsesstatus } from './Hendelse';
 
 type Props = {
     kandidat: Kandidat;
@@ -12,7 +12,9 @@ const NyKandidat: FunctionComponent<Props> = ({ kandidat }) => {
         kandidat.lagtTilAv.ident
     }) ${datoformatNorskLang(kandidat.lagtTilTidspunkt)}`;
 
-    return <Hendelse checked tittel="Ny kandidat" beskrivelse={beskrivelse} />;
+    return (
+        <Hendelse status={Hendelsesstatus.Grønn} tittel="Ny kandidat" beskrivelse={beskrivelse} />
+    );
 };
 
 export default NyKandidat;

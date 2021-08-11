@@ -11,7 +11,7 @@ import AppState from '../../AppState';
 import DelingAvCv from '../kandidatrad/status-og-hendelser/hendelser/DelingAvCv';
 import EndreStatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
 import FåttJobben from '../kandidatrad/status-og-hendelser/hendelser/FåttJobben';
-import Hendelse from '../kandidatrad/status-og-hendelser/hendelser/Hendelse';
+import Hendelse, { Hendelsesstatus } from '../kandidatrad/status-og-hendelser/hendelser/Hendelse';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import SeHendelserKnapp from '../kandidatrad/status-og-hendelser/se-hendelser/SeHendelserKnapp';
 import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker';
@@ -102,7 +102,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                                 <Undertittel>Hendelser</Undertittel>
                                 <ol className="endre-status-og-hendelser__hendelsesliste">
                                     <Hendelse
-                                        checked
+                                        status={Hendelsesstatus.Grønn}
                                         tittel="Ny kandidat"
                                         beskrivelse={cvDeltBeskrivelse}
                                     />
