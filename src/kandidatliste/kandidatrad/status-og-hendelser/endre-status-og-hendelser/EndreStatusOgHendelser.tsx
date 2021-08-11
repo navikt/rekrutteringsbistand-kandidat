@@ -4,18 +4,15 @@ import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 
 import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';
-import Hendelse from '../hendelser/Hendelse';
 import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
 import HarFåttJobben from '../hendelser/HarFåttJobben';
 import DelStillingMedKandidat from '../hendelser/DelStillingMedKandidat';
 import { statusToDisplayName } from '../etiketter/StatusEtikett';
 import { erIkkeProd } from '../../../../utils/featureToggleUtils';
-import {
-    ForespørselOmDelingAvCv,
-    SvarPåDelingAvCv,
-} from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
+import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Nettressurs } from '../../../../api/Nettressurs';
 import NyKandidat from '../hendelser/NyKandidat';
+import SvarFraKandidat from '../hendelser/SvarFraKandidat';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
@@ -89,19 +86,9 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                                 forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                             />
                         )}
-                        {erIkkeProd &&
-                            (forespørselOmDelingAvCv.kind === Nettstatus.Suksess ||
-                                forespørselOmDelingAvCv.kind === Nettstatus.FinnesIkke) && (
-                                <Hendelse
-                                    checked={
-                                        forespørselOmDelingAvCv.kind === Nettstatus.Suksess &&
-                                        forespørselOmDelingAvCv.data.svar !==
-                                            SvarPåDelingAvCv.IkkeSvart
-                                    }
-                                    tittel={`Svar fra kandidat: Ja, del CV-en min`} // TODO: Tre cases: Har ikke svart, har svart ja, har svart nei
-                                    beskrivelse="3. april 2021 hentet fra aktivitetsplanen" // TODO: "Hentes automatisk fra aktivitetsplan" hvis ikke svart ennå
-                                />
-                            )}
+                        {erIkkeProd && (
+                            <SvarFraKandidat forespørselOmDelingAvCv={forespørselOmDelingAvCv} />
+                        )}
                         <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}

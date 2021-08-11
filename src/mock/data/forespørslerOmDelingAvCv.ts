@@ -14,7 +14,7 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
         deltTidspunkt: new Date().toISOString(),
         deltStatus: ForespørselDeltStatus.IkkeSendt,
         svar: SvarPåDelingAvCv.IkkeSvart,
-        svarfrist: moment().add(3, 'days').startOf('day').toISOString(),
+        svarfrist: moment().subtract(2, 'day').startOf('day').toISOString(),
         svarTidspunkt: null,
     },
 ];

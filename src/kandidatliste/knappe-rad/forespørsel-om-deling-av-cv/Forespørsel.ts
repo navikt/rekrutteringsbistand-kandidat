@@ -4,15 +4,23 @@ export type ForespørselOutboundDto = {
     aktorIder: string[];
 };
 
+type MedSvar = {
+    svar: SvarPåDelingAvCv.Ja | SvarPåDelingAvCv.Nei;
+    svarTidspunkt: string;
+};
+
+type UtenSvar = {
+    svar: SvarPåDelingAvCv.IkkeSvart;
+    svarTidspunkt: null;
+};
+
 export type ForespørselOmDelingAvCv = {
     aktørId: string;
     deltStatus: ForespørselDeltStatus;
     deltTidspunkt: string;
     deltAv: string;
     svarfrist: string;
-    svar: SvarPåDelingAvCv;
-    svarTidspunkt: string | null;
-};
+} & (MedSvar | UtenSvar);
 
 export enum ForespørselDeltStatus {
     Sendt = 'SENDT',
