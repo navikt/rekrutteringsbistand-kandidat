@@ -18,7 +18,7 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
             <Hendelse
                 checked={false}
                 tittel="Svar fra kandidat om deling av CV"
-                beskrivelse="Hentes automatisk fra aktivitetsplan"
+                beskrivelse="Hentes automatisk fra aktivitetsplanen"
             />
         );
     }
@@ -27,37 +27,14 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
         if (forespørselOmDelingAvCv.data.svar === SvarPåDelingAvCv.IkkeSvart) {
             const svarfrist = forespørselOmDelingAvCv.data.svarfrist;
             const dagerTilSvarfristDesimal = moment(svarfrist).diff(moment(), 'days', true);
-            const dagerTilSvarfrist = Math.floor(dagerTilSvarfristDesimal);
 
-            if (dagerTilSvarfristDesimal < 0) {
-                const beskrivelse =
-                    dagerTilSvarfrist === -1
-                        ? 'Svarfristen utløp i går'
-                        : `Svarfristen utløp for ${dagerTilSvarfrist * -1} dager siden`;
-
-                return (
-                    <Hendelse
-                        checked={false}
-                        tittel="Svar fra kandidat om deling av CV"
-                        beskrivelse={beskrivelse}
-                    />
-                );
-            } else {
-                const beskrivelse =
-                    dagerTilSvarfrist === 0
-                        ? 'Svarfristen utløper i dag'
-                        : `Svarfristen utløper om ${dagerTilSvarfrist} dag${
-                              dagerTilSvarfrist > 1 ? 'er' : ''
-                          }`;
-
-                return (
-                    <Hendelse
-                        checked={false}
-                        tittel="Svar fra kandidat om deling av CV"
-                        beskrivelse={beskrivelse}
-                    />
-                );
-            }
+            return (
+                <Hendelse
+                    checked={false}
+                    tittel="Svar fra kandidat om deling av CV"
+                    beskrivelse={formaterSvarfrist(dagerTilSvarfristDesimal)}
+                />
+            );
         } else {
             const formatertTidspunkt = datoformatNorskLang(
                 forespørselOmDelingAvCv.data.svarTidspunkt
@@ -81,6 +58,20 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
     }
 
     return null;
+};
+
+const formaterSvarfrist = (dagerTilSvarfristDesimal: number) => {
+    const dagerTilSvarfrist = Math.floor(dagerTilSvarfristDesimal);
+
+    if (dagerTilSvarfristDesimal < 0) {
+        return dagerTilSvarfrist === -1
+            ? 'Svarfristen utløp i går'
+            : `Svarfristen utløp for ${dagerTilSvarfrist * -1} dager siden`;
+    } else {
+        return dagerTilSvarfrist === 0
+            ? 'Svarfristen utløper i dag'
+            : `Svarfristen utløper om ${dagerTilSvarfrist} dag${dagerTilSvarfrist > 1 ? 'er' : ''}`;
+    }
 };
 
 export default SvarFraKandidat;

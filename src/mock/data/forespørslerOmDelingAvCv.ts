@@ -13,8 +13,8 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
         deltAv: meg.ident,
         deltTidspunkt: new Date().toISOString(),
         deltStatus: ForespørselDeltStatus.IkkeSendt,
-        svar: SvarPåDelingAvCv.IkkeSvart,
-        svarfrist: moment().subtract(2, 'day').startOf('day').toISOString(),
-        svarTidspunkt: null,
+        svar: SvarPåDelingAvCv.Nei,
+        svarfrist: moment().add(1, 'day').startOf('day').toISOString(),
+        svarTidspunkt: moment().toISOString(),
     },
 ];
