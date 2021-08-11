@@ -9,10 +9,17 @@ import { datoformatNorskLang } from '../../../../utils/dateUtils';
 import DelingAvCvForKandidat from './DelingAvCvForKandidat';
 import FåttJobbenForKandidat from './FåttJobbenForKandidat';
 import { statusToDisplayName } from '../etiketter/StatusEtikett';
+import { erIkkeProd } from '../../../../utils/featureToggleUtils';
+import {
+    ForespørselOmDelingAvCv,
+    SvarPåDelingAvCv,
+} from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
     kandidat: Kandidat;
+    forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
     kandidatlisteId: string;
     onStatusChange: (status: Kandidatstatus) => void;
     kandidatlistenErKobletTilStilling: boolean;
@@ -26,6 +33,7 @@ const hentStatusbeskrivelse = (status: Kandidatstatus) => {
 
 const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
+    forespørselOmDelingAvCv,
     kandidatlisteId,
     onStatusChange,
     kandidatlistenErKobletTilStilling,
@@ -79,6 +87,28 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">
                         <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
+                        {erIkkeProd &&
+                            (forespørselOmDelingAvCv.kind === Nettstatus.Suksess ||
+                                forespørselOmDelingAvCv.kind === Nettstatus.FinnesIkke) && (
+                                <Hendelse
+                                    checked={forespørselOmDelingAvCv.kind === Nettstatus.Suksess}
+                                    tittel="Stillingen er delt med kandidaten"
+                                    beskrivelse="2. april 2021 av Ola Nordmann (N121212)" // TODO: "Deles fra kandidatlisten" hvis ikke delt ennå
+                                />
+                            )}
+                        {erIkkeProd &&
+                            (forespørselOmDelingAvCv.kind === Nettstatus.Suksess ||
+                                forespørselOmDelingAvCv.kind === Nettstatus.FinnesIkke) && (
+                                <Hendelse
+                                    checked={
+                                        forespørselOmDelingAvCv.kind === Nettstatus.Suksess &&
+                                        forespørselOmDelingAvCv.data.svar !==
+                                            SvarPåDelingAvCv.IkkeSvart
+                                    }
+                                    tittel={`Svar fra kandidat: Ja, del CV-en min`} // TODO: Tre cases: Har ikke svart, har svart ja, har svart nei
+                                    beskrivelse="3. april 2021 hentet fra aktivitetsplanen" // TODO: "Hentes automatisk fra aktivitetsplan" hvis ikke svart ennå
+                                />
+                            )}
                         <DelingAvCvForKandidat
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
