@@ -19,7 +19,7 @@ import usePopoverOrientering from '../kandidatrad/status-og-hendelser/usePopover
 import './FormidlingAvUsynligKandidatrad.less';
 import '../kandidatrad/status-og-hendelser/StatusOgHendelser.less';
 import '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.less';
-import UtfallEtikett from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import Hendelsesetikett from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 
 type Props = {
     kandidatlisteId: string;
@@ -85,7 +85,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
             >
                 <div className="status-og-hendelser" ref={popoverRef}>
                     {formidling.utfall !== Kandidatutfall.IkkePresentert && (
-                        <UtfallEtikett utfall={formidling.utfall} />
+                        <Hendelsesetikett utfall={formidling.utfall} />
                     )}
                     {kanEditere ? (
                         <EndreStatusOgHendelserKnapp onClick={togglePopover} />
