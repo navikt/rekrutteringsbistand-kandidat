@@ -615,6 +615,10 @@ function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
             type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
             forespørsel: action.forespørsel,
         });
+        yield put<KandidatlisteAction>({
+            type: KandidatlisteActionType.HentForespørslerOmDelingAvCv,
+            stillingsId: action.forespørsel.stillingsId,
+        });
     } catch (e) {
         yield put({ type: KandidatlisteActionType.SendForespørselOmDelingAvCvFailure, error: e });
     }
@@ -675,10 +679,7 @@ function* kandidatlisteSaga() {
     );
     yield takeLatest(KandidatlisteActionType.SendForespørselOmDelingAvCv, sendForespørselOmDeling);
     yield takeLatest(
-        [
-            KandidatlisteActionType.HentForespørslerOmDelingAvCv,
-            KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
-        ],
+        [KandidatlisteActionType.HentForespørslerOmDelingAvCv],
         hentForespørslerOmDelingAvCv
     );
     yield takeLatest(KandidatlisteActionType.HentUsynligKandidat, hentUsynligKandidat);
