@@ -125,7 +125,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
 
         dispatch<KandidatlisteAction>({
             type: KandidatlisteActionType.SendForespørselOmDelingAvCv,
-            forespørsel: outboundDto,
+            forespørselOutboundDto: outboundDto,
         });
     };
 

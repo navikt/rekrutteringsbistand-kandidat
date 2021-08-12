@@ -1,4 +1,4 @@
-import { Nettressurs, Nettstatus, senderInn } from '../../api/Nettressurs';
+import { Nettressurs, senderInn } from '../../api/Nettressurs';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { ApiError, feil, ikkeLastet, lasterInn, suksess } from '../../api/Nettressurs';
 import { CvAction, CvActionType, FetchCvSuccessAction } from '../cv/reducer/cvReducer';
@@ -147,16 +147,9 @@ const midlertidigUtilgjengeligReducer = (
             };
         case MidlertidigUtilgjengeligActionType.LagreMidlertidigUtilgjengelig:
         case MidlertidigUtilgjengeligActionType.EndreMidlertidigUtilgjengelig: {
-            const kandidat = state[action.kandidatnr];
-            let data: MidlertidigUtilgjengeligResponse | undefined = undefined;
-
-            if (kandidat && kandidat.kind === Nettstatus.Suksess) {
-                data = kandidat.data;
-            }
-
             return {
                 ...state,
-                [action.kandidatnr]: senderInn(data),
+                [action.kandidatnr]: senderInn(),
             };
         }
         case MidlertidigUtilgjengeligActionType.SlettMidlertidigUtilgjengeligSuksess:

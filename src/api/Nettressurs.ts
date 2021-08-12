@@ -20,9 +20,8 @@ interface LasterInn {
     kind: Nettstatus.LasterInn;
 }
 
-interface SenderInn<T> {
+interface SenderInn {
     kind: Nettstatus.SenderInn;
-    data: T;
 }
 
 interface Suksess<T> {
@@ -47,9 +46,8 @@ export const lasterInn = (): LasterInn => ({
     kind: Nettstatus.LasterInn,
 });
 
-export const senderInn = <T>(data: T): SenderInn<T> => ({
+export const senderInn = (): SenderInn => ({
     kind: Nettstatus.SenderInn,
-    data,
 });
 
 export const suksess = <T>(data: T): Suksess<T> => ({
@@ -66,4 +64,4 @@ export const feil = (error: ApiError): Feil => ({
     error,
 });
 
-export type Nettressurs<T> = IkkeLastet | LasterInn | SenderInn<T> | Feil | Suksess<T> | FinnesIkke;
+export type Nettressurs<T> = IkkeLastet | LasterInn | SenderInn | Feil | Suksess<T> | FinnesIkke;

@@ -63,6 +63,7 @@ import {
     fetchForespørslerOmDelingAvCv,
     sendForespørselOmDelingAvCv,
 } from '../../api/forespørselOmDelingAvCvApi';
+import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;
@@ -610,14 +611,13 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
 
 function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
     try {
-        yield call(sendForespørselOmDelingAvCv, action.forespørsel);
-        yield put({
-            type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
-            forespørsel: action.forespørsel,
-        });
+        const response: ForespørselOmDelingAvCv[] = yield call(
+            sendForespørselOmDelingAvCv,
+            action.forespørselOutboundDto
+        );
         yield put<KandidatlisteAction>({
-            type: KandidatlisteActionType.HentForespørslerOmDelingAvCv,
-            stillingsId: action.forespørsel.stillingsId,
+            type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
+            forespørslerOmDelingAvCv: response,
         });
     } catch (e) {
         yield put({ type: KandidatlisteActionType.SendForespørselOmDelingAvCvFailure, error: e });

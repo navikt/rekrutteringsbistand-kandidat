@@ -116,7 +116,7 @@ export const mockKandidat = (
     antallNotater: 1,
     arkivertTidspunkt: null,
     arkivertAv: null,
-    aktørid: '1234567891023',
+    aktørid: cver[cvIndex].aktorId,
     midlertidigUtilgjengeligStatus: mockMidlertidigUtilgjengeligStatus(cvIndex),
     erSynlig: true,
 });

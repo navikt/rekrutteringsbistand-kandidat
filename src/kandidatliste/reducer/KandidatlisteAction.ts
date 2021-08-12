@@ -454,12 +454,12 @@ export interface HentForespørslerOmDelingAvCvFailureAction {
 
 export interface SendForespørselOmDelingAvCv {
     type: KandidatlisteActionType.SendForespørselOmDelingAvCv;
-    forespørsel: ForespørselOutboundDto;
+    forespørselOutboundDto: ForespørselOutboundDto;
 }
 
 export interface SendForespørselOmDelingAvCvSuccess {
     type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess;
-    forespørsel: ForespørselOutboundDto;
+    forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[];
 }
 
 export interface SendForespørselOmDelingAvCvFailure {

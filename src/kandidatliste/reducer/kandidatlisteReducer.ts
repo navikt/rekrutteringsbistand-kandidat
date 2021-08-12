@@ -31,7 +31,7 @@ import {
 import { SmsStatus, Kandidatmeldinger } from '../domene/Kandidatressurser';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
-import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 type FormidlingId = string;
 
@@ -59,7 +59,7 @@ export type KandidatlisteState = {
         sendteMeldinger: Nettressurs<Kandidatmeldinger>;
         error?: SearchApiError;
     };
-    sendForespørselOmDelingAvCv: Nettressurs<ForespørselOutboundDto>;
+    sendForespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>;
     forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>;
     fodselsnummer?: string;
     leggTilKandidater: {
@@ -248,7 +248,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 endreFormidlingsutfallForUsynligKandidat: {
                     ...state.endreFormidlingsutfallForUsynligKandidat,
-                    [action.formidlingId]: senderInn(action.formidlingId),
+                    [action.formidlingId]: senderInn(),
                 },
             };
         case KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidatSuccess:
@@ -424,7 +424,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.FormidleUsynligKandidat: {
             return {
                 ...state,
-                formidlingAvUsynligKandidat: senderInn(action.formidling),
+                formidlingAvUsynligKandidat: senderInn(),
             };
         }
         case KandidatlisteActionType.FormidleUsynligKandidatSuccess: {
@@ -601,12 +601,22 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.SendForespørselOmDelingAvCv:
             return {
                 ...state,
-                sendForespørselOmDelingAvCv: senderInn(action.forespørsel),
+                sendForespørselOmDelingAvCv: senderInn(),
             };
         case KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess: {
+            const kandidatforespørsler: Kandidatforespørsler = {};
+
+            action.forespørslerOmDelingAvCv.forEach((forespørsel) => {
+                kandidatforespørsler[forespørsel.aktørId] = forespørsel;
+            });
+
             return {
                 ...state,
-                sendForespørselOmDelingAvCv: suksess(action.forespørsel),
+                sendForespørselOmDelingAvCv: suksess(action.forespørslerOmDelingAvCv),
+                forespørslerOmDelingAvCv: {
+                    kind: Nettstatus.Suksess,
+                    data: kandidatforespørsler,
+                },
             };
         }
         case KandidatlisteActionType.SendForespørselOmDelingAvCvFailure: {
