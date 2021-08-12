@@ -37,6 +37,7 @@ import KandidatlisteAction, {
     EndreKandidatlistestatusAction,
     EndreKandidatlistestatusSuccessAction,
     HentForespørslerOmDelingAvCvAction,
+    SendForespørselOmDelingAvCv,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -58,7 +59,10 @@ import {
 } from '../../api/api';
 import { Kandidatliste } from '../domene/Kandidatliste';
 import { SearchApiError } from '../../api/fetchUtils';
-import { fetchForespørslerOmDelingAvCv } from '../../api/forespørselOmDelingAvCvApi';
+import {
+    fetchForespørslerOmDelingAvCv,
+    sendForespørselOmDelingAvCv,
+} from '../../api/forespørselOmDelingAvCvApi';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;
@@ -604,6 +608,18 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
     }
 }
 
+function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
+    try {
+        yield call(sendForespørselOmDelingAvCv, action.forespørsel);
+        yield put({
+            type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
+            forespørsel: action.forespørsel,
+        });
+    } catch (e) {
+        yield put({ type: KandidatlisteActionType.SendForespørselOmDelingAvCvFailure, error: e });
+    }
+}
+
 function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.OpprettKandidatliste, opprettKandidatliste);
     yield takeLatest(
@@ -657,8 +673,12 @@ function* kandidatlisteSaga() {
         [KandidatlisteActionType.HentSendteMeldinger, KandidatlisteActionType.SendSmsSuccess],
         hentSendteMeldinger
     );
+    yield takeLatest(KandidatlisteActionType.SendForespørselOmDelingAvCv, sendForespørselOmDeling);
     yield takeLatest(
-        [KandidatlisteActionType.HentForespørslerOmDelingAvCv],
+        [
+            KandidatlisteActionType.HentForespørslerOmDelingAvCv,
+            KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
+        ],
         hentForespørslerOmDelingAvCv
     );
     yield takeLatest(KandidatlisteActionType.HentUsynligKandidat, hentUsynligKandidat);

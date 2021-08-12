@@ -3,19 +3,20 @@ import { Datepicker } from 'nav-datovelger';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import moment from 'moment';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { ForespørselOutboundDto } from './Forespørsel';
-import { sendForespørselOmDelingAvCv } from '../../../api/forespørselOmDelingAvCvApi';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useMinstEnKandidatErMarkert from '../useMinstEnKandidatErMarkert';
 import { Kandidat } from '../../domene/Kandidat';
+import AppState from '../../../AppState';
+import { Nettstatus } from '../../../api/Nettressurs';
 import './ForespørselOmDelingAvCv.less';
 
 enum Svarfrist {
@@ -55,15 +56,27 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         undefined
     );
 
-    const [senderForespørsler, setSenderForespørsler] = useState<boolean>(false);
-    const [feilUnderSending, setFeilUnderSending] = useState<string | undefined>();
+    const { sendForespørselOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
 
     useEffect(() => {
-        setFeilUnderSending(undefined);
         setSvarfrist(Svarfrist.ToDager);
         setEgenvalgtFrist(undefined);
         setEgenvalgtFristFeilmelding(undefined);
     }, [markerteKandidater]);
+
+    useEffect(() => {
+        const fjernMarkeringAvAlleKandidater = () => {
+            dispatch<KandidatlisteAction>({
+                type: KandidatlisteActionType.EndreMarkeringAvKandidater,
+                kandidatnumre: [],
+            });
+        };
+
+        if (sendForespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
+            fjernMarkeringAvAlleKandidater();
+            lukkModal();
+        }
+    }, [sendForespørselOmDelingAvCv.kind, dispatch]);
 
     const onSvarfristChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSvarfrist(event.target.value as Svarfrist);
@@ -97,14 +110,6 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
 
     const lukkModal = () => {
         setModalErÅpen(false);
-        setFeilUnderSending(undefined);
-    };
-
-    const fjernMarkeringAvAlleKandidater = () => {
-        dispatch<KandidatlisteAction>({
-            type: KandidatlisteActionType.EndreMarkeringAvKandidater,
-            kandidatnumre: [],
-        });
     };
 
     const onDelStillingClick = async () => {
@@ -112,27 +117,16 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             return;
         }
 
-        setSenderForespørsler(true);
-
         const outboundDto: ForespørselOutboundDto = {
             aktorIder: markerteKandidater.map((kandidat) => kandidat.aktørid!),
             stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
         };
 
-        try {
-            await sendForespørselOmDelingAvCv(outboundDto);
-            // TODO: Hent forespørsler på nytt
-
-            fjernMarkeringAvAlleKandidater();
-            lukkModal();
-        } catch (exception) {
-            setFeilUnderSending(
-                'Kunne ikke dele stillingsannonsen med kandidatene. Prøv igjen senere.'
-            );
-        }
-
-        setSenderForespørsler(false);
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.SendForespørselOmDelingAvCv,
+            forespørsel: outboundDto,
+        });
     };
 
     return (
@@ -223,7 +217,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         className="foresporsel-om-deling-av-cv__del-stilling-knapp"
                         mini
                         onClick={onDelStillingClick}
-                        spinner={senderForespørsler}
+                        spinner={sendForespørselOmDelingAvCv.kind === Nettstatus.SenderInn}
                     >
                         Del stilling
                     </Hovedknapp>
@@ -231,9 +225,12 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         Avbryt
                     </Knapp>
                 </div>
-                {feilUnderSending && (
+                {sendForespørselOmDelingAvCv.kind === Nettstatus.Feil && (
                     <AlertStripeFeil className="foresporsel-om-deling-av-cv__feilmelding">
-                        {feilUnderSending}
+                        <span>
+                            Kunne ikke dele stillingsannonsen med kandidatene. Prøv igjen senere.
+                        </span>
+                        <span>Feilmelding: {sendForespørselOmDelingAvCv.error.message}</span>
                     </AlertStripeFeil>
                 )}
             </ModalMedKandidatScope>

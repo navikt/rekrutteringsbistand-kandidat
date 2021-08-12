@@ -31,6 +31,7 @@ import {
 import { SmsStatus, Kandidatmeldinger } from '../domene/Kandidatressurser';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
+import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 type FormidlingId = string;
 
@@ -58,6 +59,7 @@ export type KandidatlisteState = {
         sendteMeldinger: Nettressurs<Kandidatmeldinger>;
         error?: SearchApiError;
     };
+    sendForespørselOmDelingAvCv: Nettressurs<ForespørselOutboundDto>;
     forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>;
     fodselsnummer?: string;
     leggTilKandidater: {
@@ -122,6 +124,7 @@ const initialState: KandidatlisteState = {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: ikkeLastet(),
     },
+    sendForespørselOmDelingAvCv: ikkeLastet(),
     forespørslerOmDelingAvCv: ikkeLastet(),
     arkivering: {
         statusArkivering: Nettstatus.IkkeLastet,
@@ -595,6 +598,24 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendteMeldinger: feil(action.error),
                 },
             };
+        case KandidatlisteActionType.SendForespørselOmDelingAvCv:
+            return {
+                ...state,
+                sendForespørselOmDelingAvCv: senderInn(action.forespørsel),
+            };
+        case KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess: {
+            return {
+                ...state,
+                sendForespørselOmDelingAvCv: suksess(action.forespørsel),
+            };
+        }
+        case KandidatlisteActionType.SendForespørselOmDelingAvCvFailure: {
+            return {
+                ...state,
+                sendForespørselOmDelingAvCv: feil(action.error),
+            };
+        }
+
         case KandidatlisteActionType.HentForespørslerOmDelingAvCv:
             return {
                 ...state,
