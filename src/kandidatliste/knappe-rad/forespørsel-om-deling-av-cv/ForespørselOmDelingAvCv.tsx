@@ -170,8 +170,8 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                     className="foresporsel-om-deling-av-cv__radiogruppe"
                     legend={
                         <>
-                            <Element tag="span">Frist for svar</Element>{' '}
-                            <Normaltekst tag="span">(må fylles ut)</Normaltekst>
+                            <Element tag="span">Frist for svar</Element>
+                            <Normaltekst tag="span"> (må fylles ut)</Normaltekst>
                         </>
                     }
                     description="Kandidatene kan ikke svare etter denne fristen"
