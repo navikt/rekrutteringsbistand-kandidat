@@ -53,9 +53,9 @@ export function formatISOString(isoString, format = 'MMMM YYYY') {
 }
 
 export function datoformatNorskLang(dato: string): string {
-    return new Date(dato).toLocaleString('no-NB', {
+    return new Date(dato).toLocaleString('nb-NO', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
-    })
+    });
 }

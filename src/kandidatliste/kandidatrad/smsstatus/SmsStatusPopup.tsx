@@ -6,7 +6,7 @@ import MedPopover from '../../../common/med-popover/MedPopover';
 import './SmsStatusPopup.less';
 
 const formaterSendtDato = (dato: Date) => {
-    return `${dato.toLocaleString('no-NB', {
+    return `${dato.toLocaleString('nb-NO', {
         day: 'numeric',
         month: 'numeric',
         year: 'numeric',

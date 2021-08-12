@@ -263,7 +263,7 @@ const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
         return '';
     }
 
-    const frist = idag.toDate().toLocaleString('no-NB', {
+    const frist = idag.toDate().toLocaleString('nb-NO', {
         weekday: 'long',
         day: 'numeric',
         month: 'long',
