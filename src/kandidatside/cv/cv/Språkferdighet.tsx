@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Row } from 'nav-frontend-grid';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Språkferdighet as SpråkferdighetType } from '../reducer/cv-typer';
+import { Språkferdighet as SpråkferdighetType, Språkferdighetsnivå } from '../reducer/cv-typer';
 
 type Props = {
     ferdighet: SpråkferdighetType;
@@ -25,17 +25,17 @@ const Språkferdighet: FunctionComponent<Props> = ({ ferdighet }) => {
     );
 };
 
-const språkferdighetTilVisningsnavn = (ferdighet: string) => {
+const språkferdighetTilVisningsnavn = (ferdighet: Språkferdighetsnivå) => {
     switch (ferdighet) {
-        case 'IKKEOPPGITT':
+        case Språkferdighetsnivå.IkkeOppgitt:
             return 'Ikke oppgitt';
-        case 'NYBEGYNNER':
+        case Språkferdighetsnivå.Nybegynner:
             return 'Nybegynner';
-        case 'GODT':
+        case Språkferdighetsnivå.Godt:
             return 'Godt';
-        case 'VELDIGGODT':
+        case Språkferdighetsnivå.VeldigGodt:
             return 'Veldig godt';
-        case 'FOERSTESPRAAK':
+        case Språkferdighetsnivå.Førstespråk:
             return 'Førstespråk (morsmål)';
         default:
             return 'Ikke oppgitt';

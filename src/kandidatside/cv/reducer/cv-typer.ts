@@ -29,6 +29,10 @@ export type Kurs = {
 };
 
 export enum Språkferdighetsnivå {
+    IkkeOppgitt = 'IKKEOPPGITT',
+    Nybegynner = 'NYBEGYNNER',
+    Godt = 'GODT',
+    VeldigGodt = 'VELDIG_GODT',
     Førstespråk = 'FOERSTESPRAAK',
 }
 

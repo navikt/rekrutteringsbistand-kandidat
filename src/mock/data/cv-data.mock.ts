@@ -361,8 +361,8 @@ export const sprakferdigheter: Språkferdighet[] = [
     },
     {
         sprak: 'Norsk',
-        ferdighetSkriftlig: Språkferdighetsnivå.Førstespråk,
-        ferdighetMuntlig: Språkferdighetsnivå.Førstespråk,
+        ferdighetSkriftlig: Språkferdighetsnivå.VeldigGodt,
+        ferdighetMuntlig: Språkferdighetsnivå.VeldigGodt,
     },
 ];
 
