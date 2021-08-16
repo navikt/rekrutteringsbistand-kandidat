@@ -1,21 +1,32 @@
 import React, { FunctionComponent } from 'react';
 import Etikett from 'nav-frontend-etiketter';
 import { Kandidatutfall } from '../../../domene/Kandidat';
-import './Hendelsesetikett.less';
 import {
     ForespørselOmDelingAvCv,
     SvarPåDelingAvCv,
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { datoformatNorskKort } from '../../../../utils/dateUtils';
+import './Hendelsesetikett.less';
 
 type Props = {
     utfall: Kandidatutfall;
     forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
 };
 
-const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDelingAvCv }) => {
-    const visning = tilVisning(utfall, forespørselOmDelingAvCv);
+enum Variant {
+    Ingen = 'ingen',
+    DeltMedKandidat = 'delt-med-kandidat',
+    SvarNei = 'svar-nei',
+    SvarJa = 'svar-ja',
+    CvDelt = 'cv-delt',
+    FåttJobben = 'fått-jobben',
+}
 
-    if (visning === null) {
+const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDelingAvCv }) => {
+    const variant = tilVisning(utfall, forespørselOmDelingAvCv);
+    const label = variantTilLabel(variant, forespørselOmDelingAvCv?.svarfrist);
+
+    if (variant === Variant.Ingen) {
         return null;
     }
 
@@ -24,29 +35,49 @@ const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDeli
             mini
             type="info"
             aria-label="Utfall"
-            className={`hendelsesetikett hendelsesetikett--${utfall.toLowerCase()}`}
+            className={`hendelsesetikett hendelsesetikett--${variant}`}
         >
-            {visning}
+            {label}
         </Etikett>
     );
 };
 
 const tilVisning = (utfall: Kandidatutfall, forespørselOmDelingAvCv?: ForespørselOmDelingAvCv) => {
     if (utfall === Kandidatutfall.FåttJobben) {
-        return 'Fått jobben';
+        return Variant.FåttJobben;
     } else if (utfall === Kandidatutfall.Presentert) {
-        return 'CV delt';
+        return Variant.CvDelt;
     } else if (forespørselOmDelingAvCv) {
         if (forespørselOmDelingAvCv.svar === SvarPåDelingAvCv.Ja) {
-            return 'Svar: Ja';
+            return Variant.SvarJa;
         } else if (forespørselOmDelingAvCv?.svar === SvarPåDelingAvCv.Nei) {
-            return 'Svar: Nei';
+            return Variant.SvarNei;
         } else {
-            return 'Delt med kandidat';
+            return Variant.DeltMedKandidat;
         }
     }
 
-    return null;
+    return Variant.Ingen;
+};
+
+const variantTilLabel = (variant: Variant, svarfrist?: string) => {
+    switch (variant) {
+        case Variant.FåttJobben:
+            return 'Fått jobben';
+        case Variant.CvDelt:
+            return 'CV delt';
+        case Variant.DeltMedKandidat: {
+            return 'Delt med kandidat';
+        }
+        case Variant.SvarJa: {
+            return `Svar: Ja – ${svarfrist && datoformatNorskKort(svarfrist)}`;
+        }
+        case Variant.SvarNei: {
+            return `Svar: Nei – ${svarfrist && datoformatNorskKort(svarfrist)}`;
+        }
+        default:
+            return '';
+    }
 };
 
 export default Hendelsesetikett;

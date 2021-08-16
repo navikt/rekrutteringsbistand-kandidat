@@ -22,7 +22,7 @@ import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandida
 import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
 import { meg } from './data/veiledere.mock';
-import { forespørslerOmDelingAvCv } from './data/forespørslerOmDelingAvCv';
+import { forespørslerOmDelingAvCv } from './data/forespørslerOmDelingAvCv.mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import {
     KANDIDATSOK_API,

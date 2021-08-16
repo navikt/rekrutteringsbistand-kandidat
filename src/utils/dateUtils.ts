@@ -59,3 +59,10 @@ export function datoformatNorskLang(dato: string): string {
         year: 'numeric',
     });
 }
+
+export function datoformatNorskKort(dato: string): string {
+    return new Date(dato).toLocaleString('nb-NO', {
+        day: 'numeric',
+        month: 'numeric',
+    });
+}
