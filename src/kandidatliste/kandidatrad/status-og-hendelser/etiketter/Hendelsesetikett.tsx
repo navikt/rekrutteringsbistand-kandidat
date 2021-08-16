@@ -61,19 +61,21 @@ const tilVisning = (utfall: Kandidatutfall, forespørselOmDelingAvCv?: Forespør
 };
 
 const variantTilLabel = (variant: Variant, svarfrist?: string) => {
+    const formatertSvarfrist = svarfrist && datoformatNorskKort(svarfrist);
+
     switch (variant) {
         case Variant.FåttJobben:
             return 'Fått jobben';
         case Variant.CvDelt:
             return 'CV delt';
         case Variant.DeltMedKandidat: {
-            return 'Delt med kandidat';
+            return `Delt med kandidat, frist ${formatertSvarfrist}`;
         }
         case Variant.SvarJa: {
-            return `Svar: Ja – ${svarfrist && datoformatNorskKort(svarfrist)}`;
+            return `Svar: Ja – ${formatertSvarfrist}`;
         }
         case Variant.SvarNei: {
-            return `Svar: Nei – ${svarfrist && datoformatNorskKort(svarfrist)}`;
+            return `Svar: Nei – ${formatertSvarfrist}`;
         }
         default:
             return '';
