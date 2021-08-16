@@ -119,7 +119,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             } else if (ikkeForespurteKandidater.length === 0) {
                 setKanIkkeDelePopover(event.currentTarget);
                 setKanIkkeDeleFeilmelding(
-                    'Du har allerede delt stillingen med alle markerte kandidatene. Du kan ikke dele den på nytt.'
+                    'Du har allerede delt stillingen med alle de markerte kandidatene. Du kan ikke dele den på nytt.'
                 );
             } else {
                 åpneModal();
@@ -168,8 +168,8 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                 {antallSpurtFraFør > 0 && (
                     <AlertStripeAdvarsel className="blokk-s">
                         Du har tidligere delt stillingen med {antallSpurtFraFør}{' '}
-                        {antallSpurtFraFør === 1 ? 'kandidat' : 'kandidater'}. De vil ikke motta
-                        stillingen på nytt i aktivitetsplanen.
+                        {antallSpurtFraFør === 1 ? 'kandidat. Denne kandidaten' : 'kandidater. De'}{' '}
+                        vil ikke motta stillingen på nytt i aktivitetsplanen.
                     </AlertStripeAdvarsel>
                 )}
                 <Normaltekst className="blokk-s">
