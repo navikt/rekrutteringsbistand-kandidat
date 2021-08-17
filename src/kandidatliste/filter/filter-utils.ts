@@ -47,7 +47,7 @@ export const filtrerKandidater = (
                         kandidat.utfall,
                         forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
                             ? forespørslerOmDelingAvCv.data[kandidat.aktørid!]
-                            : undefined // TODO: riktig nullsjekk?
+                            : undefined
                     )
                 ]
         )
@@ -83,10 +83,9 @@ export const queryParamsTilFilter = (queryParams: URLSearchParams): Kandidatlist
         });
     }
 
-    // TODO: endre til "hendelse" her
-    const utfallsParams = queryParams.get('utfall');
-    if (utfallsParams) {
-        utfallsParams.split(QUERY_PARAM_SEPARATOR).forEach((param) => {
+    const hendelseParams = queryParams.get('hendelse');
+    if (hendelseParams) {
+        hendelseParams.split(QUERY_PARAM_SEPARATOR).forEach((param) => {
             hendelse[param] = true;
         });
     }
@@ -115,9 +114,9 @@ export const filterTilQueryParams = (filter?: Kandidatlistefilter): URLSearchPar
         queryParams.set('status', statusfiltre.join(QUERY_PARAM_SEPARATOR));
     }
 
-    const utfallsfiltre = getTrueKeys(filter.hendelse);
-    if (utfallsfiltre.length > 0) {
-        queryParams.set('utfall', utfallsfiltre.join(QUERY_PARAM_SEPARATOR));
+    const hendelsefiltre = getTrueKeys(filter.hendelse);
+    if (hendelsefiltre.length > 0) {
+        queryParams.set('hendelse', hendelsefiltre.join(QUERY_PARAM_SEPARATOR));
     }
 
     if (filter.visArkiverte) {
