@@ -13,8 +13,8 @@ type Props = {
     forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
 };
 
-enum Variant {
-    Ingen = 'ingen',
+export enum Hendelse {
+    NyKandidat = 'ny-kandidat',
     DeltMedKandidat = 'delt-med-kandidat',
     SvarNei = 'svar-nei',
     SvarJa = 'svar-ja',
@@ -23,10 +23,10 @@ enum Variant {
 }
 
 const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDelingAvCv }) => {
-    const variant = tilVisning(utfall, forespørselOmDelingAvCv);
-    const label = variantTilLabel(variant, forespørselOmDelingAvCv?.svarfrist);
+    const hendelse = hentKandidatensSisteHendelse(utfall, forespørselOmDelingAvCv);
+    const label = hendelseTilLabel(hendelse, forespørselOmDelingAvCv?.svarfrist);
 
-    if (variant === Variant.Ingen) {
+    if (hendelse === Hendelse.NyKandidat) {
         return null;
     }
 
@@ -35,46 +35,49 @@ const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDeli
             mini
             type="info"
             aria-label="Utfall"
-            className={`hendelsesetikett hendelsesetikett--${variant}`}
+            className={`hendelsesetikett hendelsesetikett--${hendelse}`}
         >
             {label}
         </Etikett>
     );
 };
 
-const tilVisning = (utfall: Kandidatutfall, forespørselOmDelingAvCv?: ForespørselOmDelingAvCv) => {
+export const hentKandidatensSisteHendelse = (
+    utfall: Kandidatutfall,
+    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv
+) => {
     if (utfall === Kandidatutfall.FåttJobben) {
-        return Variant.FåttJobben;
+        return Hendelse.FåttJobben;
     } else if (utfall === Kandidatutfall.Presentert) {
-        return Variant.CvDelt;
+        return Hendelse.CvDelt;
     } else if (forespørselOmDelingAvCv) {
         if (forespørselOmDelingAvCv.svar === SvarPåDelingAvCv.Ja) {
-            return Variant.SvarJa;
+            return Hendelse.SvarJa;
         } else if (forespørselOmDelingAvCv?.svar === SvarPåDelingAvCv.Nei) {
-            return Variant.SvarNei;
+            return Hendelse.SvarNei;
         } else {
-            return Variant.DeltMedKandidat;
+            return Hendelse.DeltMedKandidat;
         }
     }
 
-    return Variant.Ingen;
+    return Hendelse.NyKandidat;
 };
 
-const variantTilLabel = (variant: Variant, svarfrist?: string) => {
+const hendelseTilLabel = (hendelse: Hendelse, svarfrist?: string) => {
     const formatertSvarfrist = svarfrist && datoformatNorskKort(svarfrist);
 
-    switch (variant) {
-        case Variant.FåttJobben:
+    switch (hendelse) {
+        case Hendelse.FåttJobben:
             return 'Fått jobben';
-        case Variant.CvDelt:
+        case Hendelse.CvDelt:
             return 'CV delt';
-        case Variant.DeltMedKandidat: {
+        case Hendelse.DeltMedKandidat: {
             return `Delt med kandidat, frist ${formatertSvarfrist}`;
         }
-        case Variant.SvarJa: {
+        case Hendelse.SvarJa: {
             return `Svar: Ja – ${formatertSvarfrist}`;
         }
-        case Variant.SvarNei: {
+        case Hendelse.SvarNei: {
             return `Svar: Nei – ${formatertSvarfrist}`;
         }
         default:

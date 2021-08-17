@@ -66,13 +66,16 @@ const Kandidatliste: FunctionComponent<Props> = ({
     const history = useHistory();
     const location = useLocation();
 
-    const { filter, sms } = useSelector((state: AppState) => state.kandidatliste);
+    const { filter, sms, forespørslerOmDelingAvCv } = useSelector(
+        (state: AppState) => state.kandidatliste
+    );
     const { sendteMeldinger } = sms;
 
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
     const { sorterteKandidater, sortering, setSortering } = useSorterteKandidater(
-        filtrerteKandidater
+        filtrerteKandidater,
+        forespørslerOmDelingAvCv
     );
 
     const antallFiltertreff = useAntallFiltertreff(kandidatliste.kandidater, filter);

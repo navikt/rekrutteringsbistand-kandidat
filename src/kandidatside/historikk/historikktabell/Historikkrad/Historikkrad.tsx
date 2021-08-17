@@ -42,7 +42,7 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
                 <StatusEtikett status={kandidatliste.status} />
                 {kandidatliste.utfall !== Kandidatutfall.IkkePresentert && (
                     <Hendelsesetikett
-                        // TODO: Må vi vise forespørsel for hver kandidatliste?
+                        // Viser foreløbig kun utfallshendelser i historikken
                         utfall={kandidatliste.utfall}
                     />
                 )}
