@@ -14,10 +14,10 @@ type Props = {
 };
 
 export enum Hendelse {
-    NyKandidat = 'NY_KANDIDAT',
     DeltMedKandidat = 'DELT_MED_KANDIDAT',
-    SvarNei = 'SVAR_NEI',
     SvarJa = 'SVAR_JA',
+    SvarNei = 'SVAR_NEI',
+    NyKandidat = 'NY_KANDIDAT',
     CvDelt = 'CV_DELT',
     FåttJobben = 'FÅTT_JOBBEN',
 }
