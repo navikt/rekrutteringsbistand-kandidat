@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
 import { Kandidatstatus, Kandidat, Kandidatutfall } from '../domene/Kandidat';
 import { Kandidatlistefilter } from '../reducer/kandidatlisteReducer';
+import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import { Kandidatforespørsler } from '../domene/Kandidatressurser';
+import { Nettressurs } from '../../api/Nettressurs';
 
 export type AntallFiltertreff = {
     arkiverte: number;
     status: Record<Kandidatstatus, number>;
-    utfall: Record<Kandidatutfall, number>;
+    hendelse: Record<Hendelse, number>;
 };
 
 const useAntallFiltertreff = (
     kandidater: Kandidat[],
+    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>,
     filter: Kandidatlistefilter
 ): AntallFiltertreff => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
     const [antallMedStatus, setAntallMedStatus] = useState<Record<Kandidatstatus, number>>(
         hentAntallMedStatus(kandidater)
     );
-    const [antallMedUtfall, setAntallMedUtfall] = useState<Record<Kandidatutfall, number>>(
-        hentAntallMedUtfall(kandidater)
+    const [antallMedUtfall, setAntallMedUtfall] = useState<Record<Hendelse, number>>(
+        hentAntallMedHendelse(kandidater, forespørslerOmDelingAvCv)
     );
 
     useEffect(() => {
@@ -27,13 +31,13 @@ const useAntallFiltertreff = (
 
         setAntallArkiverte(hentAntallArkiverte(kandidater));
         setAntallMedStatus(hentAntallMedStatus(ikkeSlettedeKandidater));
-        setAntallMedUtfall(hentAntallMedUtfall(ikkeSlettedeKandidater));
-    }, [kandidater, filter.visArkiverte]);
+        setAntallMedUtfall(hentAntallMedHendelse(ikkeSlettedeKandidater, forespørslerOmDelingAvCv));
+    }, [kandidater, filter.visArkiverte, forespørslerOmDelingAvCv]);
 
     const antallTreff = {
         arkiverte: antallArkiverte,
         status: antallMedStatus,
-        utfall: antallMedUtfall,
+        hendelse: antallMedUtfall,
     };
 
     return antallTreff;
@@ -56,17 +60,22 @@ const hentAntallMedStatus = (kandidater: Kandidat[]) => {
     return antallMedStatus;
 };
 
-const hentAntallMedUtfall = (kandidater: Kandidat[]) => {
-    const antallMedUtfall: Record<string, number> = {};
+const hentAntallMedHendelse = (
+    kandidater: Kandidat[],
+    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>
+): Record<Hendelse, number> => {
+    // TODO: Implementer denne riktig
+
+    const antallMedHendelse: Record<string, number> = {};
     Object.values(Kandidatutfall).forEach((utfall) => {
-        antallMedUtfall[utfall] = 0;
+        antallMedHendelse[utfall] = 0;
     });
 
     kandidater.forEach((kandidat) => {
-        antallMedUtfall[kandidat.utfall]++;
+        antallMedHendelse[kandidat.utfall]++;
     });
 
-    return antallMedUtfall;
+    return antallMedHendelse;
 };
 
 export default useAntallFiltertreff;

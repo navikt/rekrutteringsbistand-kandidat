@@ -45,7 +45,7 @@ const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDeli
 export const hentKandidatensSisteHendelse = (
     utfall: Kandidatutfall,
     forespørselOmDelingAvCv?: ForespørselOmDelingAvCv
-) => {
+): Hendelse => {
     if (utfall === Kandidatutfall.FåttJobben) {
         return Hendelse.FåttJobben;
     } else if (utfall === Kandidatutfall.Presentert) {
