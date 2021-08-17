@@ -10,6 +10,7 @@ import { statusToDisplayName } from '../kandidatrad/status-og-hendelser/etikette
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import './Filter.less';
 import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 interface Props {
     antallTreff: AntallFiltertreff;
@@ -44,8 +45,11 @@ const Filter: FunctionComponent<Props> = ({
         />
     ));
 
+    const filtrerbareHendelser = erIkkeProd
+        ? Object.values(Hendelse)
+        : [Hendelse.NyKandidat, Hendelse.CvDelt, Hendelse.FåttJobben];
     const hendelsescheckbokser = hendelsefilter
-        ? Object.values(Hendelse).map((hendelse) => (
+        ? filtrerbareHendelser.map((hendelse) => (
               <Checkbox
                   key={hendelse}
                   value={hendelse}
