@@ -121,7 +121,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
         });
     };
 
-    const onToggleUtfall = (hendelse: Hendelse) => {
+    const onToggleHendelse = (hendelse: Hendelse) => {
         setFilterIUrl({
             ...filter,
             hendelse: {
@@ -205,7 +205,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             hendelsefilter={kandidatliste.stillingId ? filter.hendelse : undefined}
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
-                            onToggleHendelse={onToggleUtfall}
+                            onToggleHendelse={onToggleHendelse}
                         />
                         <div role="table" aria-label="Kandidater" className="kandidatliste__liste">
                             <ListeHeader
