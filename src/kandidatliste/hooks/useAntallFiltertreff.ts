@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Kandidatstatus, Kandidat, Kandidatutfall } from '../domene/Kandidat';
+import { useEffect, useState } from 'react';
+import { Kandidat, Kandidatstatus } from '../domene/Kandidat';
 import { Kandidatlistefilter } from '../reducer/kandidatlisteReducer';
-import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import {
+    Hendelse,
+    hentKandidatensSisteHendelse,
+} from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import { Kandidatforespørsler } from '../domene/Kandidatressurser';
-import { Nettressurs } from '../../api/Nettressurs';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 
 export type AntallFiltertreff = {
     arkiverte: number;
@@ -20,7 +23,7 @@ const useAntallFiltertreff = (
     const [antallMedStatus, setAntallMedStatus] = useState<Record<Kandidatstatus, number>>(
         hentAntallMedStatus(kandidater)
     );
-    const [antallMedUtfall, setAntallMedUtfall] = useState<Record<Hendelse, number>>(
+    const [antallMedHendelse, setAntallMedHendelse] = useState<Record<Hendelse, number>>(
         hentAntallMedHendelse(kandidater, forespørslerOmDelingAvCv)
     );
 
@@ -31,13 +34,15 @@ const useAntallFiltertreff = (
 
         setAntallArkiverte(hentAntallArkiverte(kandidater));
         setAntallMedStatus(hentAntallMedStatus(ikkeSlettedeKandidater));
-        setAntallMedUtfall(hentAntallMedHendelse(ikkeSlettedeKandidater, forespørslerOmDelingAvCv));
+        setAntallMedHendelse(
+            hentAntallMedHendelse(ikkeSlettedeKandidater, forespørslerOmDelingAvCv)
+        );
     }, [kandidater, filter.visArkiverte, forespørslerOmDelingAvCv]);
 
     const antallTreff = {
         arkiverte: antallArkiverte,
         status: antallMedStatus,
-        hendelse: antallMedUtfall,
+        hendelse: antallMedHendelse,
     };
 
     return antallTreff;
@@ -64,15 +69,20 @@ const hentAntallMedHendelse = (
     kandidater: Kandidat[],
     forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>
 ): Record<Hendelse, number> => {
-    // TODO: Implementer denne riktig
-
     const antallMedHendelse: Record<string, number> = {};
-    Object.values(Kandidatutfall).forEach((utfall) => {
-        antallMedHendelse[utfall] = 0;
+    Object.values(Hendelse).forEach((hendelse) => {
+        antallMedHendelse[hendelse] = 0;
     });
 
     kandidater.forEach((kandidat) => {
-        antallMedHendelse[kandidat.utfall]++;
+        const hendelse = hentKandidatensSisteHendelse(
+            kandidat.utfall,
+            forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
+                ? forespørslerOmDelingAvCv.data[kandidat.aktørid!]
+                : undefined
+        );
+
+        antallMedHendelse[hendelse]++;
     });
 
     return antallMedHendelse;
