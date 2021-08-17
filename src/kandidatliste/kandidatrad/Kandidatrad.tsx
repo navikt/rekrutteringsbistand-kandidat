@@ -21,7 +21,6 @@ import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import MerInfo from './mer-info/MerInfo';
-import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusOgHendelser from './status-og-hendelser/StatusOgHendelser';
@@ -251,14 +250,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <span className="kandidatliste-kandidat__antall-notater">
                             {antallNotater}
                         </span>
-                        <NavFrontendChevron
-                            className="kandidatliste-kandidat__chevron"
-                            type={
-                                tilstand?.visningsstatus === Visningsstatus.VisNotater
-                                    ? 'opp'
-                                    : 'ned'
-                            }
-                        />
                     </Lenkeknapp>
                 </div>
                 <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
@@ -268,14 +259,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
                         >
                             <i className="MerInfo__icon" />
-                            <NavFrontendChevron
-                                className="kandidatliste-kandidat__chevron"
-                                type={
-                                    tilstand?.visningsstatus === Visningsstatus.VisMerInfo
-                                        ? 'opp'
-                                        : 'ned'
-                                }
-                            />
                         </Lenkeknapp>
                     )}
                 </div>
