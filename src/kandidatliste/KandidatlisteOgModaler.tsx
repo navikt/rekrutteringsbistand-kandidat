@@ -17,9 +17,15 @@ import { CvSøkeresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { SmsStatus, Kandidattilstander, Kandidatmeldinger } from './domene/Kandidatressurser';
+import {
+    Kandidatforespørsler,
+    Kandidatmeldinger,
+    Kandidattilstander,
+    SmsStatus,
+} from './domene/Kandidatressurser';
 import './Kandidatliste.less';
 import Kandidatliste from './Kandidatliste';
+import { SvarPåDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -51,6 +57,7 @@ type ConnectedProps = {
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     kandidattilstander: Kandidattilstander;
     sendteMeldinger: Nettressurs<Kandidatmeldinger>;
+    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>;
 };
 
 type Props = ConnectedProps & OwnProps;
@@ -240,12 +247,24 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         return this.hentMarkerteKandidater().map((kandidat) => kandidat.kandidatnr);
     };
 
+    hentMarkerteKandidaterSomHarSvartJa = () => {
+        const forespørsler = this.props.forespørslerOmDelingAvCv;
+
+        return this.hentMarkerteKandidater().filter(
+            (kandidat) =>
+                forespørsler.kind === Nettstatus.Suksess &&
+                forespørsler.data[kandidat.aktørid!]?.svar === SvarPåDelingAvCv.Ja
+        );
+    };
+
     onDelMedArbeidsgiver = (beskjed: string, mailadresser: string[]) => {
         if (this.props.valgtNavKontor === null) {
             return;
         }
 
         const markerteKandidater = this.hentKandidatnumrePåMarkerteKandidater();
+
+        // filtrer ut kandidater som ikke har sagt ja
 
         sendEvent('kandidatliste', 'presenter_kandidater', {
             antallKandidater: markerteKandidater.length,
@@ -302,6 +321,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         const { kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
         const { kandidater } = kandidatliste;
         const markerteKandidater = this.hentMarkerteKandidater();
+        const kandidaterSomHarSvartJa = this.hentMarkerteKandidaterSomHarSvartJa();
 
         return (
             <div>
@@ -310,7 +330,8 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                         vis={this.state.deleModalOpen}
                         onClose={this.onToggleDeleModal}
                         onSubmit={this.onDelMedArbeidsgiver}
-                        antallKandidater={markerteKandidater.length}
+                        antallMarkerteKandidater={markerteKandidater.length}
+                        antallKandidaterSomHarSvartJa={kandidaterSomHarSvartJa.length}
                     />
                 )}
                 {leggTilModalOpen && (
@@ -374,6 +395,7 @@ const mapStateToProps = (state: AppState) => ({
     valgtNavKontor: state.navKontor.valgtNavKontor,
     formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
     kandidattilstander: state.kandidatliste.kandidattilstander,
+    forespørslerOmDelingAvCv: state.kandidatliste.forespørslerOmDelingAvCv,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({

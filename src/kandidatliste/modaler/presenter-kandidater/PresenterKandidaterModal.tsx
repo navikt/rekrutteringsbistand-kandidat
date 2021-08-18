@@ -9,9 +9,10 @@ import './PresenterKandidaterModal.less';
 
 type Props = {
     vis?: boolean; // Default true
-    antallKandidater: number;
     onSubmit: (beskjed: string, mailadresser: string[]) => void;
     onClose: () => void;
+    antallMarkerteKandidater: number;
+    antallKandidaterSomHarSvartJa: number;
 };
 
 type State = {
@@ -124,7 +125,7 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
     };
 
     render() {
-        const { vis = true, antallKandidater } = this.props;
+        const { vis = true, antallMarkerteKandidater, antallKandidaterSomHarSvartJa } = this.props;
 
         return (
             <ModalMedKandidatScope
@@ -134,14 +135,22 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                 className="PresenterKandidaterModal"
             >
                 <div className="wrapper">
-                    {antallKandidater === 1 ? (
+                    {antallKandidaterSomHarSvartJa === 1 ? (
                         <Systemtittel>Del 1 kandidat med arbeidsgiver</Systemtittel>
                     ) : (
-                        <Systemtittel>{`Del ${antallKandidater} kandidater med arbeidsgiver`}</Systemtittel>
+                        <Systemtittel>{`Del ${antallKandidaterSomHarSvartJa} kandidater med arbeidsgiver`}</Systemtittel>
                     )}
                     <AlertStripeAdvarsel>
-                        Husk at du må kontakte kandidatene og undersøke om stillingen er aktuell før
-                        du deler med arbeidsgiver.
+                        <p>
+                            {antallMarkerteKandidater - antallKandidaterSomHarSvartJa} av
+                            kandidatene har ikke bekreftet at CV-en kan deles. Du kan derfor ikke
+                            dele disse.
+                        </p>
+                        <p>
+                            Har du hatt dialog med kandidaten, og fått bekreftet at NAV kan dele
+                            CV-en? Da må du registrere dette i aktivitetsplanen. Har du ikke delt
+                            stillingen med kandidaten må du gjøre det først. Se rutiner.
+                        </p>
                     </AlertStripeAdvarsel>
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
