@@ -1,32 +1,46 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ChangeEvent } from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { erGyldigEpost } from './epostValidering';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
-import './PresenterKandidaterModal.less';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import './PresenterKandidaterModal.less';
 
-const initalState = () => ({
-    beskjed: '',
-    mailadresser: [
-        {
-            id: 0,
-            value: '',
-            errorTekst: undefined,
-            show: true,
-        },
-    ],
-});
+type Props = {
+    vis?: boolean; // Default true
+    antallKandidater: number;
+    onSubmit: (beskjed: string, mailadresser: string[]) => void;
+    onClose: () => void;
+};
 
-export default class PresenterKandidaterModal extends React.Component {
-    constructor() {
-        super();
-        this.state = initalState();
+type State = {
+    beskjed: string;
+    mailadresser: Array<{
+        id: number;
+        value: string;
+        errorTekst?: string;
+        show: boolean;
+    }>;
+};
+
+class PresenterKandidaterModal extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            beskjed: '',
+            mailadresser: [
+                {
+                    id: 0,
+                    value: '',
+                    errorTekst: undefined,
+                    show: true,
+                },
+            ],
+        };
     }
 
-    onMailadresseChange = (id) => (e) => {
+    onMailadresseChange = (id: number) => (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             mailadresser: this.state.mailadresser.map((mailadresseFelt) => {
                 if (mailadresseFelt.id === id) {
@@ -41,13 +55,13 @@ export default class PresenterKandidaterModal extends React.Component {
         });
     };
 
-    onBeskjedChange = (e) => {
+    onBeskjedChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({
             beskjed: e.target.value,
         });
     };
 
-    showInputFelt = (id) => {
+    showInputFelt = (id: number) => {
         this.setState({
             mailadresser: this.state.mailadresser.map((mailadresseFelt) => {
                 if (mailadresseFelt.id === id) {
@@ -101,24 +115,23 @@ export default class PresenterKandidaterModal extends React.Component {
                 mailadresser: validerteMailadresser,
             });
         } else {
-            this.props.onSubmit(
-                this.state.beskjed,
-                this.state.mailadresser
-                    .map((mailadresseFelt) => mailadresseFelt.value)
-                    .filter((mailadresse) => mailadresse.trim())
-            );
+            const ikkeTommeMailadresser = this.state.mailadresser
+                .map((mailadresseFelt) => mailadresseFelt.value)
+                .filter((mailadresse) => mailadresse.trim());
+
+            this.props.onSubmit(this.state.beskjed, ikkeTommeMailadresser);
         }
     };
 
     render() {
-        const { vis, antallKandidater } = this.props;
+        const { vis = true, antallKandidater } = this.props;
+
         return (
             <ModalMedKandidatScope
                 contentLabel="modal del kandidater"
                 isOpen={vis}
                 onRequestClose={this.props.onClose}
                 className="PresenterKandidaterModal"
-                appElement={document.getElementById('app')}
             >
                 <div className="wrapper">
                     {antallKandidater === 1 ? (
@@ -183,13 +196,5 @@ export default class PresenterKandidaterModal extends React.Component {
         );
     }
 }
-PresenterKandidaterModal.defaultProps = {
-    vis: true,
-};
 
-PresenterKandidaterModal.propTypes = {
-    vis: PropTypes.bool,
-    antallKandidater: PropTypes.number.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
-};
+export default PresenterKandidaterModal;
