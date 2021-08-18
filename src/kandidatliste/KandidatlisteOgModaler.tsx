@@ -242,7 +242,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 
     onDelMedArbeidsgiver = (beskjed: string, mailadresser: string[]) => {
         if (this.props.valgtNavKontor === null) {
-            return; // TODO: Ikke la PresenterKandidaterModal submitte hvis ikke Nav-kontor er valgt
+            return;
         }
 
         const markerteKandidater = this.hentKandidatnumrePåMarkerteKandidater();
