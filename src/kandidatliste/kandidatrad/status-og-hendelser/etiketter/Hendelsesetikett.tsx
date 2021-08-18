@@ -14,12 +14,12 @@ type Props = {
 };
 
 export enum Hendelse {
-    NyKandidat = 'ny-kandidat',
-    DeltMedKandidat = 'delt-med-kandidat',
-    SvarNei = 'svar-nei',
-    SvarJa = 'svar-ja',
-    CvDelt = 'cv-delt',
-    FåttJobben = 'fått-jobben',
+    DeltMedKandidat = 'DELT_MED_KANDIDAT',
+    SvarJa = 'SVAR_JA',
+    SvarNei = 'SVAR_NEI',
+    NyKandidat = 'NY_KANDIDAT',
+    CvDelt = 'CV_DELT',
+    FåttJobben = 'FÅTT_JOBBEN',
 }
 
 const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDelingAvCv }) => {
@@ -35,7 +35,7 @@ const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDeli
             mini
             type="info"
             aria-label="Utfall"
-            className={`hendelsesetikett hendelsesetikett--${hendelse}`}
+            className={`hendelsesetikett hendelsesetikett--${hendelse.toLowerCase()}`}
         >
             {label}
         </Etikett>
@@ -45,7 +45,7 @@ const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDeli
 export const hentKandidatensSisteHendelse = (
     utfall: Kandidatutfall,
     forespørselOmDelingAvCv?: ForespørselOmDelingAvCv
-) => {
+): Hendelse => {
     if (utfall === Kandidatutfall.FåttJobben) {
         return Hendelse.FåttJobben;
     } else if (utfall === Kandidatutfall.Presentert) {

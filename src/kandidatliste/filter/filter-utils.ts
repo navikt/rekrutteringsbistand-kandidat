@@ -1,5 +1,11 @@
-import { Kandidat, Kandidatstatus, Kandidatutfall } from '../domene/Kandidat';
+import { Kandidat, Kandidatstatus } from '../domene/Kandidat';
 import { Kandidatlistefilter } from '../reducer/kandidatlisteReducer';
+import {
+    Hendelse,
+    hentKandidatensSisteHendelse,
+} from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import { Kandidatforespørsler } from '../domene/Kandidatressurser';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 
 const QUERY_PARAM_SEPARATOR = '-';
 
@@ -17,19 +23,34 @@ export const matchNavn = (navnefilter: string) => (kandidat: Kandidat) => {
     return navn.includes(normalisertFilter);
 };
 
-export const filtrerKandidater = (kandidater: Kandidat[], filter?: Kandidatlistefilter) => {
+export const filtrerKandidater = (
+    kandidater: Kandidat[],
+    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>,
+    filter?: Kandidatlistefilter
+) => {
     if (!filter) {
         return kandidater.map((kandidat) => kandidat.kandidatnr);
     }
 
     const statusfilterErValgt = new Set(Object.values(filter.status)).size > 1;
-    const utfallsfilterErValgt = new Set(Object.values(filter.utfall)).size > 1;
+    const hendelsefilterErValgt = new Set(Object.values(filter.hendelse)).size > 1;
 
     return kandidater
         .filter((kandidat) => kandidat.arkivert === filter.visArkiverte)
         .filter(matchNavn(filter.navn))
         .filter((kandidat) => !statusfilterErValgt || filter.status[kandidat.status])
-        .filter((kandidat) => !utfallsfilterErValgt || filter.utfall[kandidat.utfall])
+        .filter(
+            (kandidat) =>
+                !hendelsefilterErValgt ||
+                filter.hendelse[
+                    hentKandidatensSisteHendelse(
+                        kandidat.utfall,
+                        forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
+                            ? forespørslerOmDelingAvCv.data[kandidat.aktørid!]
+                            : undefined
+                    )
+                ]
+        )
         .map((kandidat) => kandidat.kandidatnr);
 };
 
@@ -42,18 +63,18 @@ export const lagTomtStatusfilter = (): Record<Kandidatstatus, boolean> => {
     return statusfilter;
 };
 
-export const lagTomtUtfallsfilter = (): Record<Kandidatutfall, boolean> => {
-    const utfallsfilter: Record<string, boolean> = {};
-    Object.values(Kandidatutfall).forEach((utfall) => {
-        utfallsfilter[utfall] = false;
+export const lagTomtHendelsefilter = (): Record<Hendelse, boolean> => {
+    const hendelsefilter: Record<string, boolean> = {};
+    Object.values(Hendelse).forEach((utfall) => {
+        hendelsefilter[utfall] = false;
     });
 
-    return utfallsfilter;
+    return hendelsefilter;
 };
 
 export const queryParamsTilFilter = (queryParams: URLSearchParams): Kandidatlistefilter => {
     const status = lagTomtStatusfilter();
-    const utfall = lagTomtUtfallsfilter();
+    const hendelse = lagTomtHendelsefilter();
 
     const statusParams = queryParams.get('status');
     if (statusParams) {
@@ -62,16 +83,16 @@ export const queryParamsTilFilter = (queryParams: URLSearchParams): Kandidatlist
         });
     }
 
-    const utfallsParams = queryParams.get('utfall');
-    if (utfallsParams) {
-        utfallsParams.split(QUERY_PARAM_SEPARATOR).forEach((param) => {
-            utfall[param] = true;
+    const hendelseParams = queryParams.get('hendelse');
+    if (hendelseParams) {
+        hendelseParams.split(QUERY_PARAM_SEPARATOR).forEach((param) => {
+            hendelse[param] = true;
         });
     }
 
     return {
         status,
-        utfall,
+        hendelse,
         navn: '',
         visArkiverte: queryParams.get('visArkiverte') === 'true',
     };
@@ -93,9 +114,9 @@ export const filterTilQueryParams = (filter?: Kandidatlistefilter): URLSearchPar
         queryParams.set('status', statusfiltre.join(QUERY_PARAM_SEPARATOR));
     }
 
-    const utfallsfiltre = getTrueKeys(filter.utfall);
-    if (utfallsfiltre.length > 0) {
-        queryParams.set('utfall', utfallsfiltre.join(QUERY_PARAM_SEPARATOR));
+    const hendelsefiltre = getTrueKeys(filter.hendelse);
+    if (hendelsefiltre.length > 0) {
+        queryParams.set('hendelse', hendelsefiltre.join(QUERY_PARAM_SEPARATOR));
     }
 
     if (filter.visArkiverte) {

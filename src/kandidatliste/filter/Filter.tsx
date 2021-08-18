@@ -3,31 +3,33 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
 import { Undertittel } from 'nav-frontend-typografi';
 
-import { Kandidatstatus, Kandidatutfall } from '../domene/Kandidat';
+import { Kandidatstatus } from '../domene/Kandidat';
 import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
 import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
 import { statusToDisplayName } from '../kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import './Filter.less';
+import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 interface Props {
     antallTreff: AntallFiltertreff;
     visArkiverte: boolean;
     statusfilter: Record<Kandidatstatus, boolean>;
-    utfallsfilter?: Record<Kandidatutfall, boolean>;
+    hendelsefilter?: Record<Hendelse, boolean>;
     onToggleArkiverte: () => void;
     onToggleStatus: (status: Kandidatstatus) => void;
-    onToggleUtfall: (utfall: Kandidatutfall) => void;
+    onToggleHendelse: (hendelse: Hendelse) => void;
 }
 
 const Filter: FunctionComponent<Props> = ({
     antallTreff,
     visArkiverte,
     statusfilter,
-    utfallsfilter,
+    hendelsefilter,
     onToggleArkiverte,
     onToggleStatus,
-    onToggleUtfall,
+    onToggleHendelse,
 }) => {
     const harStorSkjerm = useVinduErBredereEnn(1280);
 
@@ -43,16 +45,19 @@ const Filter: FunctionComponent<Props> = ({
         />
     ));
 
-    const hendelsescheckbokser = utfallsfilter
-        ? Object.values(Kandidatutfall).map((utfall) => (
+    const filtrerbareHendelser = erIkkeProd
+        ? Object.values(Hendelse)
+        : [Hendelse.NyKandidat, Hendelse.CvDelt, Hendelse.FåttJobben];
+    const hendelsescheckbokser = hendelsefilter
+        ? filtrerbareHendelser.map((hendelse) => (
               <Checkbox
-                  key={utfall}
-                  value={utfall}
-                  label={`${utfallTilHendelse(utfall)} (${antallTreff.utfall[utfall] ?? 0})`}
-                  checked={utfallsfilter[utfall]}
+                  key={hendelse}
+                  value={hendelse}
+                  label={`${hendelseTilLabel(hendelse)} (${antallTreff.hendelse[hendelse] ?? 0})`}
+                  checked={hendelsefilter[hendelse]}
                   name="hendelsesfilter"
                   className="kandidatliste-filter__checkbox"
-                  onChange={(e) => onToggleUtfall(e.currentTarget.value as Kandidatutfall)}
+                  onChange={(e) => onToggleHendelse(e.currentTarget.value as Hendelse)}
               />
           ))
         : undefined;
@@ -92,14 +97,20 @@ const Filter: FunctionComponent<Props> = ({
     );
 };
 
-const utfallTilHendelse = (utfall: Kandidatutfall) => {
-    switch (utfall) {
-        case Kandidatutfall.FåttJobben:
-            return 'Fått jobben';
-        case Kandidatutfall.Presentert:
-            return 'Delt med arbeidsgiver';
-        case Kandidatutfall.IkkePresentert:
+const hendelseTilLabel = (hendelse: Hendelse) => {
+    switch (hendelse) {
+        case Hendelse.DeltMedKandidat:
+            return 'Stilling delt med kandidat';
+        case Hendelse.SvarJa:
+            return 'Svar: Ja';
+        case Hendelse.SvarNei:
+            return 'Svar: Nei';
+        case Hendelse.NyKandidat:
             return 'Ikke delt med arbeidsgiver';
+        case Hendelse.CvDelt:
+            return 'Delt med arbeidsgiver';
+        case Hendelse.FåttJobben:
+            return 'Fått jobben';
     }
 };
 
