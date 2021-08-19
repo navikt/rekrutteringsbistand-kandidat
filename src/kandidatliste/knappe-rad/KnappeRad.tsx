@@ -57,7 +57,7 @@ const KnappeRad: FunctionComponent<Props> = ({
             forespørslerOmDelingAvCv.data[markertKandidat.aktørid!]?.svar === SvarPåDelingAvCv.Ja
     );
 
-    const stillingenErEgentligIkkeEnStilling = false; // TODO: Sjekk på stillingsobjektet når dette er implementert
+    const stillingenErEgentligIkkeEnStilling = true; // TODO: Sjekk på stillingsobjektet når dette er implementert
 
     const skalViseEkstraKnapper =
         kandidatliste.kanEditere && erKobletTilStilling(kandidatliste) && !visArkiverte;

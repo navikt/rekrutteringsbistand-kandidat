@@ -26,6 +26,7 @@ import {
 import './Kandidatliste.less';
 import Kandidatliste from './Kandidatliste';
 import { SvarPåDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { erIkkeProd } from '../utils/featureToggleUtils';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -262,19 +263,19 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             return;
         }
 
-        const markerteKandidater = this.hentKandidatnumrePåMarkerteKandidater();
-
-        // filtrer ut kandidater som ikke har sagt ja
+        const kandidaterSomSkalDeles = erIkkeProd
+            ? this.hentMarkerteKandidaterSomHarSvartJa().map((k) => k.kandidatnr)
+            : this.hentKandidatnumrePåMarkerteKandidater();
 
         sendEvent('kandidatliste', 'presenter_kandidater', {
-            antallKandidater: markerteKandidater.length,
+            antallKandidater: kandidaterSomSkalDeles.length,
         });
 
         this.props.presenterKandidater(
             beskjed,
             mailadresser,
             this.props.kandidatliste.kandidatlisteId,
-            markerteKandidater,
+            kandidaterSomSkalDeles,
             this.props.valgtNavKontor
         );
         this.setState({
