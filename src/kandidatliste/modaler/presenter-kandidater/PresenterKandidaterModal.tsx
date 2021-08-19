@@ -141,16 +141,16 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                         <Systemtittel>{`Del ${antallKandidaterSomHarSvartJa} kandidater med arbeidsgiver`}</Systemtittel>
                     )}
                     <AlertStripeAdvarsel>
-                        <p>
+                        <Normaltekst className="blokk-xs">
                             {antallMarkerteKandidater - antallKandidaterSomHarSvartJa} av
                             kandidatene har ikke bekreftet at CV-en kan deles. Du kan derfor ikke
                             dele disse.
-                        </p>
-                        <p>
+                        </Normaltekst>
+                        <Normaltekst>
                             Har du hatt dialog med kandidaten, og fått bekreftet at NAV kan dele
                             CV-en? Da må du registrere dette i aktivitetsplanen. Har du ikke delt
                             stillingen med kandidaten må du gjøre det først. Se rutiner.
-                        </p>
+                        </Normaltekst>
                     </AlertStripeAdvarsel>
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
