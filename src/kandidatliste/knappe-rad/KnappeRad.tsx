@@ -138,7 +138,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                     </Lenkeknapp>
                                 ) : (
                                     <MedPopover
-                                        hjelpetekst="Ingen av kandidatene har bekreftet at CV-en kan deles. Du kan derfor ikke dele dem."
+                                        hjelpetekst="Kandidaten(e) har ikke bekreftet at CV-en kan deles. Du kan derfor ikke dele med arbeidsgiver."
                                         tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                                     >
                                         <Lenkeknapp className="kandidatlisteknapper__knapp Share">
