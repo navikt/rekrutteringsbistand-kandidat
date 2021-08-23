@@ -7,6 +7,7 @@ import {
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { datoformatNorskKort } from '../../../../utils/dateUtils';
 import './Hendelsesetikett.less';
+import moment from 'moment';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -24,7 +25,11 @@ export enum Hendelse {
 
 const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDelingAvCv }) => {
     const hendelse = hentKandidatensSisteHendelse(utfall, forespørselOmDelingAvCv);
-    const label = hendelseTilLabel(hendelse, forespørselOmDelingAvCv?.svarfrist);
+    const label = hendelseTilLabel(
+        hendelse,
+        forespørselOmDelingAvCv?.svarTidspunkt,
+        forespørselOmDelingAvCv?.svarfrist
+    );
 
     if (hendelse === Hendelse.NyKandidat) {
         return null;
@@ -63,8 +68,15 @@ export const hentKandidatensSisteHendelse = (
     return Hendelse.NyKandidat;
 };
 
-const hendelseTilLabel = (hendelse: Hendelse, svarfrist?: string) => {
-    const formatertSvarfrist = svarfrist && datoformatNorskKort(svarfrist);
+const hendelseTilLabel = (
+    hendelse: Hendelse,
+    svarTidspunkt?: string | null,
+    svarfrist?: string
+) => {
+    const formatertSvarfrist =
+        svarfrist && datoformatNorskKort(moment(svarfrist).subtract(1, 'day').toISOString());
+    const formatertSvarTidspunkt = svarTidspunkt && datoformatNorskKort(svarTidspunkt);
+    const dagerTilSvarfrist = Math.floor(moment(svarfrist).diff(moment(), 'days', true));
 
     switch (hendelse) {
         case Hendelse.FåttJobben:
@@ -72,13 +84,19 @@ const hendelseTilLabel = (hendelse: Hendelse, svarfrist?: string) => {
         case Hendelse.CvDelt:
             return 'CV delt';
         case Hendelse.DeltMedKandidat: {
-            return `Delt med kandidat, frist ${formatertSvarfrist}`;
+            if (dagerTilSvarfrist < 0) {
+                return 'Delt med kandidat, frist utløpt';
+            } else if (dagerTilSvarfrist === 0) {
+                return `Delt med kandidat, frist i dag`;
+            } else {
+                return `Delt med kandidat, frist ${formatertSvarfrist}`;
+            }
         }
         case Hendelse.SvarJa: {
-            return `Svar: Ja – ${formatertSvarfrist}`;
+            return `Svar: Ja – ${formatertSvarTidspunkt}`;
         }
         case Hendelse.SvarNei: {
-            return `Svar: Nei – ${formatertSvarfrist}`;
+            return `Svar: Nei – ${formatertSvarTidspunkt}`;
         }
         default:
             return '';
