@@ -27,10 +27,11 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
         if (forespørselOmDelingAvCv.data.svar === SvarPåDelingAvCv.IkkeSvart) {
             const svarfrist = forespørselOmDelingAvCv.data.svarfrist;
             const dagerTilSvarfristDesimal = moment(svarfrist).diff(moment(), 'days', true);
-
             return (
                 <Hendelse
-                    status={Hendelsesstatus.Hvit}
+                    status={
+                        dagerTilSvarfristDesimal < 0 ? Hendelsesstatus.Blå : Hendelsesstatus.Hvit
+                    }
                     tittel="Svar fra kandidat om deling av CV"
                     beskrivelse={formaterSvarfrist(dagerTilSvarfristDesimal)}
                 />

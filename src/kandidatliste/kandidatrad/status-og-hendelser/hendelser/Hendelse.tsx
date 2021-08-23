@@ -6,6 +6,7 @@ import './Hendelse.less';
 export enum Hendelsesstatus {
     Hvit = 'hvit',
     Grønn = 'grønn',
+    Blå = 'blå',
     Oransje = 'oransje',
 }
 
@@ -27,12 +28,9 @@ const Hendelse: FunctionComponent<Props> = ({
     let ikonClassName = 'hendelse__ikon';
     let innholdClassName = 'hendelse__innhold';
 
-    if (status === Hendelsesstatus.Grønn) {
-        className += ' hendelse--grønn';
-        ikonClassName += ' hendelse__ikon--grønn';
-    } else if (status === Hendelsesstatus.Oransje) {
-        className += ' hendelse--oransje';
-        ikonClassName += ' hendelse__ikon--oransje';
+    if (status !== Hendelsesstatus.Hvit) {
+        className += ` hendelse--${status}`;
+        ikonClassName += ` hendelse__ikon--${status}`;
     }
 
     if (renderChildrenBelowContent) {
@@ -47,6 +45,9 @@ const Hendelse: FunctionComponent<Props> = ({
                 )}
                 {status === Hendelsesstatus.Oransje && (
                     <Element className="hendelse__ikon-grafikk-oransje">!</Element>
+                )}
+                {status === Hendelsesstatus.Blå && (
+                    <code className="hendelse__ikon-grafikk-blå">i</code>
                 )}
             </div>
             <div className={innholdClassName}>
