@@ -467,6 +467,10 @@ export interface SendForespørselOmDelingAvCvFailure {
     error: SearchApiError;
 }
 
+export interface ResetSendForespørselOmDelingAvCv {
+    type: KandidatlisteActionType.ResetSendForespørselOmDelingAvCv;
+}
+
 export interface EndreKandidatlistefilterAction {
     type: KandidatlisteActionType.EndreKandidatlisteFilter;
     filter: Kandidatlistefilter;
@@ -583,6 +587,7 @@ type KandidatlisteAction =
     | SendForespørselOmDelingAvCv
     | SendForespørselOmDelingAvCvSuccess
     | SendForespørselOmDelingAvCvFailure
+    | ResetSendForespørselOmDelingAvCv
     | EndreSortering;
 
 export default KandidatlisteAction;
