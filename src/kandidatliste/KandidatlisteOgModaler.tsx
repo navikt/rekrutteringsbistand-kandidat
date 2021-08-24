@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Kandidatliste as Kandidatlistetype } from './domene/Kandidatliste';
+import { erKobletTilStilling, Kandidatliste as Kandidatlistetype } from './domene/Kandidatliste';
 import { Kandidatstatus } from './domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { sendEvent } from '../amplitude/amplitude';
@@ -333,6 +333,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                         onSubmit={this.onDelMedArbeidsgiver}
                         antallMarkerteKandidater={markerteKandidater.length}
                         antallKandidaterSomHarSvartJa={kandidaterSomHarSvartJa.length}
+                        alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere={
+                            erIkkeProd ? erKobletTilStilling(kandidatliste) : false // TODO: Sjekk stillingskategori, skal være true hvis stilling er en faktisk stilling
+                        }
                     />
                 )}
                 {leggTilModalOpen && (

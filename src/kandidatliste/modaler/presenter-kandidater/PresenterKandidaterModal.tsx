@@ -14,6 +14,7 @@ type Props = {
     onClose: () => void;
     antallMarkerteKandidater: number;
     antallKandidaterSomHarSvartJa: number;
+    alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere: boolean;
 };
 
 type State = {
@@ -126,10 +127,17 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
     };
 
     render() {
-        const { vis = true, antallMarkerteKandidater, antallKandidaterSomHarSvartJa } = this.props;
+        const {
+            vis = true,
+            antallMarkerteKandidater,
+            antallKandidaterSomHarSvartJa,
+            alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere,
+        } = this.props;
 
-        const antallSomSkalDeles = erIkkeProd
-            ? antallKandidaterSomHarSvartJa
+        const antallSomSkalDeles = alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere
+            ? erIkkeProd
+                ? antallKandidaterSomHarSvartJa
+                : antallMarkerteKandidater
             : antallMarkerteKandidater;
 
         return (
@@ -146,7 +154,8 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                         <Systemtittel>{`Del ${antallSomSkalDeles} kandidater med arbeidsgiver`}</Systemtittel>
                     )}
                     <AlertStripeAdvarsel>
-                        {erIkkeProd ? (
+                        {erIkkeProd &&
+                        alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere ? (
                             <>
                                 <Normaltekst className="blokk-xs">
                                     {antallMarkerteKandidater - antallKandidaterSomHarSvartJa} av
