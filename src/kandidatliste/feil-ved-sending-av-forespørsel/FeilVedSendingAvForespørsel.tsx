@@ -15,6 +15,7 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({ forespørslerO
         tolkningAvSvarFraAktivitetsplanen.kortetBleIkkeOpprettet
     );
 
+    // TODO: Ikke vis denne alerten hvis kandidaten har svart.
     const brukereSomIkkeKanSvarePåKortet = forespørsler.filter(
         tolkningAvSvarFraAktivitetsplanen.kanIkkeSvarePåKortet
     );

@@ -18,6 +18,7 @@ type UtenSvar = {
     aktivitetOpprettet: null;
 };
 
+// TODO: Fiks typer. Man kan ha fått brukerVarslet og aktivitetOpprettet selv om brukeren ikke har svart.
 export type ForespørselOmDelingAvCv = {
     aktørId: string;
     deltStatus: ForespørselDeltStatus;
