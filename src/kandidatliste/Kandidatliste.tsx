@@ -2,7 +2,11 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { Kandidatliste as Kandidatlistetype, Kandidatlistestatus } from './domene/Kandidatliste';
+import {
+    erKobletTilStilling,
+    Kandidatliste as Kandidatlistetype,
+    Kandidatlistestatus,
+} from './domene/Kandidatliste';
 import { Kandidatlistefilter } from './reducer/kandidatlisteReducer';
 import { Kandidatstatus, erInaktiv } from './domene/Kandidat';
 import { Nettstatus } from '../api/Nettressurs';
@@ -29,8 +33,9 @@ import useHentForespørslerOmDelingAvCv from './hooks/useHentForespørslerOmDeli
 import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
 import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import useSorterteKandidater from './hooks/useSorterteKandidater';
-import '../common/ikoner.less';
 import { Hendelse } from './kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import FeilVedSendingAvForespørsel from './feil-ved-sending-av-forespørsel/FeilVedSendingAvForespørsel';
+import '../common/ikoner.less';
 
 type Props = {
     kandidatliste: Kandidatlistetype;
@@ -179,6 +184,12 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                     <SmsFeilAlertStripe
                                         kandidater={kandidatliste.kandidater}
                                         sendteMeldinger={sendteMeldinger.data}
+                                    />
+                                )}
+                            {erKobletTilStilling(kandidatliste) &&
+                                forespørslerOmDelingAvCv.kind === Nettstatus.Suksess && (
+                                    <FeilVedSendingAvForespørsel
+                                        forespørslerOmDelingAvCv={forespørslerOmDelingAvCv.data}
                                     />
                                 )}
                             <KnappeRad

@@ -7,11 +7,15 @@ export type ForespørselOutboundDto = {
 type MedSvar = {
     svar: SvarPåDelingAvCv.Ja | SvarPåDelingAvCv.Nei;
     svarTidspunkt: string;
+    brukerVarslet: boolean;
+    aktivitetOpprettet: boolean;
 };
 
 type UtenSvar = {
     svar: SvarPåDelingAvCv.IkkeSvart;
     svarTidspunkt: null;
+    brukerVarslet: null;
+    aktivitetOpprettet: null;
 };
 
 export type ForespørselOmDelingAvCv = {
