@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import {
+    erEierAvKandidatlisten,
     erKobletTilStilling,
     Kandidatliste as Kandidatlistetype,
     Kandidatlistestatus,
@@ -187,6 +188,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                     />
                                 )}
                             {erKobletTilStilling(kandidatliste) &&
+                                erEierAvKandidatlisten(kandidatliste) &&
                                 forespørslerOmDelingAvCv.kind === Nettstatus.Suksess && (
                                     <FeilVedSendingAvForespørsel
                                         forespørslerOmDelingAvCv={forespørslerOmDelingAvCv.data}
@@ -234,7 +236,9 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                         kandidatlistenErLukket={!kandidatlistenErÅpen}
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
-                                        erEierAvKandidatlisten={kandidatliste.kanEditere}
+                                        erEierAvKandidatlisten={erEierAvKandidatlisten(
+                                            kandidatliste
+                                        )}
                                     />
                                 )
                             )}
