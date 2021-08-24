@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import HjelpetekstFading from '../../common/HjelpetekstFading';
+import HjelpetekstFading from '../../common/varsling/HjelpetekstFading';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste } from '../../app/paths';
 import { useSelector } from 'react-redux';
@@ -11,10 +11,8 @@ export const KandidaterErLagretSuksessmelding: FunctionComponent = () => {
         (state: AppState) => state.kandidatliste.leggTilKandidater
     );
 
-    const [
-        suksessmeldingLagreKandidatVises,
-        setSuksessmeldingLagreKandidatVises,
-    ] = useState<boolean>(false);
+    const [suksessmeldingLagreKandidatVises, setSuksessmeldingLagreKandidatVises] =
+        useState<boolean>(false);
 
     useEffect(() => {
         if (lagreStatus === Nettstatus.Suksess) {

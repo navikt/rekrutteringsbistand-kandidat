@@ -15,6 +15,7 @@ import { SearchState } from './kandidatsøk/reducer/searchReducer';
 import { TilgjengelighetState } from './kandidatsøk/søkefiltre/tilgjengelighet/tilgjengelighetReducer';
 import { TilretteleggingsbehovState } from './kandidatsøk/søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 import { PrioriterteMålgrupperState } from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
+import { VarslingState } from './common/varsling/varslingReducer';
 
 type AppState = {
     cv: CvState;
@@ -24,6 +25,7 @@ type AppState = {
     listeoversikt: ListeoversiktState;
     midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;
     navKontor: NavKontorState;
+    varsling: VarslingState;
     søk: SearchState;
     søkefilter: {
         alder: AlderState;

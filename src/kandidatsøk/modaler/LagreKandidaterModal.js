@@ -8,7 +8,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Kandidatliste } from '../../kandidatliste/PropTypes';
 import { formatterDato } from '../../utils/dateUtils';
 import { capitalizeEmployerName } from '../utils';
-import HjelpetekstFading from '../../common/HjelpetekstFading.tsx';
+import HjelpetekstFading from '../../common/varsling/HjelpetekstFading.tsx';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';

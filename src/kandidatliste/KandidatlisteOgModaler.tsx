@@ -7,7 +7,7 @@ import { Kandidatstatus } from './domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { sendEvent } from '../amplitude/amplitude';
 import AppState from '../AppState';
-import HjelpetekstFading from '../common/HjelpetekstFading';
+import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';

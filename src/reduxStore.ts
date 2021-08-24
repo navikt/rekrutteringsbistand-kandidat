@@ -33,6 +33,7 @@ import searchReducer from './kandidatsøk/reducer/searchReducer';
 import kandidatlisteSaga from './kandidatliste/reducer/kandidatlisteSaga';
 import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
 import prioriterteMålgrupperReducer from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
+import varslingReducer, { varslingSaga } from './common/varsling/varslingReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -67,6 +68,7 @@ const store = createStore(
         navKontor: valgtNavKontorReducer,
         søk: searchReducer,
         søkefilter: søkefiltreReducer,
+        varsling: varslingReducer,
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
@@ -79,5 +81,6 @@ sagaMiddleware.run(historikkSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 sagaMiddleware.run(listeoversiktSaga);
+sagaMiddleware.run(varslingSaga);
 
 export default store;

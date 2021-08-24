@@ -8,7 +8,7 @@ import { sendEvent } from '../../amplitude/amplitude';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { lenkeTilKandidatliste, lenkeTilKandidatsøk } from '../../app/paths';
 import AppState from '../../AppState';
-import HjelpetekstFading from '../../common/HjelpetekstFading';
+import HjelpetekstFading from '../../common/varsling/HjelpetekstFading';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
