@@ -4,11 +4,11 @@ import { RouteChildrenProps } from 'react-router-dom';
 import { KandidatsøkActionType } from './reducer/searchActions';
 import { harUrlParametere } from './reducer/searchQuery';
 import { Kandidatsøk } from './Kandidatsøk';
+import { KandidaterErLagretSuksessmelding } from './kandidater-er-lagret-suksessmelding/KandidaterErLagretSuksessmelding';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
 import useKandidatliste from './useKandidatliste';
-import useKandidaterErLagretSuksessmelding from './useKandidaterErLagretSuksessmelding';
 
 type Props = RouteChildrenProps<{
     kandidatlisteId: string;
@@ -19,7 +19,6 @@ const KandidatsøkIKontekstAvKandidatliste: FunctionComponent<Props> = ({ match 
     const kandidatlisteIdFraUrl = match?.params.kandidatlisteId;
 
     useKandidatliste(undefined, kandidatlisteIdFraUrl);
-    useKandidaterErLagretSuksessmelding();
 
     const kandidatlisteIdFraForrigeSøk = useSelector(
         (state: AppState) => state.søk.kandidatlisteId
@@ -49,18 +48,21 @@ const KandidatsøkIKontekstAvKandidatliste: FunctionComponent<Props> = ({ match 
     }, [dispatch, kandidatlisteIdFraUrl, kandidatlisteIdFraForrigeSøk]);
 
     return (
-        <Kandidatsøk
-            kandidatlisteId={kandidatlisteIdFraUrl}
-            header={
-                <KandidatlisteHeader
-                    kandidatliste={
-                        kandidatlisteNettressurs.kind === Nettstatus.Suksess
-                            ? kandidatlisteNettressurs.data
-                            : undefined
-                    }
-                />
-            }
-        />
+        <>
+            <KandidaterErLagretSuksessmelding />
+            <Kandidatsøk
+                kandidatlisteId={kandidatlisteIdFraUrl}
+                header={
+                    <KandidatlisteHeader
+                        kandidatliste={
+                            kandidatlisteNettressurs.kind === Nettstatus.Suksess
+                                ? kandidatlisteNettressurs.data
+                                : undefined
+                        }
+                    />
+                }
+            />
+        </>
     );
 };
 
