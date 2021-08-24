@@ -4,15 +4,23 @@ export type ForespørselOutboundDto = {
     aktorIder: string[];
 };
 
+type MedSvar = {
+    svar: SvarPåDelingAvCv.Ja | SvarPåDelingAvCv.Nei;
+    svarTidspunkt: string;
+};
+
+type UtenSvar = {
+    svar: SvarPåDelingAvCv.IkkeSvart;
+    svarTidspunkt: null;
+};
+
 export type ForespørselOmDelingAvCv = {
     aktørId: string;
-    deltStatus: ForespørselDeltStatus; // TODO: Alltid anta at sending på Kafka gikk bra?
-    deltTidspunkt: Date;
+    deltStatus: ForespørselDeltStatus;
+    deltTidspunkt: string;
     deltAv: string;
-    svarfrist: Date;
-    svar: SvarPåDelingAvCv;
-    svarTidspunkt: Date | null;
-};
+    svarfrist: string;
+} & (MedSvar | UtenSvar);
 
 export enum ForespørselDeltStatus {
     Sendt = 'SENDT',

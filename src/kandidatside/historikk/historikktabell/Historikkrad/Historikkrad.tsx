@@ -6,7 +6,7 @@ import { KandidatlisteForKandidat } from '../../historikkReducer';
 import { Undertekst } from 'nav-frontend-typografi';
 import StatusEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
 import { Kandidatutfall } from '../../../../kandidatliste/domene/Kandidat';
-import UtfallEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import Hendelsesetikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import './Historikkrad.less';
 
 interface Props {
@@ -41,7 +41,10 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
             <td>
                 <StatusEtikett status={kandidatliste.status} />
                 {kandidatliste.utfall !== Kandidatutfall.IkkePresentert && (
-                    <UtfallEtikett utfall={kandidatliste.utfall} />
+                    <Hendelsesetikett
+                        // Viser foreløbig kun utfallshendelser i historikken
+                        utfall={kandidatliste.utfall}
+                    />
                 )}
             </td>
             <td className="historikkrad__stilling">

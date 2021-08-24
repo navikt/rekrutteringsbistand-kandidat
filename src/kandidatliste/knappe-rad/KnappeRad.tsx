@@ -14,6 +14,9 @@ import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import './KnappeRad.less';
+import { useSelector } from 'react-redux';
+import AppState from '../../AppState';
+import { SvarPåDelingAvCv } from './forespørsel-om-deling-av-cv/Forespørsel';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -38,6 +41,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     visArkiverte,
 }) => {
     const markerteKandidater = useMarkerteKandidater(kandidatliste.kandidater);
+    const { forespørslerOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
 
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
     const markerteAktiveKandidater = markerteKandidater.filter((kandidat) => kandidat.fodselsnr);
@@ -47,11 +51,25 @@ const KnappeRad: FunctionComponent<Props> = ({
             (markertKandidat) => !sendteMeldinger.data[markertKandidat.fodselsnr!]
         );
 
+    const minstEnAvKandidateneHarSvartJa = markerteKandidater.some(
+        (markertKandidat) =>
+            forespørslerOmDelingAvCv.kind === Nettstatus.Suksess &&
+            forespørslerOmDelingAvCv.data[markertKandidat.aktørid!]?.svar === SvarPåDelingAvCv.Ja
+    );
+
+    const stillingenErEgentligIkkeEnStilling = true; // TODO: Sjekk på stillingsobjektet når dette er implementert
+
     const skalViseEkstraKnapper =
         kandidatliste.kanEditere && erKobletTilStilling(kandidatliste) && !visArkiverte;
 
     const skalViseDelMedArbeidsgiverKnapp =
         kandidatliste.kanEditere && erKobletTilArbeidsgiver(kandidatliste) && !visArkiverte;
+
+    const skalViseDelMedKandidatKnapp =
+        kandidatliste.kanEditere &&
+        erKobletTilStilling(kandidatliste) &&
+        erKobletTilArbeidsgiver(kandidatliste) &&
+        !visArkiverte;
 
     const skalViseKopierEposterKnapp = !visArkiverte;
     const skalViseAngreSlettingKnapp = visArkiverte;
@@ -101,7 +119,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
-                    {erIkkeProd && skalViseEkstraKnapper && (
+                    {erIkkeProd && skalViseDelMedKandidatKnapp && (
                         <ForespørselOmDelingAvCv
                             stillingsId={kandidatliste.stillingId!}
                             markerteKandidater={markerteKandidater}
@@ -109,12 +127,26 @@ const KnappeRad: FunctionComponent<Props> = ({
                     )}
                     {skalViseDelMedArbeidsgiverKnapp &&
                         (minstEnKandidatErMarkert ? (
-                            <Lenkeknapp
-                                onClick={onKandidatShare}
-                                className="kandidatlisteknapper__knapp Share"
-                            >
-                                <DeleIkon />
-                            </Lenkeknapp>
+                            <>
+                                {(erIkkeProd && minstEnAvKandidateneHarSvartJa) ||
+                                stillingenErEgentligIkkeEnStilling ? (
+                                    <Lenkeknapp
+                                        onClick={onKandidatShare}
+                                        className="kandidatlisteknapper__knapp Share"
+                                    >
+                                        <DeleIkon />
+                                    </Lenkeknapp>
+                                ) : (
+                                    <MedPopover
+                                        hjelpetekst="Kandidaten(e) har ikke bekreftet at CV-en kan deles. Du kan derfor ikke dele med arbeidsgiver."
+                                        tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
+                                    >
+                                        <Lenkeknapp className="kandidatlisteknapper__knapp Share">
+                                            <DeleIkon />
+                                        </Lenkeknapp>
+                                    </MedPopover>
+                                )}
+                            </>
                         ) : (
                             <MedPopover
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."

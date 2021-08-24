@@ -14,6 +14,7 @@ import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import './SendSmsModal.less';
+import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
@@ -36,7 +37,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
 
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
     const { sendStatus } = useSelector((state: AppState) => state.kandidatliste.sms);
-    const { kandidattilstander } = useSelector((state: AppState) => state.kandidatliste);
+    const markerteKandidater = useMarkerteKandidater(kandidater);
 
     const sendSmsTilKandidater = (melding: string, fnr: string[], kandidatlisteId: string) => {
         dispatch({
@@ -47,9 +48,6 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
         });
     };
 
-    const markerteKandidater = kandidater.filter(
-        (kandidat) => kandidattilstander[kandidat.kandidatnr]?.markert
-    );
     const kandidaterSomHarFåttSms = markerteKandidater.filter(
         (kandidat) => kandidat.fodselsnr && sendteMeldinger[kandidat.fodselsnr]
     );

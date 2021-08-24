@@ -116,7 +116,7 @@ export const mockKandidat = (
     antallNotater: 1,
     arkivertTidspunkt: null,
     arkivertAv: null,
-    aktørid: '1234567891023',
+    aktørid: cver[cvIndex].aktorId,
     midlertidigUtilgjengeligStatus: mockMidlertidigUtilgjengeligStatus(cvIndex),
     erSynlig: true,
 });
@@ -170,7 +170,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         {
             ...mockKandidat(0, meg),
             status: Kandidatstatus.TilIntervju,
-            utfall: Kandidatutfall.FåttJobben,
+            utfall: Kandidatutfall.IkkePresentert,
         },
         {
             ...mockKandidat(1, meg),
@@ -239,7 +239,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
 
 export const kandidatlistesammendragLister: KandidatlisteSammendrag[] = kandidatlister.map((l) => {
     return {
-        ...((l as unknown) as KandidatlisteSammendrag),
+        ...(l as unknown as KandidatlisteSammendrag),
         antallKandidater: l.kandidater.length,
         antallUsynligeKandidater: l.formidlingerAvUsynligKandidat.length,
     };

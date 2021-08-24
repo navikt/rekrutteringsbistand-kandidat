@@ -4,15 +4,20 @@ import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 
 import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';
-import Hendelse from './Hendelse';
-import { datoformatNorskLang } from '../../../../utils/dateUtils';
-import DelingAvCvForKandidat from './DelingAvCvForKandidat';
-import FåttJobbenForKandidat from './FåttJobbenForKandidat';
+import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
+import HarFåttJobben from '../hendelser/HarFåttJobben';
+import DelStillingMedKandidat from '../hendelser/DelStillingMedKandidat';
 import { statusToDisplayName } from '../etiketter/StatusEtikett';
+import { erIkkeProd } from '../../../../utils/featureToggleUtils';
+import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Nettressurs } from '../../../../api/Nettressurs';
+import NyKandidat from '../hendelser/NyKandidat';
+import SvarFraKandidat from '../hendelser/SvarFraKandidat';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
     kandidat: Kandidat;
+    forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
     kandidatlisteId: string;
     onStatusChange: (status: Kandidatstatus) => void;
     kandidatlistenErKobletTilStilling: boolean;
@@ -26,6 +31,7 @@ const hentStatusbeskrivelse = (status: Kandidatstatus) => {
 
 const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
+    forespørselOmDelingAvCv,
     kandidatlisteId,
     onStatusChange,
     kandidatlistenErKobletTilStilling,
@@ -37,10 +43,6 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     const onConfirmStatus = () => {
         onStatusChange(status);
     };
-
-    const cvDeltBeskrivelse = `Lagt til i listen av ${kandidat.lagtTilAv.navn} (${
-        kandidat.lagtTilAv.ident
-    }) ${datoformatNorskLang(kandidat.lagtTilTidspunkt)}`;
 
     return (
         <div className="endre-status-og-hendelser">
@@ -78,13 +80,21 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                 <div className="endre-status-og-hendelser__hendelser">
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">
-                        <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                        <DelingAvCvForKandidat
+                        <NyKandidat kandidat={kandidat} />
+                        {erIkkeProd && (
+                            <DelStillingMedKandidat
+                                forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                            />
+                        )}
+                        {erIkkeProd && (
+                            <SvarFraKandidat forespørselOmDelingAvCv={forespørselOmDelingAvCv} />
+                        )}
+                        <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
                             kandidat={kandidat}
                         />
-                        <FåttJobbenForKandidat
+                        <HarFåttJobben
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
                             kandidat={kandidat}

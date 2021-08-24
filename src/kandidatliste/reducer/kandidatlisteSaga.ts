@@ -37,6 +37,7 @@ import KandidatlisteAction, {
     EndreKandidatlistestatusAction,
     EndreKandidatlistestatusSuccessAction,
     HentForespørslerOmDelingAvCvAction,
+    SendForespørselOmDelingAvCv,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -58,7 +59,11 @@ import {
 } from '../../api/api';
 import { Kandidatliste } from '../domene/Kandidatliste';
 import { SearchApiError } from '../../api/fetchUtils';
-import { fetchForespørslerOmDelingAvCv } from '../../api/forespørselOmDelingAvCvApi';
+import {
+    fetchForespørslerOmDelingAvCv,
+    sendForespørselOmDelingAvCv,
+} from '../../api/forespørselOmDelingAvCvApi';
+import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;
@@ -604,6 +609,21 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
     }
 }
 
+function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
+    try {
+        const response: ForespørselOmDelingAvCv[] = yield call(
+            sendForespørselOmDelingAvCv,
+            action.forespørselOutboundDto
+        );
+        yield put<KandidatlisteAction>({
+            type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
+            forespørslerOmDelingAvCv: response,
+        });
+    } catch (e) {
+        yield put({ type: KandidatlisteActionType.SendForespørselOmDelingAvCvFailure, error: e });
+    }
+}
+
 function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.OpprettKandidatliste, opprettKandidatliste);
     yield takeLatest(
@@ -657,6 +677,7 @@ function* kandidatlisteSaga() {
         [KandidatlisteActionType.HentSendteMeldinger, KandidatlisteActionType.SendSmsSuccess],
         hentSendteMeldinger
     );
+    yield takeLatest(KandidatlisteActionType.SendForespørselOmDelingAvCv, sendForespørselOmDeling);
     yield takeLatest(
         [KandidatlisteActionType.HentForespørslerOmDelingAvCv],
         hentForespørslerOmDelingAvCv

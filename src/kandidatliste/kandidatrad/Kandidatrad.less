@@ -36,14 +36,6 @@
         align-content: center;
     }
 
-    &__chevron {
-        display: none;
-
-        @media (min-width: 1400px) {
-            display: unset;
-        }
-    }
-
     &__wrap-hvor-som-helst {
         overflow-wrap: anywhere;
     }
@@ -112,12 +104,12 @@
         // Ingen arkiveringskolonne, listen har ikke arbeidsgiver
         grid-template-columns:
             1.6fr
-            minmax(0, 1fr)
-            minmax(0, 9fr)
-            minmax(0, 7fr)
-            minmax(0, 8fr)
-            minmax(0, 5fr)
-            minmax(0, 9fr)
+            minmax(0, 2fr)
+            minmax(0, 10fr)
+            minmax(0, 6fr)
+            minmax(0, 10fr)
+            minmax(0, 6fr)
+            minmax(0, 15fr)
             minmax(0, 3fr)
             minmax(0, 3fr);
 
@@ -125,28 +117,28 @@
         &--vis-arkivering {
             grid-template-columns:
                 1.6fr
-                minmax(0, 1fr)
-                minmax(0, 9fr)
-                minmax(0, 7fr)
-                minmax(0, 8fr)
-                minmax(0, 5fr)
-                minmax(0, 9fr)
+                minmax(0, 2fr)
+                minmax(0, 10fr)
+                minmax(0, 6fr)
+                minmax(0, 10fr)
+                minmax(0, 6fr)
+                minmax(0, 15fr)
                 minmax(0, 3fr)
                 minmax(0, 3fr)
-                minmax(0, 2fr);
+                minmax(0, 2.5fr);
         }
 
         // Ingen arkiveringskolonne, listen har arbeidsgiver
         &--vis-utfall {
             grid-template-columns:
                 1.6fr
-                minmax(0, 1fr)
+                minmax(0, 2fr)
                 minmax(0, 10fr)
-                minmax(0, 7fr)
-                minmax(0, 9fr)
-                minmax(0, 7fr)
+                minmax(0, 6fr)
                 minmax(0, 10fr)
-                minmax(0, 4fr)
+                minmax(0, 6fr)
+                minmax(0, 20fr)
+                minmax(0, 3fr)
                 minmax(0, 3fr);
         }
 
@@ -154,15 +146,15 @@
         &--vis-utfall-og-arkivering {
             grid-template-columns:
                 1.6fr
-                minmax(0, 1fr)
-                minmax(0, 9fr)
-                minmax(0, 7fr)
-                minmax(0, 8fr)
-                minmax(0, 5fr)
+                minmax(0, 2fr)
                 minmax(0, 10fr)
+                minmax(0, 6fr)
+                minmax(0, 10fr)
+                minmax(0, 6fr)
+                minmax(0, 20fr)
                 minmax(0, 3fr)
                 minmax(0, 3fr)
-                minmax(0, 2fr);
+                minmax(0, 2.5fr);
         }
 
         > * {

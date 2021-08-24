@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../../../../AppState';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
-import FåttJobben from './FåttJobben';
+import DelingAvCv from './DelingAvCv';
 import { Kandidat, Kandidatutfall } from '../../../domene/Kandidat';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
     kandidat: Kandidat;
 };
 
-const FåttJobbenForKandidat: FunctionComponent<Props> = ({
+const DelCvMedArbeidsgiver: FunctionComponent<Props> = ({
     kanEndre,
     kandidatlisteId,
     kandidat,
@@ -30,13 +30,12 @@ const FåttJobbenForKandidat: FunctionComponent<Props> = ({
     };
 
     return (
-        <FåttJobben
-            kanEndre={kanEndre}
-            navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
+        <DelingAvCv
             utfall={kandidat.utfall}
+            kanEndre={kanEndre}
             onEndreUtfall={endreUtfallForKandidat}
         />
     );
 };
 
-export default FåttJobbenForKandidat;
+export default DelCvMedArbeidsgiver;

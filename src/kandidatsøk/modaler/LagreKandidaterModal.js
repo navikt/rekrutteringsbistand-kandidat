@@ -24,7 +24,7 @@ class LagreKandidaterModal extends React.Component {
         super(props);
         this.state = {
             kandidatlister: [],
-            annonsenummer: undefined,
+            annonsenummer: '',
             hentetListe: undefined,
             showHentetListe: false,
             hentListeFeilmelding: undefined,
@@ -106,23 +106,6 @@ class LagreKandidaterModal extends React.Component {
         this.props.resetKandidatlisterSokekriterier();
     }
 
-    onKeyDown = (e) => {
-        switch (e.keyCode) {
-            case 13: // Enter
-                e.preventDefault();
-                this.hentListeMedAnnonsenummer();
-                break;
-            default:
-                break;
-        }
-    };
-
-    onAnnonsenummerChange = (input) => {
-        this.setState({
-            annonsenummer: input.target.value,
-        });
-    };
-
     onVisFlereListerClick = () => {
         const pagenumber = this.props.kandidatlisterSokeKriterier.pagenumber;
         this.props.hentEgneKandidatlister(pagenumber + 1, PAGINERING_BATCH_SIZE);
@@ -141,6 +124,28 @@ class LagreKandidaterModal extends React.Component {
         }, 5000);
     };
 
+    onAnnonsenummerChange = (event) => {
+        const annonsenummer = event.target.value;
+
+        const regex = /^\d*$/;
+        const inneholderKunSifferEllerTomString = regex.test(annonsenummer);
+
+        if (inneholderKunSifferEllerTomString) {
+            this.setState({ annonsenummer });
+        }
+    };
+
+    onKeyDown = (e) => {
+        switch (e.keyCode) {
+            case 13: // Enter
+                e.preventDefault();
+                this.hentListeMedAnnonsenummer();
+                break;
+            default:
+                break;
+        }
+    };
+
     hentListeMedAnnonsenummer = () => {
         if (!this.state.annonsenummer) {
             this.setState({
@@ -153,7 +158,7 @@ class LagreKandidaterModal extends React.Component {
         }
     };
 
-    onLagreKandidat = (kandidatliste) => () => {
+    onLagreKandidat = (kandidatliste) => {
         const kandidatlister = this.state.kandidatlister.map((liste) =>
             liste.kandidatlisteId === kandidatliste.kandidatlisteId
                 ? { ...liste, alleredeLagtTil: true }
@@ -167,7 +172,7 @@ class LagreKandidaterModal extends React.Component {
     };
 
     onLagreHentetKandidat = (kandidatliste) => () => {
-        this.onLagreKandidat(kandidatliste)();
+        this.onLagreKandidat(kandidatliste);
         this.setState({
             hentetListe: { ...kandidatliste, alleredeLagtTil: true },
         });
@@ -202,36 +207,38 @@ class LagreKandidaterModal extends React.Component {
             </Row>
         );
 
-        const ListerTableRow = ({ liste, onClick, id, className }) => (
-            <Row className={className}>
-                <Undertekst className="opprettet--dato__col rader--text rader--text__dato">
-                    {formatterDato(new Date(liste.opprettetTidspunkt))}
-                </Undertekst>
-                <Normaltekst className="stillingstittel__col rader--text">
-                    {liste.tittel}
-                </Normaltekst>
-                <Normaltekst className="arbeidsgiver__col rader--text">
-                    {capitalizeEmployerName(liste.organisasjonNavn || '')}
-                </Normaltekst>
-                <div className="leggTil__col rowItem">
-                    {liste.alleredeLagtTil && leggTilKandidaterStatus !== Nettstatus.Feil ? (
-                        <div
-                            className="ikon__lagtTil"
-                            aria-label={`Lagre i liste: ${liste.tittel}`}
-                        />
-                    ) : (
-                        <Knapp
-                            id={id}
-                            onClick={onClick}
-                            aria-label={`Lagre i liste: ${liste.tittel}`}
-                            kompakt
-                        >
-                            +
-                        </Knapp>
-                    )}
-                </div>
-            </Row>
-        );
+        const ListerTableRow = ({ liste, onClick, id, className }) => {
+            return (
+                <Row className={className}>
+                    <Undertekst className="opprettet--dato__col rader--text rader--text__dato">
+                        {formatterDato(new Date(liste.opprettetTidspunkt))}
+                    </Undertekst>
+                    <Normaltekst className="stillingstittel__col rader--text">
+                        {liste.tittel}
+                    </Normaltekst>
+                    <Normaltekst className="arbeidsgiver__col rader--text">
+                        {capitalizeEmployerName(liste.organisasjonNavn || '')}
+                    </Normaltekst>
+                    <div className="leggTil__col rowItem">
+                        {liste.alleredeLagtTil && leggTilKandidaterStatus !== Nettstatus.Feil ? (
+                            <div
+                                className="ikon__lagtTil"
+                                aria-label={`Lagre i liste: ${liste.tittel}`}
+                            />
+                        ) : (
+                            <Knapp
+                                id={id}
+                                onClick={onClick}
+                                aria-label={`Lagre i liste: ${liste.tittel}`}
+                                kompakt
+                            >
+                                +
+                            </Knapp>
+                        )}
+                    </div>
+                </Row>
+            );
+        };
 
         const ListerTableRows = () =>
             kandidatlister.map((liste) => (
@@ -239,7 +246,7 @@ class LagreKandidaterModal extends React.Component {
                     liste={liste}
                     id={`marker-liste-${liste.kandidatlisteId}-checkbox`}
                     className="lister--rader"
-                    onClick={this.onLagreKandidat(liste)}
+                    onClick={() => this.onLagreKandidat(liste)}
                     key={liste.kandidatlisteId}
                 />
             ));
@@ -307,7 +314,7 @@ class LagreKandidaterModal extends React.Component {
                         <div className="annonsenummer__search">
                             <input
                                 id={'sok-etter-stilling-input'}
-                                value={this.state.value}
+                                value={this.state.annonsenummer}
                                 onChange={this.onAnnonsenummerChange}
                                 onKeyDown={this.onKeyDown}
                                 ref={(input) => {

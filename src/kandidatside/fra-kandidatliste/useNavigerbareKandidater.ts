@@ -1,4 +1,6 @@
+import { useSelector } from 'react-redux';
 import { lenkeTilKandidatside, Kandidatfane } from '../../app/paths';
+import AppState from '../../AppState';
 import { erInaktiv } from '../../kandidatliste/domene/Kandidat';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import useFiltrerteKandidater from '../../kandidatliste/hooks/useFiltrerteKandidater';
@@ -6,10 +8,15 @@ import useSorterteKandidater from '../../kandidatliste/hooks/useSorterteKandidat
 import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
 
 const useNavigerbareKandidater = (kandidatnr: string, kandidatliste: Kandidatliste) => {
+    const { forespørslerOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
+
     const aktivFane = useAktivKandidatsidefane();
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const aktiveKandidater = filtrerteKandidater.filter((kandidat) => !erInaktiv(kandidat));
-    const sorterteKandidater = useSorterteKandidater(aktiveKandidater).sorterteKandidater;
+    const sorterteKandidater = useSorterteKandidater(
+        aktiveKandidater,
+        forespørslerOmDelingAvCv
+    ).sorterteKandidater;
     const kandidatnumre = sorterteKandidater.map((kandidat) => kandidat.kandidatnr);
 
     const hentLenkeTilKandidat = (kandidatnummer: string) =>

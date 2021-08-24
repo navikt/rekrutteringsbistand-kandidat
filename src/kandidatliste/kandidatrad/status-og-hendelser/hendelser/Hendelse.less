@@ -14,7 +14,8 @@
         border-left-style: dotted;
     }
 
-    &--checked {
+    &--grønn,
+    &--oransje {
         // Heltrukken strek til neste hendelse
         color: @navMorkGra;
 
@@ -52,15 +53,37 @@
         border: 2px dotted @navMorkGra;
         box-shadow: 0px 0px 0px 2px white;
 
-        &--checked {
+        &--grønn {
             background-color: @navGronnDarken40;
             border-color: @navGronnDarken40;
             border-style: solid;
         }
+
+        &--oransje {
+            background-color: @navOransjeLighten20;
+            border-color: @navOransjeLighten20;
+            border-style: solid;
+        }
+
+        &--blå {
+            color: white;
+            background-color: @navLysBlaDarken40;
+            border-color: @navLysBlaDarken40;
+            border-style: solid;
+        }
     }
 
-    &__ikon-grafikk path {
+    &__ikon-grafikk-grønn path {
         fill: white;
+    }
+
+    &__ikon-grafikk-oransje {
+        user-select: none;
+        font-size: 1.125rem !important;
+
+        path {
+            fill: black;
+        }
     }
 
     &__tekst {

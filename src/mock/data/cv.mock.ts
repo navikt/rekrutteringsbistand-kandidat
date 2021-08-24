@@ -84,7 +84,7 @@ const baseCv: Cv = {
     veilederIdent: meg.ident,
     veilederNavn: meg.navn,
 
-    aktorId: '1000055261743',
+    aktorId: '<aktorId>',
     fodselsdato: '2019-01-09',
     statsborgerskap: null,
     samtykkeDato: '2019-01-29',
@@ -159,7 +159,7 @@ const baseCv: Cv = {
             konseptId: '3818',
         },
     ],
-    fodselsnummer: '21067630103',
+    fodselsnummer: '<fødselsnummer>',
     tilretteleggingsbehov: true,
 };
 
@@ -176,6 +176,7 @@ const cver = tomListe.map((_, i) => ({
     fornavn: fornavn[i % fornavn.length],
     etternavn: etternavn[i % etternavn.length],
     fodselsnummer: fødselsnumre[i % fødselsnumre.length],
+    aktorId: '00' + fødselsnumre[i % fødselsnumre.length],
 }));
 
 export default cver;

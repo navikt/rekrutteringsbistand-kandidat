@@ -3,9 +3,9 @@ import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
-    lagTomtUtfallsfilter,
+    lagTomtHendelsefilter,
 } from '../filter/filter-utils';
-import { Kandidat, Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
+import { Kandidat, Kandidatstatus, UsynligKandidat } from '../domene/Kandidat';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { Reducer } from 'redux';
 import {
@@ -31,6 +31,8 @@ import {
 import { SmsStatus, Kandidatmeldinger } from '../domene/Kandidatressurser';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
+import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 
 type FormidlingId = string;
 
@@ -58,6 +60,7 @@ export type KandidatlisteState = {
         sendteMeldinger: Nettressurs<Kandidatmeldinger>;
         error?: SearchApiError;
     };
+    sendForespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>;
     forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>;
     fodselsnummer?: string;
     leggTilKandidater: {
@@ -95,7 +98,7 @@ export type KandidatlisteState = {
 export type Kandidatlistefilter = {
     visArkiverte: boolean;
     status: Record<Kandidatstatus, boolean>;
-    utfall: Record<Kandidatutfall, boolean>;
+    hendelse: Record<Hendelse, boolean>;
     navn: string;
 };
 
@@ -122,6 +125,7 @@ const initialState: KandidatlisteState = {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: ikkeLastet(),
     },
+    sendForespørselOmDelingAvCv: ikkeLastet(),
     forespørslerOmDelingAvCv: ikkeLastet(),
     arkivering: {
         statusArkivering: Nettstatus.IkkeLastet,
@@ -131,7 +135,7 @@ const initialState: KandidatlisteState = {
     filter: {
         visArkiverte: false,
         status: lagTomtStatusfilter(),
-        utfall: lagTomtUtfallsfilter(),
+        hendelse: lagTomtHendelsefilter(),
         navn: '',
     },
     sortering: null,
@@ -245,7 +249,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 endreFormidlingsutfallForUsynligKandidat: {
                     ...state.endreFormidlingsutfallForUsynligKandidat,
-                    [action.formidlingId]: senderInn(action.formidlingId),
+                    [action.formidlingId]: senderInn(),
                 },
             };
         case KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidatSuccess:
@@ -421,7 +425,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.FormidleUsynligKandidat: {
             return {
                 ...state,
-                formidlingAvUsynligKandidat: senderInn(action.formidling),
+                formidlingAvUsynligKandidat: senderInn(),
             };
         }
         case KandidatlisteActionType.FormidleUsynligKandidatSuccess: {
@@ -595,6 +599,34 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendteMeldinger: feil(action.error),
                 },
             };
+        case KandidatlisteActionType.SendForespørselOmDelingAvCv:
+            return {
+                ...state,
+                sendForespørselOmDelingAvCv: senderInn(),
+            };
+        case KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess: {
+            const kandidatforespørsler: Kandidatforespørsler = {};
+
+            action.forespørslerOmDelingAvCv.forEach((forespørsel) => {
+                kandidatforespørsler[forespørsel.aktørId] = forespørsel;
+            });
+
+            return {
+                ...state,
+                sendForespørselOmDelingAvCv: suksess(action.forespørslerOmDelingAvCv),
+                forespørslerOmDelingAvCv: {
+                    kind: Nettstatus.Suksess,
+                    data: kandidatforespørsler,
+                },
+            };
+        }
+        case KandidatlisteActionType.SendForespørselOmDelingAvCvFailure: {
+            return {
+                ...state,
+                sendForespørselOmDelingAvCv: feil(action.error),
+            };
+        }
+
         case KandidatlisteActionType.HentForespørslerOmDelingAvCv:
             return {
                 ...state,
@@ -641,6 +673,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             if (state.kandidatliste.kind === Nettstatus.Suksess) {
                 const filtrerteKandidater = filtrerKandidater(
                     state.kandidatliste.data.kandidater,
+                    state.forespørslerOmDelingAvCv,
                     action.filter
                 );
 

@@ -16,18 +16,18 @@ import {
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../api/Nettressurs';
 import { Visningsstatus } from '../domene/Kandidatressurser';
+import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import SmsStatusPopup from './smsstatus/SmsStatusPopup';
-import TilgjengelighetFlagg from '../../kandidatsøk/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import Notater from './notater/Notater';
 import MerInfo from './mer-info/MerInfo';
-import AppState from '../../AppState';
+import Notater from './notater/Notater';
+import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusOgHendelser from './status-og-hendelser/StatusOgHendelser';
-import useKandidattilstand from '../hooks/useKandidattilstand';
+import TilgjengelighetFlagg from '../../kandidatsøk/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
+import useForespørselOmDelingAvCv from '../hooks/useForespørselOmDelingAvCv';
 import useKandidatnotater from '../hooks/useKandidatnotater';
+import useKandidattilstand from '../hooks/useKandidattilstand';
 import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
 import './Kandidatrad.less';
 
@@ -63,6 +63,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const tilstand = useKandidattilstand(kandidat.kandidatnr);
     const notater = useKandidatnotater(kandidat.kandidatnr);
     const melding = useSendtKandidatmelding(kandidat.fodselsnr);
+    const forespørselOmDelingAvCv = useForespørselOmDelingAvCv(kandidat.aktørid);
 
     useEffect(() => {
         const erSistValgteKandidat =
@@ -228,6 +229,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <StatusOgHendelser
                     kandidatlisteId={kandidatliste.kandidatlisteId}
                     kandidat={kandidat}
+                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                     kanEditere={kanEndreKandidatlisten}
                     onStatusChange={(status) => {
                         onKandidatStatusChange(
@@ -248,14 +250,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <span className="kandidatliste-kandidat__antall-notater">
                             {antallNotater}
                         </span>
-                        <NavFrontendChevron
-                            className="kandidatliste-kandidat__chevron"
-                            type={
-                                tilstand?.visningsstatus === Visningsstatus.VisNotater
-                                    ? 'opp'
-                                    : 'ned'
-                            }
-                        />
                     </Lenkeknapp>
                 </div>
                 <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
@@ -265,14 +259,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
                         >
                             <i className="MerInfo__icon" />
-                            <NavFrontendChevron
-                                className="kandidatliste-kandidat__chevron"
-                                type={
-                                    tilstand?.visningsstatus === Visningsstatus.VisMerInfo
-                                        ? 'opp'
-                                        : 'ned'
-                                }
-                            />
                         </Lenkeknapp>
                     )}
                 </div>

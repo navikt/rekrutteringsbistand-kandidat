@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { AddCircle, MinusCircle } from '@navikt/ds-icons';
-import Hendelse from './Hendelse';
+import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { Kandidatutfall } from '../../../domene/Kandidat';
 
 type Props = {
@@ -42,13 +42,14 @@ const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndre
         onEndreUtfall(Kandidatutfall.Presentert);
     };
 
-    const checked = utfall === Kandidatutfall.FåttJobben;
+    const hendelsesstatus =
+        utfall === Kandidatutfall.FåttJobben ? Hendelsesstatus.Grønn : Hendelsesstatus.Hvit;
 
     switch (visning) {
         case Visning.Registrer:
             return (
                 <Hendelse
-                    checked={checked}
+                    status={hendelsesstatus}
                     tittel={kanEndre ? undefined : 'Kandidaten har fått jobb'}
                     beskrivelse={kanEndre ? undefined : 'Gjøres av eier av stillingen/listen'}
                 >
@@ -69,7 +70,7 @@ const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndre
         case Visning.FjernRegistrering:
             return (
                 <Hendelse
-                    checked={checked}
+                    status={hendelsesstatus}
                     tittel="Kandidaten har fått jobben"
                     beskrivelse={undefined}
                 >
@@ -91,7 +92,7 @@ const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndre
             return (
                 <Hendelse
                     renderChildrenBelowContent
-                    checked={checked}
+                    status={hendelsesstatus}
                     tittel={`Registrer at ${navn} har fått jobben`}
                     beskrivelse="Når du registrerer at en kandidat har fått jobb vil resultatet bli telt, og tellingen vil bli brukt til statistikk"
                 >
@@ -117,7 +118,7 @@ const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndre
             return (
                 <Hendelse
                     renderChildrenBelowContent
-                    checked={checked}
+                    status={hendelsesstatus}
                     tittel={'Fjern registreringen "fått jobben"'}
                     beskrivelse={
                         'Hvis du fjerner registreringen vil tellingen på "fått jobben" taes bort.'

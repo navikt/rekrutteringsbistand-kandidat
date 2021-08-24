@@ -11,7 +11,10 @@ import { Kandidat } from '../domene/Kandidat';
 import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
-import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørselOmDelingAvCv,
+    ForespørselOutboundDto,
+} from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
 
@@ -449,6 +452,21 @@ export interface HentForespørslerOmDelingAvCvFailureAction {
     error: SearchApiError;
 }
 
+export interface SendForespørselOmDelingAvCv {
+    type: KandidatlisteActionType.SendForespørselOmDelingAvCv;
+    forespørselOutboundDto: ForespørselOutboundDto;
+}
+
+export interface SendForespørselOmDelingAvCvSuccess {
+    type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess;
+    forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[];
+}
+
+export interface SendForespørselOmDelingAvCvFailure {
+    type: KandidatlisteActionType.SendForespørselOmDelingAvCvFailure;
+    error: SearchApiError;
+}
+
 export interface EndreKandidatlistefilterAction {
     type: KandidatlisteActionType.EndreKandidatlisteFilter;
     filter: Kandidatlistefilter;
@@ -562,6 +580,9 @@ type KandidatlisteAction =
     | HentForespørslerOmDelingAvCvAction
     | HentForespørslerOmDelingAvCvSuccessAction
     | HentForespørslerOmDelingAvCvFailureAction
+    | SendForespørselOmDelingAvCv
+    | SendForespørselOmDelingAvCvSuccess
+    | SendForespørselOmDelingAvCvFailure
     | EndreSortering;
 
 export default KandidatlisteAction;

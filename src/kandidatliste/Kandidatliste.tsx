@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { Kandidatliste as Kandidatlistetype, Kandidatlistestatus } from './domene/Kandidatliste';
 import { Kandidatlistefilter } from './reducer/kandidatlisteReducer';
-import { Kandidatstatus, erInaktiv, Kandidatutfall } from './domene/Kandidat';
+import { Kandidatstatus, erInaktiv } from './domene/Kandidat';
 import { Nettstatus } from '../api/Nettressurs';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import AppState from '../AppState';
@@ -30,6 +30,7 @@ import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
 import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import useSorterteKandidater from './hooks/useSorterteKandidater';
 import '../common/ikoner.less';
+import { Hendelse } from './kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 
 type Props = {
     kandidatliste: Kandidatlistetype;
@@ -66,16 +67,23 @@ const Kandidatliste: FunctionComponent<Props> = ({
     const history = useHistory();
     const location = useLocation();
 
-    const { filter, sms } = useSelector((state: AppState) => state.kandidatliste);
+    const { filter, sms, forespørslerOmDelingAvCv } = useSelector(
+        (state: AppState) => state.kandidatliste
+    );
     const { sendteMeldinger } = sms;
 
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
     const { sorterteKandidater, sortering, setSortering } = useSorterteKandidater(
-        filtrerteKandidater
+        filtrerteKandidater,
+        forespørslerOmDelingAvCv
     );
 
-    const antallFiltertreff = useAntallFiltertreff(kandidatliste.kandidater, filter);
+    const antallFiltertreff = useAntallFiltertreff(
+        kandidatliste.kandidater,
+        forespørslerOmDelingAvCv,
+        filter
+    );
     const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
 
     useEffect(() => {
@@ -113,12 +121,12 @@ const Kandidatliste: FunctionComponent<Props> = ({
         });
     };
 
-    const onToggleUtfall = (utfall: Kandidatutfall) => {
+    const onToggleHendelse = (hendelse: Hendelse) => {
         setFilterIUrl({
             ...filter,
-            utfall: {
-                ...filter.utfall,
-                [utfall]: !filter.utfall[utfall],
+            hendelse: {
+                ...filter.hendelse,
+                [hendelse]: !filter.hendelse[hendelse],
             },
         });
     };
@@ -194,10 +202,10 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             antallTreff={antallFiltertreff}
                             visArkiverte={filter.visArkiverte}
                             statusfilter={filter.status}
-                            utfallsfilter={kandidatliste.stillingId ? filter.utfall : undefined}
+                            hendelsefilter={kandidatliste.stillingId ? filter.hendelse : undefined}
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
-                            onToggleUtfall={onToggleUtfall}
+                            onToggleHendelse={onToggleHendelse}
                         />
                         <div role="table" aria-label="Kandidater" className="kandidatliste__liste">
                             <ListeHeader

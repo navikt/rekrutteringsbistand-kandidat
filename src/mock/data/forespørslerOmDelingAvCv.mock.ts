@@ -11,10 +11,19 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
     {
         aktørId: kandidatlister[0].kandidater[0].aktørid!,
         deltAv: meg.ident,
-        deltTidspunkt: new Date(),
+        deltTidspunkt: new Date().toISOString(),
         deltStatus: ForespørselDeltStatus.IkkeSendt,
         svar: SvarPåDelingAvCv.IkkeSvart,
-        svarfrist: moment().add(3, 'days').startOf('day').toDate(),
+        svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
         svarTidspunkt: null,
+    },
+    {
+        aktørId: kandidatlister[0].kandidater[2].aktørid!,
+        deltAv: meg.ident,
+        deltTidspunkt: new Date().toISOString(),
+        deltStatus: ForespørselDeltStatus.IkkeSendt,
+        svar: SvarPåDelingAvCv.Nei,
+        svarfrist: moment().add(1, 'day').startOf('day').toISOString(),
+        svarTidspunkt: moment().toISOString(),
     },
 ];

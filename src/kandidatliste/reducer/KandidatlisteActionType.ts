@@ -85,6 +85,9 @@ enum KandidatlisteActionType {
     HentForespørslerOmDelingAvCv = 'HENT_FORESPØRSLER_OM_DELING_AV_CV',
     HentForespørslerOmDelingAvCvSuccess = 'HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS',
     HentForespørslerOmDelingAvCvFailure = 'HENT_FORESPØRSLER_OM_DELING_AV_CV_FAILURE',
+    SendForespørselOmDelingAvCv = 'SEND_FORESPØRSEL_OM_DELING_AV_CV',
+    SendForespørselOmDelingAvCvSuccess = 'SEND_FORESPØRSEL_OM_DELING_AV_CV_SUCCESS',
+    SendForespørselOmDelingAvCvFailure = 'SEND_FORESPØRSEL_OM_DELING_AV_CV_FAILURE',
     EndreSortering = 'ENDRE_SORTERING',
 }
 

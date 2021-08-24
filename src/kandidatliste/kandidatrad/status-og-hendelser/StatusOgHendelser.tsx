@@ -3,20 +3,23 @@ import { Close } from '@navikt/ds-icons';
 import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
-import { Kandidat, Kandidatstatus, Kandidatutfall } from '../../domene/Kandidat';
+import { ForespørselOmDelingAvCv } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Kandidat, Kandidatstatus } from '../../domene/Kandidat';
+import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
 import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
-import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
 import SeHendelser from './se-hendelser/SeHendelser';
-import usePopoverOrientering from './usePopoverOrientering';
-import usePopoverAnker from './usePopoverAnker';
+import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
 import StatusEtikett from './etiketter/StatusEtikett';
+import usePopoverAnker from './usePopoverAnker';
+import usePopoverOrientering from './usePopoverOrientering';
+import Hendelsesetikett from './etiketter/Hendelsesetikett';
 import './StatusOgHendelser.less';
-import UtfallEtikett from './etiketter/UtfallEtikett';
 
 type Props = {
     kandidatlisteId: string;
     kandidat: Kandidat;
+    forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
     kanEditere: boolean;
     kandidatlistenErKobletTilStilling: boolean;
     onStatusChange: (status: Kandidatstatus) => void;
@@ -26,6 +29,7 @@ type Props = {
 const StatusOgHendelser: FunctionComponent<Props> = ({
     kandidatlisteId,
     kandidat,
+    forespørselOmDelingAvCv,
     kanEditere,
     onStatusChange,
     kandidatlistenErKobletTilStilling,
@@ -45,8 +49,16 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     return (
         <div id={id} className="status-og-hendelser" ref={popoverRef}>
             <StatusEtikett status={kandidat.status} />
-            {kandidat.utfall !== Kandidatutfall.IkkePresentert &&
-                kandidatlistenErKobletTilStilling && <UtfallEtikett utfall={kandidat.utfall} />}
+            {kandidatlistenErKobletTilStilling && (
+                <Hendelsesetikett
+                    utfall={kandidat.utfall}
+                    forespørselOmDelingAvCv={
+                        forespørselOmDelingAvCv.kind === Nettstatus.Suksess
+                            ? forespørselOmDelingAvCv.data
+                            : undefined
+                    }
+                />
+            )}
             {skalVisePopover && (
                 <>
                     {kanEditere ? (
@@ -67,6 +79,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                             {kanEditere ? (
                                 <EndreStatusOgHendelser
                                     kandidat={kandidat}
+                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                                     kandidatlisteId={kandidatlisteId}
                                     onStatusChange={endreStatusOgLukkPopover}
                                     kandidatlistenErKobletTilStilling={
