@@ -14,18 +14,24 @@ type MedSvar = {
 type UtenSvar = {
     svar: SvarPåDelingAvCv.IkkeSvart;
     svarTidspunkt: null;
-    brukerVarslet: null;
-    aktivitetOpprettet: null;
 };
 
-// TODO: Fiks typer. Man kan ha fått brukerVarslet og aktivitetOpprettet selv om brukeren ikke har svart.
 export type ForespørselOmDelingAvCv = {
     aktørId: string;
     deltStatus: ForespørselDeltStatus;
     deltTidspunkt: string;
     deltAv: string;
     svarfrist: string;
+    brukerVarslet: boolean | null;
+    aktivitetOpprettet: boolean | null;
 } & (MedSvar | UtenSvar);
+
+export enum StatusPåForespørsel {
+    AltGikkBra = 'altGikkBra',
+    KanIkkeSvarePåKortet = 'kanIkkeSvarePåKortet',
+    VeilederKanSvare = 'veilederKanSvare',
+    KortetBleIkkeOpprettet = 'kortetBleIkkeOpprettet',
+}
 
 export enum ForespørselDeltStatus {
     Sendt = 'SENDT',
