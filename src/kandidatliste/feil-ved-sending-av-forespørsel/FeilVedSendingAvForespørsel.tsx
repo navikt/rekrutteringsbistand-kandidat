@@ -1,7 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Kandidatforespørsler } from '../domene/Kandidatressurser';
-import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørselOmDelingAvCv,
+    SvarPåDelingAvCv,
+} from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './FeilVedSendingAvForespørsel.less';
 
 type Props = {
@@ -15,9 +18,12 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({ forespørslerO
         tolkningAvSvarFraAktivitetsplanen.kortetBleIkkeOpprettet
     );
 
-    // TODO: Ikke vis denne alerten hvis kandidaten har svart.
     const brukereSomIkkeKanSvarePåKortet = forespørsler.filter(
         tolkningAvSvarFraAktivitetsplanen.kanIkkeSvarePåKortet
+    );
+
+    const brukereVeilederKanSvarePåVegneAv = brukereSomIkkeKanSvarePåKortet.filter(
+        (forespørsel) => forespørsel.svar === SvarPåDelingAvCv.IkkeSvart
     );
 
     return (
@@ -28,9 +34,9 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({ forespørslerO
                     ikke opprettet i Aktivitetsplanen. CV-en kan ikke deles med arbeidsgiver.
                 </AlertStripeFeil>
             )}
-            {brukereSomIkkeKanSvarePåKortet.length > 0 && (
+            {brukereVeilederKanSvarePåVegneAv.length > 0 && (
                 <AlertStripeAdvarsel className="feil-ved-sending-av-forespørsel__alertstripe">
-                    {brukereSomIkkeKanSvarePåKortet.length} av kandidatene bruker ikke digitale
+                    {brukereVeilederKanSvarePåVegneAv.length} av kandidatene bruker ikke digitale
                     tjenester fra NAV. Du må ringe og registrere svaret i stillingskortet i
                     Aktivitetsplanen.
                 </AlertStripeAdvarsel>
