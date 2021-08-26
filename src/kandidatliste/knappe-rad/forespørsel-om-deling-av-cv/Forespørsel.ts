@@ -31,6 +31,8 @@ export enum StatusPåForespørsel {
     KanIkkeSvarePåKortet = 'kanIkkeSvarePåKortet',
     VeilederKanSvare = 'veilederKanSvare',
     KortetBleIkkeOpprettet = 'kortetBleIkkeOpprettet',
+    UgyldigStatus = 'ugyldigStatus',
+    IngenRespons = 'ingenRespons',
 }
 
 export enum ForespørselDeltStatus {

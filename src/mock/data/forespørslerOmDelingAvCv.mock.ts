@@ -16,8 +16,8 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
         svar: SvarPåDelingAvCv.IkkeSvart,
         svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
         svarTidspunkt: null,
-        brukerVarslet: null,
-        aktivitetOpprettet: null,
+        brukerVarslet: false,
+        aktivitetOpprettet: false,
     },
     {
         aktørId: kandidatlister[0].kandidater[2].aktørid!,

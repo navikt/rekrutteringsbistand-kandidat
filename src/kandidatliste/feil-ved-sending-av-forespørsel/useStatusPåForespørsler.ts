@@ -1,3 +1,4 @@
+import { AktørId } from '../domene/Kandidat';
 import { Kandidatforespørsler } from '../domene/Kandidatressurser';
 import {
     StatusPåForespørsel,
@@ -6,46 +7,38 @@ import {
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export const useStatusPåForespørsler = (
-    forespørslerOmDelingAvCv: Kandidatforespørsler
-): Record<StatusPåForespørsel, ForespørselOmDelingAvCv[]> => {
-    const forespørsler = Object.values(forespørslerOmDelingAvCv);
+    forespørslerOmDelingAvCv: Kandidatforespørsler = {}
+): Record<AktørId, StatusPåForespørsel> => {
+    const statuser = Object.keys(forespørslerOmDelingAvCv).reduce((statuser, aktørId) => {
+        return {
+            ...statuser,
+            [aktørId]: forespørselTilStatus(forespørslerOmDelingAvCv[aktørId]),
+        };
+    }, {});
 
-    const brukereDerAltGikkBra = forespørsler.filter(tolkningAvSvarFraAktivitetsplanen.altGikkBra);
-
-    const brukereDerKortetIkkeBleOpprettet = forespørsler.filter(
-        tolkningAvSvarFraAktivitetsplanen.kortetBleIkkeOpprettet
-    );
-
-    const brukereSomIkkeKanSvarePåKortet = forespørsler.filter(
-        tolkningAvSvarFraAktivitetsplanen.kanIkkeSvarePåKortet
-    );
-
-    const brukereVeilederKanSvarePåVegneAv = brukereSomIkkeKanSvarePåKortet.filter(
-        (forespørsel) => forespørsel.svar === SvarPåDelingAvCv.IkkeSvart
-    );
-
-    return {
-        [StatusPåForespørsel.AltGikkBra]: brukereDerAltGikkBra,
-        [StatusPåForespørsel.KanIkkeSvarePåKortet]: brukereSomIkkeKanSvarePåKortet,
-        [StatusPåForespørsel.KortetBleIkkeOpprettet]: brukereDerKortetIkkeBleOpprettet,
-        [StatusPåForespørsel.VeilederKanSvare]: brukereVeilederKanSvarePåVegneAv,
-    };
+    return statuser;
 };
 
-const tolkningAvSvarFraAktivitetsplanen: Record<
-    StatusPåForespørsel,
-    (forespørsel: ForespørselOmDelingAvCv) => boolean
-> = {
-    [StatusPåForespørsel.AltGikkBra]: ({ brukerVarslet, aktivitetOpprettet }) =>
-        brukerVarslet === true && aktivitetOpprettet === true,
-    [StatusPåForespørsel.KortetBleIkkeOpprettet]: ({ brukerVarslet, aktivitetOpprettet }) =>
-        brukerVarslet === false && aktivitetOpprettet === false,
-    [StatusPåForespørsel.KanIkkeSvarePåKortet]: ({ brukerVarslet, aktivitetOpprettet }) =>
-        brukerVarslet === false && aktivitetOpprettet === true,
-    [StatusPåForespørsel.VeilederKanSvare]: ({ brukerVarslet, aktivitetOpprettet, svar }) =>
-        brukerVarslet === false &&
-        aktivitetOpprettet === true &&
-        svar === SvarPåDelingAvCv.IkkeSvart,
+const forespørselTilStatus = (forespørsel: ForespørselOmDelingAvCv) => {
+    const { brukerVarslet, aktivitetOpprettet, svar } = forespørsel;
+
+    if (brukerVarslet === null || aktivitetOpprettet === null) {
+        return StatusPåForespørsel.IngenRespons;
+    }
+
+    if (brukerVarslet === true && aktivitetOpprettet === true) {
+        return StatusPåForespørsel.AltGikkBra;
+    } else if (brukerVarslet === false && aktivitetOpprettet === false) {
+        return StatusPåForespørsel.KortetBleIkkeOpprettet;
+    } else if (brukerVarslet === false && aktivitetOpprettet === true) {
+        if (svar === SvarPåDelingAvCv.IkkeSvart) {
+            return StatusPåForespørsel.VeilederKanSvare;
+        } else {
+            return StatusPåForespørsel.KanIkkeSvarePåKortet;
+        }
+    }
+
+    return StatusPåForespørsel.UgyldigStatus;
 };
 
 export default useStatusPåForespørsler;
