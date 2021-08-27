@@ -14,31 +14,6 @@
         background-color: @navLysGra;
     }
 
-    &__status-på-forespørsel {
-        transform: translateX(-2rem);
-
-        &--veileder-kan-svare,
-        &--kortet-ble-ikke-opprettet {
-            flex-shrink: 0;
-            border: none;
-            border-radius: 50%;
-            height: 1.5rem;
-            width: 1.5rem;
-            cursor: pointer;
-        }
-
-        &--veileder-kan-svare {
-            font-size: 1.25rem;
-            background-color: @navOransjeLighten20;
-        }
-
-        &--kortet-ble-ikke-opprettet {
-            color: white;
-            font-size: 1.5rem;
-            background-color: @redErrorDarken20;
-        }
-    }
-
     &:not(&__header) {
         margin-top: 0.5rem;
     }

@@ -19,7 +19,7 @@ export const useStatusPåForespørsler = (
     return statuser;
 };
 
-const forespørselTilStatus = (forespørsel: ForespørselOmDelingAvCv) => {
+export const forespørselTilStatus = (forespørsel: ForespørselOmDelingAvCv) => {
     const { brukerVarslet, aktivitetOpprettet, svar } = forespørsel;
 
     if (brukerVarslet === null || aktivitetOpprettet === null) {

@@ -29,7 +29,7 @@ import useForespørselOmDelingAvCv from '../hooks/useForespørselOmDelingAvCv';
 import useKandidatnotater from '../hooks/useKandidatnotater';
 import useKandidattilstand from '../hooks/useKandidattilstand';
 import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
-import { StatusPåForespørsel } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import StatusPåForespørselOmDelingAvCv from './status-på-forespørsel/StatusPåForespørselOmDelingAvCv';
 import './Kandidatrad.less';
 
 type Props = {
@@ -39,7 +39,6 @@ type Props = {
     onToggleKandidat: (kandidatnr: string) => void;
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
-    statusPåForespørselOmDelingAvCv?: StatusPåForespørsel;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
     sistValgteKandidat?: {
@@ -56,7 +55,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     onKandidatStatusChange,
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
-    statusPåForespørselOmDelingAvCv,
     hentMidlertidigUtilgjengeligForKandidat,
     sistValgteKandidat,
 }) => {
@@ -162,18 +160,8 @@ const Kandidatrad: FunctionComponent<Props> = ({
     return (
         <div role="rowgroup" tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
             <div role="row" className={klassenavnForListerad}>
-                <div role="cell" className="kandidatliste-kandidat__status-på-forespørsel">
-                    {statusPåForespørselOmDelingAvCv ===
-                        StatusPåForespørsel.KortetBleIkkeOpprettet && (
-                        <button className="kandidatliste-kandidat__status-på-forespørsel--kortet-ble-ikke-opprettet">
-                            ×
-                        </button>
-                    )}
-                    {statusPåForespørselOmDelingAvCv === StatusPåForespørsel.VeilederKanSvare && (
-                        <button className="kandidatliste-kandidat__status-på-forespørsel--veileder-kan-svare">
-                            !
-                        </button>
-                    )}
+                <div role="cell">
+                    <StatusPåForespørselOmDelingAvCv forespørsel={forespørselOmDelingAvCv} />
                 </div>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng

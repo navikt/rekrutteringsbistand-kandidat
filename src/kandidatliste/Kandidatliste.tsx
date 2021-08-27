@@ -36,7 +36,6 @@ import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import useSorterteKandidater from './hooks/useSorterteKandidater';
 import { Hendelse } from './kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import FeilVedSendingAvForespørsel from './feil-ved-sending-av-forespørsel/FeilVedSendingAvForespørsel';
-import useStatusPåForespørsler from './feil-ved-sending-av-forespørsel/useStatusPåForespørsler';
 import '../common/ikoner.less';
 
 type Props = {
@@ -78,12 +77,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
         (state: AppState) => state.kandidatliste
     );
     const { sendteMeldinger } = sms;
-
-    const statusPåForespørsler = useStatusPåForespørsler(
-        forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
-            ? forespørslerOmDelingAvCv.data
-            : undefined
-    );
 
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const alleFiltrerteErMarkerte = useErAlleMarkerte(filtrerteKandidater);
@@ -255,9 +248,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                         key={kandidat.kandidatnr}
                                         kandidat={kandidat}
                                         kandidatliste={kandidatliste}
-                                        statusPåForespørselOmDelingAvCv={
-                                            statusPåForespørsler[String(kandidat.aktørid)]
-                                        }
                                         onKandidatStatusChange={onKandidatStatusChange}
                                         onToggleKandidat={onToggleMarkert}
                                         toggleArkivert={onToggleArkivert}
