@@ -5,15 +5,13 @@ export type ForespørselOutboundDto = {
 };
 
 type MedSvar = {
-    svar: SvarPåDelingAvCv.Ja | SvarPåDelingAvCv.Nei;
-    svarTidspunkt: string;
-    brukerVarslet: boolean;
-    aktivitetOpprettet: boolean;
+    tilstand: TilstandPåForespørsel.HarSvart;
+    svar: SvarPåForespørsel;
 };
 
 type UtenSvar = {
-    svar: SvarPåDelingAvCv.IkkeSvart;
-    svarTidspunkt: null;
+    tilstand: Omit<TilstandPåForespørsel, TilstandPåForespørsel.HarSvart>;
+    svar: null;
 };
 
 export type ForespørselOmDelingAvCv = {
@@ -22,8 +20,6 @@ export type ForespørselOmDelingAvCv = {
     deltTidspunkt: string;
     deltAv: string;
     svarfrist: string;
-    brukerVarslet: boolean | null;
-    aktivitetOpprettet: boolean | null;
 } & (MedSvar | UtenSvar);
 
 export enum StatusPåForespørsel {
@@ -40,8 +36,25 @@ export enum ForespørselDeltStatus {
     IkkeSendt = 'IKKE_SENDT',
 }
 
-export enum SvarPåDelingAvCv {
-    IkkeSvart = 'IKKE_SVART',
-    Ja = 'JA',
-    Nei = 'NEI',
+export type SvarPåForespørsel = {
+    svar: boolean;
+    svarTidspunkt: string;
+    svartAv: {
+        ident: string;
+        identType: IdentType;
+    };
+};
+
+export enum IdentType {
+    AktørId = 'AKTOR_ID',
+    NavIdent = 'NAV_IDENT',
+}
+
+export enum TilstandPåForespørsel {
+    KanIkkeOpprette = 'KAN_IKKE_OPPRETTE',
+    PrøverVarsling = 'PROVER_VARSLING',
+    HarVarslet = 'HAR_VARSLET',
+    KanIkkeVarsle = 'KAN_IKKE_VARSLE',
+    HarSvart = 'HAR_SVART',
+    SvarfristUtløpt = 'SVARFRIST_UTLOPT',
 }

@@ -2,7 +2,8 @@ import moment from 'moment';
 import {
     ForespørselDeltStatus,
     ForespørselOmDelingAvCv,
-    SvarPåDelingAvCv,
+    IdentType,
+    TilstandPåForespørsel,
 } from '../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { kandidatlister } from './kandidatliste.mock';
 import { meg } from './veiledere.mock';
@@ -13,21 +14,24 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
         deltAv: meg.ident,
         deltTidspunkt: new Date().toISOString(),
         deltStatus: ForespørselDeltStatus.IkkeSendt,
-        svar: SvarPåDelingAvCv.IkkeSvart,
         svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
-        svarTidspunkt: null,
-        brukerVarslet: false,
-        aktivitetOpprettet: false,
+        tilstand: TilstandPåForespørsel.KanIkkeOpprette,
+        svar: null,
     },
     {
         aktørId: kandidatlister[0].kandidater[2].aktørid!,
         deltAv: meg.ident,
         deltTidspunkt: new Date().toISOString(),
         deltStatus: ForespørselDeltStatus.IkkeSendt,
-        svar: SvarPåDelingAvCv.IkkeSvart,
-        svarfrist: moment().add(1, 'day').startOf('day').toISOString(),
-        svarTidspunkt: null,
-        brukerVarslet: false,
-        aktivitetOpprettet: true,
+        svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
+        tilstand: TilstandPåForespørsel.HarSvart,
+        svar: {
+            svar: true,
+            svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
+            svartAv: {
+                ident: kandidatlister[0].kandidater[2].aktørid!,
+                identType: IdentType.AktørId,
+            },
+        },
     },
 ];
