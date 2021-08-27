@@ -5,6 +5,7 @@ import Kandidattab from './Kandidattab';
 import Cv from '../cv/reducer/cv-typer';
 import './Kandidatmeny.less';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 type Props = {
     cv: Nettressurs<Cv>;
@@ -21,7 +22,11 @@ const Kandidatmeny: FunctionComponent<Props> = ({ cv, children }) => {
                 {cv.kind === Nettstatus.Suksess && (
                     <a
                         className="ForlateSiden lenke"
-                        href={`https://app.adeo.no/veilarbpersonflatefs/${cv.data.fodselsnummer}`}
+                        href={
+                            erIkkeProd
+                                ? `https://app-q1.adeo.no/veilarbpersonflatefs/${cv.data.fodselsnummer}`
+                                : `https://app.adeo.no/veilarbpersonflatefs/${cv.data.fodselsnummer}`
+                        }
                         target="_blank"
                         onClick={() => sendEvent('cv_aktivitetsplan_lenke', 'klikk')}
                         rel="noopener noreferrer"
