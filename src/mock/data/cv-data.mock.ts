@@ -371,8 +371,8 @@ export const kurs: Kurs[] = [
         arrangor: 'Skagerak ',
         tittel: 'Innføringskurs i sikkerhetsrutiner høy og lavspent',
         omfang: { verdi: 5, enhet: '' },
-        fraDato: '2014-02-02',
-        tilDato: null,
+        fraDato: null,
+        tilDato: '2015-03-02',
     },
     {
         arrangor: 'M.E.F',
@@ -386,7 +386,7 @@ export const kurs: Kurs[] = [
         tittel: 'Sikkerhetskurs for Maskinfører',
         omfang: { verdi: 1, enhet: '' },
         fraDato: '2012-09-02',
-        tilDato: null,
+        tilDato: '2012-10-02',
     },
     {
         arrangor: 'Ifokus',

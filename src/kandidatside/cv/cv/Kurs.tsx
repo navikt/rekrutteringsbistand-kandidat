@@ -1,18 +1,21 @@
 import React, { FunctionComponent } from 'react';
 import { Row } from 'nav-frontend-grid';
 import { Element, Undertekst, Normaltekst } from 'nav-frontend-typografi';
-import Tidsperiode from './Tidsperiode';
 import { Kurs as KursType, Omfang, Omfangenhet } from '../reducer/cv-typer';
+import TidspunktMedLabel from './TidspunktMedLabel';
+import { toDate } from '../../../utils/dateUtils';
 
 type Props = {
     kurs: KursType;
 };
 
 const Kurs: FunctionComponent<Props> = ({ kurs }) => {
+    let gjeldendeDato = kurs.tilDato ? kurs.tilDato : kurs.fraDato;
+    let dato = gjeldendeDato == null ? null : toDate(gjeldendeDato);
     return (
         <Row className="kandidat-cv__row-kategori">
             <Undertekst className="kandidat-cv__tidsperiode">
-                <Tidsperiode fradato={kurs.fraDato} tildato={kurs.tilDato} />
+                <TidspunktMedLabel tidspunkt={dato} labelTekst="Fullført:" />
             </Undertekst>
             {kurs.arrangor && <Normaltekst>{kurs.arrangor}</Normaltekst>}
             {kurs.tittel && <Element>{kurs.tittel}</Element>}
@@ -34,7 +37,7 @@ const hentKursvarighet = (omfang: Omfang) => {
         case Omfangenhet.Måned:
             return `${omfang.verdi} ${omfang.verdi > 1 ? 'måneder' : 'måned'}`;
         default:
-            return '';
+            return `${omfang.verdi} (mangler tidsenhet)`;
     }
 };
 
