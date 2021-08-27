@@ -626,7 +626,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sendForespørselOmDelingAvCv: feil(action.error),
             };
         }
-
+        case KandidatlisteActionType.ResetSendForespørselOmDelingAvCv: {
+            return {
+                ...state,
+                sendForespørselOmDelingAvCv: ikkeLastet(),
+            };
+        }
         case KandidatlisteActionType.HentForespørslerOmDelingAvCv:
             return {
                 ...state,

@@ -83,6 +83,7 @@ const ListeHeader: FunctionComponent<Props> = ({
     return (
         <div role="rowgroup" className={klassenavn}>
             <div role="row" className={klassenavnForListerad}>
+                <div />
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"

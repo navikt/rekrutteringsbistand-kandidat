@@ -7,6 +7,8 @@ export type ForespørselOutboundDto = {
 type MedSvar = {
     svar: SvarPåDelingAvCv.Ja | SvarPåDelingAvCv.Nei;
     svarTidspunkt: string;
+    brukerVarslet: boolean;
+    aktivitetOpprettet: boolean;
 };
 
 type UtenSvar = {
@@ -20,7 +22,18 @@ export type ForespørselOmDelingAvCv = {
     deltTidspunkt: string;
     deltAv: string;
     svarfrist: string;
+    brukerVarslet: boolean | null;
+    aktivitetOpprettet: boolean | null;
 } & (MedSvar | UtenSvar);
+
+export enum StatusPåForespørsel {
+    AltGikkBra = 'altGikkBra',
+    KanIkkeSvarePåKortet = 'kanIkkeSvarePåKortet',
+    VeilederKanSvare = 'veilederKanSvare',
+    KortetBleIkkeOpprettet = 'kortetBleIkkeOpprettet',
+    UgyldigStatus = 'ugyldigStatus',
+    IngenRespons = 'ingenRespons',
+}
 
 export enum ForespørselDeltStatus {
     Sendt = 'SENDT',

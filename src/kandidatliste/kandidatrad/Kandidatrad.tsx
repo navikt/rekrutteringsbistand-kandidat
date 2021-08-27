@@ -29,6 +29,7 @@ import useForespørselOmDelingAvCv from '../hooks/useForespørselOmDelingAvCv';
 import useKandidatnotater from '../hooks/useKandidatnotater';
 import useKandidattilstand from '../hooks/useKandidattilstand';
 import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
+import StatusPåForespørselOmDelingAvCv from './status-på-forespørsel/StatusPåForespørselOmDelingAvCv';
 import './Kandidatrad.less';
 
 type Props = {
@@ -159,6 +160,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
     return (
         <div role="rowgroup" tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
             <div role="row" className={klassenavnForListerad}>
+                <div role="cell">
+                    <StatusPåForespørselOmDelingAvCv forespørsel={forespørselOmDelingAvCv} />
+                </div>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"

@@ -17,6 +17,7 @@ import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
+import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import './ForespørselOmDelingAvCv.less';
 
 enum Svarfrist {
@@ -71,9 +72,25 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             });
         };
 
+        const visVarsling = () => {
+            dispatch<VarslingAction>({
+                type: VarslingActionType.VisVarsling,
+                innhold: 'Forespørselen ble sendt til kandidatene',
+                alertType: 'suksess',
+            });
+        };
+
+        const resetSendForespørsel = () => {
+            dispatch<KandidatlisteAction>({
+                type: KandidatlisteActionType.ResetSendForespørselOmDelingAvCv,
+            });
+        };
+
         if (sendForespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
             fjernMarkeringAvAlleKandidater();
             lukkModal();
+            visVarsling();
+            resetSendForespørsel();
         }
     }, [sendForespørselOmDelingAvCv.kind, dispatch]);
 

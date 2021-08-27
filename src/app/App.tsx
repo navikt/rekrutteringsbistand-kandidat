@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
+import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import { sendEvent } from '../amplitude/amplitude';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
 import AppState from '../AppState';
-import { NavKontorActionTypes } from '../navKontor/navKontorReducer';
+import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { getMiljø, Miljø } from '../utils/miljøUtils';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -23,6 +23,8 @@ import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import useLoggNavigering from './useLoggNavigering';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import './App.less';
+import Varsling from '../common/varsling/Varsling';
+import { Dispatch } from 'redux';
 
 type Props = {
     error: {
@@ -57,6 +59,7 @@ const App: FunctionComponent<Props> = (props) => {
 
     return (
         <>
+            <Varsling />
             <Normaltekst tag="div" className="App">
                 <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
@@ -117,7 +120,7 @@ const mapStateToProps = (state: AppState) => ({
     error: state.søk.error,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction | NavKontorAction>) => ({
     fetchFeatureToggles: () => dispatch({ type: KandidatsøkActionType.FetchFeatureTogglesBegin }),
     fjernError: () => dispatch({ type: KandidatsøkActionType.FjernError }),
     lukkAlleSokepanel: () => dispatch({ type: KandidatsøkActionType.LukkAlleSokepanel }),

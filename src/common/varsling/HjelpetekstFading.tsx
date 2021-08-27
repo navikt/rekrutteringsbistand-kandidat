@@ -1,7 +1,7 @@
 import * as React from 'react';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { FunctionComponent } from 'react';
-import { AlertStripeState, AlertStripeType } from './useTimeoutState';
+import { AlertStripeState, AlertStripeType } from '../useTimeoutState';
 
 interface Props {
     synlig: boolean;

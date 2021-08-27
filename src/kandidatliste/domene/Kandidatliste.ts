@@ -41,3 +41,6 @@ export const erKobletTilStilling = (
 
 export const erKobletTilArbeidsgiver = (kandidatliste: Kandidatliste): boolean =>
     kandidatliste.organisasjonReferanse !== null;
+
+export const erEierAvKandidatlisten = (kandidatliste: Kandidatliste): boolean =>
+    kandidatliste.kanEditere;
