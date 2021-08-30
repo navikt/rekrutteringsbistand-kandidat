@@ -5,7 +5,6 @@ import { MouseEvent } from 'react';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import {
     ForespørselOmDelingAvCv,
-    StatusPåForespørsel,
     TilstandPåForespørsel,
 } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './StatusPåForespørselOmDelingAvCv.less';

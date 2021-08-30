@@ -16,7 +16,6 @@ import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import './KnappeRad.less';
 import { useSelector } from 'react-redux';
 import AppState from '../../AppState';
-import { SvarPåDelingAvCv } from './forespørsel-om-deling-av-cv/Forespørsel';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -54,7 +53,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     const minstEnAvKandidateneHarSvartJa = markerteKandidater.some(
         (markertKandidat) =>
             forespørslerOmDelingAvCv.kind === Nettstatus.Suksess &&
-            forespørslerOmDelingAvCv.data[markertKandidat.aktørid!]?.svar === SvarPåDelingAvCv.Ja
+            forespørslerOmDelingAvCv.data[markertKandidat.aktørid!]?.svar?.svar
     );
 
     const stillingenErEgentligIkkeEnStilling = true; // TODO: Sjekk på stillingsobjektet når dette er implementert
