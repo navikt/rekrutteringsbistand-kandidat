@@ -2,10 +2,7 @@ import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
-import {
-    ForespørselOmDelingAvCv,
-    SvarPåDelingAvCv,
-} from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 
 type Props = {
@@ -24,7 +21,7 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
     }
 
     if (forespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
-        if (forespørselOmDelingAvCv.data.svar === SvarPåDelingAvCv.IkkeSvart) {
+        if (forespørselOmDelingAvCv.data.svar === null) {
             const svarfrist = forespørselOmDelingAvCv.data.svarfrist;
             const dagerTilSvarfristDesimal = moment(svarfrist).diff(moment(), 'days', true);
             return (
@@ -38,10 +35,10 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
             );
         } else {
             const formatertTidspunkt = datoformatNorskLang(
-                forespørselOmDelingAvCv.data.svarTidspunkt
+                forespørselOmDelingAvCv.data.svar.svarTidspunkt
             );
 
-            return forespørselOmDelingAvCv.data.svar === SvarPåDelingAvCv.Ja ? (
+            return forespørselOmDelingAvCv.data.svar.svar === true ? (
                 <Hendelse
                     status={Hendelsesstatus.Grønn}
                     tittel="Svar fra kandidat: Ja, del CV-en min"

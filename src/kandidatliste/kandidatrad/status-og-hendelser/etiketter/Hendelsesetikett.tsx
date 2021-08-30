@@ -1,13 +1,10 @@
 import React, { FunctionComponent } from 'react';
+import moment from 'moment';
 import Etikett from 'nav-frontend-etiketter';
 import { Kandidatutfall } from '../../../domene/Kandidat';
-import {
-    ForespørselOmDelingAvCv,
-    SvarPåDelingAvCv,
-} from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { datoformatNorskKort } from '../../../../utils/dateUtils';
 import './Hendelsesetikett.less';
-import moment from 'moment';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -27,7 +24,7 @@ const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDeli
     const hendelse = hentKandidatensSisteHendelse(utfall, forespørselOmDelingAvCv);
     const label = hendelseTilLabel(
         hendelse,
-        forespørselOmDelingAvCv?.svarTidspunkt,
+        forespørselOmDelingAvCv?.svar?.svarTidspunkt,
         forespørselOmDelingAvCv?.svarfrist
     );
 
@@ -56,9 +53,9 @@ export const hentKandidatensSisteHendelse = (
     } else if (utfall === Kandidatutfall.Presentert) {
         return Hendelse.CvDelt;
     } else if (forespørselOmDelingAvCv) {
-        if (forespørselOmDelingAvCv.svar === SvarPåDelingAvCv.Ja) {
+        if (forespørselOmDelingAvCv.svar?.svar) {
             return Hendelse.SvarJa;
-        } else if (forespørselOmDelingAvCv?.svar === SvarPåDelingAvCv.Nei) {
+        } else if (forespørselOmDelingAvCv.svar?.svar === false) {
             return Hendelse.SvarNei;
         } else {
             return Hendelse.DeltMedKandidat;
