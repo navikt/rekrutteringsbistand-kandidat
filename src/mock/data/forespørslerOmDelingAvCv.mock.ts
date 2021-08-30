@@ -30,7 +30,7 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
             svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
             svartAv: {
                 ident: kandidatlister[0].kandidater[2].aktørid!,
-                identType: IdentType.NavIdent,
+                identType: IdentType.AktørId,
             },
         },
     },

@@ -30,22 +30,23 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
                 forespørselOmDelingAvCv.data.svar.svarTidspunkt
             );
 
-            const { identType } = forespørselOmDelingAvCv.data.svar.svartAv;
-            const besvartAvTekst = `Svar fra ${
-                identType === IdentType.NavIdent ? 'veileder på vegne av kandidat' : 'kandidat'
+            const beskrivelse = `${formatertTidspunkt} fra aktivitetsplanen, registrert av ${
+                forespørselOmDelingAvCv.data.svar.svartAv.identType === IdentType.NavIdent
+                    ? forespørselOmDelingAvCv.data.svar.svartAv.ident
+                    : 'bruker'
             }`;
 
             return forespørselOmDelingAvCv.data.svar.svar ? (
                 <Hendelse
                     status={Hendelsesstatus.Grønn}
-                    tittel={besvartAvTekst}
-                    beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
+                    tittel="Svar fra kandidat: Ja, del CV-en min"
+                    beskrivelse={beskrivelse}
                 />
             ) : (
                 <Hendelse
                     status={Hendelsesstatus.Oransje}
-                    tittel={besvartAvTekst}
-                    beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
+                    tittel="Svar fra kandidat: Nei, ikke del CV-en min"
+                    beskrivelse={beskrivelse}
                 />
             );
         } else {
