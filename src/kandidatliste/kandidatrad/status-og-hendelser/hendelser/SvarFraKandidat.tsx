@@ -4,7 +4,8 @@ import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
 import {
     ForespørselOmDelingAvCv,
-    SvarPåDelingAvCv,
+    IdentType,
+    TilstandPåForespørsel,
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 
@@ -24,7 +25,31 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
     }
 
     if (forespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
-        if (forespørselOmDelingAvCv.data.svar === SvarPåDelingAvCv.IkkeSvart) {
+        if (forespørselOmDelingAvCv.data.tilstand === TilstandPåForespørsel.HarSvart) {
+            const formatertTidspunkt = datoformatNorskLang(
+                forespørselOmDelingAvCv.data.svar.svarTidspunkt
+            );
+
+            const beskrivelse = `${formatertTidspunkt} fra aktivitetsplanen, registrert av ${
+                forespørselOmDelingAvCv.data.svar.svartAv.identType === IdentType.NavIdent
+                    ? forespørselOmDelingAvCv.data.svar.svartAv.ident
+                    : 'bruker'
+            }`;
+
+            return forespørselOmDelingAvCv.data.svar.svar ? (
+                <Hendelse
+                    status={Hendelsesstatus.Grønn}
+                    tittel="Svar fra kandidat: Ja, del CV-en min"
+                    beskrivelse={beskrivelse}
+                />
+            ) : (
+                <Hendelse
+                    status={Hendelsesstatus.Oransje}
+                    tittel="Svar fra kandidat: Nei, ikke del CV-en min"
+                    beskrivelse={beskrivelse}
+                />
+            );
+        } else {
             const svarfrist = forespørselOmDelingAvCv.data.svarfrist;
             const dagerTilSvarfristDesimal = moment(svarfrist).diff(moment(), 'days', true);
             return (
@@ -34,24 +59,6 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
                     }
                     tittel="Svar fra kandidat om deling av CV"
                     beskrivelse={formaterSvarfrist(dagerTilSvarfristDesimal)}
-                />
-            );
-        } else {
-            const formatertTidspunkt = datoformatNorskLang(
-                forespørselOmDelingAvCv.data.svarTidspunkt
-            );
-
-            return forespørselOmDelingAvCv.data.svar === SvarPåDelingAvCv.Ja ? (
-                <Hendelse
-                    status={Hendelsesstatus.Grønn}
-                    tittel="Svar fra kandidat: Ja, del CV-en min"
-                    beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
-                />
-            ) : (
-                <Hendelse
-                    status={Hendelsesstatus.Oransje}
-                    tittel="Svar fra kandidat: Nei, ikke del CV-en min"
-                    beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
                 />
             );
         }

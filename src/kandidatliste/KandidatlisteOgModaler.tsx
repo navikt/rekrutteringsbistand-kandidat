@@ -25,7 +25,6 @@ import {
 } from './domene/Kandidatressurser';
 import './Kandidatliste.less';
 import Kandidatliste from './Kandidatliste';
-import { SvarPåDelingAvCv } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { erIkkeProd } from '../utils/featureToggleUtils';
 
 type OwnProps = {
@@ -254,7 +253,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         return this.hentMarkerteKandidater().filter(
             (kandidat) =>
                 forespørsler.kind === Nettstatus.Suksess &&
-                forespørsler.data[kandidat.aktørid!]?.svar === SvarPåDelingAvCv.Ja
+                forespørsler.data[kandidat.aktørid!]?.svar?.svar
         );
     };
 

@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Kandidatforespørsler } from '../domene/Kandidatressurser';
-import useStatusPåForespørsler from './useStatusPåForespørsler';
-import { StatusPåForespørsel } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { TilstandPåForespørsel } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './FeilVedSendingAvForespørsel.less';
 
 type Props = {
@@ -10,14 +9,13 @@ type Props = {
 };
 
 const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({ forespørslerOmDelingAvCv }) => {
-    const statuser = useStatusPåForespørsler(forespørslerOmDelingAvCv);
-    const verdier = Object.values(statuser);
+    const verdier = Object.values(forespørslerOmDelingAvCv);
 
     const antallBrukereDerKortetIkkeBleOpprettet = verdier.filter(
-        (status) => status === StatusPåForespørsel.KortetBleIkkeOpprettet
+        (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette
     );
     const antallBrukereDerVeilederKanSvare = verdier.filter(
-        (status) => status === StatusPåForespørsel.VeilederKanSvare
+        (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeVarsle
     );
 
     return (

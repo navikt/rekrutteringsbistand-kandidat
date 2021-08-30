@@ -3,10 +3,9 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import React, { FunctionComponent, useState } from 'react';
 import { MouseEvent } from 'react';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
-import { forespørselTilStatus } from '../../feil-ved-sending-av-forespørsel/useStatusPåForespørsler';
 import {
     ForespørselOmDelingAvCv,
-    StatusPåForespørsel,
+    TilstandPåForespørsel,
 } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './StatusPåForespørselOmDelingAvCv.less';
 
@@ -29,11 +28,15 @@ const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespør
         return null;
     }
 
-    const status = forespørselTilStatus(forespørsel.data);
+    const { tilstand } = forespørsel.data;
+
+    const kanIkkeOpprette = tilstand === TilstandPåForespørsel.KanIkkeOpprette;
+    const veilederKanSvare =
+        tilstand === TilstandPåForespørsel.KanIkkeVarsle && forespørsel.data.svar === null;
 
     return (
         <div className="status-på-forespørsel-om-deling-av-cv">
-            {status === StatusPåForespørsel.KortetBleIkkeOpprettet && (
+            {kanIkkeOpprette && (
                 <button
                     onClick={togglePopoverAnker}
                     className="status-på-forespørsel-om-deling-av-cv__kortet-ble-ikke-opprettet"
@@ -41,7 +44,7 @@ const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespør
                     ×
                 </button>
             )}
-            {status === StatusPåForespørsel.VeilederKanSvare && (
+            {veilederKanSvare && (
                 <button
                     onClick={togglePopoverAnker}
                     className="status-på-forespørsel-om-deling-av-cv__veileder-kan-svare"
@@ -51,17 +54,17 @@ const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespør
             )}
             <Popover
                 ankerEl={popoverAnker}
-                orientering={PopoverOrientering.Under}
+                orientering={PopoverOrientering.UnderVenstre}
                 onRequestClose={lukkPopoverAnker}
             >
-                {status === StatusPåForespørsel.KortetBleIkkeOpprettet && (
+                {kanIkkeOpprette && (
                     <Normaltekst>
                         Stillingskortet ble ikke opprettet.
                         <br />
                         CV-en kan ikke deles med arbeidsgiver.
                     </Normaltekst>
                 )}
-                {status === StatusPåForespørsel.VeilederKanSvare && (
+                {veilederKanSvare && (
                     <Normaltekst>
                         Kandidaten bruker ikke digitale tjenester fra NAV. Du må ringe og registrere
                         svaret i stillingskortet i Aktivitetsplanen.{' '}
