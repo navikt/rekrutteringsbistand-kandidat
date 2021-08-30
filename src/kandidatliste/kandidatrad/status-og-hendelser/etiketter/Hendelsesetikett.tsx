@@ -2,7 +2,10 @@ import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import Etikett from 'nav-frontend-etiketter';
 import { Kandidatutfall } from '../../../domene/Kandidat';
-import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørselOmDelingAvCv,
+    TilstandPåForespørsel,
+} from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { datoformatNorskKort } from '../../../../utils/dateUtils';
 import './Hendelsesetikett.less';
 
@@ -53,10 +56,8 @@ export const hentKandidatensSisteHendelse = (
     } else if (utfall === Kandidatutfall.Presentert) {
         return Hendelse.CvDelt;
     } else if (forespørselOmDelingAvCv) {
-        if (forespørselOmDelingAvCv.svar?.svar) {
-            return Hendelse.SvarJa;
-        } else if (forespørselOmDelingAvCv.svar?.svar === false) {
-            return Hendelse.SvarNei;
+        if (forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.HarSvart) {
+            return forespørselOmDelingAvCv.svar.svar ? Hendelse.SvarJa : Hendelse.SvarNei;
         } else {
             return Hendelse.DeltMedKandidat;
         }
