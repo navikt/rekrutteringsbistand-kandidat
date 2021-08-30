@@ -15,9 +15,7 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({ forespørslerO
         (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette
     );
     const antallBrukereDerVeilederKanSvare = verdier.filter(
-        (forespørsel) =>
-            forespørsel.tilstand === TilstandPåForespørsel.KanIkkeVarsle &&
-            forespørsel.svar === null
+        (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeVarsle
     );
 
     return (

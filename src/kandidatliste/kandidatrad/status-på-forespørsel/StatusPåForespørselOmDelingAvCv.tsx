@@ -54,7 +54,7 @@ const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespør
             )}
             <Popover
                 ankerEl={popoverAnker}
-                orientering={PopoverOrientering.Under}
+                orientering={PopoverOrientering.UnderVenstre}
                 onRequestClose={lukkPopoverAnker}
             >
                 {kanIkkeOpprette && (

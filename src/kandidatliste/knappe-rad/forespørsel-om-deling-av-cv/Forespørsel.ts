@@ -10,7 +10,7 @@ type MedSvar = {
 };
 
 type UtenSvar = {
-    tilstand: Omit<TilstandPåForespørsel, TilstandPåForespørsel.HarSvart>;
+    tilstand: Exclude<TilstandPåForespørsel, TilstandPåForespørsel.HarSvart>;
     svar: null;
 };
 
@@ -22,18 +22,13 @@ export type ForespørselOmDelingAvCv = {
     svarfrist: string;
 } & (MedSvar | UtenSvar);
 
-export enum StatusPåForespørsel {
-    AltGikkBra = 'altGikkBra',
-    KanIkkeSvarePåKortet = 'kanIkkeSvarePåKortet',
-    VeilederKanSvare = 'veilederKanSvare',
-    KortetBleIkkeOpprettet = 'kortetBleIkkeOpprettet',
-    UgyldigStatus = 'ugyldigStatus',
-    IngenRespons = 'ingenRespons',
-}
-
-export enum ForespørselDeltStatus {
-    Sendt = 'SENDT',
-    IkkeSendt = 'IKKE_SENDT',
+export enum TilstandPåForespørsel {
+    KanIkkeOpprette = 'KAN_IKKE_OPPRETTE',
+    PrøverVarsling = 'PROVER_VARSLING',
+    HarVarslet = 'HAR_VARSLET',
+    KanIkkeVarsle = 'KAN_IKKE_VARSLE',
+    HarSvart = 'HAR_SVART',
+    SvarfristUtløpt = 'SVARFRIST_UTLOPT',
 }
 
 export type SvarPåForespørsel = {
@@ -45,16 +40,12 @@ export type SvarPåForespørsel = {
     };
 };
 
+export enum ForespørselDeltStatus {
+    Sendt = 'SENDT',
+    IkkeSendt = 'IKKE_SENDT',
+}
+
 export enum IdentType {
     AktørId = 'AKTOR_ID',
     NavIdent = 'NAV_IDENT',
-}
-
-export enum TilstandPåForespørsel {
-    KanIkkeOpprette = 'KAN_IKKE_OPPRETTE',
-    PrøverVarsling = 'PROVER_VARSLING',
-    HarVarslet = 'HAR_VARSLET',
-    KanIkkeVarsle = 'KAN_IKKE_VARSLE',
-    HarSvart = 'HAR_SVART',
-    SvarfristUtløpt = 'SVARFRIST_UTLOPT',
 }

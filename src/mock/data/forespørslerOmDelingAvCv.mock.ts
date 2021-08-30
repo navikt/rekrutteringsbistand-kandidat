@@ -15,7 +15,7 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
         deltTidspunkt: new Date().toISOString(),
         deltStatus: ForespørselDeltStatus.IkkeSendt,
         svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
-        tilstand: TilstandPåForespørsel.KanIkkeOpprette,
+        tilstand: TilstandPåForespørsel.KanIkkeVarsle,
         svar: null,
     },
     {
@@ -30,7 +30,7 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
             svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
             svartAv: {
                 ident: kandidatlister[0].kandidater[2].aktørid!,
-                identType: IdentType.AktørId,
+                identType: IdentType.NavIdent,
             },
         },
     },

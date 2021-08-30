@@ -2,7 +2,11 @@ import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
-import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørselOmDelingAvCv,
+    IdentType,
+    TilstandPåForespørsel,
+} from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 
 type Props = {
@@ -21,7 +25,30 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
     }
 
     if (forespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
-        if (forespørselOmDelingAvCv.data.svar === null) {
+        if (forespørselOmDelingAvCv.data.tilstand === TilstandPåForespørsel.HarSvart) {
+            const formatertTidspunkt = datoformatNorskLang(
+                forespørselOmDelingAvCv.data.svar.svarTidspunkt
+            );
+
+            const { identType } = forespørselOmDelingAvCv.data.svar.svartAv;
+            const besvartAvTekst = `Svar fra ${
+                identType === IdentType.NavIdent ? 'veileder på vegne av kandidat' : 'kandidat'
+            }`;
+
+            return forespørselOmDelingAvCv.data.svar.svar ? (
+                <Hendelse
+                    status={Hendelsesstatus.Grønn}
+                    tittel={besvartAvTekst}
+                    beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
+                />
+            ) : (
+                <Hendelse
+                    status={Hendelsesstatus.Oransje}
+                    tittel={besvartAvTekst}
+                    beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
+                />
+            );
+        } else {
             const svarfrist = forespørselOmDelingAvCv.data.svarfrist;
             const dagerTilSvarfristDesimal = moment(svarfrist).diff(moment(), 'days', true);
             return (
@@ -31,24 +58,6 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
                     }
                     tittel="Svar fra kandidat om deling av CV"
                     beskrivelse={formaterSvarfrist(dagerTilSvarfristDesimal)}
-                />
-            );
-        } else {
-            const formatertTidspunkt = datoformatNorskLang(
-                forespørselOmDelingAvCv.data.svar.svarTidspunkt
-            );
-
-            return forespørselOmDelingAvCv.data.svar.svar === true ? (
-                <Hendelse
-                    status={Hendelsesstatus.Grønn}
-                    tittel="Svar fra kandidat: Ja, del CV-en min"
-                    beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
-                />
-            ) : (
-                <Hendelse
-                    status={Hendelsesstatus.Oransje}
-                    tittel="Svar fra kandidat: Nei, ikke del CV-en min"
-                    beskrivelse={`${formatertTidspunkt} hentet fra aktivitetsplanen`}
                 />
             );
         }
