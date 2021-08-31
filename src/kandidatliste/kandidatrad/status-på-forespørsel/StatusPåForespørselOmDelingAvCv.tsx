@@ -31,8 +31,7 @@ const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespør
     const { tilstand } = forespørsel.data;
 
     const kanIkkeOpprette = tilstand === TilstandPåForespørsel.KanIkkeOpprette;
-    const veilederKanSvare =
-        tilstand === TilstandPåForespørsel.KanIkkeVarsle && forespørsel.data.svar === null;
+    const veilederKanSvare = tilstand === TilstandPåForespørsel.KanIkkeVarsle;
 
     return (
         <div className="status-på-forespørsel-om-deling-av-cv">
