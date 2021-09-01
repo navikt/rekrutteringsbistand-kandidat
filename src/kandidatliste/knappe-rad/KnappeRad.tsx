@@ -1,5 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
+import { useSelector } from 'react-redux';
 import { PopoverOrientering } from 'nav-frontend-popover';
+import Lenke from 'nav-frontend-lenker';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import {
     erKobletTilArbeidsgiver,
@@ -13,9 +15,9 @@ import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/Forespørse
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatmeldinger } from '../domene/Kandidatressurser';
-import './KnappeRad.less';
-import { useSelector } from 'react-redux';
 import AppState from '../../AppState';
+import { Normaltekst } from 'nav-frontend-typografi';
+import './KnappeRad.less';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -137,7 +139,30 @@ const KnappeRad: FunctionComponent<Props> = ({
                                     </Lenkeknapp>
                                 ) : (
                                     <MedPopover
-                                        hjelpetekst="Kandidaten(e) har ikke bekreftet at CV-en kan deles. Du kan derfor ikke dele med arbeidsgiver."
+                                        hjelpetekst={
+                                            <>
+                                                <Normaltekst className="blokk-xs">
+                                                    Kandidaten(e) har ikke bekreftet i
+                                                    Aktivtetsplanen at CV-en kan deles. Du kan
+                                                    derfor ikke dele med arbeidsgiver.
+                                                </Normaltekst>
+                                                <Normaltekst>
+                                                    Har du hatt dialog med kandidaten, og fått
+                                                    bekreftet at NAV kan dele CV-en? Da må du
+                                                    registrere dette i aktivitetsplanen. Har du ikke
+                                                    delt stillingen med kandidaten må du gjøre det
+                                                    først.{' '}
+                                                    <Lenke
+                                                        target="_blank"
+                                                        rel="noreferrer noopener"
+                                                        href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Del-stillinger-med-kandidater-i-Aktivitetsplanen.aspx#har-du-ringt-kandidaten-istedenfor-%C3%A5-dele-i-aktivitetsplanen"
+                                                    >
+                                                        Se rutiner på Navet
+                                                    </Lenke>
+                                                    .
+                                                </Normaltekst>
+                                            </>
+                                        }
                                         tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                                     >
                                         <Lenkeknapp className="kandidatlisteknapper__knapp Share">

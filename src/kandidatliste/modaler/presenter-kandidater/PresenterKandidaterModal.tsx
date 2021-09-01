@@ -7,6 +7,7 @@ import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import './PresenterKandidaterModal.less';
 import { erIkkeProd } from '../../../utils/featureToggleUtils';
+import Lenke from 'nav-frontend-lenker';
 
 type Props = {
     vis?: boolean; // Default true
@@ -165,8 +166,11 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                                 <Normaltekst>
                                     Har du hatt dialog med kandidaten, og fått bekreftet at NAV kan
                                     dele CV-en? Da må du registrere dette i aktivitetsplanen. Har du
-                                    ikke delt stillingen med kandidaten må du gjøre det først. Se
-                                    rutiner.
+                                    ikke delt stillingen med kandidaten må du gjøre det først.{' '}
+                                    <Lenke href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Del-stillinger-med-kandidater-i-Aktivitetsplanen.aspx#har-du-ringt-kandidaten-istedenfor-%C3%A5-dele-i-aktivitetsplanen">
+                                        Se rutiner
+                                    </Lenke>
+                                    .
                                 </Normaltekst>
                             </>
                         ) : (
