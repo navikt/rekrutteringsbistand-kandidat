@@ -5,17 +5,17 @@ import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import { sendEvent } from '../../amplitude/amplitude';
 
 interface Props {
-    aktørId: string;
+    fodselsnummer: string;
 }
 
-const LastNedCv: FunctionComponent<Props> = ({ aktørId }) => {
+const LastNedCv: FunctionComponent<Props> = ({ fodselsnummer }) => {
     return (
         <div className="kandidat-last-ned-cv">
             <div className="kandidat-last-ned-cv__content">
                 <div className="kandidat-last-ned-cv__lenker">
                     <a
                         className="LastNed lenke"
-                        href={`${LAST_NED_CV_URL}/${aktørId}`}
+                        href={`${LAST_NED_CV_URL}${fodselsnummer}`}
                         target="_blank"
                         onClick={() => sendEvent('cv_last_ned', 'klikk')}
                         rel="noopener noreferrer"

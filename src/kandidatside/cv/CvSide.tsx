@@ -28,7 +28,7 @@ const CvSide: FunctionComponent = () => {
     if (cv.kind === Nettstatus.Suksess) {
         return (
             <>
-                <LastNedCv aktørId={cv.data.aktorId} />
+                <LastNedCv fodselsnummer={cv.data.fodselsnummer} />
                 <Jobbønsker cv={cv.data} />
                 <KandidatCv cv={cv.data} />
                 {cv.data.tilretteleggingsbehov && (

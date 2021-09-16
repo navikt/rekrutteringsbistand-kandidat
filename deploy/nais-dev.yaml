@@ -29,7 +29,7 @@ spec:
     - name: LOGINSERVICE_LOGOUT_VEILEDER_URL
       value: https://loginservice.nais.preprod.local/slo
     - name: LAST_NED_CV_URL
-      value: https://pam-cv-veileder.nais.preprod.local/cv/pdf
+      value: https://pam-personbruker-veileder.dev.intern.nav.no/cv/pdf?fnr=
     - name: ENHETSREGISTER_API
       value: https://pam-ad-api.nais.preprod.local/search-api
     - name: PAMPORTAL_URL
