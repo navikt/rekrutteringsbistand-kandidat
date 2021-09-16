@@ -16,17 +16,10 @@ const miljøvariablerFraVault = {
 };
 
 const envPath = 'static/js/env.js';
-
-const writeEnvironmentVariablesToFile = () => {
-    const fileContent =
-        `window.KANDIDAT_LOGIN_URL="${process.env.LOGINSERVICE_VEILEDER_URL}";\n` +
-        `window.KANDIDAT_LAST_NED_CV_URL="${process.env.LAST_NED_CV_URL}";\n` +
-        `window.KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL="${process.env.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
-
-    fs.writeFile(path.resolve(__dirname, `build/${envPath}`), fileContent, (err) => {
-        if (err) throw err;
-    });
-};
+const envFile =
+    `window.KANDIDAT_LOGIN_URL="${process.env.LOGINSERVICE_VEILEDER_URL}";\n` +
+    `window.KANDIDAT_LAST_NED_CV_URL="${process.env.LAST_NED_CV_URL}";\n` +
+    `window.KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL="${process.env.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
 
 const setupProxy = (fraPath, tilTarget, headers = undefined) =>
     createProxyMiddleware(fraPath, {
@@ -54,8 +47,6 @@ const manifestMedEnvpath = () => {
 const manifest = manifestMedEnvpath();
 
 const startServer = () => {
-    writeEnvironmentVariablesToFile();
-
     app.use(setupProxy(`${basePath}/kandidat-api`, process.env.KANDIDATSOK_API_URL));
 
     app.use(
@@ -80,6 +71,10 @@ const startServer = () => {
             process.env.MIDLERTIDIG_UTILGJENGELIG_API
         ),
     ]);
+
+    app.get(`${basePath}/${envPath}`, (req, res) => {
+        res.type('application/javascript').send(envFile);
+    });
 
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
