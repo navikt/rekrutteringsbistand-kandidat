@@ -2,6 +2,7 @@ import {
     Kandidatliste,
     KandidatlisteSammendrag,
     Kandidatlistestatus,
+    Stillingskategori,
 } from '../../kandidatliste/domene/Kandidatliste';
 import {
     FormidlingAvUsynligKandidat,
@@ -84,6 +85,7 @@ const standard: Kandidatliste = {
     kanEditere: true,
     kanSlette: KanSletteEnum.KAN_SLETTES,
     status: Kandidatlistestatus.Åpen,
+    stillingskategori: Stillingskategori.Stilling,
     kandidater: [],
     formidlingerAvUsynligKandidat: [],
     antallStillinger: 7,
@@ -234,6 +236,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         kandidater,
         formidlingerAvUsynligKandidat:
             harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(7)] : [],
+        stillingskategori: Stillingskategori.Stilling
     };
 });
 

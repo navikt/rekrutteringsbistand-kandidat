@@ -15,6 +15,7 @@ export type Kandidatliste = {
     formidlingerAvUsynligKandidat: FormidlingAvUsynligKandidat[];
     status: Kandidatlistestatus;
     antallStillinger: number | null;
+    stillingskategori: Stillingskategori | null;
 };
 
 export type KandidatlisteSammendrag = Omit<
@@ -28,6 +29,12 @@ export type KandidatlisteSammendrag = Omit<
 export enum Kandidatlistestatus {
     Åpen = 'ÅPEN',
     Lukket = 'LUKKET',
+}
+
+export enum Stillingskategori {
+    Stilling = 'STILLING',
+    Formidling = 'FORMIDLING',
+    Arbeidstrening = 'ARBEIDSTRENING',
 }
 
 export type OpprettetAv = {
