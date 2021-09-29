@@ -8,6 +8,7 @@ import {
     erKobletTilStilling,
     Kandidatliste,
     Kandidatlistestatus,
+    Stillingskategori,
 } from '../domene/Kandidatliste';
 import MedPopover from '../../common/med-popover/MedPopover';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
@@ -66,8 +67,13 @@ const KnappeRad: FunctionComponent<Props> = ({
     const skalViseDelMedArbeidsgiverKnapp =
         kandidatliste.kanEditere && erKobletTilArbeidsgiver(kandidatliste) && !visArkiverte;
 
+    const kanVæreStilling =
+        kandidatliste.stillingskategori == null ||
+        kandidatliste.stillingskategori == Stillingskategori.Stilling;
+
     const skalViseDelMedKandidatKnapp =
         kandidatliste.kanEditere &&
+        kanVæreStilling &&
         erKobletTilStilling(kandidatliste) &&
         erKobletTilArbeidsgiver(kandidatliste) &&
         !visArkiverte;

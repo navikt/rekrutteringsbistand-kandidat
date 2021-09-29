@@ -85,7 +85,7 @@ const standard: Kandidatliste = {
     kanEditere: true,
     kanSlette: KanSletteEnum.KAN_SLETTES,
     status: Kandidatlistestatus.Åpen,
-    stillingskategori: Stillingskategori.Stilling,
+    stillingskategori: null,
     kandidater: [],
     formidlingerAvUsynligKandidat: [],
     antallStillinger: 7,
@@ -236,13 +236,13 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         kandidater,
         formidlingerAvUsynligKandidat:
             harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(7)] : [],
-        stillingskategori: Stillingskategori.Stilling
+        stillingskategori: null,
     };
 });
 
 export const kandidatlistesammendragLister: KandidatlisteSammendrag[] = kandidatlister.map((l) => {
     return {
-        ...(l as unknown as KandidatlisteSammendrag),
+        ...((l as unknown) as KandidatlisteSammendrag),
         antallKandidater: l.kandidater.length,
         antallUsynligeKandidater: l.formidlingerAvUsynligKandidat.length,
     };
