@@ -1,4 +1,5 @@
-import { FormidlingAvUsynligKandidat, Kandidat } from './Kandidat';
+import {FormidlingAvUsynligKandidat, Kandidat} from './Kandidat';
+import {kandidatliste} from "../../mock/data/kandidatliste.mock";
 
 export type Kandidatliste = {
     kandidatlisteId: string;
@@ -18,10 +19,8 @@ export type Kandidatliste = {
     stillingskategori: Stillingskategori | null;
 };
 
-export type KandidatlisteSammendrag = Omit<
-    Kandidatliste,
-    'kandidater' | 'formidlingerAvUsynligKandidat'
-> & {
+export type KandidatlisteSammendrag = Omit<Kandidatliste,
+    'kandidater' | 'formidlingerAvUsynligKandidat'> & {
     antallKandidater: number;
     antallUsynligeKandidater: number;
 };
@@ -41,6 +40,9 @@ export type OpprettetAv = {
     ident: string;
     navn: string;
 };
+
+export const kandidaterMåGodkjenneDelingAvCv = (kandidatliste: Kandidatliste) =>
+    kandidatliste.stillingskategori === Stillingskategori.Stilling || kandidatliste.stillingskategori === null
 
 export const erKobletTilStilling = (
     kandidatliste: Kandidatliste | KandidatlisteSammendrag
