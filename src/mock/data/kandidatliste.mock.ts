@@ -2,7 +2,6 @@ import {
     Kandidatliste,
     KandidatlisteSammendrag,
     Kandidatlistestatus,
-    Stillingskategori,
 } from '../../kandidatliste/domene/Kandidatliste';
 import {
     FormidlingAvUsynligKandidat,
