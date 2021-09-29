@@ -69,7 +69,7 @@ const KnappeRad: FunctionComponent<Props> = ({
 
     const kanVæreStilling =
         kandidatliste.stillingskategori == null ||
-        kandidatliste.stillingskategori == Stillingskategori.Stilling;
+        kandidatliste.stillingskategori === Stillingskategori.Stilling;
 
     const skalViseDelMedKandidatKnapp =
         kandidatliste.kanEditere &&
