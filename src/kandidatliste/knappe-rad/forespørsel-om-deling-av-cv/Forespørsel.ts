@@ -28,7 +28,7 @@ export enum TilstandPåForespørsel {
     HarVarslet = 'HAR_VARSLET',
     KanIkkeVarsle = 'KAN_IKKE_VARSLE',
     HarSvart = 'HAR_SVART',
-    SvarfristUtløpt = 'SVARFRIST_UTLOPT',
+    Avbrutt = 'AVBRUTT',
 }
 
 export type SvarPåForespørsel = {
