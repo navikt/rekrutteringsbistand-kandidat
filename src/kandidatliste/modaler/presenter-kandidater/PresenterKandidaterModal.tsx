@@ -157,11 +157,10 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                     ) : (
                         <Systemtittel>{`Del ${antallSomSkalDeles} kandidater med arbeidsgiver`}</Systemtittel>
                     )}
-                    <AlertStripeAdvarsel>
-                        {erIkkeProd &&
+                    {erIkkeProd &&
                         alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere &&
-                        antallKandidaterSomIkkeKanDeles > 0 ? (
-                            <>
+                        antallKandidaterSomIkkeKanDeles > 0 && (
+                            <AlertStripeAdvarsel>
                                 <Normaltekst className="blokk-xs">
                                     {antallKandidaterSomIkkeKanDeles} av kandidatene har ikke
                                     bekreftet at CV-en kan deles. Du kan derfor ikke dele disse.
@@ -175,14 +174,16 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                                     </Lenke>
                                     .
                                 </Normaltekst>
-                            </>
-                        ) : (
+                            </AlertStripeAdvarsel>
+                        )}
+                    {!alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere && (
+                        <AlertStripeAdvarsel>
                             <Normaltekst>
                                 Husk at du må kontakte kandidatene og undersøke om stillingen er
                                 aktuell før du deler med arbeidsgiver.
                             </Normaltekst>
-                        )}
-                    </AlertStripeAdvarsel>
+                        </AlertStripeAdvarsel>
+                    )}
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
                         Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling
