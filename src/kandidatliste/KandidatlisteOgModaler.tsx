@@ -337,7 +337,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                         antallMarkerteKandidater={markerteKandidater.length}
                         antallKandidaterSomHarSvartJa={kandidaterSomHarSvartJa.length}
                         alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere={
-                            erIkkeProd ? erKobletTilStilling(kandidatliste) && kandidaterMåGodkjenneDelingAvCv(kandidatliste) : false
+                            erKobletTilStilling(kandidatliste) && kandidaterMåGodkjenneDelingAvCv(kandidatliste)
                         }
                     />
                 )}

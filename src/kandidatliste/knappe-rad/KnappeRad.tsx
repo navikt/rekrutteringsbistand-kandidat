@@ -129,8 +129,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                     {skalViseDelMedArbeidsgiverKnapp &&
                         (minstEnKandidatErMarkert ? (
                             <>
-                                {erIkkeProd && (minstEnAvKandidateneHarSvartJa || !kandidaterMåGodkjenneDelingAvCv(kandidatliste)) ||
-                                true ? (
+                                {minstEnAvKandidateneHarSvartJa || !kandidaterMåGodkjenneDelingAvCv(kandidatliste) ? (
                                     <Lenkeknapp
                                         onClick={onKandidatShare}
                                         className="kandidatlisteknapper__knapp Share"

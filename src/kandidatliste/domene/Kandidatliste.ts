@@ -1,5 +1,6 @@
 import {FormidlingAvUsynligKandidat, Kandidat} from './Kandidat';
 import {kandidatliste} from "../../mock/data/kandidatliste.mock";
+import {erIkkeProd} from "../../utils/featureToggleUtils";
 
 export type Kandidatliste = {
     kandidatlisteId: string;
@@ -41,8 +42,13 @@ export type OpprettetAv = {
     navn: string;
 };
 
-export const kandidaterMåGodkjenneDelingAvCv = (kandidatliste: Kandidatliste) =>
-    kandidatliste.stillingskategori === Stillingskategori.Stilling || kandidatliste.stillingskategori === null
+export const kandidaterMåGodkjenneDelingAvCv = (kandidatliste: Kandidatliste) => {
+    if (erIkkeProd) {
+        return kandidatliste.stillingskategori === Stillingskategori.Stilling || kandidatliste.stillingskategori === null
+    } else {
+        return false
+    }
+}
 
 export const erKobletTilStilling = (
     kandidatliste: Kandidatliste | KandidatlisteSammendrag
