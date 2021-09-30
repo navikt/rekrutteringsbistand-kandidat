@@ -6,9 +6,9 @@ import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import {
     erKobletTilArbeidsgiver,
     erKobletTilStilling,
+    kandidaterMåGodkjenneDelingAvCv,
     Kandidatliste,
     Kandidatlistestatus,
-    Stillingskategori,
 } from '../domene/Kandidatliste';
 import MedPopover from '../../common/med-popover/MedPopover';
 import { erIkkeProd } from '../../utils/featureToggleUtils';
@@ -59,21 +59,15 @@ const KnappeRad: FunctionComponent<Props> = ({
             forespørslerOmDelingAvCv.data[markertKandidat.aktørid!]?.svar?.svar
     );
 
-    const stillingenErEgentligIkkeEnStilling = true; // TODO: Sjekk på stillingsobjektet når dette er implementert
-
     const skalViseEkstraKnapper =
         kandidatliste.kanEditere && erKobletTilStilling(kandidatliste) && !visArkiverte;
 
     const skalViseDelMedArbeidsgiverKnapp =
         kandidatliste.kanEditere && erKobletTilArbeidsgiver(kandidatliste) && !visArkiverte;
 
-    const kanVæreStilling =
-        kandidatliste.stillingskategori == null ||
-        kandidatliste.stillingskategori === Stillingskategori.Stilling;
-
     const skalViseDelMedKandidatKnapp =
         kandidatliste.kanEditere &&
-        kanVæreStilling &&
+        kandidaterMåGodkjenneDelingAvCv(kandidatliste) &&
         erKobletTilStilling(kandidatliste) &&
         erKobletTilArbeidsgiver(kandidatliste) &&
         !visArkiverte;
@@ -135,8 +129,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                     {skalViseDelMedArbeidsgiverKnapp &&
                         (minstEnKandidatErMarkert ? (
                             <>
-                                {(erIkkeProd && minstEnAvKandidateneHarSvartJa) ||
-                                stillingenErEgentligIkkeEnStilling ? (
+                                {minstEnAvKandidateneHarSvartJa || !kandidaterMåGodkjenneDelingAvCv(kandidatliste) ? (
                                     <Lenkeknapp
                                         onClick={onKandidatShare}
                                         className="kandidatlisteknapper__knapp Share"
