@@ -141,6 +141,9 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                 : antallMarkerteKandidater
             : antallMarkerteKandidater;
 
+        const antallKandidaterSomIkkeKanDeles =
+            antallMarkerteKandidater - antallKandidaterSomHarSvartJa;
+
         return (
             <ModalMedKandidatScope
                 contentLabel="modal del kandidater"
@@ -156,12 +159,12 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                     )}
                     <AlertStripeAdvarsel>
                         {erIkkeProd &&
-                        alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere ? (
+                        alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere &&
+                        antallKandidaterSomIkkeKanDeles > 0 ? (
                             <>
                                 <Normaltekst className="blokk-xs">
-                                    {antallMarkerteKandidater - antallKandidaterSomHarSvartJa} av
-                                    kandidatene har ikke bekreftet at CV-en kan deles. Du kan derfor
-                                    ikke dele disse.
+                                    {antallKandidaterSomIkkeKanDeles} av kandidatene har ikke
+                                    bekreftet at CV-en kan deles. Du kan derfor ikke dele disse.
                                 </Normaltekst>
                                 <Normaltekst>
                                     Har du hatt dialog med kandidaten, og fått bekreftet at NAV kan
