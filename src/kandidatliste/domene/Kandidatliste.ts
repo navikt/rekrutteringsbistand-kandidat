@@ -1,6 +1,5 @@
-import {FormidlingAvUsynligKandidat, Kandidat} from './Kandidat';
-import {kandidatliste} from "../../mock/data/kandidatliste.mock";
-import {erIkkeProd} from "../../utils/featureToggleUtils";
+import { FormidlingAvUsynligKandidat, Kandidat } from './Kandidat';
+import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 export type Kandidatliste = {
     kandidatlisteId: string;
@@ -20,8 +19,10 @@ export type Kandidatliste = {
     stillingskategori: Stillingskategori | null;
 };
 
-export type KandidatlisteSammendrag = Omit<Kandidatliste,
-    'kandidater' | 'formidlingerAvUsynligKandidat'> & {
+export type KandidatlisteSammendrag = Omit<
+    Kandidatliste,
+    'kandidater' | 'formidlingerAvUsynligKandidat'
+> & {
     antallKandidater: number;
     antallUsynligeKandidater: number;
 };
@@ -44,11 +45,14 @@ export type OpprettetAv = {
 
 export const kandidaterMåGodkjenneDelingAvCv = (kandidatliste: Kandidatliste) => {
     if (erIkkeProd) {
-        return kandidatliste.stillingskategori === Stillingskategori.Stilling || kandidatliste.stillingskategori === null
+        return (
+            kandidatliste.stillingskategori === Stillingskategori.Stilling ||
+            kandidatliste.stillingskategori === null
+        );
     } else {
-        return false
+        return false;
     }
-}
+};
 
 export const erKobletTilStilling = (
     kandidatliste: Kandidatliste | KandidatlisteSammendrag
