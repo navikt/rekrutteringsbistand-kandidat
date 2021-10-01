@@ -50,8 +50,8 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         string | undefined
     >();
 
-    const ikkeForespurteKandidater = useIkkeForespurteKandidater(markerteKandidater);
-    const antallSpurtFraFør = markerteKandidater.length - ikkeForespurteKandidater.length;
+    const markerteKandidaterSomIkkeErForespurt = useIkkeForespurteKandidater(markerteKandidater);
+    const antallSpurtFraFør = markerteKandidater.length - markerteKandidaterSomIkkeErForespurt.length;
 
     const [kanIkkeDeleFeilmelding, setKanIkkeDeleFeilmelding] = useState<string | undefined>();
     const [kanIkkeDelePopover, setKanIkkeDelePopover] = useState<HTMLElement | undefined>(
@@ -133,7 +133,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                 setKanIkkeDeleFeilmelding(
                     'Du må huke av for kandidatene du ønsker å dele stillingen med.'
                 );
-            } else if (ikkeForespurteKandidater.length === 0) {
+            } else if (markerteKandidaterSomIkkeErForespurt.length === 0) {
                 setKanIkkeDelePopover(event.currentTarget);
                 setKanIkkeDeleFeilmelding(
                     'Du har allerede delt stillingen med alle de markerte kandidatene. Du kan ikke dele den på nytt.'
@@ -150,7 +150,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         }
 
         const outboundDto: ForespørselOutboundDto = {
-            aktorIder: markerteKandidater.map((kandidat) => kandidat.aktørid!),
+            aktorIder: markerteKandidaterSomIkkeErForespurt.map((kandidat) => kandidat.aktørid!),
             stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
         };
@@ -178,8 +178,8 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                 className="foresporsel-om-deling-av-cv__modal"
             >
                 <Systemtittel className="blokk-s">
-                    Del med {ikkeForespurteKandidater.length}{' '}
-                    {ikkeForespurteKandidater.length === 1 ? 'kandidat' : 'kandidater'} i
+                    Del med {markerteKandidaterSomIkkeErForespurt.length}{' '}
+                    {markerteKandidaterSomIkkeErForespurt.length === 1 ? 'kandidat' : 'kandidater'} i
                     aktivitetsplanen
                 </Systemtittel>
                 {antallSpurtFraFør > 0 && (
