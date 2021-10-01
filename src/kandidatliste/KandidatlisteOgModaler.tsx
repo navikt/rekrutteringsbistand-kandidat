@@ -5,7 +5,8 @@ import { Dispatch } from 'redux';
 import {
     erKobletTilStilling,
     kandidaterMåGodkjenneDelingAvCv,
-    Kandidatliste as Kandidatlistetype
+    Kandidatliste as Kandidatlistetype,
+    Stillingskategori,
 } from './domene/Kandidatliste';
 import { Kandidatstatus } from './domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
@@ -262,13 +263,17 @@ class KandidatlisteOgModaler extends React.Component<Props> {
     };
 
     onDelMedArbeidsgiver = (beskjed: string, mailadresser: string[]) => {
-        if (this.props.valgtNavKontor === null) {
+        const { kandidatliste, valgtNavKontor } = this.props;
+        if (valgtNavKontor === null) {
             return;
         }
 
-        const kandidaterSomSkalDeles = erIkkeProd
-            ? this.hentMarkerteKandidaterSomHarSvartJa().map((k) => k.kandidatnr)
-            : this.hentKandidatnumrePåMarkerteKandidater();
+        const kandidaterSomSkalDeles =
+            erIkkeProd &&
+            (kandidatliste.stillingskategori === Stillingskategori.Stilling ||
+                kandidatliste.stillingskategori === null)
+                ? this.hentMarkerteKandidaterSomHarSvartJa().map((k) => k.kandidatnr)
+                : this.hentKandidatnumrePåMarkerteKandidater();
 
         sendEvent('kandidatliste', 'presenter_kandidater', {
             antallKandidater: kandidaterSomSkalDeles.length,
@@ -279,7 +284,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             mailadresser,
             this.props.kandidatliste.kandidatlisteId,
             kandidaterSomSkalDeles,
-            this.props.valgtNavKontor
+            valgtNavKontor
         );
         this.setState({
             deleModalOpen: false,
@@ -337,7 +342,8 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                         antallMarkerteKandidater={markerteKandidater.length}
                         antallKandidaterSomHarSvartJa={kandidaterSomHarSvartJa.length}
                         alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere={
-                            erKobletTilStilling(kandidatliste) && kandidaterMåGodkjenneDelingAvCv(kandidatliste)
+                            erKobletTilStilling(kandidatliste) &&
+                            kandidaterMåGodkjenneDelingAvCv(kandidatliste)
                         }
                     />
                 )}
