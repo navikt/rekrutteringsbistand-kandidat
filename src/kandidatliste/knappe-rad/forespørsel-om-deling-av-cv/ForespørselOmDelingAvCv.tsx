@@ -60,17 +60,19 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     );
 
     useEffect(() => {
-        const resetSendForespørsel = () => {
-            dispatch<KandidatlisteAction>({
-                type: KandidatlisteActionType.ResetSendForespørselOmDelingAvCv,
-            });
-        };
+        if (modalErÅpen) {
+            const resetSendForespørsel = () => {
+                dispatch<KandidatlisteAction>({
+                    type: KandidatlisteActionType.ResetSendForespørselOmDelingAvCv,
+                });
+            };
 
-        resetSendForespørsel();
+            resetSendForespørsel();
 
-        setSvarfrist(Svarfrist.ToDager);
-        setEgenvalgtFrist(undefined);
-        setEgenvalgtFristFeilmelding(undefined);
+            setSvarfrist(Svarfrist.ToDager);
+            setEgenvalgtFrist(undefined);
+            setEgenvalgtFristFeilmelding(undefined);
+        }
     }, [modalErÅpen, dispatch]);
 
     useEffect(() => {
