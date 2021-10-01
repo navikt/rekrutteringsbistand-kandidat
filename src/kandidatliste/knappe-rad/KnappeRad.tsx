@@ -129,7 +129,8 @@ const KnappeRad: FunctionComponent<Props> = ({
                     {skalViseDelMedArbeidsgiverKnapp &&
                         (minstEnKandidatErMarkert ? (
                             <>
-                                {minstEnAvKandidateneHarSvartJa || !kandidaterMåGodkjenneDelingAvCv(kandidatliste) ? (
+                                {minstEnAvKandidateneHarSvartJa ||
+                                !kandidaterMåGodkjenneDelingAvCv(kandidatliste) ? (
                                     <Lenkeknapp
                                         onClick={onKandidatShare}
                                         className="kandidatlisteknapper__knapp Share"
@@ -141,9 +142,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                                         hjelpetekst={
                                             <>
                                                 <Normaltekst className="blokk-xs">
-                                                    Kandidaten(e) har ikke bekreftet i
-                                                    Aktivtetsplanen at CV-en kan deles. Du kan
-                                                    derfor ikke dele med arbeidsgiver.
+                                                    Kandidaten(e) har ikke svart eller svart nei på
+                                                    om CV-en kan deles. Du kan derfor ikke dele
+                                                    disse.
                                                 </Normaltekst>
                                                 <Normaltekst>
                                                     Har du hatt dialog med kandidaten, og fått
