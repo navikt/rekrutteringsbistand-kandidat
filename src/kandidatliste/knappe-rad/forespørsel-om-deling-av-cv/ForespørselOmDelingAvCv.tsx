@@ -108,7 +108,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         } else if (moment(dato).isBefore(minDatoForEgenvalgtFrist)) {
             setEgenvalgtFristFeilmelding('Svarfristen må settes minst to dager frem i tid.');
         } else if (moment(dato).isAfter(maksDatoForEgenvalgtFrist)) {
-            setEgenvalgtFristFeilmelding('Svarfristen må settes senest én måned frem i tid.');
+            setEgenvalgtFristFeilmelding(`Svarfristen må være før ${førsteUgyldigeMaksDato}`);
         } else {
             setEgenvalgtFristFeilmelding(undefined);
         }
@@ -330,5 +330,6 @@ const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: string) 
 
 const minDatoForEgenvalgtFrist = moment().add(2, 'days').format('YYYY-MM-DD');
 const maksDatoForEgenvalgtFrist = moment().add(1, 'month').format('YYYY-MM-DD');
+const førsteUgyldigeMaksDato = moment().add(1, 'month').add(1, 'day').format('DD.MM.YYYY');
 
 export default ForespørselOmDelingAvCv;
