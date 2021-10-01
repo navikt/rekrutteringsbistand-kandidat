@@ -51,18 +51,21 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     >();
 
     const markerteKandidaterSomIkkeErForespurt = useIkkeForespurteKandidater(markerteKandidater);
-    const antallSpurtFraFør = markerteKandidater.length - markerteKandidaterSomIkkeErForespurt.length;
+    const antallSpurtFraFør =
+        markerteKandidater.length - markerteKandidaterSomIkkeErForespurt.length;
 
     const [kanIkkeDeleFeilmelding, setKanIkkeDeleFeilmelding] = useState<string | undefined>();
     const [kanIkkeDelePopover, setKanIkkeDelePopover] = useState<HTMLElement | undefined>(
         undefined
     );
 
+    const markerteKandidaterJson = JSON.stringify(markerteKandidater);
+
     useEffect(() => {
         setSvarfrist(Svarfrist.ToDager);
         setEgenvalgtFrist(undefined);
         setEgenvalgtFristFeilmelding(undefined);
-    }, [markerteKandidater]);
+    }, [markerteKandidaterJson]);
 
     useEffect(() => {
         const fjernMarkeringAvAlleKandidater = () => {
@@ -87,10 +90,10 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         };
 
         if (sendForespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
-            fjernMarkeringAvAlleKandidater();
             lukkModal();
             visVarsling();
             resetSendForespørsel();
+            fjernMarkeringAvAlleKandidater();
         }
     }, [sendForespørselOmDelingAvCv.kind, dispatch]);
 
@@ -179,8 +182,8 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             >
                 <Systemtittel className="blokk-s">
                     Del med {markerteKandidaterSomIkkeErForespurt.length}{' '}
-                    {markerteKandidaterSomIkkeErForespurt.length === 1 ? 'kandidat' : 'kandidater'} i
-                    aktivitetsplanen
+                    {markerteKandidaterSomIkkeErForespurt.length === 1 ? 'kandidat' : 'kandidater'}{' '}
+                    i aktivitetsplanen
                 </Systemtittel>
                 {antallSpurtFraFør > 0 && (
                     <AlertStripeAdvarsel className="blokk-s">

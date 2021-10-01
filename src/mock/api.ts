@@ -346,7 +346,9 @@ fetchMock
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
     .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
-    .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }))
+    .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }), {
+        delay: 1000,
+    })
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
 
     // Misc
