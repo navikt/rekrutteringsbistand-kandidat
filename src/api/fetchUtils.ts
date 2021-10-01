@@ -70,7 +70,7 @@ const getCookie = (name) => {
     return match !== null ? match[1] : '';
 };
 
-export async function postJson(url, bodyString) {
+export async function postJson(url: string, bodyString: string) {
     try {
         const response = await fetch(url, {
             credentials: 'include',
@@ -91,8 +91,11 @@ export async function postJson(url, bodyString) {
         } else if (response.status === 204) {
             return undefined;
         }
+
+        const feilmeldingFraBody = await response.text();
         throw new SearchApiError({
             status: response.status,
+            message: feilmeldingFraBody,
         });
     } catch (e) {
         throw new SearchApiError({

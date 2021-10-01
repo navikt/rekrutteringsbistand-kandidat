@@ -59,13 +59,19 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         undefined
     );
 
-    const markerteKandidaterJson = JSON.stringify(markerteKandidater);
-
     useEffect(() => {
+        const resetSendForespørsel = () => {
+            dispatch<KandidatlisteAction>({
+                type: KandidatlisteActionType.ResetSendForespørselOmDelingAvCv,
+            });
+        };
+
+        resetSendForespørsel();
+
         setSvarfrist(Svarfrist.ToDager);
         setEgenvalgtFrist(undefined);
         setEgenvalgtFristFeilmelding(undefined);
-    }, [markerteKandidaterJson]);
+    }, [modalErÅpen, dispatch]);
 
     useEffect(() => {
         const fjernMarkeringAvAlleKandidater = () => {
@@ -83,16 +89,9 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             });
         };
 
-        const resetSendForespørsel = () => {
-            dispatch<KandidatlisteAction>({
-                type: KandidatlisteActionType.ResetSendForespørselOmDelingAvCv,
-            });
-        };
-
         if (sendForespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
             lukkModal();
             visVarsling();
-            resetSendForespørsel();
             fjernMarkeringAvAlleKandidater();
         }
     }, [sendForespørselOmDelingAvCv.kind, dispatch]);
@@ -273,7 +272,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         <span>
                             Kunne ikke dele stillingsannonsen med kandidatene. Prøv igjen senere.
                         </span>
-                        <span>Feilmelding: {sendForespørselOmDelingAvCv.error.message}</span>
+                        <span> Feilmelding: {sendForespørselOmDelingAvCv.error.message}</span>
                     </AlertStripeFeil>
                 )}
             </ModalMedKandidatScope>
