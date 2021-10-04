@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import Etikett from 'nav-frontend-etiketter';
-import { Kandidatutfall } from '../../../domene/Kandidat';
+import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import {
     ForespørselOmDelingAvCv,
     TilstandPåForespørsel,
@@ -11,6 +11,7 @@ import './Hendelsesetikett.less';
 
 type Props = {
     utfall: Kandidatutfall;
+    utfallsendringer: Utfallsendring[];
     forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
 };
 
@@ -23,10 +24,22 @@ export enum Hendelse {
     FåttJobben = 'FÅTT_JOBBEN',
 }
 
-const Hendelsesetikett: FunctionComponent<Props> = ({ utfall, forespørselOmDelingAvCv }) => {
+const Hendelsesetikett: FunctionComponent<Props> = ({
+    utfall,
+    utfallsendringer,
+    forespørselOmDelingAvCv,
+}) => {
     const hendelse = hentKandidatensSisteHendelse(utfall, forespørselOmDelingAvCv);
+    const cvDeltTidspunkt = hentSisteKandidatutfall(Kandidatutfall.Presentert, utfallsendringer);
+    const fåttJobbenTidspunkt = hentSisteKandidatutfall(
+        Kandidatutfall.FåttJobben,
+        utfallsendringer
+    );
+
     const label = hendelseTilLabel(
         hendelse,
+        cvDeltTidspunkt?.tidspunkt,
+        fåttJobbenTidspunkt?.tidspunkt,
         forespørselOmDelingAvCv?.svar?.svarTidspunkt,
         forespørselOmDelingAvCv?.svarfrist
     );
@@ -68,6 +81,8 @@ export const hentKandidatensSisteHendelse = (
 
 const hendelseTilLabel = (
     hendelse: Hendelse,
+    cvDeltTidspunkt?: string,
+    fåttJobbenTidspunkt?: string,
     svarTidspunkt?: string | null,
     svarfrist?: string
 ) => {
@@ -77,10 +92,16 @@ const hendelseTilLabel = (
     const dagerTilSvarfrist = Math.floor(moment(svarfrist).diff(moment(), 'days', true));
 
     switch (hendelse) {
-        case Hendelse.FåttJobben:
-            return 'Fått jobben';
-        case Hendelse.CvDelt:
-            return 'CV delt';
+        case Hendelse.FåttJobben: {
+            const label = 'Fått jobben';
+            return fåttJobbenTidspunkt
+                ? label + ` – ${datoformatNorskKort(fåttJobbenTidspunkt)}`
+                : label;
+        }
+        case Hendelse.CvDelt: {
+            const label = 'CV delt';
+            return cvDeltTidspunkt ? label + ` – ${datoformatNorskKort(cvDeltTidspunkt)}` : label;
+        }
         case Hendelse.DeltMedKandidat: {
             if (dagerTilSvarfrist < 0) {
                 return 'Delt med kandidat, frist utløpt';

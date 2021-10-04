@@ -44,6 +44,7 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
                     <Hendelsesetikett
                         // Viser foreløbig kun utfallshendelser i historikken
                         utfall={kandidatliste.utfall}
+                        utfallsendringer={[]}
                     />
                 )}
             </td>
