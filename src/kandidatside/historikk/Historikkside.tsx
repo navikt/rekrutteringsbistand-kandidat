@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
@@ -13,6 +13,10 @@ import Cv from '../cv/reducer/cv-typer';
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
+import {ForespørselOmDelingAvCv} from "../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel";
+import {
+    fetchForespørslerOmDelingAvCvForKandidat
+} from "../../api/forespørselOmDelingAvCvApi";
 
 const Historikkside: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -26,10 +30,20 @@ const Historikkside: FunctionComponent = () => {
     const historikk = useSelector((state: AppState) => state.historikk);
     const cv = useSelector((state: AppState) => state.cv.cv);
     const kandidatStatus = useSelector(hentStatus(kandidatnr));
+    const [forespørslerOmDelingAvCv, setForespørslerOmDelingAvCv] = useState<ForespørselOmDelingAvCv[]>([])
 
     const lagreKandidatIKandidatlisteStatus = useSelector(
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
     );
+
+    useEffect(() => {
+        const aktørId = hentAktørIdFraCv(cv);
+        if (aktørId) {
+            fetchForespørslerOmDelingAvCvForKandidat(aktørId).then(forespørsler => {
+                setForespørslerOmDelingAvCv(forespørsler)
+            })
+        }
+    }, [cv])
 
     useEffect(() => {
         dispatch({
@@ -78,6 +92,7 @@ const Historikkside: FunctionComponent = () => {
                 <Historikktabell
                     kandidatlister={kandidatlister}
                     aktivKandidatlisteId={kandidatlisteId}
+                    forespørslerOmDelingAvCvForKandidat={forespørslerOmDelingAvCv}
                 />
             </div>
         );
@@ -108,6 +123,13 @@ export const hentKandidatensNavnFraCvEllerKandidatlister = (
 
     return null;
 };
+
+const hentAktørIdFraCv = (cv: Nettressurs<Cv>) => {
+    if (cv.kind === Nettstatus.Suksess) {
+        return cv.data.aktorId
+    }
+    return null;
+}
 
 const hentStatus = (kandidatnr: string) => (state: AppState) => {
     const kandidatliste = state.kandidatliste.kandidatliste;

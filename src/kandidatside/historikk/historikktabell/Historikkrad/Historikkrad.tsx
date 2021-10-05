@@ -8,13 +8,18 @@ import StatusEtikett from '../../../../kandidatliste/kandidatrad/status-og-hende
 import { Kandidatutfall } from '../../../../kandidatliste/domene/Kandidat';
 import Hendelsesetikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import './Historikkrad.less';
+import {ForespørselOmDelingAvCv} from "../../../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel";
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;
     aktiv: boolean;
+    forespørselOmDelingAvCv: ForespørselOmDelingAvCv | undefined
 }
 
-export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv }) => {
+export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv, forespørselOmDelingAvCv }) => {
+
+    console.log("Historikkrad", forespørselOmDelingAvCv)
+
     const listenavn = kandidatliste.slettet ? (
         <>
             {kandidatliste.tittel}{' '}
@@ -45,6 +50,7 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
                         // Viser foreløbig kun utfallshendelser i historikken
                         utfall={kandidatliste.utfall}
                         utfallsendringer={[]}
+                        forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                     />
                 )}
             </td>
