@@ -91,6 +91,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                                 <SeHendelser
                                     kandidat={kandidat}
                                     kandidatlisteId={kandidatlisteId}
+                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                                 />
                             )}
                             <Knapp
