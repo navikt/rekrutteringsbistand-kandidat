@@ -52,6 +52,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
             {kandidatlistenErKobletTilStilling && (
                 <Hendelsesetikett
                     utfall={kandidat.utfall}
+                    utfallsendringer={kandidat.utfallsendringer}
                     forespørselOmDelingAvCv={
                         forespørselOmDelingAvCv.kind === Nettstatus.Suksess
                             ? forespørselOmDelingAvCv.data

@@ -16,6 +16,7 @@ type Kandidatinformasjon = {
     fodselsdato: string;
     status: Kandidatstatus;
     utfall: Kandidatutfall;
+    utfallsendringer: Utfallsendring[];
     antallNotater: number;
     lagtTilTidspunkt: string;
     lagtTilAv: LagtTilAv;
@@ -57,6 +58,12 @@ export enum Kandidatutfall {
     FåttJobben = 'FATT_JOBBEN',
 }
 
+export type Utfallsendring = {
+    utfall: Kandidatutfall;
+    tidspunkt: string;
+    registrertAvIdent: string;
+};
+
 export type LagtTilAv = {
     ident: string;
     navn: string;
@@ -78,6 +85,13 @@ export type FormidlingAvUsynligKandidat = UsynligKandidat & {
     arkivertAvIdent: string | null;
     arkivertAvNavn: string | null;
     arkivertTidspunkt: string | null;
+};
+
+export const hentSisteKandidatutfall = (
+    utfall: Kandidatutfall,
+    utfallsendringer: Utfallsendring[]
+) => {
+    return utfallsendringer.find((endring) => endring.utfall === utfall);
 };
 
 export const erInaktiv = (kandidat: Kandidat): boolean => kandidat.fodselsnr === null;

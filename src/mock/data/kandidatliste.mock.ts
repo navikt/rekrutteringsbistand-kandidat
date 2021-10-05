@@ -110,6 +110,18 @@ export const mockKandidat = (
     fodselsdato: cver[cvIndex].fodselsdato,
     fodselsnr: cver[cvIndex].fodselsnummer,
     utfall: Kandidatutfall.IkkePresentert,
+    utfallsendringer: [
+        {
+            registrertAvIdent: meg.ident,
+            tidspunkt: new Date().toISOString(),
+            utfall: Kandidatutfall.Presentert,
+        },
+        {
+            registrertAvIdent: meg.ident,
+            tidspunkt: new Date().toISOString(),
+            utfall: Kandidatutfall.FåttJobben,
+        },
+    ],
     telefon: '(+47) 123456789',
     epost: 'spammenot@mailinator.com',
     innsatsgruppe: 'Situasjonsbestemt innsats',
@@ -241,7 +253,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
 
 export const kandidatlistesammendragLister: KandidatlisteSammendrag[] = kandidatlister.map((l) => {
     return {
-        ...((l as unknown) as KandidatlisteSammendrag),
+        ...(l as unknown as KandidatlisteSammendrag),
         antallKandidater: l.kandidater.length,
         antallUsynligeKandidater: l.formidlingerAvUsynligKandidat.length,
     };

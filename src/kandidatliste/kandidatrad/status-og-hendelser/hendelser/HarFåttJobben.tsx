@@ -30,6 +30,7 @@ const HarFåttJobben: FunctionComponent<Props> = ({ kanEndre, kandidatlisteId, k
             kanEndre={kanEndre}
             navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
             utfall={kandidat.utfall}
+            utfallsendringer={kandidat.utfallsendringer}
             onEndreUtfall={endreUtfallForKandidat}
         />
     );

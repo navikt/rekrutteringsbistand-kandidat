@@ -85,7 +85,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
             >
                 <div className="status-og-hendelser" ref={popoverRef}>
                     {formidling.utfall !== Kandidatutfall.IkkePresentert && (
-                        <Hendelsesetikett utfall={formidling.utfall} />
+                        <Hendelsesetikett utfall={formidling.utfall} utfallsendringer={[]} />
                     )}
                     {kanEditere ? (
                         <EndreStatusOgHendelserKnapp onClick={togglePopover} />
@@ -109,11 +109,13 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                                     <DelingAvCv
                                         kanEndre={kanEditere}
                                         utfall={formidling.utfall}
+                                        utfallsendringer={[]}
                                         onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
                                     />
                                     <FåttJobben
                                         kanEndre={kanEditere}
                                         utfall={formidling.utfall}
+                                        utfallsendringer={[]}
                                         navn={fulltNavn}
                                         onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
                                     />

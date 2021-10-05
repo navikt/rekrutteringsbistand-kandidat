@@ -32,6 +32,7 @@ const DelCvMedArbeidsgiver: FunctionComponent<Props> = ({
     return (
         <DelingAvCv
             utfall={kandidat.utfall}
+            utfallsendringer={kandidat.utfallsendringer}
             kanEndre={kanEndre}
             onEndreUtfall={endreUtfallForKandidat}
         />

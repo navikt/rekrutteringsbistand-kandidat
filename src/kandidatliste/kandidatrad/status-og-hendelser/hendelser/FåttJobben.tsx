@@ -2,11 +2,13 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { AddCircle, MinusCircle } from '@navikt/ds-icons';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
-import { Kandidatutfall } from '../../../domene/Kandidat';
+import {hentSisteKandidatutfall, Kandidatutfall, Utfallsendring} from '../../../domene/Kandidat';
+import {datoformatNorskLang} from "../../../../utils/dateUtils";
 
 type Props = {
     kanEndre?: boolean;
     utfall: Kandidatutfall;
+    utfallsendringer: Utfallsendring[];
     navn: string;
     onEndreUtfall: (nyttUtfall: Kandidatutfall) => void;
 };
@@ -18,7 +20,7 @@ enum Visning {
     BekreftFjernRegistrering,
 }
 
-const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndreUtfall }) => {
+const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, utfallsendringer, navn, onEndreUtfall }) => {
     const [visning, setVisning] = useState<Visning>(
         utfall === Kandidatutfall.FåttJobben ? Visning.FjernRegistrering : Visning.Registrer
     );
@@ -68,11 +70,14 @@ const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndre
             );
 
         case Visning.FjernRegistrering:
+            const utfallsendring = hentSisteKandidatutfall(Kandidatutfall.Presentert, utfallsendringer)
+            const utfallsbeskrivelse = utfallsendring ? `${datoformatNorskLang(utfallsendring.tidspunkt)} av ${utfallsendring.registrertAvIdent}` : undefined
+
             return (
                 <Hendelse
                     status={hendelsesstatus}
                     tittel="Kandidaten har fått jobben"
-                    beskrivelse={undefined}
+                    beskrivelse={utfallsbeskrivelse}
                 >
                     {kanEndre && (
                         <Flatknapp
