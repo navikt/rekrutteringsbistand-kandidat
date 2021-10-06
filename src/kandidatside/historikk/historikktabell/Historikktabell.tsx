@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../historikkReducer';
-import './Historikktabell.less';
 import { Historikkrad } from './Historikkrad/Historikkrad';
 import { ForespørselOmDelingAvCv } from '../../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
+import './Historikktabell.less';
 
 interface Props {
     kandidatlister: KandidatlisteForKandidat[];
     aktivKandidatlisteId: string | null;
-    forespørslerOmDelingAvCvForKandidat: ForespørselOmDelingAvCv[];
+    forespørslerOmDelingAvCvForKandidat: Nettressurs<ForespørselOmDelingAvCv[]>;
 }
 
 export const Historikktabell: FunctionComponent<Props> = ({
@@ -43,9 +44,14 @@ export const Historikktabell: FunctionComponent<Props> = ({
 );
 
 export const finnForespørselOmDelingAvCv = (
-    forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[],
+    forespørslerOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>,
     kandidatliste: KandidatlisteForKandidat
-) => forespørslerOmDelingAvCv.find(
+) => {
+    if (forespørslerOmDelingAvCv.kind !== Nettstatus.Suksess) {
+        return undefined;
+    }
+
+    return forespørslerOmDelingAvCv.data.find(
         (forespørsel) => forespørsel.stillingsId === kandidatliste.stillingId
     );
-
+};
