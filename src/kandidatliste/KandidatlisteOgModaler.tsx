@@ -269,9 +269,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         }
 
         const kandidaterSomSkalDeles =
-            erIkkeProd &&
-            (kandidatliste.stillingskategori === Stillingskategori.Stilling ||
-                kandidatliste.stillingskategori === null)
+            kandidaterMåGodkjenneDelingAvCv(kandidatliste)
                 ? this.hentMarkerteKandidaterSomHarSvartJa().map((k) => k.kandidatnr)
                 : this.hentKandidatnumrePåMarkerteKandidater();
 
