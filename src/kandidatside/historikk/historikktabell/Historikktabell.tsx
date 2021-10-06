@@ -45,14 +45,7 @@ export const Historikktabell: FunctionComponent<Props> = ({
 export const finnForespørselOmDelingAvCv = (
     forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[],
     kandidatliste: KandidatlisteForKandidat
-) => {
-    const f = forespørslerOmDelingAvCv.find(
+) => forespørslerOmDelingAvCv.find(
         (forespørsel) => forespørsel.stillingsId === kandidatliste.stillingId
     );
-    console.log("Forespørsel", f)
-    console.log("Kandidatlistens stillingsId", kandidatliste.stillingId)
-    forespørslerOmDelingAvCv.forEach(forespørsel => console.log("StillingsId fra forespørsel", forespørsel.stillingsId))
-    return f;
-
-}
 
