@@ -6,7 +6,6 @@ import {
     erKobletTilStilling,
     kandidaterMåGodkjenneDelingAvCv,
     Kandidatliste as Kandidatlistetype,
-    Stillingskategori,
 } from './domene/Kandidatliste';
 import { Kandidatstatus } from './domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
@@ -30,7 +29,6 @@ import {
 } from './domene/Kandidatressurser';
 import './Kandidatliste.less';
 import Kandidatliste from './Kandidatliste';
-import { erIkkeProd } from '../utils/featureToggleUtils';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
