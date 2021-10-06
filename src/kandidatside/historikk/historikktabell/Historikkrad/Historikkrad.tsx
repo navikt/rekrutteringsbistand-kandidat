@@ -18,8 +18,6 @@ interface Props {
 
 export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv, forespørselOmDelingAvCv }) => {
 
-    console.log("Historikkrad", forespørselOmDelingAvCv)
-
     const listenavn = kandidatliste.slettet ? (
         <>
             {kandidatliste.tittel}{' '}
@@ -45,7 +43,7 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv, f
             </td>
             <td>
                 <StatusEtikett status={kandidatliste.status} />
-                {kandidatliste.utfall !== Kandidatutfall.IkkePresentert && (
+                {(kandidatliste.utfall !== Kandidatutfall.IkkePresentert) || forespørselOmDelingAvCv && (
                     <Hendelsesetikett
                         // Viser foreløbig kun utfallshendelser i historikken
                         utfall={kandidatliste.utfall}
