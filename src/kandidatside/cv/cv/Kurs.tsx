@@ -3,7 +3,7 @@ import { Row } from 'nav-frontend-grid';
 import { Element, Undertekst, Normaltekst } from 'nav-frontend-typografi';
 import { Kurs as KursType, Omfang, Omfangenhet } from '../reducer/cv-typer';
 import TidspunktMedLabel from './TidspunktMedLabel';
-import { toDate } from '../../../utils/dateUtils';
+import { toDate } from './SortByDato';
 
 type Props = {
     kurs: KursType;

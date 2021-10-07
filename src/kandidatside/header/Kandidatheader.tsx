@@ -4,7 +4,7 @@ import ForrigeNeste from './forrige-neste/ForrigeNeste';
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
-import { formatterDato } from '../../utils/dateUtils';
+import { formaterDato } from '../../utils/dateUtils';
 import useMaskerFødselsnumre from '../../app/useMaskerFødselsnumre';
 import Cv from '../cv/reducer/cv-typer';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
@@ -40,7 +40,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
             <span>
                 Fødselsdato:{' '}
                 <strong>
-                    {formatterDato(new Date(cv.data.fodselsdato))}{' '}
+                    {formaterDato(new Date(cv.data.fodselsdato))}{' '}
                     {cv.data.fodselsnummer && <>({cv.data.fodselsnummer})</>}
                 </strong>
             </span>

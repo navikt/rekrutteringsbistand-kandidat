@@ -6,7 +6,7 @@ import { Element, Normaltekst, Systemtittel, Undertekst } from 'nav-frontend-typ
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Kandidatliste } from '../../kandidatliste/PropTypes';
-import { formatterDato } from '../../utils/dateUtils';
+import { formaterDato } from '../../utils/dateUtils';
 import { capitalizeEmployerName } from '../utils';
 import HjelpetekstFading from '../../common/varsling/HjelpetekstFading.tsx';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
@@ -211,7 +211,7 @@ class LagreKandidaterModal extends React.Component {
             return (
                 <Row className={className}>
                     <Undertekst className="opprettet--dato__col rader--text rader--text__dato">
-                        {formatterDato(new Date(liste.opprettetTidspunkt))}
+                        {formaterDato(new Date(liste.opprettetTidspunkt))}
                     </Undertekst>
                     <Normaltekst className="stillingstittel__col rader--text">
                         {liste.tittel}

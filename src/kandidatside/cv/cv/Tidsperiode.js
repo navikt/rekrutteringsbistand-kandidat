@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatISOString } from '../../../utils/dateUtils';
+import { formaterDatoTilMånedOgÅr } from '../../../utils/dateUtils';
 
 export default function Tidsperiode({ fradato, tildato, navarende }) {
-    const fradatoFormatted = formatISOString(fradato);
-    const tildatoFormatted = formatISOString(tildato);
+    const fradatoFormatted = formaterDatoTilMånedOgÅr(fradato);
+    const tildatoFormatted = formaterDatoTilMånedOgÅr(tildato);
+
     if (fradatoFormatted && tildatoFormatted) {
         return (
             <span>

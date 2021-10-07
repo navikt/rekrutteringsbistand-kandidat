@@ -1,5 +1,3 @@
-import { toDate, isValidISOString } from '../../../utils/dateUtils';
-
 /**
  * Sorterer items etter dato. Sorterer først på tildato. Er disse like eller er en av disse
  * null sorteres det på fradato
@@ -40,4 +38,17 @@ export default function sortByDato(items) {
         }
         return 0;
     });
+}
+
+const ISO_8601_DATE = /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d\d\d)|Z)?)?)?)?$/i;
+
+function isValidISOString(isoString) {
+    return ISO_8601_DATE.test(isoString);
+}
+
+export function toDate(isoString) {
+    if (!isValidISOString(isoString)) {
+        throw Error(`${isoString} is not a valid ISO 8601 date`);
+    }
+    return new Date(isoString);
 }

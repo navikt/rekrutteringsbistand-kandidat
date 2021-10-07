@@ -2,7 +2,7 @@ import React, { FunctionComponent, MouseEvent, ReactNode, useState } from 'react
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { formatterDato } from '../../utils/dateUtils';
+import { formaterDato } from '../../utils/dateUtils';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import MedPopover from '../../common/med-popover/MedPopover';
 import {
@@ -92,7 +92,7 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
     return (
         <div className="liste-rad liste-rad-innhold">
             <div className="kolonne-middels kandidatlister-rad__sorterbar-kolonne">
-                <Normaltekst className="tekst">{`${formatterDato(
+                <Normaltekst className="tekst">{`${formaterDato(
                     new Date(kandidatlisteSammendrag.opprettetTidspunkt)
                 )}`}</Normaltekst>
             </div>

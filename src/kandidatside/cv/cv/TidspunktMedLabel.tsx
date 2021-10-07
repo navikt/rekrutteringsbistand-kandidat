@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { formatISOString } from '../../../utils/dateUtils';
+import { formaterDatoTilMånedOgÅr } from '../../../utils/dateUtils';
 
 type Props = {
     tidspunkt: Date | null;
@@ -8,7 +8,8 @@ type Props = {
 
 const TidspunktMedLabel: FunctionComponent<Props> = ({ tidspunkt, labelTekst }) => {
     let tidspunktSomString =
-        tidspunkt == null ? 'dato mangler' : formatISOString(tidspunkt.toISOString());
+        tidspunkt == null ? 'dato mangler' : formaterDatoTilMånedOgÅr(tidspunkt.toISOString());
+
     return (
         <span>
             {labelTekst} {tidspunktSomString}
