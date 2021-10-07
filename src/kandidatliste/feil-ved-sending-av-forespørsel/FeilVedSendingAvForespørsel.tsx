@@ -3,7 +3,6 @@ import { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper'
 import { Kandidatforespørsler } from '../domene/Kandidatressurser';
 import { TilstandPåForespørsel } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Kandidatliste } from '../domene/Kandidatliste';
-import { AktørId } from '../../kandidatliste/domene/Kandidat';
 import './FeilVedSendingAvForespørsel.less';
 
 type Props = {
