@@ -1,5 +1,6 @@
 import { Kandidatstatus, Kandidatutfall } from '../../kandidatliste/domene/Kandidat';
 import { KandidatlisteForKandidat } from '../../kandidatside/historikk/historikkReducer';
+import { meg } from './veiledere.mock';
 
 const kandidatlisteId = 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29';
 const kandidatlisteId2 = '53d32269-08df-4950-a4f9-41ad6f36129f';
@@ -23,6 +24,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         stillingId: stillingsId,
         slettet: false,
         antallStillinger: 4,
+        utfallsendringer: [],
     },
     {
         uuid: kandidatlisteId2,
@@ -37,6 +39,13 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         lagtTilAvNavn: 'Clark Kent',
         lagtTilAvIdent: 'Z990746',
         slettet: false,
+        utfallsendringer: [
+            {
+                registrertAvIdent: meg.ident,
+                tidspunkt: new Date().toISOString(),
+                utfall: Kandidatutfall.Presentert,
+            },
+        ],
     },
     {
         uuid: 'uuid3',
@@ -51,5 +60,17 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         lagtTilAvNavn: 'Clark Kent',
         lagtTilAvIdent: 'Z120687',
         slettet: true,
+        utfallsendringer: [
+            {
+                registrertAvIdent: meg.ident,
+                tidspunkt: new Date().toISOString(),
+                utfall: Kandidatutfall.Presentert,
+            },
+            {
+                registrertAvIdent: meg.ident,
+                tidspunkt: new Date().toISOString(),
+                utfall: Kandidatutfall.FåttJobben,
+            },
+        ],
     },
 ];
