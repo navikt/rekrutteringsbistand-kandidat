@@ -47,7 +47,7 @@ export const Historikkrad: FunctionComponent<Props> = ({
                 <StatusEtikett status={kandidatliste.status} />
                 <Hendelsesetikett
                     utfall={kandidatliste.utfall}
-                    utfallsendringer={[]} // TODO: Hent utfallsendringer i backend for kandidatlisteForKandidat
+                    utfallsendringer={kandidatliste.utfallsendringer}
                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                 />
             </td>
