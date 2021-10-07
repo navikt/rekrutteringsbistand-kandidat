@@ -76,6 +76,7 @@ export const hentKandidatensSisteHendelse = (
         if (forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.HarSvart) {
             return forespørselOmDelingAvCv.svar.svar ? Hendelse.SvarJa : Hendelse.SvarNei;
         } else if (
+            forespørselOmDelingAvCv.tilstand === null ||
             forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.PrøverVarsling ||
             forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.KanIkkeOpprette
         ) {
