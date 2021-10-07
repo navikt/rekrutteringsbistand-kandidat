@@ -1,20 +1,25 @@
-import moment from 'moment';
-import { Link } from 'react-router-dom';
-import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../app/paths';
 import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../app/paths';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
 import { Undertekst } from 'nav-frontend-typografi';
 import StatusEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
-import { Kandidatutfall } from '../../../../kandidatliste/domene/Kandidat';
 import Hendelsesetikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import { ForespørselOmDelingAvCv } from '../../../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './Historikkrad.less';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;
     aktiv: boolean;
+    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
 }
 
-export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv }) => {
+export const Historikkrad: FunctionComponent<Props> = ({
+    kandidatliste,
+    aktiv,
+    forespørselOmDelingAvCv,
+}) => {
     const listenavn = kandidatliste.slettet ? (
         <>
             {kandidatliste.tittel}{' '}
@@ -40,13 +45,11 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
             </td>
             <td>
                 <StatusEtikett status={kandidatliste.status} />
-                {kandidatliste.utfall !== Kandidatutfall.IkkePresentert && (
-                    <Hendelsesetikett
-                        // Viser foreløbig kun utfallshendelser i historikken
-                        utfall={kandidatliste.utfall}
-                        utfallsendringer={[]}
-                    />
-                )}
+                <Hendelsesetikett
+                    utfall={kandidatliste.utfall}
+                    utfallsendringer={kandidatliste.utfallsendringer}
+                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                />
             </td>
             <td className="historikkrad__stilling">
                 {!kandidatliste.slettet && kandidatliste.stillingId && (

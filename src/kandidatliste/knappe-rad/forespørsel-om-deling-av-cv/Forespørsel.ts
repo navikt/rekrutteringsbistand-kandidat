@@ -16,6 +16,7 @@ type UtenSvar = {
 
 export type ForespørselOmDelingAvCv = {
     aktørId: string;
+    stillingsId: string;
     deltStatus: ForespørselDeltStatus;
     deltTidspunkt: string;
     deltAv: string;

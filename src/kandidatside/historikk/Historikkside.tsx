@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
-import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { ikkeLastet, lasterInn, Nettressurs, Nettstatus, suksess } from '../../api/Nettressurs';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
 import { Ingress } from 'nav-frontend-typografi';
@@ -11,8 +11,11 @@ import { sendEvent } from '../../amplitude/amplitude';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Cv from '../cv/reducer/cv-typer';
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
+import { ForespørselOmDelingAvCv } from '../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { fetchForespørslerOmDelingAvCvForKandidat } from '../../api/forespørselOmDelingAvCvApi';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
+import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 const Historikkside: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -26,10 +29,25 @@ const Historikkside: FunctionComponent = () => {
     const historikk = useSelector((state: AppState) => state.historikk);
     const cv = useSelector((state: AppState) => state.cv.cv);
     const kandidatStatus = useSelector(hentStatus(kandidatnr));
+    const [forespørslerOmDelingAvCv, setForespørslerOmDelingAvCv] = useState<
+        Nettressurs<ForespørselOmDelingAvCv[]>
+    >(ikkeLastet());
 
     const lagreKandidatIKandidatlisteStatus = useSelector(
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
     );
+
+    useEffect(() => {
+        const hentForespørslerOmDelingAvCvForKandidat = async (aktørId: string) => {
+            const forespørsler = await fetchForespørslerOmDelingAvCvForKandidat(aktørId);
+            setForespørslerOmDelingAvCv(suksess(forespørsler));
+        };
+
+        if (cv.kind === Nettstatus.Suksess && erIkkeProd) {
+            setForespørslerOmDelingAvCv(lasterInn());
+            hentForespørslerOmDelingAvCvForKandidat(cv.data.aktorId);
+        }
+    }, [cv]);
 
     useEffect(() => {
         dispatch({
@@ -78,6 +96,7 @@ const Historikkside: FunctionComponent = () => {
                 <Historikktabell
                     kandidatlister={kandidatlister}
                     aktivKandidatlisteId={kandidatlisteId}
+                    forespørslerOmDelingAvCvForKandidat={forespørslerOmDelingAvCv}
                 />
             </div>
         );

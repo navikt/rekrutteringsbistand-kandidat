@@ -18,3 +18,9 @@ export const fetchForespørslerOmDelingAvCv = (
 ): Promise<ForespørselOmDelingAvCv[]> => {
     return fetchJson(`${FORESPORSEL_OM_DELING_AV_CV_API}/foresporsler/${stillingsId}`, true);
 };
+
+export const fetchForespørslerOmDelingAvCvForKandidat = (
+    aktørId: string
+): Promise<ForespørselOmDelingAvCv[]> => {
+    return fetchJson(`${FORESPORSEL_OM_DELING_AV_CV_API}/foresporsler/kandidat/${aktørId}`, true);
+};
