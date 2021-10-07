@@ -3,7 +3,6 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
-import moment from 'moment';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
@@ -30,6 +29,7 @@ import useKandidatnotater from '../hooks/useKandidatnotater';
 import useKandidattilstand from '../hooks/useKandidattilstand';
 import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
 import StatusPåForespørselOmDelingAvCv from './status-på-forespørsel/StatusPåForespørselOmDelingAvCv';
+import { formaterDato } from '../../utils/dateUtils';
 import './Kandidatrad.less';
 
 type Props = {
@@ -226,8 +226,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     role="cell"
                     className="kandidatliste-kandidat__lagt-til kandidatliste-kandidat__kolonne-sorterbar"
                 >
-                    <span>{moment(kandidat.lagtTilTidspunkt).format('DD.MM.')}</span>
-                    <span>{moment(kandidat.lagtTilTidspunkt).format('YYYY')}</span>
+                    <span>{formaterDato(kandidat.lagtTilTidspunkt)}</span>
                 </div>
 
                 <StatusOgHendelser

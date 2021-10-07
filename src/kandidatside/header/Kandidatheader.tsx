@@ -40,7 +40,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
             <span>
                 Fødselsdato:{' '}
                 <strong>
-                    {formaterDato(new Date(cv.data.fodselsdato))}{' '}
+                    {formaterDato(cv.data.fodselsdato)}{' '}
                     {cv.data.fodselsnummer && <>({cv.data.fodselsnummer})</>}
                 </strong>
             </span>

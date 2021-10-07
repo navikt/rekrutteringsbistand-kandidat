@@ -211,7 +211,7 @@ class LagreKandidaterModal extends React.Component {
             return (
                 <Row className={className}>
                     <Undertekst className="opprettet--dato__col rader--text rader--text__dato">
-                        {formaterDato(new Date(liste.opprettetTidspunkt))}
+                        {formaterDato(liste.opprettetTidspunkt)}
                     </Undertekst>
                     <Normaltekst className="stillingstittel__col rader--text">
                         {liste.tittel}

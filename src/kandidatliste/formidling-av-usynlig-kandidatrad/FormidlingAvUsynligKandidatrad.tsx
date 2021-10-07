@@ -5,7 +5,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { useDispatch, useSelector } from 'react-redux';
 import Popover from 'nav-frontend-popover';
 
-import { datoformatNorskLang } from '../../utils/dateUtils';
+import { formaterDatoNaturlig } from '../../utils/dateUtils';
 import { FormidlingAvUsynligKandidat, Kandidatutfall } from '../domene/Kandidat';
 import AppState from '../../AppState';
 import DelingAvCv from '../kandidatrad/status-og-hendelser/hendelser/DelingAvCv';
@@ -55,7 +55,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
 
     const cvDeltBeskrivelse = `Lagt til i listen av ${formidling.lagtTilAvNavn} (${
         formidling.lagtTilAvIdent
-    }) ${datoformatNorskLang(formidling.lagtTilTidspunkt)}`;
+    }) ${formaterDatoNaturlig(formidling.lagtTilTidspunkt)}`;
 
     let fulltNavn = `${formidling.etternavn}, ${formidling.fornavn}`;
     if (formidling.mellomnavn) {

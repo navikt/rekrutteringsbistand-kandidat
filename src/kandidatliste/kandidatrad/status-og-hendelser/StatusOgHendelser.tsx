@@ -51,6 +51,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
             <StatusEtikett status={kandidat.status} />
             {kandidatlistenErKobletTilStilling && (
                 <Hendelsesetikett
+                    ikkeVisÅrstall
                     utfall={kandidat.utfall}
                     utfallsendringer={kandidat.utfallsendringer}
                     forespørselOmDelingAvCv={

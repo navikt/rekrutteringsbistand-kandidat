@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formaterDatoTilMånedOgÅr } from '../../../utils/dateUtils';
 
+const formaterDatoHvisIkkeNull = (dato) => {
+    return dato ? formaterDatoTilMånedOgÅr(dato) : null;
+};
+
 export default function Tidsperiode({ fradato, tildato, navarende }) {
-    const fradatoFormatted = formaterDatoTilMånedOgÅr(fradato);
-    const tildatoFormatted = formaterDatoTilMånedOgÅr(tildato);
+    const fradatoFormatted = formaterDatoHvisIkkeNull(fradato);
+    const tildatoFormatted = formaterDatoHvisIkkeNull(tildato);
 
     if (fradatoFormatted && tildatoFormatted) {
         return (

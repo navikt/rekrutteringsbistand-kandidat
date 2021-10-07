@@ -3,41 +3,43 @@ enum Språk {
 }
 
 export const formaterTidspunkt = (isoDato: string) => {
-    const tidspunkt = new Date(isoDato);
-
-    const dato = formaterDato(tidspunkt);
-    const klokkeslett = formaterKlokkeslett(tidspunkt);
+    const dato = formaterDato(isoDato);
+    const klokkeslett = formaterKlokkeslett(isoDato);
 
     return `${dato} kl. ${klokkeslett}`;
 };
 
-export const formaterDato = (dato: Date) => dato.toLocaleDateString(Språk.Norsk);
+export const formaterDato = (isoDato: string, year?: 'numeric' | '2-digit') =>
+    new Date(isoDato).toLocaleDateString(Språk.Norsk, {
+        day: '2-digit',
+        month: '2-digit',
+        year: year || '2-digit',
+    });
 
-export const formaterKlokkeslett = (dato: Date, visSekunder = false) =>
-    dato.toLocaleTimeString(Språk.Norsk, {
+export const formaterDatoUtenÅrstall = (isoDato: string) => {
+    const day = new Date(isoDato).getDate();
+    const month = new Date(isoDato).getMonth() + 1;
+
+    return `${day}/${month}`;
+};
+
+export const formaterDatoNaturlig = (isoDato: string) =>
+    new Date(isoDato).toLocaleDateString(Språk.Norsk, {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+
+export const formaterKlokkeslett = (isoDato: string, visSekunder = false) =>
+    new Date(isoDato).toLocaleTimeString(Språk.Norsk, {
         hour: 'numeric',
         minute: 'numeric',
         second: visSekunder ? 'numeric' : undefined,
     });
 
-export const formaterDatoTilMånedOgÅr = (isoString: string) => {
-    return new Date(isoString).toLocaleString(Språk.Norsk, {
+export const formaterDatoTilMånedOgÅr = (isoDato: string) => {
+    return new Date(isoDato).toLocaleString(Språk.Norsk, {
         month: 'long',
         year: 'numeric',
     });
 };
-
-export function datoformatNorskLang(dato: string): string {
-    return new Date(dato).toLocaleString(Språk.Norsk, {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-    });
-}
-
-export function datoformatNorskKort(dato: string): string {
-    return new Date(dato).toLocaleString(Språk.Norsk, {
-        day: 'numeric',
-        month: 'numeric',
-    });
-}

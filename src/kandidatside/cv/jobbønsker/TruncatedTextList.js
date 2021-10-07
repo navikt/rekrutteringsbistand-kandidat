@@ -39,7 +39,7 @@ class TruncatedTextList extends React.Component {
                             mini
                             onClick={this.hideTextToggle}
                         >
-                            {this.state.hideText ? 'Se alle' : 'Skjul'}
+                            {this.state.hideText ? 'Se alle' : 'ikke-vis'}
                         </Knapp>
                     </Row>
                 </>

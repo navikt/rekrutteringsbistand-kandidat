@@ -1,9 +1,9 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import {Flatknapp, Hovedknapp, Knapp} from 'nav-frontend-knapper';
-import {AddCircle, MinusCircle} from '@navikt/ds-icons';
-import Hendelse, {Hendelsesstatus} from './Hendelse';
-import {hentSisteKandidatutfall, Kandidatutfall, Utfallsendring} from '../../../domene/Kandidat';
-import {datoformatNorskLang} from "../../../../utils/dateUtils";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { AddCircle, MinusCircle } from '@navikt/ds-icons';
+import Hendelse, { Hendelsesstatus } from './Hendelse';
+import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
+import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -19,7 +19,12 @@ enum Visning {
     BekreftFjernRegistrering,
 }
 
-const DelingAvCv: FunctionComponent<Props> = ({ kanEndre, utfall, utfallsendringer, onEndreUtfall }) => {
+const DelingAvCv: FunctionComponent<Props> = ({
+    kanEndre,
+    utfall,
+    utfallsendringer,
+    onEndreUtfall,
+}) => {
     const [visning, setVisning] = useState<Visning>(
         utfall === Kandidatutfall.IkkePresentert ? Visning.Registrer : Visning.FjernRegistrering
     );
@@ -71,8 +76,15 @@ const DelingAvCv: FunctionComponent<Props> = ({ kanEndre, utfall, utfallsendring
             );
 
         case Visning.FjernRegistrering:
-            const utfallsendring = hentSisteKandidatutfall(Kandidatutfall.Presentert, utfallsendringer)
-            const utfallsbeskrivelse = utfallsendring ? `${datoformatNorskLang(utfallsendring.tidspunkt)} av ${utfallsendring.registrertAvIdent}` : undefined
+            const utfallsendring = hentSisteKandidatutfall(
+                Kandidatutfall.Presentert,
+                utfallsendringer
+            );
+            const utfallsbeskrivelse = utfallsendring
+                ? `${formaterDatoNaturlig(utfallsendring.tidspunkt)} av ${
+                      utfallsendring.registrertAvIdent
+                  }`
+                : undefined;
 
             return (
                 <Hendelse

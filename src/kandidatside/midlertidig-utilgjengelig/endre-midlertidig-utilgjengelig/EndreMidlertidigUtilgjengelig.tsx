@@ -1,13 +1,14 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import moment from 'moment';
 import classNames from 'classnames';
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
-import './EndreMidlertidigUtilgjengelig.less';
 import { Radio } from 'nav-frontend-skjema';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
 import { MidlertidigUtilgjengeligData } from '../midlertidigUtilgjengeligReducer';
-import moment, { Moment } from 'moment';
 import { antallDagerMellom, validerDatoOgReturnerFeilmelding, dagensDato } from '../validering';
+import { formaterDato } from '../../../utils/dateUtils';
+import './EndreMidlertidigUtilgjengelig.less';
 
 interface Props {
     onAvbryt: () => void;
@@ -16,8 +17,6 @@ interface Props {
     slettMidlertidigUtilgjengelig: () => void;
     midlertidigUtilgjengelig: MidlertidigUtilgjengeligData;
 }
-
-const formaterDato = (dato: Date | Moment) => moment(dato).format('DD.MM.YYYY');
 
 const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const defaultDato = formaterDato(props.midlertidigUtilgjengelig.tilDato);
@@ -77,7 +76,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
             </Undertittel>
             <Element className="endre-midlertidig-utilgjengelig__tilgjengelig-om">
                 Tilgjengelig om: {antallDagerMellom(dagensDato(), tilgjengeligDato)} dager (
-                {formaterDato(tilgjengeligDato)})
+                {formaterDato(tilgjengeligDato.toISOString())})
             </Element>
             <Normaltekst>{registrertAvTekst}</Normaltekst>
             <Normaltekst>Registrert: {formaterDato(fraDato)}</Normaltekst>

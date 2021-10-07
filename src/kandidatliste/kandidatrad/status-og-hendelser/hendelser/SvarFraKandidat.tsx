@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
-import { datoformatNorskLang } from '../../../../utils/dateUtils';
+import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 import {
     ForespørselOmDelingAvCv,
     IdentType,
@@ -26,7 +26,7 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
 
     if (forespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
         if (forespørselOmDelingAvCv.data.tilstand === TilstandPåForespørsel.HarSvart) {
-            const formatertTidspunkt = datoformatNorskLang(
+            const formatertTidspunkt = formaterDatoNaturlig(
                 forespørselOmDelingAvCv.data.svar.svarTidspunkt
             );
 

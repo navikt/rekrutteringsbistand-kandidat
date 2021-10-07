@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
-import { datoformatNorskLang } from '../../../../utils/dateUtils';
+import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 
@@ -23,8 +23,8 @@ const DelStillingMedKandidat: FunctionComponent<Props> = ({ forespørselOmDeling
 
     if (forespørselOmDelingAvCv.kind === Nettstatus.Suksess) {
         const { deltAv, deltTidspunkt } = forespørselOmDelingAvCv.data;
-        const formatertTidspunkt = datoformatNorskLang(deltTidspunkt);
-        const beskrivelse = `${formatertTidspunkt} av ${deltAv}`;
+        const formatertDato = formaterDatoNaturlig(deltTidspunkt);
+        const beskrivelse = `${formatertDato} av ${deltAv}`;
 
         return (
             <Hendelse status={Hendelsesstatus.Grønn} tittel={tittel} beskrivelse={beskrivelse} />

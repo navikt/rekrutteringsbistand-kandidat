@@ -117,8 +117,8 @@ export type MidlertidigUtilgjengeligResponse = {
 
 export type MidlertidigUtilgjengeligData = {
     aktørId: string;
-    fraDato: Date;
-    tilDato: Date;
+    fraDato: string;
+    tilDato: string;
     registrertAvIdent: string;
     registrertAvNavn: string;
     sistEndretAvIdent: string | null;

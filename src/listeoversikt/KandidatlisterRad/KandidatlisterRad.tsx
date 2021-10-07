@@ -93,7 +93,8 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
         <div className="liste-rad liste-rad-innhold">
             <div className="kolonne-middels kandidatlister-rad__sorterbar-kolonne">
                 <Normaltekst className="tekst">{`${formaterDato(
-                    new Date(kandidatlisteSammendrag.opprettetTidspunkt)
+                    kandidatlisteSammendrag.opprettetTidspunkt,
+                    'numeric'
                 )}`}</Normaltekst>
             </div>
             <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne">
