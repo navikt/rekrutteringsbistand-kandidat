@@ -99,16 +99,16 @@ const Filter: FunctionComponent<Props> = ({
 
 const hendelseTilLabel = (hendelse: Hendelse) => {
     switch (hendelse) {
+        case Hendelse.NyKandidat:
+            return 'Ny kandidat';
         case Hendelse.DeltMedKandidat:
             return 'Stilling delt med kandidat';
         case Hendelse.SvarJa:
             return 'Svar: Ja';
         case Hendelse.SvarNei:
             return 'Svar: Nei';
-        case Hendelse.NyKandidat:
-            return 'Ikke delt med arbeidsgiver';
         case Hendelse.CvDelt:
-            return 'Delt med arbeidsgiver';
+            return 'CV delt med arbeidsgiver';
         case Hendelse.FåttJobben:
             return 'Fått jobben';
     }
