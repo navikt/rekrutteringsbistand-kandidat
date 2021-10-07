@@ -2,14 +2,31 @@ import React, { FunctionComponent } from 'react';
 import { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Kandidatforespørsler } from '../domene/Kandidatressurser';
 import { TilstandPåForespørsel } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Kandidatliste } from '../domene/Kandidatliste';
+import { AktørId } from '../../kandidatliste/domene/Kandidat';
 import './FeilVedSendingAvForespørsel.less';
 
 type Props = {
     forespørslerOmDelingAvCv: Kandidatforespørsler;
+    kandidatliste: Kandidatliste;
 };
 
-const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({ forespørslerOmDelingAvCv }) => {
-    const verdier = Object.values(forespørslerOmDelingAvCv);
+const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
+    forespørslerOmDelingAvCv,
+    kandidatliste,
+}) => {
+    const aktiveKandidater = kandidatliste.kandidater
+        .filter((kandidat) => !kandidat.arkivert)
+        .map((kandidat) => kandidat.aktørid);
+
+    const aktiveForespørsler: Kandidatforespørsler = {};
+    for (let key in forespørslerOmDelingAvCv) {
+        if (aktiveKandidater.includes(key)) {
+            aktiveForespørsler[key] = forespørslerOmDelingAvCv[key];
+        }
+    }
+
+    const verdier = Object.values(aktiveForespørsler);
 
     const antallBrukereDerKortetIkkeBleOpprettet = verdier.filter(
         (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette
