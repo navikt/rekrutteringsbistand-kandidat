@@ -5,9 +5,9 @@ import {
     IdentType,
     TilstandPåForespørsel,
 } from '../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import {kandidatliste, kandidatlister} from './kandidatliste.mock';
+import { kandidatliste, kandidatlister } from './kandidatliste.mock';
 import { meg } from './veiledere.mock';
-import {kandidatlisterForKandidatMock} from "./kandidatlister-for-kandidat.mock";
+import { kandidatlisterForKandidatMock } from './kandidatlister-for-kandidat.mock';
 
 export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
     {
@@ -15,9 +15,9 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
         stillingsId: kandidatliste.stillingId!,
         deltAv: meg.ident,
         deltTidspunkt: new Date().toISOString(),
-        deltStatus: ForespørselDeltStatus.IkkeSendt,
+        deltStatus: ForespørselDeltStatus.Sendt,
         svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
-        tilstand: TilstandPåForespørsel.KanIkkeVarsle,
+        tilstand: TilstandPåForespørsel.KanIkkeOpprette,
         svar: null,
     },
     {
