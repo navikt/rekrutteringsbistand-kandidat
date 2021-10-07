@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { formaterDatoTilMånedOgÅr } from '../../../utils/dateUtils';
 
 const formaterDatoHvisIkkeNull = (dato) => {
-    return dato ? formaterDatoTilMånedOgÅr(dato) : null;
+    if (!dato) {
+        return null;
+    }
+
+    const formatert = formaterDatoTilMånedOgÅr(dato);
+    return formatert[0].toUpperCase() + formatert.substr(1);
 };
 
 export default function Tidsperiode({ fradato, tildato, navarende }) {
