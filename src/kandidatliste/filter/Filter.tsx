@@ -48,6 +48,7 @@ const Filter: FunctionComponent<Props> = ({
     const filtrerbareHendelser = erIkkeProd
         ? Object.values(Hendelse)
         : [Hendelse.NyKandidat, Hendelse.CvDelt, Hendelse.FåttJobben];
+
     const hendelsescheckbokser = hendelsefilter
         ? filtrerbareHendelser.map((hendelse) => (
               <Checkbox
