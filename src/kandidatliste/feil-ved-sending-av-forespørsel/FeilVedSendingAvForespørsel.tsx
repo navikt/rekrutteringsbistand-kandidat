@@ -29,6 +29,14 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
                 aktiveForespørsler[key] = forespørslerOmDelingAvCv[key];
             }
         }
+
+        console.log(
+            'Test:',
+            kandidater,
+            forespørslerOmDelingAvCv,
+            aktiveKandidater,
+            aktiveForespørsler
+        );
         return aktiveForespørsler;
     };
 
