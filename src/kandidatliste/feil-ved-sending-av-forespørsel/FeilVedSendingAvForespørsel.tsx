@@ -30,13 +30,6 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
             }
         }
 
-        console.log(
-            'Test:',
-            kandidater,
-            forespørslerOmDelingAvCv,
-            aktiveKandidater,
-            aktiveForespørsler
-        );
         return aktiveForespørsler;
     };
 
