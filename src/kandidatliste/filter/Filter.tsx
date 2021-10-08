@@ -46,7 +46,7 @@ const Filter: FunctionComponent<Props> = ({
     ));
 
     const filtrerbareHendelser = erIkkeProd
-        ? Object.values(Hendelse).filter((h) => h !== Hendelse.SendtForespørselOmDeling)
+        ? Object.values(Hendelse)
         : [Hendelse.NyKandidat, Hendelse.CvDelt, Hendelse.FåttJobben];
 
     const hendelsescheckbokser = hendelsefilter

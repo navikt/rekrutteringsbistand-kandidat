@@ -18,7 +18,6 @@ type Props = {
 
 export enum Hendelse {
     NyKandidat = 'NY_KANDIDAT',
-    SendtForespørselOmDeling = 'SENDT_FORESPØRSEL',
     DeltMedKandidat = 'DELT_MED_KANDIDAT',
     SvarJa = 'SVAR_JA',
     SvarNei = 'SVAR_NEI',
@@ -75,12 +74,8 @@ export const hentKandidatensSisteHendelse = (
     } else if (forespørselOmDelingAvCv) {
         if (forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.HarSvart) {
             return forespørselOmDelingAvCv.svar.svar ? Hendelse.SvarJa : Hendelse.SvarNei;
-        } else if (
-            forespørselOmDelingAvCv.tilstand === null ||
-            forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.PrøverVarsling ||
-            forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.KanIkkeOpprette
-        ) {
-            return Hendelse.SendtForespørselOmDeling;
+        } else if (forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.KanIkkeOpprette) {
+            return Hendelse.NyKandidat;
         } else {
             return Hendelse.DeltMedKandidat;
         }
@@ -123,9 +118,6 @@ const hendelseTilLabel = (
             } else {
                 return `Delt med kandidat, frist ${formatertSvarfrist}`;
             }
-        }
-        case Hendelse.SendtForespørselOmDeling: {
-            return `Deles med kandidat`;
         }
         case Hendelse.SvarJa: {
             return `Svar: Ja – ${svarTidspunkt && formaterSvarfrist(svarTidspunkt)}`;
