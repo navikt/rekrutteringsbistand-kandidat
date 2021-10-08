@@ -3,6 +3,7 @@ import { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper'
 import { Kandidatforespørsler } from '../domene/Kandidatressurser';
 import { TilstandPåForespørsel } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Kandidatliste } from '../domene/Kandidatliste';
+import { Kandidat } from '../domene/Kandidat';
 import './FeilVedSendingAvForespørsel.less';
 
 type Props = {
@@ -14,18 +15,26 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
     forespørslerOmDelingAvCv,
     kandidatliste,
 }) => {
-    const aktiveKandidater = kandidatliste.kandidater
-        .filter((kandidat) => !kandidat.arkivert)
-        .map((kandidat) => kandidat.aktørid);
+    const kunForespørslerForAktiveKandidater = (
+        kandidater: Kandidat[],
+        forespørslerOmDelingAvCv: Kandidatforespørsler
+    ): Kandidatforespørsler => {
+        const aktiveKandidater = kandidater
+            .filter((kandidat) => !kandidat.arkivert)
+            .map((kandidat) => kandidat.aktørid);
 
-    const aktiveForespørsler: Kandidatforespørsler = {};
-    for (let key in forespørslerOmDelingAvCv) {
-        if (aktiveKandidater.includes(key)) {
-            aktiveForespørsler[key] = forespørslerOmDelingAvCv[key];
+        const aktiveForespørsler: Kandidatforespørsler = {};
+        for (let key in forespørslerOmDelingAvCv) {
+            if (aktiveKandidater.includes(key)) {
+                aktiveForespørsler[key] = forespørslerOmDelingAvCv[key];
+            }
         }
-    }
+        return aktiveForespørsler;
+    };
 
-    const verdier = Object.values(aktiveForespørsler);
+    const verdier = Object.values(
+        kunForespørslerForAktiveKandidater(kandidatliste.kandidater, forespørslerOmDelingAvCv)
+    );
 
     const antallBrukereDerKortetIkkeBleOpprettet = verdier.filter(
         (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette
