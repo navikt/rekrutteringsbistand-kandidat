@@ -192,6 +192,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                 forespørslerOmDelingAvCv.kind === Nettstatus.Suksess && (
                                     <FeilVedSendingAvForespørsel
                                         forespørslerOmDelingAvCv={forespørslerOmDelingAvCv.data}
+                                        kandidatliste={kandidatliste}
                                     />
                                 )}
                             <KnappeRad
