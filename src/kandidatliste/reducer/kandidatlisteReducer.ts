@@ -24,14 +24,16 @@ import { Kandidatliste } from '../domene/Kandidatliste';
 import {
     Kandidattilstander,
     Kandidatnotater,
-    Kandidatforespørsler,
     Kandidattilstand,
     Visningsstatus,
 } from '../domene/Kandidatressurser';
 import { SmsStatus, Kandidatmeldinger } from '../domene/Kandidatressurser';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
-import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørslerGruppertPåAktørId,
+    separerGjeldendeForespørselFraRespons,
+} from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 
 type FormidlingId = string;
@@ -60,8 +62,8 @@ export type KandidatlisteState = {
         sendteMeldinger: Nettressurs<Kandidatmeldinger>;
         error?: SearchApiError;
     };
-    sendForespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv[]>;
-    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>;
+    sendForespørselOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
+    forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
     fodselsnummer?: string;
     leggTilKandidater: {
         lagreStatus: Nettstatus;
@@ -605,18 +607,14 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sendForespørselOmDelingAvCv: senderInn(),
             };
         case KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess: {
-            const kandidatforespørsler: Kandidatforespørsler = {};
-
-            action.forespørslerOmDelingAvCv.forEach((forespørsel) => {
-                kandidatforespørsler[forespørsel.aktørId] = forespørsel;
-            });
-
             return {
                 ...state,
-                sendForespørselOmDelingAvCv: suksess(action.forespørslerOmDelingAvCv),
+                sendForespørselOmDelingAvCv: suksess(
+                    separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv)
+                ),
                 forespørslerOmDelingAvCv: {
                     kind: Nettstatus.Suksess,
-                    data: kandidatforespørsler,
+                    data: separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv),
                 },
             };
         }
@@ -638,17 +636,11 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 forespørslerOmDelingAvCv: lasterInn(),
             };
         case KandidatlisteActionType.HentForespørslerOmDelingAvCvSuccess:
-            const kandidatforespørsler: Kandidatforespørsler = {};
-
-            action.forespørslerOmDelingAvCv.forEach((forespørsel) => {
-                kandidatforespørsler[forespørsel.aktørId] = forespørsel;
-            });
-
             return {
                 ...state,
                 forespørslerOmDelingAvCv: {
                     kind: Nettstatus.Suksess,
-                    data: kandidatforespørsler,
+                    data: separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv),
                 },
             };
         case KandidatlisteActionType.HentForespørslerOmDelingAvCvFailure:

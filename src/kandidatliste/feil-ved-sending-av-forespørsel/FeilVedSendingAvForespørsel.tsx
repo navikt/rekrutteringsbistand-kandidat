@@ -1,7 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Kandidatforespørsler } from '../domene/Kandidatressurser';
-import { TilstandPåForespørsel } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørselOmDelingAvCv,
+    TilstandPåForespørsel,
+} from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Kandidatliste } from '../domene/Kandidatliste';
 import { Kandidat } from '../domene/Kandidat';
 import './FeilVedSendingAvForespørsel.less';
@@ -19,6 +22,7 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
         kandidater: Kandidat[],
         forespørslerOmDelingAvCv: Kandidatforespørsler
     ): Kandidatforespørsler => {
+        const aktiveForespørsler: Kandidatforespørsler = {};
         const aktiveKandidater = kandidater
             .filter((kandidat) => !kandidat.arkivert)
             .map((kandidat) => kandidat.aktørid);

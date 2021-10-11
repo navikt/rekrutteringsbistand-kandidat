@@ -1,5 +1,5 @@
 import { Kandidatlistestatus } from '../domene/Kandidatliste';
-import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
+import { AktørId, Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
 import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
@@ -14,6 +14,7 @@ import { SearchApiError } from '../../api/fetchUtils';
 import {
     ForespørselOmDelingAvCv,
     ForespørselOutboundDto,
+    ForespørslerGruppertPåAktørId,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
@@ -444,7 +445,7 @@ export interface HentForespørslerOmDelingAvCvAction {
 
 export interface HentForespørslerOmDelingAvCvSuccessAction {
     type: KandidatlisteActionType.HentForespørslerOmDelingAvCvSuccess;
-    forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[];
+    forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]>;
 }
 
 export interface HentForespørslerOmDelingAvCvFailureAction {
@@ -459,7 +460,7 @@ export interface SendForespørselOmDelingAvCv {
 
 export interface SendForespørselOmDelingAvCvSuccess {
     type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess;
-    forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[];
+    forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]>;
 }
 
 export interface SendForespørselOmDelingAvCvFailure {
