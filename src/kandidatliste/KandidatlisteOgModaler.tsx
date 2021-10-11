@@ -256,7 +256,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         return this.hentMarkerteKandidater().filter(
             (kandidat) =>
                 forespørsler.kind === Nettstatus.Suksess &&
-                forespørsler.data[kandidat.aktørid!]?.svar?.svar
+                forespørsler.data[kandidat.aktørid!]?.svar?.harSvartJa
         );
     };
 
@@ -266,10 +266,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             return;
         }
 
-        const kandidaterSomSkalDeles =
-            kandidaterMåGodkjenneDelingAvCv(kandidatliste)
-                ? this.hentMarkerteKandidaterSomHarSvartJa().map((k) => k.kandidatnr)
-                : this.hentKandidatnumrePåMarkerteKandidater();
+        const kandidaterSomSkalDeles = kandidaterMåGodkjenneDelingAvCv(kandidatliste)
+            ? this.hentMarkerteKandidaterSomHarSvartJa().map((k) => k.kandidatnr)
+            : this.hentKandidatnumrePåMarkerteKandidater();
 
         sendEvent('kandidatliste', 'presenter_kandidater', {
             antallKandidater: kandidaterSomSkalDeles.length,

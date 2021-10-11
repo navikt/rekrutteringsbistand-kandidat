@@ -56,7 +56,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     const minstEnAvKandidateneHarSvartJa = markerteKandidater.some(
         (markertKandidat) =>
             forespørslerOmDelingAvCv.kind === Nettstatus.Suksess &&
-            forespørslerOmDelingAvCv.data[markertKandidat.aktørid!]?.svar?.svar
+            forespørslerOmDelingAvCv.data[markertKandidat.aktørid!]?.svar?.harSvartJa
     );
 
     const skalViseEkstraKnapper =

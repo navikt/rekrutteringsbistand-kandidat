@@ -73,7 +73,7 @@ export const hentKandidatensSisteHendelse = (
         return Hendelse.CvDelt;
     } else if (forespørselOmDelingAvCv) {
         if (forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.HarSvart) {
-            return forespørselOmDelingAvCv.svar.svar ? Hendelse.SvarJa : Hendelse.SvarNei;
+            return forespørselOmDelingAvCv.svar.harSvartJa ? Hendelse.SvarJa : Hendelse.SvarNei;
         } else if (forespørselOmDelingAvCv.tilstand === TilstandPåForespørsel.KanIkkeOpprette) {
             return Hendelse.NyKandidat;
         } else {

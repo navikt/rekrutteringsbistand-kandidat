@@ -33,7 +33,7 @@ export enum TilstandPåForespørsel {
 }
 
 export type SvarPåForespørsel = {
-    svar: boolean;
+    harSvartJa: boolean;
     svarTidspunkt: string;
     svartAv: {
         ident: string;

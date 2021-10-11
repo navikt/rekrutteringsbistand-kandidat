@@ -36,7 +36,7 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
                     : 'bruker'
             }`;
 
-            return forespørselOmDelingAvCv.data.svar.svar ? (
+            return forespørselOmDelingAvCv.data.svar.harSvartJa ? (
                 <Hendelse
                     status={Hendelsesstatus.Grønn}
                     tittel="Svar fra kandidat: Ja, del CV-en min"

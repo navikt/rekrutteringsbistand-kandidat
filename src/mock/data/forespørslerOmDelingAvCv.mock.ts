@@ -29,7 +29,7 @@ export const forespørslerOmDelingAvCv: ForespørselOmDelingAvCv[] = [
         svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
         tilstand: TilstandPåForespørsel.HarSvart,
         svar: {
-            svar: true,
+            harSvartJa: true,
             svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
             svartAv: {
                 ident: kandidatlister[0].kandidater[2].aktørid!,
@@ -49,7 +49,7 @@ export const forespørslerOmDelingAvCvForKandidat: ForespørselOmDelingAvCv[] = 
         svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
         tilstand: TilstandPåForespørsel.HarSvart,
         svar: {
-            svar: true,
+            harSvartJa: true,
             svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
             svartAv: {
                 ident: kandidatlister[0].kandidater[2].aktørid!,
