@@ -1,11 +1,9 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
-import { Datepicker } from 'nav-datovelger';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
-import { useDispatch, useSelector } from 'react-redux';
 import AlertStripe, { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
-import moment from 'moment';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { ForespørselOutboundDto } from './Forespørsel';
@@ -18,8 +16,8 @@ import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
-import './ForespørselOmDelingAvCv.less';
 import VelgSvarfrist, { Svarfrist } from './VelgSvarfrist';
+import './ForespørselOmDelingAvCv.less';
 
 type Props = {
     stillingsId: string;
@@ -231,8 +229,6 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         </div>
     );
 };
-
-const førsteUgyldigeMaksDato = moment().add(1, 'month').add(1, 'day').format('DD.MM.YYYY');
 
 const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: string) => {
     switch (svarfrist) {

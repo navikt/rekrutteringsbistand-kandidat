@@ -1,8 +1,8 @@
+import React, { ChangeEvent, FunctionComponent } from 'react';
 import moment from 'moment';
 import { Datepicker } from 'nav-datovelger';
 import { RadioGruppe, Radio, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
-import React, { ChangeEvent, FunctionComponent } from 'react';
 
 export enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -35,7 +35,7 @@ const VelgSvarfrist: FunctionComponent<Props> = ({
     onEgenvalgtFristChange,
     onEgenvalgtFristFeilmeldingChange,
 }) => {
-    const onEgenvalgtFristChange2 = (dato?: string) => {
+    const onEgenvalgtChange = (dato?: string) => {
         if (!dato || dato === 'Invalid date') {
             onEgenvalgtFristFeilmeldingChange('Feil datoformat, skriv inn dd.mm.åååå');
         } else if (moment(dato).isBefore(minDatoForEgenvalgtFrist)) {
@@ -93,7 +93,7 @@ const VelgSvarfrist: FunctionComponent<Props> = ({
                             minDate: minDatoForEgenvalgtFrist,
                             maxDate: maksDatoForEgenvalgtFrist,
                         }}
-                        onChange={onEgenvalgtFristChange}
+                        onChange={onEgenvalgtChange}
                         calendarSettings={{
                             showWeekNumbers: true,
                             position: 'fullscreen',
@@ -127,6 +127,7 @@ const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
     return `(Frist ut ${frist})`;
 };
 
+const førsteUgyldigeMaksDato = moment().add(1, 'month').add(1, 'day').format('DD.MM.YYYY');
 const minDatoForEgenvalgtFrist = moment().add(2, 'days').format('YYYY-MM-DD');
 const maksDatoForEgenvalgtFrist = moment().add(1, 'month').format('YYYY-MM-DD');
 
