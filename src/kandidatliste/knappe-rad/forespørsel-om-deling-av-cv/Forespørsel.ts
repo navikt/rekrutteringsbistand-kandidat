@@ -60,6 +60,16 @@ export const hentForespørselForKandidat = (
     return aktørId === null ? undefined : forespørslerOmDelingAvCv[aktørId]?.gjeldendeForespørsel;
 };
 
+export const kanResendeForespørsel = (gjeldendeForespørsel: ForespørselOmDelingAvCv) => {
+    const erAvbrutt = gjeldendeForespørsel.tilstand === TilstandPåForespørsel.Avbrutt;
+    const noeFeilSkjedde = gjeldendeForespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette;
+    const harSvartNei =
+        gjeldendeForespørsel.tilstand === TilstandPåForespørsel.HarSvart &&
+        gjeldendeForespørsel.svar.harSvartJa === false;
+
+    return erAvbrutt || harSvartNei || noeFeilSkjedde;
+};
+
 export type ForespørslerGruppertPåAktørId = {
     [s: string]: {
         gjeldendeForespørsel: ForespørselOmDelingAvCv;

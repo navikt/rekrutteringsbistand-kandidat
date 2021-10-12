@@ -33,7 +33,7 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
             tilstand: TilstandPåForespørsel.HarSvart,
             svar: {
-                harSvartJa: true,
+                harSvartJa: false,
                 svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
                 svartAv: {
                     ident: kandidatlister[0].kandidater[2].aktørid!,

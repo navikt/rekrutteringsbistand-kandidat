@@ -90,8 +90,10 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                             <SvarFraKandidat
                                 kanEndre
                                 forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                                onDelPåNyttClick={() => {}}
                             />
                         )}
+                        {/* TODO: Vis steg for å dele på nytt */}
                         <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
