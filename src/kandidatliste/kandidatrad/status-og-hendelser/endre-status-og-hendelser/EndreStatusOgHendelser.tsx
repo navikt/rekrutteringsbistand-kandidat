@@ -38,10 +38,16 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
 }) => {
     const [status, setStatus] = useState(kandidat.status);
 
+    const [visStegForÅDelePåNytt, setVisStegForÅDelePåNytt] = useState(false);
+
     const statuser = Object.entries(Kandidatstatus);
 
     const onConfirmStatus = () => {
         onStatusChange(status);
+    };
+
+    const onDelPåNyttClick = () => {
+        setVisStegForÅDelePåNytt(true);
     };
 
     return (
@@ -90,10 +96,10 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                             <SvarFraKandidat
                                 kanEndre
                                 forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                                onDelPåNyttClick={() => {}}
+                                onDelPåNyttClick={onDelPåNyttClick}
                             />
                         )}
-                        {/* TODO: Vis steg for å dele på nytt */}
+                        {erIkkeProd && visStegForÅDelePåNytt && <div>heisann hvor det går</div>}
                         <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
