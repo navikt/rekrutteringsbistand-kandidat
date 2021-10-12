@@ -22,9 +22,12 @@ import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatmeldinger, Kandidattilstander, SmsStatus } from './domene/Kandidatressurser';
-import './Kandidatliste.less';
 import Kandidatliste from './Kandidatliste';
-import { ForespørslerGruppertPåAktørId } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørslerGruppertPåAktørId,
+    hentForespørselForKandidat,
+} from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import './Kandidatliste.less';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -252,7 +255,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         return this.hentMarkerteKandidater().filter(
             (kandidat) =>
                 forespørsler.kind === Nettstatus.Suksess &&
-                forespørsler.data[kandidat.aktørid!].gjeldendeForespørsel?.svar?.harSvartJa
+                hentForespørselForKandidat(kandidat.aktørid, forespørsler.data)?.svar?.harSvartJa
         );
     };
 

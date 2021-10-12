@@ -53,13 +53,19 @@ export const separerGjeldendeForespørselFraRespons = (
     return gruppertPåAktørId;
 };
 
-export type ForespørslerGruppertPåAktørId = Record<
-    AktørId,
-    {
+export const hentForespørselForKandidat = (
+    aktørId: AktørId | null,
+    forespørslerOmDelingAvCv: ForespørslerGruppertPåAktørId
+): ForespørselOmDelingAvCv | undefined => {
+    return forespørslerOmDelingAvCv.data[aktørId!]?.gjeldendeForespørsel;
+};
+
+export type ForespørslerGruppertPåAktørId = {
+    [s: string]: {
         gjeldendeForespørsel: ForespørselOmDelingAvCv;
         forespørsler: ForespørselOmDelingAvCv[];
-    }
->;
+    };
+};
 
 export type SvarPåForespørsel = {
     harSvartJa: boolean;

@@ -5,7 +5,10 @@ import {
     hentKandidatensSisteHendelse,
 } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
-import { ForespørslerGruppertPåAktørId } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørslerGruppertPåAktørId,
+    hentForespørselForKandidat,
+} from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 const QUERY_PARAM_SEPARATOR = '-';
 
@@ -46,7 +49,10 @@ export const filtrerKandidater = (
                     hentKandidatensSisteHendelse(
                         kandidat.utfall,
                         forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
-                            ? forespørslerOmDelingAvCv.data[kandidat.aktørid!].gjeldendeForespørsel
+                            ? hentForespørselForKandidat(
+                                  kandidat.aktørid,
+                                  forespørslerOmDelingAvCv.data
+                              )
                             : undefined
                     )
                 ]
