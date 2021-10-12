@@ -10,9 +10,10 @@ import DelStillingMedKandidat from '../hendelser/DelStillingMedKandidat';
 import { statusToDisplayName } from '../etiketter/StatusEtikett';
 import { erIkkeProd } from '../../../../utils/featureToggleUtils';
 import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import { Nettressurs } from '../../../../api/Nettressurs';
+import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
 import NyKandidat from '../hendelser/NyKandidat';
 import SvarFraKandidat from '../hendelser/SvarFraKandidat';
+import DelStillingMedKandidatPåNytt from '../hendelser/DelStillingMedKandidatPåNytt';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
@@ -37,8 +38,9 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidatlistenErKobletTilStilling,
 }) => {
     const [status, setStatus] = useState(kandidat.status);
-
     const [visStegForÅDelePåNytt, setVisStegForÅDelePåNytt] = useState(false);
+
+    // TODO: Lytt til resendForespørsel og skjul steg for å dele på nytt ved suksess.
 
     const statuser = Object.entries(Kandidatstatus);
 
@@ -48,6 +50,10 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
 
     const onDelPåNyttClick = () => {
         setVisStegForÅDelePåNytt(true);
+    };
+
+    const onDelPåNyttLukk = () => {
+        setVisStegForÅDelePåNytt(false);
     };
 
     return (
@@ -99,7 +105,14 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                                 onDelPåNyttClick={onDelPåNyttClick}
                             />
                         )}
-                        {erIkkeProd && visStegForÅDelePåNytt && <div>heisann hvor det går</div>}
+                        {erIkkeProd &&
+                            visStegForÅDelePåNytt &&
+                            forespørselOmDelingAvCv.kind === Nettstatus.Suksess && (
+                                <DelStillingMedKandidatPåNytt
+                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv.data}
+                                    onLukk={onDelPåNyttLukk}
+                                />
+                            )}
                         <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}

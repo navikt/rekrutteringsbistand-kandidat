@@ -127,6 +127,19 @@ const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
     return `(Frist ut ${frist})`;
 };
 
+export const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: string) => {
+    switch (svarfrist) {
+        case Svarfrist.ToDager:
+            return moment().add(3, 'days').startOf('day').toDate();
+        case Svarfrist.TreDager:
+            return moment().add(4, 'days').startOf('day').toDate();
+        case Svarfrist.SyvDager:
+            return moment().add(8, 'days').startOf('day').toDate();
+        case Svarfrist.Egenvalgt:
+            return moment(egenvalgtFrist).startOf('day').add(1, 'day').toDate();
+    }
+};
+
 const førsteUgyldigeMaksDato = moment().add(1, 'month').add(1, 'day').format('DD.MM.YYYY');
 const minDatoForEgenvalgtFrist = moment().add(2, 'days').format('YYYY-MM-DD');
 const maksDatoForEgenvalgtFrist = moment().add(1, 'month').format('YYYY-MM-DD');

@@ -1,6 +1,5 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import AlertStripe, { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
@@ -16,7 +15,7 @@ import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
-import VelgSvarfrist, { Svarfrist } from './VelgSvarfrist';
+import VelgSvarfrist, { lagSvarfristPåSekundet, Svarfrist } from './VelgSvarfrist';
 import './ForespørselOmDelingAvCv.less';
 
 type Props = {
@@ -183,7 +182,6 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         annonseteksten er informativ og lett å forstå.
                     </Element>
                 </AlertStripe>
-
                 <VelgSvarfrist
                     svarfrist={svarfrist}
                     onSvarfristChange={onSvarfristChange}
@@ -192,7 +190,6 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                     onEgenvalgtFristChange={onEgenvalgtFristChange}
                     onEgenvalgtFristFeilmeldingChange={onEgenvalgtFristFeilmeldingChange}
                 />
-
                 <div className="foresporsel-om-deling-av-cv__knapper">
                     <Hovedknapp
                         className="foresporsel-om-deling-av-cv__del-stilling-knapp"
@@ -228,19 +225,6 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             </Popover>
         </div>
     );
-};
-
-const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: string) => {
-    switch (svarfrist) {
-        case Svarfrist.ToDager:
-            return moment().add(3, 'days').startOf('day').toDate();
-        case Svarfrist.TreDager:
-            return moment().add(4, 'days').startOf('day').toDate();
-        case Svarfrist.SyvDager:
-            return moment().add(8, 'days').startOf('day').toDate();
-        case Svarfrist.Egenvalgt:
-            return moment(egenvalgtFrist).startOf('day').add(1, 'day').toDate();
-    }
 };
 
 export default ForespørselOmDelingAvCv;

@@ -6,6 +6,11 @@ export type ForespørselOutboundDto = {
     aktorIder: string[];
 };
 
+export type ResendForespørselOutboundDto = {
+    stillingsId: string;
+    svarfrist: Date;
+};
+
 type MedSvar = {
     tilstand: TilstandPåForespørsel.HarSvart;
     svar: SvarPåForespørsel;
