@@ -57,7 +57,7 @@ export const hentForespørselForKandidat = (
     aktørId: AktørId | null,
     forespørslerOmDelingAvCv: ForespørslerGruppertPåAktørId
 ): ForespørselOmDelingAvCv | undefined => {
-    return forespørslerOmDelingAvCv.data[aktørId!]?.gjeldendeForespørsel;
+    return aktørId === null ? undefined : forespørslerOmDelingAvCv[aktørId]?.gjeldendeForespørsel;
 };
 
 export type ForespørslerGruppertPåAktørId = {
