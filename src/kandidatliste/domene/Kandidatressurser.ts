@@ -1,6 +1,5 @@
 import { Nettressurs } from '../../api/Nettressurs';
-import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import { AktørId, Fødselsnummer, Kandidatnr } from './Kandidat';
+import { Fødselsnummer, Kandidatnr } from './Kandidat';
 
 export type Notat = {
     tekst: string;
@@ -43,5 +42,4 @@ export enum Visningsstatus {
 
 export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand>;
 export type Kandidatnotater = Record<Kandidatnr, Nettressurs<Notat[]>>;
-export type Kandidatforespørsler = Record<AktørId, ForespørselOmDelingAvCv[]>;
 export type Kandidatmeldinger = Record<Fødselsnummer, Sms>;
