@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
 import { Kandidat } from '../domene/Kandidat';
-import { Kandidatforespørsler } from '../domene/Kandidatressurser';
 import { sorteringsalgoritmer } from '../kandidatsortering';
-import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørselOmDelingAvCv,
+    ForespørslerGruppertPåAktørId,
+} from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
@@ -23,7 +25,7 @@ export type KandidatMedForespørsel = {
 
 const useSorterteKandidater = (
     kandidater: Kandidat[],
-    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>
+    forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>
 ): Returverdi => {
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
     const { sortering } = useSelector((state: AppState) => state.kandidatliste);
@@ -41,7 +43,7 @@ const useSorterteKandidater = (
             kandidat,
             forespørselOmDelingAvCv:
                 forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
-                    ? forespørslerOmDelingAvCv.data[kandidat.aktørid!]
+                    ? forespørslerOmDelingAvCv.data[kandidat.aktørid!].gjeldendeForespørsel
                     : undefined,
         }));
 

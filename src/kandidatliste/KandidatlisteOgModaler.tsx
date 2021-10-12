@@ -21,14 +21,10 @@ import { CvSøkeresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import {
-    Kandidatforespørsler,
-    Kandidatmeldinger,
-    Kandidattilstander,
-    SmsStatus,
-} from './domene/Kandidatressurser';
+import { Kandidatmeldinger, Kandidattilstander, SmsStatus } from './domene/Kandidatressurser';
 import './Kandidatliste.less';
 import Kandidatliste from './Kandidatliste';
+import { ForespørslerGruppertPåAktørId } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -60,7 +56,7 @@ type ConnectedProps = {
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     kandidattilstander: Kandidattilstander;
     sendteMeldinger: Nettressurs<Kandidatmeldinger>;
-    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>;
+    forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
 };
 
 type Props = ConnectedProps & OwnProps;
@@ -256,7 +252,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         return this.hentMarkerteKandidater().filter(
             (kandidat) =>
                 forespørsler.kind === Nettstatus.Suksess &&
-                forespørsler.data[kandidat.aktørid!]?.svar?.harSvartJa
+                forespørsler.data[kandidat.aktørid!].gjeldendeForespørsel?.svar?.harSvartJa
         );
     };
 

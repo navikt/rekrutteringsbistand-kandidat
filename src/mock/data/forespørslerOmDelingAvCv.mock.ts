@@ -2,15 +2,15 @@ import moment from 'moment';
 import {
     ForespørselDeltStatus,
     ForespørselOmDelingAvCv,
-    ForespørslerGruppertPåAktørId,
     IdentType,
     TilstandPåForespørsel,
 } from '../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { kandidatliste, kandidatlister } from './kandidatliste.mock';
 import { meg } from './veiledere.mock';
 import { kandidatlisterForKandidatMock } from './kandidatlister-for-kandidat.mock';
+import { AktørId } from '../../kandidatliste/domene/Kandidat';
 
-export const forespørslerOmDelingAvCv: ForespørslerGruppertPåAktørId = {
+export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]> = {
     [kandidatlister[0].kandidater[0].aktørid!]: [
         {
             aktørId: kandidatlister[0].kandidater[0].aktørid!,
@@ -40,6 +40,16 @@ export const forespørslerOmDelingAvCv: ForespørslerGruppertPåAktørId = {
                     identType: IdentType.AktørId,
                 },
             },
+        },
+        {
+            aktørId: kandidatlister[0].kandidater[2].aktørid!,
+            stillingsId: kandidatliste.stillingId!,
+            deltAv: meg.ident,
+            deltTidspunkt: moment().subtract(1, 'day').toISOString(),
+            deltStatus: ForespørselDeltStatus.IkkeSendt,
+            svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
+            tilstand: TilstandPåForespørsel.Avbrutt,
+            svar: null,
         },
     ],
 };

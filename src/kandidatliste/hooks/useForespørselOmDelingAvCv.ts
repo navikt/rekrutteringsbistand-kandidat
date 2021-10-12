@@ -21,7 +21,7 @@ const useForespørselOmDelingAvCv = (
     }
 
     if (forespørslerOmDelingAvCv.kind === Nettstatus.Suksess) {
-        const forespørselForKandidat = forespørslerOmDelingAvCv.data[aktørId];
+        const forespørselForKandidat = forespørslerOmDelingAvCv.data[aktørId]?.gjeldendeForespørsel;
 
         if (forespørselForKandidat) {
             return suksess(forespørselForKandidat);

@@ -1,16 +1,15 @@
 import React, { FunctionComponent } from 'react';
 import { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { Kandidatforespørsler } from '../domene/Kandidatressurser';
 import {
-    ForespørselOmDelingAvCv,
+    ForespørslerGruppertPåAktørId,
     TilstandPåForespørsel,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Kandidatliste } from '../domene/Kandidatliste';
-import { Kandidat } from '../domene/Kandidat';
+import useSlettedeKandidater from '../hooks/useIkkeSlettedeKandidater';
 import './FeilVedSendingAvForespørsel.less';
 
 type Props = {
-    forespørslerOmDelingAvCv: Kandidatforespørsler;
+    forespørslerOmDelingAvCv: ForespørslerGruppertPåAktørId;
     kandidatliste: Kandidatliste;
 };
 
@@ -18,33 +17,16 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
     forespørslerOmDelingAvCv,
     kandidatliste,
 }) => {
-    const kunForespørslerForAktiveKandidater = (
-        kandidater: Kandidat[],
-        forespørslerOmDelingAvCv: Kandidatforespørsler
-    ): Kandidatforespørsler => {
-        const aktiveForespørsler: Kandidatforespørsler = {};
-        const aktiveKandidater = kandidater
-            .filter((kandidat) => !kandidat.arkivert)
-            .map((kandidat) => kandidat.aktørid);
+    const slettedeKandidater = useSlettedeKandidater(kandidatliste.kandidater);
+    const forespørslerForAktiveKandidater = Object.entries(forespørslerOmDelingAvCv)
+        .filter(([aktørId]) => !slettedeKandidater.some((kandidat) => kandidat.aktørid === aktørId))
+        .map(([_, forespørsler]) => forespørsler.gjeldendeForespørsel);
 
-        const aktiveForespørsler: Kandidatforespørsler = {};
-        for (let key in forespørslerOmDelingAvCv) {
-            if (aktiveKandidater.includes(key)) {
-                aktiveForespørsler[key] = forespørslerOmDelingAvCv[key];
-            }
-        }
-
-        return aktiveForespørsler;
-    };
-
-    const verdier = Object.values(
-        kunForespørslerForAktiveKandidater(kandidatliste.kandidater, forespørslerOmDelingAvCv)
-    );
-
-    const antallBrukereDerKortetIkkeBleOpprettet = verdier.filter(
+    const antallBrukereDerKortetIkkeBleOpprettet = forespørslerForAktiveKandidater.filter(
         (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette
     );
-    const antallBrukereDerVeilederKanSvare = verdier.filter(
+
+    const antallBrukereDerVeilederKanSvare = forespørslerForAktiveKandidater.filter(
         (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeVarsle
     );
 

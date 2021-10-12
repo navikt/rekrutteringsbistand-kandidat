@@ -5,8 +5,8 @@ import {
     Hendelse,
     hentKandidatensSisteHendelse,
 } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
-import { Kandidatforespørsler } from '../domene/Kandidatressurser';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { ForespørslerGruppertPåAktørId } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export type AntallFiltertreff = {
     arkiverte: number;
@@ -16,7 +16,7 @@ export type AntallFiltertreff = {
 
 const useAntallFiltertreff = (
     kandidater: Kandidat[],
-    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>,
+    forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>,
     filter: Kandidatlistefilter
 ): AntallFiltertreff => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
@@ -67,7 +67,7 @@ const hentAntallMedStatus = (kandidater: Kandidat[]) => {
 
 const hentAntallMedHendelse = (
     kandidater: Kandidat[],
-    forespørslerOmDelingAvCv: Nettressurs<Kandidatforespørsler>
+    forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>
 ): Record<Hendelse, number> => {
     const antallMedHendelse: Record<string, number> = {};
     Object.values(Hendelse).forEach((hendelse) => {
@@ -78,7 +78,7 @@ const hentAntallMedHendelse = (
         const hendelse = hentKandidatensSisteHendelse(
             kandidat.utfall,
             forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
-                ? forespørslerOmDelingAvCv.data[kandidat.aktørid!]
+                ? forespørslerOmDelingAvCv.data[kandidat.aktørid!]?.gjeldendeForespørsel
                 : undefined
         );
 
