@@ -19,6 +19,10 @@ import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import AppState from '../../AppState';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './KnappeRad.less';
+import {
+    hentForespørselForKandidat,
+    TilstandPåForespørsel,
+} from './forespørsel-om-deling-av-cv/Forespørsel';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -53,11 +57,19 @@ const KnappeRad: FunctionComponent<Props> = ({
             (markertKandidat) => !sendteMeldinger.data[markertKandidat.fodselsnr!]
         );
 
-    const minstEnAvKandidateneHarSvartJa = markerteKandidater.some(
-        (markertKandidat) =>
-            forespørslerOmDelingAvCv.kind === Nettstatus.Suksess &&
-            forespørslerOmDelingAvCv.data[markertKandidat.aktørid!]?.svar?.harSvartJa
-    );
+    const minstEnAvKandidateneHarSvartJa =
+        forespørslerOmDelingAvCv.kind === Nettstatus.Suksess &&
+        markerteKandidater.some((markertKandidat) => {
+            const forespørsel = hentForespørselForKandidat(
+                markertKandidat.aktørid,
+                forespørslerOmDelingAvCv.data
+            );
+
+            return (
+                forespørsel?.tilstand === TilstandPåForespørsel.HarSvart &&
+                forespørsel.svar?.harSvartJa
+            );
+        });
 
     const skalViseEkstraKnapper =
         kandidatliste.kanEditere && erKobletTilStilling(kandidatliste) && !visArkiverte;

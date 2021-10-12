@@ -9,7 +9,10 @@ import {
     Nettstatus,
     suksess,
 } from '../../api/Nettressurs';
-import { ForespørselOmDelingAvCv } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import {
+    ForespørselOmDelingAvCv,
+    hentForespørselForKandidat,
+} from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 const useForespørselOmDelingAvCv = (
     aktørId: string | null
@@ -21,7 +24,10 @@ const useForespørselOmDelingAvCv = (
     }
 
     if (forespørslerOmDelingAvCv.kind === Nettstatus.Suksess) {
-        const forespørselForKandidat = forespørslerOmDelingAvCv.data[aktørId];
+        const forespørselForKandidat = hentForespørselForKandidat(
+            aktørId,
+            forespørslerOmDelingAvCv.data
+        );
 
         if (forespørselForKandidat) {
             return suksess(forespørselForKandidat);

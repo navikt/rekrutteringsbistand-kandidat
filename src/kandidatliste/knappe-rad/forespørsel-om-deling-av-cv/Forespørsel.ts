@@ -1,3 +1,5 @@
+import { AktørId } from '../../domene/Kandidat';
+
 export type ForespørselOutboundDto = {
     stillingsId: string;
     svarfrist: Date;
@@ -31,6 +33,39 @@ export enum TilstandPåForespørsel {
     HarSvart = 'HAR_SVART',
     Avbrutt = 'AVBRUTT',
 }
+
+export const separerGjeldendeForespørselFraRespons = (
+    forespørsler: Record<AktørId, ForespørselOmDelingAvCv[]>
+): ForespørslerGruppertPåAktørId => {
+    const gruppertPåAktørId = {};
+
+    Object.entries(forespørsler).forEach(([aktørId, forespørsler]) => {
+        const sorterteForespørsler = forespørsler.sort(
+            (f1, f2) => new Date(f2.deltTidspunkt).getTime() - new Date(f1.deltTidspunkt).getTime()
+        );
+
+        gruppertPåAktørId[aktørId] = {
+            gjeldendeForespørsel: sorterteForespørsler[0]!,
+            forespørsler: forespørsler,
+        };
+    });
+
+    return gruppertPåAktørId;
+};
+
+export const hentForespørselForKandidat = (
+    aktørId: AktørId | null,
+    forespørslerOmDelingAvCv: ForespørslerGruppertPåAktørId
+): ForespørselOmDelingAvCv | undefined => {
+    return aktørId === null ? undefined : forespørslerOmDelingAvCv[aktørId]?.gjeldendeForespørsel;
+};
+
+export type ForespørslerGruppertPåAktørId = {
+    [s: string]: {
+        gjeldendeForespørsel: ForespørselOmDelingAvCv;
+        forespørsler: ForespørselOmDelingAvCv[];
+    };
+};
 
 export type SvarPåForespørsel = {
     harSvartJa: boolean;
