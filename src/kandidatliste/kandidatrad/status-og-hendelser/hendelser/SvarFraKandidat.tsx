@@ -8,12 +8,15 @@ import {
     TilstandPåForespørsel,
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
+import { AddCircle } from '@navikt/ds-icons';
+import { Flatknapp } from 'nav-frontend-knapper';
 
 type Props = {
+    kanEndre: boolean;
     forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
 };
 
-const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv }) => {
+const SvarFraKandidat: FunctionComponent<Props> = ({ kanEndre, forespørselOmDelingAvCv }) => {
     if (forespørselOmDelingAvCv.kind === Nettstatus.FinnesIkke) {
         return (
             <Hendelse
@@ -61,7 +64,19 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
                     status={forespørselErUtløpt ? Hendelsesstatus.Blå : Hendelsesstatus.Hvit}
                     tittel="Svar fra kandidat om deling av CV"
                     beskrivelse={formaterSvarfrist(dagerTilSvarfristDesimal, tilstand)}
-                />
+                >
+                    {kanEndre && (
+                        <Flatknapp
+                            onClick={() => {}}
+                            className="endre-status-og-hendelser__del-på-nytt"
+                            kompakt
+                            mini
+                        >
+                            <AddCircle />
+                            Del på nytt
+                        </Flatknapp>
+                    )}
+                </Hendelse>
             );
         }
     }

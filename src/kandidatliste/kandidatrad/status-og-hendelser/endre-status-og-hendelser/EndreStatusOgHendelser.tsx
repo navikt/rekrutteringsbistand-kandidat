@@ -87,7 +87,10 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                             />
                         )}
                         {erIkkeProd && (
-                            <SvarFraKandidat forespørselOmDelingAvCv={forespørselOmDelingAvCv} />
+                            <SvarFraKandidat
+                                kanEndre
+                                forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                            />
                         )}
                         <DelCvMedArbeidsgiver
                             kanEndre
