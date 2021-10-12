@@ -19,7 +19,7 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             deltTidspunkt: new Date().toISOString(),
             deltStatus: ForespørselDeltStatus.Sendt,
             svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
-            tilstand: TilstandPåForespørsel.KanIkkeOpprette,
+            tilstand: TilstandPåForespørsel.Avbrutt,
             svar: null,
         },
     ],

@@ -32,19 +32,11 @@ const Hendelsesetikett: FunctionComponent<Props> = ({
     ikkeVisÅrstall,
 }) => {
     const hendelse = hentKandidatensSisteHendelse(utfall, forespørselOmDelingAvCv);
-    const cvDeltTidspunkt = hentSisteKandidatutfall(Kandidatutfall.Presentert, utfallsendringer);
-    const fåttJobbenTidspunkt = hentSisteKandidatutfall(
-        Kandidatutfall.FåttJobben,
-        utfallsendringer
-    );
-
     const label = hendelseTilLabel(
         hendelse,
         ikkeVisÅrstall || false,
-        cvDeltTidspunkt?.tidspunkt,
-        fåttJobbenTidspunkt?.tidspunkt,
-        forespørselOmDelingAvCv?.svar?.svarTidspunkt,
-        forespørselOmDelingAvCv?.svarfrist
+        utfallsendringer,
+        forespørselOmDelingAvCv
     );
 
     if (hendelse === Hendelse.NyKandidat) {
@@ -87,31 +79,43 @@ export const hentKandidatensSisteHendelse = (
 const hendelseTilLabel = (
     hendelse: Hendelse,
     ikkeVisÅrstall: boolean,
-    cvDeltTidspunkt?: string,
-    fåttJobbenTidspunkt?: string,
-    svarTidspunkt?: string | null,
-    svarfrist?: string
+    utfallsendringer: Utfallsendring[],
+    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv
 ) => {
+    const cvDeltTidspunkt = hentSisteKandidatutfall(Kandidatutfall.Presentert, utfallsendringer);
+    const fåttJobbenTidspunkt = hentSisteKandidatutfall(
+        Kandidatutfall.FåttJobben,
+        utfallsendringer
+    );
+
     const formaterSvarfrist = (dato: string) =>
         ikkeVisÅrstall ? formaterDatoUtenÅrstall(dato) : formaterDato(dato);
+
+    const svarfrist = forespørselOmDelingAvCv?.svarfrist;
 
     switch (hendelse) {
         case Hendelse.FåttJobben: {
             const label = 'Fått jobben';
             return fåttJobbenTidspunkt
-                ? label + ` – ${formaterSvarfrist(fåttJobbenTidspunkt)}`
+                ? label + ` – ${formaterSvarfrist(fåttJobbenTidspunkt.tidspunkt)}`
                 : label;
         }
         case Hendelse.CvDelt: {
             const label = 'CV delt';
-            return cvDeltTidspunkt ? label + ` – ${formaterSvarfrist(cvDeltTidspunkt)}` : label;
+            return cvDeltTidspunkt
+                ? label + ` – ${formaterSvarfrist(cvDeltTidspunkt.tidspunkt)}`
+                : label;
         }
         case Hendelse.DeltMedKandidat: {
             const dagerTilSvarfrist = Math.floor(moment(svarfrist).diff(moment(), 'days', true));
             const formatertSvarfrist =
                 svarfrist && formaterSvarfrist(moment(svarfrist).subtract(1, 'day').toISOString());
 
-            if (dagerTilSvarfrist < 0) {
+            if (
+                dagerTilSvarfrist < 0 ||
+                forespørselOmDelingAvCv?.tilstand === TilstandPåForespørsel.Avbrutt
+            ) {
+                // TODO: Høre med Malin for å dekke alle tilfeller
                 return 'Delt med kandidat, frist utløpt';
             } else if (dagerTilSvarfrist === 0) {
                 return `Delt med kandidat, frist i dag`;
@@ -120,10 +124,10 @@ const hendelseTilLabel = (
             }
         }
         case Hendelse.SvarJa: {
-            return `Svar: Ja – ${svarTidspunkt && formaterSvarfrist(svarTidspunkt)}`;
+            return `Svar: Ja – ${svarfrist && formaterSvarfrist(svarfrist)}`;
         }
         case Hendelse.SvarNei: {
-            return `Svar: Nei – ${svarTidspunkt && formaterSvarfrist(svarTidspunkt)}`;
+            return `Svar: Nei – ${svarfrist && formaterSvarfrist(svarfrist)}`;
         }
         default:
             return '';

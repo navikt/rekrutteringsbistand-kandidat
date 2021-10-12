@@ -50,15 +50,17 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
                 />
             );
         } else {
-            const svarfrist = forespørselOmDelingAvCv.data.svarfrist;
+            const { svarfrist, tilstand } = forespørselOmDelingAvCv.data;
+
             const dagerTilSvarfristDesimal = moment(svarfrist).diff(moment(), 'days', true);
+            const forespørselErUtløpt =
+                dagerTilSvarfristDesimal < 0 || tilstand === TilstandPåForespørsel.Avbrutt;
+
             return (
                 <Hendelse
-                    status={
-                        dagerTilSvarfristDesimal < 0 ? Hendelsesstatus.Blå : Hendelsesstatus.Hvit
-                    }
+                    status={forespørselErUtløpt ? Hendelsesstatus.Blå : Hendelsesstatus.Hvit}
                     tittel="Svar fra kandidat om deling av CV"
-                    beskrivelse={formaterSvarfrist(dagerTilSvarfristDesimal)}
+                    beskrivelse={formaterSvarfrist(dagerTilSvarfristDesimal, tilstand)}
                 />
             );
         }
@@ -67,7 +69,7 @@ const SvarFraKandidat: FunctionComponent<Props> = ({ forespørselOmDelingAvCv })
     return null;
 };
 
-const formaterSvarfrist = (dagerTilSvarfristDesimal: number) => {
+const formaterSvarfrist = (dagerTilSvarfristDesimal: number, tilstand: TilstandPåForespørsel) => {
     const dagerTilSvarfrist = Math.floor(dagerTilSvarfristDesimal);
 
     if (dagerTilSvarfristDesimal < 0) {
@@ -75,6 +77,10 @@ const formaterSvarfrist = (dagerTilSvarfristDesimal: number) => {
             ? 'Svarfristen utløp i går'
             : `Svarfristen utløp for ${dagerTilSvarfrist * -1} dager siden`;
     } else {
+        if (tilstand === TilstandPåForespørsel.Avbrutt) {
+            return 'Svarfristen er utløpt';
+        }
+
         return dagerTilSvarfrist === 0
             ? 'Svarfristen utløper i dag'
             : `Svarfristen utløper om ${dagerTilSvarfrist} dag${dagerTilSvarfrist > 1 ? 'er' : ''}`;
