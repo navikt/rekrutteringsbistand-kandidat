@@ -12,6 +12,9 @@ import VelgSvarfrist, {
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import { useDispatch } from 'react-redux';
+import { Feilmelding } from 'nav-frontend-typografi';
+import { SearchApiError } from '../../../../api/fetchUtils';
+import { Search } from '@navikt/ds-icons';
 
 type Props = {
     forespørselOmDelingAvCv: ForespørselOmDelingAvCv;
@@ -29,7 +32,8 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
     const [egenvalgtFristFeilmelding, setEgenvalgtFristFeilmelding] = useState<
         string | undefined
     >();
-    const [senderForespørselPåNytt, setSenderForespørselPåNytt] = useState(false)
+    const [senderForespørselPåNytt, setSenderForespørselPåNytt] = useState(false);
+    const [feilmelding, setFeilmelding] = useState<string | null>(null);
 
     const onDelPåNyttClick = async () => {
         if (egenvalgtFristFeilmelding) {
@@ -42,7 +46,7 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
         };
 
-        setSenderForespørselPåNytt(true)
+        setSenderForespørselPåNytt(true);
 
         try {
             const response = await resendForespørselOmDelingAvCv(aktørId, outboundDto);
@@ -51,12 +55,17 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
                 type: KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess,
                 forespørslerOmDelingAvCv: response,
             });
-
             onLukk();
         } catch (e) {
-            // TODO: Feilmelding
+            if (e instanceof SearchApiError) {
+                setFeilmelding(e.message);
+            } else {
+                setFeilmelding(
+                    'Klarte ikke å dele med kandidaten på nytt. Vennligst prøv igjen senere.'
+                );
+            }
         } finally {
-            setSenderForespørselPåNytt(false)
+            setSenderForespørselPåNytt(false);
         }
     };
 
@@ -101,6 +110,11 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
                     Avbryt
                 </Knapp>
             </div>
+            {feilmelding && (
+                <Feilmelding className="endre-status-og-hendelser__del_på-nytt-feilmelding">
+                    Feilmelding: {feilmelding}
+                </Feilmelding>
+            )}
         </Hendelse>
     );
 };
