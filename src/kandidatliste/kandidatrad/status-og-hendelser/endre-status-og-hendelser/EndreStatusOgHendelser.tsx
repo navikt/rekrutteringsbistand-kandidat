@@ -60,7 +60,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
         <div className="endre-status-og-hendelser">
             <div className="endre-status-og-hendelser__velg-status">
                 <RadioGruppe
-                    className="endre-status-og-hendelser__statustittel"
+                    className="endre-status-og-hendelser__statustittel blokk-xs"
                     legend="Velg status"
                 >
                     {statuser.map(([statusKey, statusValue]) => {
