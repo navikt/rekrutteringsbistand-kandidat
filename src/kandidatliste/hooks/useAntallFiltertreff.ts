@@ -8,7 +8,7 @@ import {
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import {
     ForespørslerGruppertPåAktørId,
-    hentForespørselForKandidat,
+    hentForespørslerForKandidatForStilling,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 export type AntallFiltertreff = {
@@ -81,7 +81,10 @@ const hentAntallMedHendelse = (
         const hendelse = hentKandidatensSisteHendelse(
             kandidat.utfall,
             forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
-                ? hentForespørselForKandidat(kandidat.aktørid, forespørslerOmDelingAvCv.data)
+                ? hentForespørslerForKandidatForStilling(
+                      kandidat.aktørid,
+                      forespørslerOmDelingAvCv.data
+                  )?.gjeldendeForespørsel
                 : undefined
         );
 

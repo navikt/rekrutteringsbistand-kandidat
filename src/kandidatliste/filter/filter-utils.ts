@@ -7,7 +7,7 @@ import {
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import {
     ForespørslerGruppertPåAktørId,
-    hentForespørselForKandidat,
+    hentForespørslerForKandidatForStilling,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 const QUERY_PARAM_SEPARATOR = '-';
@@ -49,10 +49,10 @@ export const filtrerKandidater = (
                     hentKandidatensSisteHendelse(
                         kandidat.utfall,
                         forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
-                            ? hentForespørselForKandidat(
+                            ? hentForespørslerForKandidatForStilling(
                                   kandidat.aktørid,
                                   forespørslerOmDelingAvCv.data
-                              )
+                              )?.gjeldendeForespørsel
                             : undefined
                     )
                 ]
