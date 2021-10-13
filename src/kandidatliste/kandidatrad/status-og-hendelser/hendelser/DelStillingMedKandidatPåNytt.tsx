@@ -68,6 +68,7 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
                 onSvarfristChange={onSvarfristChange}
                 onEgenvalgtFristChange={onEgenvalgtFristChange}
                 onEgenvalgtFristFeilmeldingChange={onEgenvalgtFristFeilmeldingChange}
+                egenvalgtFristFeilmelding={egenvalgtFristFeilmelding}
             />
             <div className="endre-status-og-hendelser__del-på-nytt-knapper">
                 <Hovedknapp
