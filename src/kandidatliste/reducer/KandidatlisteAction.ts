@@ -472,6 +472,11 @@ export interface ResetSendForespørselOmDelingAvCv {
     type: KandidatlisteActionType.ResetSendForespørselOmDelingAvCv;
 }
 
+export interface ResendForespørselOmDelingAvCvSuccess {
+    type: KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess;
+    forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]>;
+}
+
 export interface EndreKandidatlistefilterAction {
     type: KandidatlisteActionType.EndreKandidatlisteFilter;
     filter: Kandidatlistefilter;
@@ -589,6 +594,7 @@ type KandidatlisteAction =
     | SendForespørselOmDelingAvCvSuccess
     | SendForespørselOmDelingAvCvFailure
     | ResetSendForespørselOmDelingAvCv
+    | ResendForespørselOmDelingAvCvSuccess
     | EndreSortering;
 
 export default KandidatlisteAction;

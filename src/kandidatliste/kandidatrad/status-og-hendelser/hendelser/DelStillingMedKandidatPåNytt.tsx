@@ -10,6 +10,8 @@ import VelgSvarfrist, {
     Svarfrist,
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/VelgSvarfrist';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
+import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
+import { useDispatch } from 'react-redux';
 
 type Props = {
     forespørselOmDelingAvCv: ForespørselOmDelingAvCv;
@@ -20,6 +22,8 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
     forespørselOmDelingAvCv,
     onLukk,
 }) => {
+    const dispatch = useDispatch();
+
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
     const [egenvalgtFrist, setEgenvalgtFrist] = useState<string | undefined>();
     const [egenvalgtFristFeilmelding, setEgenvalgtFristFeilmelding] = useState<
@@ -39,7 +43,14 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
 
         const response = await resendForespørselOmDelingAvCv(aktørId, outboundDto);
 
-        console.log('Resend:', response);
+        dispatch({
+            type: KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess,
+            forespørslerOmDelingAvCv: response,
+        });
+
+        onLukk();
+
+        // TODO: Sad case
     };
 
     const onSvarfristChange = (event: ChangeEvent<HTMLInputElement>) => {

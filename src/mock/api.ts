@@ -78,6 +78,7 @@ const url = {
     forespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/:stillingsId`,
     forespørselOmDelingAvCvForKandidat: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
     postForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
+    postResendForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
 
     // Alternative backends
     sms: `${smsApi}/:kandidatlisteId`,
@@ -354,6 +355,13 @@ fetchMock
     .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }), {
         delay: 500,
     })
+    .post(
+        url.postResendForespørselOmDelingAvCv,
+        log({ body: forespørslerOmDelingAvCv, status: 201 }),
+        {
+            delay: 500,
+        }
+    )
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
 
     // Misc
