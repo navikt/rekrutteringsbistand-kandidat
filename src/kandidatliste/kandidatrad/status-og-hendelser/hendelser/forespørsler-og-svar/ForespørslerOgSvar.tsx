@@ -50,14 +50,23 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
             />
         );
 
-        console.log('EEH:', forespørsler.data);
-
         gamleForespørsler.forEach((gammelForespørsel) => {
+            if (gammelForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
+                hendelser.push(<SvarFraKandidat kanEndre svar={gammelForespørsel.svar} />);
+            } else {
+                hendelser.push(
+                    <IngenSvarFraKandidat
+                        tilstand={gammelForespørsel.tilstand}
+                        svarfrist={gammelForespørsel.svarfrist}
+                    />
+                );
+            }
+
             hendelser.push(
-                <>
-                    <div>svar på gammel forespørsel</div>
-                    <div>forespørsel er sendt på nytt</div>
-                </>
+                <ForespørselErSendt
+                    erFørsteForespørsel={false}
+                    forespørselOmDelingAvCv={gammelForespørsel}
+                />
             );
         });
 

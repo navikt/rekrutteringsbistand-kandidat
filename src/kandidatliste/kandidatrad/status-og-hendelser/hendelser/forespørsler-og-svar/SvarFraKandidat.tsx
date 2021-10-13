@@ -9,7 +9,6 @@ import Hendelse, { Hendelsesstatus } from '../Hendelse';
 type Props = {
     kanEndre: boolean;
     svar: SvarPåForespørsel;
-    onDelPåNyttClick?: () => void;
 };
 
 const SvarFraKandidat: FunctionComponent<Props> = ({ svar, children }) => {
