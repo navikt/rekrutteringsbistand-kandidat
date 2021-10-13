@@ -54,7 +54,9 @@ const Hendelse: FunctionComponent<Props> = ({
                 {(tittel || beskrivelse) && (
                     <div className="hendelse__tekst">
                         {tittel && <Element tag="h3">{tittel}</Element>}
-                        {beskrivelse && <Undertekst>{beskrivelse}</Undertekst>}
+                        {beskrivelse && (
+                            <Undertekst className="hendelse__beskrivelse">{beskrivelse}</Undertekst>
+                        )}
                     </div>
                 )}
                 <div className="hendelse__children">{children}</div>

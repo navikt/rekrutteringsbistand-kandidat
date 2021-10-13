@@ -22,7 +22,10 @@ import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandida
 import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
 import { meg } from './data/veiledere.mock';
-import {forespørslerOmDelingAvCv, forespørslerOmDelingAvCvForKandidat} from './data/forespørslerOmDelingAvCv.mock';
+import {
+    forespørslerOmDelingAvCv,
+    forespørslerOmDelingAvCvForKandidat,
+} from './data/forespørslerOmDelingAvCv.mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import {
     KANDIDATSOK_API,
@@ -75,6 +78,7 @@ const url = {
     forespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/:stillingsId`,
     forespørselOmDelingAvCvForKandidat: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
     postForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
+    postResendForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
 
     // Alternative backends
     sms: `${smsApi}/:kandidatlisteId`,
@@ -348,9 +352,16 @@ fetchMock
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
     .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
     .get(url.forespørselOmDelingAvCvForKandidat, log(forespørslerOmDelingAvCvForKandidat))
-    .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCvForKandidat, status: 201 }), {
-        delay: 1000,
+    .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }), {
+        delay: 500,
     })
+    .post(
+        url.postResendForespørselOmDelingAvCv,
+        log({ body: forespørslerOmDelingAvCv, status: 201 }),
+        {
+            delay: 500,
+        }
+    )
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
 
     // Misc

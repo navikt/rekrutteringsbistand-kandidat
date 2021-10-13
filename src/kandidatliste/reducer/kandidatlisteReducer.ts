@@ -643,6 +643,14 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     data: separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv),
                 },
             };
+        case KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess:
+            return {
+                ...state,
+                forespørslerOmDelingAvCv: {
+                    kind: Nettstatus.Suksess,
+                    data: separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv),
+                },
+            };
         case KandidatlisteActionType.HentForespørslerOmDelingAvCvFailure:
             return {
                 ...state,

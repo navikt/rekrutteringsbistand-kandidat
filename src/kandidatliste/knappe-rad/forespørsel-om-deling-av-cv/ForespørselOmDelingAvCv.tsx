@@ -1,11 +1,8 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
-import { Datepicker } from 'nav-datovelger';
+import { useDispatch, useSelector } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Radio, RadioGruppe, SkjemaGruppe } from 'nav-frontend-skjema';
-import { useDispatch, useSelector } from 'react-redux';
 import AlertStripe, { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
-import moment from 'moment';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { ForespørselOutboundDto } from './Forespørsel';
@@ -18,21 +15,8 @@ import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
+import VelgSvarfrist, { lagSvarfristPåSekundet, Svarfrist } from './VelgSvarfrist';
 import './ForespørselOmDelingAvCv.less';
-
-enum Svarfrist {
-    ToDager = 'TO_DAGER',
-    TreDager = 'TRE_DAGER',
-    SyvDager = 'SYV_DAGER',
-    Egenvalgt = 'EGENVALGT',
-}
-
-const svarfristLabels: Record<Svarfrist, string> = {
-    [Svarfrist.ToDager]: '2 dager',
-    [Svarfrist.TreDager]: '3 dager',
-    [Svarfrist.SyvDager]: '7 dager',
-    [Svarfrist.Egenvalgt]: 'Velg dato',
-};
 
 type Props = {
     stillingsId: string;
@@ -103,17 +87,11 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     };
 
     const onEgenvalgtFristChange = (dato?: string) => {
-        if (!dato || dato === 'Invalid date') {
-            setEgenvalgtFristFeilmelding('Feil datoformat, skriv inn dd.mm.åååå');
-        } else if (moment(dato).isBefore(minDatoForEgenvalgtFrist)) {
-            setEgenvalgtFristFeilmelding('Svarfristen må settes minst to dager frem i tid.');
-        } else if (moment(dato).isAfter(maksDatoForEgenvalgtFrist)) {
-            setEgenvalgtFristFeilmelding(`Svarfristen må være før ${førsteUgyldigeMaksDato}`);
-        } else {
-            setEgenvalgtFristFeilmelding(undefined);
-        }
-
         setEgenvalgtFrist(dato);
+    };
+
+    const onEgenvalgtFristFeilmeldingChange = (feilmelding?: string) => {
+        setEgenvalgtFristFeilmelding(feilmelding);
     };
 
     const lukkKanIkkeDelePopover = () => {
@@ -204,58 +182,14 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         annonseteksten er informativ og lett å forstå.
                     </Element>
                 </AlertStripe>
-                <RadioGruppe
-                    className="foresporsel-om-deling-av-cv__radiogruppe"
-                    legend={
-                        <>
-                            <Element tag="span">Frist for svar</Element>
-                            <Normaltekst tag="span"> (må fylles ut)</Normaltekst>
-                        </>
-                    }
-                    description="Kandidatene kan ikke svare etter denne fristen"
-                >
-                    {Object.values(Svarfrist).map((value) => (
-                        <Radio
-                            key={value}
-                            label={
-                                <span id={`svarfrist-label_${value}`}>
-                                    {`${svarfristLabels[value]} ${lagBeskrivelseAvSvarfrist(
-                                        value
-                                    )}`}
-                                </span>
-                            }
-                            name="svarfrist"
-                            value={value}
-                            checked={svarfrist === value}
-                            onChange={onSvarfristChange}
-                        />
-                    ))}
-                </RadioGruppe>
-                {svarfrist === Svarfrist.Egenvalgt && (
-                    <SkjemaGruppe
-                        className="foresporsel-om-deling-av-cv__velg-svarfrist"
-                        legend={<Element>Velg frist for svar (Frist ut valgt dato)</Element>}
-                        feil={egenvalgtFristFeilmelding}
-                    >
-                        <Datepicker
-                            locale="nb"
-                            inputProps={{
-                                placeholder: 'dd.mm.åååå',
-                                'aria-invalid': egenvalgtFristFeilmelding !== undefined,
-                            }}
-                            value={egenvalgtFrist}
-                            limitations={{
-                                minDate: minDatoForEgenvalgtFrist,
-                                maxDate: maksDatoForEgenvalgtFrist,
-                            }}
-                            onChange={onEgenvalgtFristChange}
-                            calendarSettings={{
-                                showWeekNumbers: true,
-                                position: 'fullscreen',
-                            }}
-                        />
-                    </SkjemaGruppe>
-                )}
+                <VelgSvarfrist
+                    svarfrist={svarfrist}
+                    onSvarfristChange={onSvarfristChange}
+                    egenvalgtFrist={egenvalgtFrist}
+                    egenvalgtFristFeilmelding={egenvalgtFristFeilmelding}
+                    onEgenvalgtFristChange={onEgenvalgtFristChange}
+                    onEgenvalgtFristFeilmeldingChange={onEgenvalgtFristFeilmeldingChange}
+                />
                 <div className="foresporsel-om-deling-av-cv__knapper">
                     <Hovedknapp
                         className="foresporsel-om-deling-av-cv__del-stilling-knapp"
@@ -292,44 +226,5 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         </div>
     );
 };
-
-const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
-    const idag = moment();
-
-    if (svarfrist === Svarfrist.ToDager) {
-        idag.add(2, 'days');
-    } else if (svarfrist === Svarfrist.TreDager) {
-        idag.add(3, 'days');
-    } else if (svarfrist === Svarfrist.SyvDager) {
-        idag.add(7, 'days');
-    } else {
-        return '';
-    }
-
-    const frist = idag.toDate().toLocaleString('nb-NO', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-    });
-
-    return `(Frist ut ${frist})`;
-};
-
-const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: string) => {
-    switch (svarfrist) {
-        case Svarfrist.ToDager:
-            return moment().add(3, 'days').startOf('day').toDate();
-        case Svarfrist.TreDager:
-            return moment().add(4, 'days').startOf('day').toDate();
-        case Svarfrist.SyvDager:
-            return moment().add(8, 'days').startOf('day').toDate();
-        case Svarfrist.Egenvalgt:
-            return moment(egenvalgtFrist).startOf('day').add(1, 'day').toDate();
-    }
-};
-
-const minDatoForEgenvalgtFrist = moment().add(2, 'days').format('YYYY-MM-DD');
-const maksDatoForEgenvalgtFrist = moment().add(1, 'month').format('YYYY-MM-DD');
-const førsteUgyldigeMaksDato = moment().add(1, 'month').add(1, 'day').format('DD.MM.YYYY');
 
 export default ForespørselOmDelingAvCv;

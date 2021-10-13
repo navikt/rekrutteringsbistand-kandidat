@@ -10,9 +10,10 @@ import DelStillingMedKandidat from '../hendelser/DelStillingMedKandidat';
 import { statusToDisplayName } from '../etiketter/StatusEtikett';
 import { erIkkeProd } from '../../../../utils/featureToggleUtils';
 import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import { Nettressurs } from '../../../../api/Nettressurs';
+import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
 import NyKandidat from '../hendelser/NyKandidat';
 import SvarFraKandidat from '../hendelser/SvarFraKandidat';
+import DelStillingMedKandidatPåNytt from '../hendelser/DelStillingMedKandidatPåNytt';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
@@ -37,6 +38,9 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidatlistenErKobletTilStilling,
 }) => {
     const [status, setStatus] = useState(kandidat.status);
+    const [visStegForÅDelePåNytt, setVisStegForÅDelePåNytt] = useState(false);
+
+    // TODO: Lytt til resendForespørsel og skjul steg for å dele på nytt ved suksess.
 
     const statuser = Object.entries(Kandidatstatus);
 
@@ -44,11 +48,19 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
         onStatusChange(status);
     };
 
+    const onDelPåNyttClick = () => {
+        setVisStegForÅDelePåNytt(true);
+    };
+
+    const onDelPåNyttLukk = () => {
+        setVisStegForÅDelePåNytt(false);
+    };
+
     return (
         <div className="endre-status-og-hendelser">
             <div className="endre-status-og-hendelser__velg-status">
                 <RadioGruppe
-                    className="endre-status-og-hendelser__statustittel"
+                    className="endre-status-og-hendelser__statustittel blokk-xs"
                     legend="Velg status"
                 >
                     {statuser.map(([statusKey, statusValue]) => {
@@ -90,10 +102,17 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                             <SvarFraKandidat
                                 kanEndre
                                 forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                                onDelPåNyttClick={() => {}}
+                                onDelPåNyttClick={onDelPåNyttClick}
                             />
                         )}
-                        {/* TODO: Vis steg for å dele på nytt */}
+                        {erIkkeProd &&
+                            visStegForÅDelePåNytt &&
+                            forespørselOmDelingAvCv.kind === Nettstatus.Suksess && (
+                                <DelStillingMedKandidatPåNytt
+                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv.data}
+                                    onLukk={onDelPåNyttLukk}
+                                />
+                            )}
                         <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}

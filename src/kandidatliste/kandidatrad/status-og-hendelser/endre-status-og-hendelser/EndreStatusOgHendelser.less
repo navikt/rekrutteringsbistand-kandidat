@@ -1,5 +1,8 @@
+@hoydePopup: max(34vh, 24rem);
+
 .endre-status-og-hendelser {
     display: flex;
+    height: @hoydePopup;
 
     &__velg-status {
         margin-right: 5rem;
@@ -12,10 +15,16 @@
         }
     }
 
+    &__hendelser {
+        max-height: 100%;
+    }
+
     &__hendelsesliste {
         list-style-type: none;
-        padding-left: 0;
-        max-width: 28rem;
+        padding: 0 0.25rem;
+        max-width: 28.5rem;
+        overflow-y: scroll;
+        max-height: calc(@hoydePopup - 3rem);
     }
 
     &__registrer-hendelse,
@@ -31,7 +40,20 @@
         }
     }
 
-    &__bekreft-knapp {
+    &__del-på-nytt-knapper {
+        margin-top: 1rem;
+    }
+
+    &__bekreft-knapp,
+    &__del-på-nytt-knapp {
         margin-right: 0.5rem;
+    }
+
+    &__del_på-nytt-feilmelding {
+        margin-top: 0.5rem !important;
+    }
+
+    .skjemaelement {
+        margin-bottom: 0.5rem !important;
     }
 }
