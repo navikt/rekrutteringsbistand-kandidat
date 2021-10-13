@@ -14,7 +14,6 @@ import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import { useDispatch } from 'react-redux';
 import { Feilmelding } from 'nav-frontend-typografi';
 import { SearchApiError } from '../../../../api/fetchUtils';
-import { Search } from '@navikt/ds-icons';
 
 type Props = {
     forespørselOmDelingAvCv: ForespørselOmDelingAvCv;
