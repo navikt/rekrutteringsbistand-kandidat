@@ -1,6 +1,8 @@
+@hoydePopup: 34vh;
+
 .endre-status-og-hendelser {
     display: flex;
-    max-height: 40vh;
+    height: @hoydePopup;
 
     &__velg-status {
         margin-right: 5rem;
@@ -14,13 +16,15 @@
     }
 
     &__hendelser {
-        overflow: hidden;
+        max-height: 100%;
     }
 
     &__hendelsesliste {
         list-style-type: none;
-        padding-left: 0;
-        max-width: 28rem;
+        padding: 0 0.25rem;
+        max-width: 28.5rem;
+        overflow-y: scroll;
+        max-height: calc(@hoydePopup - 3rem);
     }
 
     &__registrer-hendelse,
