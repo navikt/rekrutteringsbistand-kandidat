@@ -29,6 +29,7 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
     const [egenvalgtFristFeilmelding, setEgenvalgtFristFeilmelding] = useState<
         string | undefined
     >();
+    const [senderForespørselPåNytt, setSenderForespørselPåNytt] = useState(false)
 
     const onDelPåNyttClick = async () => {
         if (egenvalgtFristFeilmelding) {
@@ -41,16 +42,22 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
         };
 
-        const response = await resendForespørselOmDelingAvCv(aktørId, outboundDto);
+        setSenderForespørselPåNytt(true)
 
-        dispatch({
-            type: KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess,
-            forespørslerOmDelingAvCv: response,
-        });
+        try {
+            const response = await resendForespørselOmDelingAvCv(aktørId, outboundDto);
 
-        onLukk();
+            dispatch({
+                type: KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess,
+                forespørslerOmDelingAvCv: response,
+            });
 
-        // TODO: Sad case
+            onLukk();
+        } catch (e) {
+            // TODO: Feilmelding
+        } finally {
+            setSenderForespørselPåNytt(false)
+        }
     };
 
     const onSvarfristChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -86,6 +93,7 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
                     className="endre-status-og-hendelser__del-på-nytt-knapp"
                     mini
                     onClick={onDelPåNyttClick}
+                    spinner={senderForespørselPåNytt}
                 >
                     Del på nytt
                 </Hovedknapp>
