@@ -59,20 +59,28 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
             renderChildrenBelowContent
             status={Hendelsesstatus.Hvit}
             tittel="Del stillingen med kandidaten på nytt"
+            beskrivelse="Fristen er utløpt, og kandidaten har ikke svart. Du bør kontakte kandidaten før du deler på nytt."
         >
             <VelgSvarfrist
+                tittel="Ny frist for svar"
                 svarfrist={svarfrist}
                 egenvalgtFrist={egenvalgtFrist}
                 onSvarfristChange={onSvarfristChange}
                 onEgenvalgtFristChange={onEgenvalgtFristChange}
                 onEgenvalgtFristFeilmeldingChange={onEgenvalgtFristFeilmeldingChange}
             />
-            <Hovedknapp mini onClick={onDelPåNyttClick}>
-                Del på nytt
-            </Hovedknapp>
-            <Knapp mini onClick={onLukk}>
-                Avbryt
-            </Knapp>
+            <div className="endre-status-og-hendelser__del-på-nytt-knapper">
+                <Hovedknapp
+                    className="endre-status-og-hendelser__del-på-nytt-knapp"
+                    mini
+                    onClick={onDelPåNyttClick}
+                >
+                    Del på nytt
+                </Hovedknapp>
+                <Knapp mini onClick={onLukk}>
+                    Avbryt
+                </Knapp>
+            </div>
         </Hendelse>
     );
 };

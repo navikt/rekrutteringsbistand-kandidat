@@ -19,6 +19,7 @@ const svarfristLabels: Record<Svarfrist, string> = {
 };
 
 type Props = {
+    tittel?: string;
     svarfrist: Svarfrist;
     onSvarfristChange: (event: ChangeEvent<HTMLInputElement>) => void;
     egenvalgtFrist?: string;
@@ -28,6 +29,7 @@ type Props = {
 };
 
 const VelgSvarfrist: FunctionComponent<Props> = ({
+    tittel,
     svarfrist,
     onSvarfristChange,
     egenvalgtFrist,
@@ -55,7 +57,7 @@ const VelgSvarfrist: FunctionComponent<Props> = ({
                 className="foresporsel-om-deling-av-cv__radiogruppe"
                 legend={
                     <>
-                        <Element tag="span">Frist for svar</Element>
+                        <Element tag="span">{tittel || 'Frist for svar'}</Element>
                         <Normaltekst tag="span"> (må fylles ut)</Normaltekst>
                     </>
                 }
