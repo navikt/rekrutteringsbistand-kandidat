@@ -31,15 +31,8 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             deltTidspunkt: moment().subtract(2, 'days').toISOString(),
             deltStatus: ForespørselDeltStatus.IkkeSendt,
             svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
-            tilstand: TilstandPåForespørsel.HarSvart,
-            svar: {
-                harSvartJa: false,
-                svarTidspunkt: moment().subtract(1, 'day').startOf('day').toISOString(),
-                svartAv: {
-                    ident: kandidatlister[0].kandidater[2].aktørid!,
-                    identType: IdentType.AktørId,
-                },
-            },
+            tilstand: TilstandPåForespørsel.Avbrutt,
+            svar: null,
         },
         {
             aktørId: kandidatlister[0].kandidater[2].aktørid!,
@@ -50,7 +43,7 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
             tilstand: TilstandPåForespørsel.HarSvart,
             svar: {
-                harSvartJa: true,
+                harSvartJa: false,
                 svarTidspunkt: moment().startOf('day').toISOString(),
                 svartAv: {
                     ident: kandidatlister[0].kandidater[2].aktørid!,

@@ -43,16 +43,17 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
     }
 
     const { gjeldendeForespørsel, gamleForespørsler } = forespørsler.data;
-    const førsteForespørsel =
-        gamleForespørsler.length > 0 ? gamleForespørsler[0] : gjeldendeForespørsel;
 
     const hendelser: ReactNode[] = [];
 
-    hendelser.push(
-        <ForespørselErSendt erFørsteForespørsel forespørselOmDelingAvCv={førsteForespørsel} />
-    );
+    gamleForespørsler.forEach((gammelForespørsel, index) => {
+        hendelser.push(
+            <ForespørselErSendt
+                erFørsteForespørsel={index === 0}
+                forespørselOmDelingAvCv={gammelForespørsel}
+            />
+        );
 
-    gamleForespørsler.forEach((gammelForespørsel) => {
         if (gammelForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
             hendelser.push(<SvarFraKandidat kanEndre svar={gammelForespørsel.svar} />);
         } else {
@@ -63,14 +64,14 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
                 />
             );
         }
-
-        hendelser.push(
-            <ForespørselErSendt
-                erFørsteForespørsel={false}
-                forespørselOmDelingAvCv={gammelForespørsel}
-            />
-        );
     });
+
+    hendelser.push(
+        <ForespørselErSendt
+            erFørsteForespørsel={gamleForespørsler.length === 0}
+            forespørselOmDelingAvCv={gjeldendeForespørsel}
+        />
+    );
 
     if (gjeldendeForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
         hendelser.push(
