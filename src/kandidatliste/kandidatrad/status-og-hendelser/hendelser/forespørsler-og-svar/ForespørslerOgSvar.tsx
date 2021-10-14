@@ -43,56 +43,43 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
     }
 
     const { gjeldendeForespørsel, gamleForespørsler } = forespørsler.data;
+    const alleForespørsler = [...gamleForespørsler, gjeldendeForespørsel];
 
     const hendelser: ReactNode[] = [];
 
-    gamleForespørsler.forEach((gammelForespørsel, index) => {
+    alleForespørsler.forEach((forespørsel, index) => {
         hendelser.push(
             <ForespørselErSendt
                 erFørsteForespørsel={index === 0}
-                forespørselOmDelingAvCv={gammelForespørsel}
+                forespørselOmDelingAvCv={forespørsel}
             />
         );
 
-        if (gammelForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
-            hendelser.push(<SvarFraKandidat kanEndre svar={gammelForespørsel.svar} />);
+        const erGjeldendeForespørsel = forespørsel === gjeldendeForespørsel;
+        const visKnappForÅDelePåNytt =
+            kanEndre && erGjeldendeForespørsel && kanResendeForespørsel(forespørsel);
+
+        if (forespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
+            hendelser.push(
+                <SvarFraKandidat kanEndre svar={forespørsel.svar}>
+                    {visKnappForÅDelePåNytt && (
+                        <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
+                    )}
+                </SvarFraKandidat>
+            );
         } else {
             hendelser.push(
                 <IngenSvarFraKandidat
-                    tilstand={gammelForespørsel.tilstand}
-                    svarfrist={gammelForespørsel.svarfrist}
-                />
+                    tilstand={forespørsel.tilstand}
+                    svarfrist={forespørsel.svarfrist}
+                >
+                    {visKnappForÅDelePåNytt && (
+                        <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
+                    )}
+                </IngenSvarFraKandidat>
             );
         }
     });
-
-    hendelser.push(
-        <ForespørselErSendt
-            erFørsteForespørsel={gamleForespørsler.length === 0}
-            forespørselOmDelingAvCv={gjeldendeForespørsel}
-        />
-    );
-
-    if (gjeldendeForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
-        hendelser.push(
-            <SvarFraKandidat kanEndre={kanEndre} svar={gjeldendeForespørsel.svar}>
-                {kanEndre && kanResendeForespørsel(gjeldendeForespørsel) && (
-                    <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
-                )}
-            </SvarFraKandidat>
-        );
-    } else {
-        hendelser.push(
-            <IngenSvarFraKandidat
-                tilstand={gjeldendeForespørsel.tilstand}
-                svarfrist={gjeldendeForespørsel.svarfrist}
-            >
-                {kanEndre && kanResendeForespørsel(gjeldendeForespørsel) && (
-                    <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
-                )}
-            </IngenSvarFraKandidat>
-        );
-    }
 
     if (visStegForÅDelePåNytt) {
         hendelser.push(
