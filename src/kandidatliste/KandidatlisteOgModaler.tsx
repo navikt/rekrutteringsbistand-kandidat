@@ -256,7 +256,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             (kandidat) =>
                 forespørsler.kind === Nettstatus.Suksess &&
                 hentForespørslerForKandidatForStilling(kandidat.aktørid, forespørsler.data)
-                    ?.gjeldendeForespørsel.svar?.harSvartJa
+                    ?.gjeldendeForespørsel?.svar?.harSvartJa
         );
     };
 
