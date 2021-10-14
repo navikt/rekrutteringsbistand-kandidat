@@ -38,72 +38,71 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
         );
     }
 
-    if (forespørsler.kind === Nettstatus.Suksess) {
-        const { gjeldendeForespørsel, gamleForespørsler } = forespørsler.data;
+    if (forespørsler.kind !== Nettstatus.Suksess) {
+        return null;
+    }
 
-        const hendelser: ReactNode[] = [];
+    const { gjeldendeForespørsel, gamleForespørsler } = forespørsler.data;
+    const førsteForespørsel =
+        gamleForespørsler.length > 0 ? gamleForespørsler[0] : gjeldendeForespørsel;
 
-        hendelser.push(
-            <ForespørselErSendt
-                erFørsteForespørsel
-                forespørselOmDelingAvCv={gjeldendeForespørsel}
-            />
-        );
+    const hendelser: ReactNode[] = [];
 
-        gamleForespørsler.forEach((gammelForespørsel) => {
-            if (gammelForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
-                hendelser.push(<SvarFraKandidat kanEndre svar={gammelForespørsel.svar} />);
-            } else {
-                hendelser.push(
-                    <IngenSvarFraKandidat
-                        tilstand={gammelForespørsel.tilstand}
-                        svarfrist={gammelForespørsel.svarfrist}
-                    />
-                );
-            }
+    hendelser.push(
+        <ForespørselErSendt erFørsteForespørsel forespørselOmDelingAvCv={førsteForespørsel} />
+    );
 
-            hendelser.push(
-                <ForespørselErSendt
-                    erFørsteForespørsel={false}
-                    forespørselOmDelingAvCv={gammelForespørsel}
-                />
-            );
-        });
-
-        if (gjeldendeForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
-            hendelser.push(
-                <SvarFraKandidat kanEndre={kanEndre} svar={gjeldendeForespørsel.svar}>
-                    {kanEndre && kanResendeForespørsel(gjeldendeForespørsel) && (
-                        <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
-                    )}
-                </SvarFraKandidat>
-            );
+    gamleForespørsler.forEach((gammelForespørsel) => {
+        if (gammelForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
+            hendelser.push(<SvarFraKandidat kanEndre svar={gammelForespørsel.svar} />);
         } else {
             hendelser.push(
                 <IngenSvarFraKandidat
-                    tilstand={gjeldendeForespørsel.tilstand}
-                    svarfrist={gjeldendeForespørsel.svarfrist}
-                >
-                    {kanEndre && kanResendeForespørsel(gjeldendeForespørsel) && (
-                        <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
-                    )}
-                </IngenSvarFraKandidat>
-            );
-        }
-
-        if (visStegForÅDelePåNytt) {
-            hendelser.push(
-                <SendForespørselPåNytt
-                    gjeldendeForespørsel={gjeldendeForespørsel}
-                    onLukk={onDelPåNyttLukk}
+                    tilstand={gammelForespørsel.tilstand}
+                    svarfrist={gammelForespørsel.svarfrist}
                 />
             );
         }
 
-        return <>{hendelser}</>;
+        hendelser.push(
+            <ForespørselErSendt
+                erFørsteForespørsel={false}
+                forespørselOmDelingAvCv={gammelForespørsel}
+            />
+        );
+    });
+
+    if (gjeldendeForespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
+        hendelser.push(
+            <SvarFraKandidat kanEndre={kanEndre} svar={gjeldendeForespørsel.svar}>
+                {kanEndre && kanResendeForespørsel(gjeldendeForespørsel) && (
+                    <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
+                )}
+            </SvarFraKandidat>
+        );
+    } else {
+        hendelser.push(
+            <IngenSvarFraKandidat
+                tilstand={gjeldendeForespørsel.tilstand}
+                svarfrist={gjeldendeForespørsel.svarfrist}
+            >
+                {kanEndre && kanResendeForespørsel(gjeldendeForespørsel) && (
+                    <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
+                )}
+            </IngenSvarFraKandidat>
+        );
     }
 
-    return null;
+    if (visStegForÅDelePåNytt) {
+        hendelser.push(
+            <SendForespørselPåNytt
+                gjeldendeForespørsel={gjeldendeForespørsel}
+                onLukk={onDelPåNyttLukk}
+            />
+        );
+    }
+
+    return <>{hendelser}</>;
 };
 
 export default ForespørslerOgSvar;

@@ -34,7 +34,7 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             tilstand: TilstandPåForespørsel.HarSvart,
             svar: {
                 harSvartJa: false,
-                svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
+                svarTidspunkt: moment().subtract(1, 'day').startOf('day').toISOString(),
                 svartAv: {
                     ident: kandidatlister[0].kandidater[2].aktørid!,
                     identType: IdentType.AktørId,
@@ -51,7 +51,7 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             tilstand: TilstandPåForespørsel.HarSvart,
             svar: {
                 harSvartJa: true,
-                svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
+                svarTidspunkt: moment().startOf('day').toISOString(),
                 svartAv: {
                     ident: kandidatlister[0].kandidater[2].aktørid!,
                     identType: IdentType.AktørId,
