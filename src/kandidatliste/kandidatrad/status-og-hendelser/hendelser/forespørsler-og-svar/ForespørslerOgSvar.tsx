@@ -57,7 +57,10 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
 
         const erGjeldendeForespørsel = forespørsel === gjeldendeForespørsel;
         const visKnappForÅDelePåNytt =
-            kanEndre && erGjeldendeForespørsel && kanResendeForespørsel(forespørsel);
+            !visStegForÅDelePåNytt &&
+            kanEndre &&
+            erGjeldendeForespørsel &&
+            kanResendeForespørsel(forespørsel);
 
         if (forespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
             hendelser.push(
