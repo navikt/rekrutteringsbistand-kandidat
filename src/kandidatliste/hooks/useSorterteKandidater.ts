@@ -7,7 +7,7 @@ import { sorteringsalgoritmer } from '../kandidatsortering';
 import {
     ForespørselOmDelingAvCv,
     ForespørslerGruppertPåAktørId,
-    hentForespørselForKandidat,
+    hentForespørslerForKandidatForStilling,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
@@ -44,7 +44,10 @@ const useSorterteKandidater = (
             kandidat,
             forespørselOmDelingAvCv:
                 forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
-                    ? hentForespørselForKandidat(kandidat.aktørid, forespørslerOmDelingAvCv.data)
+                    ? hentForespørslerForKandidatForStilling(
+                          kandidat.aktørid,
+                          forespørslerOmDelingAvCv.data
+                      )?.gjeldendeForespørsel
                     : undefined,
         }));
 

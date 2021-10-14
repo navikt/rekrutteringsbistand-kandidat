@@ -1,16 +1,16 @@
+import React, { FunctionComponent, useState } from 'react';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import { Normaltekst } from 'nav-frontend-typografi';
-import React, { FunctionComponent, useState } from 'react';
 import { MouseEvent } from 'react';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import {
-    ForespørselOmDelingAvCv,
+    ForespørslerForKandidatForStilling,
     TilstandPåForespørsel,
 } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './StatusPåForespørselOmDelingAvCv.less';
 
 type Props = {
-    forespørsel: Nettressurs<ForespørselOmDelingAvCv>;
+    forespørsel: Nettressurs<ForespørslerForKandidatForStilling>;
 };
 
 const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespørsel }) => {
@@ -28,7 +28,7 @@ const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespør
         return null;
     }
 
-    const { tilstand } = forespørsel.data;
+    const { tilstand } = forespørsel.data.gjeldendeForespørsel;
 
     const kanIkkeOpprette = tilstand === TilstandPåForespørsel.KanIkkeOpprette;
     const veilederKanSvare = tilstand === TilstandPåForespørsel.KanIkkeVarsle;

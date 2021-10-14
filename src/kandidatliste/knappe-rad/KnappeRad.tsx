@@ -20,7 +20,7 @@ import AppState from '../../AppState';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './KnappeRad.less';
 import {
-    hentForespørselForKandidat,
+    hentForespørslerForKandidatForStilling,
     TilstandPåForespørsel,
 } from './forespørsel-om-deling-av-cv/Forespørsel';
 
@@ -60,14 +60,14 @@ const KnappeRad: FunctionComponent<Props> = ({
     const minstEnAvKandidateneHarSvartJa =
         forespørslerOmDelingAvCv.kind === Nettstatus.Suksess &&
         markerteKandidater.some((markertKandidat) => {
-            const forespørsel = hentForespørselForKandidat(
+            const forespørsel = hentForespørslerForKandidatForStilling(
                 markertKandidat.aktørid,
                 forespørslerOmDelingAvCv.data
             );
 
             return (
-                forespørsel?.tilstand === TilstandPåForespørsel.HarSvart &&
-                forespørsel.svar?.harSvartJa
+                forespørsel?.gjeldendeForespørsel.tilstand === TilstandPåForespørsel.HarSvart &&
+                forespørsel.gjeldendeForespørsel.svar?.harSvartJa
             );
         });
 

@@ -3,7 +3,7 @@ import { Close } from '@navikt/ds-icons';
 import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
-import { ForespørselOmDelingAvCv } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { ForespørslerForKandidatForStilling } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Kandidat, Kandidatstatus } from '../../domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
@@ -19,7 +19,7 @@ import './StatusOgHendelser.less';
 type Props = {
     kandidatlisteId: string;
     kandidat: Kandidat;
-    forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
+    forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
     kanEditere: boolean;
     kandidatlistenErKobletTilStilling: boolean;
     onStatusChange: (status: Kandidatstatus) => void;
@@ -56,7 +56,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                     utfallsendringer={kandidat.utfallsendringer}
                     forespørselOmDelingAvCv={
                         forespørselOmDelingAvCv.kind === Nettstatus.Suksess
-                            ? forespørselOmDelingAvCv.data
+                            ? forespørselOmDelingAvCv.data.gjeldendeForespørsel
                             : undefined
                     }
                 />

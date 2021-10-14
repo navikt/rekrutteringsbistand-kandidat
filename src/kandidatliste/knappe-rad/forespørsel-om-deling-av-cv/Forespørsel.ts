@@ -46,23 +46,25 @@ export const separerGjeldendeForespørselFraRespons = (
 
     Object.entries(forespørsler).forEach(([aktørId, forespørsler]) => {
         const sorterteForespørsler = forespørsler.sort(
-            (f1, f2) => new Date(f2.deltTidspunkt).getTime() - new Date(f1.deltTidspunkt).getTime()
+            (f1, f2) => new Date(f1.deltTidspunkt).getTime() - new Date(f2.deltTidspunkt).getTime()
         );
 
+        const gjeldendeForespørsel = sorterteForespørsler.pop()!;
+
         gruppertPåAktørId[aktørId] = {
-            gjeldendeForespørsel: sorterteForespørsler[0]!,
-            forespørsler: forespørsler,
+            gjeldendeForespørsel,
+            gamleForespørsler: sorterteForespørsler,
         };
     });
 
     return gruppertPåAktørId;
 };
 
-export const hentForespørselForKandidat = (
+export const hentForespørslerForKandidatForStilling = (
     aktørId: AktørId | null,
     forespørslerOmDelingAvCv: ForespørslerGruppertPåAktørId
-): ForespørselOmDelingAvCv | undefined => {
-    return aktørId === null ? undefined : forespørslerOmDelingAvCv[aktørId]?.gjeldendeForespørsel;
+): ForespørslerForKandidatForStilling | undefined => {
+    return aktørId === null ? undefined : forespørslerOmDelingAvCv[aktørId];
 };
 
 export const kanResendeForespørsel = (gjeldendeForespørsel: ForespørselOmDelingAvCv) => {
@@ -76,10 +78,12 @@ export const kanResendeForespørsel = (gjeldendeForespørsel: ForespørselOmDeli
 };
 
 export type ForespørslerGruppertPåAktørId = {
-    [s: string]: {
-        gjeldendeForespørsel: ForespørselOmDelingAvCv;
-        forespørsler: ForespørselOmDelingAvCv[];
-    };
+    [s: string]: ForespørslerForKandidatForStilling;
+};
+
+export type ForespørslerForKandidatForStilling = {
+    gjeldendeForespørsel: ForespørselOmDelingAvCv;
+    gamleForespørsler: ForespørselOmDelingAvCv[];
 };
 
 export type SvarPåForespørsel = {

@@ -41,7 +41,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/del-på-nytt'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/vis-gamle-forespørsler'
 
         runs-on: ubuntu-latest
         steps:

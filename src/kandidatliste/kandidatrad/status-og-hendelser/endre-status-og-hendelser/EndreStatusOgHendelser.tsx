@@ -6,19 +6,17 @@ import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';
 import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
 import HarFåttJobben from '../hendelser/HarFåttJobben';
-import DelStillingMedKandidat from '../hendelser/DelStillingMedKandidat';
 import { statusToDisplayName } from '../etiketter/StatusEtikett';
 import { erIkkeProd } from '../../../../utils/featureToggleUtils';
-import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import { Nettressurs, Nettstatus } from '../../../../api/Nettressurs';
+import { ForespørslerForKandidatForStilling } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Nettressurs } from '../../../../api/Nettressurs';
 import NyKandidat from '../hendelser/NyKandidat';
-import SvarFraKandidat from '../hendelser/SvarFraKandidat';
-import DelStillingMedKandidatPåNytt from '../hendelser/DelStillingMedKandidatPåNytt';
+import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
     kandidat: Kandidat;
-    forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
+    forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
     kandidatlisteId: string;
     onStatusChange: (status: Kandidatstatus) => void;
     kandidatlistenErKobletTilStilling: boolean;
@@ -38,22 +36,10 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidatlistenErKobletTilStilling,
 }) => {
     const [status, setStatus] = useState(kandidat.status);
-    const [visStegForÅDelePåNytt, setVisStegForÅDelePåNytt] = useState(false);
-
-    // TODO: Lytt til resendForespørsel og skjul steg for å dele på nytt ved suksess.
-
     const statuser = Object.entries(Kandidatstatus);
 
     const onConfirmStatus = () => {
         onStatusChange(status);
-    };
-
-    const onDelPåNyttClick = () => {
-        setVisStegForÅDelePåNytt(true);
-    };
-
-    const onDelPåNyttLukk = () => {
-        setVisStegForÅDelePåNytt(false);
     };
 
     return (
@@ -94,25 +80,8 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <ol className="endre-status-og-hendelser__hendelsesliste">
                         <NyKandidat kandidat={kandidat} />
                         {erIkkeProd && (
-                            <DelStillingMedKandidat
-                                forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                            />
+                            <ForespørslerOgSvar kanEndre forespørsler={forespørselOmDelingAvCv} />
                         )}
-                        {erIkkeProd && (
-                            <SvarFraKandidat
-                                kanEndre
-                                forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                                onDelPåNyttClick={onDelPåNyttClick}
-                            />
-                        )}
-                        {erIkkeProd &&
-                            visStegForÅDelePåNytt &&
-                            forespørselOmDelingAvCv.kind === Nettstatus.Suksess && (
-                                <DelStillingMedKandidatPåNytt
-                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv.data}
-                                    onLukk={onDelPåNyttLukk}
-                                />
-                            )}
                         <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}

@@ -25,7 +25,7 @@ import { Kandidatmeldinger, Kandidattilstander, SmsStatus } from './domene/Kandi
 import Kandidatliste from './Kandidatliste';
 import {
     ForespørslerGruppertPåAktørId,
-    hentForespørselForKandidat,
+    hentForespørslerForKandidatForStilling,
 } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './Kandidatliste.less';
 
@@ -255,7 +255,8 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         return this.hentMarkerteKandidater().filter(
             (kandidat) =>
                 forespørsler.kind === Nettstatus.Suksess &&
-                hentForespørselForKandidat(kandidat.aktørid, forespørsler.data)?.svar?.harSvartJa
+                hentForespørslerForKandidatForStilling(kandidat.aktørid, forespørsler.data)
+                    ?.gjeldendeForespørsel.svar?.harSvartJa
         );
     };
 

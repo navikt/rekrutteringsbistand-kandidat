@@ -5,15 +5,14 @@ import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
 import HarFåttJobben from '../hendelser/HarFåttJobben';
 import NyKandidat from '../hendelser/NyKandidat';
 import { erIkkeProd } from '../../../../utils/featureToggleUtils';
-import DelStillingMedKandidat from '../hendelser/DelStillingMedKandidat';
-import SvarFraKandidat from '../hendelser/SvarFraKandidat';
 import { Nettressurs } from '../../../../api/Nettressurs';
-import { ForespørselOmDelingAvCv } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { ForespørslerForKandidatForStilling } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
 
 type Props = {
     kandidat: Kandidat;
     kandidatlisteId: string;
-    forespørselOmDelingAvCv: Nettressurs<ForespørselOmDelingAvCv>;
+    forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
 };
 
 const SeHendelser: FunctionComponent<Props> = ({
@@ -27,13 +26,7 @@ const SeHendelser: FunctionComponent<Props> = ({
             <ol className="endre-status-og-hendelser__hendelsesliste">
                 <NyKandidat kandidat={kandidat} />
                 {erIkkeProd && (
-                    <DelStillingMedKandidat forespørselOmDelingAvCv={forespørselOmDelingAvCv} />
-                )}
-                {erIkkeProd && (
-                    <SvarFraKandidat
-                        kanEndre={false}
-                        forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                    />
+                    <ForespørslerOgSvar kanEndre={false} forespørsler={forespørselOmDelingAvCv} />
                 )}
                 <DelCvMedArbeidsgiver
                     kandidat={kandidat}

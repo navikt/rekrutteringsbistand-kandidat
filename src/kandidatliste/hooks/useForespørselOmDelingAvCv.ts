@@ -10,13 +10,13 @@ import {
     suksess,
 } from '../../api/Nettressurs';
 import {
-    ForespørselOmDelingAvCv,
-    hentForespørselForKandidat,
+    ForespørslerForKandidatForStilling,
+    hentForespørslerForKandidatForStilling,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 
 const useForespørselOmDelingAvCv = (
     aktørId: string | null
-): Nettressurs<ForespørselOmDelingAvCv> => {
+): Nettressurs<ForespørslerForKandidatForStilling> => {
     const { forespørslerOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
 
     if (aktørId === null) {
@@ -24,7 +24,7 @@ const useForespørselOmDelingAvCv = (
     }
 
     if (forespørslerOmDelingAvCv.kind === Nettstatus.Suksess) {
-        const forespørselForKandidat = hentForespørselForKandidat(
+        const forespørselForKandidat = hentForespørslerForKandidatForStilling(
             aktørId,
             forespørslerOmDelingAvCv.data
         );

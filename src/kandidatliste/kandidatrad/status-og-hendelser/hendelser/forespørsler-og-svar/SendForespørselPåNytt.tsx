@@ -1,29 +1,26 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { resendForespørselOmDelingAvCv } from '../../../../api/forespørselOmDelingAvCvApi';
+import { resendForespørselOmDelingAvCv } from '../../../../../api/forespørselOmDelingAvCvApi';
 import {
     ForespørselOmDelingAvCv,
     ResendForespørselOutboundDto,
-} from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+} from '../../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import VelgSvarfrist, {
     lagSvarfristPåSekundet,
     Svarfrist,
-} from '../../../knappe-rad/forespørsel-om-deling-av-cv/VelgSvarfrist';
-import Hendelse, { Hendelsesstatus } from './Hendelse';
-import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
+} from '../../../../knappe-rad/forespørsel-om-deling-av-cv/VelgSvarfrist';
+import Hendelse, { Hendelsesstatus } from '../Hendelse';
+import KandidatlisteActionType from '../../../../reducer/KandidatlisteActionType';
 import { useDispatch } from 'react-redux';
 import { Feilmelding } from 'nav-frontend-typografi';
-import { SearchApiError } from '../../../../api/fetchUtils';
+import { SearchApiError } from '../../../../../api/fetchUtils';
 
 type Props = {
-    forespørselOmDelingAvCv: ForespørselOmDelingAvCv;
+    gjeldendeForespørsel: ForespørselOmDelingAvCv;
     onLukk: () => void;
 };
 
-const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
-    forespørselOmDelingAvCv,
-    onLukk,
-}) => {
+const SendForespørselPåNytt: FunctionComponent<Props> = ({ gjeldendeForespørsel, onLukk }) => {
     const dispatch = useDispatch();
 
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
@@ -39,7 +36,7 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
             return;
         }
 
-        const { stillingsId, aktørId } = forespørselOmDelingAvCv;
+        const { stillingsId, aktørId } = gjeldendeForespørsel;
         const outboundDto: ResendForespørselOutboundDto = {
             stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
@@ -118,4 +115,4 @@ const DelStillingMedKandidatPåNytt: FunctionComponent<Props> = ({
     );
 };
 
-export default DelStillingMedKandidatPåNytt;
+export default SendForespørselPåNytt;
