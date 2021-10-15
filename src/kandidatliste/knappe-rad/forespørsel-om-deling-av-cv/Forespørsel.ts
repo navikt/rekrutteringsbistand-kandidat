@@ -1,3 +1,4 @@
+import { ForespørslerForStillingInboundDto } from '../../../api/forespørselOmDelingAvCvApi';
 import { AktørId } from '../../domene/Kandidat';
 
 export type ForespørselOutboundDto = {
@@ -40,16 +41,16 @@ export enum TilstandPåForespørsel {
 }
 
 export const separerGjeldendeForespørselFraRespons = (
-    forespørsler: Record<AktørId, ForespørselOmDelingAvCv[]>
+    forespørsler: ForespørslerForStillingInboundDto
 ): ForespørslerGruppertPåAktørId => {
     const gruppertPåAktørId = {};
 
     Object.entries(forespørsler).forEach(([aktørId, forespørsler]) => {
-        const sorterteForespørsler = forespørsler.sort(
+        const sorterteForespørsler = [...(forespørsler || [])].sort(
             (f1, f2) => new Date(f1.deltTidspunkt).getTime() - new Date(f2.deltTidspunkt).getTime()
         );
 
-        const gjeldendeForespørsel = sorterteForespørsler.pop()!;
+        const gjeldendeForespørsel = sorterteForespørsler.pop();
 
         gruppertPåAktørId[aktørId] = {
             gjeldendeForespørsel,
@@ -77,9 +78,9 @@ export const kanResendeForespørsel = (gjeldendeForespørsel: ForespørselOmDeli
     return erAvbrutt || harSvartNei || noeFeilSkjedde;
 };
 
-export type ForespørslerGruppertPåAktørId = {
-    [s: string]: ForespørslerForKandidatForStilling;
-};
+export type ForespørslerGruppertPåAktørId = Partial<
+    Record<AktørId, ForespørslerForKandidatForStilling>
+>;
 
 export type ForespørslerForKandidatForStilling = {
     gjeldendeForespørsel: ForespørselOmDelingAvCv;

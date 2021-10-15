@@ -1,5 +1,5 @@
 import { Kandidatlistestatus } from '../domene/Kandidatliste';
-import { AktørId, Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
+import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
 import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
@@ -11,13 +11,10 @@ import { Kandidat } from '../domene/Kandidat';
 import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
-import {
-    ForespørselOmDelingAvCv,
-    ForespørselOutboundDto,
-    ForespørslerGruppertPåAktørId,
-} from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
+import { ForespørslerForStillingInboundDto } from '../../api/forespørselOmDelingAvCvApi';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
@@ -445,7 +442,7 @@ export interface HentForespørslerOmDelingAvCvAction {
 
 export interface HentForespørslerOmDelingAvCvSuccessAction {
     type: KandidatlisteActionType.HentForespørslerOmDelingAvCvSuccess;
-    forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]>;
+    forespørslerOmDelingAvCv: ForespørslerForStillingInboundDto;
 }
 
 export interface HentForespørslerOmDelingAvCvFailureAction {
@@ -460,7 +457,7 @@ export interface SendForespørselOmDelingAvCv {
 
 export interface SendForespørselOmDelingAvCvSuccess {
     type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess;
-    forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]>;
+    forespørslerOmDelingAvCv: ForespørslerForStillingInboundDto;
 }
 
 export interface SendForespørselOmDelingAvCvFailure {
@@ -474,7 +471,7 @@ export interface ResetSendForespørselOmDelingAvCv {
 
 export interface ResendForespørselOmDelingAvCvSuccess {
     type: KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess;
-    forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]>;
+    forespørslerOmDelingAvCv: ForespørslerForStillingInboundDto;
 }
 
 export interface EndreKandidatlistefilterAction {

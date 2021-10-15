@@ -18,16 +18,20 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
     kandidatliste,
 }) => {
     const slettedeKandidater = useSlettedeKandidater(kandidatliste.kandidater);
-    const forespørslerForAktiveKandidater = Object.entries(forespørslerOmDelingAvCv)
-        .filter(([aktørId]) => !slettedeKandidater.some((kandidat) => kandidat.aktørid === aktørId))
-        .map(([_, forespørsler]) => forespørsler.gjeldendeForespørsel);
-
-    const antallBrukereDerKortetIkkeBleOpprettet = forespørslerForAktiveKandidater.filter(
-        (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette
+    const aktiveKandidaterMedForespørsler = Object.keys(forespørslerOmDelingAvCv).filter(
+        (aktørId) => slettedeKandidater.some((kandidat) => kandidat.aktørid === aktørId)
     );
 
-    const antallBrukereDerVeilederKanSvare = forespørslerForAktiveKandidater.filter(
-        (forespørsel) => forespørsel.tilstand === TilstandPåForespørsel.KanIkkeVarsle
+    const forespørsler = aktiveKandidaterMedForespørsler.map(
+        (aktørId) => forespørslerOmDelingAvCv[aktørId]?.gjeldendeForespørsel
+    );
+
+    const antallBrukereDerKortetIkkeBleOpprettet = forespørsler.filter(
+        (forespørsel) => forespørsel?.tilstand === TilstandPåForespørsel.KanIkkeOpprette
+    );
+
+    const antallBrukereDerVeilederKanSvare = forespørsler.filter(
+        (forespørsel) => forespørsel?.tilstand === TilstandPåForespørsel.KanIkkeVarsle
     );
 
     return (

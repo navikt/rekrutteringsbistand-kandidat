@@ -612,10 +612,9 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sendForespørselOmDelingAvCv: suksess(
                     separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv)
                 ),
-                forespørslerOmDelingAvCv: {
-                    kind: Nettstatus.Suksess,
-                    data: separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv),
-                },
+                forespørslerOmDelingAvCv: suksess(
+                    separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv)
+                ),
             };
         }
         case KandidatlisteActionType.SendForespørselOmDelingAvCvFailure: {
@@ -638,18 +637,16 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HentForespørslerOmDelingAvCvSuccess:
             return {
                 ...state,
-                forespørslerOmDelingAvCv: {
-                    kind: Nettstatus.Suksess,
-                    data: separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv),
-                },
+                forespørslerOmDelingAvCv: suksess(
+                    separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv)
+                ),
             };
         case KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess:
             return {
                 ...state,
-                forespørslerOmDelingAvCv: {
-                    kind: Nettstatus.Suksess,
-                    data: separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv),
-                },
+                forespørslerOmDelingAvCv: suksess(
+                    separerGjeldendeForespørselFraRespons(action.forespørslerOmDelingAvCv)
+                ),
             };
         case KandidatlisteActionType.HentForespørslerOmDelingAvCvFailure:
             return {

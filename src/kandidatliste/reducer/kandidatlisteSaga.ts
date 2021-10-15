@@ -61,6 +61,7 @@ import { Kandidatliste } from '../domene/Kandidatliste';
 import { SearchApiError } from '../../api/fetchUtils';
 import {
     fetchForespørslerOmDelingAvCv,
+    ForespørslerForStillingInboundDto,
     sendForespørselOmDelingAvCv,
 } from '../../api/forespørselOmDelingAvCvApi';
 
@@ -576,13 +577,20 @@ function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
 
 function* hentForespørslerOmDelingAvCv(action: HentForespørslerOmDelingAvCvAction) {
     try {
-        const forespørsler = yield call(fetchForespørslerOmDelingAvCv, action.stillingsId);
+        const forespørsler: ForespørslerForStillingInboundDto = yield call(
+            fetchForespørslerOmDelingAvCv,
+            action.stillingsId
+        );
+
         yield put<KandidatlisteAction>({
             type: KandidatlisteActionType.HentForespørslerOmDelingAvCvSuccess,
             forespørslerOmDelingAvCv: forespørsler,
         });
     } catch (e) {
-        // TODO: Hva skal skje hvis det ikke gikk å hente forespørsler?
+        yield put<KandidatlisteAction>({
+            type: KandidatlisteActionType.HentForespørslerOmDelingAvCvFailure,
+            error: e,
+        });
     }
 }
 
@@ -610,7 +618,11 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
 
 function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
     try {
-        const response = yield call(sendForespørselOmDelingAvCv, action.forespørselOutboundDto);
+        const response: ForespørslerForStillingInboundDto = yield call(
+            sendForespørselOmDelingAvCv,
+            action.forespørselOutboundDto
+        );
+
         yield put<KandidatlisteAction>({
             type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
             forespørslerOmDelingAvCv: response,

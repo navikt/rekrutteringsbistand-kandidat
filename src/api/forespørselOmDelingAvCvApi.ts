@@ -1,24 +1,26 @@
 import {
     ForespørselOmDelingAvCv,
     ForespørselOutboundDto,
-    ForespørslerGruppertPåAktørId,
     ResendForespørselOutboundDto,
 } from '../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { fetchJson, postJson } from './fetchUtils';
 import { baseUrl } from './api';
+import { AktørId } from '../kandidatliste/domene/Kandidat';
 
 export const FORESPORSEL_OM_DELING_AV_CV_API = `${baseUrl}/foresporsel-om-deling-av-cv-api`;
 
+export type ForespørslerForStillingInboundDto = Partial<Record<AktørId, ForespørselOmDelingAvCv[]>>;
+
 export const sendForespørselOmDelingAvCv = (
     outboundDto: ForespørselOutboundDto
-): Promise<ForespørslerGruppertPåAktørId> => {
+): Promise<ForespørslerForStillingInboundDto> => {
     return postJson(`${FORESPORSEL_OM_DELING_AV_CV_API}/foresporsler`, JSON.stringify(outboundDto));
 };
 
 export const resendForespørselOmDelingAvCv = (
     aktørId: string,
     outboundDto: ResendForespørselOutboundDto
-): Promise<ForespørslerGruppertPåAktørId> => {
+): Promise<ForespørslerForStillingInboundDto> => {
     return postJson(
         `${FORESPORSEL_OM_DELING_AV_CV_API}/foresporsler/kandidat/${aktørId}`,
         JSON.stringify(outboundDto)
@@ -27,7 +29,7 @@ export const resendForespørselOmDelingAvCv = (
 
 export const fetchForespørslerOmDelingAvCv = (
     stillingsId: string
-): Promise<ForespørslerGruppertPåAktørId> => {
+): Promise<ForespørslerForStillingInboundDto> => {
     return fetchJson(`${FORESPORSEL_OM_DELING_AV_CV_API}/foresporsler/${stillingsId}`, true);
 };
 
