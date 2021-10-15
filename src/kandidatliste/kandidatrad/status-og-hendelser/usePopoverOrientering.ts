@@ -10,10 +10,10 @@ const usePopoverOrientering = (popoverAnker?: HTMLButtonElement) => {
         if (popoverAnker) {
             const yPosForAnker = popoverAnker?.getBoundingClientRect().y;
             const yMaxForVindu = window.innerHeight;
-            const popoverAnkerErINedersteHalvdelAvSkjerm = yPosForAnker / yMaxForVindu > 0.5;
+            const popoverAnkerErINedersteSjikteAvSkjerm = yPosForAnker / yMaxForVindu > 0.4;
 
             setPopoverOrientering(
-                popoverAnkerErINedersteHalvdelAvSkjerm
+                popoverAnkerErINedersteSjikteAvSkjerm
                     ? PopoverOrientering.OverHoyre
                     : PopoverOrientering.UnderHoyre
             );
