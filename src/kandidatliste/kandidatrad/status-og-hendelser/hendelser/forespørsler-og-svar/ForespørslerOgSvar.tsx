@@ -50,6 +50,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
     alleForespørsler.forEach((forespørsel, index) => {
         hendelser.push(
             <ForespørselErSendt
+                key={forespørsel.deltTidspunkt + '-sendt'}
                 erFørsteForespørsel={index === 0}
                 forespørselOmDelingAvCv={forespørsel}
             />
@@ -64,7 +65,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
 
         if (forespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
             hendelser.push(
-                <SvarFraKandidat kanEndre svar={forespørsel.svar}>
+                <SvarFraKandidat key={forespørsel.deltTidspunkt} kanEndre svar={forespørsel.svar}>
                     {visKnappForÅDelePåNytt && (
                         <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
                     )}
@@ -73,6 +74,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
         } else {
             hendelser.push(
                 <IngenSvarFraKandidat
+                    key={forespørsel.deltTidspunkt}
                     tilstand={forespørsel.tilstand}
                     svarfrist={forespørsel.svarfrist}
                 >
