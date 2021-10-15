@@ -92,6 +92,7 @@ const hendelseTilLabel = (
         ikkeVisÅrstall ? formaterDatoUtenÅrstall(dato) : formaterDato(dato);
 
     const svarfrist = forespørselOmDelingAvCv?.svarfrist;
+    const svarTidspunkt = forespørselOmDelingAvCv?.svar?.svarTidspunkt;
 
     switch (hendelse) {
         case Hendelse.FåttJobben: {
@@ -124,10 +125,10 @@ const hendelseTilLabel = (
             }
         }
         case Hendelse.SvarJa: {
-            return `Svar: Ja – ${svarfrist && formaterSvarfrist(svarfrist)}`;
+            return `Svar: Ja – ${svarTidspunkt && formaterSvarfrist(svarTidspunkt)}`;
         }
         case Hendelse.SvarNei: {
-            return `Svar: Nei – ${svarfrist && formaterSvarfrist(svarfrist)}`;
+            return `Svar: Nei – ${svarTidspunkt && formaterSvarfrist(svarTidspunkt)}`;
         }
         default:
             return '';
