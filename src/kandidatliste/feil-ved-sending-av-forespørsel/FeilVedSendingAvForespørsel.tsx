@@ -19,7 +19,7 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
 }) => {
     const slettedeKandidater = useSlettedeKandidater(kandidatliste.kandidater);
     const aktiveKandidaterMedForespørsler = Object.keys(forespørslerOmDelingAvCv).filter(
-        (aktørId) => slettedeKandidater.some((kandidat) => kandidat.aktørid === aktørId)
+        (aktørId) => !slettedeKandidater.some((kandidat) => kandidat.aktørid === aktørId)
     );
 
     const forespørsler = aktiveKandidaterMedForespørsler.map(
