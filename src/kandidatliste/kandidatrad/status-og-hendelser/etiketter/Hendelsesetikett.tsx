@@ -116,7 +116,6 @@ const hendelseTilLabel = (
                 dagerTilSvarfrist < 0 ||
                 forespørselOmDelingAvCv?.tilstand === TilstandPåForespørsel.Avbrutt
             ) {
-                // TODO: Høre med Malin for å dekke alle tilfeller
                 return 'Delt med kandidat, frist utløpt';
             } else if (dagerTilSvarfrist === 0) {
                 return `Delt med kandidat, frist i dag`;
