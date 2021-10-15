@@ -82,7 +82,7 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({ gjeldendeForespørs
             renderChildrenBelowContent
             status={Hendelsesstatus.Hvit}
             tittel="Del stillingen med kandidaten på nytt"
-            beskrivelse="Kandidaten har tidligere mottatt stillingen. Du bør kontakte kandidaten før du deler på nytt."
+            beskrivelse="Kandidaten kan tidligere ha mottatt stillingen. Du bør kontakte kandidaten før du deler på nytt."
         >
             <VelgSvarfrist
                 tittel="Ny frist for svar"

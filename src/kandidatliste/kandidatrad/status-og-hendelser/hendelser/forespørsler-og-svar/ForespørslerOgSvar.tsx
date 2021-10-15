@@ -5,9 +5,10 @@ import {
     kanResendeForespørsel,
     TilstandPåForespørsel,
 } from '../../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import Hendelse, { Hendelsesstatus } from '../Hendelse';
+import BleIkkeDelt from './BleIkkeDelt';
 import DelPåNyttKnapp from './DelPåNyttKnapp';
 import ForespørselErSendt from './ForespørselErSendt';
+import IkkeDeltMedKandidat from './IkkeDeltMedKandidat';
 import IngenSvarFraKandidat from './IngenSvarFraKandidat';
 import SendForespørselPåNytt from './SendForespørselPåNytt';
 import SvarFraKandidat from './SvarFraKandidat';
@@ -29,13 +30,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
     };
 
     if (forespørsler.kind === Nettstatus.FinnesIkke) {
-        return (
-            <Hendelse
-                status={Hendelsesstatus.Hvit}
-                tittel="Stillingen er delt med kandidaten"
-                beskrivelse="Deles fra kandidatlisten"
-            />
-        );
+        return <IkkeDeltMedKandidat />;
     }
 
     if (forespørsler.kind !== Nettstatus.Suksess) {
@@ -48,6 +43,25 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
     const hendelser: ReactNode[] = [];
 
     alleForespørsler.forEach((forespørsel, index) => {
+        const erGjeldendeForespørsel = forespørsel === gjeldendeForespørsel;
+        const visKnappForÅDelePåNytt =
+            !visStegForÅDelePåNytt &&
+            kanEndre &&
+            erGjeldendeForespørsel &&
+            kanResendeForespørsel(forespørsel);
+
+        if (forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette) {
+            hendelser.push(
+                <BleIkkeDelt forespørsel={forespørsel}>
+                    {visKnappForÅDelePåNytt && (
+                        <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
+                    )}
+                </BleIkkeDelt>
+            );
+
+            return;
+        }
+
         hendelser.push(
             <ForespørselErSendt
                 key={forespørsel.deltTidspunkt + '-sendt'}
@@ -55,13 +69,6 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
                 forespørselOmDelingAvCv={forespørsel}
             />
         );
-
-        const erGjeldendeForespørsel = forespørsel === gjeldendeForespørsel;
-        const visKnappForÅDelePåNytt =
-            !visStegForÅDelePåNytt &&
-            kanEndre &&
-            erGjeldendeForespørsel &&
-            kanResendeForespørsel(forespørsel);
 
         if (forespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
             hendelser.push(

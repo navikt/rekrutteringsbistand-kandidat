@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { SuccessStroke } from '@navikt/ds-icons';
 import './Hendelse.less';
@@ -8,12 +8,13 @@ export enum Hendelsesstatus {
     Grønn = 'grønn',
     Blå = 'blå',
     Oransje = 'oransje',
+    Rød = 'rød',
 }
 
 type Props = {
     status: Hendelsesstatus;
     tittel?: string;
-    beskrivelse?: string;
+    beskrivelse?: ReactNode;
     renderChildrenBelowContent?: boolean;
 };
 
@@ -48,6 +49,9 @@ const Hendelse: FunctionComponent<Props> = ({
                 )}
                 {status === Hendelsesstatus.Blå && (
                     <code className="hendelse__ikon-grafikk-blå">i</code>
+                )}
+                {status === Hendelsesstatus.Rød && (
+                    <code className="hendelse__ikon-grafikk-rød">×</code>
                 )}
             </div>
             <div className={innholdClassName}>
