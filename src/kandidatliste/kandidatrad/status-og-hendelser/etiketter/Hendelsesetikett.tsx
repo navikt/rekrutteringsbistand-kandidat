@@ -88,7 +88,7 @@ const hendelseTilLabel = (
         utfallsendringer
     );
 
-    const formaterSvarfrist = (dato: string) =>
+    const formaterMedEllerUtenÅrstall = (dato: string) =>
         ikkeVisÅrstall ? formaterDatoUtenÅrstall(dato) : formaterDato(dato);
 
     const svarfrist = forespørselOmDelingAvCv?.svarfrist;
@@ -98,19 +98,23 @@ const hendelseTilLabel = (
         case Hendelse.FåttJobben: {
             const label = 'Fått jobben';
             return fåttJobbenTidspunkt
-                ? label + ` – ${formaterSvarfrist(fåttJobbenTidspunkt.tidspunkt)}`
+                ? label + ` – ${formaterMedEllerUtenÅrstall(fåttJobbenTidspunkt.tidspunkt)}`
                 : label;
         }
         case Hendelse.CvDelt: {
             const label = 'CV delt';
             return cvDeltTidspunkt
-                ? label + ` – ${formaterSvarfrist(cvDeltTidspunkt.tidspunkt)}`
+                ? label + ` – ${formaterMedEllerUtenÅrstall(cvDeltTidspunkt.tidspunkt)}`
                 : label;
         }
         case Hendelse.DeltMedKandidat: {
             const dagerTilSvarfrist = Math.floor(moment(svarfrist).diff(moment(), 'days', true));
             const formatertSvarfrist =
-                svarfrist && formaterSvarfrist(moment(svarfrist).subtract(1, 'day').toISOString());
+                svarfrist &&
+                formaterMedEllerUtenÅrstall(
+                    // TODO: Fjern de tre ekstra timene når vi får riktig tidssone fra backend
+                    moment(svarfrist).subtract(1, 'day').add(3, 'hours').toISOString()
+                );
 
             if (
                 dagerTilSvarfrist < 0 ||
@@ -124,10 +128,10 @@ const hendelseTilLabel = (
             }
         }
         case Hendelse.SvarJa: {
-            return `Svar: Ja – ${svarTidspunkt && formaterSvarfrist(svarTidspunkt)}`;
+            return `Svar: Ja – ${svarTidspunkt && formaterMedEllerUtenÅrstall(svarTidspunkt)}`;
         }
         case Hendelse.SvarNei: {
-            return `Svar: Nei – ${svarTidspunkt && formaterSvarfrist(svarTidspunkt)}`;
+            return `Svar: Nei – ${svarTidspunkt && formaterMedEllerUtenÅrstall(svarTidspunkt)}`;
         }
         default:
             return '';

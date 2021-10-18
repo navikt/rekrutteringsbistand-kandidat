@@ -43,7 +43,7 @@ const VelgSvarfrist: FunctionComponent<Props> = ({
         } else if (moment(dato).isBefore(minDatoForEgenvalgtFrist)) {
             onEgenvalgtFristFeilmeldingChange('Svarfristen må settes minst to dager frem i tid.');
         } else if (moment(dato).isAfter(maksDatoForEgenvalgtFrist)) {
-            onEgenvalgtFristFeilmeldingChange(`Svarfristen må være før ${førsteUgyldigeMaksDato}`);
+            onEgenvalgtFristFeilmeldingChange(`Svarfristen må være senest ${sisteGyldigeMaksDato}`);
         } else {
             onEgenvalgtFristFeilmeldingChange(undefined);
         }
@@ -142,7 +142,7 @@ export const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: s
     }
 };
 
-const førsteUgyldigeMaksDato = moment().add(1, 'month').add(1, 'day').format('DD.MM.YYYY');
+const sisteGyldigeMaksDato = moment().add(1, 'month').format('DD.MM.YYYY');
 const minDatoForEgenvalgtFrist = moment().add(2, 'days').format('YYYY-MM-DD');
 const maksDatoForEgenvalgtFrist = moment().add(1, 'month').format('YYYY-MM-DD');
 
