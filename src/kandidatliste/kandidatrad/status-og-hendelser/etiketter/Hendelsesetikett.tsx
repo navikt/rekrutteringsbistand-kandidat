@@ -113,7 +113,7 @@ const hendelseTilLabel = (
                 svarfrist &&
                 formaterMedEllerUtenÅrstall(
                     // TODO: Fjern de tre ekstra timene når vi får riktig tidssone fra backend
-                    moment(svarfrist).subtract(1, 'day').add(3, 'hours').toISOString()
+                    moment(svarfrist).subtract(1, 'day').toISOString()
                 );
 
             if (

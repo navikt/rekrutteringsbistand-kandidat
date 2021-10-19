@@ -10,7 +10,7 @@ type Props = {
 
 const IngenSvarFraKandidat: FunctionComponent<Props> = ({ svarfrist, tilstand, children }) => {
     // TODO: Fjern de tre ekstra timene når vi får riktig tidssone fra backend
-    const dagerTilSvarfristDesimal = moment(svarfrist).add(3, 'hours').diff(moment(), 'days', true);
+    const dagerTilSvarfristDesimal = moment(svarfrist).diff(moment(), 'days', true);
     const forespørselErUtløpt =
         dagerTilSvarfristDesimal < 0 || tilstand === TilstandPåForespørsel.Avbrutt;
 
