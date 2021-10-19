@@ -1,5 +1,4 @@
 import { FormidlingAvUsynligKandidat, Kandidat } from './Kandidat';
-import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 export type Kandidatliste = {
     kandidatlisteId: string;
@@ -44,12 +43,11 @@ export type OpprettetAv = {
 };
 
 export const kandidaterMåGodkjenneDelingAvCv = (kandidatliste: Kandidatliste) => {
-    if (erIkkeProd) {
-        return (kandidatliste.stillingskategori === Stillingskategori.Stilling ||
-            kandidatliste.stillingskategori === null) && kandidatliste.stillingId !== null
-    } else {
-        return false;
-    }
+    return (
+        (kandidatliste.stillingskategori === Stillingskategori.Stilling ||
+            kandidatliste.stillingskategori === null) &&
+        kandidatliste.stillingId !== null
+    );
 };
 
 export const erKobletTilStilling = (

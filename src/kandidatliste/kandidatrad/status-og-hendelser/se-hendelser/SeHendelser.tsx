@@ -4,7 +4,6 @@ import { Undertittel } from 'nav-frontend-typografi';
 import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
 import HarFåttJobben from '../hendelser/HarFåttJobben';
 import NyKandidat from '../hendelser/NyKandidat';
-import { erIkkeProd } from '../../../../utils/featureToggleUtils';
 import { Nettressurs } from '../../../../api/Nettressurs';
 import { ForespørslerForKandidatForStilling } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
@@ -25,9 +24,7 @@ const SeHendelser: FunctionComponent<Props> = ({
             <Undertittel>Hendelser</Undertittel>
             <ol className="endre-status-og-hendelser__hendelsesliste">
                 <NyKandidat kandidat={kandidat} />
-                {erIkkeProd && (
-                    <ForespørslerOgSvar kanEndre={false} forespørsler={forespørselOmDelingAvCv} />
-                )}
+                <ForespørslerOgSvar kanEndre={false} forespørsler={forespørselOmDelingAvCv} />
                 <DelCvMedArbeidsgiver
                     kandidat={kandidat}
                     kandidatlisteId={kandidatlisteId}

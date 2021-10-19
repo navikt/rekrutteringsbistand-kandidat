@@ -5,9 +5,8 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { erGyldigEpost } from './epostValidering';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import './PresenterKandidaterModal.less';
-import { erIkkeProd } from '../../../utils/featureToggleUtils';
 import Lenke from 'nav-frontend-lenker';
+import './PresenterKandidaterModal.less';
 
 type Props = {
     vis?: boolean; // Default true
@@ -136,9 +135,7 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
         } = this.props;
 
         const antallSomSkalDeles = alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere
-            ? erIkkeProd
-                ? antallKandidaterSomHarSvartJa
-                : antallMarkerteKandidater
+            ? antallKandidaterSomHarSvartJa
             : antallMarkerteKandidater;
 
         const antallKandidaterSomIkkeKanDeles =
@@ -157,8 +154,7 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                     ) : (
                         <Systemtittel>{`Del ${antallSomSkalDeles} kandidater med arbeidsgiver`}</Systemtittel>
                     )}
-                    {erIkkeProd &&
-                        alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere &&
+                    {alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere &&
                         antallKandidaterSomIkkeKanDeles > 0 && (
                             <AlertStripeAdvarsel>
                                 <Normaltekst className="blokk-xs">

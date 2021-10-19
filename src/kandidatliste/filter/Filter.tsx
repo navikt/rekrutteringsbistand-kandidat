@@ -8,9 +8,8 @@ import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
 import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
 import { statusToDisplayName } from '../kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
-import './Filter.less';
 import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
-import { erIkkeProd } from '../../utils/featureToggleUtils';
+import './Filter.less';
 
 interface Props {
     antallTreff: AntallFiltertreff;
@@ -45,9 +44,7 @@ const Filter: FunctionComponent<Props> = ({
         />
     ));
 
-    const filtrerbareHendelser = erIkkeProd
-        ? Object.values(Hendelse)
-        : [Hendelse.NyKandidat, Hendelse.CvDelt, Hendelse.FåttJobben];
+    const filtrerbareHendelser = Object.values(Hendelse);
 
     const hendelsescheckbokser = hendelsefilter
         ? filtrerbareHendelser.map((hendelse) => (

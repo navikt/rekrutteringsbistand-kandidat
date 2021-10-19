@@ -11,18 +11,17 @@ import {
     Kandidatlistestatus,
 } from '../domene/Kandidatliste';
 import MedPopover from '../../common/med-popover/MedPopover';
-import { erIkkeProd } from '../../utils/featureToggleUtils';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import AppState from '../../AppState';
 import { Normaltekst } from 'nav-frontend-typografi';
-import './KnappeRad.less';
 import {
     hentForespørslerForKandidatForStilling,
     TilstandPåForespørsel,
 } from './forespørsel-om-deling-av-cv/Forespørsel';
+import './KnappeRad.less';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -132,7 +131,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
-                    {erIkkeProd && skalViseDelMedKandidatKnapp && (
+                    {skalViseDelMedKandidatKnapp && (
                         <ForespørselOmDelingAvCv
                             stillingsId={kandidatliste.stillingId!}
                             markerteKandidater={markerteKandidater}

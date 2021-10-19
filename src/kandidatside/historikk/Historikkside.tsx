@@ -15,7 +15,6 @@ import { ForespørselOmDelingAvCv } from '../../kandidatliste/knappe-rad/foresp�
 import { fetchForespørslerOmDelingAvCvForKandidat } from '../../api/forespørselOmDelingAvCvApi';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
-import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 const Historikkside: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -43,7 +42,7 @@ const Historikkside: FunctionComponent = () => {
             setForespørslerOmDelingAvCv(suksess(forespørsler));
         };
 
-        if (cv.kind === Nettstatus.Suksess && erIkkeProd) {
+        if (cv.kind === Nettstatus.Suksess) {
             setForespørslerOmDelingAvCv(lasterInn());
             hentForespørslerOmDelingAvCvForKandidat(cv.data.aktorId);
         }

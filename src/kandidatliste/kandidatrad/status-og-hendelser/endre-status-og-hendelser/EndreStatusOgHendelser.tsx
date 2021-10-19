@@ -7,7 +7,6 @@ import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';
 import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
 import HarFåttJobben from '../hendelser/HarFåttJobben';
 import { statusToDisplayName } from '../etiketter/StatusEtikett';
-import { erIkkeProd } from '../../../../utils/featureToggleUtils';
 import { ForespørslerForKandidatForStilling } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Nettressurs } from '../../../../api/Nettressurs';
 import NyKandidat from '../hendelser/NyKandidat';
@@ -79,9 +78,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">
                         <NyKandidat kandidat={kandidat} />
-                        {erIkkeProd && (
-                            <ForespørslerOgSvar kanEndre forespørsler={forespørselOmDelingAvCv} />
-                        )}
+                        <ForespørslerOgSvar kanEndre forespørsler={forespørselOmDelingAvCv} />
                         <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
