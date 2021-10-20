@@ -166,9 +166,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
         <div role="rowgroup" tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
             <div role="row" className={klassenavnForListerad}>
                 <div role="cell">
-                    {erEierAvKandidatlisten(kandidatliste) && (
-                        <StatusPåForespørselOmDelingAvCv forespørsel={forespørselOmDelingAvCv} />
-                    )}
+                    <StatusPåForespørselOmDelingAvCv forespørsel={forespørselOmDelingAvCv} />
                 </div>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
