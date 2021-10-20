@@ -77,7 +77,6 @@ const KnappeRad: FunctionComponent<Props> = ({
         kandidatliste.kanEditere && erKobletTilArbeidsgiver(kandidatliste) && !visArkiverte;
 
     const skalViseDelMedKandidatKnapp =
-        kandidatliste.kanEditere &&
         kandidaterMåGodkjenneDelingAvCv(kandidatliste) &&
         erKobletTilStilling(kandidatliste) &&
         erKobletTilArbeidsgiver(kandidatliste) &&
