@@ -20,7 +20,7 @@ export const formaterDatoUtenÅrstall = (isoDato: string) => {
     const day = new Date(isoDato).getDate();
     const month = new Date(isoDato).getMonth() + 1;
 
-    return `${day}/${month}`;
+    return `${day}.${month}`;
 };
 
 export const formaterDatoNaturlig = (isoDato: string) =>
