@@ -111,10 +111,7 @@ const hendelseTilLabel = (
             const dagerTilSvarfrist = Math.floor(moment(svarfrist).diff(moment(), 'days', true));
             const formatertSvarfrist =
                 svarfrist &&
-                formaterMedEllerUtenÅrstall(
-                    // TODO: Fjern de tre ekstra timene når vi får riktig tidssone fra backend
-                    moment(svarfrist).subtract(1, 'day').toISOString()
-                );
+                formaterMedEllerUtenÅrstall(moment(svarfrist).subtract(1, 'day').toISOString());
 
             if (
                 dagerTilSvarfrist < 0 ||
