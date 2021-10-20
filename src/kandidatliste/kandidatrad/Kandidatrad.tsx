@@ -5,12 +5,7 @@ import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
-import {
-    erEierAvKandidatlisten,
-    erKobletTilStilling,
-    Kandidatliste,
-    Kandidatlistestatus,
-} from '../domene/Kandidatliste';
+import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { erInaktiv, Kandidat } from '../domene/Kandidat';
 import { lenkeTilCv } from '../../app/paths';
 import {
