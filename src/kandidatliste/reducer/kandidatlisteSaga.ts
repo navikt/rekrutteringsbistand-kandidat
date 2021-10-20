@@ -627,6 +627,10 @@ function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
             type: KandidatlisteActionType.SendForespørselOmDelingAvCvSuccess,
             forespørslerOmDelingAvCv: response,
         });
+        sendEvent('forespørsel_deling_av_cv', 'sending', {
+            stillingsId: action.forespørselOutboundDto.stillingsId,
+            antallKandidater: action.forespørselOutboundDto.aktorIder.length,
+        });
     } catch (e) {
         yield put({ type: KandidatlisteActionType.SendForespørselOmDelingAvCvFailure, error: e });
     }

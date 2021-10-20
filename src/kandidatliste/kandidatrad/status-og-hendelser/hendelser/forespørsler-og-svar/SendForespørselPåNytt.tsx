@@ -14,13 +14,19 @@ import KandidatlisteActionType from '../../../../reducer/KandidatlisteActionType
 import { useDispatch } from 'react-redux';
 import { Feilmelding } from 'nav-frontend-typografi';
 import { SearchApiError } from '../../../../../api/fetchUtils';
+import { sendEvent } from '../../../../../amplitude/amplitude';
 
 type Props = {
+    gamleForespørsler: ForespørselOmDelingAvCv[];
     gjeldendeForespørsel: ForespørselOmDelingAvCv;
     onLukk: () => void;
 };
 
-const SendForespørselPåNytt: FunctionComponent<Props> = ({ gjeldendeForespørsel, onLukk }) => {
+const SendForespørselPåNytt: FunctionComponent<Props> = ({
+    gamleForespørsler,
+    gjeldendeForespørsel,
+    onLukk,
+}) => {
     const dispatch = useDispatch();
 
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
@@ -46,6 +52,14 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({ gjeldendeForespørs
 
         try {
             const response = await resendForespørselOmDelingAvCv(aktørId, outboundDto);
+
+            if (førsteGangKandidatenFårTilsendtForespørselPåNytt(gamleForespørsler)) {
+                sendEvent('forespørsel_deling_av_cv', 'resending', {
+                    stillingsId: gjeldendeForespørsel.stillingsId,
+                    antallKandidater: 1,
+                    utfallOpprinneligForespørsel: gjeldendeForespørsel.tilstand,
+                });
+            }
 
             dispatch({
                 type: KandidatlisteActionType.ResendForespørselOmDelingAvCvSuccess,
@@ -114,5 +128,9 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({ gjeldendeForespørs
         </Hendelse>
     );
 };
+
+const førsteGangKandidatenFårTilsendtForespørselPåNytt = (
+    gamleForespørsler: ForespørselOmDelingAvCv[]
+) => gamleForespørsler.length === 0;
 
 export default SendForespørselPåNytt;

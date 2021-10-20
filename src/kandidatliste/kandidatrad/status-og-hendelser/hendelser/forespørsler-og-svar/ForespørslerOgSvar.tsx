@@ -96,6 +96,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
     if (visStegForÅDelePåNytt) {
         hendelser.push(
             <SendForespørselPåNytt
+                gamleForespørsler={gamleForespørsler}
                 gjeldendeForespørsel={gjeldendeForespørsel}
                 onLukk={onDelPåNyttLukk}
             />
