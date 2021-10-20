@@ -5,12 +5,7 @@ import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
-import {
-    erEierAvKandidatlisten,
-    erKobletTilStilling,
-    Kandidatliste,
-    Kandidatlistestatus,
-} from '../domene/Kandidatliste';
+import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { erInaktiv, Kandidat } from '../domene/Kandidat';
 import { lenkeTilCv } from '../../app/paths';
 import {
@@ -166,9 +161,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
         <div role="rowgroup" tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
             <div role="row" className={klassenavnForListerad}>
                 <div role="cell">
-                    {erEierAvKandidatlisten(kandidatliste) && (
-                        <StatusPåForespørselOmDelingAvCv forespørsel={forespørselOmDelingAvCv} />
-                    )}
+                    <StatusPåForespørselOmDelingAvCv forespørsel={forespørselOmDelingAvCv} />
                 </div>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng

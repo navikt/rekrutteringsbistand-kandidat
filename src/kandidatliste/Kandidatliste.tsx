@@ -188,7 +188,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                     />
                                 )}
                             {erKobletTilStilling(kandidatliste) &&
-                                erEierAvKandidatlisten(kandidatliste) &&
                                 forespørslerOmDelingAvCv.kind === Nettstatus.Suksess && (
                                     <FeilVedSendingAvForespørsel
                                         forespørslerOmDelingAvCv={forespørslerOmDelingAvCv.data}
