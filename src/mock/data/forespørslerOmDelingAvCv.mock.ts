@@ -41,8 +41,15 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             deltTidspunkt: moment().subtract(10, 'day').toISOString(),
             deltStatus: ForespørselDeltStatus.IkkeSendt,
             svarfrist: moment().add(5, 'day').startOf('day').subtract(2, 'hours').toISOString(),
-            tilstand: TilstandPåForespørsel.Avbrutt,
-            svar: null,
+            tilstand: TilstandPåForespørsel.HarSvart,
+            svar: {
+                harSvartJa: true,
+                svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
+                svartAv: {
+                    ident: kandidatlister[0].kandidater[2].aktørid!,
+                    identType: IdentType.AktørId,
+                },
+            },
         },
     ],
 };

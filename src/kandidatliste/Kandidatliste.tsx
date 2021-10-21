@@ -45,7 +45,6 @@ type Props = {
     onMarkerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
     onKandidatShare: any;
-    onEmailKandidater: any;
     onKandidaterAngreArkivering: any;
     onSendSmsClick: any;
     onLeggTilKandidat: any;
@@ -57,7 +56,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
     onFjernAllMarkering,
     onMarkerKandidater,
     onLeggTilKandidat,
-    onEmailKandidater,
     onSendSmsClick,
     onKandidatShare,
     onKandidaterAngreArkivering,
@@ -196,7 +194,6 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                 )}
                             <KnappeRad
                                 kandidatliste={kandidatliste}
-                                onEmailKandidater={onEmailKandidater}
                                 onSendSmsClick={onSendSmsClick}
                                 onKandidatShare={onKandidatShare}
                                 onKandidaterAngreArkivering={onKandidaterAngreArkivering}

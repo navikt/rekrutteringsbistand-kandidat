@@ -13,14 +13,14 @@ import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
-import './SendSmsModal.less';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
+import './SendSmsModal.less';
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
-    EtterspurtPgaKorona = 'etterspurt_pga_korona',
-    Jobbarrangement = 'jobbarrangement',
-    Webinar = 'webinar',
+    // EtterspurtPgaKorona = 'etterspurt_pga_korona',
+    // Jobbarrangement = 'jobbarrangement',
+    // Webinar = 'webinar',
 }
 
 type Props = {
@@ -130,11 +130,6 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                     <option value={Meldingsmal.VurdertSomAktuell}>
                         Send stilling til en aktuell kandidat
                     </option>
-                    <option value={Meldingsmal.EtterspurtPgaKorona}>
-                        Koronavirus og behov for arbeidskraft
-                    </option>
-                    <option value={Meldingsmal.Jobbarrangement}>Jobbarrangement</option>
-                    <option value={Meldingsmal.Webinar}>Webinar</option>
                 </Select>
 
                 <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
@@ -169,12 +164,6 @@ const genererLenkeTilStilling = (stillingId: string) => {
 const genererMeldingUtenLenke = (valgtMal: Meldingsmal) => {
     if (valgtMal === Meldingsmal.VurdertSomAktuell) {
         return `Hei, vi har vurdert at kompetansen din kan passe til denne stillingen, hilsen NAV`;
-    } else if (valgtMal === Meldingsmal.EtterspurtPgaKorona) {
-        return `Hei, koronasituasjonen gjør kompetansen din etterspurt. Se denne stillingen, hilsen NAV`;
-    } else if (valgtMal === Meldingsmal.Jobbarrangement) {
-        return `Hei, vi har et jobbarrangement som kan passe for deg, hilsen NAV. Se mer info:`;
-    } else if (valgtMal === Meldingsmal.Webinar) {
-        return `Hei, vi har et webinar som kan passe for deg, hilsen NAV. Se mer info:`;
     }
 };
 
