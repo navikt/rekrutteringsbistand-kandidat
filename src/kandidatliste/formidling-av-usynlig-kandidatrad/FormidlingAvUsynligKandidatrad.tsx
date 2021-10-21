@@ -9,11 +9,10 @@ import { formaterDatoNaturlig } from '../../utils/dateUtils';
 import { FormidlingAvUsynligKandidat, Kandidatutfall } from '../domene/Kandidat';
 import AppState from '../../AppState';
 import DelingAvCv from '../kandidatrad/status-og-hendelser/hendelser/DelingAvCv';
-import EndreStatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
+import StatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/StatusOgHendelserKnapp';
 import FåttJobben from '../kandidatrad/status-og-hendelser/hendelser/FåttJobben';
 import Hendelse, { Hendelsesstatus } from '../kandidatrad/status-og-hendelser/hendelser/Hendelse';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import SeHendelserKnapp from '../kandidatrad/status-og-hendelser/se-hendelser/SeHendelserKnapp';
 import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker';
 import usePopoverOrientering from '../kandidatrad/status-og-hendelser/usePopoverOrientering';
 import './FormidlingAvUsynligKandidatrad.less';
@@ -87,11 +86,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                     {formidling.utfall !== Kandidatutfall.IkkePresentert && (
                         <Hendelsesetikett utfall={formidling.utfall} utfallsendringer={[]} />
                     )}
-                    {kanEditere ? (
-                        <EndreStatusOgHendelserKnapp onClick={togglePopover} />
-                    ) : (
-                        <SeHendelserKnapp onClick={togglePopover} />
-                    )}
+                    <StatusOgHendelserKnapp onClick={togglePopover} />
                     <Popover
                         orientering={popoverOrientering}
                         ankerEl={popoverAnker}

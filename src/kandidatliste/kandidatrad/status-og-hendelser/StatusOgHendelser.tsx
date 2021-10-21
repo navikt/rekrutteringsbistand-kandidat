@@ -7,9 +7,8 @@ import { ForespørslerForKandidatForStilling } from '../../knappe-rad/forespørs
 import { Kandidat, Kandidatstatus } from '../../domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
-import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
+import StatusOgHendelserKnapp from './endre-status-og-hendelser/StatusOgHendelserKnapp';
 import SeHendelser from './se-hendelser/SeHendelser';
-import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
 import StatusEtikett from './etiketter/StatusEtikett';
 import usePopoverAnker from './usePopoverAnker';
 import usePopoverOrientering from './usePopoverOrientering';
@@ -61,15 +60,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                     }
                 />
             )}
-            {skalVisePopover && (
-                <>
-                    {kanEditere ? (
-                        <EndreStatusOgHendelserKnapp onClick={togglePopover} />
-                    ) : (
-                        <SeHendelserKnapp onClick={togglePopover} />
-                    )}
-                </>
-            )}
+            {skalVisePopover && <StatusOgHendelserKnapp onClick={togglePopover} />}
             <Popover
                 orientering={popoverOrientering}
                 ankerEl={popoverAnker}

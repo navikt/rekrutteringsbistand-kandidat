@@ -5,7 +5,7 @@ type Props = {
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-const EndreStatusOgHendelserKnapp: FunctionComponent<Props> = ({ onClick }) => {
+const StatusOgHendelserKnapp: FunctionComponent<Props> = ({ onClick }) => {
     return (
         <Lenkeknapp
             onClick={onClick}
@@ -17,4 +17,4 @@ const EndreStatusOgHendelserKnapp: FunctionComponent<Props> = ({ onClick }) => {
     );
 };
 
-export default EndreStatusOgHendelserKnapp;
+export default StatusOgHendelserKnapp;
