@@ -41,7 +41,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/alle-kan-dele-med-kandidat'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/skru-av-funksjonalitet'
 
         runs-on: ubuntu-latest
         steps:
