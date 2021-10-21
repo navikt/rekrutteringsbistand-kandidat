@@ -14,7 +14,6 @@ import AppState from '../AppState';
 import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
-import KopierEpostModal from './modaler/KopierEpostModal';
 import PresenterKandidaterModal from './modaler/presenter-kandidater/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import { CvSøkeresultat } from '../kandidatside/cv/reducer/cv-typer';
@@ -70,7 +69,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
     state: {
         deleModalOpen: boolean;
         leggTilModalOpen: boolean;
-        kopierEpostModalOpen: boolean;
         sendSmsModalOpen: boolean;
         infobanner: {
             vis: boolean;
@@ -84,7 +82,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         this.state = {
             deleModalOpen: false,
             leggTilModalOpen: false,
-            kopierEpostModalOpen: false,
             sendSmsModalOpen: false,
             infobanner: {
                 vis: false,
@@ -225,12 +222,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
-    onToggleKopierEpostModal = () => {
-        this.setState({
-            kopierEpostModalOpen: !this.state.kopierEpostModalOpen,
-        });
-    };
-
     onToggleSendSmsModal = (vis: boolean = !this.state.sendSmsModalOpen) => {
         this.setState({
             sendSmsModalOpen: vis,
@@ -295,12 +286,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         );
     };
 
-    onEmailKandidater = () => {
-        this.setState({
-            kopierEpostModalOpen: true,
-        });
-    };
-
     visInfobanner = (tekst: string, type = 'suksess') => {
         clearTimeout(this.infobannerCallbackId);
         this.setState({
@@ -321,7 +306,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
     };
 
     render() {
-        const { deleModalOpen, infobanner, leggTilModalOpen, kopierEpostModalOpen } = this.state;
+        const { deleModalOpen, infobanner, leggTilModalOpen } = this.state;
         const { kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
         const { kandidater } = kandidatliste;
         const markerteKandidater = this.hentMarkerteKandidater();
@@ -363,11 +348,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                             />
                         </>
                     )}
-                <KopierEpostModal
-                    vis={kopierEpostModalOpen}
-                    onClose={this.onToggleKopierEpostModal}
-                    kandidater={markerteKandidater}
-                />
                 <HjelpetekstFading
                     synlig={infobanner.vis}
                     type={infobanner.type || 'suksess'}
@@ -380,7 +360,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     onMarkerKandidater={this.markerKandidater}
                     onKandidatStatusChange={endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
-                    onEmailKandidater={this.onEmailKandidater}
                     onKandidaterAngreArkivering={this.onKandidaterAngreArkivering}
                     onSendSmsClick={() => this.onToggleSendSmsModal(true)}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}

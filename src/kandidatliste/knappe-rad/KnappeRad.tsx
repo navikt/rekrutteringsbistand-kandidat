@@ -26,7 +26,6 @@ import './KnappeRad.less';
 type Props = {
     kandidatliste: Kandidatliste;
     onKandidatShare: () => void;
-    onEmailKandidater: () => void;
     onLeggTilKandidat: () => void;
     onSendSmsClick: () => void;
     onKandidaterAngreArkivering: () => void;
@@ -38,7 +37,6 @@ type Props = {
 const KnappeRad: FunctionComponent<Props> = ({
     kandidatliste,
     onKandidatShare,
-    onEmailKandidater,
     onSendSmsClick,
     onKandidaterAngreArkivering,
     sendteMeldinger,
@@ -82,7 +80,6 @@ const KnappeRad: FunctionComponent<Props> = ({
         erKobletTilArbeidsgiver(kandidatliste) &&
         !visArkiverte;
 
-    const skalViseKopierEposterKnapp = !visArkiverte;
     const skalViseAngreSlettingKnapp = visArkiverte;
 
     return (
@@ -109,24 +106,6 @@ const KnappeRad: FunctionComponent<Props> = ({
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Sms">
                                     <SmsIkon />
-                                </Lenkeknapp>
-                            </MedPopover>
-                        ))}
-                    {skalViseKopierEposterKnapp &&
-                        (minstEnKandidatErMarkert ? (
-                            <Lenkeknapp
-                                onClick={onEmailKandidater}
-                                className="kandidatlisteknapper__knapp Email"
-                            >
-                                <EpostIkon />
-                            </Lenkeknapp>
-                        ) : (
-                            <MedPopover
-                                hjelpetekst="Du må huke av for kandidatene du ønsker å kopiere e-postadressen til."
-                                tittel="Send e-post til de markerte kandidatene"
-                            >
-                                <Lenkeknapp className="kandidatlisteknapper__knapp Email">
-                                    <EpostIkon />
                                 </Lenkeknapp>
                             </MedPopover>
                         ))}
@@ -220,13 +199,6 @@ const SmsIkon: FunctionComponent = () => (
     <>
         <i className="Sms__icon" />
         <span>Send SMS</span>
-    </>
-);
-
-const EpostIkon: FunctionComponent = () => (
-    <>
-        <i className="Email__icon" />
-        Kopier e-postadresser
     </>
 );
 
