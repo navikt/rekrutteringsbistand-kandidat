@@ -7,7 +7,6 @@ import {
 import Hendelse, { Hendelsesstatus } from '../Hendelse';
 
 type Props = {
-    kanEndre: boolean;
     svar: SvarPåForespørsel;
 };
 

@@ -14,11 +14,10 @@ import SendForespørselPåNytt from './SendForespørselPåNytt';
 import SvarFraKandidat from './SvarFraKandidat';
 
 type Props = {
-    kanEndre: boolean;
     forespørsler: Nettressurs<ForespørslerForKandidatForStilling>;
 };
 
-const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler }) => {
+const ForespørslerOgSvar: FunctionComponent<Props> = ({ forespørsler }) => {
     const [visStegForÅDelePåNytt, setVisStegForÅDelePåNytt] = useState(false);
 
     const onDelPåNyttClick = () => {
@@ -45,10 +44,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
     alleForespørsler.forEach((forespørsel, index) => {
         const erGjeldendeForespørsel = forespørsel === gjeldendeForespørsel;
         const visKnappForÅDelePåNytt =
-            !visStegForÅDelePåNytt &&
-            kanEndre &&
-            erGjeldendeForespørsel &&
-            kanResendeForespørsel(forespørsel);
+            !visStegForÅDelePåNytt && erGjeldendeForespørsel && kanResendeForespørsel(forespørsel);
 
         if (forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette) {
             hendelser.push(
@@ -72,7 +68,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ kanEndre, forespørsler
 
         if (forespørsel.tilstand === TilstandPåForespørsel.HarSvart) {
             hendelser.push(
-                <SvarFraKandidat key={forespørsel.deltTidspunkt} kanEndre svar={forespørsel.svar}>
+                <SvarFraKandidat key={forespørsel.deltTidspunkt} svar={forespørsel.svar}>
                     {visKnappForÅDelePåNytt && (
                         <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
                     )}

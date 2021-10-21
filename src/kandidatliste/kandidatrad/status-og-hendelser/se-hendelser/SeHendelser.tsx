@@ -24,7 +24,7 @@ const SeHendelser: FunctionComponent<Props> = ({
             <Undertittel>Hendelser</Undertittel>
             <ol className="endre-status-og-hendelser__hendelsesliste">
                 <NyKandidat kandidat={kandidat} />
-                <ForespørslerOgSvar kanEndre={false} forespørsler={forespørselOmDelingAvCv} />
+                <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
                 <DelCvMedArbeidsgiver
                     kandidat={kandidat}
                     kandidatlisteId={kandidatlisteId}

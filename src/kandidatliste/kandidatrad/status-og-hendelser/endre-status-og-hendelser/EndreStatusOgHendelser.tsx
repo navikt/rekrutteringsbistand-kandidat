@@ -78,7 +78,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">
                         <NyKandidat kandidat={kandidat} />
-                        <ForespørslerOgSvar kanEndre forespørsler={forespørselOmDelingAvCv} />
+                        <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
                         <DelCvMedArbeidsgiver
                             kanEndre
                             kandidatlisteId={kandidatlisteId}
