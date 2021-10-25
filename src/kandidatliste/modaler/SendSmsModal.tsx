@@ -18,6 +18,7 @@ import './SendSmsModal.less';
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
+    FunnetPassendeStilling = 'funnet-passende-stilling',
     // EtterspurtPgaKorona = 'etterspurt_pga_korona',
     // Jobbarrangement = 'jobbarrangement',
     // Webinar = 'webinar',
@@ -130,6 +131,9 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                     <option value={Meldingsmal.VurdertSomAktuell}>
                         Send stilling til en aktuell kandidat
                     </option>
+                    <option value={Meldingsmal.FunnetPassendeStilling}>
+                        Oppfordre kandidat å søke på stilling
+                    </option>
                 </Select>
 
                 <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
@@ -164,6 +168,8 @@ const genererLenkeTilStilling = (stillingId: string) => {
 const genererMeldingUtenLenke = (valgtMal: Meldingsmal) => {
     if (valgtMal === Meldingsmal.VurdertSomAktuell) {
         return `Hei, vi har vurdert at kompetansen din kan passe til denne stillingen, hilsen NAV`;
+    } else if (valgtMal === Meldingsmal.FunnetPassendeStilling) {
+        return `Hei! Vi har funnet en stilling som kan passe deg. Interessert? Søk via lenka i annonsen. Hilsen NAV`;
     }
 };
 
