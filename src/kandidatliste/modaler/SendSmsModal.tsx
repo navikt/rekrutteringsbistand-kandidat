@@ -132,7 +132,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                         Send stilling til en aktuell kandidat
                     </option>
                     <option value={Meldingsmal.FunnetPassendeStilling}>
-                        Oppfordre kandidat å søke på stilling
+                        Oppfordre kandidat til å søke på stilling
                     </option>
                 </Select>
 
