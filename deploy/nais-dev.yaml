@@ -4,7 +4,7 @@ metadata:
   name: rekrutteringsbistand-kandidat
   namespace: q0
   labels:
-    team: arbeidsgiver
+    team: toi
 spec:
   # prettier-ignore
   image: {{ image }}

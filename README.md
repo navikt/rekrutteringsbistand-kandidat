@@ -50,18 +50,16 @@ For å se endringene må man restarte webpack-serveren.
 
 [1]: https://logs.adeo.no/app/kibana#/visualize/edit/5778a2f0-963f-11e8-829c-67cd76ba3446?_g=%28refreshInterval%3A%28display%3AOff%2Cpause%3A!f%2Cvalue%3A0%29%2Ctime%3A%28from%3Anow-24h%2Cmode%3Aquick%2Cto%3Anow%29%29%29
 
+
 # Henvendelser
 
 ## For Nav-ansatte
-
--   Dette Git-repositoriet eies av [Team inkludering i Produktområde arbeidsgiver](https://navno.sharepoint.com/sites/intranett-prosjekter-og-utvikling/SitePages/Produktomr%C3%A5de-arbeidsgiver.aspx).
--   Slack-kanaler:
-    -   [#inkludering-utvikling](https://nav-it.slack.com/archives/CQZU35J6A)
-    -   [#arbeidsgiver-utvikling](https://nav-it.slack.com/archives/CD4MES6BB)
-    -   [#arbeidsgiver-general](https://nav-it.slack.com/archives/CCM649PDH)
+* Dette Git-repositoriet eies av [Team tiltak og inkludering (TOI) i Produktområde arbeidsgiver](https://teamkatalog.nais.adeo.no/team/0150fd7c-df30-43ee-944e-b152d74c64d6).
+* Slack-kanaler:
+    * [#arbeidsgiver-toi-dev](https://nav-it.slack.com/archives/C02HTU8DBSR)
+    * [#arbeidsgiver-utvikling](https://nav-it.slack.com/archives/CD4MES6BB)
 
 ## For folk utenfor Nav
-
--   Opprett gjerne en issue i Github for alle typer spørsmål
--   IT-utviklerne i Github-teamet https://github.com/orgs/navikt/teams/arbeidsgiver
--   IT-avdelingen i [Arbeids- og velferdsdirektoratet](https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/arbeids-og-velferdsdirektoratet-kontorinformasjon)
+* Opprett gjerne en issue i Github for alle typer spørsmål
+* IT-utviklerne i Github-teamet https://github.com/orgs/navikt/teams/toi
+* IT-avdelingen i [Arbeids- og velferdsdirektoratet](https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/arbeids-og-velferdsdirektoratet-kontorinformasjon)
