@@ -18,7 +18,7 @@ type Props = {
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
     kandidatlisteId: string;
     onStatusChange: (status: Kandidatstatus) => void;
-    kandidatlistenErKobletTilStilling: boolean;
+    skalViseHendelser: boolean;
 };
 
 const hentStatusbeskrivelse = (status: Kandidatstatus) => {
@@ -32,7 +32,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     forespørselOmDelingAvCv,
     kandidatlisteId,
     onStatusChange,
-    kandidatlistenErKobletTilStilling,
+    skalViseHendelser,
 }) => {
     const [status, setStatus] = useState(kandidat.status);
     const statuser = Object.entries(Kandidatstatus);
@@ -73,7 +73,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     Lagre status
                 </Knapp>
             </div>
-            {kandidatlistenErKobletTilStilling && (
+            {skalViseHendelser && (
                 <div className="endre-status-og-hendelser__hendelser">
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">

@@ -7,6 +7,7 @@ import {
     erKobletTilStilling,
     Kandidatliste as Kandidatlistetype,
     Kandidatlistestatus,
+    Stillingskategori,
 } from './domene/Kandidatliste';
 import { Kandidatlistefilter } from './reducer/kandidatlisteReducer';
 import { Kandidatstatus, erInaktiv } from './domene/Kandidat';
@@ -212,7 +213,12 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             antallTreff={antallFiltertreff}
                             visArkiverte={filter.visArkiverte}
                             statusfilter={filter.status}
-                            hendelsefilter={kandidatliste.stillingId ? filter.hendelse : undefined}
+                            hendelsefilter={
+                                kandidatliste.stillingId &&
+                                kandidatliste.stillingskategori !== Stillingskategori.Jobbmesse
+                                    ? filter.hendelse
+                                    : undefined
+                            }
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
                             onToggleHendelse={onToggleHendelse}

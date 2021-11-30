@@ -14,6 +14,7 @@ import usePopoverAnker from './usePopoverAnker';
 import usePopoverOrientering from './usePopoverOrientering';
 import Hendelsesetikett from './etiketter/Hendelsesetikett';
 import './StatusOgHendelser.less';
+import { Stillingskategori } from '../../domene/Kandidatliste';
 
 type Props = {
     kandidatlisteId: string;
@@ -21,6 +22,7 @@ type Props = {
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
     kanEditere: boolean;
     kandidatlistenErKobletTilStilling: boolean;
+    stillingskategori: Stillingskategori | null;
     onStatusChange: (status: Kandidatstatus) => void;
     id?: string;
 };
@@ -31,6 +33,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     forespørselOmDelingAvCv,
     kanEditere,
     onStatusChange,
+    stillingskategori,
     kandidatlistenErKobletTilStilling,
     id,
 }) => {
@@ -75,8 +78,9 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                                     kandidatlisteId={kandidatlisteId}
                                     onStatusChange={endreStatusOgLukkPopover}
-                                    kandidatlistenErKobletTilStilling={
-                                        kandidatlistenErKobletTilStilling
+                                    skalViseHendelser={
+                                        kandidatlistenErKobletTilStilling &&
+                                        stillingskategori !== Stillingskategori.Jobbmesse
                                     }
                                 />
                             ) : (

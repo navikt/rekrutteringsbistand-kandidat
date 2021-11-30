@@ -241,6 +241,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             kandidat.kandidatnr
                         );
                     }}
+                    stillingskategori={kandidatliste.stillingskategori}
                     kandidatlistenErKobletTilStilling={erKobletTilStilling(kandidatliste)}
                 />
 
