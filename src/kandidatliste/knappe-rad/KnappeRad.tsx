@@ -9,6 +9,7 @@ import {
     kandidaterMåGodkjenneDelingAvCv,
     Kandidatliste,
     Kandidatlistestatus,
+    Stillingskategori,
 } from '../domene/Kandidatliste';
 import MedPopover from '../../common/med-popover/MedPopover';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
@@ -75,6 +76,7 @@ const KnappeRad: FunctionComponent<Props> = ({
         kandidatliste.kanEditere &&
         erKobletTilStilling(kandidatliste) &&
         erKobletTilArbeidsgiver(kandidatliste) &&
+        kandidatliste.stillingskategori !== Stillingskategori.Jobbmesse &&
         !visArkiverte;
 
     const skalViseDelMedKandidatKnapp =
