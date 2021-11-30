@@ -344,6 +344,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                                 kandidatlisteId={kandidatliste.kandidatlisteId}
                                 kandidater={kandidater}
                                 sendteMeldinger={this.props.sendteMeldinger.data}
+                                stillingskategori={kandidatliste.stillingskategori}
                                 stillingId={kandidatliste.stillingId}
                             />
                         </>
