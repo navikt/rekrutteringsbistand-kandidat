@@ -13,25 +13,24 @@ import StatusEtikett from './etiketter/StatusEtikett';
 import usePopoverAnker from './usePopoverAnker';
 import usePopoverOrientering from './usePopoverOrientering';
 import Hendelsesetikett from './etiketter/Hendelsesetikett';
+import { erKobletTilStilling, Kandidatliste } from '../../domene/Kandidatliste';
 import './StatusOgHendelser.less';
 
 type Props = {
-    kandidatlisteId: string;
     kandidat: Kandidat;
+    kandidatliste: Kandidatliste;
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
-    kanEditere: boolean;
-    kandidatlistenErKobletTilStilling: boolean;
     onStatusChange: (status: Kandidatstatus) => void;
+    kanEditere: boolean;
     id?: string;
 };
 
 const StatusOgHendelser: FunctionComponent<Props> = ({
-    kandidatlisteId,
     kandidat,
+    kandidatliste,
     forespørselOmDelingAvCv,
-    kanEditere,
     onStatusChange,
-    kandidatlistenErKobletTilStilling,
+    kanEditere,
     id,
 }) => {
     const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -43,6 +42,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
         lukkPopover();
     };
 
+    const kandidatlistenErKobletTilStilling = erKobletTilStilling(kandidatliste);
     const skalVisePopover = kanEditere || kandidatlistenErKobletTilStilling;
 
     return (
@@ -72,17 +72,14 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                             {kanEditere ? (
                                 <EndreStatusOgHendelser
                                     kandidat={kandidat}
+                                    kandidatliste={kandidatliste}
                                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                                    kandidatlisteId={kandidatlisteId}
                                     onStatusChange={endreStatusOgLukkPopover}
-                                    kandidatlistenErKobletTilStilling={
-                                        kandidatlistenErKobletTilStilling
-                                    }
                                 />
                             ) : (
                                 <SeHendelser
                                     kandidat={kandidat}
-                                    kandidatlisteId={kandidatlisteId}
+                                    kandidatlisteId={kandidatliste.kandidatlisteId}
                                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                                 />
                             )}

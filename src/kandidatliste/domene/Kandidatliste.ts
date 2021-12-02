@@ -35,6 +35,7 @@ export enum Stillingskategori {
     Stilling = 'STILLING',
     Formidling = 'FORMIDLING',
     Arbeidstrening = 'ARBEIDSTRENING',
+    Jobbmesse = 'JOBBMESSE',
 }
 
 export type OpprettetAv = {

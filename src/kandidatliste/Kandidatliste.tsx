@@ -5,8 +5,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import {
     erEierAvKandidatlisten,
     erKobletTilStilling,
+    kandidaterMåGodkjenneDelingAvCv,
     Kandidatliste as Kandidatlistetype,
     Kandidatlistestatus,
+    Stillingskategori,
 } from './domene/Kandidatliste';
 import { Kandidatlistefilter } from './reducer/kandidatlisteReducer';
 import { Kandidatstatus, erInaktiv } from './domene/Kandidat';
@@ -212,7 +214,12 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             antallTreff={antallFiltertreff}
                             visArkiverte={filter.visArkiverte}
                             statusfilter={filter.status}
-                            hendelsefilter={kandidatliste.stillingId ? filter.hendelse : undefined}
+                            hendelsefilter={
+                                kandidaterMåGodkjenneDelingAvCv(kandidatliste) ||
+                                kandidatliste.stillingskategori === Stillingskategori.Formidling
+                                    ? filter.hendelse
+                                    : undefined
+                            }
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
                             onToggleHendelse={onToggleHendelse}

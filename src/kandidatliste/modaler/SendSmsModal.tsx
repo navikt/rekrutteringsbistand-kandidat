@@ -15,12 +15,13 @@ import AppState from '../../AppState';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import './SendSmsModal.less';
+import { Stillingskategori } from '../domene/Kandidatliste';
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
     FunnetPassendeStilling = 'funnet-passende-stilling',
+    Jobbarrangement = 'jobbarrangement',
     // EtterspurtPgaKorona = 'etterspurt_pga_korona',
-    // Jobbarrangement = 'jobbarrangement',
     // Webinar = 'webinar',
 }
 
@@ -31,10 +32,19 @@ type Props = {
     kandidatlisteId: string;
     stillingId: string;
     sendteMeldinger: Kandidatmeldinger;
+    stillingskategori: Stillingskategori | null;
 };
 
 const SendSmsModal: FunctionComponent<Props> = (props) => {
-    const { vis, onClose, kandidater, kandidatlisteId, stillingId, sendteMeldinger } = props;
+    const {
+        vis,
+        onClose,
+        kandidater,
+        kandidatlisteId,
+        stillingId,
+        sendteMeldinger,
+        stillingskategori,
+    } = props;
 
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
     const { sendStatus } = useSelector((state: AppState) => state.kandidatliste.sms);
@@ -62,7 +72,11 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
     const lenkeTilStilling = genererLenkeTilStilling(stillingId);
     const lenkeMedPrefiks = `https://www.${lenkeTilStilling}`;
 
-    const [valgtMal, setValgtMal] = useState<Meldingsmal>(Meldingsmal.VurdertSomAktuell);
+    const [valgtMal, setValgtMal] = useState<Meldingsmal>(
+        stillingskategori === Stillingskategori.Jobbmesse
+            ? Meldingsmal.Jobbarrangement
+            : Meldingsmal.VurdertSomAktuell
+    );
 
     const onSendSms = () => {
         const melding = genererMelding(valgtMal, stillingId);
@@ -121,20 +135,22 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                     SMS sendes ut mellom 09:00 og 17:15 hver dag. Det kan oppstå forsinkelser.
                 </AlertStripeInfo>
 
-                <Select
-                    className="send-sms-modal__velg-mal"
-                    label="Velg beskjed som skal vises i SMS-en*"
-                    onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                        setValgtMal(e.target.value as Meldingsmal);
-                    }}
-                >
-                    <option value={Meldingsmal.VurdertSomAktuell}>
-                        Send stilling til en aktuell kandidat
-                    </option>
-                    <option value={Meldingsmal.FunnetPassendeStilling}>
-                        Oppfordre kandidat til å søke på stilling
-                    </option>
-                </Select>
+                {stillingskategori !== Stillingskategori.Jobbmesse && (
+                    <Select
+                        className="send-sms-modal__velg-mal"
+                        label="Velg beskjed som skal vises i SMS-en*"
+                        onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                            setValgtMal(e.target.value as Meldingsmal);
+                        }}
+                    >
+                        <option value={Meldingsmal.VurdertSomAktuell}>
+                            Send stilling til en aktuell kandidat
+                        </option>
+                        <option value={Meldingsmal.FunnetPassendeStilling}>
+                            Oppfordre kandidat til å søke på stilling
+                        </option>
+                    </Select>
+                )}
 
                 <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
                     Meldingen som vil bli sendt til kandidatene
@@ -170,6 +186,8 @@ const genererMeldingUtenLenke = (valgtMal: Meldingsmal) => {
         return `Hei, vi har vurdert at kompetansen din kan passe til denne stillingen, hilsen NAV`;
     } else if (valgtMal === Meldingsmal.FunnetPassendeStilling) {
         return `Hei! Vi har funnet en stilling som kan passe deg. Interessert? Søk via lenka i annonsen. Hilsen NAV`;
+    } else if (valgtMal === Meldingsmal.Jobbarrangement) {
+        return `Hei, vi har et jobbarrangement som kan passe for deg, hilsen NAV. Se mer info:`;
     }
 };
 
