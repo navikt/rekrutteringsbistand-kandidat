@@ -13,12 +13,8 @@ import StatusEtikett from './etiketter/StatusEtikett';
 import usePopoverAnker from './usePopoverAnker';
 import usePopoverOrientering from './usePopoverOrientering';
 import Hendelsesetikett from './etiketter/Hendelsesetikett';
+import { erKobletTilStilling, Kandidatliste } from '../../domene/Kandidatliste';
 import './StatusOgHendelser.less';
-import {
-    erKobletTilStilling,
-    kandidaterMåGodkjenneDelingAvCv,
-    Kandidatliste,
-} from '../../domene/Kandidatliste';
 
 type Props = {
     kandidat: Kandidat;
