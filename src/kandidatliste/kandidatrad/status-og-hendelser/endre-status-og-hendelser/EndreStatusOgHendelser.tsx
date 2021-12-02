@@ -12,13 +12,17 @@ import { Nettressurs } from '../../../../api/Nettressurs';
 import NyKandidat from '../hendelser/NyKandidat';
 import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
 import './EndreStatusOgHendelser.less';
+import {
+    kandidaterMåGodkjenneDelingAvCv,
+    Kandidatliste,
+    Stillingskategori,
+} from '../../../domene/Kandidatliste';
 
 type Props = {
     kandidat: Kandidat;
+    kandidatliste: Kandidatliste;
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
-    kandidatlisteId: string;
     onStatusChange: (status: Kandidatstatus) => void;
-    skalViseHendelser: boolean;
 };
 
 const hentStatusbeskrivelse = (status: Kandidatstatus) => {
@@ -29,10 +33,9 @@ const hentStatusbeskrivelse = (status: Kandidatstatus) => {
 
 const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
+    kandidatliste,
     forespørselOmDelingAvCv,
-    kandidatlisteId,
     onStatusChange,
-    skalViseHendelser,
 }) => {
     const [status, setStatus] = useState(kandidat.status);
     const statuser = Object.entries(Kandidatstatus);
@@ -41,8 +44,15 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
         onStatusChange(status);
     };
 
+    const visHendelser =
+        kandidaterMåGodkjenneDelingAvCv(kandidatliste) ||
+        kandidatliste.stillingskategori === Stillingskategori.Formidling;
+
+    let className = 'endre-status-og-hendelser';
+    if (visHendelser) className += ' endre-status-og-hendelser--med-makshøyde';
+
     return (
-        <div className="endre-status-og-hendelser">
+        <div className={className}>
             <div className="endre-status-og-hendelser__velg-status">
                 <RadioGruppe
                     className="endre-status-og-hendelser__statustittel blokk-xs"
@@ -73,7 +83,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     Lagre status
                 </Knapp>
             </div>
-            {skalViseHendelser && (
+            {visHendelser && (
                 <div className="endre-status-og-hendelser__hendelser">
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">
@@ -81,12 +91,12 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                         <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
                         <DelCvMedArbeidsgiver
                             kanEndre
-                            kandidatlisteId={kandidatlisteId}
+                            kandidatlisteId={kandidatliste.kandidatlisteId}
                             kandidat={kandidat}
                         />
                         <HarFåttJobben
                             kanEndre
-                            kandidatlisteId={kandidatlisteId}
+                            kandidatlisteId={kandidatliste.kandidatlisteId}
                             kandidat={kandidat}
                         />
                     </ol>

@@ -88,11 +88,9 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
                             kandidatliste.status === Kandidatlistestatus.Åpen
                         }
                         kandidat={kandidat}
+                        kandidatliste={kandidatliste}
                         forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                        kandidatlisteId={kandidatliste.kandidatlisteId}
                         onStatusChange={onKandidatStatusChange}
-                        stillingskategori={kandidatliste.stillingskategori}
-                        kandidatlistenErKobletTilStilling={erKobletTilStilling(kandidatliste)}
                     />
                 </div>
             </Kandidatmeny>

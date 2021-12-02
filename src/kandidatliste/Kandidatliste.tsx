@@ -5,6 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import {
     erEierAvKandidatlisten,
     erKobletTilStilling,
+    kandidaterMåGodkjenneDelingAvCv,
     Kandidatliste as Kandidatlistetype,
     Kandidatlistestatus,
     Stillingskategori,
@@ -214,8 +215,8 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             visArkiverte={filter.visArkiverte}
                             statusfilter={filter.status}
                             hendelsefilter={
-                                kandidatliste.stillingId &&
-                                kandidatliste.stillingskategori !== Stillingskategori.Jobbmesse
+                                kandidaterMåGodkjenneDelingAvCv(kandidatliste) ||
+                                kandidatliste.stillingskategori === Stillingskategori.Formidling
                                     ? filter.hendelse
                                     : undefined
                             }

@@ -230,8 +230,8 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 </div>
 
                 <StatusOgHendelser
-                    kandidatlisteId={kandidatliste.kandidatlisteId}
                     kandidat={kandidat}
+                    kandidatliste={kandidatliste}
                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                     kanEditere={kanEndreKandidatlisten}
                     onStatusChange={(status) => {
@@ -241,8 +241,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             kandidat.kandidatnr
                         );
                     }}
-                    stillingskategori={kandidatliste.stillingskategori}
-                    kandidatlistenErKobletTilStilling={erKobletTilStilling(kandidatliste)}
                 />
 
                 <div role="cell">
