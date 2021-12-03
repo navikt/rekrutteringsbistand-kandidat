@@ -7,23 +7,28 @@ import NyKandidat from '../hendelser/NyKandidat';
 import { Nettressurs } from '../../../../api/Nettressurs';
 import { ForespørslerForKandidatForStilling } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
+import { Sms } from '../../../domene/Kandidatressurser';
+import SmsSendt from '../hendelser/SmsSendt';
 
 type Props = {
     kandidat: Kandidat;
     kandidatlisteId: string;
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
+    sms?: Sms;
 };
 
 const SeHendelser: FunctionComponent<Props> = ({
     kandidat,
     kandidatlisteId,
     forespørselOmDelingAvCv,
+    sms,
 }) => {
     return (
         <>
             <Undertittel>Hendelser</Undertittel>
             <ol className="endre-status-og-hendelser__hendelsesliste">
                 <NyKandidat kandidat={kandidat} />
+                <SmsSendt sms={sms} />
                 <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
                 <DelCvMedArbeidsgiver
                     kandidat={kandidat}
