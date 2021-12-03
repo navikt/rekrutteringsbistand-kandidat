@@ -1,4 +1,8 @@
-import {Kandidatstatus, Kandidatutfall, Utfallsendring} from '../../kandidatliste/domene/Kandidat';
+import {
+    Kandidatstatus,
+    Kandidatutfall,
+    Utfallsendring,
+} from '../../kandidatliste/domene/Kandidat';
 import { ApiError, feil, ikkeLastet, lasterInn, Nettressurs, suksess } from '../../api/Nettressurs';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api/api';

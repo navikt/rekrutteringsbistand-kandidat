@@ -6,11 +6,7 @@ type Props = {
 };
 
 const LeggTilKandidatKnapp: FunctionComponent<Props> = ({ onLeggTilKandidat }) => (
-    <Flatknapp
-        mini
-        onClick={onLeggTilKandidat}
-        className="LeggTilKandidat"
-    >
+    <Flatknapp mini onClick={onLeggTilKandidat} className="LeggTilKandidat">
         <i className="LeggTilKandidat__icon" />
         <span>Legg til kandidat</span>
     </Flatknapp>

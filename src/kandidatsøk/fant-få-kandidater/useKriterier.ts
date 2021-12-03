@@ -73,13 +73,10 @@ const useKriterier = (
         []
     );
 
-    useEffect(() => oppdaterKriterier(stillinger, geografi, kategorier, tilretteleggingsbehov), [
-        stillinger,
-        geografi,
-        kategorier,
-        tilretteleggingsbehov,
-        oppdaterKriterier,
-    ]);
+    useEffect(
+        () => oppdaterKriterier(stillinger, geografi, kategorier, tilretteleggingsbehov),
+        [stillinger, geografi, kategorier, tilretteleggingsbehov, oppdaterKriterier]
+    );
 
     return [kriterier, kriterierInnenTilretteleggingsbehov];
 };
