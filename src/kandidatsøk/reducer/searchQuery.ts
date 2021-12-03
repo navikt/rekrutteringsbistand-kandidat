@@ -68,9 +68,8 @@ const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => 
         søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder &&
         søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0
     )
-        urlQuery.kvalifiseringsgruppeKoder = søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder.join(
-            '_'
-        );
+        urlQuery.kvalifiseringsgruppeKoder =
+            søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder.join('_');
     if (søkefilter.geografi.maaBoInnenforGeografi)
         urlQuery.maaBoInnenforGeografi = søkefilter.geografi.maaBoInnenforGeografi;
     if (søkefilter.navkontor.navkontor && søkefilter.navkontor.navkontor.length > 0)
@@ -102,9 +101,8 @@ const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => 
         søkefilter.tilgjengelighet.midlertidigUtilgjengelig &&
         søkefilter.tilgjengelighet.midlertidigUtilgjengelig.length > 0
     )
-        urlQuery.midlertidigUtilgjengelig = søkefilter.tilgjengelighet.midlertidigUtilgjengelig.join(
-            '_'
-        );
+        urlQuery.midlertidigUtilgjengelig =
+            søkefilter.tilgjengelighet.midlertidigUtilgjengelig.join('_');
 
     const valgteMålgrupper = søkefilter.prioriterteMålgrupper.valgte;
     if (valgteMålgrupper && valgteMålgrupper.length > 0)

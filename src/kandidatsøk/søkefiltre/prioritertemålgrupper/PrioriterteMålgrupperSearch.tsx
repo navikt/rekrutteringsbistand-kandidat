@@ -22,13 +22,8 @@ interface PrioriterteMålgrupperSearchProps {
 }
 
 const PrioriterteMålgrupperSearch = (props: PrioriterteMålgrupperSearchProps) => {
-    const {
-        search,
-        togglePanelOpen,
-        panelOpen,
-        changePrioriterteMålgrupper,
-        valgteMålgrupper,
-    } = props;
+    const { search, togglePanelOpen, panelOpen, changePrioriterteMålgrupper, valgteMålgrupper } =
+        props;
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const målgruppe = event.currentTarget.value as PrioritertMålgruppe;

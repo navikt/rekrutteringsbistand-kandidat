@@ -7,14 +7,8 @@ import { erKobletTilStilling } from '../../kandidatliste/domene/Kandidatliste';
 import './LagreKandidaterTilStillingModal.less';
 
 const LagreKandidaterTilStillingModal = (props) => {
-    const {
-        vis,
-        onLagre,
-        onRequestClose,
-        antallMarkerteKandidater,
-        kandidatliste,
-        isSaving,
-    } = props;
+    const { vis, onLagre, onRequestClose, antallMarkerteKandidater, kandidatliste, isSaving } =
+        props;
 
     const lagreKandidater = () => {
         onLagre(kandidatliste);
