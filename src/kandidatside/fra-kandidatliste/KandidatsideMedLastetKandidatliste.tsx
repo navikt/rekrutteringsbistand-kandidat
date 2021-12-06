@@ -24,7 +24,10 @@ import useMidlertidigUtilgjengelig from './useMidlertidigUtilgjengelig';
 import useNavigerbareKandidater from './useNavigerbareKandidater';
 import useHentForespørslerOmDelingAvCv from '../../kandidatliste/hooks/useHentForespørslerOmDelingAvCv';
 import useForespørselOmDelingAvCv from '../../kandidatliste/hooks/useForespørselOmDelingAvCv';
+import useHentSendteMeldinger from '../../kandidatliste/hooks/useSendtKandidatmelding';
 import '../../common/ikoner.less';
+import { Sms } from '../../kandidatliste/domene/Kandidatressurser';
+import useSendtKandidatmelding from '../../kandidatliste/hooks/useSendtKandidatmelding';
 
 type Props = {
     kandidat: Kandidat;
@@ -39,11 +42,13 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
     const dispatch: Dispatch<KandidatlisteAction | CvAction> = useDispatch();
 
     useHentForespørslerOmDelingAvCv(kandidatliste.stillingId);
+    useHentSendteMeldinger(kandidatliste.kandidatlisteId);
 
     const { cv } = useSelector((state: AppState) => state.cv);
     const { filter } = useSelector((state: AppState) => state.kandidatliste);
     const tilgjengelighet = useMidlertidigUtilgjengelig(kandidat.kandidatnr);
     const forespørselOmDelingAvCv = useForespørselOmDelingAvCv(kandidat.aktørid);
+    const melding = useSendtKandidatmelding(kandidat.fodselsnr);
 
     const { aktivKandidat, lenkeTilForrige, lenkeTilNeste, antallKandidater } =
         useNavigerbareKandidater(kandidat.kandidatnr, kandidatliste);
@@ -91,6 +96,7 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
                         kandidatliste={kandidatliste}
                         forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                         onStatusChange={onKandidatStatusChange}
+                        sms={melding}
                     />
                 </div>
             </Kandidatmeny>
