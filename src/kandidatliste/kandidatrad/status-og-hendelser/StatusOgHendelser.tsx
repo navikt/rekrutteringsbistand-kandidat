@@ -77,6 +77,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                                     kandidat={kandidat}
                                     kandidatliste={kandidatliste}
                                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                                    sms={sms}
                                     onStatusChange={endreStatusOgLukkPopover}
                                 />
                             ) : (

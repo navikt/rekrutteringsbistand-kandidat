@@ -17,11 +17,14 @@ import {
     Kandidatliste,
     Stillingskategori,
 } from '../../../domene/Kandidatliste';
+import { Sms } from '../../../domene/Kandidatressurser';
+import SmsSendt from '../hendelser/SmsSendt';
 
 type Props = {
     kandidat: Kandidat;
     kandidatliste: Kandidatliste;
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
+    sms?: Sms;
     onStatusChange: (status: Kandidatstatus) => void;
 };
 
@@ -35,6 +38,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
     kandidatliste,
     forespørselOmDelingAvCv,
+    sms,
     onStatusChange,
 }) => {
     const [status, setStatus] = useState(kandidat.status);
@@ -88,6 +92,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">
                         <NyKandidat kandidat={kandidat} />
+                        <SmsSendt sms={sms} />
                         <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
                         <DelCvMedArbeidsgiver
                             kanEndre

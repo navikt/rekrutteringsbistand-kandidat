@@ -11,6 +11,7 @@ const SmsSendt: FunctionComponent<Props> = ({ sms }) => {
     function smstekst(smsMelding) {
         return `${formaterDatoNaturlig(smsMelding.opprettet)} av ${smsMelding.id}`;
     }
+    console.log('sms', sms);
 
     if (sms) {
         switch (sms.status) {
