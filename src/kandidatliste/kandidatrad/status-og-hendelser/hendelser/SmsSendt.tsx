@@ -9,7 +9,7 @@ type Props = {
 
 const SmsSendt: FunctionComponent<Props> = ({ sms }) => {
     function smstekst(smsMelding) {
-        return `${formaterDatoNaturlig(smsMelding.opprettet)} av ${smsMelding.id}`;
+        return `${formaterDatoNaturlig(smsMelding.opprettet)} av ${smsMelding.navident}`;
     }
     console.log('sms', sms);
 
@@ -27,7 +27,7 @@ const SmsSendt: FunctionComponent<Props> = ({ sms }) => {
                 return (
                     <Hendelse
                         status={Hendelsesstatus.Grønn}
-                        tittel="Ny kandidat"
+                        tittel="SMS er sendt til kandidaten"
                         beskrivelse={smstekst(sms)}
                     />
                 );

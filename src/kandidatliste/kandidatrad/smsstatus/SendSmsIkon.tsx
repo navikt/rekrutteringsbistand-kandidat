@@ -5,7 +5,6 @@ type Props = {
 };
 
 const SendSmsIkon: FunctionComponent<Props> = ({ feil }) => {
-    console.log('feilsms', feil);
     const className = feil ? 'Sms__icon Sms__icon--feil' : 'Sms__icon';
 
     return (
