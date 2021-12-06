@@ -24,9 +24,8 @@ import useMidlertidigUtilgjengelig from './useMidlertidigUtilgjengelig';
 import useNavigerbareKandidater from './useNavigerbareKandidater';
 import useHentForespørslerOmDelingAvCv from '../../kandidatliste/hooks/useHentForespørslerOmDelingAvCv';
 import useForespørselOmDelingAvCv from '../../kandidatliste/hooks/useForespørselOmDelingAvCv';
-import useHentSendteMeldinger from '../../kandidatliste/hooks/useSendtKandidatmelding';
+import useHentSendteMeldinger from '../../kandidatliste/hooks/useHentSendteMeldinger';
 import '../../common/ikoner.less';
-import { Sms } from '../../kandidatliste/domene/Kandidatressurser';
 import useSendtKandidatmelding from '../../kandidatliste/hooks/useSendtKandidatmelding';
 
 type Props = {
