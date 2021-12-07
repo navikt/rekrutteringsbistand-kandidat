@@ -12,28 +12,29 @@ const SmsSendt: FunctionComponent<Props> = ({ sms }) => {
         return `${formaterDatoNaturlig(smsMelding.opprettet)} av ${smsMelding.navident}`;
     }
 
-    if (sms) {
-        switch (sms.status) {
-            case SmsStatus.Feil:
-                return (
-                    <Hendelse
-                        status={Hendelsesstatus.Rød}
-                        tittel="SMS-en ble ikke sendt"
-                        beskrivelse={smstekst(sms)}
-                    />
-                );
-            case SmsStatus.Sendt:
-                return (
-                    <Hendelse
-                        status={Hendelsesstatus.Grønn}
-                        tittel="SMS er sendt til kandidaten"
-                        beskrivelse={smstekst(sms)}
-                    />
-                );
-        }
-        return <div></div>;
+    if (!sms) {
+        return null;
     }
-    return <div></div>;
+
+    switch (sms.status) {
+        case SmsStatus.Feil:
+            return (
+                <Hendelse
+                    status={Hendelsesstatus.Rød}
+                    tittel="SMS-en ble ikke sendt"
+                    beskrivelse={smstekst(sms)}
+                />
+            );
+        case SmsStatus.Sendt:
+            return (
+                <Hendelse
+                    status={Hendelsesstatus.Grønn}
+                    tittel="SMS er sendt til kandidaten"
+                    beskrivelse={smstekst(sms)}
+                />
+            );
+    }
+    return null;
 };
 
 export default SmsSendt;
