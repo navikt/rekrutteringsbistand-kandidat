@@ -98,19 +98,22 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                         <NyKandidat kandidat={kandidat} />
                         <SmsSendt sms={sms} />
                         {erStillingEllerFormidling && (
-                            <>
-                                <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
-                                <DelCvMedArbeidsgiver
-                                    kanEndre
-                                    kandidatlisteId={kandidatliste.kandidatlisteId}
-                                    kandidat={kandidat}
-                                />
-                                <HarFåttJobben
-                                    kanEndre
-                                    kandidatlisteId={kandidatliste.kandidatlisteId}
-                                    kandidat={kandidat}
-                                />
-                            </>
+                            <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
+                        )}
+
+                        {erStillingEllerFormidling && (
+                            <DelCvMedArbeidsgiver
+                                kanEndre
+                                kandidatlisteId={kandidatliste.kandidatlisteId}
+                                kandidat={kandidat}
+                            />
+                        )}
+                        {erStillingEllerFormidling && (
+                            <HarFåttJobben
+                                kanEndre
+                                kandidatlisteId={kandidatliste.kandidatlisteId}
+                                kandidat={kandidat}
+                            />
                         )}
                     </ol>
                 </div>
