@@ -26,7 +26,7 @@ export type Sms = {
     opprettet: string;
     sendt: string;
     status: SmsStatus;
-    navident: string;
+    navIdent: string;
 };
 
 export type Kandidattilstand = {

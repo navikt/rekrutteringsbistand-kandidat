@@ -9,7 +9,7 @@ type Props = {
 
 const SmsSendt: FunctionComponent<Props> = ({ sms }) => {
     function smstekst(smsMelding) {
-        return `${formaterDatoNaturlig(smsMelding.opprettet)} av ${smsMelding.navident}`;
+        return `${formaterDatoNaturlig(smsMelding.opprettet)} av ${smsMelding.navIdent}`;
     }
 
     if (!sms) {
