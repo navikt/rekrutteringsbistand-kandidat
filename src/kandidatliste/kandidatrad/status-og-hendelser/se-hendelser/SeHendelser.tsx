@@ -9,12 +9,14 @@ import { ForespørslerForKandidatForStilling } from '../../../knappe-rad/foresp�
 import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
 import { Sms } from '../../../domene/Kandidatressurser';
 import SmsSendt from '../hendelser/SmsSendt';
+import { Stillingskategori } from '../../../domene/Kandidatliste';
 
 type Props = {
     kandidat: Kandidat;
     kandidatlisteId: string;
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
     sms?: Sms;
+    stillingskategori: Stillingskategori | null;
 };
 
 const SeHendelser: FunctionComponent<Props> = ({
@@ -22,24 +24,34 @@ const SeHendelser: FunctionComponent<Props> = ({
     kandidatlisteId,
     forespørselOmDelingAvCv,
     sms,
+    stillingskategori,
 }) => {
+    const erStillingEllerFormidling =
+        stillingskategori === Stillingskategori.Stilling ||
+        stillingskategori === Stillingskategori.Formidling;
     return (
         <>
             <Undertittel>Hendelser</Undertittel>
             <ol className="endre-status-og-hendelser__hendelsesliste">
                 <NyKandidat kandidat={kandidat} />
                 <SmsSendt sms={sms} />
-                <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
-                <DelCvMedArbeidsgiver
-                    kandidat={kandidat}
-                    kandidatlisteId={kandidatlisteId}
-                    kanEndre={false}
-                />
-                <HarFåttJobben
-                    kandidat={kandidat}
-                    kandidatlisteId={kandidatlisteId}
-                    kanEndre={false}
-                />
+                {erStillingEllerFormidling && (
+                    <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
+                )}
+                {erStillingEllerFormidling && (
+                    <DelCvMedArbeidsgiver
+                        kandidat={kandidat}
+                        kandidatlisteId={kandidatlisteId}
+                        kanEndre={false}
+                    />
+                )}
+                {erStillingEllerFormidling && (
+                    <HarFåttJobben
+                        kandidat={kandidat}
+                        kandidatlisteId={kandidatlisteId}
+                        kanEndre={false}
+                    />
+                )}
             </ol>
         </>
     );
