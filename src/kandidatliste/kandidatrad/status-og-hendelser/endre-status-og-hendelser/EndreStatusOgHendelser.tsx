@@ -57,8 +57,8 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
 
     const erStillingEllerFormidling =
         kandidatliste.stillingskategori === Stillingskategori.Stilling ||
-        kandidatliste.stillingskategori === Stillingskategori.Formidling;
-
+        kandidatliste.stillingskategori === Stillingskategori.Formidling ||
+        kandidatliste.stillingskategori == null;
     return (
         <div className={className}>
             <div className="endre-status-og-hendelser__velg-status">
