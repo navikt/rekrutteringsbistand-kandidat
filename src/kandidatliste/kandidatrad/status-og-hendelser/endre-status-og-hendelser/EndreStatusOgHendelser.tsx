@@ -55,6 +55,10 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     let className = 'endre-status-og-hendelser';
     if (visHendelser) className += ' endre-status-og-hendelser--med-makshøyde';
 
+    const erStillingEllerFormidling =
+        kandidatliste.stillingskategori === Stillingskategori.Stilling ||
+        kandidatliste.stillingskategori === Stillingskategori.Formidling;
+
     return (
         <div className={className}>
             <div className="endre-status-og-hendelser__velg-status">
@@ -93,17 +97,21 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <ol className="endre-status-og-hendelser__hendelsesliste">
                         <NyKandidat kandidat={kandidat} />
                         <SmsSendt sms={sms} />
-                        <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
-                        <DelCvMedArbeidsgiver
-                            kanEndre
-                            kandidatlisteId={kandidatliste.kandidatlisteId}
-                            kandidat={kandidat}
-                        />
-                        <HarFåttJobben
-                            kanEndre
-                            kandidatlisteId={kandidatliste.kandidatlisteId}
-                            kandidat={kandidat}
-                        />
+                        {erStillingEllerFormidling && (
+                            <>
+                                <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
+                                <DelCvMedArbeidsgiver
+                                    kanEndre
+                                    kandidatlisteId={kandidatliste.kandidatlisteId}
+                                    kandidat={kandidat}
+                                />
+                                <HarFåttJobben
+                                    kanEndre
+                                    kandidatlisteId={kandidatliste.kandidatlisteId}
+                                    kandidat={kandidat}
+                                />
+                            </>
+                        )}
                     </ol>
                 </div>
             )}

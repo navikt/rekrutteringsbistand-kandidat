@@ -85,7 +85,7 @@ const standard: Kandidatliste = {
     kanEditere: true,
     kanSlette: KanSletteEnum.KAN_SLETTES,
     status: Kandidatlistestatus.Åpen,
-    stillingskategori: Stillingskategori.Formidling,
+    stillingskategori: Stillingskategori.Jobbmesse,
     kandidater: [],
     formidlingerAvUsynligKandidat: [],
     antallStillinger: 7,
