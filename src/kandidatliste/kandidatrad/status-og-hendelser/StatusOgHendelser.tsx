@@ -61,6 +61,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                             ? forespørselOmDelingAvCv.data.gjeldendeForespørsel
                             : undefined
                     }
+                    sms={sms}
                 />
             )}
             {skalVisePopover && <StatusOgHendelserKnapp onClick={togglePopover} />}
