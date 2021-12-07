@@ -50,8 +50,8 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
 
     const visHendelser =
         kandidaterMåGodkjenneDelingAvCv(kandidatliste) ||
-        kandidatliste.stillingskategori === Stillingskategori.Formidling;
-
+        kandidatliste.stillingskategori === Stillingskategori.Formidling ||
+        kandidatliste.stillingskategori === Stillingskategori.Jobbmesse;
     let className = 'endre-status-og-hendelser';
     if (visHendelser) className += ' endre-status-og-hendelser--med-makshøyde';
 
