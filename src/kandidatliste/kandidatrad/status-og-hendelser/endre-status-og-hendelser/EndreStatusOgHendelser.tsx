@@ -17,11 +17,14 @@ import {
     Kandidatliste,
     Stillingskategori,
 } from '../../../domene/Kandidatliste';
+import { Sms } from '../../../domene/Kandidatressurser';
+import SmsSendt from '../hendelser/SmsSendt';
 
 type Props = {
     kandidat: Kandidat;
     kandidatliste: Kandidatliste;
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
+    sms?: Sms;
     onStatusChange: (status: Kandidatstatus) => void;
 };
 
@@ -35,6 +38,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
     kandidatliste,
     forespørselOmDelingAvCv,
+    sms,
     onStatusChange,
 }) => {
     const [status, setStatus] = useState(kandidat.status);
@@ -46,11 +50,15 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
 
     const visHendelser =
         kandidaterMåGodkjenneDelingAvCv(kandidatliste) ||
-        kandidatliste.stillingskategori === Stillingskategori.Formidling;
-
+        kandidatliste.stillingskategori === Stillingskategori.Formidling ||
+        kandidatliste.stillingskategori === Stillingskategori.Jobbmesse;
     let className = 'endre-status-og-hendelser';
     if (visHendelser) className += ' endre-status-og-hendelser--med-makshøyde';
 
+    const erStillingEllerFormidling =
+        kandidatliste.stillingskategori === Stillingskategori.Stilling ||
+        kandidatliste.stillingskategori === Stillingskategori.Formidling ||
+        kandidatliste.stillingskategori == null;
     return (
         <div className={className}>
             <div className="endre-status-og-hendelser__velg-status">
@@ -88,17 +96,24 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <Undertittel>Hendelser</Undertittel>
                     <ol className="endre-status-og-hendelser__hendelsesliste">
                         <NyKandidat kandidat={kandidat} />
-                        <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
-                        <DelCvMedArbeidsgiver
-                            kanEndre
-                            kandidatlisteId={kandidatliste.kandidatlisteId}
-                            kandidat={kandidat}
-                        />
-                        <HarFåttJobben
-                            kanEndre
-                            kandidatlisteId={kandidatliste.kandidatlisteId}
-                            kandidat={kandidat}
-                        />
+                        <SmsSendt sms={sms} />
+                        {erStillingEllerFormidling && (
+                            <>
+                                <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
+
+                                <DelCvMedArbeidsgiver
+                                    kanEndre
+                                    kandidatlisteId={kandidatliste.kandidatlisteId}
+                                    kandidat={kandidat}
+                                />
+
+                                <HarFåttJobben
+                                    kanEndre
+                                    kandidatlisteId={kandidatliste.kandidatlisteId}
+                                    kandidat={kandidat}
+                                />
+                            </>
+                        )}
                     </ol>
                 </div>
             )}

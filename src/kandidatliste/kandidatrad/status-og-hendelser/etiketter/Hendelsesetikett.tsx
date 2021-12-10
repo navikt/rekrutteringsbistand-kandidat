@@ -8,12 +8,14 @@ import {
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './Hendelsesetikett.less';
 import { formaterDato, formaterDatoUtenÅrstall } from '../../../../utils/dateUtils';
+import { Sms, SmsStatus } from '../../../domene/Kandidatressurser';
 
 type Props = {
     utfall: Kandidatutfall;
     utfallsendringer: Utfallsendring[];
     forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
     ikkeVisÅrstall?: boolean;
+    sms?: Sms;
 };
 
 export enum Hendelse {
@@ -23,6 +25,8 @@ export enum Hendelse {
     SvarNei = 'SVAR_NEI',
     CvDelt = 'CV_DELT',
     FåttJobben = 'FÅTT_JOBBEN',
+    SmsFeilet = 'SMS_FEILET',
+    SmsSendt = 'SMS_SENDT',
 }
 
 const Hendelsesetikett: FunctionComponent<Props> = ({
@@ -30,13 +34,15 @@ const Hendelsesetikett: FunctionComponent<Props> = ({
     utfallsendringer,
     forespørselOmDelingAvCv,
     ikkeVisÅrstall,
+    sms,
 }) => {
-    const hendelse = hentKandidatensSisteHendelse(utfall, forespørselOmDelingAvCv);
+    const hendelse = hentKandidatensSisteHendelse(utfall, forespørselOmDelingAvCv, sms);
     const label = hendelseTilLabel(
         hendelse,
         ikkeVisÅrstall || false,
         utfallsendringer,
-        forespørselOmDelingAvCv
+        forespørselOmDelingAvCv,
+        sms
     );
 
     if (hendelse === Hendelse.NyKandidat) {
@@ -57,7 +63,8 @@ const Hendelsesetikett: FunctionComponent<Props> = ({
 
 export const hentKandidatensSisteHendelse = (
     utfall: Kandidatutfall,
-    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv
+    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv,
+    sms?: Sms
 ): Hendelse => {
     if (utfall === Kandidatutfall.FåttJobben) {
         return Hendelse.FåttJobben;
@@ -71,6 +78,10 @@ export const hentKandidatensSisteHendelse = (
         } else {
             return Hendelse.DeltMedKandidat;
         }
+    } else if (sms?.status === SmsStatus.Sendt) {
+        return Hendelse.SmsSendt;
+    } else if (sms?.status === SmsStatus.Feil) {
+        return Hendelse.SmsFeilet;
     }
 
     return Hendelse.NyKandidat;
@@ -80,7 +91,8 @@ const hendelseTilLabel = (
     hendelse: Hendelse,
     ikkeVisÅrstall: boolean,
     utfallsendringer: Utfallsendring[],
-    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv
+    forespørselOmDelingAvCv?: ForespørselOmDelingAvCv,
+    sms?: Sms
 ) => {
     const cvDeltTidspunkt = hentSisteKandidatutfall(Kandidatutfall.Presentert, utfallsendringer);
     const fåttJobbenTidspunkt = hentSisteKandidatutfall(
@@ -129,6 +141,12 @@ const hendelseTilLabel = (
         }
         case Hendelse.SvarNei: {
             return `Svar: Nei – ${svarTidspunkt && formaterMedEllerUtenÅrstall(svarTidspunkt)}`;
+        }
+        case Hendelse.SmsSendt: {
+            return `SMS sendt – ${sms && formaterDatoUtenÅrstall(sms.opprettet)}`;
+        }
+        case Hendelse.SmsFeilet: {
+            return `SMS ikke sendt – ${sms && formaterDatoUtenÅrstall(sms.opprettet)}`;
         }
         default:
             return '';

@@ -234,6 +234,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     kandidatliste={kandidatliste}
                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
                     kanEditere={kanEndreKandidatlisten}
+                    sms={melding}
                     onStatusChange={(status) => {
                         onKandidatStatusChange(
                             status,
