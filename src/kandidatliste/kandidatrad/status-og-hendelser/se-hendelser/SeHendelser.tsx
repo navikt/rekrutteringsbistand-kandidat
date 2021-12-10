@@ -37,21 +37,21 @@ const SeHendelser: FunctionComponent<Props> = ({
                 <NyKandidat kandidat={kandidat} />
                 <SmsSendt sms={sms} />
                 {erStillingEllerFormidling && (
-                    <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
-                )}
-                {erStillingEllerFormidling && (
-                    <DelCvMedArbeidsgiver
-                        kandidat={kandidat}
-                        kandidatlisteId={kandidatlisteId}
-                        kanEndre={false}
-                    />
-                )}
-                {erStillingEllerFormidling && (
-                    <HarFåttJobben
-                        kandidat={kandidat}
-                        kandidatlisteId={kandidatlisteId}
-                        kanEndre={false}
-                    />
+                    <>
+                        <ForespørslerOgSvar forespørsler={forespørselOmDelingAvCv} />
+
+                        <DelCvMedArbeidsgiver
+                            kandidat={kandidat}
+                            kandidatlisteId={kandidatlisteId}
+                            kanEndre={false}
+                        />
+
+                        <HarFåttJobben
+                            kandidat={kandidat}
+                            kandidatlisteId={kandidatlisteId}
+                            kanEndre={false}
+                        />
+                    </>
                 )}
             </ol>
         </>
