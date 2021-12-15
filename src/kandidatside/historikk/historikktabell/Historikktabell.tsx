@@ -64,5 +64,5 @@ const finnSms = (sms: Nettressurs<Sms[]>, kandidatlisteId: string) => {
     if (sms.kind !== Nettstatus.Suksess) {
         return undefined;
     }
-    return sms.data.find((sms) => (sms.kandidatlisteId = kandidatlisteId));
+    return sms.data.find((sms) => sms.kandidatlisteId == kandidatlisteId);
 };
