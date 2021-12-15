@@ -7,18 +7,21 @@ import { Undertekst } from 'nav-frontend-typografi';
 import StatusEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
 import Hendelsesetikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import { ForespørselOmDelingAvCv } from '../../../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Sms } from '../../../../kandidatliste/domene/Kandidatressurser';
 import './Historikkrad.less';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;
     aktiv: boolean;
     forespørselOmDelingAvCv?: ForespørselOmDelingAvCv;
+    sms?: Sms;
 }
 
 export const Historikkrad: FunctionComponent<Props> = ({
     kandidatliste,
     aktiv,
     forespørselOmDelingAvCv,
+    sms,
 }) => {
     const listenavn = kandidatliste.slettet ? (
         <>
@@ -49,6 +52,7 @@ export const Historikkrad: FunctionComponent<Props> = ({
                     utfall={kandidatliste.utfall}
                     utfallsendringer={kandidatliste.utfallsendringer}
                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                    sms={sms}
                 />
             </td>
             <td className="historikkrad__stilling">

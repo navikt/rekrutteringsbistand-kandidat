@@ -82,6 +82,7 @@ const url = {
 
     // Alternative backends
     sms: `${smsApi}/:kandidatlisteId`,
+    smsFnr: `${smsApi}/fnr/:fnr`,
     smsPost: `${smsApi}`,
     midlertidigUtilgjengelig: `${midlertidigUtilgjengeligApi}/:fnr`,
     enhetsregister: `${ENHETSREGISTER_API}/underenhet/_search`,
@@ -337,6 +338,7 @@ fetchMock
     .post(url.notater, log(notater))
     .mock(url.notaterMedId, log(notater))
     .get(url.sms, log(sms))
+    .get(url.smsFnr, log(sms))
     .post(url.smsPost, log(201))
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))

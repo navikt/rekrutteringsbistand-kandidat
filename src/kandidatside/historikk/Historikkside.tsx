@@ -15,6 +15,8 @@ import { ForespørselOmDelingAvCv } from '../../kandidatliste/knappe-rad/foresp�
 import { fetchForespørslerOmDelingAvCvForKandidat } from '../../api/forespørselOmDelingAvCvApi';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
+import { fetchSmserForKandidat } from '../../api/api';
+import { Sms } from '../../kandidatliste/domene/Kandidatressurser';
 
 const Historikkside: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -31,6 +33,7 @@ const Historikkside: FunctionComponent = () => {
     const [forespørslerOmDelingAvCv, setForespørslerOmDelingAvCv] = useState<
         Nettressurs<ForespørselOmDelingAvCv[]>
     >(ikkeLastet());
+    const [smser, setSmser] = useState<Nettressurs<[Sms]>>(ikkeLastet());
 
     const lagreKandidatIKandidatlisteStatus = useSelector(
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
@@ -42,9 +45,15 @@ const Historikkside: FunctionComponent = () => {
             setForespørslerOmDelingAvCv(suksess(forespørsler));
         };
 
+        const hentSmserForKandidat = async (fnr: string) => {
+            const smser = await fetchSmserForKandidat(fnr);
+            setSmser(suksess(smser));
+        };
+
         if (cv.kind === Nettstatus.Suksess) {
             setForespørslerOmDelingAvCv(lasterInn());
             hentForespørslerOmDelingAvCvForKandidat(cv.data.aktorId);
+            hentSmserForKandidat(cv.data.fodselsnummer);
         }
     }, [cv]);
 
@@ -96,6 +105,7 @@ const Historikkside: FunctionComponent = () => {
                     kandidatlister={kandidatlister}
                     aktivKandidatlisteId={kandidatlisteId}
                     forespørslerOmDelingAvCvForKandidat={forespørslerOmDelingAvCv}
+                    smser={smser}
                 />
             </div>
         );

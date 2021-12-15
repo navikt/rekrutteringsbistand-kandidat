@@ -27,6 +27,7 @@ export type Sms = {
     sendt: string;
     status: SmsStatus;
     navIdent: string;
+    kandidatlisteId: string;
 };
 
 export type Kandidattilstand = {
