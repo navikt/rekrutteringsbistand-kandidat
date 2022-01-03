@@ -108,10 +108,11 @@ const Notater: FunctionComponent<Props> = ({
                 Her skal du kun skrive korte meldinger og statusoppdateringer. Sensitive
                 opplysninger skrives <strong>ikke</strong> her. Ta direkte kontakt med veileder hvis
                 du har spørsmål om en kandidat. Notatene følger ikke brukeren og er bare
-                tilgjengelig via stillingen.
+                tilgjengelig via stillingen. Notatene vil være synlige for alle veiledere.
             </Normaltekst>
             <Normaltekst className="notater__avsnitt">
-                Notatene vil være synlige for alle veiledere.
+                Notatene blir automatisk slettet 12 måneder etter at kandidaten ble lagt til i
+                kandidatlisten.
             </Normaltekst>
             <div className="notater__nytt-notat-form">
                 {nyttNotatVises ? (
