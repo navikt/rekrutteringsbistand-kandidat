@@ -3,18 +3,21 @@ import { KandidatlisteForKandidat } from '../historikkReducer';
 import { Historikkrad } from './Historikkrad/Historikkrad';
 import { ForespørselOmDelingAvCv } from '../../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
+import { Sms } from '../../../kandidatliste/domene/Kandidatressurser';
 import './Historikktabell.less';
 
 interface Props {
     kandidatlister: KandidatlisteForKandidat[];
     aktivKandidatlisteId: string | null;
     forespørslerOmDelingAvCvForKandidat: Nettressurs<ForespørselOmDelingAvCv[]>;
+    smser: Nettressurs<Sms[]>;
 }
 
 export const Historikktabell: FunctionComponent<Props> = ({
     kandidatlister,
     aktivKandidatlisteId,
     forespørslerOmDelingAvCvForKandidat,
+    smser,
 }) => (
     <table className="historikktabell tabell tabell--stripet">
         <thead>
@@ -37,6 +40,7 @@ export const Historikktabell: FunctionComponent<Props> = ({
                         forespørslerOmDelingAvCvForKandidat,
                         liste
                     )}
+                    sms={finnSms(smser, liste.uuid)}
                 />
             ))}
         </tbody>
@@ -54,4 +58,11 @@ export const finnForespørselOmDelingAvCv = (
     return forespørslerOmDelingAvCv.data.find(
         (forespørsel) => forespørsel.stillingsId === kandidatliste.stillingId
     );
+};
+
+const finnSms = (sms: Nettressurs<Sms[]>, kandidatlisteId: string) => {
+    if (sms.kind !== Nettstatus.Suksess) {
+        return undefined;
+    }
+    return sms.data.find((sms) => sms.kandidatlisteId === kandidatlisteId);
 };

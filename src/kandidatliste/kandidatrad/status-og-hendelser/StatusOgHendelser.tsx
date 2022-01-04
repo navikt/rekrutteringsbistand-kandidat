@@ -14,12 +14,14 @@ import usePopoverAnker from './usePopoverAnker';
 import usePopoverOrientering from './usePopoverOrientering';
 import Hendelsesetikett from './etiketter/Hendelsesetikett';
 import { erKobletTilStilling, Kandidatliste } from '../../domene/Kandidatliste';
+import { Sms } from '../../domene/Kandidatressurser';
 import './StatusOgHendelser.less';
 
 type Props = {
     kandidat: Kandidat;
     kandidatliste: Kandidatliste;
     forespørselOmDelingAvCv: Nettressurs<ForespørslerForKandidatForStilling>;
+    sms?: Sms;
     onStatusChange: (status: Kandidatstatus) => void;
     kanEditere: boolean;
     id?: string;
@@ -29,6 +31,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     kandidat,
     kandidatliste,
     forespørselOmDelingAvCv,
+    sms,
     onStatusChange,
     kanEditere,
     id,
@@ -58,6 +61,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                             ? forespørselOmDelingAvCv.data.gjeldendeForespørsel
                             : undefined
                     }
+                    sms={sms}
                 />
             )}
             {skalVisePopover && <StatusOgHendelserKnapp onClick={togglePopover} />}
@@ -74,6 +78,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                                     kandidat={kandidat}
                                     kandidatliste={kandidatliste}
                                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                                    sms={sms}
                                     onStatusChange={endreStatusOgLukkPopover}
                                 />
                             ) : (
@@ -81,6 +86,8 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                                     kandidat={kandidat}
                                     kandidatlisteId={kandidatliste.kandidatlisteId}
                                     forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                                    sms={sms}
+                                    stillingskategori={kandidatliste.stillingskategori}
                                 />
                             )}
                             <Knapp

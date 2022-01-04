@@ -310,6 +310,8 @@ export async function deleteKandidatliste(kandidatlisteId: string): Promise<Nett
 export const fetchSendteMeldinger = (kandidatlisteId: string) =>
     fetchJson(`${SMS_API}/${kandidatlisteId}`, true);
 
+export const fetchSmserForKandidat = (fnr: string) => fetchJson(`${SMS_API}/fnr/${fnr}`, true);
+
 export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlisteId: string) =>
     postJson(
         `${SMS_API}`,
