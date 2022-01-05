@@ -8,37 +8,37 @@ metadata:
 spec:
     # prettier-ignore
     image: {{ image }}
-  port: 8080
-  liveness:
-    path: /rekrutteringsbistand-kandidat/internal/isAlive
-    initialDelay: 5
-  readiness:
-    path: /rekrutteringsbistand-kandidat/internal/isReady
-    initialDelay: 5
-  vault:
-    enabled: true
-  ingresses:
-    - https://rekrutteringsbistand.nais.adeo.no/rekrutteringsbistand-kandidat
-  env:
-    - name: KANDIDATSOK_API_URL
-      value: https://rekrutteringsbistand-kandidat-api.nais.adeo.no/rekrutteringsbistand-kandidat-api/rest
-    - name: NODE_EXTRA_CA_CERTS
-      value: /etc/ssl/ca-bundle.pem
-    - name: LOGINSERVICE_VEILEDER_URL
-      value: https://loginservice.nais.adeo.no/login
-    - name: LOGINSERVICE_LOGOUT_VEILEDER_URL
-      value: https://loginservice.nais.adeo.no/slo
-    - name: LAST_NED_CV_URL
-      value: https://pam-personbruker-veileder.intern.nav.no/cv/pdf?fnr=
-    - name: ENHETSREGISTER_API
-      value: https://pam-ad-api.nais.adeo.no/search-api
-    - name: PAMPORTAL_URL
-      value: https://arbeidsplassen.nav.no/
-    - name: ARBEIDSRETTET_OPPFOLGING_URL
-      value: https://app.adeo.no/veilarbpersonflatefs
-    - name: SMS_API
-      value: https://arbeidsgiver.nais.adeo.no/rekrutteringsbistand-sms/sms
-    - name: MIDLERTIDIG_UTILGJENGELIG_API
-      value: https://arbeidsgiver.nais.adeo.no/finn-kandidat-api/midlertidig-utilgjengelig
-    - name: FORESPORSEL_OM_DELING_AV_CV_API
-      value: https://foresporsel-om-deling-av-cv-api.intern.nav.no
+    port: 8080
+    liveness:
+        path: /rekrutteringsbistand-kandidat/internal/isAlive
+        initialDelay: 5
+    readiness:
+        path: /rekrutteringsbistand-kandidat/internal/isReady
+        initialDelay: 5
+    vault:
+        enabled: true
+    ingresses:
+        - https://rekrutteringsbistand.nais.adeo.no/rekrutteringsbistand-kandidat
+    env:
+        - name: KANDIDATSOK_API_URL
+          value: https://rekrutteringsbistand-kandidat-api.nais.adeo.no/rekrutteringsbistand-kandidat-api/rest
+        - name: NODE_EXTRA_CA_CERTS
+          value: /etc/ssl/ca-bundle.pem
+        - name: LOGINSERVICE_VEILEDER_URL
+          value: https://loginservice.nais.adeo.no/login
+        - name: LOGINSERVICE_LOGOUT_VEILEDER_URL
+          value: https://loginservice.nais.adeo.no/slo
+        - name: LAST_NED_CV_URL
+          value: https://pam-personbruker-veileder.intern.nav.no/cv/pdf?fnr=
+        - name: ENHETSREGISTER_API
+          value: https://pam-ad-api.nais.adeo.no/search-api
+        - name: PAMPORTAL_URL
+          value: https://arbeidsplassen.nav.no/
+        - name: ARBEIDSRETTET_OPPFOLGING_URL
+          value: https://app.adeo.no/veilarbpersonflatefs
+        - name: SMS_API
+          value: https://arbeidsgiver.nais.adeo.no/rekrutteringsbistand-sms/sms
+        - name: MIDLERTIDIG_UTILGJENGELIG_API
+          value: https://arbeidsgiver.nais.adeo.no/finn-kandidat-api/midlertidig-utilgjengelig
+        - name: FORESPORSEL_OM_DELING_AV_CV_API
+          value: https://foresporsel-om-deling-av-cv-api.intern.nav.no
