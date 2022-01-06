@@ -2,9 +2,9 @@ apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
     name: rekrutteringsbistand-kandidat
-    namespace: q0
+    namespace: toi
     labels:
-        team: arbeidsgiver
+        team: toi
 spec:
     # prettier-ignore
     image: {{ image }}
