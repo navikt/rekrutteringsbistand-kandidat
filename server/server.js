@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign, no-console */
 const path = require('path');
 const express = require('express');
+const fetch = require('node-fetch');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const fjernDobleCookies = require('./cookies');
 
@@ -90,5 +91,28 @@ const startServer = () => {
         console.log('Server kjører på port', port);
     });
 };
+
+const pingGcp = async () => {
+    try {
+        const response = await fetch(
+            'https://toi-sammenstille-kandidat.dev.intern.nav.no/republiser',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    passord: 'feil passord',
+                }),
+            }
+        );
+
+        console.log('Klarte å pinge GCP, fikk respons:', response);
+    } catch (e) {
+        console.warn('Prøvde å pinge GCP, men fikk bare:', e);
+    }
+};
+
+pingGcp();
 
 startServer();
