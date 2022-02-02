@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const fjernDobleCookies = require('./cookies');
-const fetch = require('fetch');
+const fetch = require('node-fetch');
 
 const fs = require('fs');
 const app = express();
