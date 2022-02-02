@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign, no-console */
 const path = require('path');
 const express = require('express');
-const fetch = require('node-fetch');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const fjernDobleCookies = require('./cookies');
 
@@ -93,6 +92,8 @@ const startServer = () => {
 };
 
 const pingGcp = async () => {
+    const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
     try {
         const response = await fetch(
             'https://toi-sammenstille-kandidat.dev.intern.nav.no/republiser',
