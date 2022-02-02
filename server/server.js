@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const fjernDobleCookies = require('./cookies');
+const fetch = require('fetch');
 
 const fs = require('fs');
 const app = express();
@@ -92,8 +93,6 @@ const startServer = () => {
 };
 
 const pingGcp = async () => {
-    const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-
     try {
         const response = await fetch(
             'https://toi-sammenstille-kandidat.dev.intern.nav.no/republiser',
