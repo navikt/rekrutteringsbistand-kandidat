@@ -1,18 +1,20 @@
 import React, { FunctionComponent } from 'react';
 
-export type Synlighetsevaluering = {
-    harAktivCv: boolean;
-    harJobbprofil: boolean;
-    harSettHjemmel: boolean;
-    maaIkkeBehandleTidligereCv: boolean;
-    erIkkefritattKandidatsøk: boolean;
-    erUnderOppfoelging: boolean;
-    harRiktigFormidlingsgruppe: boolean;
-    erIkkeKode6eller7: boolean;
-    erIkkeSperretAnsatt: boolean;
-    erIkkeDoed: boolean;
-    erFerdigBeregnet: boolean;
-};
+enum Synlighetskriterie {
+    HarAktivCv = 'harAktivCv',
+    HarJobbprofil = 'harJobbprofil',
+    HarSettHjemmel = 'harSettHjemmel',
+    MåIkkeBehandleTidligereCv = 'maaIkkeBehandleTidligereCv',
+    ErIkkefritattKandidatsøk = 'erIkkefritattKandidatsøk',
+    ErUnderOppfølging = 'erUnderOppfoelging',
+    HarRiktigFormidlingsgruppe = 'harRiktigFormidlingsgruppe',
+    ErIkkeKode6eller7 = 'erIkkeKode6eller7',
+    ErIkkeSperretAnsatt = 'erIkkeSperretAnsatt',
+    ErIkkeDød = 'erIkkeDoed',
+    ErFerdigBeregnet = 'erFerdigBeregnet',
+}
+
+export type Synlighetsevaluering = Record<Synlighetskriterie, boolean>;
 
 type Props = {
     synlighetsevaluering: Synlighetsevaluering;
@@ -23,34 +25,34 @@ const KandidatenFinnesIkke: FunctionComponent<Props> = ({ synlighetsevaluering }
         <div className="blokk-xxs">Kandidaten kan ikke legges til fordi:</div>
         <ul className="leggTilKandidatModal--feilmelding__ul">
             {Object.entries(synlighetsevaluering)
-                .filter(([kriterie, verdi]) => verdi === false)
-                .map(([kriterie]) => (
-                    <li>{kriterieTilForklaring(kriterie)}</li>
+                .filter(([_, verdi]) => !verdi)
+                .map(([kriterie, _]) => (
+                    <li>{kriterieTilForklaring(kriterie as Synlighetskriterie)}</li>
                 ))}
         </ul>
-        {/*<ul className="leggTilKandidatModal--feilmelding__ul">
-            <li>Fødselsnummeret er feil</li>
-            <li>Kandidaten mangler CV eller jobbprofil</li>
-            <li>Kandidaten har ikke blitt informert om NAVs behandlingsgrunnlag</li>
-            <li>Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena</li>
-            <li>Kandidaten er sperret "Egen ansatt"</li>
-            <li>Kandidaten har diskresjonskode (kode 6 og 7)</li>
-        </ul>*/}
     </div>
 );
 
-const kriterieTilForklaring = (kriterie: string): string => {
-    /*
-        <li>Fødselsnummeret er feil</li>
-        <li>Kandidaten mangler CV eller jobbprofil</li>
-        <li>Kandidaten har ikke blitt informert om NAVs behandlingsgrunnlag</li>
-        <li>Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena</li>
-        <li>Kandidaten er sperret "Egen ansatt"</li>
-        <li>Kandidaten har diskresjonskode (kode 6 og 7)</li>
-    */
+const kriterieTilForklaring = (kriterie: Synlighetskriterie): string => {
     switch (kriterie) {
-        case 'maaIkkeBehandleTidligereCv':
-            return 'Personen må behandle tidligere CV';
+        case Synlighetskriterie.HarAktivCv:
+            return 'Kandidaten mangler CV';
+        case Synlighetskriterie.HarJobbprofil:
+            return 'Kandidaten mangler jobbprofil';
+        case Synlighetskriterie.HarRiktigFormidlingsgruppe:
+            return 'Kandidaten har feil formidlingsgruppe';
+        case Synlighetskriterie.MåIkkeBehandleTidligereCv:
+            return 'Kandidaten må behandle CV registrert før oppfølgingsperioden';
+        case Synlighetskriterie.HarSettHjemmel:
+            return 'Kandidaten har ikke blitt informert om NAVs behandlingsgrunnlag';
+        case Synlighetskriterie.ErIkkeKode6eller7:
+            return 'Kandidaten har diskresjonskode (kode 6 og 7)'; // TODO: Bør vi fjerne denne eller kombinere med en annen?
+        case Synlighetskriterie.ErIkkefritattKandidatsøk:
+            return 'Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena';
+        case Synlighetskriterie.ErIkkeSperretAnsatt:
+            return 'Kandidaten er sperret "Egen ansatt"';
+        case Synlighetskriterie.ErIkkeDød:
+            return 'Kandidaten er død';
         default:
             return 'Ukjent';
     }
