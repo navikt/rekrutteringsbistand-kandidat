@@ -8,10 +8,10 @@ import { Input, Textarea } from 'nav-frontend-skjema';
 import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
 import fnrValidator from '@navikt/fnrvalidator';
 
-import { CvSøkeresultat } from '../../../kandidatside/cv/reducer/cv-typer';
-import { Nettstatus, Nettressurs } from '../../../api/Nettressurs';
+import { CvSøkeresultat, Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
+import { Nettstatus, Nettressurs, NettressursMedForklaring } from '../../../api/Nettressurs';
 import AppState from '../../../AppState';
-import KandidatenFinnesIkke from './KandidatenFinnesIkke';
+import KandidatenFinnesIkke, { Synlighetsevaluering } from './KandidatenFinnesIkke';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
@@ -56,7 +56,7 @@ type Props = {
     kandidat: CvSøkeresultat;
     resetSøk: () => void;
     søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
-    hentStatus: Nettstatus;
+    fødselsnummersøk: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
     leggTilKandidatStatus: Nettstatus;
     formidleUsynligKandidat: (
         kandidatlisteId: string,
@@ -92,18 +92,21 @@ class LeggTilKandidatModal extends React.Component<Props> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const { hentStatus, søkPåusynligKandidat, fodselsnummer } = this.props;
-        if (prevProps.hentStatus !== hentStatus) {
-            if (hentStatus === Nettstatus.Suksess) {
+        const { fødselsnummersøk, søkPåusynligKandidat, fodselsnummer } = this.props;
+
+        if (prevProps.fødselsnummersøk.kind !== fødselsnummersøk.kind) {
+            if (fødselsnummersøk.kind === Nettstatus.Suksess) {
                 this.setState({
                     visResultatFraCvSøk: true,
                     errorMessage: undefined,
                     showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede(),
                 });
-            } else if (hentStatus === Nettstatus.FinnesIkke) {
+            } else if (fødselsnummersøk.kind === Nettstatus.FinnesIkkeMedForklaring) {
                 this.setState({
                     visResultatFraCvSøk: false,
-                    errorMessage: <KandidatenFinnesIkke synlighetsevaluering={} />,
+                    errorMessage: (
+                        <KandidatenFinnesIkke synlighetsevaluering={fødselsnummersøk.forklaring} />
+                    ),
                 });
             }
         }
@@ -174,7 +177,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
     };
 
     kandidatenKanLeggesTil = () =>
-        this.props.hentStatus === Nettstatus.Suksess &&
+        this.props.fødselsnummersøk.kind === Nettstatus.Suksess &&
         !this.kandidatenFinnesAllerede() &&
         this.props.notat.length <= MAKS_NOTATLENGDE;
 
@@ -395,7 +398,7 @@ const mapStateToProps = (state: AppState) => ({
     fodselsnummer: state.kandidatliste.fodselsnummer,
     kandidat: state.kandidatliste.kandidat,
     søkPåusynligKandidat: state.kandidatliste.søkPåusynligKandidat,
-    hentStatus: state.kandidatliste.hentStatus,
+    fødselsnummersøk: state.kandidatliste.fødselsnummersøk,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
     notat: state.kandidatliste.notat,

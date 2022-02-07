@@ -70,17 +70,19 @@ const getCookie = (name) => {
     return match !== null ? match[1] : '';
 };
 
+export const postHeaders = () => ({
+    'Content-Type': 'application/json',
+    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+    ...createCallIdHeader(),
+});
+
 export async function postJson(url: string, bodyString: string) {
     try {
         const response = await fetch(url, {
             credentials: 'include',
             method: 'POST',
             body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader(),
-            },
+            headers: postHeaders(),
             mode: 'cors',
         });
         if (response.status === 200 || response.status === 201) {
@@ -111,11 +113,7 @@ export async function putJson(url, bodyString?: string) {
             credentials: 'include',
             method: 'PUT',
             body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader(),
-            },
+            headers: postHeaders(),
             mode: 'cors',
         });
         if (response.status === 200 || response.status === 201) {
@@ -140,11 +138,7 @@ export async function deleteReq(url: string, bodyString?: string) {
             credentials: 'include',
             method: 'DELETE',
             body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader(),
-            },
+            headers: postHeaders(),
             mode: 'cors',
         });
 
@@ -170,11 +164,7 @@ export async function deleteWithoutJson(url: string, bodyString?: string) {
             credentials: 'include',
             method: 'DELETE',
             body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader(),
-            },
+            headers: postHeaders(),
             mode: 'cors',
         });
 

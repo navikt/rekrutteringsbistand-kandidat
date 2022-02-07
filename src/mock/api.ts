@@ -1,4 +1,4 @@
-import fetchMock, { MockResponse, MockResponseFunction, MockResponseObject } from 'fetch-mock';
+import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
 
 import notater from './json/notater.json';
 import sokeord from './json/sokeord.json';
@@ -35,7 +35,6 @@ import {
 } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
-import { ApiError } from '../api/Nettressurs';
 
 fetchMock.config.fallbackToNetwork = true;
 

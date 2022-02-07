@@ -38,6 +38,8 @@ import KandidatlisteAction, {
     EndreKandidatlistestatusSuccessAction,
     HentForespørslerOmDelingAvCvAction,
     SendForespørselOmDelingAvCv,
+    HentKandidatMedFnrSuccessAction,
+    HentKandidatMedFnrFailureAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -64,6 +66,9 @@ import {
     ForespørslerForStillingInboundDto,
     sendForespørselOmDelingAvCv,
 } from '../../api/forespørselOmDelingAvCvApi';
+import { NettressursMedForklaring, Nettstatus } from '../../api/Nettressurs';
+import { Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
+import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/KandidatenFinnesIkke';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;
@@ -275,25 +280,26 @@ function* endreKandidatlistestatus(action: EndreKandidatlistestatusAction) {
 
 function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
     try {
-        const response = yield fetchKandidatMedFnr(action.fodselsnummer);
-        yield put({
+        const response: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> =
+            yield fetchKandidatMedFnr(action.fodselsnummer);
+
+        yield put<HentKandidatMedFnrSuccessAction>({
             type: KandidatlisteActionType.HentKandidatMedFnrSuccess,
-            kandidat: response,
+            data: response,
         });
+
+        if (response.kind === Nettstatus.FinnesIkkeMedForklaring) {
+            yield put({
+                type: KandidatlisteActionType.HentUsynligKandidat,
+                fodselsnummer: action.fodselsnummer,
+            });
+        }
     } catch (e) {
         if (e instanceof SearchApiError) {
-            if (e.status === 404) {
-                yield put({ type: KandidatlisteActionType.HentKandidatMedFnrNotFound });
-                yield put({
-                    type: KandidatlisteActionType.HentUsynligKandidat,
-                    fodselsnummer: action.fodselsnummer,
-                });
-            } else {
-                yield put({
-                    type: KandidatlisteActionType.HentKandidatMedFnrFailure,
-                    error: e,
-                });
-            }
+            yield put<HentKandidatMedFnrFailureAction>({
+                type: KandidatlisteActionType.HentKandidatMedFnrFailure,
+                error: e,
+            });
         } else {
             throw e;
         }

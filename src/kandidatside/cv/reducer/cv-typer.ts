@@ -185,4 +185,11 @@ export type CvSøkeresultat = {
     totalLengdeYrkeserfaring: number;
 };
 
+export type Fødselsnummersøk = {
+    aktørId: string;
+    arenaKandidatnr: string;
+    fornavn: string;
+    etternavn: string;
+};
+
 export default Cv;
