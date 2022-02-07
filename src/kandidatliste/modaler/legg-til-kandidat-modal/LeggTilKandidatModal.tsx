@@ -103,7 +103,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
             } else if (hentStatus === Nettstatus.FinnesIkke) {
                 this.setState({
                     visResultatFraCvSøk: false,
-                    errorMessage: <KandidatenFinnesIkke />,
+                    errorMessage: <KandidatenFinnesIkke synlighetsevaluering={} />,
                 });
             }
         }

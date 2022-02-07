@@ -1,6 +1,24 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-const KandidatenFinnesIkke = () => (
+type Synlighetsevaluering = {
+    harAktivCv: boolean;
+    harJobbprofil: boolean;
+    harSettHjemmel: boolean;
+    maaIkkeBehandleTidligereCv: boolean;
+    erIkkefritattKandidatsøk: boolean;
+    erUnderOppfoelging: boolean;
+    harRiktigFormidlingsgruppe: boolean;
+    erIkkeKode6eller7: boolean;
+    erIkkeSperretAnsatt: boolean;
+    erIkkeDoed: boolean;
+    erFerdigBeregnet: boolean;
+};
+
+type Props = {
+    synlighetsevaluering: Synlighetsevaluering;
+};
+
+const KandidatenFinnesIkke: FunctionComponent<Props> = ({ synlighetsevaluering }) => (
     <div className="skjemaelement__feilmelding">
         <div className="blokk-xxs">Kandidaten kan ikke legges til.</div>
         <div>Mulige årsaker:</div>

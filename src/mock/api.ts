@@ -1,4 +1,4 @@
-import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
+import fetchMock, { MockResponse, MockResponseFunction, MockResponseObject } from 'fetch-mock';
 
 import notater from './json/notater.json';
 import sokeord from './json/sokeord.json';
@@ -35,6 +35,7 @@ import {
 } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
+import { ApiError } from '../api/Nettressurs';
 
 fetchMock.config.fallbackToNetwork = true;
 
@@ -281,7 +282,7 @@ const postDelKandidater = (url: string, options: fetchMock.MockOptionsMethodPost
     };
 };
 
-const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost) => {
+const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost): MockResponse => {
     const fnr = JSON.parse(String(options.body)).fnr;
     const cv = cver.find((k) => k.fodselsnummer === fnr);
 
@@ -294,6 +295,19 @@ const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost) => {
     } else {
         return {
             status: 404,
+            body: {
+                harAktivCv: true,
+                harJobbprofil: true,
+                harSettHjemmel: true,
+                maaIkkeBehandleTidligereCv: false,
+                erIkkefritattKandidatsøk: true,
+                erUnderOppfoelging: true,
+                harRiktigFormidlingsgruppe: true,
+                erIkkeKode6eller7: true,
+                erIkkeSperretAnsatt: true,
+                erIkkeDoed: true,
+                erFerdigBeregnet: true,
+            },
         };
     }
 };
