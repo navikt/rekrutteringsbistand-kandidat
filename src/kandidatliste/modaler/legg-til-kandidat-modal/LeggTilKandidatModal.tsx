@@ -11,7 +11,6 @@ import fnrValidator from '@navikt/fnrvalidator';
 import { CvSøkeresultat, Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
 import { Nettstatus, Nettressurs, NettressursMedForklaring } from '../../../api/Nettressurs';
 import AppState from '../../../AppState';
-import KandidatenFinnesIkke, { Synlighetsevaluering } from './KandidatenFinnesIkke';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
@@ -21,6 +20,8 @@ import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { UsynligKandidat } from '../../domene/Kandidat';
 import './LeggTilKandidatModal.less';
+import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
+import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -170,6 +171,8 @@ class LeggTilKandidatModal extends React.Component<Props> {
     };
 
     kandidatenFinnesAllerede = () => {
+        console.log('Kandidater', this.props.kandidatliste.kandidater);
+
         const kandidat = this.props.kandidatliste.kandidater.filter(
             (k) => this.props.kandidat.arenaKandidatnr === k.kandidatnr
         );

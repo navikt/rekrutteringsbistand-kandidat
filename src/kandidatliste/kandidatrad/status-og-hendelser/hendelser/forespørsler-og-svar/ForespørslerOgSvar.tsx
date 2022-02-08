@@ -92,6 +92,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ forespørsler }) => {
     if (visStegForÅDelePåNytt) {
         hendelser.push(
             <SendForespørselPåNytt
+                key="del-på-nytt"
                 gamleForespørsler={gamleForespørsler}
                 gjeldendeForespørsel={gjeldendeForespørsel}
                 onLukk={onDelPåNyttLukk}

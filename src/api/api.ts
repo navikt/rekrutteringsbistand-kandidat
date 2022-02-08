@@ -16,7 +16,7 @@ import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Brans
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
 import Cv, { Fødselsnummersøk } from '../kandidatside/cv/reducer/cv-typer';
-import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/KandidatenFinnesIkke';
+import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
 export const baseUrl = `/rekrutteringsbistand-kandidat`;
 

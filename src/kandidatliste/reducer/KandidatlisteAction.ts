@@ -4,18 +4,18 @@ import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
 } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { ApiError, Nettressurs, NettressursMedForklaring } from '../../api/Nettressurs';
+import { ApiError, NettressursMedForklaring } from '../../api/Nettressurs';
 import { Kandidatliste } from '../domene/Kandidatliste';
 import { Notat, Visningsstatus } from '../domene/Kandidatressurser';
 import { Kandidat } from '../domene/Kandidat';
-import { CvSøkeresultat, Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
+import { Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
 import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
 import { ForespørslerForStillingInboundDto } from '../../api/forespørselOmDelingAvCvApi';
-import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/KandidatenFinnesIkke';
+import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
