@@ -299,7 +299,7 @@ const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost): Mock
                 harJobbprofil: false,
                 harSettHjemmel: false,
                 maaIkkeBehandleTidligereCv: false,
-                erIkkefritattKandidatsøk: false,
+                erIkkeFritattKandidatsøk: false,
                 erUnderOppfoelging: false,
                 harRiktigFormidlingsgruppe: false,
                 erIkkeKode6eller7: true,
