@@ -5,7 +5,7 @@ enum Synlighetskriterie {
     HarJobbprofil = 'harJobbprofil',
     HarSettHjemmel = 'harSettHjemmel',
     MåIkkeBehandleTidligereCv = 'maaIkkeBehandleTidligereCv',
-    ErIkkefritattKandidatsøk = 'erIkkefritattKandidatsøk',
+    ErIkkeFritattKandidatsøk = 'erIkkefritattKandidatsøk',
     ErUnderOppfølging = 'erUnderOppfoelging',
     HarRiktigFormidlingsgruppe = 'harRiktigFormidlingsgruppe',
     ErIkkeKode6eller7 = 'erIkkeKode6eller7',
@@ -47,7 +47,7 @@ const kriterieTilForklaring = (kriterie: Synlighetskriterie): string => {
             return 'Kandidaten har ikke blitt informert om NAVs behandlingsgrunnlag';
         case Synlighetskriterie.ErIkkeKode6eller7:
             return 'Kandidaten har diskresjonskode (kode 6 og 7)'; // TODO: Bør vi fjerne denne eller kombinere med en annen?
-        case Synlighetskriterie.ErIkkefritattKandidatsøk:
+        case Synlighetskriterie.ErIkkeFritattKandidatsøk:
             return 'Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena';
         case Synlighetskriterie.ErIkkeSperretAnsatt:
             return 'Kandidaten er sperret "Egen ansatt"';
