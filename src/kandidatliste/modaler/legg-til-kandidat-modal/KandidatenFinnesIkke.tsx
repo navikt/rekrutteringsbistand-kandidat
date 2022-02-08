@@ -5,7 +5,7 @@ enum Synlighetskriterie {
     HarJobbprofil = 'harJobbprofil',
     HarSettHjemmel = 'harSettHjemmel',
     MåIkkeBehandleTidligereCv = 'maaIkkeBehandleTidligereCv',
-    ErIkkeFritattKandidatsøk = 'erIkkefritattKandidatsøk',
+    ErIkkeFritattKandidatsøk = 'erIkkeFritattKandidatsøk',
     ErUnderOppfølging = 'erUnderOppfoelging',
     HarRiktigFormidlingsgruppe = 'harRiktigFormidlingsgruppe',
     ErIkkeKode6eller7 = 'erIkkeKode6eller7',
