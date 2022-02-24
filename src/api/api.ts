@@ -17,10 +17,10 @@ import Cv from '../kandidatside/cv/reducer/cv-typer';
 
 export const baseUrl = `/rekrutteringsbistand-kandidat`;
 
-export const KANDIDATSOK_API = `${baseUrl}/kandidat-api`;
-export const ENHETSREGISTER_API = `${baseUrl}/enhetsregister-api`;
-export const SMS_API = `${baseUrl}/sms-api`;
-export const MIDLERTIDIG_UTILGJENGELIG_API = `${baseUrl}/midlertidig-utilgjengelig-api`;
+export const ENHETSREGISTER_API = `/stilling-api/search-api`;
+export const KANDIDATSOK_API = `/kandidat-api`;
+export const SMS_API = `/sms-api`;
+export const MIDLERTIDIG_UTILGJENGELIG_API = `/finn-kandidat-api/midlertidig-utilgjengelig`;
 
 if (process.env.REACT_APP_MOCK) {
     require('../mock/api.ts');
