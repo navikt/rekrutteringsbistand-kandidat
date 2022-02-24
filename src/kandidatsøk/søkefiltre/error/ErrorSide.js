@@ -6,10 +6,6 @@ import GenerellFeilside from './GenerellFeilside';
 import NotFound from './NotFound';
 
 class ErrorSide extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentDidUpdate(prevProps) {
         const { fjernError } = this.props;
 
