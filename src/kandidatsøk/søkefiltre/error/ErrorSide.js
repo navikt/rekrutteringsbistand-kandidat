@@ -1,24 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { LOGIN_URL } from '../../../common/fasitProperties';
 import ManglerRolle from './ManglerRolle';
 import GenerellFeilside from './GenerellFeilside';
 import NotFound from './NotFound';
 
 class ErrorSide extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
-        if (props.error.status === 401) {
-            window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
-        }
     }
 
     componentDidUpdate(prevProps) {
-        const { error, fjernError } = this.props;
-        if (error.status === 401) {
-            window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
-        }
+        const { fjernError } = this.props;
+
         if (this.props.location.pathname !== prevProps.location.pathname) {
             fjernError();
         }
