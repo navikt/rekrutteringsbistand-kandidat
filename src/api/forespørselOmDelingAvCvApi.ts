@@ -4,10 +4,9 @@ import {
     ResendForespørselOutboundDto,
 } from '../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { fetchJson, postJson } from './fetchUtils';
-import { baseUrl } from './api';
 import { AktørId } from '../kandidatliste/domene/Kandidat';
 
-export const FORESPORSEL_OM_DELING_AV_CV_API = `${baseUrl}/foresporsel-om-deling-av-cv-api`;
+export const FORESPORSEL_OM_DELING_AV_CV_API = `/foresporsel-om-deling-av-cv-api`;
 
 export type ForespørslerForStillingInboundDto = Partial<Record<AktørId, ForespørselOmDelingAvCv[]>>;
 

@@ -15,8 +15,6 @@ import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
 import Cv from '../kandidatside/cv/reducer/cv-typer';
 
-export const baseUrl = `/rekrutteringsbistand-kandidat`;
-
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
 export const SMS_API = `/sms-api`;
