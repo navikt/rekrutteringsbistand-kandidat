@@ -4,17 +4,18 @@ import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
 } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { ApiError } from '../../api/Nettressurs';
+import { ApiError, NettressursMedForklaring } from '../../api/Nettressurs';
 import { Kandidatliste } from '../domene/Kandidatliste';
 import { Notat, Visningsstatus } from '../domene/Kandidatressurser';
 import { Kandidat } from '../domene/Kandidat';
-import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
+import { Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
 import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
 import { ForespørslerForStillingInboundDto } from '../../api/forespørselOmDelingAvCvApi';
+import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
@@ -247,15 +248,12 @@ export interface HentKandidatMedFnrAction {
 
 export interface HentKandidatMedFnrSuccessAction {
     type: KandidatlisteActionType.HentKandidatMedFnrSuccess;
-    kandidat: CvSøkeresultat;
-}
-
-export interface HentKandidatMedFnrNotFoundAction {
-    type: KandidatlisteActionType.HentKandidatMedFnrNotFound;
+    data: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
 }
 
 export interface HentKandidatMedFnrFailureAction {
     type: KandidatlisteActionType.HentKandidatMedFnrFailure;
+    error: SearchApiError;
 }
 
 export interface LeggTilKandidatSøkReset {
@@ -534,7 +532,6 @@ type KandidatlisteAction =
     | SetNotatAction
     | HentKandidatMedFnrAction
     | HentKandidatMedFnrSuccessAction
-    | HentKandidatMedFnrNotFoundAction
     | HentKandidatMedFnrFailureAction
     | LeggTilKandidatSøkReset
     | HentUsynligKandidatAction

@@ -1,24 +1,28 @@
 import { Kandidatstatus, Kandidatutfall } from '../kandidatliste/domene/Kandidat';
 import FEATURE_TOGGLES from '../common/konstanter';
-import { Nettressurs } from './Nettressurs';
+import { Nettressurs, NettressursMedForklaring, Nettstatus } from './Nettressurs';
 import {
     createCallIdHeader,
     deleteJsonMedType,
     deleteReq,
     deleteWithoutJson,
     fetchJson,
+    postHeaders,
     postJson,
     putJson,
+    SearchApiError,
 } from './fetchUtils';
 import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Bransje';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
-import Cv from '../kandidatside/cv/reducer/cv-typer';
+import Cv, { Fødselsnummersøk } from '../kandidatside/cv/reducer/cv-typer';
+import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
 export const SMS_API = `/sms-api`;
 export const MIDLERTIDIG_UTILGJENGELIG_API = `/finn-kandidat-api/midlertidig-utilgjengelig`;
+export const SYNLIGHET_API = `/synlighet-api`;
 
 if (process.env.REACT_APP_MOCK) {
     require('../mock/api.ts');
@@ -141,8 +145,70 @@ export function fetchGeografiKode(geografiKode) {
 export const fetchStillingFraListe = (stillingsId) =>
     fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true);
 
-export const fetchKandidatMedFnr = (fnr: string) =>
-    postJson(`${KANDIDATSOK_API}/veileder/kandidatsok/fnrsok`, JSON.stringify({ fnr }));
+export const fetchKandidatMedFnr = async (
+    fnr: string
+): Promise<NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>> => {
+    const url = `${KANDIDATSOK_API}/veileder/kandidatsok/fnrsok`;
+    const body = JSON.stringify({ fnr });
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body,
+            mode: 'cors',
+            credentials: 'include',
+            headers: postHeaders(),
+        });
+
+        if (response.status === 200) {
+            const body = await response.json();
+
+            return {
+                kind: Nettstatus.Suksess,
+                data: body,
+            };
+        } else {
+            return {
+                kind: Nettstatus.FinnesIkkeMedForklaring,
+                forklaring: {} as Synlighetsevaluering,
+            };
+        }
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status,
+        });
+    }
+};
+
+export const fetchSynlighetsevaluering = async (
+    fødselsnummer: string
+): Promise<NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>> => {
+    const url = `${SYNLIGHET_API}/evaluering/${fødselsnummer}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+        });
+
+        if (response.ok) {
+            const body = await response.json();
+
+            return {
+                kind: Nettstatus.FinnesIkkeMedForklaring,
+                forklaring: body,
+            };
+        } else {
+            const feilmeldingFraBody = await response.text();
+            throw feilmeldingFraBody;
+        }
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status,
+        });
+    }
+};
 
 export const fetchNotater = (kandidatlisteId, kandidatnr) =>
     fetchJson(

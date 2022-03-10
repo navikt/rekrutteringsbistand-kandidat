@@ -1,5 +1,5 @@
 import { FormidlingAvUsynligKandidatOutboundDto } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
+import { CvSøkeresultat, Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -17,6 +17,7 @@ import {
     Nettstatus,
     senderInn,
     suksess,
+    NettressursMedForklaring,
 } from '../../api/Nettressurs';
 import KandidatlisteAction from './KandidatlisteAction';
 import { SearchApiError } from '../../api/fetchUtils';
@@ -35,6 +36,7 @@ import {
     separerGjeldendeForespørselFraRespons,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
 type FormidlingId = string;
 
@@ -44,7 +46,7 @@ export type Kandidatsortering = null | {
 };
 
 export type KandidatlisteState = {
-    hentStatus: Nettstatus;
+    fødselsnummersøk: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
     kandidat?: CvSøkeresultat;
 
     lagreStatus: Nettstatus;
@@ -114,7 +116,7 @@ const initialState: KandidatlisteState = {
     kandidattilstander: {},
     kandidatnotater: {},
     fodselsnummer: undefined,
-    hentStatus: Nettstatus.IkkeLastet,
+    fødselsnummersøk: ikkeLastet(),
     leggTilKandidater: {
         lagreStatus: Nettstatus.IkkeLastet,
         antallLagredeKandidater: 0,
@@ -307,33 +309,28 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HentKandidatMedFnr: {
             return {
                 ...state,
-                hentStatus: Nettstatus.LasterInn,
+                fødselsnummersøk: lasterInn(),
             };
         }
         case KandidatlisteActionType.HentKandidatMedFnrSuccess: {
             return {
                 ...state,
-                hentStatus: Nettstatus.Suksess,
-                kandidat: action.kandidat,
-            };
-        }
-        case KandidatlisteActionType.HentKandidatMedFnrNotFound: {
-            return {
-                ...state,
-                hentStatus: Nettstatus.FinnesIkke,
+                fødselsnummersøk: action.data,
             };
         }
         case KandidatlisteActionType.HentKandidatMedFnrFailure: {
             return {
                 ...state,
-                hentStatus: Nettstatus.Feil,
+                fødselsnummersøk: {
+                    kind: Nettstatus.Feil,
+                    error: action.error,
+                },
             };
         }
         case KandidatlisteActionType.LeggTilKandidatSøkReset: {
             return {
                 ...state,
-                hentStatus: Nettstatus.IkkeLastet,
-                kandidat: initialState.kandidat,
+                fødselsnummersøk: ikkeLastet(),
                 søkPåusynligKandidat: ikkeLastet(),
                 formidlingAvUsynligKandidat: ikkeLastet(),
             };

@@ -43,7 +43,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev-gcp
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/container-som-proxy'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/vis-synlighetsevaluering'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
@@ -56,7 +56,7 @@ jobs:
     deploy-to-prod:
         name: Deploy til prod-gcp
         needs: deploy-til-dev
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/container-som-proxy'
+        if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

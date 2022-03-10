@@ -39,7 +39,6 @@ enum KandidatlisteActionType {
     SetNotat = 'SET_NOTAT',
     HentKandidatMedFnr = 'HENT_KANDIDAT_MED_FNR',
     HentKandidatMedFnrSuccess = 'HENT_KANDIDAT_MED_FNR_SUCCESS',
-    HentKandidatMedFnrNotFound = 'HENT_KANDIDAT_MED_FNR_NOT_FOUND',
     HentKandidatMedFnrFailure = 'HENT_KANDIDAT_MED_FNR_FAILURE',
     LeggTilKandidatSøkReset = 'LEGG_TIL_KANDIDAT_SØK_RESET',
     HentUsynligKandidat = 'HENT_USYNLIG_KANDIDAT',

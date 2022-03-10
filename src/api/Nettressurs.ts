@@ -9,6 +9,7 @@ export enum Nettstatus {
     SenderInn = 'SenderInn',
     Suksess = 'Suksess',
     FinnesIkke = 'FinnesIkke',
+    FinnesIkkeMedForklaring = 'FinnesIkkeMedForklaring',
     Feil = 'Feil',
 }
 
@@ -31,6 +32,11 @@ interface Suksess<T> {
 
 interface FinnesIkke {
     kind: Nettstatus.FinnesIkke;
+}
+
+interface FinnesIkkeMedForklaring<F> {
+    kind: Nettstatus.FinnesIkkeMedForklaring;
+    forklaring: F;
 }
 
 interface Feil {
@@ -65,3 +71,10 @@ export const feil = (error: ApiError): Feil => ({
 });
 
 export type Nettressurs<T> = IkkeLastet | LasterInn | SenderInn | Feil | Suksess<T> | FinnesIkke;
+
+export type NettressursMedForklaring<T, F> =
+    | IkkeLastet
+    | LasterInn
+    | Feil
+    | Suksess<T>
+    | FinnesIkkeMedForklaring<F>;
