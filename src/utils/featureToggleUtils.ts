@@ -1,1 +1,1 @@
-export const erIkkeProd = !window.location.href.includes('nais.adeo.no');
+export const erIkkeProd = window.location.href.includes('dev.intern.nav.no');
