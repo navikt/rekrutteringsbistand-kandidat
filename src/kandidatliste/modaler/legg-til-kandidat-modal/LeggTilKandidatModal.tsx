@@ -8,7 +8,7 @@ import { Input, Textarea } from 'nav-frontend-skjema';
 import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
 import fnrValidator from '@navikt/fnrvalidator';
 
-import { CvSøkeresultat, Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
+import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
 import { Nettstatus, Nettressurs, NettressursMedForklaring } from '../../../api/Nettressurs';
 import AppState from '../../../AppState';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
@@ -19,9 +19,9 @@ import { sendEvent } from '../../../amplitude/amplitude';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { UsynligKandidat } from '../../domene/Kandidat';
-import './LeggTilKandidatModal.less';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
 import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
+import './LeggTilKandidatModal.less';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -54,7 +54,6 @@ type Props = {
     ) => void;
     notat: string;
     setNotat: (notat: string) => void;
-    kandidat: CvSøkeresultat;
     resetSøk: () => void;
     søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
     fødselsnummersøk: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
@@ -171,13 +170,20 @@ class LeggTilKandidatModal extends React.Component<Props> {
     };
 
     kandidatenFinnesAllerede = () => {
-        console.log('Alle kandidater', this.props.kandidatliste.kandidater);
+        const kandidatFraSøk =
+            this.props.fødselsnummersøk.kind === Nettstatus.Suksess
+                ? this.props.fødselsnummersøk.data
+                : undefined;
 
-        const kandidat = this.props.kandidatliste.kandidater.filter(
-            (k) => this.props.kandidat.arenaKandidatnr === k.kandidatnr
-        );
+        if (kandidatFraSøk) {
+            const kandidat = this.props.kandidatliste.kandidater.filter(
+                (k) => kandidatFraSøk.arenaKandidatnr === k.kandidatnr
+            );
 
-        return kandidat.length > 0;
+            return kandidat.length > 0;
+        } else {
+            return false;
+        }
     };
 
     kandidatenKanLeggesTil = () =>
@@ -186,7 +192,14 @@ class LeggTilKandidatModal extends React.Component<Props> {
         this.props.notat.length <= MAKS_NOTATLENGDE;
 
     leggTilKandidat = () => {
-        const { kandidat, kandidatliste, fodselsnummer, notat } = this.props;
+        const { fødselsnummersøk, kandidatliste, fodselsnummer, notat } = this.props;
+        const kandidat =
+            fødselsnummersøk.kind === Nettstatus.Suksess ? fødselsnummersøk.data : undefined;
+
+        if (!kandidat) {
+            return;
+        }
+
         const kandidater: KandidatOutboundDto[] = [
             {
                 kandidatnr: kandidat.arenaKandidatnr,
@@ -244,11 +257,13 @@ class LeggTilKandidatModal extends React.Component<Props> {
             vis = true,
             onClose,
             fodselsnummer,
-            kandidat,
+            fødselsnummersøk,
             leggTilKandidatStatus,
             notat,
         } = this.props;
 
+        const kandidat =
+            fødselsnummersøk.kind === Nettstatus.Suksess ? fødselsnummersøk.data : undefined;
         const harValgtUsynligKandidat = this.props.søkPåusynligKandidat.kind === Nettstatus.Suksess;
         const harValgtEtAlternativ =
             this.state.formidlingAvUsynligKandidat?.presentert ||
@@ -277,7 +292,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                     }}
                 />
                 {this.state.visResultatFraCvSøk && (
-                    <Normaltekst className="fodselsnummer">{`${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
+                    <Normaltekst className="fodselsnummer">{`${kandidat?.fornavn} ${kandidat?.etternavn} (${fodselsnummer})`}</Normaltekst>
                 )}
                 {this.props.søkPåusynligKandidat.kind === Nettstatus.Suksess && (
                     <NavnPåUsynligKandidat
@@ -400,7 +415,6 @@ class LeggTilKandidatModal extends React.Component<Props> {
 
 const mapStateToProps = (state: AppState) => ({
     fodselsnummer: state.kandidatliste.fodselsnummer,
-    kandidat: state.kandidatliste.kandidat,
     søkPåusynligKandidat: state.kandidatliste.søkPåusynligKandidat,
     fødselsnummersøk: state.kandidatliste.fødselsnummersøk,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
