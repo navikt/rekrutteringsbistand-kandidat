@@ -7,6 +7,7 @@ import {
     fetchUsynligKandidat,
     postFormidlingerAvUsynligKandidat,
     putKandidatlistestatus,
+    fetchSynlighetsevaluering,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
@@ -283,17 +284,25 @@ function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
         const response: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> =
             yield fetchKandidatMedFnr(action.fodselsnummer);
 
-        yield put<HentKandidatMedFnrSuccessAction>({
-            type: KandidatlisteActionType.HentKandidatMedFnrSuccess,
-            data: response,
-        });
+        let data: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> = response;
 
+        console.warn('### DATA:', data);
         if (response.kind === Nettstatus.FinnesIkkeMedForklaring) {
+            const response: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> =
+                yield fetchSynlighetsevaluering(action.fodselsnummer);
+
+            data = response;
+
             yield put({
                 type: KandidatlisteActionType.HentUsynligKandidat,
                 fodselsnummer: action.fodselsnummer,
             });
         }
+
+        yield put<HentKandidatMedFnrSuccessAction>({
+            type: KandidatlisteActionType.HentKandidatMedFnrSuccess,
+            data,
+        });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put<HentKandidatMedFnrFailureAction>({

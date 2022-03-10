@@ -171,11 +171,12 @@ class LeggTilKandidatModal extends React.Component<Props> {
     };
 
     kandidatenFinnesAllerede = () => {
-        console.log('Kandidater', this.props.kandidatliste.kandidater);
+        console.log('Alle kandidater', this.props.kandidatliste.kandidater);
 
         const kandidat = this.props.kandidatliste.kandidater.filter(
             (k) => this.props.kandidat.arenaKandidatnr === k.kandidatnr
         );
+
         return kandidat.length > 0;
     };
 

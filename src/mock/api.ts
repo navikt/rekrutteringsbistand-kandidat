@@ -32,6 +32,7 @@ import {
     MIDLERTIDIG_UTILGJENGELIG_API,
     SMS_API,
     ENHETSREGISTER_API,
+    SYNLIGHET_API,
 } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
@@ -42,6 +43,7 @@ const api = `express:${KANDIDATSOK_API}`;
 const smsApi = `express:${SMS_API}`;
 const midlertidigUtilgjengeligApi = `express:${MIDLERTIDIG_UTILGJENGELIG_API}`;
 const forespørselOmDelingAvCvApi = `express:${FORESPORSEL_OM_DELING_AV_CV_API}`;
+const synlighetApi = `express:${SYNLIGHET_API}`;
 
 const url = {
     // Kandidatsøket
@@ -53,6 +55,7 @@ const url = {
     ferdigutfyltesokurlPost: `${api}/veileder/ferdigutfyltesok/klikk`,
     typeahead: `${api}/veileder/kandidatsok/typeahead`,
     fnrsok: `${api}/veileder/kandidatsok/fnrsok`,
+    synlighetsevaluering: `${synlighetApi}/evaluering/:fnr`,
 
     // Cv
     cv: `${api}/veileder/kandidatsok/hentcv`,
@@ -294,21 +297,26 @@ const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost): Mock
     } else {
         return {
             status: 404,
-            body: {
-                harAktivCv: false,
-                harJobbprofil: false,
-                harSettHjemmel: false,
-                maaIkkeBehandleTidligereCv: false,
-                erIkkeFritattKandidatsøk: false,
-                erUnderOppfoelging: false,
-                harRiktigFormidlingsgruppe: false,
-                erIkkeKode6eller7: true,
-                erIkkeSperretAnsatt: true,
-                erIkkeDoed: true,
-                erFerdigBeregnet: true,
-            },
         };
     }
+};
+
+const getSynlighetsevaluering = (): MockResponse => {
+    return {
+        status: 200,
+        body: {
+            harAktivCv: true,
+            harJobbprofil: true,
+            harSettHjemmel: true,
+            maaIkkeBehandleTidligereCv: true,
+            erIkkeFritattKandidatsøk: true,
+            erUnderOppfoelging: true,
+            harRiktigFormidlingsgruppe: true,
+            erIkkeSperretAnsatt: true,
+            erIkkeDoed: true,
+            erFerdigBeregnet: true,
+        },
+    };
 };
 
 const postEnhetsregister = () => {
@@ -357,6 +365,7 @@ fetchMock
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
     .post(url.fnrsok, log(postFnrsok))
+    .get(url.synlighetsevaluering, log(getSynlighetsevaluering))
     .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(postDelKandidater))
     .get(url.søkeord, log(sokeord))

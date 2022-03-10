@@ -22,6 +22,7 @@ export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
 export const SMS_API = `/sms-api`;
 export const MIDLERTIDIG_UTILGJENGELIG_API = `/finn-kandidat-api/midlertidig-utilgjengelig`;
+export const SYNLIGHET_API = `/synlighet-api`;
 
 if (process.env.REACT_APP_MOCK) {
     require('../mock/api.ts');
@@ -159,27 +160,48 @@ export const fetchKandidatMedFnr = async (
             headers: postHeaders(),
         });
 
-        if (response.status === 200 || response.status === 404) {
+        if (response.status === 200) {
             const body = await response.json();
 
-            if (response.status === 200) {
-                return {
-                    kind: Nettstatus.Suksess,
-                    data: body,
-                };
-            } else {
-                return {
-                    kind: Nettstatus.FinnesIkkeMedForklaring,
-                    forklaring: body,
-                };
-            }
+            return {
+                kind: Nettstatus.Suksess,
+                data: body,
+            };
+        } else {
+            return {
+                kind: Nettstatus.FinnesIkkeMedForklaring,
+                forklaring: {} as Synlighetsevaluering,
+            };
         }
-
-        const feilmeldingFraBody = await response.text();
+    } catch (e) {
         throw new SearchApiError({
-            status: response.status,
-            message: feilmeldingFraBody,
+            message: e.message,
+            status: e.status,
         });
+    }
+};
+
+export const fetchSynlighetsevaluering = async (
+    fødselsnummer: string
+): Promise<NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>> => {
+    const url = `${SYNLIGHET_API}/evaluering/${fødselsnummer}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+        });
+
+        if (response.ok) {
+            const body = await response.json();
+
+            return {
+                kind: Nettstatus.FinnesIkkeMedForklaring,
+                forklaring: body,
+            };
+        } else {
+            const feilmeldingFraBody = await response.text();
+            throw feilmeldingFraBody;
+        }
     } catch (e) {
         throw new SearchApiError({
             message: e.message,

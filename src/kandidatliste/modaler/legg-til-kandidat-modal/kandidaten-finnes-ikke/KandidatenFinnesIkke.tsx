@@ -26,7 +26,7 @@ const KandidatenFinnesIkke: FunctionComponent<Props> = ({ synlighetsevaluering }
     if (ingenKriterierStemmer) {
         forklaring = <p>Kandidaten finnes ikke.</p>;
     } else if (alleKriterierStemmer) {
-        forklaring = <p>Vennligst prøv igjen senere.</p>;
+        forklaring = null;
     } else {
         const kandidatensKriterierPerAnsvarsområde =
             hentKandidatensKriterierPerAnsvarsområde(synlighetsevaluering);
