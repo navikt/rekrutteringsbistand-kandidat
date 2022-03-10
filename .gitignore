@@ -25,6 +25,7 @@ war/src/main/client/build/
 dist/
 /build
 .eslintcache
+server/build
 
 screenshots
 .vscode/settings.json

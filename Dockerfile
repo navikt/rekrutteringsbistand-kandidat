@@ -1,11 +1,12 @@
-FROM navikt/node-express:12.2.0-alpine
+FROM navikt/node-express:14-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /var
 
 COPY build/ build/
-COPY server/ ./
+COPY server/build server/
+COPY server/node_modules  server/node_modules
 
-RUN npm ci
+WORKDIR /var/server
 
 EXPOSE 8080
 

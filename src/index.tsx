@@ -10,7 +10,7 @@ import { Router } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { History } from 'history';
 import FeilMedApp from './FeilMedApp';
-import { getMiljø } from './utils/miljøUtils';
+import { getMiljø, Miljø } from './utils/miljøUtils';
 import { fjernPersonopplysninger } from './utils/sentryUtils';
 import App from './app/App';
 import './index.less';
@@ -26,7 +26,7 @@ Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
     environment: getMiljø(),
     release: process.env.REACT_APP_SENTRY_RELEASE || 'unknown',
-    enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
+    enabled: getMiljø() === Miljø.DevGcp || getMiljø() === Miljø.ProdGcp,
     beforeSend: fjernPersonopplysninger,
     autoSessionTracking: false,
 });
