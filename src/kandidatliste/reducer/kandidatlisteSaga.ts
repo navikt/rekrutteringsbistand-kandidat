@@ -67,7 +67,7 @@ import {
     ForespørslerForStillingInboundDto,
     sendForespørselOmDelingAvCv,
 } from '../../api/forespørselOmDelingAvCvApi';
-import { NettressursMedForklaring, Nettstatus } from '../../api/Nettressurs';
+import { Nettressurs, NettressursMedForklaring, Nettstatus } from '../../api/Nettressurs';
 import { Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
@@ -281,12 +281,13 @@ function* endreKandidatlistestatus(action: EndreKandidatlistestatusAction) {
 
 function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
     try {
-        const response: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> =
-            yield fetchKandidatMedFnr(action.fodselsnummer);
+        const response: Nettressurs<Fødselsnummersøk> = yield fetchKandidatMedFnr(
+            action.fodselsnummer
+        );
 
-        let data: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> = response;
+        let data = response as NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
 
-        if (response.kind === Nettstatus.FinnesIkkeMedForklaring) {
+        if (response.kind === Nettstatus.FinnesIkke) {
             const response: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> =
                 yield fetchSynlighetsevaluering(action.fodselsnummer);
 

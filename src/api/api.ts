@@ -145,9 +145,7 @@ export function fetchGeografiKode(geografiKode) {
 export const fetchStillingFraListe = (stillingsId) =>
     fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true);
 
-export const fetchKandidatMedFnr = async (
-    fnr: string
-): Promise<NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>> => {
+export const fetchKandidatMedFnr = async (fnr: string): Promise<Nettressurs<Fødselsnummersøk>> => {
     const url = `${KANDIDATSOK_API}/veileder/kandidatsok/fnrsok`;
     const body = JSON.stringify({ fnr });
 
@@ -160,18 +158,17 @@ export const fetchKandidatMedFnr = async (
             headers: postHeaders(),
         });
 
-        if (response.status === 200) {
-            const body = await response.json();
-
+        if (response.ok) {
             return {
                 kind: Nettstatus.Suksess,
-                data: body,
+                data: await response.json(),
+            };
+        } else if (response.status === 404) {
+            return {
+                kind: Nettstatus.FinnesIkke,
             };
         } else {
-            return {
-                kind: Nettstatus.FinnesIkkeMedForklaring,
-                forklaring: {} as Synlighetsevaluering,
-            };
+            throw await response.text();
         }
     } catch (e) {
         throw new SearchApiError({
@@ -199,8 +196,7 @@ export const fetchSynlighetsevaluering = async (
                 forklaring: body,
             };
         } else {
-            const feilmeldingFraBody = await response.text();
-            throw feilmeldingFraBody;
+            throw await response.text();
         }
     } catch (e) {
         throw new SearchApiError({

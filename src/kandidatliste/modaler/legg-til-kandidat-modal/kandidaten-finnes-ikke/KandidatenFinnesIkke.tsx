@@ -43,7 +43,7 @@ const KandidatenFinnesIkke: FunctionComponent<Props> = ({ synlighetsevaluering }
         } else {
             forklaring = (
                 <>
-                    {kandidatensKriterierPerAnsvarsområde.kandidat.length && (
+                    {kandidatensKriterierPerAnsvarsområde.kandidat.length > 0 && (
                         <p>
                             For å bli synlig må kandidaten
                             <ul>
@@ -53,7 +53,7 @@ const KandidatenFinnesIkke: FunctionComponent<Props> = ({ synlighetsevaluering }
                             </ul>
                         </p>
                     )}
-                    {kandidatensKriterierPerAnsvarsområde.veileder.length && (
+                    {kandidatensKriterierPerAnsvarsområde.veileder.length > 0 && (
                         <p>
                             For å bli synlig må du
                             <ul>

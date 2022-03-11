@@ -305,7 +305,7 @@ const getSynlighetsevaluering = (): MockResponse => {
     return {
         status: 200,
         body: {
-            harAktivCv: true,
+            harAktivCv: false,
             harJobbprofil: true,
             harSettHjemmel: true,
             maaIkkeBehandleTidligereCv: true,
