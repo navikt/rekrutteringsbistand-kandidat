@@ -286,7 +286,6 @@ function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
 
         let data: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> = response;
 
-        console.warn('### DATA:', data);
         if (response.kind === Nettstatus.FinnesIkkeMedForklaring) {
             const response: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> =
                 yield fetchSynlighetsevaluering(action.fodselsnummer);
