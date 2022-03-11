@@ -288,6 +288,10 @@ function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
         let data = response as NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
 
         if (response.kind === Nettstatus.FinnesIkke) {
+            sendEvent('fødselsnummersøk', 'fant-ingen-kandidat', {
+                kontekst: 'kandidatliste',
+            });
+
             const response: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> =
                 yield fetchSynlighetsevaluering(action.fodselsnummer);
 

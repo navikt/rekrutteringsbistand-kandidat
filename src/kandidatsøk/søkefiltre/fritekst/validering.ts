@@ -1,4 +1,5 @@
 import validator from '@navikt/fnrvalidator';
+import { sendEvent } from '../../../amplitude/amplitude';
 import { hentKandidatnr } from '../../../api/api';
 
 export enum Fritekststatus {
@@ -50,6 +51,10 @@ export const validerFritekstfelt = async (fnr: string): Promise<Fritekstvalideri
             kandidatnr,
         };
     } catch (e) {
+        sendEvent('fødselsnummersøk', 'fant-ingen-kandidat', {
+            kontekst: 'kandidatsøk',
+        });
+
         return {
             status: Fritekststatus.FantIkkeKandidat,
             feilmelding: 'Kandidaten er ikke synlig i kandidatsøket',
