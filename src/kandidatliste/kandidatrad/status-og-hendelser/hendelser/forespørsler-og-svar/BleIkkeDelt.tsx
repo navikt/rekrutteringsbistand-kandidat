@@ -12,15 +12,9 @@ const BleIkkeDelt: FunctionComponent<Props> = ({ forespørsel, children }) => {
         <Hendelse
             status={Hendelsesstatus.Rød}
             tittel="Stillingen ble ikke delt"
-            beskrivelse={
-                <>
-                    <div>
-                        {`${formaterDatoNaturlig(forespørsel.deltTidspunkt)} av ${
-                            forespørsel.deltAv
-                        }`}
-                    </div>
-                </>
-            }
+            beskrivelse={`${formaterDatoNaturlig(forespørsel.deltTidspunkt)} av ${
+                forespørsel.deltAv
+            }`}
         >
             {children}
         </Hendelse>
