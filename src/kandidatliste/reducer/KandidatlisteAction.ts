@@ -1,9 +1,5 @@
 import { Kandidatlistestatus } from '../domene/Kandidatliste';
 import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
-import {
-    KandidatOutboundDto,
-    FormidlingAvUsynligKandidatOutboundDto,
-} from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { ApiError, NettressursMedForklaring } from '../../api/Nettressurs';
 import { Kandidatliste } from '../domene/Kandidatliste';
 import { Notat, Visningsstatus } from '../domene/Kandidatressurser';
@@ -15,7 +11,11 @@ import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
 import { ForespørslerForStillingInboundDto } from '../../api/forespørselOmDelingAvCvApi';
-import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
+import { Synlighetsevaluering } from '../modaler/legg-til-kandidat/kandidaten-finnes-ikke/Synlighetsevaluering';
+import {
+    FormidlingAvUsynligKandidatOutboundDto,
+    KandidatOutboundDto,
+} from '../modaler/legg-til-kandidat/LeggTilKandidatModal';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;

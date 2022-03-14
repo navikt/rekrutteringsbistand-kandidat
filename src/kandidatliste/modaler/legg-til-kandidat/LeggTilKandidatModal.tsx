@@ -13,15 +13,28 @@ import {
 } from '../../../api/api';
 import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
-import { Synlighetsevaluering } from '../legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
+import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
 import { sendEvent } from '../../../amplitude/amplitude';
 import { SearchApiError } from '../../../api/fetchUtils';
 import { UsynligKandidat } from '../../domene/Kandidat';
-import KandidatenFinnesIkke from '../legg-til-kandidat-modal/kandidaten-finnes-ikke/KandidatenFinnesIkke';
+import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
 import BekreftMedNotat from './BekreftMedNotat';
 import FormidleUsynligKandidat from './FormidleUsynligKandidat';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import './LeggTilKandidatModal.less';
+
+export type KandidatOutboundDto = {
+    kandidatnr: string;
+    notat?: string;
+};
+
+export type FormidlingAvUsynligKandidatOutboundDto = {
+    fnr: string;
+    presentert: boolean;
+    fåttJobb: boolean;
+    navKontor: string;
+    stillingsId: string;
+};
 
 type Props = {
     vis: boolean;
@@ -31,7 +44,7 @@ type Props = {
     onClose: () => void;
 };
 
-const LeggTilKandidat: FunctionComponent<Props> = ({
+const LeggTilKandidatModal: FunctionComponent<Props> = ({
     vis,
     onClose,
     kandidatliste,
@@ -192,4 +205,4 @@ const LeggTilKandidat: FunctionComponent<Props> = ({
     );
 };
 
-export default LeggTilKandidat;
+export default LeggTilKandidatModal;

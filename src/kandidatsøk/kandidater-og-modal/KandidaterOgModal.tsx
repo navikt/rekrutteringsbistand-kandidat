@@ -8,7 +8,6 @@ import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import { formatterInt } from '../utils';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import { KANDIDATLISTE_CHUNK_SIZE } from '../../common/konstanter';
-import { KandidatOutboundDto } from '../../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { KandidatsøkAction, KandidatsøkActionType } from '../reducer/searchActions';
 import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
@@ -18,6 +17,7 @@ import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteAc
 import KnappMedHjelpetekst from '../knappMedHjelpetekst/KnappMedHjelpetekst';
 import LagreKandidaterModal from '../modaler/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../modaler/LagreKandidaterTilStillingModal';
+import { KandidatOutboundDto } from '../../kandidatliste/modaler/legg-til-kandidat/LeggTilKandidatModal';
 
 const hentAntallMarkerteResultater = (kandidater: MarkerbartSøkeresultat[]) =>
     kandidater.filter((k) => k.markert).length;

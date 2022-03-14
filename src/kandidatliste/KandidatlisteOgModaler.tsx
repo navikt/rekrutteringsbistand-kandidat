@@ -17,7 +17,6 @@ import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import PresenterKandidaterModal from './modaler/presenter-kandidater/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import { CvSøkeresultat } from '../kandidatside/cv/reducer/cv-typer';
-import { FormidlingAvUsynligKandidatOutboundDto } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatmeldinger, Kandidattilstander, SmsStatus } from './domene/Kandidatressurser';
 import Kandidatliste from './Kandidatliste';
 import {
@@ -25,7 +24,9 @@ import {
     hentForespørslerForKandidatForStilling,
 } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './Kandidatliste.less';
-import LeggTilKandidat from './modaler/legg-til-kandidat/LeggTilKandidat';
+import LeggTilKandidatModal, {
+    FormidlingAvUsynligKandidatOutboundDto,
+} from './modaler/legg-til-kandidat/LeggTilKandidatModal';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -327,7 +328,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     />
                 )}
                 {leggTilModalOpen && (
-                    <LeggTilKandidat
+                    <LeggTilKandidatModal
                         vis={this.state.leggTilModalOpen}
                         onClose={this.onToggleLeggTilKandidatModal}
                         stillingsId={kandidatliste.stillingId}

@@ -5,10 +5,10 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { postFormidlingerAvUsynligKandidat } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
 import { UsynligKandidat, FormidlingAvUsynligKandidat } from '../../domene/Kandidat';
-import { FormidlingAvUsynligKandidatOutboundDto } from '../legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
+import { FormidlingAvUsynligKandidatOutboundDto } from './LeggTilKandidatModal';
 
 const FormidleUsynligKandidat: FunctionComponent<{
     fnr: string;

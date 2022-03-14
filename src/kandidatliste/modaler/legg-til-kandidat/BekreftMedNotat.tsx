@@ -6,8 +6,8 @@ import { sendEvent } from '../../../amplitude/amplitude';
 import { postKandidaterTilKandidatliste } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
 import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
-import { KandidatOutboundDto } from '../legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatliste } from '../../domene/Kandidatliste';
+import { KandidatOutboundDto } from './LeggTilKandidatModal';
 
 const MAKS_NOTATLENGDE = 2000;
 
