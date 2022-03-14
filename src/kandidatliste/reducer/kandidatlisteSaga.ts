@@ -4,10 +4,7 @@ import {
     fetchSendteMeldinger,
     putArkivertForFlereKandidater,
     putUtfallKandidat,
-    fetchUsynligKandidat,
-    postFormidlingerAvUsynligKandidat,
     putKandidatlistestatus,
-    fetchSynlighetsevaluering,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
@@ -18,7 +15,6 @@ import KandidatlisteAction, {
     HentKandidatlisteMedKandidatlisteIdAction,
     PresenterKandidaterAction,
     EndreStatusKandidatAction,
-    HentKandidatMedFnrAction,
     LeggTilKandidaterAction,
     HentNotaterAction,
     OpprettNotatAction,
@@ -31,23 +27,18 @@ import KandidatlisteAction, {
     AngreArkiveringSuccessAction,
     EndreUtfallKandidatAction,
     EndreUtfallKandidatSuccessAction,
-    HentUsynligKandidatAction,
-    FormidleUsynligKandidatAction,
     EndreFormidlingsutfallForUsynligKandidatAction,
     EndreFormidlingsutfallForUsynligKandidatSuccessAction,
     EndreKandidatlistestatusAction,
     EndreKandidatlistestatusSuccessAction,
     HentForespørslerOmDelingAvCvAction,
     SendForespørselOmDelingAvCv,
-    HentKandidatMedFnrSuccessAction,
-    HentKandidatMedFnrFailureAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
     fetchKandidatlisteMedAnnonsenummer,
     fetchKandidatlisteMedKandidatlisteId,
     fetchKandidatlisteMedStillingsId,
-    fetchKandidatMedFnr,
     fetchNotater,
     postDelteKandidater,
     postKandidaterTilKandidatliste,
@@ -67,9 +58,6 @@ import {
     ForespørslerForStillingInboundDto,
     sendForespørselOmDelingAvCv,
 } from '../../api/forespørselOmDelingAvCvApi';
-import { Nettressurs, NettressursMedForklaring, Nettstatus } from '../../api/Nettressurs';
-import { Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
-import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;
@@ -279,61 +267,6 @@ function* endreKandidatlistestatus(action: EndreKandidatlistestatusAction) {
     }
 }
 
-function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
-    try {
-        const response: Nettressurs<Fødselsnummersøk> = yield fetchKandidatMedFnr(
-            action.fodselsnummer
-        );
-
-        let data = response as NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
-
-        if (response.kind === Nettstatus.FinnesIkke) {
-            sendEvent('fødselsnummersøk', 'fant-ingen-kandidat', {
-                kontekst: 'kandidatliste',
-            });
-
-            const response: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering> =
-                yield fetchSynlighetsevaluering(action.fodselsnummer);
-
-            data = response;
-
-            yield put({
-                type: KandidatlisteActionType.HentUsynligKandidat,
-                fodselsnummer: action.fodselsnummer,
-            });
-        }
-
-        yield put<HentKandidatMedFnrSuccessAction>({
-            type: KandidatlisteActionType.HentKandidatMedFnrSuccess,
-            data,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put<HentKandidatMedFnrFailureAction>({
-                type: KandidatlisteActionType.HentKandidatMedFnrFailure,
-                error: e,
-            });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* hentUsynligKandidat(action: HentUsynligKandidatAction) {
-    try {
-        const response = yield fetchUsynligKandidat(action.fodselsnummer);
-        yield put<KandidatlisteAction>({
-            type: KandidatlisteActionType.HentUsynligKandidatSuccess,
-            navn: response,
-        });
-    } catch (e) {
-        yield put({
-            type: KandidatlisteActionType.HentUsynligKandidatFailure,
-            error: e,
-        });
-    }
-}
-
 function* leggTilKandidater(action: LeggTilKandidaterAction) {
     try {
         const response = yield postKandidaterTilKandidatliste(
@@ -375,29 +308,6 @@ function* lagreKandidatIKandidatliste(action) {
         if (e instanceof SearchApiError) {
             yield put({
                 type: KandidatlisteActionType.LagreKandidatIKandidatlisteFailure,
-                error: e,
-            });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* formidleUsynligKandidat(action: FormidleUsynligKandidatAction) {
-    try {
-        const response = yield postFormidlingerAvUsynligKandidat(
-            action.kandidatlisteId,
-            action.formidling
-        );
-        yield put({
-            type: KandidatlisteActionType.FormidleUsynligKandidatSuccess,
-            formidling: action.formidling,
-            kandidatliste: response,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({
-                type: KandidatlisteActionType.FormidleUsynligKandidatFailure,
                 error: e,
             });
         } else {
@@ -668,7 +578,6 @@ function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.PresenterKandidater, presenterKandidater);
     yield takeLatest(KandidatlisteActionType.EndreStatusKandidat, endreKandidatstatus);
     yield takeLatest(KandidatlisteActionType.EndreUtfallKandidat, endreKandidatUtfall);
-    yield takeLatest(KandidatlisteActionType.HentKandidatMedFnr, hentKandidatMedFnr);
     yield takeLatest(KandidatlisteActionType.LeggTilKandidater, leggTilKandidater);
     yield takeLatest(KandidatlisteActionType.HentNotater, hentNotater);
     yield takeLatest(KandidatlisteActionType.OpprettNotat, opprettNotat);
@@ -683,7 +592,6 @@ function* kandidatlisteSaga() {
         KandidatlisteActionType.LagreKandidatIKandidatliste,
         lagreKandidatIKandidatliste
     );
-    yield takeLatest(KandidatlisteActionType.FormidleUsynligKandidat, formidleUsynligKandidat);
     yield takeLatest(KandidatlisteActionType.OppdaterKandidatliste, oppdaterKandidatliste);
     yield takeLatest(KandidatlisteActionType.AngreArkivering, angreArkiveringForKandidater);
     yield takeLatest(
@@ -693,7 +601,6 @@ function* kandidatlisteSaga() {
             KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure,
             KandidatlisteActionType.EndreStatusKandidatFailure,
             KandidatlisteActionType.PresenterKandidaterFailure,
-            KandidatlisteActionType.HentKandidatMedFnrFailure,
             KandidatlisteActionType.LeggTilKandidaterFailure,
             KandidatlisteActionType.OpprettNotatFailure,
             KandidatlisteActionType.EndreNotatFailure,
@@ -713,7 +620,6 @@ function* kandidatlisteSaga() {
         [KandidatlisteActionType.HentForespørslerOmDelingAvCv],
         hentForespørslerOmDelingAvCv
     );
-    yield takeLatest(KandidatlisteActionType.HentUsynligKandidat, hentUsynligKandidat);
     yield takeLatest(
         KandidatlisteActionType.EndreFormidlingsutfallForUsynligKandidat,
         endreUtfallForFormidlingAvUsynligKandidat

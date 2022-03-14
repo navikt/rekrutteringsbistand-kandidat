@@ -1,21 +1,16 @@
 import { Kandidatlistestatus } from '../domene/Kandidatliste';
-import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../domene/Kandidat';
-import { ApiError, NettressursMedForklaring } from '../../api/Nettressurs';
+import { Kandidatstatus, Kandidatutfall } from '../domene/Kandidat';
+import { ApiError } from '../../api/Nettressurs';
 import { Kandidatliste } from '../domene/Kandidatliste';
 import { Notat, Visningsstatus } from '../domene/Kandidatressurser';
 import { Kandidat } from '../domene/Kandidat';
-import { Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
 import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
 import { ForespørslerForStillingInboundDto } from '../../api/forespørselOmDelingAvCvApi';
-import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
-import {
-    FormidlingAvUsynligKandidatOutboundDto,
-    KandidatOutboundDto,
-} from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { KandidatOutboundDto } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
@@ -145,23 +140,6 @@ export interface LagreKandidatIKandidatlisteFailureAction {
     type: KandidatlisteActionType.LagreKandidatIKandidatlisteFailure;
 }
 
-export interface FormidleUsynligKandidatAction {
-    type: KandidatlisteActionType.FormidleUsynligKandidat;
-    kandidatlisteId: string;
-    formidling: FormidlingAvUsynligKandidatOutboundDto;
-}
-
-export interface FormidleUsynligKandidatSuccessAction {
-    type: KandidatlisteActionType.FormidleUsynligKandidatSuccess;
-    kandidatliste: Kandidatliste;
-    formidling: FormidlingAvUsynligKandidatOutboundDto;
-}
-
-export interface FormidleUsynligKandidatFailureAction {
-    type: KandidatlisteActionType.FormidleUsynligKandidatFailure;
-    error: ApiError;
-}
-
 export interface EndreStatusKandidatAction {
     type: KandidatlisteActionType.EndreStatusKandidat;
     status: Kandidatstatus;
@@ -239,40 +217,6 @@ export interface SetFodselsnummerAction {
 export interface SetNotatAction {
     type: KandidatlisteActionType.SetNotat;
     notat: string;
-}
-
-export interface HentKandidatMedFnrAction {
-    type: KandidatlisteActionType.HentKandidatMedFnr;
-    fodselsnummer: string;
-}
-
-export interface HentKandidatMedFnrSuccessAction {
-    type: KandidatlisteActionType.HentKandidatMedFnrSuccess;
-    data: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
-}
-
-export interface HentKandidatMedFnrFailureAction {
-    type: KandidatlisteActionType.HentKandidatMedFnrFailure;
-    error: SearchApiError;
-}
-
-export interface LeggTilKandidatSøkReset {
-    type: KandidatlisteActionType.LeggTilKandidatSøkReset;
-}
-
-export interface HentUsynligKandidatAction {
-    type: KandidatlisteActionType.HentUsynligKandidat;
-    fodselsnummer: string;
-}
-
-export interface HentUsynligKandidatSuccessAction {
-    type: KandidatlisteActionType.HentUsynligKandidatSuccess;
-    navn: UsynligKandidat[];
-}
-
-export interface HentUsynligKandidatFailureAction {
-    type: KandidatlisteActionType.HentUsynligKandidatFailure;
-    error: ApiError;
 }
 
 export interface HentNotaterAction {
@@ -530,13 +474,6 @@ type KandidatlisteAction =
     | EndreUtfallKandidatFailureAction
     | SetFodselsnummerAction
     | SetNotatAction
-    | HentKandidatMedFnrAction
-    | HentKandidatMedFnrSuccessAction
-    | HentKandidatMedFnrFailureAction
-    | LeggTilKandidatSøkReset
-    | HentUsynligKandidatAction
-    | HentUsynligKandidatSuccessAction
-    | HentUsynligKandidatFailureAction
     | HentNotaterAction
     | HentNotaterSuccessAction
     | HentNotaterFailureAction
@@ -571,9 +508,6 @@ type KandidatlisteAction =
     | ToggleMarkeringAvKandidat
     | EndreMarkeringAvKandidaterAction
     | EndreVisningsstatusKandidatAction
-    | FormidleUsynligKandidatAction
-    | FormidleUsynligKandidatSuccessAction
-    | FormidleUsynligKandidatFailureAction
     | EndreFormidlingsutfallForUsynligKandidatAction
     | EndreFormidlingsutfallForUsynligKandidatSuccessAction
     | EndreFormidlingsutfallForUsynligKandidatFailureAction
