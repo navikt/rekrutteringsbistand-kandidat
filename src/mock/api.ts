@@ -364,33 +364,22 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
-    .post(url.fnrsok, log(postFnrsok), {
-        delay: 500,
-    })
-    .get(url.synlighetsevaluering, log(getSynlighetsevaluering), {
-        delay: 500,
-    })
+    .post(url.fnrsok, log(postFnrsok))
+    .get(url.synlighetsevaluering, log(getSynlighetsevaluering))
     .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(postDelKandidater))
     .get(url.søkeord, log(sokeord))
     .get(url.arenageografikoder, log(arenageografikoder))
-    .post(url.søkUsynligKandidat, log(getUsynligKandidat), {
-        delay: 500,
-    })
+    .post(url.søkUsynligKandidat, log(getUsynligKandidat))
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
     .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
     .get(url.forespørselOmDelingAvCvForKandidat, log(forespørslerOmDelingAvCvForKandidat))
-    .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }), {
-        delay: 500,
-    })
+    .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }))
     .post(
         url.postResendForespørselOmDelingAvCv,
-        log({ body: forespørslerOmDelingAvCv, status: 201 }),
-        {
-            delay: 500,
-        }
+        log({ body: forespørslerOmDelingAvCv, status: 201 })
     )
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
 
