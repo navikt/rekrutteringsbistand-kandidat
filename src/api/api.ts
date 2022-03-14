@@ -1,6 +1,11 @@
-import { Kandidatstatus, Kandidatutfall } from '../kandidatliste/domene/Kandidat';
+import {
+    FormidlingAvUsynligKandidat,
+    Kandidatstatus,
+    Kandidatutfall,
+    UsynligKandidat,
+} from '../kandidatliste/domene/Kandidat';
 import FEATURE_TOGGLES from '../common/konstanter';
-import { Nettressurs, NettressursMedForklaring, Nettstatus } from './Nettressurs';
+import { Nettressurs, Nettstatus } from './Nettressurs';
 import {
     createCallIdHeader,
     deleteJsonMedType,
@@ -13,7 +18,10 @@ import {
     SearchApiError,
 } from './fetchUtils';
 import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Bransje';
-import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import {
+    FormidlingAvUsynligKandidatOutboundDto,
+    KandidatOutboundDto,
+} from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
 import Cv, { Fødselsnummersøk } from '../kandidatside/cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
@@ -180,7 +188,7 @@ export const fetchKandidatMedFnr = async (fnr: string): Promise<Nettressurs<Fød
 
 export const fetchSynlighetsevaluering = async (
     fødselsnummer: string
-): Promise<NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>> => {
+): Promise<Nettressurs<Synlighetsevaluering>> => {
     const url = `${SYNLIGHET_API}/evaluering/${fødselsnummer}`;
 
     try {
@@ -192,8 +200,8 @@ export const fetchSynlighetsevaluering = async (
             const body = await response.json();
 
             return {
-                kind: Nettstatus.FinnesIkkeMedForklaring,
-                forklaring: body,
+                kind: Nettstatus.Suksess,
+                data: body,
             };
         } else {
             throw await response.text();
@@ -229,20 +237,49 @@ export const postDelteKandidater = (
         })
     );
 
-export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) =>
-    postJson(
-        `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater`,
-        JSON.stringify(kandidater)
-    );
-
-export const postFormidlingerAvUsynligKandidat = (
+export const postKandidaterTilKandidatliste = async (
     kandidatlisteId: string,
-    formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
-) =>
-    postJson(
-        `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/formidlingeravusynligkandidat`,
-        JSON.stringify(formidlingAvUsynligKandidat)
-    );
+    kandidater: KandidatOutboundDto[]
+): Promise<Nettressurs<any>> => {
+    try {
+        const body = await postJson(
+            `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater`,
+            JSON.stringify(kandidater)
+        );
+
+        return {
+            kind: Nettstatus.Suksess,
+            data: body,
+        };
+    } catch (e) {
+        return {
+            kind: Nettstatus.Feil,
+            error: e,
+        };
+    }
+};
+
+export const postFormidlingerAvUsynligKandidat = async (
+    kandidatlisteId: string,
+    dto: FormidlingAvUsynligKandidatOutboundDto
+): Promise<Nettressurs<FormidlingAvUsynligKandidat>> => {
+    try {
+        const body = await postJson(
+            `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/formidlingeravusynligkandidat`,
+            JSON.stringify(dto)
+        );
+
+        return {
+            kind: Nettstatus.Suksess,
+            data: body,
+        };
+    } catch (e) {
+        return {
+            kind: Nettstatus.Feil,
+            error: e,
+        };
+    }
+};
 
 export const putFormidlingsutfallForUsynligKandidat = (
     kandidatlisteId: string,
@@ -335,13 +372,27 @@ export const fetchKandidatlisterForKandidat = (
     );
 };
 
-export const fetchUsynligKandidat = (fodselsnummer: string) => {
-    return postJson(
-        `${KANDIDATSOK_API}/veileder/kandidater/navn`,
-        JSON.stringify({
-            fnr: fodselsnummer,
-        })
-    );
+export const fetchUsynligKandidat = async (
+    fnr: string
+): Promise<Nettressurs<UsynligKandidat[]>> => {
+    try {
+        const body = await postJson(
+            `${KANDIDATSOK_API}/veileder/kandidater/navn`,
+            JSON.stringify({
+                fnr,
+            })
+        );
+
+        return {
+            kind: Nettstatus.Suksess,
+            data: body,
+        };
+    } catch (e) {
+        return {
+            kind: Nettstatus.Feil,
+            error: e,
+        };
+    }
 };
 
 export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) =>

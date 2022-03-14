@@ -17,7 +17,7 @@ const NavnPåUsynligKandidat: FunctionComponent<Props> = ({ navn, fnr }) => (
             const heltNavn = `${fornavn}${mellomnavn ? ' ' + mellomnavn : ''} ${etternavn}`;
 
             return (
-                <Normaltekst key={JSON.stringify(n)} className="fodselsnummer">
+                <Normaltekst className="blokk-s" key={JSON.stringify(n)}>
                     {heltNavn} ({fnr})
                 </Normaltekst>
             );

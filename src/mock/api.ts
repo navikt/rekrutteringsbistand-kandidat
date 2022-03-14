@@ -364,13 +364,19 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
-    .post(url.fnrsok, log(postFnrsok))
-    .get(url.synlighetsevaluering, log(getSynlighetsevaluering))
+    .post(url.fnrsok, log(postFnrsok), {
+        delay: 500,
+    })
+    .get(url.synlighetsevaluering, log(getSynlighetsevaluering), {
+        delay: 500,
+    })
     .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(postDelKandidater))
     .get(url.søkeord, log(sokeord))
     .get(url.arenageografikoder, log(arenageografikoder))
-    .post(url.søkUsynligKandidat, log(getUsynligKandidat))
+    .post(url.søkUsynligKandidat, log(getUsynligKandidat), {
+        delay: 500,
+    })
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
