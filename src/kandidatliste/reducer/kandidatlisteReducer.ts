@@ -35,8 +35,8 @@ import {
     separerGjeldendeForespørselFraRespons,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
-import { Synlighetsevaluering } from '../modaler/legg-til-kandidat/kandidaten-finnes-ikke/Synlighetsevaluering';
-import { FormidlingAvUsynligKandidatOutboundDto } from '../modaler/legg-til-kandidat/LeggTilKandidatModal';
+import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
+import { FormidlingAvUsynligKandidatOutboundDto } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 type FormidlingId = string;
 

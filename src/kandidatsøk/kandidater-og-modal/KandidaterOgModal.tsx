@@ -17,7 +17,7 @@ import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteAc
 import KnappMedHjelpetekst from '../knappMedHjelpetekst/KnappMedHjelpetekst';
 import LagreKandidaterModal from '../modaler/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../modaler/LagreKandidaterTilStillingModal';
-import { KandidatOutboundDto } from '../../kandidatliste/modaler/legg-til-kandidat/LeggTilKandidatModal';
+import { KandidatOutboundDto } from '../../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 const hentAntallMarkerteResultater = (kandidater: MarkerbartSøkeresultat[]) =>
     kandidater.filter((k) => k.markert).length;

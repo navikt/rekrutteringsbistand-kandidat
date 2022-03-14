@@ -69,7 +69,7 @@ import {
 } from '../../api/forespørselOmDelingAvCvApi';
 import { Nettressurs, NettressursMedForklaring, Nettstatus } from '../../api/Nettressurs';
 import { Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
-import { Synlighetsevaluering } from '../modaler/legg-til-kandidat/kandidaten-finnes-ikke/Synlighetsevaluering';
+import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;

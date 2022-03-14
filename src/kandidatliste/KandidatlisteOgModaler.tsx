@@ -26,7 +26,7 @@ import {
 import './Kandidatliste.less';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
-} from './modaler/legg-til-kandidat/LeggTilKandidatModal';
+} from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;

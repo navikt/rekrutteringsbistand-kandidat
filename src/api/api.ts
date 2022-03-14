@@ -20,11 +20,11 @@ import {
 import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Bransje';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
 import Cv, { Fødselsnummersøk } from '../kandidatside/cv/reducer/cv-typer';
-import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat/kandidaten-finnes-ikke/Synlighetsevaluering';
+import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 import {
     FormidlingAvUsynligKandidatOutboundDto,
     KandidatOutboundDto,
-} from '../kandidatliste/modaler/legg-til-kandidat/LeggTilKandidatModal';
+} from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
