@@ -50,12 +50,12 @@ const BekreftMedNotat: FunctionComponent<{
 
         if (respons.kind === Nettstatus.Suksess) {
             onClose();
-            varsleKandidatlisteOmNyKandidat(kandidatliste, dto);
+            varsleKandidatlisteOmNyKandidat(respons.data, dto);
         }
     };
 
     const varsleKandidatlisteOmNyKandidat = (
-        kandidatliste: Kandidatliste,
+        kandidatlisteMedNyKandidat: Kandidatliste,
         nyeKandidater: KandidatOutboundDto[]
     ) => {
         dispatch<VarslingAction>({
@@ -66,9 +66,9 @@ const BekreftMedNotat: FunctionComponent<{
         dispatch<KandidatlisteAction>({
             type: KandidatlisteActionType.LeggTilKandidaterSuccess,
             antallLagredeKandidater: 1,
-            kandidatliste: kandidatliste,
+            kandidatliste: kandidatlisteMedNyKandidat,
             lagredeKandidater: nyeKandidater,
-            lagretListe: kandidatliste,
+            lagretListe: kandidatlisteMedNyKandidat,
         });
     };
 
