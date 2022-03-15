@@ -170,7 +170,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                     fnr={fnr}
                     kandidatliste={kandidatliste}
                     stillingsId={stillingsId}
-                    valgtNavKontor={stillingsId}
+                    valgtNavKontor={valgtNavKontor}
                     onClose={onClose}
                 />
             )}

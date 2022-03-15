@@ -54,7 +54,6 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
         setFormidling(resultat);
 
         if (resultat.kind === Nettstatus.Suksess) {
-            onClose();
             varsleKandidatlisteOmFormidling(resultat.data, dto);
         }
     };
