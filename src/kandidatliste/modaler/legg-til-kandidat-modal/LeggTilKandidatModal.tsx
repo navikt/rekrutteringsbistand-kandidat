@@ -1,26 +1,21 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Input } from 'nav-frontend-skjema';
-import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import { Systemtittel } from 'nav-frontend-typografi';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import fnrValidator from '@navikt/fnrvalidator';
 import AlleredeLagtTil from './AlleredeLagtTil';
-import {
-    fetchKandidatMedFnr,
-    fetchSynlighetsevaluering,
-    fetchUsynligKandidat,
-} from '../../../api/api';
+import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../../api/api';
 import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
 import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
 import { sendEvent } from '../../../amplitude/amplitude';
 import { SearchApiError } from '../../../api/fetchUtils';
-import { UsynligKandidat } from '../../domene/Kandidat';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
 import BekreftMedNotat from './BekreftMedNotat';
-import FormidleUsynligKandidat from './FormidleUsynligKandidat';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import './LeggTilKandidatModal.less';
 
 export type KandidatOutboundDto = {
@@ -55,7 +50,6 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
     const [feilmelding, setFeilmelding] = useState<string | null>(null);
     const [erAlleredeLagtTil, setAlleredeLagtTil] = useState<boolean>(false);
     const [fnrSøk, setFnrSøk] = useState<Nettressurs<Fødselsnummersøk>>(ikkeLastet());
-    const [pdlSøk, setPdlSøk] = useState<Nettressurs<UsynligKandidat[]>>(ikkeLastet());
     const [synlighetsevaluering, setSynlighetsevaluering] = useState<
         Nettressurs<Synlighetsevaluering>
     >(ikkeLastet());
@@ -65,7 +59,6 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
         setAlleredeLagtTil(false);
         setFnrSøk(ikkeLastet());
         setSynlighetsevaluering(ikkeLastet());
-        setPdlSøk(ikkeLastet());
     };
 
     const onFnrChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -115,13 +108,6 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                 setSynlighetsevaluering(lasterInn());
                 const synlighetPromise = fetchSynlighetsevaluering(fnr);
 
-                if (kandidatliste.kanEditere) {
-                    setPdlSøk(lasterInn());
-                    const pdlPromise = fetchUsynligKandidat(fnr);
-
-                    setPdlSøk(await pdlPromise);
-                }
-
                 setSynlighetsevaluering(await synlighetPromise);
             }
         } catch (e) {
@@ -165,11 +151,6 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                 <NavFrontendSpinner className="LeggTilKandidatModal__spinner" />
             )}
 
-            {fnrSøk.kind === Nettstatus.FinnesIkke &&
-                synlighetsevaluering.kind === Nettstatus.Suksess && (
-                    <KandidatenFinnesIkke synlighetsevaluering={synlighetsevaluering.data} />
-                )}
-
             {fnrSøk.kind === Nettstatus.Suksess && (
                 <BekreftMedNotat
                     fnr={fnr}
@@ -179,35 +160,20 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                 />
             )}
 
-            {pdlSøk.kind !== Nettstatus.IkkeLastet &&
-                stillingsId !== null &&
-                valgtNavKontor !== null && (
-                    <>
-                        <Undertittel className="blokk-xxs">Fra folkeregisteret</Undertittel>
-                        {!kandidatliste.kanEditere ? (
-                            <Normaltekst>
-                                Du er ikke eier av stillingen og kan derfor ikke registrere
-                                formidling.
-                            </Normaltekst>
-                        ) : (
-                            <>
-                                {pdlSøk.kind === Nettstatus.Suksess && (
-                                    <FormidleUsynligKandidat
-                                        fnr={fnr}
-                                        usynligKandidat={pdlSøk.data}
-                                        kandidatliste={kandidatliste}
-                                        stillingsId={stillingsId}
-                                        valgtNavKontor={valgtNavKontor}
-                                        onClose={onClose}
-                                    />
-                                )}
-                            </>
-                        )}
-                        {pdlSøk.kind === Nettstatus.LasterInn && (
-                            <NavFrontendSpinner className="LeggTilKandidatModal__spinner" />
-                        )}
-                    </>
+            {fnrSøk.kind === Nettstatus.FinnesIkke &&
+                synlighetsevaluering.kind === Nettstatus.Suksess && (
+                    <KandidatenFinnesIkke synlighetsevaluering={synlighetsevaluering.data} />
                 )}
+
+            {fnrSøk.kind === Nettstatus.FinnesIkke && (
+                <InformasjonOmUsynligKandidat
+                    fnr={fnr}
+                    kandidatliste={kandidatliste}
+                    stillingsId={stillingsId}
+                    valgtNavKontor={stillingsId}
+                    onClose={onClose}
+                />
+            )}
         </ModalMedKandidatScope>
     );
 };

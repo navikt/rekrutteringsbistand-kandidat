@@ -10,14 +10,23 @@ import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
 import { FormidlingAvUsynligKandidatOutboundDto } from './LeggTilKandidatModal';
 
-const FormidleUsynligKandidat: FunctionComponent<{
+type Props = {
     fnr: string;
     usynligKandidat: UsynligKandidat[];
     kandidatliste: Kandidatliste;
     stillingsId: string;
     valgtNavKontor: string;
     onClose: () => void;
-}> = ({ fnr, usynligKandidat, kandidatliste, stillingsId, valgtNavKontor, onClose }) => {
+};
+
+const FormidleUsynligKandidat: FunctionComponent<Props> = ({
+    fnr,
+    usynligKandidat,
+    kandidatliste,
+    stillingsId,
+    valgtNavKontor,
+    onClose,
+}) => {
     const [formidling, setFormidling] = useState<Nettressurs<FormidlingAvUsynligKandidat>>(
         ikkeLastet()
     );
@@ -35,7 +44,16 @@ const FormidleUsynligKandidat: FunctionComponent<{
             stillingsId,
         };
 
-        setFormidling(await postFormidlingerAvUsynligKandidat(kandidatliste.kandidatlisteId, dto));
+        const resultat = await postFormidlingerAvUsynligKandidat(
+            kandidatliste.kandidatlisteId,
+            dto
+        );
+
+        setFormidling(resultat);
+
+        if (resultat.kind === Nettstatus.Suksess) {
+            onClose();
+        }
     };
 
     const harValgtEtAlternativ = presentert || fåttJobb;
