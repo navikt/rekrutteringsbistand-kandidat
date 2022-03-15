@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { CheckboxGruppe, Checkbox } from 'nav-frontend-skjema';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { postFormidlingerAvUsynligKandidat } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
 import { UsynligKandidat } from '../../domene/Kandidat';
@@ -118,6 +118,10 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
                     Avbryt
                 </Flatknapp>
             </div>
+
+            {formidling.kind === Nettstatus.Feil && (
+                <Feilmelding>Det skjedde noe galt under formidling av usynlig kandidat</Feilmelding>
+            )}
         </>
     );
 };
