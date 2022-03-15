@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Input } from 'nav-frontend-skjema';
-import { Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import fnrValidator from '@navikt/fnrvalidator';
@@ -95,8 +95,6 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
         }
     };
 
-    const validerFnr = (fnr: string): boolean => fnrValidator.idnr(fnr).status === 'valid';
-
     const erFnrAlleredeIListen = (fnr: string) =>
         kandidatliste.kandidater.some((kandidat) => kandidat.fodselsnr === fnr);
 
@@ -186,15 +184,24 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                 valgtNavKontor !== null && (
                     <>
                         <Undertittel className="blokk-xxs">Fra folkeregisteret</Undertittel>
-                        {pdlSøk.kind === Nettstatus.Suksess && (
-                            <FormidleUsynligKandidat
-                                fnr={fnr}
-                                usynligKandidat={pdlSøk.data}
-                                kandidatliste={kandidatliste}
-                                stillingsId={stillingsId}
-                                valgtNavKontor={valgtNavKontor}
-                                onClose={onClose}
-                            />
+                        {!kandidatliste.kanEditere ? (
+                            <Normaltekst>
+                                Du er ikke eier av stillingen og kan derfor ikke registrere
+                                formidling.
+                            </Normaltekst>
+                        ) : (
+                            <>
+                                {pdlSøk.kind === Nettstatus.Suksess && (
+                                    <FormidleUsynligKandidat
+                                        fnr={fnr}
+                                        usynligKandidat={pdlSøk.data}
+                                        kandidatliste={kandidatliste}
+                                        stillingsId={stillingsId}
+                                        valgtNavKontor={valgtNavKontor}
+                                        onClose={onClose}
+                                    />
+                                )}
+                            </>
                         )}
                         {pdlSøk.kind === Nettstatus.LasterInn && (
                             <NavFrontendSpinner className="LeggTilKandidatModal__spinner" />
@@ -204,5 +211,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
         </ModalMedKandidatScope>
     );
 };
+
+const validerFnr = (fnr: string): boolean => fnrValidator.idnr(fnr).status === 'valid';
 
 export default LeggTilKandidatModal;

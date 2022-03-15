@@ -38,14 +38,6 @@ const FormidleUsynligKandidat: FunctionComponent<{
         setFormidling(await postFormidlingerAvUsynligKandidat(kandidatliste.kandidatlisteId, dto));
     };
 
-    if (!kandidatliste.kanEditere) {
-        return (
-            <Normaltekst>
-                Du er ikke eier av stillingen og kan derfor ikke registrere formidling.
-            </Normaltekst>
-        );
-    }
-
     const harValgtEtAlternativ = presentert || fåttJobb;
 
     return (
