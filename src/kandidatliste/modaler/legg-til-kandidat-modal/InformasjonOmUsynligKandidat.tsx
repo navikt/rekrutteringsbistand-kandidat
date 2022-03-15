@@ -56,6 +56,10 @@ const InformasjonOmUsynligKandidat: FunctionComponent<Props> = ({
                 <NavFrontendSpinner className="LeggTilKandidatModal__spinner" />
             )}
 
+            {pdlSøk.kind === Nettstatus.FinnesIkke && (
+                <Feilmelding>Fant ikke personen i folkeregisteret.</Feilmelding>
+            )}
+
             {pdlSøk.kind === Nettstatus.Feil && (
                 <Feilmelding>Klarte ikke å hente person fra folkeregisteret.</Feilmelding>
             )}
