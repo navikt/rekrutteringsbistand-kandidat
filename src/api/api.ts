@@ -1,9 +1,4 @@
-import {
-    FormidlingAvUsynligKandidat,
-    Kandidatstatus,
-    Kandidatutfall,
-    UsynligKandidat,
-} from '../kandidatliste/domene/Kandidat';
+import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../kandidatliste/domene/Kandidat';
 import FEATURE_TOGGLES from '../common/konstanter';
 import { Nettressurs, Nettstatus } from './Nettressurs';
 import {
@@ -262,7 +257,7 @@ export const postKandidaterTilKandidatliste = async (
 export const postFormidlingerAvUsynligKandidat = async (
     kandidatlisteId: string,
     dto: FormidlingAvUsynligKandidatOutboundDto
-): Promise<Nettressurs<FormidlingAvUsynligKandidat>> => {
+): Promise<Nettressurs<Kandidatliste>> => {
     try {
         const body = await postJson(
             `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/formidlingeravusynligkandidat`,

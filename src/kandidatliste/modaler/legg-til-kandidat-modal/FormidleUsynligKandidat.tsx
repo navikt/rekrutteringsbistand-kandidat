@@ -4,11 +4,14 @@ import { CheckboxGruppe, Checkbox } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { postFormidlingerAvUsynligKandidat } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
-import { UsynligKandidat, FormidlingAvUsynligKandidat } from '../../domene/Kandidat';
+import { UsynligKandidat } from '../../domene/Kandidat';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
 import { FormidlingAvUsynligKandidatOutboundDto } from './LeggTilKandidatModal';
+import { useDispatch } from 'react-redux';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 
 type Props = {
     fnr: string;
@@ -27,9 +30,8 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
     valgtNavKontor,
     onClose,
 }) => {
-    const [formidling, setFormidling] = useState<Nettressurs<FormidlingAvUsynligKandidat>>(
-        ikkeLastet()
-    );
+    const dispatch = useDispatch();
+    const [formidling, setFormidling] = useState<Nettressurs<Kandidatliste>>(ikkeLastet());
     const [presentert, setPresentert] = useState<boolean>(false);
     const [fåttJobb, setFåttJobb] = useState<boolean>(false);
 
@@ -53,7 +55,19 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
 
         if (resultat.kind === Nettstatus.Suksess) {
             onClose();
+            varsleKandidatlisteOmFormidling(resultat.data, dto);
         }
+    };
+
+    const varsleKandidatlisteOmFormidling = (
+        kandidatliste: Kandidatliste,
+        formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
+    ) => {
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.FormidleUsynligKandidatSuccess,
+            formidlingAvUsynligKandidat,
+            kandidatliste,
+        });
     };
 
     const harValgtEtAlternativ = presentert || fåttJobb;

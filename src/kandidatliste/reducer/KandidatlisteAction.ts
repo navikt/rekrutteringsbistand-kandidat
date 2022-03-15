@@ -10,7 +10,10 @@ import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
 import { ForespørslerForStillingInboundDto } from '../../api/forespørselOmDelingAvCvApi';
-import { KandidatOutboundDto } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import {
+    FormidlingAvUsynligKandidatOutboundDto,
+    KandidatOutboundDto,
+} from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
@@ -246,6 +249,12 @@ export interface OpprettNotatSuccessAction {
     type: KandidatlisteActionType.OpprettNotatSuccess;
     kandidatnr: string;
     notater: Array<Notat>;
+}
+
+export interface FormidleUsynligKandidatSuccessAction {
+    type: KandidatlisteActionType.FormidleUsynligKandidatSuccess;
+    kandidatliste: Kandidatliste;
+    formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto;
 }
 
 export interface OpprettNotatFailureAction {
@@ -512,6 +521,7 @@ type KandidatlisteAction =
     | EndreFormidlingsutfallForUsynligKandidatSuccessAction
     | EndreFormidlingsutfallForUsynligKandidatFailureAction
     | LeggTilKandidaterResetAction
+    | FormidleUsynligKandidatSuccessAction
     | EndreKandidatlistestatusAction
     | EndreKandidatlistestatusSuccessAction
     | EndreKandidatlistestatusFailureAction

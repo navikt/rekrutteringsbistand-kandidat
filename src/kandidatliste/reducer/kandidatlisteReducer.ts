@@ -53,6 +53,7 @@ export type KandidatlisteState = {
     };
     id?: string;
     kandidatliste: Nettressurs<Kandidatliste>;
+    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     kandidattilstander: Kandidattilstander;
     kandidatnotater: Kandidatnotater;
     sms: {
@@ -90,7 +91,6 @@ export type KandidatlisteState = {
     filter: Kandidatlistefilter;
     notat?: string;
     søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
-    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     endreFormidlingsutfallForUsynligKandidat: Record<FormidlingId, Nettressurs<FormidlingId>>;
     endreKandidatlistestatus: Nettstatus;
 };
@@ -109,6 +109,7 @@ const initialState: KandidatlisteState = {
         lagreStatus: Nettstatus.IkkeLastet,
     },
     kandidatliste: ikkeLastet(),
+    formidlingAvUsynligKandidat: ikkeLastet(),
     kandidattilstander: {},
     kandidatnotater: {},
     fodselsnummer: undefined,
@@ -139,7 +140,6 @@ const initialState: KandidatlisteState = {
     },
     sortering: null,
     søkPåusynligKandidat: ikkeLastet(),
-    formidlingAvUsynligKandidat: ikkeLastet(),
     endreFormidlingsutfallForUsynligKandidat: {},
     endreKandidatlistestatus: Nettstatus.IkkeLastet,
 };
@@ -672,6 +672,14 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sortering: action.sortering,
             };
+
+        case KandidatlisteActionType.FormidleUsynligKandidatSuccess: {
+            return {
+                ...state,
+                kandidatliste: suksess(action.kandidatliste),
+                formidlingAvUsynligKandidat: suksess(action.formidlingAvUsynligKandidat),
+            };
+        }
 
         default:
             return state;
