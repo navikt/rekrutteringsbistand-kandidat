@@ -235,7 +235,7 @@ export const postDelteKandidater = (
 export const postKandidaterTilKandidatliste = async (
     kandidatlisteId: string,
     kandidater: KandidatOutboundDto[]
-): Promise<Nettressurs<any>> => {
+): Promise<Nettressurs<Kandidatliste>> => {
     try {
         const body = await postJson(
             `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater`,

@@ -8,6 +8,10 @@ import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Net
 import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { KandidatOutboundDto } from './LeggTilKandidatModal';
+import { useDispatch } from 'react-redux';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -17,8 +21,9 @@ const BekreftMedNotat: FunctionComponent<{
     kandidatliste: Kandidatliste;
     onClose: () => void;
 }> = ({ fnr, kandidat, kandidatliste, onClose }) => {
+    const dispatch = useDispatch();
     const [notat, setNotat] = useState<string>('');
-    const [leggTilKandidat, setLeggTilKandidat] = useState<Nettressurs<Fødselsnummersøk>>(
+    const [leggTilKandidat, setLeggTilKandidat] = useState<Nettressurs<Kandidatliste>>(
         ikkeLastet()
     );
 
@@ -45,7 +50,26 @@ const BekreftMedNotat: FunctionComponent<{
 
         if (respons.kind === Nettstatus.Suksess) {
             onClose();
+            varsleKandidatlisteOmNyKandidat(kandidatliste, dto);
         }
+    };
+
+    const varsleKandidatlisteOmNyKandidat = (
+        kandidatliste: Kandidatliste,
+        nyeKandidater: KandidatOutboundDto[]
+    ) => {
+        dispatch<VarslingAction>({
+            type: VarslingActionType.VisVarsling,
+            innhold: `Kandidat ${kandidat.fornavn} ${kandidat.etternavn} (${fnr}) er lagt til`,
+        });
+
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.LeggTilKandidaterSuccess,
+            antallLagredeKandidater: 1,
+            kandidatliste: kandidatliste,
+            lagredeKandidater: nyeKandidater,
+            lagretListe: kandidatliste,
+        });
     };
 
     return (

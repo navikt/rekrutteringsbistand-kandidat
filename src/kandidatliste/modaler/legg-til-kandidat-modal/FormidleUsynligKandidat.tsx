@@ -12,6 +12,7 @@ import { FormidlingAvUsynligKandidatOutboundDto } from './LeggTilKandidatModal';
 import { useDispatch } from 'react-redux';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 
 type Props = {
     fnr: string;
@@ -54,6 +55,7 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
         setFormidling(resultat);
 
         if (resultat.kind === Nettstatus.Suksess) {
+            onClose();
             varsleKandidatlisteOmFormidling(resultat.data, dto);
         }
     };
@@ -62,6 +64,11 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
         kandidatliste: Kandidatliste,
         formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
     ) => {
+        dispatch<VarslingAction>({
+            type: VarslingActionType.VisVarsling,
+            innhold: `Kandidaten (${formidlingAvUsynligKandidat.fnr}) er blitt formidlet`,
+        });
+
         dispatch<KandidatlisteAction>({
             type: KandidatlisteActionType.FormidleUsynligKandidatSuccess,
             formidlingAvUsynligKandidat,

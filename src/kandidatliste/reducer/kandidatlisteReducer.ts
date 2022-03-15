@@ -33,7 +33,6 @@ import {
     separerGjeldendeForespørselFraRespons,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
-import { FormidlingAvUsynligKandidatOutboundDto } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 type FormidlingId = string;
 
@@ -53,7 +52,6 @@ export type KandidatlisteState = {
     };
     id?: string;
     kandidatliste: Nettressurs<Kandidatliste>;
-    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     kandidattilstander: Kandidattilstander;
     kandidatnotater: Kandidatnotater;
     sms: {
@@ -109,7 +107,6 @@ const initialState: KandidatlisteState = {
         lagreStatus: Nettstatus.IkkeLastet,
     },
     kandidatliste: ikkeLastet(),
-    formidlingAvUsynligKandidat: ikkeLastet(),
     kandidattilstander: {},
     kandidatnotater: {},
     fodselsnummer: undefined,
@@ -677,7 +674,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 kandidatliste: suksess(action.kandidatliste),
-                formidlingAvUsynligKandidat: suksess(action.formidlingAvUsynligKandidat),
             };
         }
 

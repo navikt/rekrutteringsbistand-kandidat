@@ -24,9 +24,7 @@ import {
     hentForespørslerForKandidatForStilling,
 } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import './Kandidatliste.less';
-import LeggTilKandidatModal, {
-    FormidlingAvUsynligKandidatOutboundDto,
-} from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import LeggTilKandidatModal from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -45,7 +43,6 @@ type ConnectedProps = {
     deleStatus: Nettstatus;
     smsSendStatus: SmsStatus;
     resetSmsSendStatus: () => void;
-    leggTilStatus: Nettstatus;
     fodselsnummer?: string;
     kandidat?: CvSøkeresultat;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
@@ -55,7 +52,6 @@ type ConnectedProps = {
     valgtNavKontor: string | null;
     toggleMarkeringAvKandidat: (kandidatnr: string) => void;
     endreMarkeringAvKandidater: (kandidatnumre: string[]) => void;
-    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     kandidattilstander: Kandidattilstander;
     sendteMeldinger: Nettressurs<Kandidatmeldinger>;
     forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
@@ -100,15 +96,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             this.props.smsSendStatus !== prevProps.smsSendStatus &&
             this.props.smsSendStatus === SmsStatus.Sendt;
 
-        const kandidaterHarNettoppBlittLagtTil =
-            this.props.leggTilStatus !== prevProps.leggTilStatus &&
-            this.props.leggTilStatus === Nettstatus.Suksess;
-
-        const usynligKandidatHarNettoppBlittRegistrert =
-            this.props.formidlingAvUsynligKandidat.kind !==
-                prevProps.formidlingAvUsynligKandidat.kind &&
-            this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Suksess;
-
         const feilMedSmsUtsending =
             this.props.smsSendStatus !== prevProps.smsSendStatus &&
             this.props.smsSendStatus === SmsStatus.Feil;
@@ -142,20 +129,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
                 } er delt med arbeidsgiver`
             );
-        }
-        if (kandidaterHarNettoppBlittLagtTil) {
-            this.visInfobanner(
-                `Kandidat ${this.props.kandidat?.fornavn} ${this.props.kandidat?.etternavn} (${this.props.fodselsnummer}) er lagt til`
-            );
-        }
-
-        if (usynligKandidatHarNettoppBlittRegistrert) {
-            if (this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Suksess) {
-                this.visInfobanner(
-                    `Kandidaten (${this.props.formidlingAvUsynligKandidat.data.fnr}) er blitt formidlet`
-                );
-                this.onToggleLeggTilKandidatModal();
-            }
         }
 
         if (enKandidatErNettoppArkivert) {
@@ -375,14 +348,12 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 const mapStateToProps = (state: AppState) => ({
     deleStatus: state.kandidatliste.deleStatus,
     smsSendStatus: state.kandidatliste.sms.sendStatus,
-    leggTilStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatliste.fodselsnummer,
     kandidat: state.kandidatliste.kandidat,
     sendteMeldinger: state.kandidatliste.sms.sendteMeldinger,
     statusArkivering: state.kandidatliste.arkivering.statusArkivering,
     statusDearkivering: state.kandidatliste.arkivering.statusDearkivering,
     valgtNavKontor: state.navKontor.valgtNavKontor,
-    formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
     kandidattilstander: state.kandidatliste.kandidattilstander,
     forespørslerOmDelingAvCv: state.kandidatliste.forespørslerOmDelingAvCv,
 });
