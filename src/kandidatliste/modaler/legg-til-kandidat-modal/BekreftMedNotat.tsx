@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
+import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -84,24 +85,17 @@ const BekreftMedNotat: FunctionComponent<{
                 placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
                 maxLength={MAKS_NOTATLENGDE}
                 onChange={onNotatChange}
-                feil={notat && notat.length > MAKS_NOTATLENGDE ? 'Notatet er for langt' : undefined}
             />
-            <div>
-                <Hovedknapp
-                    onClick={onLeggTilKandidat}
-                    spinner={leggTilKandidat.kind === Nettstatus.SenderInn}
-                    disabled={leggTilKandidat.kind === Nettstatus.SenderInn}
-                >
-                    Legg til
-                </Hovedknapp>
-                <Flatknapp
-                    className="LeggTilKandidatModal__avbryt-knapp"
-                    onClick={onClose}
-                    disabled={leggTilKandidat.kind === Nettstatus.SenderInn}
-                >
-                    Avbryt
-                </Flatknapp>
-            </div>
+            <LeggTilEllerAvbryt
+                onLeggTilClick={onLeggTilKandidat}
+                onAvbrytClick={onClose}
+                leggTilSpinner={leggTilKandidat.kind === Nettstatus.SenderInn}
+                leggTilDisabled={
+                    leggTilKandidat.kind === Nettstatus.SenderInn ||
+                    (!!notat && notat.length > MAKS_NOTATLENGDE)
+                }
+                avbrytDisabled={leggTilKandidat.kind === Nettstatus.SenderInn}
+            />
             {leggTilKandidat.kind === Nettstatus.Feil && (
                 <Feilmelding>Klarte ikke å legge til kandidat</Feilmelding>
             )}

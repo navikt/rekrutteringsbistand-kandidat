@@ -1,22 +1,23 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Input } from 'nav-frontend-skjema';
 import { Systemtittel } from 'nav-frontend-typografi';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
-import { Kandidatliste } from '../../domene/Kandidatliste';
 import fnrValidator from '@navikt/fnrvalidator';
-import AlleredeLagtTil from './AlleredeLagtTil';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+
 import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../../api/api';
-import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
-import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
-import { sendEvent } from '../../../amplitude/amplitude';
+import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
+import { Kandidatliste } from '../../domene/Kandidatliste';
 import { SearchApiError } from '../../../api/fetchUtils';
-import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
+import { sendEvent } from '../../../amplitude/amplitude';
+import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
 import BekreftMedNotat from './BekreftMedNotat';
 import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
+import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
+import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import './LeggTilKandidatModal.less';
+import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 
 export type KandidatOutboundDto = {
     kandidatnr: string;
@@ -79,7 +80,9 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                 const finnesAllerede = erFnrAlleredeIListen(fnr);
                 setAlleredeLagtTil(finnesAllerede);
 
-                if (!finnesAllerede) {
+                if (finnesAllerede) {
+                    setFeilmelding('Kandidaten er allerede lagt til i listen');
+                } else {
                     hentKandidatMedFødselsnummer(fnr);
                 }
             } else {
@@ -126,7 +129,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
             contentClass="LeggTilKandidatModal__innhold"
             onRequestClose={onClose}
         >
-            <Systemtittel>Legg til kandidat</Systemtittel>
+            <Systemtittel className="LeggTilKandidatModal__tittel">Legg til kandidat</Systemtittel>
             <AlertStripeAdvarsel className="LeggTilKandidatModal__advarsel">
                 Før du legger en kandidat på kandidatlisten må du undersøke om personen oppfyller
                 kravene som er nevnt i stillingen.
@@ -144,7 +147,12 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                 feil={feilmelding || undefined}
             />
 
-            {erAlleredeLagtTil && <AlleredeLagtTil />}
+            {erAlleredeLagtTil && (
+                <AlertStripeInfo className="LeggTilKandidatModal__advarsel">
+                    Finner du ikke kandidaten i kandidatlisten? Husk å sjekk om kandidaten er
+                    slettet ved å huke av "Vis kun slettede".
+                </AlertStripeInfo>
+            )}
 
             {(fnrSøk.kind === Nettstatus.LasterInn ||
                 synlighetsevaluering.kind === Nettstatus.LasterInn) && (
@@ -173,6 +181,10 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                     valgtNavKontor={valgtNavKontor}
                     onClose={onClose}
                 />
+            )}
+
+            {fnrSøk.kind !== Nettstatus.Suksess && fnrSøk.kind !== Nettstatus.FinnesIkke && (
+                <LeggTilEllerAvbryt leggTilDisabled onAvbrytClick={onClose} />
             )}
         </ModalMedKandidatScope>
     );

@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
+import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 
 type Props = {
     fnr: string;
@@ -102,23 +103,13 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
                     />
                 </CheckboxGruppe>
             </div>
-            <div>
-                <Hovedknapp
-                    onClick={formidleUsynligKandidat}
-                    spinner={formidling.kind === Nettstatus.SenderInn}
-                    disabled={formidling.kind === Nettstatus.SenderInn || !harValgtEtAlternativ}
-                >
-                    Legg til
-                </Hovedknapp>
-                <Flatknapp
-                    className="LeggTilKandidatModal__avbryt-knapp"
-                    onClick={onClose}
-                    disabled={formidling.kind === Nettstatus.SenderInn}
-                >
-                    Avbryt
-                </Flatknapp>
-            </div>
-
+            <LeggTilEllerAvbryt
+                onLeggTilClick={formidleUsynligKandidat}
+                onAvbrytClick={onClose}
+                leggTilSpinner={formidling.kind === Nettstatus.SenderInn}
+                leggTilDisabled={formidling.kind === Nettstatus.SenderInn || !harValgtEtAlternativ}
+                avbrytDisabled={formidling.kind === Nettstatus.SenderInn}
+            />
             {formidling.kind === Nettstatus.Feil && (
                 <Feilmelding>Det skjedde noe galt under formidling av usynlig kandidat</Feilmelding>
             )}
