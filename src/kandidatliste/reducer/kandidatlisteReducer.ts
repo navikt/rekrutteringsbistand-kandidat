@@ -1,5 +1,4 @@
-import { FormidlingAvUsynligKandidatOutboundDto } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { CvSøkeresultat, Fødselsnummersøk } from '../../kandidatside/cv/reducer/cv-typer';
+import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -10,14 +9,12 @@ import KandidatlisteActionType from './KandidatlisteActionType';
 import { Reducer } from 'redux';
 import {
     Nettressurs,
-    finnesIkke,
     ikkeLastet,
     feil,
     lasterInn,
     Nettstatus,
     senderInn,
     suksess,
-    NettressursMedForklaring,
 } from '../../api/Nettressurs';
 import KandidatlisteAction from './KandidatlisteAction';
 import { SearchApiError } from '../../api/fetchUtils';
@@ -36,7 +33,6 @@ import {
     separerGjeldendeForespørselFraRespons,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
-import { Synlighetsevaluering } from '../modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 
 type FormidlingId = string;
 
@@ -46,7 +42,6 @@ export type Kandidatsortering = null | {
 };
 
 export type KandidatlisteState = {
-    fødselsnummersøk: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
     kandidat?: CvSøkeresultat;
 
     lagreStatus: Nettstatus;
@@ -94,7 +89,6 @@ export type KandidatlisteState = {
     filter: Kandidatlistefilter;
     notat?: string;
     søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
-    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     endreFormidlingsutfallForUsynligKandidat: Record<FormidlingId, Nettressurs<FormidlingId>>;
     endreKandidatlistestatus: Nettstatus;
 };
@@ -116,7 +110,6 @@ const initialState: KandidatlisteState = {
     kandidattilstander: {},
     kandidatnotater: {},
     fodselsnummer: undefined,
-    fødselsnummersøk: ikkeLastet(),
     leggTilKandidater: {
         lagreStatus: Nettstatus.IkkeLastet,
         antallLagredeKandidater: 0,
@@ -144,7 +137,6 @@ const initialState: KandidatlisteState = {
     },
     sortering: null,
     søkPåusynligKandidat: ikkeLastet(),
-    formidlingAvUsynligKandidat: ikkeLastet(),
     endreFormidlingsutfallForUsynligKandidat: {},
     endreKandidatlistestatus: Nettstatus.IkkeLastet,
 };
@@ -306,54 +298,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 notat: action.notat,
             };
-        case KandidatlisteActionType.HentKandidatMedFnr: {
-            return {
-                ...state,
-                fødselsnummersøk: lasterInn(),
-            };
-        }
-        case KandidatlisteActionType.HentKandidatMedFnrSuccess: {
-            return {
-                ...state,
-                fødselsnummersøk: action.data,
-            };
-        }
-        case KandidatlisteActionType.HentKandidatMedFnrFailure: {
-            return {
-                ...state,
-                fødselsnummersøk: {
-                    kind: Nettstatus.Feil,
-                    error: action.error,
-                },
-            };
-        }
-        case KandidatlisteActionType.LeggTilKandidatSøkReset: {
-            return {
-                ...state,
-                fødselsnummersøk: ikkeLastet(),
-                søkPåusynligKandidat: ikkeLastet(),
-                formidlingAvUsynligKandidat: ikkeLastet(),
-            };
-        }
-        case KandidatlisteActionType.HentUsynligKandidat: {
-            return {
-                ...state,
-                søkPåusynligKandidat: lasterInn(),
-            };
-        }
-        case KandidatlisteActionType.HentUsynligKandidatSuccess: {
-            return {
-                ...state,
-                søkPåusynligKandidat: suksess(action.navn),
-            };
-        }
-        case KandidatlisteActionType.HentUsynligKandidatFailure: {
-            return {
-                ...state,
-                søkPåusynligKandidat:
-                    action.error.status === 404 ? finnesIkke() : feil(action.error),
-            };
-        }
         case KandidatlisteActionType.LeggTilKandidater:
             return {
                 ...state,
@@ -421,25 +365,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 lagreKandidatIKandidatlisteStatus: Nettstatus.Feil,
             };
-        case KandidatlisteActionType.FormidleUsynligKandidat: {
-            return {
-                ...state,
-                formidlingAvUsynligKandidat: senderInn(),
-            };
-        }
-        case KandidatlisteActionType.FormidleUsynligKandidatSuccess: {
-            return {
-                ...state,
-                formidlingAvUsynligKandidat: suksess(action.formidling),
-                kandidatliste: suksess(action.kandidatliste),
-            };
-        }
-        case KandidatlisteActionType.FormidleUsynligKandidatFailure: {
-            return {
-                ...state,
-                formidlingAvUsynligKandidat: feil(action.error),
-            };
-        }
         case KandidatlisteActionType.HentNotater:
             return {
                 ...state,
@@ -744,6 +669,13 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sortering: action.sortering,
             };
+
+        case KandidatlisteActionType.FormidleUsynligKandidatSuccess: {
+            return {
+                ...state,
+                kandidatliste: suksess(action.kandidatliste),
+            };
+        }
 
         default:
             return state;

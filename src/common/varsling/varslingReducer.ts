@@ -38,7 +38,7 @@ const varslingReducer = (
 ): VarslingState => {
     switch (action.type) {
         case VarslingActionType.VisVarsling:
-            const { innhold, alertType = 'info' } = action;
+            const { innhold, alertType = 'suksess' } = action;
 
             return {
                 innhold,

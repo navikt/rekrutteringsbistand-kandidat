@@ -16,6 +16,8 @@ import { TilgjengelighetState } from './kandidatsøk/søkefiltre/tilgjengelighet
 import { TilretteleggingsbehovState } from './kandidatsøk/søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 import { PrioriterteMålgrupperState } from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
 import { VarslingState } from './common/varsling/varslingReducer';
+import { Nettressurs } from './api/Nettressurs';
+import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 type AppState = {
     cv: CvState;

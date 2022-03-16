@@ -1,29 +1,22 @@
-/* eslint-disable react/no-did-update-set-state */
-import React, { Component, ChangeEvent } from 'react';
+import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { Input, Textarea } from 'nav-frontend-skjema';
-import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
-import fnrValidator from '@navikt/fnrvalidator';
-
-import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
-import { Nettstatus, Nettressurs, NettressursMedForklaring } from '../../../api/Nettressurs';
-import AppState from '../../../AppState';
-import KandidatlisteAction from '../../reducer/KandidatlisteAction';
-import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
-import RegistrerFormidlingAvUsynligKandidat from './RegistrerFormidlingAvUsynligKandidat';
-import { sendEvent } from '../../../amplitude/amplitude';
+import { Input } from 'nav-frontend-skjema';
+import { Systemtittel } from 'nav-frontend-typografi';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { Kandidatliste } from '../../domene/Kandidatliste';
-import { UsynligKandidat } from '../../domene/Kandidat';
-import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
+import fnrValidator from '@navikt/fnrvalidator';
+import AlleredeLagtTil from './AlleredeLagtTil';
+import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../../api/api';
+import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
+import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
 import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
+import { sendEvent } from '../../../amplitude/amplitude';
+import { SearchApiError } from '../../../api/fetchUtils';
+import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
+import BekreftMedNotat from './BekreftMedNotat';
+import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import './LeggTilKandidatModal.less';
-
-const MAKS_NOTATLENGDE = 2000;
 
 export type KandidatOutboundDto = {
     kandidatnr: string;
@@ -41,419 +34,150 @@ export type FormidlingAvUsynligKandidatOutboundDto = {
 type Props = {
     vis: boolean;
     stillingsId: string | null;
-    onClose: () => void;
-    fodselsnummer?: string;
     kandidatliste: Kandidatliste;
-    setFodselsnummer: (fnr?: string) => void;
-    hentKandidatMedFnr: (fnr: string) => void;
-    leggTilKandidatMedFnr: (
-        kandidater: Array<KandidatOutboundDto>,
-        kandidatliste: {
-            kandidatlisteId: string;
-        }
-    ) => void;
-    notat: string;
-    setNotat: (notat: string) => void;
-    resetSøk: () => void;
-    søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
-    fødselsnummersøk: NettressursMedForklaring<Fødselsnummersøk, Synlighetsevaluering>;
-    leggTilKandidatStatus: Nettstatus;
-    formidleUsynligKandidat: (
-        kandidatlisteId: string,
-        formidling: FormidlingAvUsynligKandidatOutboundDto
-    ) => void;
-    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
-    navKontor: string;
+    valgtNavKontor: string | null;
+    onClose: () => void;
 };
 
-class LeggTilKandidatModal extends React.Component<Props> {
-    fnrinput?: HTMLInputElement | null;
+const LeggTilKandidatModal: FunctionComponent<Props> = ({
+    vis,
+    onClose,
+    kandidatliste,
+    stillingsId,
+    valgtNavKontor,
+}) => {
+    const [fnr, setFnr] = useState<string>('');
+    const [feilmelding, setFeilmelding] = useState<string | null>(null);
+    const [erAlleredeLagtTil, setAlleredeLagtTil] = useState<boolean>(false);
+    const [fnrSøk, setFnrSøk] = useState<Nettressurs<Fødselsnummersøk>>(ikkeLastet());
+    const [synlighetsevaluering, setSynlighetsevaluering] = useState<
+        Nettressurs<Synlighetsevaluering>
+    >(ikkeLastet());
 
-    state: {
-        visResultatFraCvSøk: boolean;
-        showAlleredeLagtTilWarning: boolean;
-        errorMessage?: Component;
-        formidlingAvUsynligKandidat?: FormidlingAvUsynligKandidatOutboundDto;
+    const tilbakestill = (medFeilmelding: string | null = null) => {
+        setFeilmelding(medFeilmelding);
+        setAlleredeLagtTil(false);
+        setFnrSøk(ikkeLastet());
+        setSynlighetsevaluering(ikkeLastet());
     };
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            visResultatFraCvSøk: false,
-            showAlleredeLagtTilWarning: false,
-            errorMessage: undefined,
-        };
-    }
+    const onFnrChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const fnr = event.target.value;
 
-    componentDidMount() {
-        this.props.setFodselsnummer(undefined);
-        this.props.setNotat('');
-        this.resetStateOgSøk();
-    }
+        setFnr(fnr);
 
-    componentDidUpdate(prevProps: Props) {
-        const { fødselsnummersøk, søkPåusynligKandidat, fodselsnummer } = this.props;
-
-        if (prevProps.fødselsnummersøk.kind !== fødselsnummersøk.kind) {
-            if (fødselsnummersøk.kind === Nettstatus.Suksess) {
-                this.setState({
-                    visResultatFraCvSøk: true,
-                    errorMessage: undefined,
-                    showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede(),
-                });
-            } else if (fødselsnummersøk.kind === Nettstatus.FinnesIkkeMedForklaring) {
-                this.setState({
-                    visResultatFraCvSøk: false,
-                    errorMessage: (
-                        <KandidatenFinnesIkke synlighetsevaluering={fødselsnummersøk.forklaring} />
-                    ),
-                });
-            }
-        }
-
-        if (
-            prevProps.søkPåusynligKandidat.kind !== søkPåusynligKandidat.kind &&
-            søkPåusynligKandidat.kind === Nettstatus.Suksess
-        ) {
-            this.setState({
-                formidlingAvUsynligKandidat: {
-                    fnr: fodselsnummer,
-                    fåttJobb: false,
-                    presentert: false,
-                },
-            });
-        }
-    }
-
-    onChange = (input: ChangeEvent<HTMLInputElement>) => {
-        const fnr = input.target.value;
-        this.props.setFodselsnummer(fnr);
-
-        if (fnr.length === 11) {
-            const fnrErGyldig = fnrValidator.idnr(fnr).status === 'valid';
-
-            if (fnrErGyldig) {
-                this.props.hentKandidatMedFnr(fnr);
-            } else {
-                this.setState({
-                    errorMessage: 'Fødselsnummeret er ikke gyldig',
-                });
-            }
+        if (fnr.length < 11) {
+            tilbakestill();
         } else if (fnr.length > 11) {
-            this.resetStateOgSøk();
-
-            this.setState({
-                visResultatFraCvSøk: false,
-                errorMessage: 'Fødselsnummeret er for langt',
-                showAlleredeLagtTilWarning: false,
-            });
+            tilbakestill('Fødselsnummeret er for langt');
         } else {
-            this.resetStateOgSøk();
+            const erGyldig = validerFnr(fnr);
 
-            this.setState({
-                visResultatFraCvSøk: false,
-                errorMessage: undefined,
-                showAlleredeLagtTilWarning: false,
-            });
-        }
-    };
+            if (erGyldig) {
+                setFeilmelding(null);
 
-    resetStateOgSøk = () => {
-        this.props.resetSøk();
-        this.setState({
-            formidlingAvUsynligKandidat: undefined,
-        });
-    };
+                const finnesAllerede = erFnrAlleredeIListen(fnr);
+                setAlleredeLagtTil(finnesAllerede);
 
-    onNotatChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        this.props.setNotat(event.target.value);
-    };
-
-    kandidatenFinnesAllerede = () => {
-        const kandidatFraSøk =
-            this.props.fødselsnummersøk.kind === Nettstatus.Suksess
-                ? this.props.fødselsnummersøk.data
-                : undefined;
-
-        if (kandidatFraSøk) {
-            const kandidat = this.props.kandidatliste.kandidater.filter(
-                (k) => kandidatFraSøk.arenaKandidatnr === k.kandidatnr
-            );
-
-            return kandidat.length > 0;
-        } else {
-            return false;
-        }
-    };
-
-    kandidatenKanLeggesTil = () =>
-        this.props.fødselsnummersøk.kind === Nettstatus.Suksess &&
-        !this.kandidatenFinnesAllerede() &&
-        this.props.notat.length <= MAKS_NOTATLENGDE;
-
-    leggTilKandidat = () => {
-        const { fødselsnummersøk, kandidatliste, fodselsnummer, notat } = this.props;
-        const kandidat =
-            fødselsnummersøk.kind === Nettstatus.Suksess ? fødselsnummersøk.data : undefined;
-
-        if (!kandidat) {
-            return;
-        }
-
-        const kandidater: KandidatOutboundDto[] = [
-            {
-                kandidatnr: kandidat.arenaKandidatnr,
-                notat,
-            },
-        ];
-
-        if (this.kandidatenKanLeggesTil()) {
-            this.props.leggTilKandidatMedFnr(kandidater, kandidatliste);
-            sendEvent('legg_til_kandidat', 'klikk', {
-                app: 'kandidat',
-            });
-
-            this.props.onClose();
-        } else {
-            if (!fodselsnummer) {
-                this.setState({
-                    visResultatFraCvSøk: false,
-                    errorMessage: 'Fødselsnummer må fylles inn',
-                });
-                this.fnrinput?.focus();
-            } else if (fodselsnummer.length < 11) {
-                this.setState({
-                    visResultatFraCvSøk: false,
-                    errorMessage: 'Fødselsnummeret er for kort',
-                });
-                this.fnrinput?.focus();
-            } else if (this.kandidatenFinnesAllerede()) {
-                this.setState({ errorMessage: 'Kandidaten er allerede lagt til i listen' });
-                this.fnrinput?.focus();
+                if (!finnesAllerede) {
+                    hentKandidatMedFødselsnummer(fnr);
+                }
+            } else {
+                tilbakestill('Fødselsnummeret er ikke gyldig');
             }
         }
     };
 
-    onNyUsynligKandidatChange = (
-        formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
-    ) => {
-        this.setState({
-            formidlingAvUsynligKandidat,
-        });
-    };
+    const erFnrAlleredeIListen = (fnr: string) =>
+        kandidatliste.kandidater.some((kandidat) => kandidat.fodselsnr === fnr);
 
-    registrerFormidlingAvUsynligKandidat = () => {
-        if (this.state.formidlingAvUsynligKandidat && this.props.stillingsId) {
-            this.props.formidleUsynligKandidat(this.props.kandidatliste.kandidatlisteId, {
-                ...this.state.formidlingAvUsynligKandidat,
-                stillingsId: this.props.stillingsId,
-                navKontor: this.props.navKontor,
+    const hentKandidatMedFødselsnummer = async (fnr: string) => {
+        setFnrSøk(lasterInn());
+
+        try {
+            const fnrSøkResponse = await fetchKandidatMedFnr(fnr);
+            setFnrSøk(fnrSøkResponse);
+
+            if (fnrSøkResponse.kind === Nettstatus.FinnesIkke) {
+                setFeilmelding('Kandidaten er ikke synlig i Rekrutteringsbistand');
+
+                sendEvent('fødselsnummersøk', 'fant-ingen-kandidat', {
+                    kontekst: 'kandidatliste',
+                });
+
+                setSynlighetsevaluering(lasterInn());
+                const synlighetPromise = fetchSynlighetsevaluering(fnr);
+
+                setSynlighetsevaluering(await synlighetPromise);
+            }
+        } catch (e) {
+            setFnrSøk({
+                kind: Nettstatus.Feil,
+                error: new SearchApiError('Klarte ikke å hente kandidat med fødselsnummer'),
             });
         }
     };
 
-    render() {
-        const {
-            vis = true,
-            onClose,
-            fodselsnummer,
-            fødselsnummersøk,
-            leggTilKandidatStatus,
-            notat,
-        } = this.props;
+    return (
+        <ModalMedKandidatScope
+            isOpen={vis}
+            className="LeggTilKandidatModal"
+            contentLabel="Legg til kandidat-modal"
+            contentClass="LeggTilKandidatModal__innhold"
+            onRequestClose={onClose}
+        >
+            <Systemtittel>Legg til kandidat</Systemtittel>
+            <AlertStripeAdvarsel className="LeggTilKandidatModal__advarsel">
+                Før du legger en kandidat på kandidatlisten må du undersøke om personen oppfyller
+                kravene som er nevnt i stillingen.
+            </AlertStripeAdvarsel>
 
-        const kandidat =
-            fødselsnummersøk.kind === Nettstatus.Suksess ? fødselsnummersøk.data : undefined;
-        const harValgtUsynligKandidat = this.props.søkPåusynligKandidat.kind === Nettstatus.Suksess;
-        const harValgtEtAlternativ =
-            this.state.formidlingAvUsynligKandidat?.presentert ||
-            this.state.formidlingAvUsynligKandidat?.fåttJobb;
+            <Input
+                autoFocus
+                bredde="S"
+                value={fnr}
+                id="legg-til-kandidat-fnr"
+                onChange={onFnrChange}
+                placeholder="11 siffer"
+                label="Fødselsnummer på kandidaten"
+                className="blokk-s"
+                feil={feilmelding || undefined}
+            />
 
-        return (
-            <ModalMedKandidatScope
-                contentLabel="Modal legg til kandidat"
-                isOpen={vis}
-                onRequestClose={onClose}
-                className="LeggTilKandidatModal"
-            >
-                <Systemtittel className="tittel">Legg til kandidat</Systemtittel>
-                <AlertStripeAdvarsel>
-                    Før du legger en kandidat på kandidatlisten må du undersøke om personen
-                    oppfyller kravene som er nevnt i stillingen.
-                </AlertStripeAdvarsel>
-                <Input
-                    className="skjemaelement--pink legg-til-kandidat__fodselsnummer"
-                    onChange={this.onChange}
-                    feil={!!this.state.errorMessage}
-                    bredde="S"
-                    label="Fødselsnummer på kandidaten (11 siffer)"
-                    inputRef={(input) => {
-                        this.fnrinput = input;
-                    }}
+            {erAlleredeLagtTil && <AlleredeLagtTil />}
+
+            {(fnrSøk.kind === Nettstatus.LasterInn ||
+                synlighetsevaluering.kind === Nettstatus.LasterInn) && (
+                <NavFrontendSpinner className="LeggTilKandidatModal__spinner" />
+            )}
+
+            {fnrSøk.kind === Nettstatus.Suksess && (
+                <BekreftMedNotat
+                    fnr={fnr}
+                    kandidat={fnrSøk.data}
+                    kandidatliste={kandidatliste}
+                    onClose={onClose}
                 />
-                {this.state.visResultatFraCvSøk && (
-                    <Normaltekst className="fodselsnummer">{`${kandidat?.fornavn} ${kandidat?.etternavn} (${fodselsnummer})`}</Normaltekst>
-                )}
-                {this.props.søkPåusynligKandidat.kind === Nettstatus.Suksess && (
-                    <NavnPåUsynligKandidat
-                        fnr={fodselsnummer}
-                        navn={this.props.søkPåusynligKandidat.data}
-                    />
-                )}
-                {this.state.errorMessage && (
-                    <Feilmelding
-                        tag="div"
-                        aria-live="polite"
-                        className="skjemaelement__feilmelding"
-                    >
-                        {this.state.errorMessage}
-                    </Feilmelding>
-                )}
-                {this.state.showAlleredeLagtTilWarning && (
-                    <div className="legg-til-kandidat__advarsel">
-                        <i className="advarsel__icon" />
-                        <div className="legg-til-kandidat__advarsel-tekst">
-                            <Element>Kandidaten er allerede lagt til i listen</Element>
-                            <Normaltekst>
-                                Finner du ikke kandidaten i kandidatlisten? Husk å sjekk om
-                                kandidaten er slettet ved å huke av "Vis kun slettede".
-                            </Normaltekst>
-                        </div>
-                    </div>
-                )}
-                {this.state.visResultatFraCvSøk && (
-                    <>
-                        <div className="legg-til-kandidat__notatoverskrift" />
-                        <Textarea
-                            id="legg-til-kandidat-notat-input"
-                            label="Notat om kandidaten"
-                            textareaClass="legg-til-kandidat__notat skjemaelement--pink"
-                            description="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
-                            placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
-                            value={notat || ''}
-                            maxLength={MAKS_NOTATLENGDE}
-                            onChange={this.onNotatChange}
-                            feil={
-                                notat && notat.length > MAKS_NOTATLENGDE
-                                    ? 'Notatet er for langt'
-                                    : undefined
-                            }
-                        />
-                    </>
-                )}
-                {harValgtUsynligKandidat &&
-                    fodselsnummer &&
-                    this.props.stillingsId &&
-                    this.props.kandidatliste.kanEditere &&
-                    this.state.formidlingAvUsynligKandidat && (
-                        <RegistrerFormidlingAvUsynligKandidat
-                            formidling={this.state.formidlingAvUsynligKandidat}
-                            onChange={this.onNyUsynligKandidatChange}
-                        />
-                    )}
-                {this.props.stillingsId &&
-                    !this.props.kandidatliste.kanEditere &&
-                    harValgtUsynligKandidat && (
-                        <>
-                            <Element className="legg-til-kandidat__ikke-eier-feilmelding" tag="h2">
-                                Registrer formidling på kandidater som ikke er synlige i
-                                Rekrutteringsbistand
-                            </Element>
-                            <Normaltekst>
-                                Du er ikke eier av stillingen og kan derfor ikke registrere
-                                formidling.
-                            </Normaltekst>
-                        </>
-                    )}
-                {this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Feil && (
-                    <Feilmelding className="LeggTilKandidatModal__feil-ved-registrering">
-                        {this.props.formidlingAvUsynligKandidat.error.status === 409
-                            ? 'Kandidaten er allerede formidlet.'
-                            : 'Det skjedde en feil ved registrering.'}
-                    </Feilmelding>
-                )}
-                <div>
-                    {harValgtUsynligKandidat && this.props.stillingsId ? (
-                        <Hovedknapp
-                            className="legg-til--knapp"
-                            onClick={this.registrerFormidlingAvUsynligKandidat}
-                            spinner={
-                                this.props.formidlingAvUsynligKandidat.kind === Nettstatus.SenderInn
-                            }
-                            disabled={
-                                this.props.formidlingAvUsynligKandidat.kind ===
-                                    Nettstatus.SenderInn || !harValgtEtAlternativ
-                            }
-                        >
-                            Legg til
-                        </Hovedknapp>
-                    ) : (
-                        <Hovedknapp
-                            className="legg-til--knapp"
-                            onClick={this.leggTilKandidat}
-                            spinner={leggTilKandidatStatus === Nettstatus.SenderInn}
-                            disabled={
-                                leggTilKandidatStatus === Nettstatus.SenderInn ||
-                                !this.kandidatenKanLeggesTil()
-                            }
-                        >
-                            Legg til
-                        </Hovedknapp>
-                    )}
-                    <Flatknapp
-                        className="avbryt--knapp"
-                        onClick={onClose}
-                        disabled={leggTilKandidatStatus === Nettstatus.SenderInn}
-                    >
-                        Avbryt
-                    </Flatknapp>
-                </div>
-            </ModalMedKandidatScope>
-        );
-    }
-}
+            )}
 
-const mapStateToProps = (state: AppState) => ({
-    fodselsnummer: state.kandidatliste.fodselsnummer,
-    søkPåusynligKandidat: state.kandidatliste.søkPåusynligKandidat,
-    fødselsnummersøk: state.kandidatliste.fødselsnummersøk,
-    leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
-    formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
-    notat: state.kandidatliste.notat,
-    navKontor: state.navKontor.valgtNavKontor,
-});
+            {fnrSøk.kind === Nettstatus.FinnesIkke &&
+                synlighetsevaluering.kind === Nettstatus.Suksess && (
+                    <KandidatenFinnesIkke synlighetsevaluering={synlighetsevaluering.data} />
+                )}
 
-const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
-    setFodselsnummer: (fodselsnummer: string) => {
-        dispatch({ type: KandidatlisteActionType.SetFodselsnummer, fodselsnummer });
-    },
-    hentKandidatMedFnr: (fodselsnummer: string) => {
-        dispatch({ type: KandidatlisteActionType.HentKandidatMedFnr, fodselsnummer });
-    },
-    resetSøk: () => {
-        dispatch({ type: KandidatlisteActionType.LeggTilKandidatSøkReset });
-    },
-    leggTilKandidatMedFnr: (
-        kandidater: Array<KandidatOutboundDto>,
-        kandidatliste: {
-            kandidatlisteId: string;
-        }
-    ) => {
-        dispatch({ type: KandidatlisteActionType.LeggTilKandidater, kandidater, kandidatliste });
-    },
-    formidleUsynligKandidat: (
-        kandidatlisteId: string,
-        formidling: FormidlingAvUsynligKandidatOutboundDto
-    ) => {
-        dispatch({
-            type: KandidatlisteActionType.FormidleUsynligKandidat,
-            kandidatlisteId,
-            formidling,
-        });
-    },
-    setNotat: (notat: string) => {
-        dispatch({ type: KandidatlisteActionType.SetNotat, notat });
-    },
-});
+            {fnrSøk.kind === Nettstatus.FinnesIkke && (
+                <InformasjonOmUsynligKandidat
+                    fnr={fnr}
+                    kandidatliste={kandidatliste}
+                    stillingsId={stillingsId}
+                    valgtNavKontor={valgtNavKontor}
+                    onClose={onClose}
+                />
+            )}
+        </ModalMedKandidatScope>
+    );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeggTilKandidatModal);
+const validerFnr = (fnr: string): boolean => fnrValidator.idnr(fnr).status === 'valid';
+
+export default LeggTilKandidatModal;

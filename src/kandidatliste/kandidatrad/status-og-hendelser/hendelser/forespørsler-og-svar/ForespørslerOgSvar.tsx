@@ -48,7 +48,10 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ forespørsler }) => {
 
         if (forespørsel.tilstand === TilstandPåForespørsel.KanIkkeOpprette) {
             hendelser.push(
-                <BleIkkeDelt forespørsel={forespørsel}>
+                <BleIkkeDelt
+                    key={forespørsel.deltTidspunkt + '-ikke-sendt'}
+                    forespørsel={forespørsel}
+                >
                     {visKnappForÅDelePåNytt && (
                         <DelPåNyttKnapp onDelPåNyttClick={onDelPåNyttClick} />
                     )}
@@ -77,7 +80,7 @@ const ForespørslerOgSvar: FunctionComponent<Props> = ({ forespørsler }) => {
         } else {
             hendelser.push(
                 <IngenSvarFraKandidat
-                    key={forespørsel.deltTidspunkt}
+                    key={forespørsel.deltTidspunkt + '-ingen-svar'}
                     tilstand={forespørsel.tilstand}
                     svarfrist={forespørsel.svarfrist}
                 >
