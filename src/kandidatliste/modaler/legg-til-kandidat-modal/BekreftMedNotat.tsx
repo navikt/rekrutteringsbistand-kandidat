@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { sendEvent } from '../../../amplitude/amplitude';

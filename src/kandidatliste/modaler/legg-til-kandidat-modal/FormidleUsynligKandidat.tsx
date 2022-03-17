@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { CheckboxGruppe, Checkbox } from 'nav-frontend-skjema';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { postFormidlingerAvUsynligKandidat } from '../../../api/api';
