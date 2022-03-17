@@ -52,7 +52,6 @@ endringene må man restarte webpack-serveren.
 
 [1]: https://logs.adeo.no/app/kibana#/visualize/edit/5778a2f0-963f-11e8-829c-67cd76ba3446?_g=%28refreshInterval%3A%28display%3AOff%2Cpause%3A!f%2Cvalue%3A0%29%2Ctime%3A%28from%3Anow-24h%2Cmode%3Aquick%2Cto%3Anow%29%29%29
 
-
 # Henvendelser
 
 ## For Nav-ansatte
