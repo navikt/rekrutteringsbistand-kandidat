@@ -76,7 +76,11 @@ export const postHeaders = () => ({
     ...createCallIdHeader(),
 });
 
-export async function postJson(url: string, bodyString: string) {
+export async function postJson(
+    url: string,
+    bodyString: string,
+    parseAsJsonIgnoringContentType: boolean = false
+) {
     try {
         const response = await fetch(url, {
             credentials: 'include',
@@ -87,9 +91,10 @@ export async function postJson(url: string, bodyString: string) {
         });
         if (response.status === 200 || response.status === 201) {
             const contentType = response.headers.get('content-type');
-            return contentType && contentType.includes('application/json')
-                ? response.json()
-                : response.text();
+            const parseAsJson =
+                parseAsJsonIgnoringContentType || contentType?.includes('application/json');
+
+            return parseAsJson ? response.json() : response.text();
         } else if (response.status === 204) {
             return undefined;
         }
