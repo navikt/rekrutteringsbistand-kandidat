@@ -58,6 +58,7 @@ import {
     ForespørslerForStillingInboundDto,
     sendForespørselOmDelingAvCv,
 } from '../../api/forespørselOmDelingAvCvApi';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;
@@ -269,18 +270,24 @@ function* endreKandidatlistestatus(action: EndreKandidatlistestatusAction) {
 
 function* leggTilKandidater(action: LeggTilKandidaterAction) {
     try {
-        const response = yield postKandidaterTilKandidatliste(
+        const response: Nettressurs<Kandidatliste> = yield postKandidaterTilKandidatliste(
             action.kandidatliste.kandidatlisteId,
             action.kandidater
         );
-        yield put<KandidatlisteAction>({
-            type: KandidatlisteActionType.LeggTilKandidaterSuccess,
-            kandidatliste: response,
-            antallLagredeKandidater: action.kandidater.length,
-            lagretListe: action.kandidatliste,
-            lagredeKandidater: action.kandidater,
-        });
-        yield put({ type: KandidatsøkActionType.Search });
+
+        if (response.kind === Nettstatus.Suksess) {
+            yield put<KandidatlisteAction>({
+                type: KandidatlisteActionType.LeggTilKandidaterSuccess,
+                kandidatliste: response.data,
+                antallLagredeKandidater: action.kandidater.length,
+                lagretListe: action.kandidatliste,
+                lagredeKandidater: action.kandidater,
+            });
+
+            yield put({ type: KandidatsøkActionType.Search });
+        } else {
+            throw new SearchApiError(response.kind === Nettstatus.Feil ? response.error : '');
+        }
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.LeggTilKandidaterFailure, error: e });
