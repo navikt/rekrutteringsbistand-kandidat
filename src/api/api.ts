@@ -396,7 +396,8 @@ export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) =>
 export const fetchArbeidsgivereEnhetsregister = (query) =>
     postJson(
         `${ENHETSREGISTER_API}/underenhet/_search`,
-        JSON.stringify(employerNameCompletionQueryTemplate(query))
+        JSON.stringify(employerNameCompletionQueryTemplate(query)),
+        true
     );
 
 export const fetchArbeidsgivereEnhetsregisterOrgnr = (orgnr) => {
