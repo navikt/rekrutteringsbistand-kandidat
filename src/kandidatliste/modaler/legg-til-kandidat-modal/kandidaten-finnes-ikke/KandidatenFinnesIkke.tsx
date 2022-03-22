@@ -33,35 +33,35 @@ const KandidatenFinnesIkke: FunctionComponent<Props> = ({ synlighetsevaluering }
 
         if (kandidatensKriterierPerAnsvarsområde.utenforNoensKontroll.length) {
             forklaring = (
-                <p>
-                    Mulige årsaker er:
+                <>
+                    <span>Mulige årsaker er:</span>
                     {kandidatensKriterierPerAnsvarsområde.utenforNoensKontroll.map((kriterie) => (
                         <li>{kriterieTilForklaring(kriterie)}</li>
                     ))}
-                </p>
+                </>
             );
         } else {
             forklaring = (
                 <>
                     {kandidatensKriterierPerAnsvarsområde.kandidat.length > 0 && (
-                        <p>
-                            For å bli synlig må kandidaten
+                        <>
+                            <span>For å bli synlig må kandidaten</span>
                             <ul>
                                 {kandidatensKriterierPerAnsvarsområde.kandidat.map((kriterie) => (
                                     <li>{kriterieTilForklaring(kriterie)}</li>
                                 ))}
                             </ul>
-                        </p>
+                        </>
                     )}
                     {kandidatensKriterierPerAnsvarsområde.veileder.length > 0 && (
-                        <p>
-                            For å bli synlig må du
+                        <>
+                            <span>For å bli synlig må du</span>
                             <ul>
                                 {kandidatensKriterierPerAnsvarsområde.veileder.map((kriterie) => (
                                     <li>{kriterieTilForklaring(kriterie)}</li>
                                 ))}
                             </ul>
-                        </p>
+                        </>
                     )}
                 </>
             );
@@ -69,8 +69,7 @@ const KandidatenFinnesIkke: FunctionComponent<Props> = ({ synlighetsevaluering }
     }
 
     return (
-        <Feilmelding>
-            <p>Kandidaten er ikke synlig i Rekrutteringsbistand.</p>
+        <Feilmelding tag="div" aria-live="polite" className="blokk-m">
             {forklaring}
         </Feilmelding>
     );

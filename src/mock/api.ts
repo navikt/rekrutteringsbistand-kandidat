@@ -376,15 +376,10 @@ fetchMock
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
     .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
     .get(url.forespørselOmDelingAvCvForKandidat, log(forespørslerOmDelingAvCvForKandidat))
-    .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }), {
-        delay: 500,
-    })
+    .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }))
     .post(
         url.postResendForespørselOmDelingAvCv,
-        log({ body: forespørslerOmDelingAvCv, status: 201 }),
-        {
-            delay: 500,
-        }
+        log({ body: forespørslerOmDelingAvCv, status: 201 })
     )
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
 

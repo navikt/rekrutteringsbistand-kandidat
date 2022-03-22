@@ -1,69 +1,39 @@
 .LeggTilKandidatModal {
-    width: 640px;
+    width: 40rem;
+    min-height: 20rem;
 
-    &__registrer-usynlig-kandidat {
-        margin-top: 2rem;
+    &__tittel {
+        margin-bottom: 1.25rem !important;
     }
 
-    &__feil-ved-registrering.typo-feilmelding {
-        margin-top: 1rem;
+    &__innhold {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__advarsel {
+        margin-bottom: 1.5rem;
+    }
+
+    &__folkeregister-info {
+        margin: 0 0 1.5rem;
+    }
+
+    &__notat.textarea--medMeta {
+        min-height: 10rem;
+        margin-bottom: 2.5rem;
     }
 
     &.modal {
         padding: 2rem;
     }
 
-    .typo-feilmelding {
-        font-weight: normal;
+    &__avbryt-knapp {
+        margin-left: 1rem;
     }
 
-    .tittel {
-        margin-bottom: 1.25rem;
-    }
-    .leggTilKandidatModal--feilmelding__ul {
-        margin: 0.5rem 0 0;
-    }
-    .skjemaelement__input {
-        border: 1px solid #b7b1a9;
-    }
-    .skjemaelement__label {
-        margin-bottom: 0.5rem;
-    }
-    .fodselsnummer {
-        margin-top: 1rem;
-    }
-    .legg-til-kandidat__advarsel {
-        display: flex;
-        margin-top: 2rem;
-    }
-    .legg-til-kandidat__advarsel-tekst {
-        flex: 1;
-        margin-left: 0.5rem;
-    }
-    .legg-til--knapp {
-        margin: 2.5rem 1rem 0 0;
-    }
-    .avbryt--knapp {
-        margin-top: 2.5rem;
-    }
-
-    .skjemaelement.legg-til-kandidat__fodselsnummer {
-        margin-top: 2rem;
-    }
-
-    .legg-til-kandidat__notatoverskrift {
-        margin-top: 2rem;
-    }
-
-    .legg-til-kandidat__notat {
-        min-height: 10rem;
-    }
-    .advarsel__icon {
-        width: 22px;
-    }
-
-    .legg-til-kandidat__ikke-eier-feilmelding {
-        margin-top: 1rem;
-        margin-bottom: 0.25rem;
+    &__spinner {
+        align-self: center;
+        margin-bottom: 2.5rem;
     }
 }
