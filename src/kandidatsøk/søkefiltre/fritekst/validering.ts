@@ -51,7 +51,7 @@ export const validerFritekstfelt = async (fnr: string): Promise<Fritekstvalideri
             kandidatnr,
         };
     } catch (e) {
-        sendEvent('legg-til-kandidat', 'fant-ingen-kandidat', {
+        sendEvent('legg_til_kandidat', 'fant_ingen_kandidat', {
             kontekst: 'kandidatsøk',
         });
 

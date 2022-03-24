@@ -104,7 +104,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
             if (fnrSøkResponse.kind === Nettstatus.FinnesIkke) {
                 setFeilmelding('Kandidaten er ikke synlig i Rekrutteringsbistand');
 
-                sendEvent('legg-til-kandidat', 'fant-ingen-kandidat', {
+                sendEvent('legg_til_kandidat', 'fant_ingen_kandidat', {
                     kontekst: 'kandidatliste',
                 });
 
