@@ -234,9 +234,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             ? this.hentMarkerteKandidaterSomHarSvartJa().map((k) => k.kandidatnr)
             : this.hentKandidatnumrePåMarkerteKandidater();
 
-        sendEvent('kandidatliste', 'presenter_kandidater', {
-            antallKandidater: kandidaterSomSkalDeles.length,
-        });
+        this.sendEventForPresentertKandidatliste(kandidaterSomSkalDeles);
 
         this.props.presenterKandidater(
             beskjed,
@@ -247,6 +245,23 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         );
         this.setState({
             deleModalOpen: false,
+        });
+    };
+
+    sendEventForPresentertKandidatliste = (kandidaterSomSkalDeles: string[]) => {
+        const { kandidatliste } = this.props;
+
+        const opprettetDato = new Date(kandidatliste.opprettetTidspunkt);
+        const forskjellMs = new Date().getTime() - opprettetDato.getTime();
+        const antallDagerSidenOpprettelse = Math.round(forskjellMs / 1000 / 60 / 60 / 24);
+
+        sendEvent('kandidatliste', 'presenter_kandidater', {
+            antallKandidater: kandidaterSomSkalDeles.length,
+            totaltAntallKandidater: kandidatliste.kandidater.length,
+            antallDagerSidenOpprettelse,
+            erFørstePresentering: kandidatliste.kandidater.every(
+                (kandidat) => kandidat.utfallsendringer.length === 0
+            ),
         });
     };
 

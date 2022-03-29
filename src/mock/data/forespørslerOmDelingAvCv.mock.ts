@@ -11,29 +11,7 @@ import { kandidatlisterForKandidatMock } from './kandidatlister-for-kandidat.moc
 import { AktørId } from '../../kandidatliste/domene/Kandidat';
 
 export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]> = {
-    [kandidatlister[0].kandidater[0].aktørid!]: [
-        {
-            aktørId: kandidatlister[0].kandidater[0].aktørid!,
-            stillingsId: kandidatliste.stillingId!,
-            deltAv: meg.ident,
-            deltTidspunkt: new Date().toISOString(),
-            deltStatus: ForespørselDeltStatus.Sendt,
-            svarfrist: moment().add(2, 'day').startOf('day').subtract(2, 'hours').toISOString(),
-            tilstand: TilstandPåForespørsel.KanIkkeOpprette,
-            svar: null,
-        },
-    ],
     [kandidatlister[0].kandidater[2].aktørid!]: [
-        {
-            aktørId: kandidatlister[0].kandidater[2].aktørid!,
-            stillingsId: kandidatliste.stillingId!,
-            deltAv: meg.ident,
-            deltTidspunkt: moment().subtract(30, 'days').toISOString(),
-            deltStatus: ForespørselDeltStatus.IkkeSendt,
-            svarfrist: moment().add(27, 'day').startOf('day').toISOString(),
-            tilstand: TilstandPåForespørsel.Avbrutt,
-            svar: null,
-        },
         {
             aktørId: kandidatlister[0].kandidater[2].aktørid!,
             stillingsId: kandidatliste.stillingId!,
