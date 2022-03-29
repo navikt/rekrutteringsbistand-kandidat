@@ -262,6 +262,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             erFørstePresentering: kandidatliste.kandidater.every(
                 (kandidat) => kandidat.utfallsendringer.length === 0
             ),
+            stillingskategori: kandidatliste.stillingskategori,
         });
     };
 
