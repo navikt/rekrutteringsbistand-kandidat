@@ -1,8 +1,9 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
-import { sendEvent } from '../amplitude/amplitude';
+import { sendEvent, setNavKontorIAmplitude } from '../amplitude/amplitude';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
 import AppState from '../AppState';
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
@@ -20,11 +21,9 @@ import CvSide from '../kandidatside/cv/CvSide';
 import Historikkside from '../kandidatside/historikk/Historikkside';
 import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
-import useLoggNavigering from './useLoggNavigering';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import './App.less';
 import Varsling from '../common/varsling/Varsling';
-import { Dispatch } from 'redux';
+import './App.less';
 
 type Props = {
     error: {
@@ -38,7 +37,6 @@ type Props = {
 
 const App: FunctionComponent<Props> = (props) => {
     const { error, fetchFeatureToggles, fjernError, navKontor, velgNavKontor } = props;
-    useLoggNavigering();
 
     useEffect(() => {
         fetchFeatureToggles();
@@ -50,6 +48,7 @@ const App: FunctionComponent<Props> = (props) => {
     useEffect(() => {
         if (navKontor) {
             velgNavKontor(navKontor);
+            setNavKontorIAmplitude(navKontor);
         }
     }, [navKontor, velgNavKontor]);
 
