@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
-import { sendEvent, setNavKontorIAmplitude } from '../amplitude/amplitude';
+import { setNavKontorIAmplitude } from '../amplitude/amplitude';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
 import AppState from '../AppState';
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
@@ -40,9 +40,6 @@ const App: FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         fetchFeatureToggles();
-        sendEvent('app', 'åpne', {
-            skjermbredde: window.screen.width,
-        });
     }, [fetchFeatureToggles]);
 
     useEffect(() => {
