@@ -19,6 +19,8 @@ import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/Mid
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
 import './MidlertidigUtilgjengelig.less';
 
+export const tillatRegistreringAvMidlertidigUtilgjengelig = false;
+
 type OwnProps = {
     cv: Cv;
     midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;

@@ -20,7 +20,9 @@ import useMidlertidigUtilgjengelig from '../fra-kandidatliste/useMidlertidigUtil
 import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
 import Kandidatheader from '../header/Kandidatheader';
 import Kandidatmeny from '../meny/Kandidatmeny';
-import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import MidlertidigUtilgjengelig, {
+    tillatRegistreringAvMidlertidigUtilgjengelig,
+} from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 
 type Props = {
@@ -105,7 +107,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                 forrigeKandidat={lenkeTilForrige}
             />
             <Kandidatmeny cv={cv}>
-                {cv.kind === Nettstatus.Suksess && (
+                {tillatRegistreringAvMidlertidigUtilgjengelig && cv.kind === Nettstatus.Suksess && (
                     <MidlertidigUtilgjengelig
                         cv={cv.data}
                         midlertidigUtilgjengelig={tilgjengelighet}

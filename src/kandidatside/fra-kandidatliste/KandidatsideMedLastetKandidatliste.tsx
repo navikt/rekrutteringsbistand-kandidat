@@ -18,7 +18,9 @@ import Kandidatheader from '../header/Kandidatheader';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from '../meny/Kandidatmeny';
-import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import MidlertidigUtilgjengelig, {
+    tillatRegistreringAvMidlertidigUtilgjengelig,
+} from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusOgHendelser from '../../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
 import useMidlertidigUtilgjengelig from './useMidlertidigUtilgjengelig';
 import useNavigerbareKandidater from './useNavigerbareKandidater';
@@ -75,7 +77,7 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
                 forrigeKandidat={lenkeTilForrige}
             />
             <Kandidatmeny cv={cv}>
-                {cv.kind === Nettstatus.Suksess && (
+                {tillatRegistreringAvMidlertidigUtilgjengelig && cv.kind === Nettstatus.Suksess && (
                     <MidlertidigUtilgjengelig
                         cv={cv.data}
                         midlertidigUtilgjengelig={tilgjengelighet}
