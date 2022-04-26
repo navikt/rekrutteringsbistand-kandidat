@@ -5,14 +5,19 @@ import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { SearchApiError } from '../api/fetchUtils';
 import './Kandidatmatch.less';
 
-type ForeslåttKandidat = {
-    kandidatnr: string;
-    navn: string;
+export type ForeslåttKandidat = {
+    fodselsnummer: string;
+    fornavn: string;
+    etternavn: string;
+    arenaKandidatnr: string;
 };
 
 type Props = {
     stillingsId: string;
 };
+
+export const KANDIDATMATCH_API_URL = '/kandidatmatch-api';
+export const STILLINGSSØK_PROXY = '/stillingssok-proxy';
 
 const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
     const [kandidater, setKandidater] = useState<Nettressurs<ForeslåttKandidat[]>>({
@@ -27,17 +32,20 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
 
             try {
                 const stillingResponse = await fetch(
-                    `/stillingssok-proxy/stilling/_doc/${stillingsId}`
+                    `${STILLINGSSØK_PROXY}/stilling/_doc/${stillingsId}`
                 );
                 const stillingDokument = await stillingResponse.json();
                 const stilling = stillingDokument['_source'];
 
-                const kandidaterResponse = await fetch(`/kandidatmatch-api/match`, {
+                const kandidaterResponse = await fetch(`${KANDIDATMATCH_API_URL}/match`, {
                     body: JSON.stringify(stilling),
                     method: 'post',
                 });
 
-                setKandidater(await kandidaterResponse.json());
+                setKandidater({
+                    kind: Nettstatus.Suksess,
+                    data: await kandidaterResponse.json(),
+                });
             } catch (e) {
                 setKandidater({
                     kind: Nettstatus.Feil,
@@ -59,7 +67,7 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
                 {kandidater.kind === Nettstatus.Suksess && (
                     <ul>
                         {kandidater.data.map((kandidat) => (
-                            <li key={kandidat.kandidatnr}>{kandidat.navn}</li>
+                            <li key={kandidat.arenaKandidatnr}>{kandidat.fornavn}</li>
                         ))}
                     </ul>
                 )}

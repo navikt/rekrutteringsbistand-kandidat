@@ -10,6 +10,7 @@ import sms from './json/sms.json';
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 import enhetsregister from './json/enhetsregister.json';
 import cver from './data/cv.mock';
+import stilling from './data/stilling.mock.json';
 
 import {
     kandidatliste,
@@ -36,6 +37,8 @@ import {
 } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
+import { KANDIDATMATCH_API_URL, STILLINGSSØK_PROXY } from '../kandidatmatch/Kandidatmatch';
+import foreslåtteKandidater from './data/kandidatmatch.mock';
 
 fetchMock.config.fallbackToNetwork = true;
 
@@ -43,7 +46,9 @@ const api = `express:${KANDIDATSOK_API}`;
 const smsApi = `express:${SMS_API}`;
 const midlertidigUtilgjengeligApi = `express:${MIDLERTIDIG_UTILGJENGELIG_API}`;
 const forespørselOmDelingAvCvApi = `express:${FORESPORSEL_OM_DELING_AV_CV_API}`;
+const kandidatmatchApi = `express:${KANDIDATMATCH_API_URL}`;
 const synlighetApi = `express:${SYNLIGHET_API}`;
+const stillingssøkProxy = `express:${STILLINGSSØK_PROXY}`;
 
 const url = {
     // Kandidatsøket
@@ -82,6 +87,12 @@ const url = {
     forespørselOmDelingAvCvForKandidat: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
     postForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
     postResendForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
+
+    // Stillingssøk
+    stilling: `${stillingssøkProxy}/stilling/_doc/:stillingsId`,
+
+    // Kandidatmatch
+    kandidatmatch: `${kandidatmatchApi}/match`,
 
     // Alternative backends
     sms: `${smsApi}/:kandidatlisteId`,
@@ -382,6 +393,12 @@ fetchMock
         log({ body: forespørslerOmDelingAvCv, status: 201 })
     )
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
+
+    // Stillingssøk
+    .get(url.stilling, log(stilling))
+
+    // Kandidatmatch
+    .post(url.kandidatmatch, log(foreslåtteKandidater))
 
     // Misc
     .get(url.toggles, log(featureToggles))
