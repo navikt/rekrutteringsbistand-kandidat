@@ -39,6 +39,11 @@ const Utviklingsapp: FunctionComponent = () => {
                     <div className="utviklingsapp__lenke">
                         <Link to="/kandidater/lister">Kandidatlister</Link>
                     </div>
+                    <div className="utviklingsapp__lenke">
+                        <Link to="/kandidater/stilling/1ea746af-66be-4cf8-a051-9e815f77b1d1">
+                            Finn kandidater
+                        </Link>
+                    </div>
                 </header>
                 <main>
                     <AppContainer history={history} navKontor={navKontor} />
