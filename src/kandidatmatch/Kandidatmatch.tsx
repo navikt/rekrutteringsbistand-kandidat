@@ -1,6 +1,6 @@
-import Panel from 'nav-frontend-paneler';
-import { Innholdstittel, Sidetittel, Undertittel } from 'nav-frontend-typografi';
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import Panel from 'nav-frontend-paneler';
+import { Undertittel } from 'nav-frontend-typografi';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import './Kandidatmatch.less';
 
