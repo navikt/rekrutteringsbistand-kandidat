@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import Panel from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
+import { SearchApiError } from '../api/fetchUtils';
 import './Kandidatmatch.less';
 
 type ForeslåttKandidat = {
@@ -19,9 +20,32 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
     });
 
     useEffect(() => {
-        setKandidater({
-            kind: Nettstatus.LasterInn,
-        });
+        const hentAutomatiskeMatcher = async () => {
+            setKandidater({
+                kind: Nettstatus.LasterInn,
+            });
+
+            try {
+                const stillingResponse = await fetch(
+                    `/stillingssok-proxy/stilling/_doc/${stillingsId}`
+                );
+                const stilling = await stillingResponse.json();
+
+                const kandidaterResponse = await fetch(`/kandidatmatch-api/match`, {
+                    body: JSON.stringify(stilling),
+                    method: 'post',
+                });
+
+                setKandidater(await kandidaterResponse.json());
+            } catch (e) {
+                setKandidater({
+                    kind: Nettstatus.Feil,
+                    error: new SearchApiError('Klarte ikke å hente kandidater'),
+                });
+            }
+        };
+
+        hentAutomatiskeMatcher();
     }, [stillingsId]);
 
     return (
