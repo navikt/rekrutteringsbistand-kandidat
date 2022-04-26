@@ -29,7 +29,8 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
                 const stillingResponse = await fetch(
                     `/stillingssok-proxy/stilling/_doc/${stillingsId}`
                 );
-                const stilling = await stillingResponse.json();
+                const stillingDokument = await stillingResponse.json();
+                const stilling = stillingDokument['_source'];
 
                 const kandidaterResponse = await fetch(`/kandidatmatch-api/match`, {
                     body: JSON.stringify(stilling),
