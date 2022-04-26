@@ -1,5 +1,8 @@
+import Panel from 'nav-frontend-paneler';
+import { Innholdstittel, Sidetittel, Undertittel } from 'nav-frontend-typografi';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
+import './Kandidatmatch.less';
 
 type ForeslåttKandidat = {
     kandidatnr: string;
@@ -22,8 +25,8 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
     }, [stillingsId]);
 
     return (
-        <div>
-            <h2>Kandidatmatch for stilling {stillingsId}</h2>
+        <Panel border className="kandidatmatch">
+            <Undertittel>Foreslåtte kandidater</Undertittel>
             <section aria-live="polite" aria-busy={kandidater.kind === Nettstatus.LasterInn}>
                 {kandidater.kind === Nettstatus.LasterInn && (
                     <p>Leter etter passende kandidater for stillingen ...</p>
@@ -36,7 +39,7 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
                     </ul>
                 )}
             </section>
-        </div>
+        </Panel>
     );
 };
 
