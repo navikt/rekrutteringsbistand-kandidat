@@ -93,7 +93,9 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
                                         kandidat.arenaKandidatnr,
                                         Kandidatfane.Cv,
                                         undefined,
-                                        stillingsId
+                                        stillingsId,
+                                        undefined,
+                                        true
                                     )}
                                 >
                                     {kandidat.fornavn} {kandidat.etternavn}

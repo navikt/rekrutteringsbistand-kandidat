@@ -27,6 +27,7 @@ import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 
 type Props = {
     kandidatnr: string;
+    fraKandidatmatch: boolean;
     kandidatlisteKontekst?: {
         stillingsId?: string;
         kandidatlisteId?: string;
@@ -36,6 +37,7 @@ type Props = {
 
 const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     kandidatnr,
+    fraKandidatmatch,
     kandidatlisteKontekst,
     children,
 }) => {
@@ -105,6 +107,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                 gjeldendeKandidatIndex={aktivKandidat}
                 nesteKandidat={lenkeTilNeste}
                 forrigeKandidat={lenkeTilForrige}
+                fraKandidatmatch={fraKandidatmatch}
             />
             <Kandidatmeny cv={cv}>
                 {tillatRegistreringAvMidlertidigUtilgjengelig && cv.kind === Nettstatus.Suksess && (
@@ -139,15 +142,17 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                 )}
             </Kandidatmeny>
             {children}
-            <div className="kandidatside__forrige-neste-wrapper">
-                <ForrigeNeste
-                    lenkeClass="kandidatside__forrige-neste-lenke"
-                    forrigeKandidat={lenkeTilForrige}
-                    nesteKandidat={lenkeTilNeste}
-                    antallKandidater={antallKandidater}
-                    gjeldendeKandidatIndex={aktivKandidat}
-                />
-            </div>
+            {!fraKandidatmatch && (
+                <div className="kandidatside__forrige-neste-wrapper">
+                    <ForrigeNeste
+                        lenkeClass="kandidatside__forrige-neste-lenke"
+                        forrigeKandidat={lenkeTilForrige}
+                        nesteKandidat={lenkeTilNeste}
+                        antallKandidater={antallKandidater}
+                        gjeldendeKandidatIndex={aktivKandidat}
+                    />
+                </div>
+            )}
             {kandidatlisteKontekst?.kandidatliste.kind === Nettstatus.Suksess && (
                 <HjelpetekstFading
                     id="hjelpetekstfading"

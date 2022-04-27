@@ -18,6 +18,7 @@ interface Props {
     gjeldendeKandidatIndex: number;
     forrigeKandidat?: string;
     nesteKandidat?: string;
+    fraKandidatmatch?: boolean;
 }
 
 const Kandidatheader: FunctionComponent<Props> = ({
@@ -27,6 +28,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
     gjeldendeKandidatIndex,
     forrigeKandidat,
     nesteKandidat,
+    fraKandidatmatch,
 }) => {
     useMaskerFødselsnumre();
 
@@ -117,14 +119,16 @@ const Kandidatheader: FunctionComponent<Props> = ({
                         )}
                     </div>
                 </div>
-                <ForrigeNeste
-                    className="kandidatheader__forrige-neste-knapper"
-                    lenkeClass=""
-                    forrigeKandidat={forrigeKandidat}
-                    nesteKandidat={nesteKandidat}
-                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                    antallKandidater={antallKandidater}
-                />
+                {!fraKandidatmatch && (
+                    <ForrigeNeste
+                        className="kandidatheader__forrige-neste-knapper"
+                        lenkeClass=""
+                        forrigeKandidat={forrigeKandidat}
+                        nesteKandidat={nesteKandidat}
+                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                        antallKandidater={antallKandidater}
+                    />
+                )}
             </div>
         </header>
     );

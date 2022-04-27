@@ -63,20 +63,25 @@ export const lenkeTilKandidatside = (
     aktivFane: Kandidatfane,
     kandidatlisteId?: string,
     stillingsId?: string,
-    fraKandidatliste?: boolean
+    fraKandidatliste?: boolean,
+    fraKandidatmatch?: boolean
 ) =>
     aktivFane === Kandidatfane.Cv
-        ? lenkeTilCv(kandidatnr, kandidatlisteId, stillingsId, fraKandidatliste)
+        ? lenkeTilCv(kandidatnr, kandidatlisteId, stillingsId, fraKandidatliste, fraKandidatmatch)
         : lenkeTilHistorikk(kandidatnr, kandidatlisteId, stillingsId, fraKandidatliste);
 
 export const lenkeTilCv = (
     kandidatnr: string,
     kandidatlisteId?: string,
     stillingsId?: string,
-    fraKandidatliste?: boolean
+    fraKandidatliste?: boolean,
+    fraKandidatmatch?: boolean
 ) => {
     let lenke = `${appPrefiks}/kandidater/kandidat/${kandidatnr}/cv`;
-    return lenke + queryParamsForKandidatside(kandidatlisteId, stillingsId, fraKandidatliste);
+    return (
+        lenke +
+        queryParamsForKandidatside(kandidatlisteId, stillingsId, fraKandidatliste, fraKandidatmatch)
+    );
 };
 
 export const lenkeTilHistorikk = (
@@ -92,7 +97,8 @@ export const lenkeTilHistorikk = (
 const queryParamsForKandidatside = (
     kandidatlisteId?: string,
     stillingsId?: string,
-    fraKandidatliste?: boolean
+    fraKandidatliste?: boolean,
+    fraKandidatmatch?: boolean
 ) => {
     let queryParams = '';
 
@@ -109,6 +115,10 @@ const queryParamsForKandidatside = (
 
     if (fraKandidatliste) {
         queryParams += nesteSeparator(queryParams) + `${KandidatQueryParam.FraKandidatliste}=true`;
+    }
+
+    if (fraKandidatmatch) {
+        queryParams += nesteSeparator(queryParams) + `${KandidatQueryParam.FraKandidatmatch}=true`;
     }
 
     return queryParams;

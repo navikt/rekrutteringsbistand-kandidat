@@ -15,12 +15,14 @@ type Props = {
     kandidatnr: string;
     stillingsId?: string;
     kandidatlisteId?: string;
+    fraKandidatmatch: boolean;
 };
 
 const KandidatsideFraSøk: FunctionComponent<Props> = ({
     kandidatnr,
     stillingsId,
     kandidatlisteId,
+    fraKandidatmatch,
     children,
 }) => {
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
@@ -91,6 +93,7 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
         <KandidatsideFraSøkInner
             kandidatnr={kandidatnr}
             kandidatlisteKontekst={kandidatlisteKontekst}
+            fraKandidatmatch={fraKandidatmatch}
         >
             {children}
         </KandidatsideFraSøkInner>

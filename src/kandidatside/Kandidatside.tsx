@@ -8,6 +8,7 @@ export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
     StillingId = 'stillingId',
     FraKandidatliste = 'fraKandidatliste',
+    FraKandidatmatch = 'fraKandidatmatch',
 }
 
 type RouteParams = {
@@ -24,6 +25,7 @@ const Kandidatside: FunctionComponent = ({ children }) => {
     const stillingId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
     const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId) ?? undefined;
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
+    const fraKandidatmatch = queryParams.get(KandidatQueryParam.FraKandidatmatch) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (
         <KandidatsideFraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
@@ -34,6 +36,7 @@ const Kandidatside: FunctionComponent = ({ children }) => {
             kandidatnr={kandidatnr}
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
+            fraKandidatmatch={fraKandidatmatch}
         >
             {children}
         </KandidatsideFraSøk>
