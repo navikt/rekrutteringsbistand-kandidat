@@ -4,6 +4,8 @@ import { Feilmelding, Undertittel } from 'nav-frontend-typografi';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { fetchJson, postJson, SearchApiError } from '../api/fetchUtils';
 import './Kandidatmatch.less';
+import { Kandidatfane, lenkeTilKandidatside } from '../app/paths';
+import { Link } from 'react-router-dom';
 
 export type ForeslåttKandidat = {
     fodselsnummer: string;
@@ -25,7 +27,7 @@ const hentStilling = async (stillingsId: string): Promise<any> => {
         return response['_source'];
     } catch (e) {
         throw new SearchApiError({
-            message: 'Klarte ikke å hente stilling fra stillingssøk-proxy',
+            message: 'Klarte ikke å hente stilling',
             status: e.status,
         });
     }
@@ -80,13 +82,22 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
                     <p>Leter etter passende kandidater for stillingen ...</p>
                 )}
                 {kandidater.kind === Nettstatus.Feil && (
-                    <Feilmelding>Klarte ikke å hente passende kandidater</Feilmelding>
+                    <Feilmelding>{kandidater.error.message}</Feilmelding>
                 )}
                 {kandidater.kind === Nettstatus.Suksess && (
                     <ul>
                         {kandidater.data.map((kandidat) => (
                             <li key={kandidat.arenaKandidatnr}>
-                                {kandidat.fornavn} {kandidat.etternavn}
+                                <Link
+                                    to={lenkeTilKandidatside(
+                                        kandidat.arenaKandidatnr,
+                                        Kandidatfane.Cv,
+                                        undefined,
+                                        stillingsId
+                                    )}
+                                >
+                                    {kandidat.fornavn} {kandidat.etternavn}
+                                </Link>
                             </li>
                         ))}
                     </ul>
