@@ -127,7 +127,7 @@ const GeografiSearch = ({ ...props }) => {
                             geografiListKomplett.map((geo) => (
                                 <Merkelapp
                                     onRemove={onFjernClick}
-                                    key={geo.geografiKodeTekst}
+                                    key={geo.geografiKode}
                                     value={geo.geografiKode}
                                 >
                                     {geo.geografiKodeTekst}
