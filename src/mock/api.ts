@@ -37,8 +37,8 @@ import {
 } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
-import { KANDIDATMATCH_API_URL, STILLINGSSØK_PROXY } from '../kandidatmatch/Kandidatmatch';
 import foreslåtteKandidater from './data/kandidatmatch.mock';
+import { KANDIDATMATCH_API_URL, STILLINGSSØK_PROXY } from '../kandidatmatch/kandidatmatchApi';
 
 fetchMock.config.fallbackToNetwork = true;
 
@@ -398,7 +398,9 @@ fetchMock
     .get(url.stilling, log(stilling))
 
     // Kandidatmatch
-    .post(url.kandidatmatch, log(foreslåtteKandidater))
+    .post(url.kandidatmatch, log(foreslåtteKandidater), {
+        delay: 1000,
+    })
 
     // Misc
     .get(url.toggles, log(featureToggles))
