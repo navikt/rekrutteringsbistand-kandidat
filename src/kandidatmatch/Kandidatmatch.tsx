@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import Panel from 'nav-frontend-paneler';
 import { Feilmelding, Undertittel } from 'nav-frontend-typografi';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
-import { fetchJson, SearchApiError } from '../api/fetchUtils';
+import { fetchJson, postJson, SearchApiError } from '../api/fetchUtils';
 import './Kandidatmatch.less';
 
 export type ForeslåttKandidat = {
@@ -21,11 +21,22 @@ export const STILLINGSSØK_PROXY = '/stillingssok-proxy';
 
 const hentStilling = async (stillingsId: string): Promise<any> => {
     try {
-        const response = fetchJson(`${STILLINGSSØK_PROXY}/stilling/_doc/${stillingsId}`);
+        const response = await fetchJson(`${STILLINGSSØK_PROXY}/stilling/_doc/${stillingsId}`);
         return response['_source'];
     } catch (e) {
         throw new SearchApiError({
             message: 'Klarte ikke å hente stilling fra stillingssøk-proxy',
+            status: e.status,
+        });
+    }
+};
+
+const hentKandidater = async (stilling: any): Promise<ForeslåttKandidat[]> => {
+    try {
+        return await postJson(`${KANDIDATMATCH_API_URL}/match`, JSON.stringify(stilling));
+    } catch (e) {
+        throw new SearchApiError({
+            message: 'Klarte ikke å hente foreslåtte kandidater',
             status: e.status,
         });
     }
@@ -43,37 +54,23 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
             });
 
             try {
-                const stilling = hentStilling(stillingsId);
-
-                console.log('Stilling', stilling);
-
-                const kandidaterResponse = await fetch(`${KANDIDATMATCH_API_URL}/match`, {
-                    body: JSON.stringify(stilling),
-                    method: 'post',
-                });
-
-                const kandidatene = await kandidaterResponse.json();
-                console.log('Mottok kandidatene: ', kandidatene);
+                const stilling = await hentStilling(stillingsId);
+                const kandidater = await hentKandidater(stilling);
 
                 setKandidater({
                     kind: Nettstatus.Suksess,
-                    data: kandidatene,
+                    data: kandidater,
                 });
-            } catch (e) {
-                console.log('Feilmeldingen er her: ', e);
+            } catch (error) {
                 setKandidater({
                     kind: Nettstatus.Feil,
-                    error: e!,
+                    error,
                 });
             }
         };
 
         hentAutomatiskeMatcher();
     }, [stillingsId]);
-
-    useEffect(() => {
-        console.log('Foreslåtte kandidater: ', kandidater);
-    }, [kandidater]);
 
     return (
         <Panel border className="kandidatmatch">
@@ -88,7 +85,9 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
                 {kandidater.kind === Nettstatus.Suksess && (
                     <ul>
                         {kandidater.data.map((kandidat) => (
-                            <li key={kandidat.arenaKandidatnr}>{kandidat.fornavn}</li>
+                            <li key={kandidat.arenaKandidatnr}>
+                                {kandidat.fornavn} {kandidat.etternavn}
+                            </li>
                         ))}
                     </ul>
                 )}
