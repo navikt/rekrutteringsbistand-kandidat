@@ -26,8 +26,7 @@
             "arkivert": false,
             "arkivertTidspunkt": null,
             "arkivertAv": null,
-            "aktørid": "1000068645578",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "aktørid": "1000068645578"
         },
         {
             "kandidatId": "a49dfb5c-3f82-4cb2-9cde-e7e2930653d6",
@@ -47,8 +46,7 @@
             "arkivert": false,
             "arkivertTidspunkt": null,
             "arkivertAv": null,
-            "aktørid": "1000076550788",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "aktørid": "1000076550788"
         }
     ],
     "kanEditere": false,

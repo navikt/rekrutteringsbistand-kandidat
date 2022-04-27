@@ -46,20 +46,20 @@ export type FetchKandidatlisterForKandidatAction = {
     filtrerPåStilling?: string;
 };
 
-export type FetchMidlertidigUtilgjengeligSuccessAction = {
+export type FetchSuccessAction = {
     type: KandidatlisterForKandidatActionType.FetchSuccess;
     response: KandidatlisterForKandidatResponse;
 };
 
-export type FetchMidlertidigUtilgjengeligFailureAction = {
+export type FetchFailureAction = {
     type: KandidatlisterForKandidatActionType.FetchFailure;
     error: ApiError;
 };
 
 type HistorikkAction =
     | FetchKandidatlisterForKandidatAction
-    | FetchMidlertidigUtilgjengeligSuccessAction
-    | FetchMidlertidigUtilgjengeligFailureAction;
+    | FetchSuccessAction
+    | FetchFailureAction;
 
 const initialState: HistorikkState = { kandidatlisterForKandidat: ikkeLastet() };
 

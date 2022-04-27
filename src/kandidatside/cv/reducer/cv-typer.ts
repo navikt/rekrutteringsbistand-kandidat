@@ -115,12 +115,6 @@ export enum Innsatsgruppe {
     Situasjonsbestemt = 'Situasjonsbestemt innsats',
 }
 
-export enum Tilgjengelighet {
-    Tilgjengelig = 'tilgjengelig',
-    TilgjengeligInnen1Uke = 'tilgjengeliginnen1uke',
-    MidlertidigUtilgjengelig = 'midlertidigutilgjengelig',
-}
-
 type Cv = {
     adresse: Adresse;
     aktorId: string;
@@ -178,7 +172,6 @@ export type CvSøkeresultat = {
         nusKodeGrad?: string | null;
     };
     innsatsgruppe: Innsatsgruppe;
-    midlertidigUtilgjengeligStatus: Tilgjengelighet;
     poststed: string;
     score: any;
     servicebehov: string;

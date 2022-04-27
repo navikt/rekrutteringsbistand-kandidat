@@ -11,18 +11,13 @@ import {
 import { filterTilQueryParams } from '../../kandidatliste/filter/filter-utils';
 import { Kandidat, Kandidatstatus } from '../../kandidatliste/domene/Kandidat';
 import { lenkeTilKandidatliste } from '../../app/paths';
-import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
 import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
 import Kandidatheader from '../header/Kandidatheader';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from '../meny/Kandidatmeny';
-import MidlertidigUtilgjengelig, {
-    tillatRegistreringAvMidlertidigUtilgjengelig,
-} from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusOgHendelser from '../../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
-import useMidlertidigUtilgjengelig from './useMidlertidigUtilgjengelig';
 import useNavigerbareKandidater from './useNavigerbareKandidater';
 import useHentForespørslerOmDelingAvCv from '../../kandidatliste/hooks/useHentForespørslerOmDelingAvCv';
 import useForespørselOmDelingAvCv from '../../kandidatliste/hooks/useForespørselOmDelingAvCv';
@@ -47,7 +42,6 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
 
     const { cv } = useSelector((state: AppState) => state.cv);
     const { filter } = useSelector((state: AppState) => state.kandidatliste);
-    const tilgjengelighet = useMidlertidigUtilgjengelig(kandidat.kandidatnr);
     const forespørselOmDelingAvCv = useForespørselOmDelingAvCv(kandidat.aktørid);
     const melding = useSendtKandidatmelding(kandidat.fodselsnr);
 
@@ -77,12 +71,6 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
                 forrigeKandidat={lenkeTilForrige}
             />
             <Kandidatmeny cv={cv}>
-                {tillatRegistreringAvMidlertidigUtilgjengelig && cv.kind === Nettstatus.Suksess && (
-                    <MidlertidigUtilgjengelig
-                        cv={cv.data}
-                        midlertidigUtilgjengelig={tilgjengelighet}
-                    />
-                )}
                 <div className="kandidatside__status-select">
                     <label htmlFor="cv-status-og-hendelse">
                         {erKobletTilStilling(kandidatliste) ? 'Status/hendelse:' : 'Status:'}

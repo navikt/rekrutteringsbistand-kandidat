@@ -6,14 +6,8 @@ import { Checkbox } from 'nav-frontend-skjema';
 
 import { capitalizeFirstLetter, capitalizePoststed } from '../utils';
 import { lenkeTilKandidat } from '../../app/paths';
-import {
-    MidlertidigUtilgjengeligAction,
-    MidlertidigUtilgjengeligActionType,
-    MidlertidigUtilgjengeligState,
-} from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import AppState from '../../AppState';
+
 import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
-import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import { KandidatsøkAction, KandidatsøkActionType } from '../reducer/searchActions';
 import { MarkerbartSøkeresultat } from '../kandidater-og-modal/KandidaterOgModal';
 import './KandidaterTabell.less';
@@ -25,8 +19,6 @@ interface Props {
     onKandidatValgt: (markert: boolean, kandidatnr: string) => void;
     nettoppValgt: boolean;
     setScrollPosition: (position: number) => void;
-    midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
-    hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
 }
 
 const KandidaterTableKandidat: FunctionComponent<Props> = ({
@@ -36,8 +28,6 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     kandidatlisteId,
     stillingsId,
     onKandidatValgt,
-    midlertidigUtilgjengeligMap,
-    hentMidlertidigUtilgjengeligForKandidat,
 }) => {
     const onCheck = (kandidatnr: string) => {
         onKandidatValgt(!kandidat.markert, kandidatnr);
@@ -79,15 +69,6 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     }}
                 />
             </div>
-            <div className="kandidater-tabell__tilgjengelighet">
-                <TilgjengelighetFlagg
-                    status={kandidat.midlertidigUtilgjengeligStatus}
-                    merInformasjon={midlertidigUtilgjengeligMap[kandidatnummer]}
-                    hentMerInformasjon={() =>
-                        hentMidlertidigUtilgjengeligForKandidat(kandidat.aktorId, kandidatnummer)
-                    }
-                />
-            </div>
             <div className="kandidater-tabell__navn-og-lagt-i-liste-ikon">
                 <Link
                     className="kandidater-tabell__navn lenke"
@@ -108,25 +89,12 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     );
 };
 
-const mapStateToProps = (state: AppState) => ({
-    midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
-});
-
-const mapDispatchToProps = (
-    dispatch: Dispatch<KandidatsøkAction | MidlertidigUtilgjengeligAction>
-) => ({
+const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction>) => ({
     setScrollPosition: (scrolletFraToppen: number) =>
         dispatch({
             type: KandidatsøkActionType.SetScrollPosition,
             scrolletFraToppen,
         }),
-    hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
-        dispatch({
-            type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengelig,
-            aktørId,
-            kandidatnr,
-        });
-    },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableKandidat);
+export default connect(null, mapDispatchToProps)(KandidaterTableKandidat);

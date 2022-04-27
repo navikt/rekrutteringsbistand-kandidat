@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
-import MidlertidigUtilgjengeligSearch from './midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 import OppstartstidspunktSearch from './oppstardstidspunkt/OppstartstidspunktSearch';
 import AppState from '../../../AppState';
 import { connect } from 'react-redux';
@@ -21,7 +20,6 @@ const TilgjengelighetSearch: FunctionComponent<Props> = ({ panelOpen, togglePane
             onClick={togglePanelOpen}
         >
             <OppstartstidspunktSearch />
-            <MidlertidigUtilgjengeligSearch />
         </SokekriteriePanel>
     );
 };

@@ -16,13 +16,9 @@ import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModa
 import LagreKandidaterTilStillingModal from '../../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
 import { toUrlQuery } from '../../kandidatsøk/reducer/searchQuery';
 import Cv from '../cv/reducer/cv-typer';
-import useMidlertidigUtilgjengelig from '../fra-kandidatliste/useMidlertidigUtilgjengelig';
 import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
 import Kandidatheader from '../header/Kandidatheader';
 import Kandidatmeny from '../meny/Kandidatmeny';
-import MidlertidigUtilgjengelig, {
-    tillatRegistreringAvMidlertidigUtilgjengelig,
-} from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 
 type Props = {
@@ -42,7 +38,6 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     children,
 }) => {
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
-    const tilgjengelighet = useMidlertidigUtilgjengelig(kandidatnr);
     const leggTilKandidatStatus = useSelector(
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
     );
@@ -110,12 +105,6 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                 fraKandidatmatch={fraKandidatmatch}
             />
             <Kandidatmeny cv={cv}>
-                {tillatRegistreringAvMidlertidigUtilgjengelig && cv.kind === Nettstatus.Suksess && (
-                    <MidlertidigUtilgjengelig
-                        cv={cv.data}
-                        midlertidigUtilgjengelig={tilgjengelighet}
-                    />
-                )}
                 {kandidatlisteKontekst &&
                 kandidatlisteKontekst.kandidatliste.kind === Nettstatus.Suksess &&
                 kandidatlisteKontekst.kandidatliste.data.kandidater.some(
