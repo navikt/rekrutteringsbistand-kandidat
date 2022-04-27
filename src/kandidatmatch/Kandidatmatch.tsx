@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import Panel from 'nav-frontend-paneler';
-import { Feilmelding, Undertittel } from 'nav-frontend-typografi';
+import { Feilmelding, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import VisForeslåttKandidat, { ForeslåttKandidat } from './VisForeslåttKandidat';
 import { hentKandidater, hentStilling } from './kandidatmatchApi';
@@ -41,8 +40,12 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
     }, [stillingsId]);
 
     return (
-        <Panel border className="kandidatmatch">
+        <div className="kandidatmatch">
             <Undertittel>Foreslåtte kandidater</Undertittel>
+            <Normaltekst>
+                Kandidatene som er foreslått av NAV er de som har høyest sannsynlighet for å bli
+                stillingen.
+            </Normaltekst>
             <section aria-live="polite" aria-busy={kandidater.kind === Nettstatus.LasterInn}>
                 {kandidater.kind === Nettstatus.LasterInn && (
                     <p>Leter etter passende kandidater for stillingen ...</p>
@@ -51,19 +54,18 @@ const Kandidatmatch: FunctionComponent<Props> = ({ stillingsId }) => {
                     <Feilmelding>{kandidater.error.message}</Feilmelding>
                 )}
                 {kandidater.kind === Nettstatus.Suksess && (
-                    <ul>
+                    <ul className="kandidatmatch__liste">
                         {kandidater.data.map((kandidat) => (
-                            <li key={kandidat.arenaKandidatnr}>
-                                <VisForeslåttKandidat
-                                    kandidat={kandidat}
-                                    stillingsId={stillingsId}
-                                />
-                            </li>
+                            <VisForeslåttKandidat
+                                key={kandidat.arenaKandidatnr}
+                                kandidat={kandidat}
+                                stillingsId={stillingsId}
+                            />
                         ))}
                     </ul>
                 )}
             </section>
-        </Panel>
+        </div>
     );
 };
 

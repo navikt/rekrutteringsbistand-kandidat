@@ -52,8 +52,11 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                 </div>
             ) : (
                 <Container fluid className="resultatvisning--container blokk-l">
-                    <ViktigeYrker />
-                    {erIkkeProd && stillingsId && <Kandidatmatch stillingsId={stillingsId} />}
+                    {erIkkeProd ? (
+                        stillingsId && <Kandidatmatch stillingsId={stillingsId} />
+                    ) : (
+                        <ViktigeYrker />
+                    )}
                     <Column xs="12" sm="4">
                         <div className="sokekriterier--column" id="sokekriterier">
                             <div className="knapp-wrapper">

@@ -29,11 +29,11 @@ const VisForeslåttKandidat: FunctionComponent<Props> = ({ kandidat, stillingsId
         );
 
     return (
-        <>
-            <Link to={lenkeTilKandidat}>
+        <li className="kandidatmatch__kandidat">
+            <Link className="kandidatmatch__navn" to={lenkeTilKandidat}>
                 {kandidat.fornavn} {kandidat.etternavn}
             </Link>
-        </>
+        </li>
     );
 };
 
