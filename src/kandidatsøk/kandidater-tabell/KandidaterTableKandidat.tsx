@@ -69,6 +69,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     }}
                 />
             </div>
+
             <div className="kandidater-tabell__navn-og-lagt-i-liste-ikon">
                 <Link
                     className="kandidater-tabell__navn lenke"
