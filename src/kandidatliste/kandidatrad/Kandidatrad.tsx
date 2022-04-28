@@ -8,10 +8,6 @@ import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { erInaktiv, Kandidat } from '../domene/Kandidat';
 import { lenkeTilCv } from '../../app/paths';
-import {
-    MidlertidigUtilgjengeligActionType,
-    MidlertidigUtilgjengeligState,
-} from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../api/Nettressurs';
 import { Visningsstatus } from '../domene/Kandidatressurser';
@@ -23,7 +19,6 @@ import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusOgHendelser from './status-og-hendelser/StatusOgHendelser';
-import TilgjengelighetFlagg from '../../kandidatsøk/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import useForespørselOmDelingAvCv from '../hooks/useForespørselOmDelingAvCv';
 import useKandidatnotater from '../hooks/useKandidatnotater';
 import useKandidattilstand from '../hooks/useKandidattilstand';
@@ -39,8 +34,6 @@ type Props = {
     onToggleKandidat: (kandidatnr: string) => void;
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
-    midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
-    hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
     sistValgteKandidat?: {
         kandidatlisteId: string;
         kandidatnr: string;
@@ -54,8 +47,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     onToggleKandidat,
     onKandidatStatusChange,
     visArkiveringskolonne,
-    midlertidigUtilgjengeligMap,
-    hentMidlertidigUtilgjengeligForKandidat,
     sistValgteKandidat,
 }) => {
     const dispatch = useDispatch();
@@ -172,21 +163,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         onToggleKandidat(kandidat.kandidatnr);
                     }}
                 />
-                <div className="kandidater-tabell__tilgjengelighet">
-                    {kandidat.aktørid && (
-                        <TilgjengelighetFlagg
-                            className="kandidatliste-kandidat__fokuserbar-knapp"
-                            status={kandidat.midlertidigUtilgjengeligStatus}
-                            merInformasjon={midlertidigUtilgjengeligMap[kandidat.kandidatnr]}
-                            hentMerInformasjon={() =>
-                                hentMidlertidigUtilgjengeligForKandidat(
-                                    kandidat.aktørid || '',
-                                    kandidat.kandidatnr
-                                )
-                            }
-                        />
-                    )}
-                </div>
                 <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__kolonne-sorterbar">
                     {erInaktiv(kandidat) ? (
                         <Normaltekst>{fulltNavn}</Normaltekst>
@@ -296,18 +272,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
     sistValgteKandidat: state.kandidatliste.sistValgteKandidat,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
-        dispatch({
-            type: MidlertidigUtilgjengeligActionType.FetchMidlertidigUtilgjengelig,
-            aktørId,
-            kandidatnr,
-        });
-    },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Kandidatrad);
+export default connect(mapStateToProps, null)(Kandidatrad);

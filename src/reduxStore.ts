@@ -23,9 +23,6 @@ import enhetsregisterReducer, {
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
 import kandidatlisteReducer from './kandidatliste/reducer/kandidatlisteReducer';
 import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
-import midlertidigUtilgjengeligReducer, {
-    midlertidigUtilgjengeligSaga,
-} from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { searchSaga } from './kandidatsøk/reducer/searchSaga';
@@ -64,7 +61,6 @@ const store = createStore(
         historikk: historikkReducer,
         kandidatliste: kandidatlisteReducer,
         listeoversikt: listeoversiktReducer,
-        midlertidigUtilgjengelig: midlertidigUtilgjengeligReducer,
         navKontor: valgtNavKontorReducer,
         søk: searchReducer,
         søkefilter: søkefiltreReducer,
@@ -76,7 +72,6 @@ const store = createStore(
 sagaMiddleware.run(searchSaga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
-sagaMiddleware.run(midlertidigUtilgjengeligSaga);
 sagaMiddleware.run(historikkSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);

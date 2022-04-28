@@ -23,7 +23,6 @@ const KandidaterTableHeader: FunctionComponent<Props> = ({
                     onChange={onToggleMarkeringAlleKandidater}
                 />
             </div>
-            <div />
             <Element className="kandidater-tabell__kolonne-tekst">Navn</Element>
             <Element className="kandidater-tabell__kolonne-tekst">Fødselsnummer</Element>
             <Element className="kandidater-tabell__kolonne-tekst">Innsatsgruppe</Element>

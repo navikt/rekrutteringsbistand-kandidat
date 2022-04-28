@@ -8,7 +8,6 @@ import { CvState } from './kandidatside/cv/reducer/cvReducer';
 import { Geografi } from './kandidatsøk/fant-få-kandidater/FantFåKandidater';
 import { HistorikkState } from './kandidatside/historikk/historikkReducer';
 import { KandidatlisteState } from './kandidatliste/reducer/kandidatlisteReducer';
-import { MidlertidigUtilgjengeligState } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { NavKontorState } from './navKontor/navKontorReducer';
 import { PermitteringState } from './kandidatsøk/søkefiltre/permittering/permitteringReducer';
 import { SearchState } from './kandidatsøk/reducer/searchReducer';
@@ -23,7 +22,6 @@ type AppState = {
     historikk: HistorikkState;
     kandidatliste: KandidatlisteState;
     listeoversikt: ListeoversiktState;
-    midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;
     navKontor: NavKontorState;
     varsling: VarslingState;
     søk: SearchState;

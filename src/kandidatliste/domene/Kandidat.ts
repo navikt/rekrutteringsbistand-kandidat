@@ -1,5 +1,3 @@
-import { Tilgjengelighet } from '../../kandidatside/cv/reducer/cv-typer';
-
 export type Kandidatnr = string;
 export type Fødselsnummer = string;
 export type AktørId = string;
@@ -23,7 +21,6 @@ type Kandidatinformasjon = {
     arkivert: boolean;
     arkivertTidspunkt: string | null;
     arkivertAv: string | null;
-    midlertidigUtilgjengeligStatus: Tilgjengelighet;
     erSynlig: boolean;
 };
 

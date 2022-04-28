@@ -1,5 +1,4 @@
 import AppState from '../../AppState';
-import { Tilgjengelighet } from '../../kandidatside/cv/reducer/cv-typer';
 import { getHashFromString } from '../utils';
 import { SearchAction } from './searchActions';
 
@@ -78,24 +77,10 @@ export const mapTilSøkekriterierBackendFraState = ({
         kategorier: søkefilter.tilretteleggingsbehov.kategorier,
         oppstartKoder: søkefilter.tilgjengelighet.oppstartstidspunkter,
         maksAlderYrkeserfaring: søkefilter.arbeidserfaring.maksAlderArbeidserfaring,
-        midlertidigUtilgjengelig: inverterMidlertidigUtilgjengeligFordiFilteretErInvertert(
-            søkefilter.tilgjengelighet.midlertidigUtilgjengelig
-        ),
         permittert: permittert,
         listeId: søk.kandidatlisteId,
         antallAarFra: søkefilter.alder.fra,
         antallAarTil: søkefilter.alder.til,
         prioriterteMaalgrupper: søkefilter.prioriterteMålgrupper.valgte,
     };
-};
-
-const inverterMidlertidigUtilgjengeligFordiFilteretErInvertert = (
-    tilgjengelighetSomSkalFiltreresBort: Tilgjengelighet[]
-): Tilgjengelighet[] => {
-    if (!tilgjengelighetSomSkalFiltreresBort || tilgjengelighetSomSkalFiltreresBort.length === 0) {
-        return [];
-    }
-    return (Object.values(Tilgjengelighet) as Tilgjengelighet[]).filter(
-        (tilgjengelighet) => !tilgjengelighetSomSkalFiltreresBort.includes(tilgjengelighet)
-    );
 };

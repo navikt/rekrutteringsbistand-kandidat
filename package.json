@@ -9,7 +9,7 @@
         "start:export": "BROWSER=none REACT_APP_EXPORT=true craco start",
         "start:mock": "REACT_APP_MOCK=true craco start",
         "start:mock:export": "BROWSER=none REACT_APP_EXPORT=true REACT_APP_MOCK=true craco start",
-        "start:express": "MIDLERTIDIG_UTILGJENGELIG_API='https://arbeidsgiver.nais.preprod.local/finn-kandidat-api/midlertidig-utilgjengelig' node ./server/server.js",
+        "start:express": "node ./server/server.js",
         "build": "REACT_APP_EXPORT=true REACT_APP_SENTRY_RELEASE=$(git rev-parse --short HEAD)  craco build",
         "build:labs": "REACT_APP_MOCK=true craco build",
         "sentry-release": "(export SENTRY_RELEASE=$(git rev-parse --short HEAD); node scripts/sentry-release)",

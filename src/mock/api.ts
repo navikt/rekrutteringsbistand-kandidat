@@ -5,7 +5,6 @@ import sokeord from './json/sokeord.json';
 import kandidatlisteBasertPaAnnonsenummer from './json/kandidatlisteBasertPaAnnonsenummer.json';
 import arenageografikoder from './json/arenageografikoder.json';
 import typeaheadgeo from './json/typeaheadgeo.json';
-import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
 import sms from './json/sms.json';
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 import enhetsregister from './json/enhetsregister.json';
@@ -28,13 +27,7 @@ import {
     forespørslerOmDelingAvCvForKandidat,
 } from './data/forespørslerOmDelingAvCv.mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import {
-    KANDIDATSOK_API,
-    MIDLERTIDIG_UTILGJENGELIG_API,
-    SMS_API,
-    ENHETSREGISTER_API,
-    SYNLIGHET_API,
-} from '../api/api';
+import { KANDIDATSOK_API, SMS_API, ENHETSREGISTER_API, SYNLIGHET_API } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
 import foreslåtteKandidater from './data/kandidatmatch.mock';
@@ -44,7 +37,6 @@ fetchMock.config.fallbackToNetwork = true;
 
 const api = `express:${KANDIDATSOK_API}`;
 const smsApi = `express:${SMS_API}`;
-const midlertidigUtilgjengeligApi = `express:${MIDLERTIDIG_UTILGJENGELIG_API}`;
 const forespørselOmDelingAvCvApi = `express:${FORESPORSEL_OM_DELING_AV_CV_API}`;
 const kandidatmatchApi = `express:${KANDIDATMATCH_API_URL}`;
 const synlighetApi = `express:${SYNLIGHET_API}`;
@@ -98,7 +90,6 @@ const url = {
     sms: `${smsApi}/:kandidatlisteId`,
     smsFnr: `${smsApi}/fnr/:fnr`,
     smsPost: `${smsApi}`,
-    midlertidigUtilgjengelig: `${midlertidigUtilgjengeligApi}/:fnr`,
     enhetsregister: `${ENHETSREGISTER_API}/underenhet/_search`,
 
     // Misc
@@ -360,7 +351,6 @@ fetchMock
         delay: 200,
     })
     .get(url.listeoversikt, log(kandidatlisterForKandidatMock))
-    .mock(url.midlertidigUtilgjengelig, log(midlertidigUtilgjengelig))
 
     // Kandidatliste
     .get(url.kandidatlister, log(getKandidatlister))

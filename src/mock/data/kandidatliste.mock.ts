@@ -13,7 +13,7 @@ import {
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
 import { v5 as uuid } from 'uuid';
 import cver from './cv.mock';
-import Cv, { Tilgjengelighet } from '../../kandidatside/cv/reducer/cv-typer';
+import Cv from '../../kandidatside/cv/reducer/cv-typer';
 import { enAnnenVeileder, enVeileder, meg, Veileder } from './veiledere.mock';
 
 const antall = 15;
@@ -120,7 +120,6 @@ export const mockKandidat = (
     arkivertTidspunkt: null,
     arkivertAv: null,
     aktørid: cver[cvIndex].aktorId,
-    midlertidigUtilgjengeligStatus: mockMidlertidigUtilgjengeligStatus(cvIndex),
     erSynlig: true,
 });
 
@@ -130,14 +129,6 @@ const inaktivKandidat = {
     epost: null,
     innsatsgruppe: null,
     fodselsnr: null,
-};
-
-const mockMidlertidigUtilgjengeligStatus = (cvIndex: number) => {
-    return cvIndex === 3
-        ? Tilgjengelighet.TilgjengeligInnen1Uke
-        : cvIndex === 4
-        ? Tilgjengelighet.MidlertidigUtilgjengelig
-        : Tilgjengelighet.Tilgjengelig;
 };
 
 const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({

@@ -5,7 +5,6 @@ import {
     createCallIdHeader,
     deleteJsonMedType,
     deleteReq,
-    deleteWithoutJson,
     fetchJson,
     postHeaders,
     postJson,
@@ -24,7 +23,6 @@ import {
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
 export const SMS_API = `/sms-api`;
-export const MIDLERTIDIG_UTILGJENGELIG_API = `/finn-kandidat-api/midlertidig-utilgjengelig`;
 export const SYNLIGHET_API = `/synlighet-api`;
 
 if (process.env.REACT_APP_MOCK) {
@@ -309,31 +307,6 @@ export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkiver
         `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater/${kandidatNr}/arkivert`,
         JSON.stringify(arkivert)
     );
-};
-
-export const fetchMidlertidigUtilgjengelig = (aktørId: string) => {
-    return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`, true);
-};
-
-export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
-    return postJson(
-        `${MIDLERTIDIG_UTILGJENGELIG_API}`,
-        JSON.stringify({
-            aktørId,
-            tilDato,
-        })
-    );
-};
-
-export const putMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
-    return putJson(
-        `${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`,
-        JSON.stringify({ aktørId, tilDato })
-    );
-};
-
-export const deleteMidlertidigUtilgjengelig = (aktørId: string) => {
-    return deleteWithoutJson(`${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`);
 };
 
 export const putArkivertForFlereKandidater = (

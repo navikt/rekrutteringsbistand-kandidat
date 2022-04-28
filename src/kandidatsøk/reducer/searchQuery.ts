@@ -30,7 +30,6 @@ interface SearchQuery {
     permittert?: boolean;
     oppstartstidspunkter?: string;
     maksAlderArbeidserfaring?: number;
-    midlertidigUtilgjengelig?: string;
     prioriterteMaalgrupper?: string;
     alderFra?: number;
     alderTil?: number;
@@ -96,14 +95,6 @@ const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => 
     if (søkefilter.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
         urlQuery.maksAlderArbeidserfaring = søkefilter.arbeidserfaring.maksAlderArbeidserfaring;
 
-    if (
-        søkefilter.tilgjengelighet &&
-        søkefilter.tilgjengelighet.midlertidigUtilgjengelig &&
-        søkefilter.tilgjengelighet.midlertidigUtilgjengelig.length > 0
-    )
-        urlQuery.midlertidigUtilgjengelig =
-            søkefilter.tilgjengelighet.midlertidigUtilgjengelig.join('_');
-
     const valgteMålgrupper = søkefilter.prioriterteMålgrupper.valgte;
     if (valgteMålgrupper && valgteMålgrupper.length > 0)
         urlQuery.prioriterteMaalgrupper = valgteMålgrupper.join('_');
@@ -144,7 +135,6 @@ export type InitialQuery = FritekstState &
         kategorier?: string[];
         permittert?: boolean;
         oppstartstidspunkter?: string[];
-        midlertidigUtilgjengelig?: string[];
         maksAlderArbeidserfaring?: number;
         kandidatlisteId?: string;
         prioriterteMålgrupper?: string[];
@@ -174,7 +164,6 @@ export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): Ini
     const permittert = getUrlParameterByName('permittert');
     const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkter');
     const maksAlderArbeidserfaring = getUrlParameterByName('maksAlderArbeidserfaring');
-    const midlertidigUtilgjengelig = getUrlParameterByName('midlertidigUtilgjengelig');
     const prioriterteMålgrupper = getUrlParameterByName('prioriterteMaalgrupper');
     const alderFra = getUrlParameterByName('alderFra');
     const alderTil = getUrlParameterByName('alderTil');
@@ -199,8 +188,6 @@ export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): Ini
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     if (permittert) stateFromUrl.permittert = permittert === 'true';
     if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('-');
-    if (midlertidigUtilgjengelig)
-        stateFromUrl.midlertidigUtilgjengelig = midlertidigUtilgjengelig.split('_');
     if (maksAlderArbeidserfaring && !isNaN(parseInt(maksAlderArbeidserfaring)))
         stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
     if (kandidatlisteId) stateFromUrl.kandidatlisteId = kandidatlisteId;

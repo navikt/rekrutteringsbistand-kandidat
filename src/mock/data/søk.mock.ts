@@ -1,9 +1,5 @@
 import cver, { antall } from './cv.mock';
-import Cv, {
-    CvSøkeresultat,
-    Innsatsgruppe,
-    Tilgjengelighet,
-} from '../../kandidatside/cv/reducer/cv-typer';
+import Cv, { CvSøkeresultat, Innsatsgruppe } from '../../kandidatside/cv/reducer/cv-typer';
 
 const resultater: CvSøkeresultat[] = cver.map((cv: Cv) => ({
     aktorId: cv.aktorId,
@@ -23,7 +19,6 @@ const resultater: CvSøkeresultat[] = cver.map((cv: Cv) => ({
     },
     servicebehov: 'Varig tilpasset innsats',
     innsatsgruppe: Innsatsgruppe.Standard,
-    midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig,
 }));
 
 const kompetanseAggregeringerFelt = [
