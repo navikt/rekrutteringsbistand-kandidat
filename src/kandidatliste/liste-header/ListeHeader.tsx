@@ -91,7 +91,6 @@ const ListeHeader: FunctionComponent<Props> = ({
                     disabled={kandidatliste.status === Kandidatlistestatus.Lukket}
                     onChange={() => onCheckAlleKandidater()}
                 />
-                <div />
                 <SorterbarKolonneheader
                     tekst="Navn"
                     sorteringsfelt={KandidatSorteringsfelt.Navn}
