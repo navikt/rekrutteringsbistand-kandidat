@@ -44,7 +44,14 @@ const Filter: FunctionComponent<Props> = ({
         />
     ));
 
-    const filtrerbareHendelser = Object.values(Hendelse);
+    const filtrerbareHendelser = [
+        Hendelse.NyKandidat,
+        Hendelse.DeltMedKandidat,
+        Hendelse.SvarJa,
+        Hendelse.SvarNei,
+        Hendelse.CvDelt,
+        Hendelse.FåttJobben,
+    ];
 
     const hendelsescheckbokser = hendelsefilter
         ? filtrerbareHendelser.map((hendelse) => (
