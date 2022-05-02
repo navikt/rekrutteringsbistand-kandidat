@@ -97,7 +97,6 @@
         "whatwg-fetch": "^3.5.0"
     },
     "devDependencies": {
-        "@craco/craco": "^6.2.0",
         "@sentry/cli": "^1.62.0",
         "@types/amplitude-js": "^8.0.1",
         "@types/http-proxy-middleware": "^1.0.0",
