@@ -7,7 +7,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
     useEffect(() => {
         const hentPrototype = async () => {
             try {
-                const proto = await fetch('/prototype');
+                const proto = await fetch('/api/prototype', {
+                    method: 'GET',
+                });
+
                 const data = await proto.json();
 
                 setPrototype(data);
@@ -19,16 +22,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         hentPrototype();
     }, []);
 
+    const kandidat = prototype ? prototype[0] : undefined;
+
     return (
         <>
             <h1>Elitekandidater</h1>
-            {prototype && (
-                <ul>
-                    {prototype.map((kandidat) => (
-                        <li key={kandidat.arenaKandidatnr}>{kandidat.fornavn}</li>
-                    ))}
-                </ul>
-            )}
+            {kandidat && <h2>{kandidat.fornavn}</h2>}
         </>
     );
 };
