@@ -12,6 +12,7 @@ type Prototype = {
     land: string;
     nasjonalitet: string;
     sammendrag: string;
+    foererkort: FørerkortPrototype;
 
     // Cv
     arbeidserfaring: ArbeidserfaringPrototype[];
@@ -41,6 +42,8 @@ type Prototype = {
     arbeidstidsordninger_jobbprofil: string[];
     omfang_jobbprofil: string[];
 
+    // Oppfølgingsinformasjon
+    oppfolgingsinformasjon: Oppfolgingsinformasjon;
     // Match
     score_total: number;
     score_utdannelse: number;
@@ -90,6 +93,21 @@ type SertifikatPrototype = {
     utsteder: string;
     gjennomfoert: Date;
     utloeper: number;
+};
+
+type FørerkortPrototype = {
+    klasse: FoererkortKlassePrototype[];
+};
+
+type FoererkortKlassePrototype = {
+    klasse: string;
+    klasse_beskrivelse: string;
+    fra_tidspunkt: number;
+    utloeper: number;
+};
+
+type Oppfolgingsinformasjon = {
+    kvalifiseringsgruppe: string;
 };
 
 export type KursPrototype = {

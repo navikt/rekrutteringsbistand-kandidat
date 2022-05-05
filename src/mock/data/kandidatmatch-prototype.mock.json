@@ -16,6 +16,23 @@
         "land": "NO",
         "nasjonalitet": "NO",
         "sammendrag": "",
+        "foererkort": {
+            "klasse": [
+                {
+                    "klasse": "B",
+                    "klasse_beskrivelse": "Personbil",
+                    "fra_tidspunkt": "1651739820309",
+                    "utloeper": "1651739830309"
+                },
+                {
+                    "klasse": "C",
+                    "klasse_beskrivelse": "Større bil",
+                    "fra_tidspunkt": "1651739820309",
+                    "utloeper": "1651739830309"
+                }
+            ]
+        },
+
         "arbeidserfaring": [
             {
                 "stillingstittel": "Serviceingeniør olje",
