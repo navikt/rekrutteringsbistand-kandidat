@@ -126,7 +126,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                         <li>tittel: {sertifikat.tittel}</li>
                                         <li>sertifikatnavn: {sertifikat.sertifikatnavn}</li>
                                         <li>
-                                            sertifikatnavn_fritekst{' '}
+                                            sertifikatnavn_fritekst:{' '}
                                             {sertifikat.sertifikatnavn_fritekst}
                                         </li>
                                         <li>utsteder: {sertifikat.utsteder}</li>
@@ -161,7 +161,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             ))}
                         </ul>
                         <h3>Disponerer bil</h3>
-                        <ul>{kandidat.disponererBil}</ul>
+                        <ul>{kandidat.disponererBil == true ? 'Ja' : 'Nei'}</ul>
                         <h3>Kvalifiseringsgruppe</h3>
                         <ul>{kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}</ul>
                     </div>
