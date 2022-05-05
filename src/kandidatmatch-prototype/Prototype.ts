@@ -20,7 +20,7 @@ type Prototype = {
     godkjenninger: any;
     kurs: KursPrototype[];
     sertifikat: SertifikatPrototype[];
-    spraakferdigheter: any;
+    spraakferdigheter: SpråkferdighetPrototype[];
 
     aktoerId: string;
     oppstartKode: string;
@@ -107,4 +107,35 @@ export enum TidsenhetPrototype {
     MND,
 }
 
+type SpråkferdighetPrototype = {
+    spraaknavn: string;
+    iso3kode: string;
+    muntlig: FerdighetsnivåPrototype;
+    skriftlig: FerdighetsnivåPrototype;
+};
+
+enum FerdighetsnivåPrototype {
+    IKKE_OPPGITT,
+    NYBEGYNNER,
+    GODT,
+    VELDIG_GODT,
+    FOERSTESPRAAK,
+}
+
 export default Prototype;
+
+/*
+private String spraaknavn;
+    private String iso3kode;
+    private Ferdighetsnivaa muntlig;
+    private Ferdighetsnivaa skriftlig;
+ */
+
+/*
+public enum Ferdighetsnivaa implements GenericEnumSymbol<Ferdighetsnivaa> {
+    IKKE_OPPGITT,
+    NYBEGYNNER,
+    GODT,
+    VELDIG_GODT,
+    FOERSTESPRAAK;
+ */

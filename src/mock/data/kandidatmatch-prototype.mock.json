@@ -112,7 +112,20 @@
                 "utloeper": 1651739820309
             }
         ],
-        "spraakferdigheter": [],
+        "spraakferdigheter": [
+            {
+                "spraaknavn": "Norsk",
+                "iso3kode": "611",
+                "muntlig": "FOERSTESPRAAK",
+                "skriftlig": "FOERSTESPRAAK"
+            },
+            {
+                "spraaknavn": "Tysk",
+                "iso3kode": "639",
+                "muntlig": "VELDIG_GODT",
+                "skriftlig": "GODT"
+            }
+        ],
         "aktoerId": "1000053817938",
         "cvId": "226be7c0-685d-42a9-ac68-04bd22f2a0f5",
         "oppstartKode": "null",

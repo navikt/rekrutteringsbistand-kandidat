@@ -138,6 +138,14 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             ))}
                         </ul>
                         <h3>Språk</h3>
+                        <ul>
+                            {kandidat.spraakferdigheter.map((språkferdighet) => (
+                                <li key={språkferdighet.iso3kode}>
+                                    {språkferdighet.spraaknavn} - muntlig: {språkferdighet.muntlig},
+                                    skriftlig: {språkferdighet.skriftlig}
+                                </li>
+                            ))}
+                        </ul>
                         <h3>Førerkort</h3>
                         <h3>Disponerer bil</h3>
                         <h3>Kvalifiseringsgruppe</h3>
