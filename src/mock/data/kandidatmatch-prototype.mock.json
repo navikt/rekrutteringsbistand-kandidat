@@ -76,7 +76,22 @@
         ],
         "fagdokumentasjon": [],
         "godkjenninger": [],
-        "kurs": [],
+        "kurs": [
+            {
+                "tittel": "Livredningskurs i vann",
+                "utsteder": "Røde Kors",
+                "tidspunkt": 1644045892,
+                "varighet": 1,
+                "varighet_enhet": "TIME"
+            },
+            {
+                "tittel": "Kurs for HMS-ansvarlige",
+                "utsteder": "Norsk Olje & Gass",
+                "tidspunkt": 1644045892,
+                "varighet": 2,
+                "varighet_enhet": "MND"
+            }
+        ],
         "sertifikat": [],
         "spraakferdigheter": [],
         "aktoerId": "1000053817938",

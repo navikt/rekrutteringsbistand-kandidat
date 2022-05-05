@@ -109,6 +109,15 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             ))}
                         </ul>
                         <h3>Kurs</h3>
+                        <ul>
+                            {kandidat.kurs.map((kurs, index) => (
+                                <li key={kurs.tittel}>
+                                    utsteder: {kurs.utsteder}, varighet: {kurs.varighet} -{' '}
+                                    {kurs.varighet_enhet}, dato:{' '}
+                                    {new Date(kurs.tidspunkt).toDateString()}
+                                </li>
+                            ))}
+                        </ul>
                         <h3>Sertifikater</h3>
                         <h3>Språk</h3>
 

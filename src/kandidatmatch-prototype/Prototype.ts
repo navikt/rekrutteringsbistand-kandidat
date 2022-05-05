@@ -18,7 +18,7 @@ type Prototype = {
     utdannelse: UtdannelsePrototype[];
     fagdokumentasjon: string[];
     godkjenninger: any;
-    kurs: any;
+    kurs: KursPrototype[];
     sertifikat: any;
     spraakferdigheter: any;
 
@@ -81,5 +81,20 @@ type UtdannelsePrototype = {
     utdannelseYrkestatus: string;
     fraTidspunkt: number[];
 };
+
+export type KursPrototype = {
+    tittel: string;
+    utsteder: string;
+    tidspunkt: number; // ms epoch?
+    varighet: number;
+    varighet_enhet: TidsenhetPrototype;
+};
+
+export enum TidsenhetPrototype {
+    TIME,
+    DAG,
+    UKE,
+    MND,
+}
 
 export default Prototype;
