@@ -39,7 +39,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     </div>
                     <div>
                         {/* Legg inn score når klarhet i hva som er hva */}
-                        <h3>Jobbønsker ({kandidat.score_jobbprofil})</h3>
+                        <h3>Jobbønsker ({kandidat.score_total})</h3>
+
                         <h4>Stillinger({kandidat.stillinger_jobbprofil.score})</h4>
                         <ul>
                             {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
