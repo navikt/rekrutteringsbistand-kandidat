@@ -40,23 +40,23 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <div>
                         {/* Legg inn score når klarhet i hva som er hva */}
                         <h3>Jobbønsker ({kandidat.score_jobbprofil})</h3>
-                        <h4>Stillinger</h4>
+                        <h4>Stillinger({kandidat.stillinger_jobbprofil.score})</h4>
                         <ul>
-                            {kandidat.stillinger_jobbprofil.map((stillingØnske) => (
-                                <li key={stillingØnske + kandidat.fodselsnummer}>
-                                    {stillingØnske}
+                            {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
+                                <li key={stillingØnske.stilling}>
+                                    {stillingØnske.stilling}(stillingØnske.score)
                                 </li>
                             ))}
                         </ul>
-                        <h4>Arbeidssted</h4>
+                        <h4>Arbeidssted({kandidat.geografi_jobbprofil.score})</h4>
                         <ul>
-                            {kandidat.geografi_jobbprofil.map((geografiJobbProfil) => (
+                            {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                                 <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
                                     {geografiJobbProfil.sted}
                                 </li>
                             ))}
                         </ul>
-                        <h4>Ansettelsesform</h4>
+                        <h4>Ansettelsesform)</h4>
                         <ul>
                             {kandidat.ansettelsesformer_jobbprofil.map((ansettelsesform) => (
                                 <li key={ansettelsesform + kandidat.fodselsnummer}>
@@ -90,21 +90,42 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 <li key={omfang + kandidat.fodselsnummer}>{omfang}</li>
                             ))}
                         </ul>
-                        <h3>Arbeidserfaring ({kandidat.score_arbeidserfaring})</h3>
+                        <h3>Arbeidserfaring ({kandidat.arbeidserfaring.score})</h3>
                         <ul>
-                            {kandidat.arbeidserfaring.map((arbeidserfaring, index) => (
-                                <li key={arbeidserfaring.janzzKonseptid}>
-                                    {arbeidserfaring.stillingstittel} (
-                                    {kandidat.match_forklaring.arbeidserfaring_forklaring[index]})
-                                </li>
-                            ))}
+                            {kandidat.arbeidserfaring.arbeidserfaringer.map(
+                                (arbeidserfaring, index) => (
+                                    <li key={arbeidserfaring.janzzKonseptid}>
+                                        <ul>
+                                            {arbeidserfaring.stillingstittel} (
+                                            {arbeidserfaring.score})
+                                            <li>styrkkode: {arbeidserfaring.styrkkode}</li>
+                                            <li>arbeidsgiver: {arbeidserfaring.arbeidsgiver}</li>
+                                            <li>sted: {arbeidserfaring.sted}</li>
+                                            <li>beskrivelse: {arbeidserfaring.beskrivelse}</li>
+                                            <li>
+                                                stillingstittelFritekst:{' '}
+                                                {arbeidserfaring.stillingstittelFritekst}
+                                            </li>
+                                            <li>
+                                                janzzKonseptid: {arbeidserfaring.janzzKonseptid}
+                                            </li>
+                                            <li>tilTidspunkt: {arbeidserfaring.tilTidspunkt}</li>
+                                            <li>
+                                                ikkeAktueltForFremtiden:{' '}
+                                                {arbeidserfaring.ikkeAktueltForFremtiden}
+                                            </li>
+                                            <li>fraTidspunkt: {arbeidserfaring.fraTidspunkt}</li>
+                                        </ul>
+                                        <br />
+                                    </li>
+                                )
+                            )}
                         </ul>
-                        <h3>Utdanning ({kandidat.score_utdannelse})</h3>
+                        <h3>Utdanning ({kandidat.utdannelse.score})</h3>
                         <ul>
-                            {kandidat.utdannelse.map((utdannelse, index) => (
+                            {kandidat.utdannelse.utdannelser.map((utdannelse, index) => (
                                 <li key={utdannelse.beskrivelse}>
-                                    {utdannelse.laerested} (
-                                    {kandidat.match_forklaring.utdannelse_forklaring[index]})
+                                    {utdannelse.laerested} ({utdannelse.score})
                                 </li>
                             ))}
                         </ul>
@@ -161,7 +182,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             ))}
                         </ul>
                         <h3>Disponerer bil</h3>
-                        <ul>{kandidat.disponererBil == true ? 'Ja' : 'Nei'}</ul>
+                        <ul>{kandidat.disponererBil === true ? 'Ja' : 'Nei'}</ul>
                         <h3>Kvalifiseringsgruppe</h3>
                         <ul>{kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}</ul>
                     </div>

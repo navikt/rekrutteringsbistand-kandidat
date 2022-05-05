@@ -15,8 +15,8 @@ type Prototype = {
     foererkort: FørerkortPrototype;
 
     // Cv
-    arbeidserfaring: ArbeidserfaringPrototype[];
-    utdannelse: UtdannelsePrototype[];
+    arbeidserfaring: ArbeidserfaringPrototype;
+    utdannelse: UtdannelsePrototype;
     fagdokumentasjon: string[];
     godkjenninger: any;
     kurs: KursPrototype[];
@@ -29,13 +29,10 @@ type Prototype = {
     annenErfaring: [];
 
     // Jobbprofil
-    stillinger_jobbprofil: string[];
-    kompetanser_jobbprofil: string[];
+    stillinger_jobbprofil: StillingerJobbprofilPrototype;
+    kompetanser_jobbprofil: KompetanserJobbprofilPrototype[];
     stillingkladder_jobbprofil: string[];
-    geografi_jobbprofil: Array<{
-        sted: string;
-        kode: string;
-    }>;
+    geografi_jobbprofil: GeografiJobbprofilPrototype;
     ansettelsesformer_jobbprofil: string[];
     arbeidstider_jobbprofil: string[];
     arbeidsdager_jobbprofil: string[];
@@ -62,6 +59,12 @@ type Prototype = {
 };
 
 type ArbeidserfaringPrototype = {
+    score: number;
+    arbeidserfaringer: ArbeidserfaringerPrototype[];
+};
+
+type ArbeidserfaringerPrototype = {
+    score: number;
     stillingstittel: string;
     styrkkode: string;
     arbeidsgiver: string;
@@ -75,6 +78,12 @@ type ArbeidserfaringPrototype = {
 };
 
 type UtdannelsePrototype = {
+    score: number;
+    utdannelser: UtdannelserPrototype[];
+};
+
+type UtdannelserPrototype = {
+    score: number;
     laerested: string;
     beskrivelse: string;
     utdanningsretning: string;
@@ -139,6 +148,37 @@ enum FerdighetsnivåPrototype {
     VELDIG_GODT,
     FOERSTESPRAAK,
 }
+
+type StillingerJobbprofilPrototype = {
+    score: number;
+    stillinger: StillingPrototype[];
+};
+
+type StillingPrototype = {
+    stilling: string;
+    score: number;
+};
+
+type GeografiJobbprofilPrototype = {
+    score: number;
+    steder: StedPrototype[];
+};
+
+type StedPrototype = {
+    sted: string;
+    kode: string;
+    score: number;
+};
+
+type KompetanserJobbprofilPrototype = {
+    score: number;
+    kompetanser: Kompetanse[];
+};
+
+type Kompetanse = {
+    score: number;
+    kompetanse: string;
+};
 
 export default Prototype;
 
