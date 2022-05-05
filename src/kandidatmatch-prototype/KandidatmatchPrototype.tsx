@@ -32,9 +32,64 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                 <>
                     <div>
                         <h2>{kandidat.fornavn}</h2>
-                        <p aria-label="fødselsnummer">{kandidat.fodselsnummer}</p>
+                        <p aria-label="fødselsnummer">Fødselsnummer: {kandidat.fodselsnummer}</p>
+                        <p aria-label="veileder">Veileder: Dummy Veileder</p>
+                        <p aria-label="NAV-kontor">NAV-kontor: Dummy NAV-kontor</p>
+                        <p></p>
                     </div>
                     <div>
+                        {/* Legg inn score når klarhet i hva som er hva */}
+                        <h3>Jobbønsker ({kandidat.score_jobbprofil})</h3>
+                        <h4>Stillinger</h4>
+                        <ul>
+                            {kandidat.stillinger_jobbprofil.map((stillingØnske) => (
+                                <li key={stillingØnske + kandidat.fodselsnummer}>
+                                    {stillingØnske}
+                                </li>
+                            ))}
+                        </ul>
+                        <h4>Arbeidssted</h4>
+                        <ul>
+                            {kandidat.geografi_jobbprofil.map((geografiJobbProfil) => (
+                                <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
+                                    {geografiJobbProfil.sted}
+                                </li>
+                            ))}
+                        </ul>
+                        <h4>Ansettelsesform</h4>
+                        <ul>
+                            {kandidat.ansettelsesformer_jobbprofil.map((ansettelsesform) => (
+                                <li key={ansettelsesform + kandidat.fodselsnummer}>
+                                    {ansettelsesform}
+                                </li>
+                            ))}
+                        </ul>
+                        <h4>Arbeidstider</h4>
+                        <ul>
+                            {kandidat.arbeidstider_jobbprofil.map((arbeidstid) => (
+                                <li key={arbeidstid + kandidat.fodselsnummer}>{arbeidstid}</li>
+                            ))}
+                        </ul>
+                        <h4>Arbeidsdager</h4>
+                        <ul>
+                            {kandidat.arbeidsdager_jobbprofil.map((arbeidsdag) => (
+                                <li key={arbeidsdag + kandidat.fodselsnummer}>{arbeidsdag}</li>
+                            ))}
+                        </ul>
+                        <h4>Arbeidstidsordninger</h4>
+                        <ul>
+                            {kandidat.arbeidstidsordninger_jobbprofil.map((arbeidstidsordning) => (
+                                <li key={arbeidstidsordning + kandidat.fodselsnummer}>
+                                    {arbeidstidsordning}
+                                </li>
+                            ))}
+                        </ul>
+                        <h4>Arbeidsomfang</h4>
+                        <ul>
+                            {kandidat.omfang_jobbprofil.map((omfang) => (
+                                <li key={omfang + kandidat.fodselsnummer}>{omfang}</li>
+                            ))}
+                        </ul>
                         <h3>Arbeidserfaring ({kandidat.score_arbeidserfaring})</h3>
                         <ul>
                             {kandidat.arbeidserfaring.map((arbeidserfaring, index) => (
@@ -53,6 +108,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                        <h3>Kurs</h3>
+                        <h3>Sertifikater</h3>
+                        <h3>Språk</h3>
+
+                        <h3>Disponerer bil</h3>
+                        <h3>Kvalifiseringsgruppe</h3>
                     </div>
                 </>
             )}

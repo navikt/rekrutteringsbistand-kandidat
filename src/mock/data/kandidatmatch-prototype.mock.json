@@ -112,7 +112,7 @@
             "startDato": "2020-09-16T14:22:43.191238+02:00",
             "sluttDato": null
         },
-        "stillinger_jobbprofil": [],
+        "stillinger_jobbprofil": ["Ingeniør", "HMS-ansvarlig på oljeplattform"],
         "kompetanser_jobbprofil": ["Fagbrev/svennebrev"],
         "stillingkladder_jobbprofil": ["Industrimekaniker", "Serviceingeniør (olje)"],
         "geografi_jobbprofil": [
@@ -124,7 +124,7 @@
         ],
         "ansettelsesformer_jobbprofil": ["SESONG", "ENGASJEMENT", "VIKARIAT", "FAST"],
         "arbeidstider_jobbprofil": ["DAGTID"],
-        "arbeidsdager_jobbprofil": [],
+        "arbeidsdager_jobbprofil": ["LØRDAG", "SØNDAG"],
         "arbeidstidsordninger_jobbprofil": ["SKIFT", "TURNUS"],
         "omfang_jobbprofil": ["HELTID", "DELTID"],
         "score_total": 0.34,
