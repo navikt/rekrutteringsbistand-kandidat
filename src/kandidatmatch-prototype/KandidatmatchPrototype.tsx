@@ -119,8 +119,26 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             ))}
                         </ul>
                         <h3>Sertifikater</h3>
+                        <ul>
+                            {kandidat.sertifikat.map((sertifikat) => (
+                                <li key={sertifikat.tittel}>
+                                    <ul>
+                                        <li>tittel: {sertifikat.tittel}</li>
+                                        <li>sertifikatnavn: {sertifikat.sertifikatnavn}</li>
+                                        <li>
+                                            sertifikatnavn_fritekst{' '}
+                                            {sertifikat.sertifikatnavn_fritekst}
+                                        </li>
+                                        <li>utsteder: {sertifikat.utsteder}</li>
+                                        <li>gjennomfoert: {sertifikat.gjennomfoert}</li>
+                                        <li>utloeper: {sertifikat.utloeper}</li>
+                                    </ul>
+                                    <br />
+                                </li>
+                            ))}
+                        </ul>
                         <h3>Språk</h3>
-
+                        <h3>Førerkort</h3>
                         <h3>Disponerer bil</h3>
                         <h3>Kvalifiseringsgruppe</h3>
                     </div>

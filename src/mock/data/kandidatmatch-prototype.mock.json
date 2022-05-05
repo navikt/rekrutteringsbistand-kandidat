@@ -92,7 +92,26 @@
                 "varighet_enhet": "MND"
             }
         ],
-        "sertifikat": [],
+        "sertifikat": [
+            {
+                "tittel": "Truckfører",
+                "sertifikatnavn": "T2",
+                "sertifikatnavn_fritekst": "Liten truck",
+                "konsept_id": "123",
+                "utsteder": "Truckførerskolen AS",
+                "gjennomfoert": "2012-04-21",
+                "utloeper": 1651739820308
+            },
+            {
+                "tittel": "Pertroliumssertifikat",
+                "sertifikatnavn": "P2",
+                "sertifikatnavn_fritekst": "Liten plattform",
+                "konsept_id": "124",
+                "utsteder": "Perfroliumsskolen AS",
+                "gjennomfoert": "2012-04-22",
+                "utloeper": 1651739820309
+            }
+        ],
         "spraakferdigheter": [],
         "aktoerId": "1000053817938",
         "cvId": "226be7c0-685d-42a9-ac68-04bd22f2a0f5",

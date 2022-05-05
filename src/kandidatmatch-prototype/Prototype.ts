@@ -19,7 +19,7 @@ type Prototype = {
     fagdokumentasjon: string[];
     godkjenninger: any;
     kurs: KursPrototype[];
-    sertifikat: any;
+    sertifikat: SertifikatPrototype[];
     spraakferdigheter: any;
 
     aktoerId: string;
@@ -80,6 +80,16 @@ type UtdannelsePrototype = {
     nuskodeGrad: string;
     utdannelseYrkestatus: string;
     fraTidspunkt: number[];
+};
+
+type SertifikatPrototype = {
+    tittel: string;
+    sertifikatnavn: string;
+    sertifikatnavn_fritekst: string;
+    konsept_id: string;
+    utsteder: string;
+    gjennomfoert: Date;
+    utloeper: number;
 };
 
 export type KursPrototype = {
