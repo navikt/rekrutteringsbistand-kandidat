@@ -31,9 +31,15 @@ const KandidatmatchPrototype: FunctionComponent = () => {
             {kandidat && (
                 <>
                     <div>
-                        <h2>{kandidat.fornavn}</h2>
-                        <p aria-label="fødselsnummer">Fødselsnummer: {kandidat.fodselsnummer}</p>
-                        <p aria-label="veileder">
+                        <h2>
+                            {kandidat.fornavn} {kandidat.etternavn} {kandidat.epost}{' '}
+                            {kandidat.telefon} {kandidat.gateadresse} {kandidat.postnummer}{' '}
+                            {kandidat.poststed} {kandidat.poststed} {kandidat.kommunenr}{' '}
+                            {kandidat.land} {kandidat.nasjonalitet}
+                        </h2>
+                        <p>Fødselsnummer: {kandidat.fodselsnummer}</p>
+                        <p>Fødselsdato: {kandidat.foedselsdato}</p>
+                        <p>
                             Veileder: {kandidat.veileder.veilederId} {kandidat.veileder.tilordnet}{' '}
                             {kandidat.veileder.aktorId}
                         </p>
@@ -41,7 +47,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <p></p>
                     </div>
                     <div>
-                        {/* Legg inn score når klarhet i hva som er hva */}
+                        <h3>Sammendrag({kandidat.sammendrag.score})</h3>
+                        <ul>
+                            <li>{kandidat.sammendrag.sammendrag_tekst}</li>
+                        </ul>
                         <h3>Jobbønsker ({kandidat.score_total})</h3>
 
                         <h4>Stillinger({kandidat.stillinger_jobbprofil.score})</h4>
@@ -130,6 +139,28 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             {kandidat.utdannelse.utdannelser.map((utdannelse, index) => (
                                 <li key={utdannelse.beskrivelse}>
                                     {utdannelse.laerested} ({utdannelse.score})
+                                    <ul>
+                                        <li>Utdanningsretning: {utdannelse.utdanningsretning}</li>
+                                        <li>Autorisasjon: {utdannelse.autorisasjon}</li>
+                                        <li>NuskodeGrad: {utdannelse.nuskodeGrad}</li>
+                                        <li>
+                                            UtdannelseYrkestatus: {utdannelse.utdannelseYrkestatus}
+                                        </li>
+                                        <li>FraTidspunkt: {utdannelse.fraTidspunkt}</li>
+                                        <li>TilTidspunkt: {utdannelse.tilTidspunkt}</li>
+                                    </ul>
+                                </li>
+                            ))}
+                        </ul>
+                        <h3>Fagdokumentasjon</h3>
+                        <ul>
+                            {kandidat.fagdokumentasjon.map((dok) => (
+                                <li>
+                                    <ul>
+                                        <li>type: {dok.type}</li>
+                                        <li>tittel: {dok.tittel}</li>
+                                        <li>beskrivelse: {dok.beskrivelse}</li>
+                                    </ul>
                                 </li>
                             ))}
                         </ul>

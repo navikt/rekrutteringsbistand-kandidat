@@ -5,19 +5,21 @@ type Prototype = {
     foedselsdato: number[];
     fornavn: string;
     etternavn: string;
+    epost: string;
+    telefon: number;
     gateadresse: string;
     postnummer: string;
     poststed: string;
     kommunenr: string;
     land: string;
     nasjonalitet: string;
-    sammendrag: string;
+    sammendrag: SammendragPrototype;
     foererkort: FørerkortPrototype;
 
     // Cv
     arbeidserfaring: ArbeidserfaringPrototype;
     utdannelse: UtdannelsePrototype;
-    fagdokumentasjon: string[];
+    fagdokumentasjon: FagdokumentasjonPrototype[];
     godkjenninger: any;
     kurs: KursPrototype[];
     sertifikat: SertifikatPrototype[];
@@ -188,6 +190,17 @@ type KompetanserJobbprofilPrototype = {
 type Kompetanse = {
     score: number;
     kompetanse: string;
+};
+
+type SammendragPrototype = {
+    score: number;
+    sammendrag_tekst: string;
+};
+
+type FagdokumentasjonPrototype = {
+    type: string;
+    tittel: string;
+    beskrivelse: string;
 };
 
 export default Prototype;

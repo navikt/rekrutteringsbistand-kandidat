@@ -18,7 +18,7 @@
         "kommunenr": "0301",
         "land": "NO",
         "nasjonalitet": "NO",
-        "sammendrag": { "score": 0.34, "sammendrag_tekst": "" },
+        "sammendrag": { "score": 0.34, "sammendrag_tekst": "Dette er et sammendrag" },
         "foererkort": {
             "klasse": [
                 {
@@ -104,7 +104,13 @@
                 }
             ]
         },
-        "fagdokumentasjon": [],
+        "fagdokumentasjon": [
+            {
+                "type": "A",
+                "tittel": "En fagtittel",
+                "beskrivelse": "En beskrivelse"
+            }
+        ],
         "godkjenninger": [],
         "kurs": [
             {
