@@ -56,6 +56,16 @@ type Prototype = {
         geografi_forklaring: number[];
         styrkkode_forklaring: number[];
     };
+
+    // Veileder
+    veileder: VeilederPrototype;
+    tilretteleggingsbehov: string[];
+};
+
+type VeilederPrototype = {
+    aktorId: string;
+    veilederId: string;
+    tilordnet: string;
 };
 
 type ArbeidserfaringPrototype = {

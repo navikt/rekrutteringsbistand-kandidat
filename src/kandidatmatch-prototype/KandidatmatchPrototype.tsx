@@ -33,7 +33,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <div>
                         <h2>{kandidat.fornavn}</h2>
                         <p aria-label="fødselsnummer">Fødselsnummer: {kandidat.fodselsnummer}</p>
-                        <p aria-label="veileder">Veileder: Dummy Veileder</p>
+                        <p aria-label="veileder">
+                            Veileder: {kandidat.veileder.veilederId} {kandidat.veileder.tilordnet}{' '}
+                            {kandidat.veileder.aktorId}
+                        </p>
                         <p aria-label="NAV-kontor">NAV-kontor: Dummy NAV-kontor</p>
                         <p></p>
                     </div>
@@ -186,6 +189,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <ul>{kandidat.disponererBil === true ? 'Ja' : 'Nei'}</ul>
                         <h3>Kvalifiseringsgruppe</h3>
                         <ul>{kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}</ul>
+                        <h3>Tilretteleggingbehov</h3>
+                        <ul>
+                            {kandidat.tilretteleggingsbehov.map((behov) => (
+                                <li key={behov}>{behov}</li>
+                            ))}
+                        </ul>
                     </div>
                 </>
             )}
