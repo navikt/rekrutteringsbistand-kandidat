@@ -111,7 +111,15 @@
                 "beskrivelse": "En beskrivelse"
             }
         ],
-        "godkjenninger": [],
+        "godkjenninger": [
+            {
+                "tittel": "testdata",
+                "konsept_id": "testdata",
+                "utsteder": "testdata",
+                "gjennomfoert": [2002, 7, 1],
+                "utloeper": 1644045892
+            }
+        ],
         "kurs": [
             {
                 "tittel": "Livredningskurs i vann",
@@ -169,7 +177,14 @@
         "synligForArbeidsgiver": false,
         "synligForVeileder": false,
         "arenaKandidatnr": "IC034604",
-        "annenErfaring": [],
+        "annenErfaring": [
+            {
+                "beskrivelse": "En beskrivelse",
+                "rolle": "En rolle",
+                "fra_tidspunkt": 1651739820308,
+                "til_tidspunkt": 1651739820308
+            }
+        ],
         "jobbprofilId": "531291",
         "oppfolgingsinformasjon": {
             "fodselsnummer": "08096387436",

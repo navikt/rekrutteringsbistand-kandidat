@@ -31,14 +31,20 @@ const KandidatmatchPrototype: FunctionComponent = () => {
             {kandidat && (
                 <>
                     <div>
-                        <h2>
-                            {kandidat.fornavn} {kandidat.etternavn} {kandidat.epost}{' '}
-                            {kandidat.telefon} {kandidat.gateadresse} {kandidat.postnummer}{' '}
-                            {kandidat.poststed} {kandidat.poststed} {kandidat.kommunenr}{' '}
-                            {kandidat.land} {kandidat.nasjonalitet}
-                        </h2>
+                        <p>fornavn: {kandidat.fornavn}</p>
+                        <p>etternavn: {kandidat.etternavn}</p>
+                        <p>epost: {kandidat.epost}</p>
+                        <p>telefon: {kandidat.telefon}</p>
+                        <p>gateadresse: {kandidat.gateadresse}</p>
+                        <p>postnummer: {kandidat.postnummer}</p>
+                        <p>poststed: {kandidat.poststed}</p>
+                        <p>kommunenr: {kandidat.kommunenr}</p>
+                        <p>land: {kandidat.land}</p>
+                        <p>nasjonalitet: {kandidat.nasjonalitet}</p>
                         <p>Fødselsnummer: {kandidat.fodselsnummer}</p>
                         <p>Fødselsdato: {kandidat.foedselsdato}</p>
+                        <p>Aktørid: {kandidat.aktoerId}</p>
+                        <p>Cvid: {kandidat.cvId}</p>
                         <p>
                             Veileder: {kandidat.veileder.veilederId} {kandidat.veileder.tilordnet}{' '}
                             {kandidat.veileder.aktorId}
@@ -52,7 +58,6 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             <li>{kandidat.sammendrag.sammendrag_tekst}</li>
                         </ul>
                         <h3>Jobbønsker ({kandidat.score_total})</h3>
-
                         <h4>Stillinger({kandidat.stillinger_jobbprofil.score})</h4>
                         <ul>
                             {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
@@ -134,6 +139,25 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 )
                             )}
                         </ul>
+                        <h3>Annen erfaring</h3>
+                        <ul>
+                            {kandidat.annenErfaring.map((erfaring) => (
+                                <li>
+                                    <ul>
+                                        <li>Beskrivelse: {erfaring.beskrivelse}</li>
+                                        <li>Rolle: {erfaring.rolle}</li>
+                                        <li>
+                                            Fra_tidspunkt:{' '}
+                                            {new Date(erfaring.fra_tidspunkt).toDateString()}
+                                        </li>
+                                        <li>
+                                            Til_tidspunkt:{' '}
+                                            {new Date(erfaring.til_tidspunkt).toDateString()}
+                                        </li>
+                                    </ul>
+                                </li>
+                            ))}
+                        </ul>
                         <h3>Utdanning ({kandidat.utdannelse.score})</h3>
                         <ul>
                             {kandidat.utdannelse.utdannelser.map((utdannelse, index) => (
@@ -164,13 +188,33 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                        <h3>Godkjennionger</h3>
+                        <ul>
+                            {kandidat.godkjenninger.map((godkjenning) => (
+                                <li>
+                                    <ul>
+                                        <li>tittel: {godkjenning.tittel} </li>
+                                        <li>konsept_id: {godkjenning.konsept_id} </li>
+                                        <li>utsteder: {godkjenning.utsteder} </li>
+                                        <li>gjennomfoert: {godkjenning.gjennomfoert} </li>
+                                        <li>utloeper: {godkjenning.utloeper} </li>
+                                    </ul>
+                                </li>
+                            ))}
+                        </ul>
                         <h3>Kurs</h3>
                         <ul>
                             {kandidat.kurs.map((kurs, index) => (
                                 <li key={kurs.tittel}>
-                                    utsteder: {kurs.utsteder}, varighet: {kurs.varighet} -{' '}
-                                    {kurs.varighet_enhet}, dato:{' '}
-                                    {new Date(kurs.tidspunkt).toDateString()}
+                                    {kurs.tittel}
+                                    <ul>
+                                        <li>utsteder: {kurs.utsteder}</li>
+                                        <li>varighet: {kurs.varighet}</li>
+                                        <li>varighet_enhet: {kurs.varighet_enhet}</li>
+                                        <li>
+                                            tidspunkt: {new Date(kurs.tidspunkt).toDateString()}
+                                        </li>
+                                    </ul>
                                 </li>
                             ))}
                         </ul>
@@ -218,14 +262,56 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         </ul>
                         <h3>Disponerer bil</h3>
                         <ul>{kandidat.disponererBil === true ? 'Ja' : 'Nei'}</ul>
-                        <h3>Kvalifiseringsgruppe</h3>
-                        <ul>{kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}</ul>
+                        <h3>Oppfølgingsinformasjon</h3>
+                        <ul>
+                            <li>fodselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>
+                            <li>
+                                formidlingsgruppe:{' '}
+                                {kandidat.oppfolgingsinformasjon.formidlingsgruppe}
+                            </li>
+                            <li>iservFraDato: {kandidat.oppfolgingsinformasjon.iservFraDato}</li>
+                            <li>fornavn: {kandidat.oppfolgingsinformasjon.fornavn}</li>
+                            <li>etternavn: {kandidat.oppfolgingsinformasjon.etternavn}</li>
+                            <li>
+                                oppfolgingsenhet: {kandidat.oppfolgingsinformasjon.oppfolgingsenhet}
+                            </li>
+                            <li>
+                                kvalifiseringsgruppe:{' '}
+                                {kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}
+                            </li>
+                            <li>
+                                rettighetsgruppe: {kandidat.oppfolgingsinformasjon.rettighetsgruppe}
+                            </li>
+                            <li>hovedmaal: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>
+                            <li>
+                                sikkerhetstiltakType:{' '}
+                                {kandidat.oppfolgingsinformasjon.sikkerhetstiltakType}
+                            </li>
+                            <li>
+                                diskresjonskode: {kandidat.oppfolgingsinformasjon.diskresjonskode}
+                            </li>
+                            <li>
+                                harOppfolgingssak:{' '}
+                                {kandidat.oppfolgingsinformasjon.harOppfolgingssak}
+                            </li>
+                            <li>sperretAnsatt: {kandidat.oppfolgingsinformasjon.sperretAnsatt}</li>
+                            <li>erDoed: {kandidat.oppfolgingsinformasjon.erDoed}</li>
+                            <li>doedFraDato: {kandidat.oppfolgingsinformasjon.doedFraDato}</li>
+                            <li>
+                                sistEndretDato: {kandidat.oppfolgingsinformasjon.sistEndretDato}
+                            </li>
+                        </ul>
                         <h3>Tilretteleggingbehov</h3>
                         <ul>
                             {kandidat.tilretteleggingsbehov.map((behov) => (
                                 <li key={behov}>{behov}</li>
                             ))}
                         </ul>
+                        <p>OppstartKode: {kandidat.oppstartKode}</p>
+                        <p>synligForArbeidsgiver: {kandidat.synligForArbeidsgiver} </p>
+                        <p>synligForVeileder: {kandidat.synligForVeileder} </p>
+                        <p>arenaKandidatnr: {kandidat.arenaKandidatnr} </p>
+                        <p>jobbprofilId: {kandidat.jobbprofilId} </p>
                     </div>
                 </>
             )}

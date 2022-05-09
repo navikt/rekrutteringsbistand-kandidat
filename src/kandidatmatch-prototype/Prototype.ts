@@ -20,7 +20,7 @@ type Prototype = {
     arbeidserfaring: ArbeidserfaringPrototype;
     utdannelse: UtdannelsePrototype;
     fagdokumentasjon: FagdokumentasjonPrototype[];
-    godkjenninger: any;
+    godkjenninger: GodkjenningerPrototype[];
     kurs: KursPrototype[];
     sertifikat: SertifikatPrototype[];
     spraakferdigheter: SpråkferdighetPrototype[];
@@ -28,7 +28,10 @@ type Prototype = {
     aktoerId: string;
     oppstartKode: string;
     disponererBil: boolean;
-    annenErfaring: [];
+    annenErfaring: AnnenErfaringPrototype[];
+    cvId: string;
+    synligForArbeidsgiver: boolean;
+    synligForVeileder: boolean;
 
     // Jobbprofil
     stillinger_jobbprofil: StillingerJobbprofilPrototype;
@@ -40,6 +43,7 @@ type Prototype = {
     arbeidsdager_jobbprofil: string[];
     arbeidstidsordninger_jobbprofil: string[];
     omfang_jobbprofil: string[];
+    jobbprofilId: string;
 
     // Oppfølgingsinformasjon
     oppfolgingsinformasjon: Oppfolgingsinformasjon;
@@ -128,7 +132,22 @@ type FoererkortKlassePrototype = {
 };
 
 type Oppfolgingsinformasjon = {
+    fodselsnummer: string;
+    formidlingsgruppe: string;
+    iservFraDato: Date;
+    fornavn: string;
+    etternavn: string;
+    oppfolgingsenhet: string;
     kvalifiseringsgruppe: string;
+    rettighetsgruppe: string;
+    hovedmaal: string;
+    sikkerhetstiltakType: string;
+    diskresjonskode: string;
+    harOppfolgingssak: boolean;
+    sperretAnsatt: boolean;
+    erDoed: boolean;
+    doedFraDato: Date;
+    sistEndretDato: Date;
 };
 
 export type KursPrototype = {
@@ -201,6 +220,21 @@ type FagdokumentasjonPrototype = {
     type: string;
     tittel: string;
     beskrivelse: string;
+};
+
+type GodkjenningerPrototype = {
+    tittel: string;
+    konsept_id: string;
+    utsteder: string;
+    gjennomfoert: Date;
+    utloeper: number;
+};
+
+type AnnenErfaringPrototype = {
+    beskrivelse: string;
+    rolle: string;
+    fra_tidspunkt: number;
+    til_tidspunkt: number;
 };
 
 export default Prototype;
