@@ -62,7 +62,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <ul>
                             {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
                                 <li key={stillingØnske.stilling}>
-                                    {stillingØnske.stilling}(stillingØnske.score)
+                                    {stillingØnske.stilling}({stillingØnske.score})
                                 </li>
                             ))}
                         </ul>
