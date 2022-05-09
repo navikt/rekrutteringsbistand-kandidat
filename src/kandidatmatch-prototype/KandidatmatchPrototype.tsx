@@ -66,11 +66,20 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                        <h4>Kompetanser({kandidat.kompetanser_jobbprofil.score})</h4>
+                        <ul>
+                            {kandidat.kompetanser_jobbprofil.kompetanser.map((kompetanse) => (
+                                <li>
+                                    {kompetanse.kompetanse}({kompetanse.score})
+                                </li>
+                            ))}
+                        </ul>
                         <h4>Arbeidssted({kandidat.geografi_jobbprofil.score})</h4>
                         <ul>
                             {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                                 <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
-                                    {geografiJobbProfil.sted}
+                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode} (
+                                    {geografiJobbProfil.score})
                                 </li>
                             ))}
                         </ul>
@@ -299,6 +308,19 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             <li>doedFraDato: {kandidat.oppfolgingsinformasjon.doedFraDato}</li>
                             <li>
                                 sistEndretDato: {kandidat.oppfolgingsinformasjon.sistEndretDato}
+                            </li>
+                        </ul>
+                        <h3>Oppfølgingsperiode</h3>
+                        <ul>
+                            <li>uuid: {kandidat.oppfolgingsperiode.uuid} </li>
+                            <li>aktorId: {kandidat.oppfolgingsperiode.aktorId} </li>
+                            <li>
+                                startDato:{' '}
+                                {new Date(kandidat.oppfolgingsperiode.startDato).toDateString()}{' '}
+                            </li>
+                            <li>
+                                sluttDato:{' '}
+                                {new Date(kandidat.oppfolgingsperiode.sluttDato).toDateString()}{' '}
                             </li>
                         </ul>
                         <h3>Tilretteleggingbehov</h3>

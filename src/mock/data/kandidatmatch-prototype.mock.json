@@ -233,7 +233,7 @@
         },
         "ansettelsesformer_jobbprofil": ["SESONG", "ENGASJEMENT", "VIKARIAT", "FAST"],
         "arbeidstider_jobbprofil": ["DAGTID"],
-        "arbeidsdager_jobbprofil": [],
+        "arbeidsdager_jobbprofil": ["SØNDAG"],
         "arbeidstidsordninger_jobbprofil": ["SKIFT", "TURNUS"],
         "omfang_jobbprofil": ["HELTID", "DELTID"],
         "score_total": 0.34

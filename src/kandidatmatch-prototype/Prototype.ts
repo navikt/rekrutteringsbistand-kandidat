@@ -35,7 +35,7 @@ type Prototype = {
 
     // Jobbprofil
     stillinger_jobbprofil: StillingerJobbprofilPrototype;
-    kompetanser_jobbprofil: KompetanserJobbprofilPrototype[];
+    kompetanser_jobbprofil: KompetanserJobbprofilPrototype;
     stillingkladder_jobbprofil: string[];
     geografi_jobbprofil: GeografiJobbprofilPrototype;
     ansettelsesformer_jobbprofil: string[];
@@ -47,6 +47,7 @@ type Prototype = {
 
     // Oppfølgingsinformasjon
     oppfolgingsinformasjon: Oppfolgingsinformasjon;
+    oppfolgingsperiode: OppfolgingsperiodePrototype;
     // Match
     score_total: number;
     score_utdannelse: number;
@@ -235,6 +236,13 @@ type AnnenErfaringPrototype = {
     rolle: string;
     fra_tidspunkt: number;
     til_tidspunkt: number;
+};
+
+type OppfolgingsperiodePrototype = {
+    uuid: string;
+    aktorId: string;
+    startDato: Date;
+    sluttDato: Date;
 };
 
 export default Prototype;
