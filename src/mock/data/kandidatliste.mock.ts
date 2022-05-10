@@ -169,13 +169,21 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         {
             ...mockKandidat(1, meg),
             status: Kandidatstatus.Kontaktet,
-            utfall: Kandidatutfall.IkkePresentert,
+            utfall: Kandidatutfall.Presentert,
             ...inaktivKandidat,
         },
         {
             ...mockKandidat(2, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
             status: Kandidatstatus.Kontaktet,
-            utfall: Kandidatutfall.IkkePresentert,
+            utfall: Kandidatutfall.Presentert,
+            utfallsendringer: [
+                {
+                    registrertAvIdent: meg.ident,
+                    sendtTilArbeidsgiversKandidatliste: true,
+                    tidspunkt: new Date().toISOString(),
+                    utfall: Kandidatutfall.Presentert,
+                },
+            ],
         },
         {
             ...mockKandidat(3, meg, forrigeUke),

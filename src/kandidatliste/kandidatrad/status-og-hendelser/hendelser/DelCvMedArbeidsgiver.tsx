@@ -35,6 +35,9 @@ const DelCvMedArbeidsgiver: FunctionComponent<Props> = ({
             utfallsendringer={kandidat.utfallsendringer}
             kanEndre={kanEndre}
             onEndreUtfall={endreUtfallForKandidat}
+            onSlettCv={() => {
+                console.log('TODO: Slett CV');
+            }}
         />
     );
 };

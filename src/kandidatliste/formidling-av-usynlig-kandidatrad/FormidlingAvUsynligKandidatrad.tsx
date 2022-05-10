@@ -103,9 +103,11 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                                     />
                                     <DelingAvCv
                                         kanEndre={kanEditere}
+                                        kanSletteCv={false}
                                         utfall={formidling.utfall}
                                         utfallsendringer={[]}
                                         onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
+                                        onSlettCv={() => {}}
                                     />
                                     <FåttJobben
                                         kanEndre={kanEditere}

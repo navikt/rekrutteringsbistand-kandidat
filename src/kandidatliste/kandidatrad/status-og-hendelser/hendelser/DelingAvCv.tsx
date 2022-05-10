@@ -9,36 +9,58 @@ type Props = {
     utfall: Kandidatutfall;
     utfallsendringer: Utfallsendring[];
     onEndreUtfall: (utfall: Kandidatutfall) => void;
+    onSlettCv: () => void;
     kanEndre?: boolean;
+    kanSletteCv?: boolean;
 };
 
 enum Visning {
     Registrer,
     FjernRegistrering,
+    SlettSendtCv,
     BekreftRegistrer,
     BekreftFjernRegistrering,
+    BekreftSlettSendtCv,
 }
+
+const hentInitiellVisning = (
+    utfall: Kandidatutfall,
+    utfallsendringer: Utfallsendring[]
+): Visning => {
+    if (utfall === Kandidatutfall.IkkePresentert) {
+        return Visning.Registrer;
+    } else {
+        const sisteUtfallsendring = hentSisteKandidatutfall(utfall, utfallsendringer);
+
+        if (sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste) {
+            return Visning.SlettSendtCv;
+        } else {
+            return Visning.FjernRegistrering;
+        }
+    }
+};
 
 const DelingAvCv: FunctionComponent<Props> = ({
     kanEndre,
+    kanSletteCv,
     utfall,
     utfallsendringer,
     onEndreUtfall,
+    onSlettCv,
 }) => {
-    const [visning, setVisning] = useState<Visning>(
-        utfall === Kandidatutfall.IkkePresentert ? Visning.Registrer : Visning.FjernRegistrering
-    );
+    const [visning, setVisning] = useState<Visning>(hentInitiellVisning(utfall, utfallsendringer));
 
     useEffect(() => {
-        setVisning(
-            utfall === Kandidatutfall.IkkePresentert ? Visning.Registrer : Visning.FjernRegistrering
-        );
-    }, [utfall]);
+        setVisning(hentInitiellVisning(utfall, utfallsendringer));
+    }, [utfall, utfallsendringer]);
 
     const onRegistrer = () => setVisning(Visning.BekreftRegistrer);
     const onFjernRegistrering = () => setVisning(Visning.BekreftFjernRegistrering);
+    const onSlettSendtCv = () => setVisning(Visning.BekreftSlettSendtCv);
+
     const onAvbrytRegistrering = () => setVisning(Visning.Registrer);
     const onAvbrytFjerningAvRegistrering = () => setVisning(Visning.FjernRegistrering);
+    const onAvbrytSlettSendtCv = () => setVisning(Visning.SlettSendtCv);
 
     const onBekreftRegistreringClick = () => {
         onEndreUtfall(Kandidatutfall.Presentert);
@@ -48,10 +70,25 @@ const DelingAvCv: FunctionComponent<Props> = ({
         onEndreUtfall(Kandidatutfall.IkkePresentert);
     };
 
+    const onBekreftSlettSendtCv = () => {
+        onSlettCv();
+    };
+
     const hendelsesstatus =
         utfall === Kandidatutfall.FåttJobben || utfall === Kandidatutfall.Presentert
             ? Hendelsesstatus.Grønn
             : Hendelsesstatus.Hvit;
+
+    const sisteUtfallPresentert = hentSisteKandidatutfall(
+        Kandidatutfall.Presentert,
+        utfallsendringer
+    );
+
+    const utfallsbeskrivelse = sisteUtfallPresentert
+        ? `${formaterDatoNaturlig(sisteUtfallPresentert.tidspunkt)} av ${
+              sisteUtfallPresentert.registrertAvIdent
+          }`
+        : undefined;
 
     switch (visning) {
         case Visning.Registrer:
@@ -76,16 +113,6 @@ const DelingAvCv: FunctionComponent<Props> = ({
             );
 
         case Visning.FjernRegistrering:
-            const utfallsendring = hentSisteKandidatutfall(
-                Kandidatutfall.Presentert,
-                utfallsendringer
-            );
-            const utfallsbeskrivelse = utfallsendring
-                ? `${formaterDatoNaturlig(utfallsendring.tidspunkt)} av ${
-                      utfallsendring.registrertAvIdent
-                  }`
-                : undefined;
-
             return (
                 <Hendelse
                     status={hendelsesstatus}
@@ -101,6 +128,27 @@ const DelingAvCv: FunctionComponent<Props> = ({
                         >
                             <MinusCircle />
                             Fjern registrering
+                        </Flatknapp>
+                    )}
+                </Hendelse>
+            );
+
+        case Visning.SlettSendtCv:
+            return (
+                <Hendelse
+                    status={hendelsesstatus}
+                    tittel="CV-en er delt med arbeidsgiver"
+                    beskrivelse={utfallsbeskrivelse}
+                >
+                    {kanEndre && (
+                        <Flatknapp
+                            onClick={onSlettSendtCv}
+                            className="endre-status-og-hendelser__registrer-hendelse"
+                            kompakt
+                            mini
+                        >
+                            <MinusCircle />
+                            Slett CV-en hos arbeidsgiver
                         </Flatknapp>
                     )}
                 </Hendelse>
@@ -153,6 +201,41 @@ const DelingAvCv: FunctionComponent<Props> = ({
                                 Fjern registreringen
                             </Hovedknapp>
                             <Knapp mini kompakt onClick={onAvbrytFjerningAvRegistrering}>
+                                Avbryt
+                            </Knapp>
+                        </>
+                    )}
+                </Hendelse>
+            );
+
+        case Visning.BekreftSlettSendtCv:
+            return (
+                <Hendelse
+                    renderChildrenBelowContent
+                    status={hendelsesstatus}
+                    tittel="Slett CV-en fra kandidatlisten til arbeidsgiver"
+                    beskrivelse={
+                        <>
+                            <p>
+                                Hvis du utfører denne handlingen så blir CV-en slettet fra
+                                kandidatlisten til arbeidsgiver. Arbeidsgiver vil ikke kunne se
+                                CV-en til kandidaten.
+                            </p>
+                            <p>Husk at årsaken til at du sletter CV-en må journalføres.</p>
+                        </>
+                    }
+                >
+                    {kanEndre && (
+                        <>
+                            <Hovedknapp
+                                mini
+                                kompakt
+                                onClick={onBekreftSlettSendtCv}
+                                className="endre-status-og-hendelser__bekreft-knapp"
+                            >
+                                Slett CV-en
+                            </Hovedknapp>
+                            <Knapp mini kompakt onClick={onAvbrytSlettSendtCv}>
                                 Avbryt
                             </Knapp>
                         </>
