@@ -82,6 +82,7 @@ type ArbeidserfaringPrototype = {
 
 type ArbeidserfaringerPrototype = {
     score: number;
+    ordScore: OrdScore[];
     stillingstittel: string;
     styrkkode: string;
     arbeidsgiver: string;
@@ -245,20 +246,15 @@ type OppfolgingsperiodePrototype = {
     sluttDato: Date;
 };
 
+type Index = number;
+type Score = number;
+
+type OrdScore = OrdrelasjonMellomKandidatOgStilling[];
+
+type OrdrelasjonMellomKandidatOgStilling = [OrdFraKandidat, MatchetOrdFraStilling[]];
+
+type OrdFraKandidat = [Index, string];
+
+type MatchetOrdFraStilling = [Index, string, Score];
+
 export default Prototype;
-
-/*
-private String spraaknavn;
-    private String iso3kode;
-    private Ferdighetsnivaa muntlig;
-    private Ferdighetsnivaa skriftlig;
- */
-
-/*
-public enum Ferdighetsnivaa implements GenericEnumSymbol<Ferdighetsnivaa> {
-    IKKE_OPPGITT,
-    NYBEGYNNER,
-    GODT,
-    VELDIG_GODT,
-    FOERSTESPRAAK;
- */

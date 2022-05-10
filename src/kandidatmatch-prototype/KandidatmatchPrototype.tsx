@@ -25,6 +25,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
 
     const kandidat = prototype ? prototype[0] : undefined;
 
+    console.log('jjjj', kandidat?.arbeidserfaring.arbeidserfaringer[0].ordScore[0]);
     return (
         <div className="prototype">
             <h1>Elitekandidater</h1>
@@ -127,23 +128,45 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                         <ul>
                                             {arbeidserfaring.stillingstittel} (
                                             {arbeidserfaring.score})
-                                            <li>styrkkode: {arbeidserfaring.styrkkode}</li>
-                                            <li>arbeidsgiver: {arbeidserfaring.arbeidsgiver}</li>
-                                            <li>sted: {arbeidserfaring.sted}</li>
-                                            <li>beskrivelse: {arbeidserfaring.beskrivelse}</li>
+                                            <li>Styrkkode: {arbeidserfaring.styrkkode}</li>
+                                            <li>Arbeidsgiver: {arbeidserfaring.arbeidsgiver}</li>
+                                            <li>Sted: {arbeidserfaring.sted}</li>
+                                            <li>Beskrivelse: {arbeidserfaring.beskrivelse}</li>
                                             <li>
-                                                stillingstittelFritekst:{' '}
+                                                StillingstittelFritekst:{' '}
                                                 {arbeidserfaring.stillingstittelFritekst}
                                             </li>
                                             <li>
-                                                janzzKonseptid: {arbeidserfaring.janzzKonseptid}
+                                                JanzzKonseptid: {arbeidserfaring.janzzKonseptid}
                                             </li>
-                                            <li>tilTidspunkt: {arbeidserfaring.tilTidspunkt}</li>
+                                            <li>TilTidspunkt: {arbeidserfaring.tilTidspunkt}</li>
                                             <li>
-                                                ikkeAktueltForFremtiden:{' '}
+                                                IkkeAktueltForFremtiden:{' '}
                                                 {arbeidserfaring.ikkeAktueltForFremtiden}
                                             </li>
-                                            <li>fraTidspunkt: {arbeidserfaring.fraTidspunkt}</li>
+                                            <li>FraTidspunkt: {arbeidserfaring.fraTidspunkt}</li>
+                                            <li>
+                                                Score forklaring
+                                                <ul>
+                                                    {arbeidserfaring.ordScore &&
+                                                        arbeidserfaring.ordScore.map((ordscore) => {
+                                                            const fraKandidat = ordscore[0];
+                                                            const ordFraKandidat = fraKandidat[1];
+                                                            const fraStilling = ordscore[1];
+                                                            const stillingord = fraStilling
+                                                                .map((f) => `${f[1]} ${f[2]}`)
+                                                                .join(' ');
+                                                            return (
+                                                                <li>
+                                                                    {ordFraKandidat}
+                                                                    <ul>
+                                                                        <li>{stillingord}</li>
+                                                                    </ul>
+                                                                </li>
+                                                            );
+                                                        })}
+                                                </ul>
+                                            </li>
                                         </ul>
                                         <br />
                                     </li>

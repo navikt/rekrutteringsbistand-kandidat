@@ -85,7 +85,30 @@
                     "tilTidspunkt": 1330556400000,
                     "ikkeAktueltForFremtiden": false,
                     "fraTidspunkt": [2008, 12, 1],
-                    "score": 0.34
+                    "score": 0.34,
+                    "ordScore": [
+                        [
+                            [0, "sykepleier"],
+                            [
+                                [3, "flink", 0.1979313],
+                                [4, "sykepleier", 0.9999999]
+                            ]
+                        ],
+                        [
+                            [2, "lege"],
+                            [
+                                [3, "flink", 0.14711542],
+                                [4, "sykepleier", 0.6956694]
+                            ]
+                        ],
+                        [
+                            [4, "kompetent"],
+                            [
+                                [3, "flink", 0.23057048],
+                                [4, "sykepleier", 0.37078688]
+                            ]
+                        ]
+                    ]
                 }
             ]
         },
