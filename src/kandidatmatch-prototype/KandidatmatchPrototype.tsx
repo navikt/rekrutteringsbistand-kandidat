@@ -55,7 +55,9 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <div>
                         <h3>Sammendrag({kandidat.sammendrag.score})</h3>
                         <ul>
-                            <li>{kandidat.sammendrag.sammendrag_tekst}</li>
+                            <li key={kandidat.sammendrag.sammendrag_tekst}>
+                                {kandidat.sammendrag.sammendrag_tekst}
+                            </li>
                         </ul>
                         <h3>Jobbønsker ({kandidat.score_total})</h3>
                         <h4>Stillinger({kandidat.stillinger_jobbprofil.score})</h4>
@@ -69,7 +71,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h4>Kompetanser({kandidat.kompetanser_jobbprofil.score})</h4>
                         <ul>
                             {kandidat.kompetanser_jobbprofil.kompetanser.map((kompetanse) => (
-                                <li>
+                                <li key={kompetanse.kompetanse}>
                                     {kompetanse.kompetanse}({kompetanse.score})
                                 </li>
                             ))}
@@ -151,7 +153,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Annen erfaring</h3>
                         <ul>
                             {kandidat.annenErfaring.map((erfaring) => (
-                                <li>
+                                <li key={erfaring.beskrivelse}>
                                     <ul>
                                         <li>Beskrivelse: {erfaring.beskrivelse}</li>
                                         <li>Rolle: {erfaring.rolle}</li>
@@ -170,7 +172,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Utdanning ({kandidat.utdannelse.score})</h3>
                         <ul>
                             {kandidat.utdannelse.utdannelser.map((utdannelse, index) => (
-                                <li key={utdannelse.beskrivelse}>
+                                <li key={utdannelse.nuskodeGrad}>
                                     {utdannelse.laerested} ({utdannelse.score})
                                     <ul>
                                         <li>Utdanningsretning: {utdannelse.utdanningsretning}</li>
@@ -188,7 +190,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Fagdokumentasjon</h3>
                         <ul>
                             {kandidat.fagdokumentasjon.map((dok) => (
-                                <li>
+                                <li key={dok.tittel}>
                                     <ul>
                                         <li>type: {dok.type}</li>
                                         <li>tittel: {dok.tittel}</li>
@@ -200,7 +202,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Godkjennionger</h3>
                         <ul>
                             {kandidat.godkjenninger.map((godkjenning) => (
-                                <li>
+                                <li key={godkjenning.tittel}>
                                     <ul>
                                         <li>tittel: {godkjenning.tittel} </li>
                                         <li>konsept_id: {godkjenning.konsept_id} </li>
