@@ -19,6 +19,7 @@ import {
 } from '../../../domene/Kandidatliste';
 import { Sms } from '../../../domene/Kandidatressurser';
 import SmsSendt from '../hendelser/SmsSendt';
+import CvErSlettet from '../hendelser/CvErSlettet';
 
 type Props = {
     kandidat: Kandidat;
@@ -106,6 +107,8 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                                     kandidatlisteId={kandidatliste.kandidatlisteId}
                                     kandidat={kandidat}
                                 />
+
+                                <CvErSlettet kandidat={kandidat} />
 
                                 <HarFåttJobben
                                     kanEndre

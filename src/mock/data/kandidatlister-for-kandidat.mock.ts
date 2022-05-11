@@ -76,7 +76,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
                 registrertAvIdent: meg.ident,
                 tidspunkt: new Date().toISOString(),
                 utfall: Kandidatutfall.FåttJobben,
-                sendtTilArbeidsgiversKandidatliste: true,
+                sendtTilArbeidsgiversKandidatliste: false,
             },
         ],
     },
