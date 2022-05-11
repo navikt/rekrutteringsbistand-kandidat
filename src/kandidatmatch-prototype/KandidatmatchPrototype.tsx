@@ -26,15 +26,18 @@ const KandidatmatchPrototype: FunctionComponent = () => {
     const kandidat = prototype ? prototype[0] : undefined;
 
     const score = (scoreDesimal) => {
-        return `(${scoreDesimal * 100}% Match)`;
+        return `(${Math.round(scoreDesimal * 100)}% Match)`;
     };
 
     return (
         <div className="prototype">
-            <h1>Elitekandidater</h1>
+            <div className="blokk-xl">
+                <h1>Elitekandidater</h1>
+            </div>
             {kandidat && (
                 <>
                     <section className="blokk-xl">
+                        <h3>Personalia</h3>
                         <p>fornavn: {kandidat.fornavn}</p>
                         <p>etternavn: {kandidat.etternavn}</p>
                         <p>epost: {kandidat.epost}</p>
@@ -65,20 +68,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Jobbprofil {score(kandidat.score_total)}</h3>
+                        <h3>Jobbønsker {score(kandidat.score_total)}</h3>
                         <h4>Stillinger {score(kandidat.stillinger_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
                                 <li key={stillingØnske.stilling}>
                                     {stillingØnske.stilling} {score(stillingØnske.score)}
-                                </li>
-                            ))}
-                        </ul>
-                        <h4>Kompetanser {score(kandidat.kompetanser_jobbprofil.score)}</h4>
-                        <ul>
-                            {kandidat.kompetanser_jobbprofil.kompetanser.map((kompetanse) => (
-                                <li key={kompetanse.kompetanse}>
-                                    {kompetanse.kompetanse} {score(kompetanse.score)}
                                 </li>
                             ))}
                         </ul>
@@ -127,7 +122,41 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Arbeidserfaring {score(kandidat.arbeidserfaring.score)}</h3>
+                        <h3>Utdanninger {score(kandidat.utdannelse.score)}</h3>
+                        <ul>
+                            {kandidat.utdannelse.utdannelser.map((utdannelse) => (
+                                <li key={utdannelse.nuskodeGrad}>
+                                    {utdannelse.laerested} {score(utdannelse.score)}
+                                    <ul>
+                                        <li>Utdanningsretning: {utdannelse.utdanningsretning}</li>
+                                        <li>Autorisasjon: {utdannelse.autorisasjon}</li>
+                                        <li>NuskodeGrad: {utdannelse.nuskodeGrad}</li>
+                                        <li>
+                                            UtdannelseYrkestatus: {utdannelse.utdannelseYrkestatus}
+                                        </li>
+                                        <li>FraTidspunkt: {utdannelse.fraTidspunkt}</li>
+                                        <li>TilTidspunkt: {utdannelse.tilTidspunkt}</li>
+                                    </ul>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                    <section className="blokk-xl">
+                        <h3>Fagbrev</h3>
+                        <ul>
+                            {kandidat.fagdokumentasjon.map((dok) => (
+                                <li key={dok.tittel}>
+                                    <ul>
+                                        <li>type: {dok.type}</li>
+                                        <li>tittel: {dok.tittel}</li>
+                                        <li>beskrivelse: {dok.beskrivelse}</li>
+                                    </ul>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                    <section className="blokk-xl">
+                        <h3>Arbeidserfaringer {score(kandidat.arbeidserfaring.score)}</h3>
                         <ul>
                             {kandidat.arbeidserfaring.arbeidserfaringer.map(
                                 (arbeidserfaring, index) => (
@@ -161,13 +190,18 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                             const ordFraKandidat = fraKandidat[1];
                                                             const fraStilling = ordscore[1];
                                                             const stillingord = fraStilling
-                                                                .map((f) => `${f[1]} ${f[2]}`)
+                                                                .map(
+                                                                    (f) => `${f[1]} ${score(f[2])}`
+                                                                )
                                                                 .join(' ');
                                                             return (
                                                                 <li>
-                                                                    {ordFraKandidat}
+                                                                    Kandidatord: {ordFraKandidat}
                                                                     <ul>
-                                                                        <li>{stillingord}</li>
+                                                                        <li>
+                                                                            Stillingord:{' '}
+                                                                            {stillingord}
+                                                                        </li>
                                                                     </ul>
                                                                 </li>
                                                             );
@@ -182,7 +216,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Annen erfaring</h3>
+                        <h3>Andre erfaringer</h3>
                         <ul>
                             {kandidat.annenErfaring.map((erfaring) => (
                                 <li key={erfaring.beskrivelse}>
@@ -203,75 +237,17 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Utdanning {score(kandidat.utdannelse.score)}</h3>
+                        <h3>Kompetanser {score(kandidat.kompetanser_jobbprofil.score)}</h3>
                         <ul>
-                            {kandidat.utdannelse.utdannelser.map((utdannelse) => (
-                                <li key={utdannelse.nuskodeGrad}>
-                                    {utdannelse.laerested} {score(utdannelse.score)}
-                                    <ul>
-                                        <li>Utdanningsretning: {utdannelse.utdanningsretning}</li>
-                                        <li>Autorisasjon: {utdannelse.autorisasjon}</li>
-                                        <li>NuskodeGrad: {utdannelse.nuskodeGrad}</li>
-                                        <li>
-                                            UtdannelseYrkestatus: {utdannelse.utdannelseYrkestatus}
-                                        </li>
-                                        <li>FraTidspunkt: {utdannelse.fraTidspunkt}</li>
-                                        <li>TilTidspunkt: {utdannelse.tilTidspunkt}</li>
-                                    </ul>
+                            {kandidat.kompetanser_jobbprofil.kompetanser.map((kompetanse) => (
+                                <li key={kompetanse.kompetanse}>
+                                    {kompetanse.kompetanse} {score(kompetanse.score)}
                                 </li>
                             ))}
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Fagdokumentasjon</h3>
-                        <ul>
-                            {kandidat.fagdokumentasjon.map((dok) => (
-                                <li key={dok.tittel}>
-                                    <ul>
-                                        <li>type: {dok.type}</li>
-                                        <li>tittel: {dok.tittel}</li>
-                                        <li>beskrivelse: {dok.beskrivelse}</li>
-                                    </ul>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                    <section className="blokk-xl">
-                        <h3>Godkjenninger</h3>
-                        <ul>
-                            {kandidat.godkjenninger.map((godkjenning) => (
-                                <li key={godkjenning.tittel}>
-                                    <ul>
-                                        <li>tittel: {godkjenning.tittel} </li>
-                                        <li>konsept_id: {godkjenning.konsept_id} </li>
-                                        <li>utsteder: {godkjenning.utsteder} </li>
-                                        <li>gjennomfoert: {godkjenning.gjennomfoert} </li>
-                                        <li>utloeper: {godkjenning.utloeper} </li>
-                                    </ul>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                    <section className="blokk-xl">
-                        <h3>Kurs</h3>
-                        <ul>
-                            {kandidat.kurs.map((kurs, index) => (
-                                <li key={kurs.tittel}>
-                                    {kurs.tittel}
-                                    <ul>
-                                        <li>utsteder: {kurs.utsteder}</li>
-                                        <li>varighet: {kurs.varighet}</li>
-                                        <li>varighet_enhet: {kurs.varighet_enhet}</li>
-                                        <li>
-                                            tidspunkt: {new Date(kurs.tidspunkt).toDateString()}
-                                        </li>
-                                    </ul>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                    <section className="blokk-xl">
-                        <h3>Sertifikater</h3>
+                        <h3>Offentlige godkjenninger</h3>
                         <ul>
                             {kandidat.sertifikat.map((sertifikat) => (
                                 <li key={sertifikat.tittel}>
@@ -287,6 +263,22 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                         <li>utloeper: {sertifikat.utloeper}</li>
                                     </ul>
                                     <br />
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                    <section className="blokk-xl">
+                        <h3>Andre godkjenninger</h3>
+                        <ul>
+                            {kandidat.godkjenninger.map((godkjenning) => (
+                                <li key={godkjenning.tittel}>
+                                    <ul>
+                                        <li>tittel: {godkjenning.tittel} </li>
+                                        <li>konsept_id: {godkjenning.konsept_id} </li>
+                                        <li>utsteder: {godkjenning.utsteder} </li>
+                                        <li>gjennomfoert: {godkjenning.gjennomfoert} </li>
+                                        <li>utloeper: {godkjenning.utloeper} </li>
+                                    </ul>
                                 </li>
                             ))}
                         </ul>
@@ -314,6 +306,24 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                         <li>utløper: {førerkort.utloeper}</li>
                                     </ul>
                                     <br />
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                    <section className="blokk-xl">
+                        <h3>Kurs</h3>
+                        <ul>
+                            {kandidat.kurs.map((kurs, index) => (
+                                <li key={kurs.tittel}>
+                                    {kurs.tittel}
+                                    <ul>
+                                        <li>utsteder: {kurs.utsteder}</li>
+                                        <li>varighet: {kurs.varighet}</li>
+                                        <li>varighet_enhet: {kurs.varighet_enhet}</li>
+                                        <li>
+                                            tidspunkt: {new Date(kurs.tidspunkt).toDateString()}
+                                        </li>
+                                    </ul>
                                 </li>
                             ))}
                         </ul>
