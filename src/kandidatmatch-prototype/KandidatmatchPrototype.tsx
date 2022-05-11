@@ -26,7 +26,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
     const kandidat = prototype ? prototype[0] : undefined;
 
     const score = (scoreDesimal) => {
-        return `(${scoreDesimal * 100}%)`;
+        return `(${scoreDesimal * 100}% Match)`;
     };
 
     return (
@@ -34,7 +34,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
             <h1>Elitekandidater</h1>
             {kandidat && (
                 <>
-                    <div>
+                    <section className="blokk-xl">
                         <p>fornavn: {kandidat.fornavn}</p>
                         <p>etternavn: {kandidat.etternavn}</p>
                         <p>epost: {kandidat.epost}</p>
@@ -55,38 +55,38 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         </p>
                         <p aria-label="NAV-kontor">NAV-kontor: Dummy NAV-kontor</p>
                         <p></p>
-                    </div>
-                    <div>
-                        <h3>Sammendrag{score(kandidat.sammendrag.score)}</h3>
+                    </section>
+                    <section className="blokk-xl">
+                        <h3>Sammendrag {score(kandidat.sammendrag.score)}</h3>
                         <ul>
                             <li key={kandidat.sammendrag.sammendrag_tekst}>
                                 {kandidat.sammendrag.sammendrag_tekst}
                             </li>
                         </ul>
-                        <h3>Jobbønsker {score(kandidat.score_total)}</h3>
-                        <h4>Stillinger{score(kandidat.stillinger_jobbprofil.score)}</h4>
+                    </section>
+                    <section className="blokk-xl">
+                        <h3>Jobbprofil {score(kandidat.score_total)}</h3>
+                        <h4>Stillinger {score(kandidat.stillinger_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
                                 <li key={stillingØnske.stilling}>
-                                    {stillingØnske.stilling}
-                                    {score(stillingØnske.score)}
+                                    {stillingØnske.stilling} + ' ' + {score(stillingØnske.score)}
                                 </li>
                             ))}
                         </ul>
-                        <h4>Kompetanser{score(kandidat.kompetanser_jobbprofil.score)}</h4>
+                        <h4>Kompetanser {score(kandidat.kompetanser_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.kompetanser_jobbprofil.kompetanser.map((kompetanse) => (
                                 <li key={kompetanse.kompetanse}>
-                                    {kompetanse.kompetanse}
-                                    {score(kompetanse.score)}
+                                    {kompetanse.kompetanse} + ' ' + {score(kompetanse.score)}
                                 </li>
                             ))}
                         </ul>
-                        <h4>Arbeidssted{score(kandidat.geografi_jobbprofil.score)}</h4>
+                        <h4>Arbeidssted {score(kandidat.geografi_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                                 <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
-                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode}
+                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode}+ ' '
                                     {score(geografiJobbProfil.score)}
                                 </li>
                             ))}
@@ -125,13 +125,15 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 <li key={omfang + kandidat.fodselsnummer}>{omfang}</li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Arbeidserfaring {score(kandidat.arbeidserfaring.score)}</h3>
                         <ul>
                             {kandidat.arbeidserfaring.arbeidserfaringer.map(
                                 (arbeidserfaring, index) => (
                                     <li key={arbeidserfaring.janzzKonseptid}>
                                         <ul>
-                                            {arbeidserfaring.stillingstittel}
+                                            {arbeidserfaring.stillingstittel}{' '}
                                             {score(arbeidserfaring.score)}
                                             <li>Styrkkode: {arbeidserfaring.styrkkode}</li>
                                             <li>Arbeidsgiver: {arbeidserfaring.arbeidsgiver}</li>
@@ -178,6 +180,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 )
                             )}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Annen erfaring</h3>
                         <ul>
                             {kandidat.annenErfaring.map((erfaring) => (
@@ -197,6 +201,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Utdanning {score(kandidat.utdannelse.score)}</h3>
                         <ul>
                             {kandidat.utdannelse.utdannelser.map((utdannelse) => (
@@ -215,6 +221,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Fagdokumentasjon</h3>
                         <ul>
                             {kandidat.fagdokumentasjon.map((dok) => (
@@ -227,7 +235,9 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
-                        <h3>Godkjennionger</h3>
+                    </section>
+                    <section className="blokk-xl">
+                        <h3>Godkjenninger</h3>
                         <ul>
                             {kandidat.godkjenninger.map((godkjenning) => (
                                 <li key={godkjenning.tittel}>
@@ -241,6 +251,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Kurs</h3>
                         <ul>
                             {kandidat.kurs.map((kurs, index) => (
@@ -257,6 +269,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Sertifikater</h3>
                         <ul>
                             {kandidat.sertifikat.map((sertifikat) => (
@@ -276,6 +290,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Språk</h3>
                         <ul>
                             {kandidat.spraakferdigheter.map((språkferdighet) => (
@@ -285,6 +301,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Førerkort</h3>
                         <ul>
                             {kandidat.foererkort.klasse.map((førerkort) => (
@@ -299,8 +317,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Disponerer bil</h3>
                         <ul>{kandidat.disponererBil === true ? 'Ja' : 'Nei'}</ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Oppfølgingsinformasjon</h3>
                         <ul>
                             <li>fodselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>
@@ -340,6 +362,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 sistEndretDato: {kandidat.oppfolgingsinformasjon.sistEndretDato}
                             </li>
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Oppfølgingsperiode</h3>
                         <ul>
                             <li>uuid: {kandidat.oppfolgingsperiode.uuid} </li>
@@ -353,18 +377,24 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 {new Date(kandidat.oppfolgingsperiode.sluttDato).toDateString()}{' '}
                             </li>
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <h3>Tilretteleggingbehov</h3>
                         <ul>
                             {kandidat.tilretteleggingsbehov.map((behov) => (
                                 <li key={behov}>{behov}</li>
                             ))}
                         </ul>
+                    </section>
+                    <section className="blokk-xl">
                         <p>OppstartKode: {kandidat.oppstartKode}</p>
-                        <p>synligForArbeidsgiver: {kandidat.synligForArbeidsgiver} </p>
-                        <p>synligForVeileder: {kandidat.synligForVeileder} </p>
+                        <p>
+                            synligForArbeidsgiver: {kandidat.synligForArbeidsgiver ? 'Ja' : 'Nei'}{' '}
+                        </p>
+                        <p>synligForVeileder: {kandidat.synligForVeileder ? 'Ja' : 'Nei'} </p>
                         <p>arenaKandidatnr: {kandidat.arenaKandidatnr} </p>
                         <p>jobbprofilId: {kandidat.jobbprofilId} </p>
-                    </div>
+                    </section>
                 </>
             )}
         </div>
