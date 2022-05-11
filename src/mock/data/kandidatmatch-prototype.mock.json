@@ -52,24 +52,27 @@
                     "score": 0.34,
                     "ordScore": [
                         [
-                            [0, "sykepleier"],
+                            [0, "serviceingeniør"],
                             [
                                 [3, "flink", 0.1979313],
-                                [4, "sykepleier", 0.9999999]
+                                [4, "serviceingeniør", 1.0],
+                                [5, "olje", 0.4]
                             ]
                         ],
                         [
-                            [2, "lege"],
+                            [2, "olje"],
                             [
                                 [3, "flink", 0.14711542],
-                                [4, "sykepleier", 0.6956694]
+                                [4, "serviceingeniør", 0.6956694],
+                                [5, "olje", 1.0]
                             ]
                         ],
                         [
                             [4, "kompetent"],
                             [
-                                [3, "flink", 0.23057048],
-                                [4, "sykepleier", 0.37078688]
+                                [3, "flink", 0.83],
+                                [4, "serviceingeniør", 0.37078688],
+                                [5, "olje", 0.18]
                             ]
                         ]
                     ]
@@ -88,24 +91,27 @@
                     "score": 0.34,
                     "ordScore": [
                         [
-                            [0, "sykepleier"],
+                            [0, "prosjektingeniør"],
                             [
                                 [3, "flink", 0.1979313],
-                                [4, "sykepleier", 0.9999999]
+                                [4, "prosjektingeniør", 1.0],
+                                [5, "olje", 0.4]
                             ]
                         ],
                         [
-                            [2, "lege"],
+                            [2, "olje"],
                             [
                                 [3, "flink", 0.14711542],
-                                [4, "sykepleier", 0.6956694]
+                                [4, "prosjektingeniør", 0.6956694],
+                                [5, "olje", 1.0]
                             ]
                         ],
                         [
                             [4, "kompetent"],
                             [
-                                [3, "flink", 0.23057048],
-                                [4, "sykepleier", 0.37078688]
+                                [3, "flink", 0.83],
+                                [4, "prosjektingeniør", 0.37078688],
+                                [5, "olje", 0.18]
                             ]
                         ]
                     ]
