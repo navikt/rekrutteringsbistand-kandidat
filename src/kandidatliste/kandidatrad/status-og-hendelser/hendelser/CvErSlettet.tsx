@@ -31,7 +31,7 @@ const CvErSlettet: FunctionComponent<Props> = ({ kandidat }) => {
         <Hendelse
             status={Hendelsesstatus.Grønn}
             tittel="CV-en er slettet av NAV fra listen til arbeidsgiver"
-            beskrivelse={`${slettetTidspunkt} av ${sisteUtfall.registrertAvIdent})`}
+            beskrivelse={`${slettetTidspunkt} av ${sisteUtfall.registrertAvIdent}`}
         />
     );
 };
