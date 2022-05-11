@@ -11,7 +11,6 @@ type Props = {
     onEndreUtfall: (utfall: Kandidatutfall) => void;
     onSlettCv: () => void;
     kanEndre?: boolean;
-    kanSletteCv?: boolean;
 };
 
 enum Visning {
@@ -42,7 +41,6 @@ const hentInitiellVisning = (
 
 const DelingAvCv: FunctionComponent<Props> = ({
     kanEndre,
-    kanSletteCv,
     utfall,
     utfallsendringer,
     onEndreUtfall,

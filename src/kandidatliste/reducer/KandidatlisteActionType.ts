@@ -81,6 +81,9 @@ enum KandidatlisteActionType {
     ResetSendForespørselOmDelingAvCv = 'RESET_SEND_FORESPØRSEL_OM_DELING_AV_CV',
     ResendForespørselOmDelingAvCvSuccess = 'RESEND_FORESPØRSEL_OM_DELING_AV_CV_SUCCESS',
     EndreSortering = 'ENDRE_SORTERING',
+    SlettCvFraArbeidsgiversKandidatliste = 'SLETT_CV_FRA_ARBEIDSGIVERS_KANDIDATLISTE',
+    SlettCvFraArbeidsgiversKandidatlisteSuccess = 'SLETT_CV_FRA_ARBEIDSGIVERS_KANDIDATLISTE_SUCCESS',
+    SlettCvFraArbeidsgiversKandidatlisteFailure = 'SLETT_CV_FRA_ARBEIDSGIVERS_KANDIDATLISTE_FAILURE',
 }
 
 export default KandidatlisteActionType;

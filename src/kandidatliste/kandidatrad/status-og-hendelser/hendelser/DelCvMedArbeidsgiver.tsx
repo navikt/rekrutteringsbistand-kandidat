@@ -4,6 +4,7 @@ import AppState from '../../../../AppState';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import DelingAvCv from './DelingAvCv';
 import { Kandidat, Kandidatutfall } from '../../../domene/Kandidat';
+import KandidatlisteAction from '../../../reducer/KandidatlisteAction';
 
 type Props = {
     kanEndre: boolean;
@@ -18,6 +19,9 @@ const DelCvMedArbeidsgiver: FunctionComponent<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const valgtNavKontor = useSelector((state: AppState) => state.navKontor.valgtNavKontor);
+    const slettCvStatus = useSelector(
+        (state: AppState) => state.kandidatliste.slettCvFraArbeidsgiversKandidatlisteStatus
+    );
 
     const endreUtfallForKandidat = (nyttUtfall: Kandidatutfall) => {
         dispatch({
@@ -29,15 +33,22 @@ const DelCvMedArbeidsgiver: FunctionComponent<Props> = ({
         });
     };
 
+    const slettCv = () => {
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatliste,
+            kandidatlisteId,
+            kandidatnr: kandidat.kandidatnr,
+            navKontor: valgtNavKontor,
+        });
+    };
+
     return (
         <DelingAvCv
             utfall={kandidat.utfall}
             utfallsendringer={kandidat.utfallsendringer}
             kanEndre={kanEndre}
             onEndreUtfall={endreUtfallForKandidat}
-            onSlettCv={() => {
-                console.log('TODO: Slett CV');
-            }}
+            onSlettCv={slettCv}
         />
     );
 };

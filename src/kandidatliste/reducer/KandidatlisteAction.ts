@@ -451,6 +451,23 @@ export interface EndreSortering {
     sortering: Kandidatsortering;
 }
 
+export interface SlettCvFraArbeidsgiversKandidatliste {
+    type: KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatliste;
+    kandidatlisteId: string;
+    kandidatnr: string;
+    navKontor: string | null;
+}
+
+export interface SlettCvFraArbeidsgiversKandidatlisteSuccess {
+    type: KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatlisteSuccess;
+    kandidatliste: Kandidatliste;
+}
+
+export interface SlettCvFraArbeidsgiversKandidatlisteFailure {
+    type: KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatlisteFailure;
+    error: SearchApiError;
+}
+
 type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -533,6 +550,9 @@ type KandidatlisteAction =
     | SendForespørselOmDelingAvCvFailure
     | ResetSendForespørselOmDelingAvCv
     | ResendForespørselOmDelingAvCvSuccess
-    | EndreSortering;
+    | EndreSortering
+    | SlettCvFraArbeidsgiversKandidatliste
+    | SlettCvFraArbeidsgiversKandidatlisteSuccess
+    | SlettCvFraArbeidsgiversKandidatlisteFailure;
 
 export default KandidatlisteAction;
