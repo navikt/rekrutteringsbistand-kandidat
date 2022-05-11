@@ -70,7 +70,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <ul>
                             {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
                                 <li key={stillingØnske.stilling}>
-                                    {stillingØnske.stilling} + ' ' + {score(stillingØnske.score)}
+                                    {stillingØnske.stilling} {score(stillingØnske.score)}
                                 </li>
                             ))}
                         </ul>
@@ -78,7 +78,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <ul>
                             {kandidat.kompetanser_jobbprofil.kompetanser.map((kompetanse) => (
                                 <li key={kompetanse.kompetanse}>
-                                    {kompetanse.kompetanse} + ' ' + {score(kompetanse.score)}
+                                    {kompetanse.kompetanse} {score(kompetanse.score)}
                                 </li>
                             ))}
                         </ul>
@@ -86,7 +86,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <ul>
                             {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                                 <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
-                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode}+ ' '
+                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode}{' '}
                                     {score(geografiJobbProfil.score)}
                                 </li>
                             ))}
