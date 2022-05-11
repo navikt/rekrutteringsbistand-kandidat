@@ -146,7 +146,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                             </li>
                                             <li>FraTidspunkt: {arbeidserfaring.fraTidspunkt}</li>
                                             <li>
-                                                Score forklaring
+                                                Score forklaring:
                                                 <ul>
                                                     {arbeidserfaring.ordScore &&
                                                         arbeidserfaring.ordScore.map((ordscore) => {
