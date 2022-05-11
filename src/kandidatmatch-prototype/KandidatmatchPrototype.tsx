@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import Prototype from './Prototype';
 import './KandidatmatchPrototype.less';
+import { instanceOf } from 'prop-types';
+import { isNumber } from 'util';
 
 const KandidatmatchPrototype: FunctionComponent = () => {
     const [prototype, setPrototype] = useState<Prototype[] | undefined>(undefined);
@@ -28,6 +30,22 @@ const KandidatmatchPrototype: FunctionComponent = () => {
     const score = (scoreDesimal) => {
         return `(${Math.round(scoreDesimal * 100)}% Match)`;
     };
+    function isNumeric(num: string) {
+        return !isNaN(parseFloat(num)) && parseFloat(num).toString() == num;
+    }
+
+    function tilDato(dato: number | Date | number[] | string) {
+        if (dato == null) return '';
+        else if (typeof dato === 'number') return new Date(dato).toDateString();
+        else if (Array.isArray(dato)) return dato.join('.');
+        else if (dato instanceof Date) return dato.toDateString();
+        else if (isNumeric(dato)) return new Date(+dato).toDateString();
+        else return new Date(dato).toDateString();
+    }
+
+    function booleanTilTekst(verdi: boolean) {
+        return verdi ? 'Ja' : 'Nei';
+    }
 
     return (
         <div className="prototype">
@@ -60,7 +78,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <p></p>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Sammendrag {score(kandidat.sammendrag.score)}</h3>
+                        <h3>Sammendrag/Om meg {score(kandidat.sammendrag.score)}</h3>
                         <ul>
                             <li key={kandidat.sammendrag.sammendrag_tekst}>
                                 {kandidat.sammendrag.sammendrag_tekst}
@@ -69,7 +87,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     </section>
                     <section className="blokk-xl">
                         <h3>Jobbønsker {score(kandidat.score_total)}</h3>
-                        <h4>Stillinger {score(kandidat.stillinger_jobbprofil.score)}</h4>
+                        <h4>Jobber og yrker {score(kandidat.stillinger_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
                                 <li key={stillingØnske.stilling}>
@@ -134,8 +152,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                         <li>
                                             UtdannelseYrkestatus: {utdannelse.utdannelseYrkestatus}
                                         </li>
-                                        <li>FraTidspunkt: {utdannelse.fraTidspunkt}</li>
-                                        <li>TilTidspunkt: {utdannelse.tilTidspunkt}</li>
+                                        <li>FraTidspunkt: {tilDato(utdannelse.fraTidspunkt)}</li>
+                                        <li>TilTidspunkt: {tilDato(utdannelse.tilTidspunkt)}</li>
                                     </ul>
                                 </li>
                             ))}
@@ -175,12 +193,20 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                             <li>
                                                 JanzzKonseptid: {arbeidserfaring.janzzKonseptid}
                                             </li>
-                                            <li>TilTidspunkt: {arbeidserfaring.tilTidspunkt}</li>
+                                            <li>
+                                                TilTidspunkt:{' '}
+                                                {tilDato(arbeidserfaring.tilTidspunkt)}
+                                            </li>
                                             <li>
                                                 IkkeAktueltForFremtiden:{' '}
-                                                {arbeidserfaring.ikkeAktueltForFremtiden}
+                                                {booleanTilTekst(
+                                                    arbeidserfaring.ikkeAktueltForFremtiden
+                                                )}
                                             </li>
-                                            <li>FraTidspunkt: {arbeidserfaring.fraTidspunkt}</li>
+                                            <li>
+                                                FraTidspunkt:{' '}
+                                                {tilDato(arbeidserfaring.fraTidspunkt)}
+                                            </li>
                                             <li>
                                                 Score forklaring:
                                                 <ul>
@@ -223,14 +249,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                     <ul>
                                         <li>Beskrivelse: {erfaring.beskrivelse}</li>
                                         <li>Rolle: {erfaring.rolle}</li>
-                                        <li>
-                                            Fra_tidspunkt:{' '}
-                                            {new Date(erfaring.fra_tidspunkt).toDateString()}
-                                        </li>
-                                        <li>
-                                            Til_tidspunkt:{' '}
-                                            {new Date(erfaring.til_tidspunkt).toDateString()}
-                                        </li>
+                                        <li>Fra_tidspunkt: {tilDato(erfaring.fra_tidspunkt)}</li>
+                                        <li>Til_tidspunkt: {tilDato(erfaring.til_tidspunkt)}</li>
                                     </ul>
                                 </li>
                             ))}
@@ -260,7 +280,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                         </li>
                                         <li>utsteder: {sertifikat.utsteder}</li>
                                         <li>gjennomfoert: {sertifikat.gjennomfoert}</li>
-                                        <li>utloeper: {sertifikat.utloeper}</li>
+                                        <li>utloeper: {tilDato(sertifikat.utloeper)}</li>
                                     </ul>
                                     <br />
                                 </li>
@@ -277,7 +297,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                         <li>konsept_id: {godkjenning.konsept_id} </li>
                                         <li>utsteder: {godkjenning.utsteder} </li>
                                         <li>gjennomfoert: {godkjenning.gjennomfoert} </li>
-                                        <li>utloeper: {godkjenning.utloeper} </li>
+                                        <li>utloeper: {tilDato(godkjenning.utloeper)} </li>
                                     </ul>
                                 </li>
                             ))}
@@ -302,8 +322,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                     <ul>
                                         <li>klasse: {førerkort.klasse}</li>
                                         <li>beskrivelse: {førerkort.klasse_beskrivelse}</li>
-                                        <li>fra tidspunkt: {førerkort.fra_tidspunkt}</li>
-                                        <li>utløper: {førerkort.utloeper}</li>
+                                        <li>fra tidspunkt: {tilDato(førerkort.fra_tidspunkt)}</li>
+                                        <li>utløper: {tilDato(førerkort.utloeper)}</li>
                                     </ul>
                                     <br />
                                 </li>
@@ -320,9 +340,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                         <li>utsteder: {kurs.utsteder}</li>
                                         <li>varighet: {kurs.varighet}</li>
                                         <li>varighet_enhet: {kurs.varighet_enhet}</li>
-                                        <li>
-                                            tidspunkt: {new Date(kurs.tidspunkt).toDateString()}
-                                        </li>
+                                        <li>tidspunkt: {tilDato(kurs.tidspunkt)}</li>
                                     </ul>
                                 </li>
                             ))}
@@ -330,7 +348,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     </section>
                     <section className="blokk-xl">
                         <h3>Disponerer bil</h3>
-                        <ul>{kandidat.disponererBil === true ? 'Ja' : 'Nei'}</ul>
+                        <ul>{booleanTilTekst(kandidat.disponererBil === true)}</ul>
                     </section>
                     <section className="blokk-xl">
                         <h3>Oppfølgingsinformasjon</h3>
@@ -340,7 +358,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 formidlingsgruppe:{' '}
                                 {kandidat.oppfolgingsinformasjon.formidlingsgruppe}
                             </li>
-                            <li>iservFraDato: {kandidat.oppfolgingsinformasjon.iservFraDato}</li>
+                            <li>
+                                iservFraDato:{' '}
+                                {tilDato(kandidat.oppfolgingsinformasjon.iservFraDato)}
+                            </li>
                             <li>fornavn: {kandidat.oppfolgingsinformasjon.fornavn}</li>
                             <li>etternavn: {kandidat.oppfolgingsinformasjon.etternavn}</li>
                             <li>
@@ -363,13 +384,21 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             </li>
                             <li>
                                 harOppfolgingssak:{' '}
-                                {kandidat.oppfolgingsinformasjon.harOppfolgingssak}
+                                {booleanTilTekst(kandidat.oppfolgingsinformasjon.harOppfolgingssak)}
                             </li>
-                            <li>sperretAnsatt: {kandidat.oppfolgingsinformasjon.sperretAnsatt}</li>
-                            <li>erDoed: {kandidat.oppfolgingsinformasjon.erDoed}</li>
-                            <li>doedFraDato: {kandidat.oppfolgingsinformasjon.doedFraDato}</li>
                             <li>
-                                sistEndretDato: {kandidat.oppfolgingsinformasjon.sistEndretDato}
+                                sperretAnsatt:{' '}
+                                {booleanTilTekst(kandidat.oppfolgingsinformasjon.sperretAnsatt)}
+                            </li>
+                            <li>
+                                erDoed: {booleanTilTekst(kandidat.oppfolgingsinformasjon.erDoed)}
+                            </li>
+                            <li>
+                                doedFraDato: {tilDato(kandidat.oppfolgingsinformasjon.doedFraDato)}
+                            </li>
+                            <li>
+                                sistEndretDato:{' '}
+                                {tilDato(kandidat.oppfolgingsinformasjon.sistEndretDato)}
                             </li>
                         </ul>
                     </section>
@@ -378,14 +407,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <ul>
                             <li>uuid: {kandidat.oppfolgingsperiode.uuid} </li>
                             <li>aktorId: {kandidat.oppfolgingsperiode.aktorId} </li>
-                            <li>
-                                startDato:{' '}
-                                {new Date(kandidat.oppfolgingsperiode.startDato).toDateString()}{' '}
-                            </li>
-                            <li>
-                                sluttDato:{' '}
-                                {new Date(kandidat.oppfolgingsperiode.sluttDato).toDateString()}{' '}
-                            </li>
+                            <li>startDato: {tilDato(kandidat.oppfolgingsperiode.startDato)} </li>
+                            <li>sluttDato: {tilDato(kandidat.oppfolgingsperiode.sluttDato)} </li>
                         </ul>
                     </section>
                     <section className="blokk-xl">
@@ -399,9 +422,9 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <p>OppstartKode: {kandidat.oppstartKode}</p>
                         <p>
-                            synligForArbeidsgiver: {kandidat.synligForArbeidsgiver ? 'Ja' : 'Nei'}{' '}
+                            synligForArbeidsgiver: {booleanTilTekst(kandidat.synligForArbeidsgiver)}{' '}
                         </p>
-                        <p>synligForVeileder: {kandidat.synligForVeileder ? 'Ja' : 'Nei'} </p>
+                        <p>synligForVeileder: {booleanTilTekst(kandidat.synligForVeileder)} </p>
                         <p>arenaKandidatnr: {kandidat.arenaKandidatnr} </p>
                         <p>jobbprofilId: {kandidat.jobbprofilId} </p>
                     </section>
