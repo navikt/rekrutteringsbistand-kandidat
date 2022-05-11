@@ -25,7 +25,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
 
     const kandidat = prototype ? prototype[0] : undefined;
 
-    console.log('jjjj', kandidat?.arbeidserfaring.arbeidserfaringer[0].ordScore[0]);
+    const score = (scoreDesimal) => {
+        return `(${scoreDesimal * 100}%)`;
+    };
+
     return (
         <div className="prototype">
             <h1>Elitekandidater</h1>
@@ -54,39 +57,41 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <p></p>
                     </div>
                     <div>
-                        <h3>Sammendrag({kandidat.sammendrag.score})</h3>
+                        <h3>Sammendrag{score(kandidat.sammendrag.score)}</h3>
                         <ul>
                             <li key={kandidat.sammendrag.sammendrag_tekst}>
                                 {kandidat.sammendrag.sammendrag_tekst}
                             </li>
                         </ul>
-                        <h3>Jobbønsker ({kandidat.score_total})</h3>
-                        <h4>Stillinger({kandidat.stillinger_jobbprofil.score})</h4>
+                        <h3>Jobbønsker {score(kandidat.score_total)}</h3>
+                        <h4>Stillinger{score(kandidat.stillinger_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
                                 <li key={stillingØnske.stilling}>
-                                    {stillingØnske.stilling}({stillingØnske.score})
+                                    {stillingØnske.stilling}
+                                    {score(stillingØnske.score)}
                                 </li>
                             ))}
                         </ul>
-                        <h4>Kompetanser({kandidat.kompetanser_jobbprofil.score})</h4>
+                        <h4>Kompetanser{score(kandidat.kompetanser_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.kompetanser_jobbprofil.kompetanser.map((kompetanse) => (
                                 <li key={kompetanse.kompetanse}>
-                                    {kompetanse.kompetanse}({kompetanse.score})
+                                    {kompetanse.kompetanse}
+                                    {score(kompetanse.score)}
                                 </li>
                             ))}
                         </ul>
-                        <h4>Arbeidssted({kandidat.geografi_jobbprofil.score})</h4>
+                        <h4>Arbeidssted{score(kandidat.geografi_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                                 <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
-                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode} (
-                                    {geografiJobbProfil.score})
+                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode}
+                                    {score(geografiJobbProfil.score)}
                                 </li>
                             ))}
                         </ul>
-                        <h4>Ansettelsesform)</h4>
+                        <h4>Ansettelsesform</h4>
                         <ul>
                             {kandidat.ansettelsesformer_jobbprofil.map((ansettelsesform) => (
                                 <li key={ansettelsesform + kandidat.fodselsnummer}>
@@ -120,14 +125,14 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 <li key={omfang + kandidat.fodselsnummer}>{omfang}</li>
                             ))}
                         </ul>
-                        <h3>Arbeidserfaring ({kandidat.arbeidserfaring.score})</h3>
+                        <h3>Arbeidserfaring {score(kandidat.arbeidserfaring.score)}</h3>
                         <ul>
                             {kandidat.arbeidserfaring.arbeidserfaringer.map(
                                 (arbeidserfaring, index) => (
                                     <li key={arbeidserfaring.janzzKonseptid}>
                                         <ul>
-                                            {arbeidserfaring.stillingstittel} (
-                                            {arbeidserfaring.score})
+                                            {arbeidserfaring.stillingstittel}
+                                            {score(arbeidserfaring.score)}
                                             <li>Styrkkode: {arbeidserfaring.styrkkode}</li>
                                             <li>Arbeidsgiver: {arbeidserfaring.arbeidsgiver}</li>
                                             <li>Sted: {arbeidserfaring.sted}</li>
@@ -192,11 +197,11 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
-                        <h3>Utdanning ({kandidat.utdannelse.score})</h3>
+                        <h3>Utdanning {score(kandidat.utdannelse.score)}</h3>
                         <ul>
-                            {kandidat.utdannelse.utdannelser.map((utdannelse, index) => (
+                            {kandidat.utdannelse.utdannelser.map((utdannelse) => (
                                 <li key={utdannelse.nuskodeGrad}>
-                                    {utdannelse.laerested} ({utdannelse.score})
+                                    {utdannelse.laerested} {score(utdannelse.score)}
                                     <ul>
                                         <li>Utdanningsretning: {utdannelse.utdanningsretning}</li>
                                         <li>Autorisasjon: {utdannelse.autorisasjon}</li>
