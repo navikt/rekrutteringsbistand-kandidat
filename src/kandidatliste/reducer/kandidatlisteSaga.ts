@@ -5,6 +5,7 @@ import {
     putArkivertForFlereKandidater,
     putUtfallKandidat,
     putKandidatlistestatus,
+    slettCvFraArbeidsgiversKandidatliste,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
@@ -33,6 +34,7 @@ import KandidatlisteAction, {
     EndreKandidatlistestatusSuccessAction,
     HentForespørslerOmDelingAvCvAction,
     SendForespørselOmDelingAvCv,
+    SlettCvFraArbeidsgiversKandidatliste,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -552,6 +554,26 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
     }
 }
 
+function* slettCv(action: SlettCvFraArbeidsgiversKandidatliste) {
+    try {
+        const kandidatliste = yield call(
+            slettCvFraArbeidsgiversKandidatliste,
+            action.kandidatlisteId,
+            action.kandidatnr,
+            action.navKontor
+        );
+        yield put({
+            type: KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatlisteSuccess,
+            kandidatliste,
+        });
+    } catch (e) {
+        yield put({
+            type: KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatlisteFailure,
+            error: e,
+        });
+    }
+}
+
 function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
     try {
         const response: ForespørslerForStillingInboundDto = yield call(
@@ -632,6 +654,7 @@ function* kandidatlisteSaga() {
         endreUtfallForFormidlingAvUsynligKandidat
     );
     yield takeLatest(KandidatlisteActionType.EndreKandidatlistestatus, endreKandidatlistestatus);
+    yield takeLatest(KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatliste, slettCv);
 }
 
 export default kandidatlisteSaga;

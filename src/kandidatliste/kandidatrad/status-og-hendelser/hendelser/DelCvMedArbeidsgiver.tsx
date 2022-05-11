@@ -19,9 +19,6 @@ const DelCvMedArbeidsgiver: FunctionComponent<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const valgtNavKontor = useSelector((state: AppState) => state.navKontor.valgtNavKontor);
-    const slettCvStatus = useSelector(
-        (state: AppState) => state.kandidatliste.slettCvFraArbeidsgiversKandidatlisteStatus
-    );
 
     const endreUtfallForKandidat = (nyttUtfall: Kandidatutfall) => {
         dispatch({

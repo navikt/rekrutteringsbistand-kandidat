@@ -91,7 +91,7 @@ export type KandidatlisteState = {
     søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
     endreFormidlingsutfallForUsynligKandidat: Record<FormidlingId, Nettressurs<FormidlingId>>;
     endreKandidatlistestatus: Nettstatus;
-    slettCvFraArbeidsgiversKandidatliste: Nettstatus;
+    slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus;
 };
 
 export type Kandidatlistefilter = {
@@ -140,7 +140,7 @@ const initialState: KandidatlisteState = {
     søkPåusynligKandidat: ikkeLastet(),
     endreFormidlingsutfallForUsynligKandidat: {},
     endreKandidatlistestatus: Nettstatus.IkkeLastet,
-    slettCvFraArbeidsgiversKandidatliste: Nettstatus.IkkeLastet,
+    slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.IkkeLastet,
 };
 
 const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
@@ -682,14 +682,14 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatliste: {
             return {
                 ...state,
-                slettCvFraArbeidsgiversKandidatliste: Nettstatus.SenderInn,
+                slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.SenderInn,
             };
         }
 
         case KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatlisteSuccess: {
             return {
                 ...state,
-                slettCvFraArbeidsgiversKandidatliste: Nettstatus.Suksess,
+                slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.Suksess,
                 kandidatliste: suksess(action.kandidatliste),
             };
         }
@@ -697,7 +697,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatlisteFailure: {
             return {
                 ...state,
-                slettCvFraArbeidsgiversKandidatliste: Nettstatus.Feil,
+                slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.Feil,
                 kandidatliste: feil(action.error),
             };
         }

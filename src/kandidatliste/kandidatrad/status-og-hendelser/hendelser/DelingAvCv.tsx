@@ -4,6 +4,9 @@ import { AddCircle, MinusCircle } from '@navikt/ds-icons';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
+import { useSelector } from 'react-redux';
+import AppState from '../../../../AppState';
+import { Nettstatus } from '../../../../api/Nettressurs';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -46,6 +49,10 @@ const DelingAvCv: FunctionComponent<Props> = ({
     onEndreUtfall,
     onSlettCv,
 }) => {
+    const slettCvStatus = useSelector(
+        (state: AppState) => state.kandidatliste.slettCvFraArbeidsgiversKandidatlisteStatus
+    );
+
     const [visning, setVisning] = useState<Visning>(hentInitiellVisning(utfall, utfallsendringer));
 
     useEffect(() => {
@@ -228,7 +235,12 @@ const DelingAvCv: FunctionComponent<Props> = ({
                             <Hovedknapp
                                 mini
                                 kompakt
-                                onClick={onBekreftSlettSendtCv}
+                                spinner={slettCvStatus === Nettstatus.LasterInn}
+                                onClick={
+                                    slettCvStatus === Nettstatus.LasterInn
+                                        ? () => {}
+                                        : onBekreftSlettSendtCv
+                                }
                                 className="endre-status-og-hendelser__bekreft-knapp"
                             >
                                 Slett CV-en
