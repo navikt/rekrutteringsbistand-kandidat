@@ -219,6 +219,16 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                             <li>
                                                 Score forklaring:
                                                 <table>
+                                                    {arbeidserfaring.ordScore && (
+                                                        <tr>
+                                                            {<th></th>}
+                                                            {arbeidserfaring.ordScore.map(
+                                                                (ordscore) => (
+                                                                    <th>{ordscore[0][1]}</th>
+                                                                )
+                                                            )}
+                                                        </tr>
+                                                    )}
                                                     {arbeidserfaring.ordScore &&
                                                         arbeidserfaring.ordScore.map((ordscore) => {
                                                             const fraKandidat = ordscore[0];
@@ -227,7 +237,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                             const stillingord = fraStilling.map(
                                                                 (f) => <td>{scoreKort(f[2])}</td>
                                                             );
-                                                            return <tr>{stillingord}</tr>;
+                                                            return (
+                                                                <tr>
+                                                                    <td>{ordFraKandidat}</td>
+                                                                    {stillingord}
+                                                                </tr>
+                                                            );
                                                         })}
                                                 </table>
                                             </li>
