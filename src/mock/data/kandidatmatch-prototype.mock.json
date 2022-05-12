@@ -222,7 +222,7 @@
                 "skriftlig": "GODT"
             }
         ],
-        "aktoerId": "1000053817938",
+        "aktoerId": "1000000000008",
         "cvId": "226be7c0-685d-42a9-ac68-04bd22f2a0f5",
         "oppstartKode": null,
         "disponererBil": false,
@@ -239,7 +239,7 @@
         ],
         "jobbprofilId": "531291",
         "oppfolgingsinformasjon": {
-            "fodselsnummer": "08096387436",
+            "fodselsnummer": "08096310000",
             "formidlingsgruppe": "IARBS",
             "iservFraDato": null,
             "fornavn": "OLA",
@@ -258,7 +258,7 @@
         },
         "oppfolgingsperiode": {
             "uuid": "e48dcd0f-8f05-4f31-a34e-bb2d8c9ad00a",
-            "aktorId": "1000077788593",
+            "aktorId": "1000077700000",
             "startDato": "2020-09-16T14:22:43.191238+02:00",
             "sluttDato": null
         },
