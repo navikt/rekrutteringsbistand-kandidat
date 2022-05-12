@@ -34,6 +34,11 @@ const KandidatmatchPrototype: FunctionComponent = () => {
     const score = (scoreDesimal) => {
         return `(${Math.round(scoreDesimal * 100)}% Match)`;
     };
+
+    const scoreKort = (scoreDesimal) => {
+        return `${Math.round(scoreDesimal * 100)}`;
+    };
+
     function isNumeric(num: string) {
         return !isNaN(parseFloat(num)) && parseFloat(num).toString() === num;
     }
@@ -213,30 +218,18 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                             </li>
                                             <li>
                                                 Score forklaring:
-                                                <ul>
+                                                <table>
                                                     {arbeidserfaring.ordScore &&
                                                         arbeidserfaring.ordScore.map((ordscore) => {
                                                             const fraKandidat = ordscore[0];
                                                             const ordFraKandidat = fraKandidat[1];
                                                             const fraStilling = ordscore[1];
-                                                            const stillingord = fraStilling
-                                                                .map(
-                                                                    (f) => `${f[1]} ${score(f[2])}`
-                                                                )
-                                                                .join(' ');
-                                                            return (
-                                                                <li key={stillingord}>
-                                                                    Kandidatord: {ordFraKandidat}
-                                                                    <ul>
-                                                                        <li key={stillingord}>
-                                                                            Stillingord:{' '}
-                                                                            {stillingord}
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
+                                                            const stillingord = fraStilling.map(
+                                                                (f) => <td>{scoreKort(f[2])}</td>
                                                             );
+                                                            return <tr>{stillingord}</tr>;
                                                         })}
-                                                </ul>
+                                                </table>
                                             </li>
                                         </ul>
                                         <br />
