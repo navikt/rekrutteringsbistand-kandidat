@@ -347,10 +347,6 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Disponerer bil</h3>
-                        <ul>{booleanTilTekst(kandidat.disponererBil === true)}</ul>
-                    </section>
-                    <section className="blokk-xl">
                         <h3>Oppfølgingsinformasjon</h3>
                         <ul>
                             <li>fodselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>
@@ -422,11 +418,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <p>OppstartKode: {kandidat.oppstartKode}</p>
                         <p>
-                            synligForArbeidsgiver: {booleanTilTekst(kandidat.synligForArbeidsgiver)}{' '}
+                            SynligForArbeidsgiver: {booleanTilTekst(kandidat.synligForArbeidsgiver)}{' '}
                         </p>
-                        <p>synligForVeileder: {booleanTilTekst(kandidat.synligForVeileder)} </p>
-                        <p>arenaKandidatnr: {kandidat.arenaKandidatnr} </p>
-                        <p>jobbprofilId: {kandidat.jobbprofilId} </p>
+                        <p>SynligForVeileder: {booleanTilTekst(kandidat.synligForVeileder)} </p>
+                        <p>ArenaKandidatnr: {kandidat.arenaKandidatnr} </p>
+                        <p>JobbprofilId: {kandidat.jobbprofilId} </p>
+                        <p>Disponerer bil: {booleanTilTekst(kandidat.disponererBil === true)}</p>
                     </section>
                 </>
             )}
