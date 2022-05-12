@@ -6,6 +6,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
     const [prototype, setPrototype] = useState<Prototype[] | undefined>(undefined);
 
     useEffect(() => {
+        console.log('Henter ai data');
         const hentPrototype = async () => {
             try {
                 const proto = await fetch('/api/prototype', {
@@ -13,6 +14,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                 });
 
                 const data = await proto.json();
+                console.log('Returnerer ai data', data);
 
                 setPrototype(data);
             } catch (e) {
@@ -219,10 +221,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                                 )
                                                                 .join(' ');
                                                             return (
-                                                                <li>
+                                                                <li key={stillingord}>
                                                                     Kandidatord: {ordFraKandidat}
                                                                     <ul>
-                                                                        <li>
+                                                                        <li key={stillingord}>
                                                                             Stillingord:{' '}
                                                                             {stillingord}
                                                                         </li>
