@@ -103,7 +103,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
-                        <h4>Arbeidssted {score(kandidat.geografi_jobbprofil.score)}</h4>
+                        <h4>Hvor kan du jobbe? {score(kandidat.geografi_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                                 <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
@@ -112,27 +112,25 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
-                        <h4>Ansettelsesform</h4>
+                        <h4>Vil du jobbe heltid eller deltid?</h4>
                         <ul>
-                            {kandidat.ansettelsesformer_jobbprofil.map((ansettelsesform) => (
-                                <li key={ansettelsesform + kandidat.fodselsnummer}>
-                                    {ansettelsesform}
-                                </li>
+                            {kandidat.omfang_jobbprofil.map((omfang) => (
+                                <li key={omfang + kandidat.fodselsnummer}>{omfang}</li>
                             ))}
                         </ul>
-                        <h4>Arbeidstider</h4>
+                        <h4>Når kan du jobbe?</h4>
                         <ul>
                             {kandidat.arbeidstider_jobbprofil.map((arbeidstid) => (
                                 <li key={arbeidstid + kandidat.fodselsnummer}>{arbeidstid}</li>
                             ))}
                         </ul>
-                        <h4>Arbeidsdager</h4>
+                        <h4>Når kan du jobbe?</h4>
                         <ul>
                             {kandidat.arbeidsdager_jobbprofil.map((arbeidsdag) => (
                                 <li key={arbeidsdag + kandidat.fodselsnummer}>{arbeidsdag}</li>
                             ))}
                         </ul>
-                        <h4>Arbeidstidsordninger</h4>
+                        <h4>Når kan du jobbe?</h4>
                         <ul>
                             {kandidat.arbeidstidsordninger_jobbprofil.map((arbeidstidsordning) => (
                                 <li key={arbeidstidsordning + kandidat.fodselsnummer}>
@@ -140,10 +138,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 </li>
                             ))}
                         </ul>
-                        <h4>Arbeidsomfang</h4>
+                        <h4>Hva slags ansettelse ønsker du?</h4>
                         <ul>
-                            {kandidat.omfang_jobbprofil.map((omfang) => (
-                                <li key={omfang + kandidat.fodselsnummer}>{omfang}</li>
+                            {kandidat.ansettelsesformer_jobbprofil.map((ansettelsesform) => (
+                                <li key={ansettelsesform + kandidat.fodselsnummer}>
+                                    {ansettelsesform}
+                                </li>
                             ))}
                         </ul>
                     </section>
@@ -156,12 +156,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                     <ul>
                                         <li>Utdanningsretning: {utdannelse.utdanningsretning}</li>
                                         <li>Autorisasjon: {utdannelse.autorisasjon}</li>
-                                        <li>NuskodeGrad: {utdannelse.nuskodeGrad}</li>
+                                        <li>Grad: {utdannelse.nuskodeGrad}</li>
                                         <li>
                                             UtdannelseYrkestatus: {utdannelse.utdannelseYrkestatus}
                                         </li>
-                                        <li>FraTidspunkt: {tilDato(utdannelse.fraTidspunkt)}</li>
-                                        <li>TilTidspunkt: {tilDato(utdannelse.tilTidspunkt)}</li>
+                                        <li>Fra: {tilDato(utdannelse.fraTidspunkt)}</li>
+                                        <li>Til: {tilDato(utdannelse.tilTidspunkt)}</li>
                                     </ul>
                                 </li>
                             ))}
@@ -173,9 +173,9 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             {kandidat.fagdokumentasjon.map((dok) => (
                                 <li key={dok.tittel}>
                                     <ul>
-                                        <li>type: {dok.type}</li>
-                                        <li>tittel: {dok.tittel}</li>
-                                        <li>beskrivelse: {dok.beskrivelse}</li>
+                                        <li>Type: {dok.type}</li>
+                                        <li>Tittel: {dok.tittel}</li>
+                                        <li>Beskrivelse: {dok.beskrivelse}</li>
                                     </ul>
                                 </li>
                             ))}
@@ -191,9 +191,9 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                             {arbeidserfaring.stillingstittel}{' '}
                                             {score(arbeidserfaring.score)}
                                             <li>Styrkkode: {arbeidserfaring.styrkkode}</li>
-                                            <li>Arbeidsgiver: {arbeidserfaring.arbeidsgiver}</li>
+                                            <li>Bedrift: {arbeidserfaring.arbeidsgiver}</li>
                                             <li>Sted: {arbeidserfaring.sted}</li>
-                                            <li>Beskrivelse: {arbeidserfaring.beskrivelse}</li>
+                                            <li>Arbeidsoppgaver: {arbeidserfaring.beskrivelse}</li>
                                             <li>
                                                 StillingstittelFritekst:{' '}
                                                 {arbeidserfaring.stillingstittelFritekst}
@@ -257,8 +257,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                     <ul>
                                         <li>Beskrivelse: {erfaring.beskrivelse}</li>
                                         <li>Rolle: {erfaring.rolle}</li>
-                                        <li>Fra_tidspunkt: {tilDato(erfaring.fra_tidspunkt)}</li>
-                                        <li>Til_tidspunkt: {tilDato(erfaring.til_tidspunkt)}</li>
+                                        <li>Fra: {tilDato(erfaring.fra_tidspunkt)}</li>
+                                        <li>Til: {tilDato(erfaring.til_tidspunkt)}</li>
                                     </ul>
                                 </li>
                             ))}
@@ -280,15 +280,15 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             {kandidat.sertifikat.map((sertifikat) => (
                                 <li key={sertifikat.tittel}>
                                     <ul>
-                                        <li>tittel: {sertifikat.tittel}</li>
-                                        <li>sertifikatnavn: {sertifikat.sertifikatnavn}</li>
+                                        <li>Tittel: {sertifikat.tittel}</li>
+                                        <li>Sertifikatnavn: {sertifikat.sertifikatnavn}</li>
                                         <li>
                                             sertifikatnavn_fritekst:{' '}
                                             {sertifikat.sertifikatnavn_fritekst}
                                         </li>
-                                        <li>utsteder: {sertifikat.utsteder}</li>
-                                        <li>gjennomfoert: {sertifikat.gjennomfoert}</li>
-                                        <li>utloeper: {tilDato(sertifikat.utloeper)}</li>
+                                        <li>Utsteder: {sertifikat.utsteder}</li>
+                                        <li>Fullført: {sertifikat.gjennomfoert}</li>
+                                        <li>Utløper: {tilDato(sertifikat.utloeper)}</li>
                                     </ul>
                                     <br />
                                 </li>
@@ -301,11 +301,11 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             {kandidat.godkjenninger.map((godkjenning) => (
                                 <li key={godkjenning.tittel}>
                                     <ul>
-                                        <li>tittel: {godkjenning.tittel} </li>
+                                        <li>Tittel: {godkjenning.tittel} </li>
                                         <li>konsept_id: {godkjenning.konsept_id} </li>
-                                        <li>utsteder: {godkjenning.utsteder} </li>
-                                        <li>gjennomfoert: {godkjenning.gjennomfoert} </li>
-                                        <li>utloeper: {tilDato(godkjenning.utloeper)} </li>
+                                        <li>Utsteder: {godkjenning.utsteder} </li>
+                                        <li>Fullført: {godkjenning.gjennomfoert} </li>
+                                        <li>Utløper: {tilDato(godkjenning.utloeper)} </li>
                                     </ul>
                                 </li>
                             ))}
@@ -316,8 +316,11 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <ul>
                             {kandidat.spraakferdigheter.map((språkferdighet) => (
                                 <li key={språkferdighet.iso3kode}>
-                                    {språkferdighet.spraaknavn} - muntlig: {språkferdighet.muntlig},
-                                    skriftlig: {språkferdighet.skriftlig}
+                                    {språkferdighet.spraaknavn}
+                                    <ul>
+                                        <li>Muntlig: {språkferdighet.muntlig}</li>
+                                        <li>Skriftlig: {språkferdighet.skriftlig}</li>
+                                    </ul>
                                 </li>
                             ))}
                         </ul>
@@ -328,10 +331,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             {kandidat.foererkort.klasse.map((førerkort) => (
                                 <li key={førerkort.klasse}>
                                     <ul>
-                                        <li>klasse: {førerkort.klasse}</li>
-                                        <li>beskrivelse: {førerkort.klasse_beskrivelse}</li>
-                                        <li>fra tidspunkt: {tilDato(førerkort.fra_tidspunkt)}</li>
-                                        <li>utløper: {tilDato(førerkort.utloeper)}</li>
+                                        <li>Klasse: {førerkort.klasse}</li>
+                                        <li>Beskrivelse: {førerkort.klasse_beskrivelse}</li>
+                                        <li>Gyldig fra: {tilDato(førerkort.fra_tidspunkt)}</li>
+                                        <li>Gyldig til: {tilDato(førerkort.utloeper)}</li>
                                     </ul>
                                     <br />
                                 </li>
@@ -345,10 +348,11 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 <li key={kurs.tittel}>
                                     {kurs.tittel}
                                     <ul>
-                                        <li>utsteder: {kurs.utsteder}</li>
-                                        <li>varighet: {kurs.varighet}</li>
-                                        <li>varighet_enhet: {kurs.varighet_enhet}</li>
-                                        <li>tidspunkt: {tilDato(kurs.tidspunkt)}</li>
+                                        <li>Kursholder: {kurs.utsteder}</li>
+                                        <li>
+                                            Kurslengde {kurs.varighet_enhet}: {kurs.varighet}
+                                        </li>
+                                        <li>Fullført: {tilDato(kurs.tidspunkt)}</li>
                                     </ul>
                                 </li>
                             ))}
@@ -357,51 +361,51 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <h3>Oppfølgingsinformasjon</h3>
                         <ul>
-                            <li>fodselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>
+                            <li>Fødselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>
                             <li>
-                                formidlingsgruppe:{' '}
+                                Formidlingsgruppe:{' '}
                                 {kandidat.oppfolgingsinformasjon.formidlingsgruppe}
                             </li>
                             <li>
                                 iservFraDato:{' '}
                                 {tilDato(kandidat.oppfolgingsinformasjon.iservFraDato)}
                             </li>
-                            <li>fornavn: {kandidat.oppfolgingsinformasjon.fornavn}</li>
-                            <li>etternavn: {kandidat.oppfolgingsinformasjon.etternavn}</li>
+                            <li>Fornavn: {kandidat.oppfolgingsinformasjon.fornavn}</li>
+                            <li>Etternavn: {kandidat.oppfolgingsinformasjon.etternavn}</li>
                             <li>
-                                oppfolgingsenhet: {kandidat.oppfolgingsinformasjon.oppfolgingsenhet}
+                                Oppfølgingsenhet: {kandidat.oppfolgingsinformasjon.oppfolgingsenhet}
                             </li>
                             <li>
-                                kvalifiseringsgruppe:{' '}
+                                Kvalifiseringsgruppe:{' '}
                                 {kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}
                             </li>
                             <li>
-                                rettighetsgruppe: {kandidat.oppfolgingsinformasjon.rettighetsgruppe}
+                                Rettighetsgruppe: {kandidat.oppfolgingsinformasjon.rettighetsgruppe}
                             </li>
-                            <li>hovedmaal: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>
+                            <li>Hovedmaal: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>
                             <li>
-                                sikkerhetstiltakType:{' '}
+                                SikkerhetstiltakType:{' '}
                                 {kandidat.oppfolgingsinformasjon.sikkerhetstiltakType}
                             </li>
                             <li>
-                                diskresjonskode: {kandidat.oppfolgingsinformasjon.diskresjonskode}
+                                Diskresjonskode: {kandidat.oppfolgingsinformasjon.diskresjonskode}
                             </li>
                             <li>
-                                harOppfolgingssak:{' '}
+                                Har oppfolgingssak:{' '}
                                 {booleanTilTekst(kandidat.oppfolgingsinformasjon.harOppfolgingssak)}
                             </li>
                             <li>
-                                sperretAnsatt:{' '}
+                                Er sperret ansatt:{' '}
                                 {booleanTilTekst(kandidat.oppfolgingsinformasjon.sperretAnsatt)}
                             </li>
                             <li>
-                                erDoed: {booleanTilTekst(kandidat.oppfolgingsinformasjon.erDoed)}
+                                Er død: {booleanTilTekst(kandidat.oppfolgingsinformasjon.erDoed)}
                             </li>
                             <li>
-                                doedFraDato: {tilDato(kandidat.oppfolgingsinformasjon.doedFraDato)}
+                                Dødsdato: {tilDato(kandidat.oppfolgingsinformasjon.doedFraDato)}
                             </li>
                             <li>
-                                sistEndretDato:{' '}
+                                Sist endret:{' '}
                                 {tilDato(kandidat.oppfolgingsinformasjon.sistEndretDato)}
                             </li>
                         </ul>
@@ -409,10 +413,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <h3>Oppfølgingsperiode</h3>
                         <ul>
-                            <li>uuid: {kandidat.oppfolgingsperiode.uuid} </li>
-                            <li>aktorId: {kandidat.oppfolgingsperiode.aktorId} </li>
-                            <li>startDato: {tilDato(kandidat.oppfolgingsperiode.startDato)} </li>
-                            <li>sluttDato: {tilDato(kandidat.oppfolgingsperiode.sluttDato)} </li>
+                            <li>UUID: {kandidat.oppfolgingsperiode.uuid} </li>
+                            <li>Aktør-id: {kandidat.oppfolgingsperiode.aktorId} </li>
+                            <li>Start: {tilDato(kandidat.oppfolgingsperiode.startDato)} </li>
+                            <li>Slutt: {tilDato(kandidat.oppfolgingsperiode.sluttDato)} </li>
                         </ul>
                     </section>
                     <section className="blokk-xl">
