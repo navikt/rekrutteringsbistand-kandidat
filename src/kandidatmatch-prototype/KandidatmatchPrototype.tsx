@@ -9,14 +9,18 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         console.log('Henter ai data');
         const hentPrototype = async () => {
             try {
-                const proto = await fetch('/api/prototype', {
+                const response = await fetch('/api/prototype', {
                     method: 'GET',
                 });
 
-                const data = await proto.json();
-                console.log('Returnerer ai data', data);
-
-                setPrototype(data);
+                if (response.ok) {
+                    const data = await response.json();
+                    setPrototype(data);
+                    console.log('Returnerer ai data', data);
+                } else {
+                    console.log('Kall mot ai feilet, status', response.status);
+                    throw await response.text();
+                }
             } catch (e) {
                 console.log(e);
             }
