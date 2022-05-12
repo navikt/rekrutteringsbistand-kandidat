@@ -271,7 +271,10 @@
         },
         "kompetanser_jobbprofil": {
             "score": 0.34,
-            "kompetanser": [{ "kompetanse": "Fagbrev/svennebrev", "score": 0.34 }]
+            "kompetanser": [
+                { "kompetanse": "Oljeboring", "score": 0.74 },
+                { "kompetanse": "Oljeleting", "score": 0.63 }
+            ]
         },
         "geografi_jobbprofil": {
             "score": 0.34,
