@@ -24,6 +24,7 @@ import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Varsling from '../common/varsling/Varsling';
 import './App.less';
+import KandidatmatchPrototype from '../kandidatmatch-prototype/KandidatmatchPrototype';
 
 type Props = {
     error: {
@@ -60,6 +61,7 @@ const App: FunctionComponent<Props> = (props) => {
                 <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
+                        <Route exact path="/prototype" component={KandidatmatchPrototype} />
                         <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
                         <Route
                             exact
