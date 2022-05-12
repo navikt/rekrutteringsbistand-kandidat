@@ -79,7 +79,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                             {kandidat.veileder.aktorId}
                         </p>
                         <p aria-label="NAV-kontor">NAV-kontor: Dummy NAV-kontor</p>
-                        <p></p>
+                        <p>Disponerer bil: {booleanTilTekst(kandidat.disponererBil === true)}</p>
                     </section>
                     <section className="blokk-xl">
                         <h3>Sammendrag/Om meg {score(kandidat.sammendrag.score)}</h3>
@@ -425,6 +425,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
+                        <h3>Tilleggsinformasjon</h3>
                         <p>OppstartKode: {kandidat.oppstartKode}</p>
                         <p>
                             SynligForArbeidsgiver: {booleanTilTekst(kandidat.synligForArbeidsgiver)}{' '}
@@ -432,7 +433,6 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <p>SynligForVeileder: {booleanTilTekst(kandidat.synligForVeileder)} </p>
                         <p>ArenaKandidatnr: {kandidat.arenaKandidatnr} </p>
                         <p>JobbprofilId: {kandidat.jobbprofilId} </p>
-                        <p>Disponerer bil: {booleanTilTekst(kandidat.disponererBil === true)}</p>
                     </section>
                 </>
             )}
