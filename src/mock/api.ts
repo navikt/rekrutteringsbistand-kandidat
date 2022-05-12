@@ -379,7 +379,7 @@ fetchMock
     .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
     .get(url.forespørselOmDelingAvCvForKandidat, log(forespørslerOmDelingAvCvForKandidat))
     .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }))
-    .get('/api/prototype', log(prototype))
+    .get('/kandidatmatch-api/match', log(prototype))
     .post(
         url.postResendForespørselOmDelingAvCv,
         log({ body: forespørslerOmDelingAvCv, status: 201 })

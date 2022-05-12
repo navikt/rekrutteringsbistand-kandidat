@@ -14,13 +14,9 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                 });
 
                 if (response.ok) {
-                    const datatext = await response.text();
-                    console.log('Returnerer ai data', datatext);
-                    setPrototype([]);
-
-                    /*const data = await response.json();
+                    const data = await response.json();
+                    console.log('Returnerer ai data', data);
                     setPrototype(data);
-                    console.log('Returnerer ai data', data);*/
                 } else {
                     console.log('Kall mot ai feilet, status', response.status);
                     throw await response.text();
