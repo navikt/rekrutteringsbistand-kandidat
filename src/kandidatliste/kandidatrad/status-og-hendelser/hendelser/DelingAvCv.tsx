@@ -7,6 +7,7 @@ import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 import { useSelector } from 'react-redux';
 import AppState from '../../../../AppState';
 import { Nettstatus } from '../../../../api/Nettressurs';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -52,6 +53,8 @@ const DelingAvCv: FunctionComponent<Props> = ({
     const slettCvStatus = useSelector(
         (state: AppState) => state.kandidatliste.slettCvFraArbeidsgiversKandidatlisteStatus
     );
+
+    console.log('slettCvStatus', slettCvStatus);
 
     const [visning, setVisning] = useState<Visning>(hentInitiellVisning(utfall, utfallsendringer));
 
@@ -221,12 +224,14 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="Slett CV-en fra kandidatlisten til arbeidsgiver"
                     beskrivelse={
                         <>
-                            <p>
+                            <Normaltekst className="blokk-xs">
                                 Hvis du utfører denne handlingen så blir CV-en slettet fra
                                 kandidatlisten til arbeidsgiver. Arbeidsgiver vil ikke kunne se
                                 CV-en til kandidaten.
-                            </p>
-                            <p>Husk at årsaken til at du sletter CV-en må journalføres.</p>
+                            </Normaltekst>
+                            <Normaltekst>
+                                Husk at årsaken til at du sletter CV-en må journalføres.
+                            </Normaltekst>
                         </>
                     }
                 >
@@ -235,9 +240,9 @@ const DelingAvCv: FunctionComponent<Props> = ({
                             <Hovedknapp
                                 mini
                                 kompakt
-                                spinner={slettCvStatus === Nettstatus.LasterInn}
+                                spinner={slettCvStatus === Nettstatus.SenderInn}
                                 onClick={
-                                    slettCvStatus === Nettstatus.LasterInn
+                                    slettCvStatus === Nettstatus.SenderInn
                                         ? () => {}
                                         : onBekreftSlettSendtCv
                                 }
