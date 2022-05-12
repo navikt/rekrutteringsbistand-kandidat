@@ -272,6 +272,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     </section>
                     <section className="blokk-xl">
                         <h3>Offentlige godkjenninger</h3>
+                        <h4>Autorisasjoner, førerbevis, tjenestebevis</h4>
                         <ul>
                             {kandidat.sertifikat.map((sertifikat) => (
                                 <li key={sertifikat.tittel}>
