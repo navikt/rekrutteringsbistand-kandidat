@@ -9,7 +9,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         console.log('Henter ai data');
         const hentPrototype = async () => {
             try {
-                const response = await fetch('/api/prototype', {
+                const response = await fetch('/kandidatmatch-api/match', {
                     method: 'GET',
                 });
 
