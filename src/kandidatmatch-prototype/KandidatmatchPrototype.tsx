@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import Prototype from './Prototype';
 import './KandidatmatchPrototype.less';
-import { instanceOf } from 'prop-types';
-import { isNumber } from 'util';
 
 const KandidatmatchPrototype: FunctionComponent = () => {
     const [prototype, setPrototype] = useState<Prototype[] | undefined>(undefined);
@@ -31,7 +29,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         return `(${Math.round(scoreDesimal * 100)}% Match)`;
     };
     function isNumeric(num: string) {
-        return !isNaN(parseFloat(num)) && parseFloat(num).toString() == num;
+        return !isNaN(parseFloat(num)) && parseFloat(num).toString() === num;
     }
 
     function tilDato(dato: number | Date | number[] | string) {
