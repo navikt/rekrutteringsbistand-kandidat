@@ -16,6 +16,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                 if (response.ok) {
                     const datatext = await response.text();
                     console.log('Returnerer ai data', datatext);
+                    setPrototype([]);
 
                     /*const data = await response.json();
                     setPrototype(data);
