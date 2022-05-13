@@ -261,6 +261,50 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                             const fraKandidat = ordscore[0];
                                                             const ordFraKandidat = fraKandidat[1];
                                                             const fraStilling = ordscore[1];
+
+                                                            function perc2color(perc) {
+                                                                var r,
+                                                                    g,
+                                                                    b = 0;
+                                                                if (perc < 50) {
+                                                                    r = 255;
+                                                                    g = Math.round(5.1 * perc);
+                                                                } else {
+                                                                    g = 255;
+                                                                    r = Math.round(
+                                                                        510 - 5.1 * perc
+                                                                    );
+                                                                }
+                                                                var h =
+                                                                    r * 0x10000 +
+                                                                    g * 0x100 +
+                                                                    b * 0x1;
+                                                                return (
+                                                                    '#' +
+                                                                    (
+                                                                        '000000' + h.toString(16)
+                                                                    ).slice(-6)
+                                                                );
+                                                            }
+
+                                                            function color(score: any) {
+                                                                if (score < 0.5)
+                                                                    return {
+                                                                        backgroundColor: 'white',
+                                                                    };
+                                                                return {
+                                                                    backgroundColor: perc2color(
+                                                                        (score - 0.5) * 2 * 100
+                                                                    ),
+                                                                };
+                                                            }
+
+                                                            /*function color(score: any) {
+                                                                const bgColor = '#'+(score*256).toString+'0000'
+
+                                                                return { backgroundColor: 'rgba(0,' + ((score-0.5)*2*256) + ',0,1)' };
+                                                            }*/
+
                                                             const stillingord = fraStilling
                                                                 .sort(
                                                                     (s1, s2) =>
@@ -269,7 +313,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                                 )
                                                                 .slice(0, 2)
                                                                 .map((f) => (
-                                                                    <td>
+                                                                    <td style={color(f[2])}>
                                                                         {scoreProsentpoeng(f[2]) >
                                                                             50 &&
                                                                             scoreProsentpoeng(
