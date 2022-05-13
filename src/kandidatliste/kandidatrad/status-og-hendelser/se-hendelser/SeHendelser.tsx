@@ -30,6 +30,7 @@ const SeHendelser: FunctionComponent<Props> = ({
         stillingskategori === Stillingskategori.Stilling ||
         stillingskategori === Stillingskategori.Formidling ||
         stillingskategori == null;
+
     return (
         <>
             <Undertittel>Hendelser</Undertittel>

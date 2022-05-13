@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
-import { Kandidat, Kandidatutfall } from '../../../domene/Kandidat';
+import { Kandidat, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 
 type Props = {
@@ -8,23 +8,15 @@ type Props = {
 };
 
 const CvErSlettet: FunctionComponent<Props> = ({ kandidat }) => {
-    const utfallSortertMedNyesteFørst = kandidat.utfallsendringer.sort(
-        (u, v) => Number(new Date(v.tidspunkt)) - Number(new Date(u.tidspunkt))
+    const erSendtTilArbeidsgiverOgSlettet = cvErSendtTilArbeidsgiverOgSlettet(
+        kandidat.utfallsendringer
     );
 
-    const [sisteUtfall, nestSisteUtfall] = utfallSortertMedNyesteFørst;
-    if (nestSisteUtfall === undefined) {
+    if (!erSendtTilArbeidsgiverOgSlettet) {
         return null;
     }
 
-    const kandidatenErSendtTilArbeidsgiverOgTrukketTilbake =
-        nestSisteUtfall.sendtTilArbeidsgiversKandidatliste &&
-        sisteUtfall.utfall === Kandidatutfall.IkkePresentert;
-
-    if (!kandidatenErSendtTilArbeidsgiverOgTrukketTilbake) {
-        return null;
-    }
-
+    const sisteUtfall = hentSisteUtfall(kandidat.utfallsendringer);
     const slettetTidspunkt = formaterDatoNaturlig(sisteUtfall.tidspunkt);
 
     return (
@@ -35,5 +27,25 @@ const CvErSlettet: FunctionComponent<Props> = ({ kandidat }) => {
         />
     );
 };
+
+const sorterUtfallmedNyesteFørst = (utfallsendringer: Utfallsendring[]) =>
+    utfallsendringer.sort((u, v) => Number(new Date(v.tidspunkt)) - Number(new Date(u.tidspunkt)));
+
+export const cvErSendtTilArbeidsgiverOgSlettet = (utfallsendringer: Utfallsendring[]) => {
+    const utfallSortertMedNyesteFørst = sorterUtfallmedNyesteFørst(utfallsendringer);
+
+    const [sisteUtfall, nestSisteUtfall] = utfallSortertMedNyesteFørst;
+    if (nestSisteUtfall === undefined) {
+        return false;
+    }
+
+    return (
+        nestSisteUtfall.sendtTilArbeidsgiversKandidatliste &&
+        sisteUtfall.utfall === Kandidatutfall.IkkePresentert
+    );
+};
+
+const hentSisteUtfall = (utfallsendringer: Utfallsendring[]) =>
+    sorterUtfallmedNyesteFørst(utfallsendringer)[0];
 
 export default CvErSlettet;

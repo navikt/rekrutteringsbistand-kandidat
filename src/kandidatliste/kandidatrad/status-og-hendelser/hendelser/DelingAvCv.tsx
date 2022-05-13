@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import AppState from '../../../../AppState';
 import { Nettstatus } from '../../../../api/Nettressurs';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { cvErSendtTilArbeidsgiverOgSlettet } from './CvErSlettet';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -19,7 +20,7 @@ type Props = {
 
 enum Visning {
     Registrer,
-    FjernRegistrering,
+    CvErDelt,
     SlettSendtCv,
     BekreftRegistrer,
     BekreftFjernRegistrering,
@@ -28,9 +29,12 @@ enum Visning {
 
 const hentInitiellVisning = (
     utfall: Kandidatutfall,
-    utfallsendringer: Utfallsendring[]
+    utfallsendringer: Utfallsendring[],
+    cvErSlettet: boolean
 ): Visning => {
-    if (utfall === Kandidatutfall.IkkePresentert) {
+    if (cvErSlettet) {
+        return Visning.CvErDelt;
+    } else if (utfall === Kandidatutfall.IkkePresentert) {
         return Visning.Registrer;
     } else {
         const sisteUtfallsendring = hentSisteKandidatutfall(utfall, utfallsendringer);
@@ -38,7 +42,7 @@ const hentInitiellVisning = (
         if (sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste) {
             return Visning.SlettSendtCv;
         } else {
-            return Visning.FjernRegistrering;
+            return Visning.CvErDelt;
         }
     }
 };
@@ -50,22 +54,25 @@ const DelingAvCv: FunctionComponent<Props> = ({
     onEndreUtfall,
     onSlettCv,
 }) => {
+    const cvErSlettet = cvErSendtTilArbeidsgiverOgSlettet(utfallsendringer);
     const slettCvStatus = useSelector(
         (state: AppState) => state.kandidatliste.slettCvFraArbeidsgiversKandidatlisteStatus
     );
 
-    const [visning, setVisning] = useState<Visning>(hentInitiellVisning(utfall, utfallsendringer));
+    const [visning, setVisning] = useState<Visning>(
+        hentInitiellVisning(utfall, utfallsendringer, cvErSlettet)
+    );
 
     useEffect(() => {
-        setVisning(hentInitiellVisning(utfall, utfallsendringer));
-    }, [utfall, utfallsendringer]);
+        setVisning(hentInitiellVisning(utfall, utfallsendringer, cvErSlettet));
+    }, [utfall, utfallsendringer, cvErSlettet]);
 
     const onRegistrer = () => setVisning(Visning.BekreftRegistrer);
     const onFjernRegistrering = () => setVisning(Visning.BekreftFjernRegistrering);
     const onSlettSendtCv = () => setVisning(Visning.BekreftSlettSendtCv);
 
     const onAvbrytRegistrering = () => setVisning(Visning.Registrer);
-    const onAvbrytFjerningAvRegistrering = () => setVisning(Visning.FjernRegistrering);
+    const onAvbrytFjerningAvRegistrering = () => setVisning(Visning.CvErDelt);
     const onAvbrytSlettSendtCv = () => setVisning(Visning.SlettSendtCv);
 
     const onBekreftRegistreringClick = () => {
@@ -81,7 +88,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
     };
 
     const hendelsesstatus =
-        utfall === Kandidatutfall.FåttJobben || utfall === Kandidatutfall.Presentert
+        utfall === Kandidatutfall.FåttJobben || utfall === Kandidatutfall.Presentert || cvErSlettet
             ? Hendelsesstatus.Grønn
             : Hendelsesstatus.Hvit;
 
@@ -118,14 +125,14 @@ const DelingAvCv: FunctionComponent<Props> = ({
                 </Hendelse>
             );
 
-        case Visning.FjernRegistrering:
+        case Visning.CvErDelt:
             return (
                 <Hendelse
                     status={hendelsesstatus}
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={utfallsbeskrivelse}
                 >
-                    {kanEndre && (
+                    {kanEndre && !cvErSlettet && (
                         <Flatknapp
                             onClick={onFjernRegistrering}
                             className="endre-status-og-hendelser__registrer-hendelse"
