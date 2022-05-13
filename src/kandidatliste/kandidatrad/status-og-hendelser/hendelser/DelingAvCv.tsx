@@ -54,8 +54,6 @@ const DelingAvCv: FunctionComponent<Props> = ({
         (state: AppState) => state.kandidatliste.slettCvFraArbeidsgiversKandidatlisteStatus
     );
 
-    console.log('slettCvStatus', slettCvStatus);
-
     const [visning, setVisning] = useState<Visning>(hentInitiellVisning(utfall, utfallsendringer));
 
     useEffect(() => {
