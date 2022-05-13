@@ -35,8 +35,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         return `(${Math.round(scoreDesimal * 100)}% Match)`;
     };
 
-    const scoreKort = (scoreDesimal) => {
-        return `${Math.round(scoreDesimal * 100)}`;
+    const scoreProsentpoeng = (scoreDesimal) => {
+        return Math.round(scoreDesimal * 100);
     };
 
     function isNumeric(num: string) {
@@ -216,7 +216,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                 FraTidspunkt:{' '}
                                                 {tilDato(arbeidserfaring.fraTidspunkt)}
                                             </li>
-                                            <li>
+                                            <li className="blokk-xl">
                                                 Score forklaring:
                                                 <table>
                                                     {arbeidserfaring.ordScore && (
@@ -235,8 +235,51 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                             const ordFraKandidat = fraKandidat[1];
                                                             const fraStilling = ordscore[1];
                                                             const stillingord = fraStilling.map(
-                                                                (f) => <td>{scoreKort(f[2])}</td>
+                                                                (f) => (
+                                                                    <td>
+                                                                        {scoreProsentpoeng(f[2])}
+                                                                    </td>
+                                                                )
                                                             );
+                                                            return (
+                                                                <tr>
+                                                                    <td>{ordFraKandidat}</td>
+                                                                    {stillingord}
+                                                                </tr>
+                                                            );
+                                                        })}
+                                                </table>
+                                            </li>
+                                            <li>
+                                                Score forklaring alternativ:
+                                                <table>
+                                                    <th>Ord fra kandidat</th>
+                                                    <th>Ord fra stilling</th>
+                                                    <th>Ord fra stilling</th>
+                                                    {arbeidserfaring.ordScore &&
+                                                        arbeidserfaring.ordScore.map((ordscore) => {
+                                                            const fraKandidat = ordscore[0];
+                                                            const ordFraKandidat = fraKandidat[1];
+                                                            const fraStilling = ordscore[1];
+                                                            const stillingord = fraStilling
+                                                                .sort(
+                                                                    (s1, s2) =>
+                                                                        scoreProsentpoeng(s2[2]) -
+                                                                        scoreProsentpoeng(s1[2])
+                                                                )
+                                                                .slice(0, 2)
+                                                                .map((f) => (
+                                                                    <td>
+                                                                        {scoreProsentpoeng(f[2]) >
+                                                                            50 &&
+                                                                            scoreProsentpoeng(
+                                                                                f[2]
+                                                                            ) +
+                                                                                '%' +
+                                                                                ' ' +
+                                                                                f[1]}
+                                                                    </td>
+                                                                ));
                                                             return (
                                                                 <tr>
                                                                     <td>{ordFraKandidat}</td>
