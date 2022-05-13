@@ -10,6 +10,7 @@ import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/Forespørsle
 import { Sms } from '../../../domene/Kandidatressurser';
 import SmsSendt from '../hendelser/SmsSendt';
 import { Stillingskategori } from '../../../domene/Kandidatliste';
+import CvErSlettet from '../hendelser/CvErSlettet';
 
 type Props = {
     kandidat: Kandidat;
@@ -46,6 +47,8 @@ const SeHendelser: FunctionComponent<Props> = ({
                             kandidatlisteId={kandidatlisteId}
                             kanEndre={false}
                         />
+
+                        <CvErSlettet kandidat={kandidat} />
 
                         <HarFåttJobben
                             kandidat={kandidat}
