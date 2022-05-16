@@ -7,6 +7,7 @@ export const STILLINGSSØK_PROXY = '/stillingssok-proxy';
 export const hentStilling = async (stillingsId: string): Promise<any> => {
     try {
         const response = await fetchJson(`${STILLINGSSØK_PROXY}/stilling/_doc/${stillingsId}`);
+        console.log('stillingsvar', response);
         return response['_source'];
     } catch (e) {
         throw new SearchApiError({

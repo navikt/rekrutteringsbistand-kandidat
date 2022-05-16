@@ -12,6 +12,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
             try {
                 const stillingsId = 'ecaac27c-de33-4fb2-a0ed-c22436bfe611';
                 const stilling = await hentStilling(stillingsId);
+                console.log('stilling', stilling);
 
                 const response = await fetch('/kandidatmatch-api/match', {
                     method: 'POST',
