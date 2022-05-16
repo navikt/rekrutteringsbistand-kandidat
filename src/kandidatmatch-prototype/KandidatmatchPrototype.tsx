@@ -10,7 +10,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         const hentPrototype = async () => {
             try {
                 const response = await fetch('/kandidatmatch-api/match', {
-                    method: 'GET',
+                    method: 'POST',
                 });
 
                 if (response.ok) {
