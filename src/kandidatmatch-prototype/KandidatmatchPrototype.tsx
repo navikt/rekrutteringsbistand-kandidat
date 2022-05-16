@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import Prototype from './Prototype';
+import { hentStilling } from '../kandidatmatch/kandidatmatchApi';
 import './KandidatmatchPrototype.less';
 
 const KandidatmatchPrototype: FunctionComponent = () => {
@@ -9,8 +10,12 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         console.log('Henter ai data');
         const hentPrototype = async () => {
             try {
+                const stillingsId = 'ecaac27c-de33-4fb2-a0ed-c22436bfe611';
+                const stilling = await hentStilling(stillingsId);
+
                 const response = await fetch('/kandidatmatch-api/match', {
                     method: 'POST',
+                    body: JSON.stringify(stilling),
                 });
 
                 if (response.ok) {
