@@ -66,7 +66,9 @@ const KandidatmatchPrototype: FunctionComponent = () => {
     return (
         <div className="prototype">
             <div className="blokk-xl">
-                <h1>Elitekandidater</h1>
+                <h1>
+                    {kandidat?.fornavn} {kandidat?.etternavn}
+                </h1>
             </div>
             {kandidat && (
                 <>
@@ -95,19 +97,15 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     </section>
                     <section className="blokk-xl">
                         <h3>Sammendrag/Om meg {score(kandidat.sammendrag.score)}</h3>
-                        <ul>
-                            <li key={kandidat.sammendrag.sammendrag_tekst}>
-                                {kandidat.sammendrag.sammendrag_tekst}
-                            </li>
-                        </ul>
+                        <p>{kandidat.sammendrag.tekst}</p>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Jobbønsker {score(kandidat.score_total)}</h3>
+                        <h3>Jobbønsker</h3>
                         <h4>Jobber og yrker {score(kandidat.stillinger_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske) => (
-                                <li key={stillingØnske.stilling}>
-                                    {stillingØnske.stilling} {score(stillingØnske.score)}
+                                <li key={stillingØnske.tekst}>
+                                    {stillingØnske.tekst} {score(stillingØnske.score)}
                                 </li>
                             ))}
                         </ul>
@@ -159,18 +157,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Utdanninger {score(kandidat.utdannelse.score)}</h3>
                         <ul>
                             {kandidat.utdannelse.erfaringer.map((utdannelse) => (
-                                <li key={utdannelse.nuskodeGrad}>
-                                    {utdannelse.laerested} {score(utdannelse.score)}
-                                    <ul>
-                                        <li>Utdanningsretning: {utdannelse.utdanningsretning}</li>
-                                        <li>Autorisasjon: {utdannelse.autorisasjon}</li>
-                                        <li>Grad: {utdannelse.nuskodeGrad}</li>
-                                        <li>
-                                            UtdannelseYrkestatus: {utdannelse.utdannelseYrkestatus}
-                                        </li>
-                                        <li>Fra: {tilDato(utdannelse.fraTidspunkt)}</li>
-                                        <li>Til: {tilDato(utdannelse.tilTidspunkt)}</li>
-                                    </ul>
+                                <li key={utdannelse.tekst}>
+                                    {utdannelse.tekst} {score(utdannelse.score)}
                                 </li>
                             ))}
                         </ul>
@@ -193,31 +181,9 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Arbeidserfaringer {score(kandidat.arbeidserfaring.score)}</h3>
                         <ul>
                             {kandidat.arbeidserfaring.erfaringer.map((arbeidserfaring, index) => (
-                                <li key={arbeidserfaring.janzzKonseptid}>
+                                <li key={arbeidserfaring.tekst}>
                                     <ul>
-                                        {arbeidserfaring.stillingstittel}{' '}
-                                        {score(arbeidserfaring.score)}
-                                        <li>Styrkkode: {arbeidserfaring.styrkkode}</li>
-                                        <li>Bedrift: {arbeidserfaring.arbeidsgiver}</li>
-                                        <li>Sted: {arbeidserfaring.sted}</li>
-                                        <li>Arbeidsoppgaver: {arbeidserfaring.beskrivelse}</li>
-                                        <li>
-                                            StillingstittelFritekst:{' '}
-                                            {arbeidserfaring.stillingstittelFritekst}
-                                        </li>
-                                        <li>JanzzKonseptid: {arbeidserfaring.janzzKonseptid}</li>
-                                        <li>
-                                            TilTidspunkt: {tilDato(arbeidserfaring.tilTidspunkt)}
-                                        </li>
-                                        <li>
-                                            IkkeAktueltForFremtiden:{' '}
-                                            {booleanTilTekst(
-                                                arbeidserfaring.ikkeAktueltForFremtiden
-                                            )}
-                                        </li>
-                                        <li>
-                                            FraTidspunkt: {tilDato(arbeidserfaring.fraTidspunkt)}
-                                        </li>
+                                        {arbeidserfaring.tekst} {score(arbeidserfaring.score)}
                                         <li className="blokk-xl">
                                             Score forklaring:
                                             <table>
@@ -225,8 +191,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                     <tr>
                                                         {<th></th>}
                                                         {arbeidserfaring.ordScore.map(
-                                                            (ordscore) => (
-                                                                <th>{ordscore[0][1]}</th>
+                                                            (ordscore, index) => (
+                                                                <th key={index}>
+                                                                    {ordscore[0][1]}
+                                                                </th>
                                                             )
                                                         )}
                                                     </tr>
@@ -236,9 +204,13 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                         const fraKandidat = ordscore[0];
                                                         const ordFraKandidat = fraKandidat[1];
                                                         const fraStilling = ordscore[1];
-                                                        const stillingord = fraStilling.map((f) => (
-                                                            <td>{scoreProsentpoeng(f[2])}</td>
-                                                        ));
+                                                        const stillingord = fraStilling.map(
+                                                            (f, i) => (
+                                                                <td key={i}>
+                                                                    {scoreProsentpoeng(f[2])}
+                                                                </td>
+                                                            )
+                                                        );
                                                         return (
                                                             <tr>
                                                                 <td>{ordFraKandidat}</td>
@@ -267,8 +239,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                                     scoreProsentpoeng(s1[2])
                                                             )
                                                             .slice(0, 2)
-                                                            .map((f) => (
-                                                                <td>
+                                                            .map((f, i) => (
+                                                                <td key={i}>
                                                                     {scoreProsentpoeng(f[2]) > 50 &&
                                                                         scoreProsentpoeng(f[2]) +
                                                                             '%' +
@@ -310,8 +282,8 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Kompetanser {score(kandidat.kompetanser_jobbprofil.score)}</h3>
                         <ul>
                             {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse) => (
-                                <li key={kompetanse.kompetanse}>
-                                    {kompetanse.kompetanse} {score(kompetanse.score)}
+                                <li key={kompetanse.tekst}>
+                                    {kompetanse.tekst} {score(kompetanse.score)}
                                 </li>
                             ))}
                         </ul>
@@ -464,11 +436,16 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     </section>
                     <section className="blokk-xl">
                         <h3>Tilretteleggingbehov</h3>
-                        <ul>
-                            {kandidat.tilretteleggingsbehov.map((behov) => (
-                                <li key={behov}>{behov}</li>
-                            ))}
-                        </ul>
+                        {kandidat.tilretteleggingsbehov &&
+                        kandidat.tilretteleggingsbehov.length > 0 ? (
+                            <ul>
+                                {kandidat.tilretteleggingsbehov.split(',').map((behov) => (
+                                    <li key={behov}>{behov}</li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>Kandidaten har ingen tilretteleggingsbehov</p>
+                        )}
                     </section>
                     <section className="blokk-xl">
                         <h3>Tilleggsinformasjon</h3>

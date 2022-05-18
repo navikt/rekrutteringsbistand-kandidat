@@ -13,12 +13,13 @@ type Prototype = {
     kommunenr: string;
     land: string;
     nasjonalitet: string;
-    sammendrag: SammendragPrototype;
     foererkort: FørerkortPrototype;
 
     // Cv
-    arbeidserfaring: ArbeidserfaringPrototype;
-    utdannelse: UtdannelsePrototype;
+    arbeidserfaring: ErfaringerPrototype;
+    utdannelse: ErfaringerPrototype;
+    sammendrag: ErfaringPrototype;
+
     fagdokumentasjon: FagdokumentasjonPrototype[];
     godkjenninger: GodkjenningerPrototype[];
     kurs: KursPrototype[];
@@ -34,9 +35,8 @@ type Prototype = {
     synligForVeileder: boolean;
 
     // Jobbprofil
-    stillinger_jobbprofil: StillingerJobbprofilPrototype;
-    kompetanser_jobbprofil: KompetanserJobbprofilPrototype;
-    stillingkladder_jobbprofil: string[];
+    stillinger_jobbprofil: ErfaringerPrototype;
+    kompetanser_jobbprofil: ErfaringerPrototype;
     geografi_jobbprofil: GeografiJobbprofilPrototype;
     ansettelsesformer_jobbprofil: string[];
     arbeidstider_jobbprofil: string[];
@@ -48,25 +48,13 @@ type Prototype = {
     // Oppfølgingsinformasjon
     oppfolgingsinformasjon: Oppfolgingsinformasjon;
     oppfolgingsperiode: OppfolgingsperiodePrototype;
+
     // Match
     score_total: number;
-    score_utdannelse: number;
-    score_jobbprofil: number;
-    score_arbeidserfaring: number;
-    score_sammendrag: number;
-    score_geografi: number;
-    score_styrkkode: number;
-    match_forklaring: {
-        arbeidserfaring_forklaring: number[];
-        utdannelse_forklaring: number[];
-        jobbprofil_forklaring: number[];
-        geografi_forklaring: number[];
-        styrkkode_forklaring: number[];
-    };
 
     // Veileder
     veileder: VeilederPrototype;
-    tilretteleggingsbehov: string[];
+    tilretteleggingsbehov: string | null;
 };
 
 type VeilederPrototype = {
@@ -75,41 +63,15 @@ type VeilederPrototype = {
     tilordnet: string;
 };
 
-type ArbeidserfaringPrototype = {
+type ErfaringerPrototype = {
+    erfaringer: ErfaringPrototype[];
     score: number;
-    erfaringer: ArbeidserfaringerPrototype[];
 };
 
-type ArbeidserfaringerPrototype = {
+type ErfaringPrototype = {
     score: number;
     ordScore: OrdScore[];
-    stillingstittel: string;
-    styrkkode: string;
-    arbeidsgiver: string;
-    sted: string;
-    beskrivelse: string;
-    stillingstittelFritekst: string;
-    janzzKonseptid: string;
-    tilTidspunkt: number;
-    ikkeAktueltForFremtiden: boolean;
-    fraTidspunkt: number[];
-};
-
-type UtdannelsePrototype = {
-    score: number;
-    erfaringer: UtdannelserPrototype[];
-};
-
-type UtdannelserPrototype = {
-    score: number;
-    laerested: string;
-    beskrivelse: string;
-    utdanningsretning: string;
-    autorisasjon: false;
-    tilTidspunkt: number;
-    nuskodeGrad: string;
-    utdannelseYrkestatus: string;
-    fraTidspunkt: number[];
+    tekst: string;
 };
 
 type SertifikatPrototype = {
@@ -182,16 +144,6 @@ enum FerdighetsnivåPrototype {
     FOERSTESPRAAK,
 }
 
-type StillingerJobbprofilPrototype = {
-    score: number;
-    erfaringer: StillingPrototype[];
-};
-
-type StillingPrototype = {
-    stilling: string;
-    score: number;
-};
-
 type GeografiJobbprofilPrototype = {
     //score: number;
     steder: StedPrototype[];
@@ -201,21 +153,6 @@ type StedPrototype = {
     sted: string;
     kode: string;
     score: number;
-};
-
-type KompetanserJobbprofilPrototype = {
-    score: number;
-    erfaringer: Kompetanse[];
-};
-
-type Kompetanse = {
-    score: number;
-    kompetanse: string;
-};
-
-type SammendragPrototype = {
-    score: number;
-    sammendrag_tekst: string;
 };
 
 type FagdokumentasjonPrototype = {
