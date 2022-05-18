@@ -72,7 +72,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         <div className="prototype">
             <div className="blokk-xl">
                 <h1>
-                    {kandidat?.fornavn} {kandidat?.etternavn}
+                    {kandidat?.fornavn} {kandidat?.etternavn} {score(kandidat?.score)}
                 </h1>
             </div>
             {kandidat && (

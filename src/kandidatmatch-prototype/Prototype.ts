@@ -50,7 +50,7 @@ type Prototype = {
     oppfolgingsperiode: OppfolgingsperiodePrototype;
 
     // Match
-    score_total: number;
+    score: number;
 
     // Veileder
     veileder: VeilederPrototype;
