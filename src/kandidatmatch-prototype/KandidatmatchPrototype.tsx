@@ -63,31 +63,6 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         return verdi ? 'Ja' : 'Nei';
     }
 
-    function perc2color(perc) {
-        var r,
-            g,
-            b = 0;
-        if (perc < 50) {
-            r = 255;
-            g = Math.round(5.1 * perc);
-        } else {
-            g = 255;
-            r = Math.round(510 - 5.1 * perc);
-        }
-        var h = r * 0x10000 + g * 0x100 + b * 0x1;
-        return '#' + ('000000' + h.toString(16)).slice(-6);
-    }
-
-    function color(score: any) {
-        if (score < 0.5)
-            return {
-                backgroundColor: 'white',
-            };
-        return {
-            backgroundColor: perc2color((score - 0.5) * 2 * 100),
-        };
-    }
-
     return (
         <div className="prototype">
             <div className="blokk-xl">
@@ -302,7 +277,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                                 )
                                                                 .slice(0, 2)
                                                                 .map((f) => (
-                                                                    <td style={color(f[2])}>
+                                                                    <td>
                                                                         {scoreProsentpoeng(f[2]) >
                                                                             50 &&
                                                                             scoreProsentpoeng(
