@@ -1,0 +1,296 @@
+[
+    {
+        "veileder": {
+            "aktorId": "1050077788595",
+            "veilederId": "F147589",
+            "tilordnet": "2021-03-22T12:20:46.553+01:00"
+        },
+        "tilretteleggingsbehov": ["et tilretteleggingsbehov"],
+        "fodselsnummer": "xxx",
+        "foedselsdato": [2019, 1, 10],
+        "fornavn": "Ola",
+        "etternavn": "Nordmann",
+        "epost": "spammenot@mailinator.com",
+        "telefon": "(+47) 123456789",
+        "gateadresse": "Arbeids- og velferdsdirektoratet, Sannergata 2",
+        "postnummer": "0557",
+        "poststed": "Oslo",
+        "kommunenr": "0301",
+        "land": "NO",
+        "nasjonalitet": "NO",
+        "sammendrag": { "score": 0.34, "sammendrag_tekst": "Dette er et sammendrag" },
+        "foererkort": {
+            "klasse": [
+                {
+                    "klasse": "B",
+                    "klasse_beskrivelse": "Personbil",
+                    "fra_tidspunkt": "1651739820309",
+                    "utloeper": "1651739830309"
+                },
+                {
+                    "klasse": "C",
+                    "klasse_beskrivelse": "Større bil",
+                    "fra_tidspunkt": "1651739820309",
+                    "utloeper": "1651739830309"
+                }
+            ]
+        },
+        "arbeidserfaring": {
+            "score": 0.34,
+            "arbeidserfaringer": [
+                {
+                    "stillingstittel": "Serviceingeniør olje",
+                    "styrkkode": "3117.53",
+                    "arbeidsgiver": "FMC Kongsberg Subsea",
+                    "sted": "",
+                    "beskrivelse": "",
+                    "stillingstittelFritekst": "Serviceingeniør (olje)",
+                    "janzzKonseptid": "317598",
+                    "tilTidspunkt": 1475272800000,
+                    "ikkeAktueltForFremtiden": false,
+                    "fraTidspunkt": [2012, 3, 1],
+                    "score": 0.34,
+                    "ordScore": [
+                        [
+                            [0, "serviceingeniør"],
+                            [
+                                [3, "flink", 0.1979313],
+                                [4, "serviceingeniør", 1.0],
+                                [5, "olje", 0.4]
+                            ]
+                        ],
+                        [
+                            [2, "olje"],
+                            [
+                                [3, "flink", 0.14711542],
+                                [4, "serviceingeniør", 0.6956694],
+                                [5, "olje", 1.0]
+                            ]
+                        ],
+                        [
+                            [4, "kompetent"],
+                            [
+                                [3, "flink", 0.83],
+                                [4, "serviceingeniør", 0.37078688],
+                                [5, "olje", 0.18]
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "stillingstittel": "Prosjektingeniør olje",
+                    "styrkkode": "3117.48",
+                    "arbeidsgiver": "FMC Kongsberg Subsea",
+                    "sted": "",
+                    "beskrivelse": "",
+                    "stillingstittelFritekst": "Prosjektingeniør (olje)",
+                    "janzzKonseptid": "317588",
+                    "tilTidspunkt": 1330556400000,
+                    "ikkeAktueltForFremtiden": false,
+                    "fraTidspunkt": [2008, 12, 1],
+                    "score": 0.34,
+                    "ordScore": [
+                        [
+                            [0, "prosjektingeniør"],
+                            [
+                                [3, "flink", 0.1979313],
+                                [4, "prosjektingeniør", 1.0],
+                                [5, "olje", 0.4]
+                            ]
+                        ],
+                        [
+                            [2, "olje"],
+                            [
+                                [3, "flink", 0.14711542],
+                                [4, "prosjektingeniør", 0.6956694],
+                                [5, "olje", 1.0]
+                            ]
+                        ],
+                        [
+                            [4, "kompetent"],
+                            [
+                                [3, "flink", 0.83],
+                                [4, "prosjektingeniør", 0.37078688],
+                                [5, "olje", 0.18]
+                            ]
+                        ]
+                    ]
+                }
+            ]
+        },
+        "utdannelse": {
+            "score": 0.34,
+            "utdannelser": [
+                {
+                    "laerested": "Tinus Olsen Fagskole",
+                    "beskrivelse": "",
+                    "utdanningsretning": "Ingeniørutdanning, maskin, toårig",
+                    "autorisasjon": false,
+                    "tilTidspunkt": 1212271200000,
+                    "nuskodeGrad": "655207",
+                    "utdannelseYrkestatus": "INGEN",
+                    "fraTidspunkt": [2006, 8, 1],
+                    "score": 0.34
+                },
+                {
+                    "laerested": "Malakoff",
+                    "beskrivelse": "",
+                    "utdanningsretning": "Kjøretøy, Vg2",
+                    "autorisasjon": false,
+                    "tilTidspunkt": 1086040800000,
+                    "nuskodeGrad": "355207",
+                    "utdannelseYrkestatus": "INGEN",
+                    "fraTidspunkt": [2003, 8, 1],
+                    "score": 0.34
+                },
+                {
+                    "laerested": "Malakoff",
+                    "beskrivelse": "",
+                    "utdanningsretning": "Mekaniske fag, grunnkurs",
+                    "autorisasjon": false,
+                    "tilTidspunkt": 1054418400000,
+                    "nuskodeGrad": "355211",
+                    "utdannelseYrkestatus": "INGEN",
+                    "fraTidspunkt": [2002, 8, 1],
+                    "score": 0.34
+                }
+            ]
+        },
+        "fagdokumentasjon": [
+            {
+                "type": "A",
+                "tittel": "En fagtittel",
+                "beskrivelse": "En beskrivelse"
+            }
+        ],
+        "godkjenninger": [
+            {
+                "tittel": "testdata",
+                "konsept_id": "testdata",
+                "utsteder": "testdata",
+                "gjennomfoert": [2002, 7, 1],
+                "utloeper": 1644045892
+            }
+        ],
+        "kurs": [
+            {
+                "tittel": "Livredningskurs i vann",
+                "utsteder": "Røde Kors",
+                "tidspunkt": 1644045892,
+                "varighet": 1,
+                "varighet_enhet": "TIME"
+            },
+            {
+                "tittel": "Kurs for HMS-ansvarlige",
+                "utsteder": "Norsk Olje & Gass",
+                "tidspunkt": 1644045892,
+                "varighet": 2,
+                "varighet_enhet": "MND"
+            }
+        ],
+        "sertifikat": [
+            {
+                "tittel": "Truckfører",
+                "sertifikatnavn": "T2",
+                "sertifikatnavn_fritekst": "Liten truck",
+                "konsept_id": "123",
+                "utsteder": "Truckførerskolen AS",
+                "gjennomfoert": "2012-04-21",
+                "utloeper": 1651739820308
+            },
+            {
+                "tittel": "Pertroliumssertifikat",
+                "sertifikatnavn": "P2",
+                "sertifikatnavn_fritekst": "Liten plattform",
+                "konsept_id": "124",
+                "utsteder": "Perfroliumsskolen AS",
+                "gjennomfoert": "2012-04-22",
+                "utloeper": 1651739820309
+            }
+        ],
+        "spraakferdigheter": [
+            {
+                "spraaknavn": "Norsk",
+                "iso3kode": "611",
+                "muntlig": "FOERSTESPRAAK",
+                "skriftlig": "FOERSTESPRAAK"
+            },
+            {
+                "spraaknavn": "Tysk",
+                "iso3kode": "639",
+                "muntlig": "VELDIG_GODT",
+                "skriftlig": "GODT"
+            }
+        ],
+        "aktoerId": "1000000000008",
+        "cvId": "226be7c0-685d-42a9-ac68-04bd22f2a0f5",
+        "oppstartKode": null,
+        "disponererBil": false,
+        "synligForArbeidsgiver": false,
+        "synligForVeileder": false,
+        "arenaKandidatnr": "IC034604",
+        "annenErfaring": [
+            {
+                "beskrivelse": "En beskrivelse",
+                "rolle": "En rolle",
+                "fra_tidspunkt": 1651739820308,
+                "til_tidspunkt": 1651739820308
+            }
+        ],
+        "jobbprofilId": "531291",
+        "oppfolgingsinformasjon": {
+            "fodselsnummer": "08096310000",
+            "formidlingsgruppe": "IARBS",
+            "iservFraDato": null,
+            "fornavn": "OLA",
+            "etternavn": "NORMANN",
+            "oppfolgingsenhet": "0806",
+            "kvalifiseringsgruppe": "BATT",
+            "rettighetsgruppe": "AAP",
+            "hovedmaal": "OKEDELT",
+            "sikkerhetstiltakType": null,
+            "diskresjonskode": null,
+            "harOppfolgingssak": true,
+            "sperretAnsatt": false,
+            "erDoed": false,
+            "doedFraDato": null,
+            "sistEndretDato": "2022-02-25T12:37:47+01:00"
+        },
+        "oppfolgingsperiode": {
+            "uuid": "e48dcd0f-8f05-4f31-a34e-bb2d8c9ad00a",
+            "aktorId": "1000077700000",
+            "startDato": "2020-09-16T14:22:43.191238+02:00",
+            "sluttDato": null
+        },
+        "stillinger_jobbprofil": {
+            "score": 0.34,
+            "stillinger": [
+                { "stilling": "Industrimekaniker", "score": 0.34 },
+                { "stilling": "Serviceingeniør (olje)", "score": 0.34 }
+            ]
+        },
+        "kompetanser_jobbprofil": {
+            "score": 0.34,
+            "kompetanser": [
+                { "kompetanse": "Oljeboring", "score": 0.74 },
+                { "kompetanse": "Oljeleting", "score": 0.63 }
+            ]
+        },
+        "geografi_jobbprofil": {
+            "score": 0.34,
+            "steder": [
+                { "sted": "Våler (viken)", "kode": "NO30.3018", "score": 0.34 },
+                { "sted": "Norge", "kode": "NO", "score": 0.34 },
+                { "sted": "Viken", "kode": "NO30", "score": 0.34 },
+                { "sted": "Vestfold og telemark", "kode": "NO38", "score": 0.34 },
+                { "sted": "Rogaland", "kode": "NO11", "score": 0.34 }
+            ]
+        },
+        "ansettelsesformer_jobbprofil": ["SESONG", "ENGASJEMENT", "VIKARIAT", "FAST"],
+        "arbeidstider_jobbprofil": ["DAGTID"],
+        "arbeidsdager_jobbprofil": ["SØNDAG"],
+        "arbeidstidsordninger_jobbprofil": ["SKIFT", "TURNUS"],
+        "omfang_jobbprofil": ["HELTID", "DELTID"],
+        "score_total": 0.34
+    }
+]

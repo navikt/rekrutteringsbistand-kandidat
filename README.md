@@ -1,6 +1,6 @@
 # rekrutteringsbistand-kandidat
 
-Kandidatsøk og kandidatlister for veiledere. Delte tidligere repository med kandidatsøk for arbeidsgivere
+Kandidatsøk og kandidatlister for veiledere. Denne kodebasen delte tidligere repository med kandidatsøk for arbeidsgivere
 i [pam-kandidatsok](https://github.com/navikt/pam-kandidatsok/). Koden inneholder derfor noen arkitekturavgjørelser fra
 den tidligere, felles kodebasen.
 

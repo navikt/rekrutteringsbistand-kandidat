@@ -10,6 +10,7 @@ import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 import enhetsregister from './json/enhetsregister.json';
 import cver from './data/cv.mock';
 import stilling from './data/stilling.mock.json';
+import prototype from './data/kandidatmatch-prototype.mock.json';
 
 import {
     kandidatliste,
@@ -414,6 +415,7 @@ fetchMock
     .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
     .get(url.forespørselOmDelingAvCvForKandidat, log(forespørslerOmDelingAvCvForKandidat))
     .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }))
+    .post('/kandidatmatch-api/match', log(prototype))
     .post(
         url.postResendForespørselOmDelingAvCv,
         log({ body: forespørslerOmDelingAvCv, status: 201 })
