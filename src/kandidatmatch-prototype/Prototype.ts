@@ -68,7 +68,7 @@ type ErfaringerPrototype = {
     score: number;
 };
 
-type ErfaringPrototype = {
+export type ErfaringPrototype = {
     score: number;
     ordScore: OrdScore[];
     tekst: string;

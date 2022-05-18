@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import Prototype from './Prototype';
+import Prototype, { ErfaringPrototype } from './Prototype';
 import { hentStilling } from '../kandidatmatch/kandidatmatchApi';
 import './KandidatmatchPrototype.less';
 
@@ -68,6 +68,43 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         kandidat?.arbeidserfaring.erfaringer[0].ordScore
     );
 
+    console.log(
+        'kandidat.utdannelse.erfaringer[0].ordScore',
+        kandidat?.utdannelse.erfaringer[0].ordScore
+    );
+
+    const forklaring = (erfaring: ErfaringPrototype, index: number) => {
+        return (
+            <>
+                <li className="blokk-xl">
+                    Score forklaring:
+                    <table>
+                        {erfaring.ordScore && (
+                            <tr>
+                                {<th></th>}
+                                {erfaring.ordScore &&
+                                    erfaring.ordScore[0][1].map((o) => <th key={index}>{o[1]}</th>)}
+                            </tr>
+                        )}
+                        {erfaring.ordScore &&
+                            erfaring.ordScore.map((ordscore) => {
+                                const ordFraKandidat = ordscore[0][1];
+                                const stillingord = ordscore[1].map((f, i) => (
+                                    <td key={i}>{scoreProsentpoeng(f[2])}</td>
+                                ));
+                                return (
+                                    <tr>
+                                        <td>{ordFraKandidat}</td>
+                                        {stillingord}
+                                    </tr>
+                                );
+                            })}
+                    </table>
+                </li>
+            </>
+        );
+    };
+
     return (
         <div className="prototype">
             <div className="blokk-xl">
@@ -108,11 +145,14 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Jobbønsker</h3>
                         <h4>Jobber og yrker {score(kandidat.stillinger_jobbprofil.score)}</h4>
                         <ul>
-                            {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske) => (
-                                <li key={stillingØnske.tekst}>
-                                    {stillingØnske.tekst} {score(stillingØnske.score)}
-                                </li>
-                            ))}
+                            {kandidat.stillinger_jobbprofil.erfaringer.map(
+                                (stillingØnske, index) => (
+                                    <li key={stillingØnske.tekst}>
+                                        {stillingØnske.tekst} {score(stillingØnske.score)}
+                                        {forklaring(stillingØnske, index)}
+                                    </li>
+                                )
+                            )}
                         </ul>
                         <h4>Hvor kan du jobbe? (score todo)</h4>
                         <ul>
@@ -160,9 +200,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <h3>Utdanninger {score(kandidat.utdannelse.score)}</h3>
                         <ul>
-                            {kandidat.utdannelse.erfaringer.map((utdannelse) => (
+                            {kandidat.utdannelse.erfaringer.map((utdannelse, index) => (
                                 <li key={utdannelse.tekst}>
                                     {utdannelse.tekst} {score(utdannelse.score)}
+                                    {forklaring(utdannelse, index)}
                                 </li>
                             ))}
                         </ul>
@@ -188,37 +229,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                 <li key={arbeidserfaring.tekst}>
                                     <ul>
                                         {arbeidserfaring.tekst} {score(arbeidserfaring.score)}
-                                        <li className="blokk-xl">
-                                            Score forklaring:
-                                            <table>
-                                                {arbeidserfaring.ordScore && (
-                                                    <tr>
-                                                        {<th></th>}
-                                                        {arbeidserfaring.ordScore &&
-                                                            arbeidserfaring.ordScore[0][1].map(
-                                                                (o) => <th key={index}>{o[1]}</th>
-                                                            )}
-                                                    </tr>
-                                                )}
-                                                {arbeidserfaring.ordScore &&
-                                                    arbeidserfaring.ordScore.map((ordscore) => {
-                                                        const ordFraKandidat = ordscore[0][1];
-                                                        const stillingord = ordscore[1].map(
-                                                            (f, i) => (
-                                                                <td key={i}>
-                                                                    {scoreProsentpoeng(f[2])}
-                                                                </td>
-                                                            )
-                                                        );
-                                                        return (
-                                                            <tr>
-                                                                <td>{ordFraKandidat}</td>
-                                                                {stillingord}
-                                                            </tr>
-                                                        );
-                                                    })}
-                                            </table>
-                                        </li>
+                                        {forklaring(arbeidserfaring, index)}
                                         <li>
                                             Score forklaring alternativ:
                                             <table>
@@ -280,9 +291,10 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <h3>Kompetanser {score(kandidat.kompetanser_jobbprofil.score)}</h3>
                         <ul>
-                            {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse) => (
+                            {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse, index) => (
                                 <li key={kompetanse.tekst}>
                                     {kompetanse.tekst} {score(kompetanse.score)}
+                                    {forklaring(kompetanse, index)}
                                 </li>
                             ))}
                         </ul>
