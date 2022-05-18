@@ -63,6 +63,11 @@ const KandidatmatchPrototype: FunctionComponent = () => {
         return verdi ? 'Ja' : 'Nei';
     }
 
+    console.log(
+        'kandidat.arbeidserfaring.erfaringer[0].ordScore',
+        kandidat?.arbeidserfaring.erfaringer[0].ordScore
+    );
+
     return (
         <div className="prototype">
             <div className="blokk-xl">
@@ -113,8 +118,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <ul>
                             {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                                 <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
-                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode}{' '}
-                                    {score(geografiJobbProfil.score)}
+                                    {geografiJobbProfil.sted} {geografiJobbProfil.kode}
                                 </li>
                             ))}
                         </ul>
@@ -190,21 +194,16 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                 {arbeidserfaring.ordScore && (
                                                     <tr>
                                                         {<th></th>}
-                                                        {arbeidserfaring.ordScore.map(
-                                                            (ordscore, index) => (
-                                                                <th key={index}>
-                                                                    {ordscore[0][1]}
-                                                                </th>
-                                                            )
-                                                        )}
+                                                        {arbeidserfaring.ordScore &&
+                                                            arbeidserfaring.ordScore[0][1].map(
+                                                                (o) => <th key={index}>{o[1]}</th>
+                                                            )}
                                                     </tr>
                                                 )}
                                                 {arbeidserfaring.ordScore &&
                                                     arbeidserfaring.ordScore.map((ordscore) => {
-                                                        const fraKandidat = ordscore[0];
-                                                        const ordFraKandidat = fraKandidat[1];
-                                                        const fraStilling = ordscore[1];
-                                                        const stillingord = fraStilling.map(
+                                                        const ordFraKandidat = ordscore[0][1];
+                                                        const stillingord = ordscore[1].map(
                                                             (f, i) => (
                                                                 <td key={i}>
                                                                     {scoreProsentpoeng(f[2])}
@@ -241,7 +240,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                                                             .slice(0, 2)
                                                             .map((f, i) => (
                                                                 <td key={i}>
-                                                                    {scoreProsentpoeng(f[2]) > 50 &&
+                                                                    {scoreProsentpoeng(f[2]) > 0 &&
                                                                         scoreProsentpoeng(f[2]) +
                                                                             '%' +
                                                                             ' ' +
