@@ -427,3 +427,14 @@ export const putKandidatlistestatus = (
         JSON.stringify({ status })
     );
 };
+
+export const slettCvFraArbeidsgiversKandidatliste = (
+    kandidatlisteId: string,
+    kandidatnummer: string,
+    navKontor: string | null
+): Promise<Kandidatliste> => {
+    return putJson(
+        `${KANDIDATSOK_API}/veileder/kandidat/arbeidsgiverliste/${kandidatlisteId}/${kandidatnummer}`,
+        JSON.stringify({ navKontor })
+    );
+};

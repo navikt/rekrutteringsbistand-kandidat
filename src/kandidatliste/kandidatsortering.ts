@@ -72,8 +72,16 @@ const sorterPåHendelser = (
     k2: KandidatMedForespørsel,
     retning: Retning
 ) => {
-    const hendelse1 = hentKandidatensSisteHendelse(k1.kandidat.utfall, k1.forespørselOmDelingAvCv);
-    const hendelse2 = hentKandidatensSisteHendelse(k2.kandidat.utfall, k2.forespørselOmDelingAvCv);
+    const hendelse1 = hentKandidatensSisteHendelse(
+        k1.kandidat.utfall,
+        k1.kandidat.utfallsendringer,
+        k1.forespørselOmDelingAvCv
+    );
+    const hendelse2 = hentKandidatensSisteHendelse(
+        k2.kandidat.utfall,
+        k2.kandidat.utfallsendringer,
+        k2.forespørselOmDelingAvCv
+    );
 
     return (
         (retning === Retning.Synkende ? 1 : -1) *
@@ -99,10 +107,12 @@ const sorterPåStatusOgHendelser =
     (k1, k2) => {
         const hendelse1 = hentKandidatensSisteHendelse(
             k1.kandidat.utfall,
+            k1.kandidat.utfallsendringer,
             k1.forespørselOmDelingAvCv
         );
         const hendelse2 = hentKandidatensSisteHendelse(
             k2.kandidat.utfall,
+            k2.kandidat.utfallsendringer,
             k2.forespørselOmDelingAvCv
         );
 

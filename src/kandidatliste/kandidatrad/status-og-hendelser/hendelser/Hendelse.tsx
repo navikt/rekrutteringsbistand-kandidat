@@ -38,6 +38,8 @@ const Hendelse: FunctionComponent<Props> = ({
         innholdClassName += ' hendelse__innhold--children-below-content';
     }
 
+    const beskrivelseContainerTag = typeof beskrivelse === 'string' ? 'p' : 'div';
+
     return (
         <li className={className}>
             <div className={ikonClassName}>
@@ -59,7 +61,12 @@ const Hendelse: FunctionComponent<Props> = ({
                     <div className="hendelse__tekst">
                         {tittel && <Element tag="h3">{tittel}</Element>}
                         {beskrivelse && (
-                            <Undertekst className="hendelse__beskrivelse">{beskrivelse}</Undertekst>
+                            <Undertekst
+                                tag={beskrivelseContainerTag}
+                                className="hendelse__beskrivelse"
+                            >
+                                {beskrivelse}
+                            </Undertekst>
                         )}
                     </div>
                 )}

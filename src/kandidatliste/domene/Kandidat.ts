@@ -58,6 +58,7 @@ export enum Kandidatutfall {
 export type Utfallsendring = {
     utfall: Kandidatutfall;
     tidspunkt: string;
+    sendtTilArbeidsgiversKandidatliste: boolean;
     registrertAvIdent: string;
 };
 

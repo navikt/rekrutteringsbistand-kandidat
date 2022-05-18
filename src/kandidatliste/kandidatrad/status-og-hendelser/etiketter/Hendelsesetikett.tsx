@@ -9,6 +9,7 @@ import {
 import './Hendelsesetikett.less';
 import { formaterDato, formaterDatoUtenÅrstall } from '../../../../utils/dateUtils';
 import { Sms, SmsStatus } from '../../../domene/Kandidatressurser';
+import { cvErSendtTilArbeidsgiverOgSlettet } from '../hendelser/CvErSlettet';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -24,6 +25,7 @@ export enum Hendelse {
     SvarJa = 'SVAR_JA',
     SvarNei = 'SVAR_NEI',
     CvDelt = 'CV_DELT',
+    CvSlettet = 'CV_SLETTET',
     FåttJobben = 'FÅTT_JOBBEN',
     SmsFeilet = 'SMS_FEILET',
     SmsSendt = 'SMS_SENDT',
@@ -36,7 +38,12 @@ const Hendelsesetikett: FunctionComponent<Props> = ({
     ikkeVisÅrstall,
     sms,
 }) => {
-    const hendelse = hentKandidatensSisteHendelse(utfall, forespørselOmDelingAvCv, sms);
+    const hendelse = hentKandidatensSisteHendelse(
+        utfall,
+        utfallsendringer,
+        forespørselOmDelingAvCv,
+        sms
+    );
     const label = hendelseTilLabel(
         hendelse,
         ikkeVisÅrstall || false,
@@ -63,11 +70,16 @@ const Hendelsesetikett: FunctionComponent<Props> = ({
 
 export const hentKandidatensSisteHendelse = (
     utfall: Kandidatutfall,
+    utfallsendringer: Utfallsendring[],
     forespørselOmDelingAvCv?: ForespørselOmDelingAvCv,
     sms?: Sms
 ): Hendelse => {
+    const cvErSendtOgSlettet = cvErSendtTilArbeidsgiverOgSlettet(utfallsendringer);
+
     if (utfall === Kandidatutfall.FåttJobben) {
         return Hendelse.FåttJobben;
+    } else if (cvErSendtOgSlettet) {
+        return Hendelse.CvSlettet;
     } else if (utfall === Kandidatutfall.Presentert) {
         return Hendelse.CvDelt;
     } else if (forespørselOmDelingAvCv) {
@@ -118,6 +130,9 @@ const hendelseTilLabel = (
             return cvDeltTidspunkt
                 ? label + ` – ${formaterMedEllerUtenÅrstall(cvDeltTidspunkt.tidspunkt)}`
                 : label;
+        }
+        case Hendelse.CvSlettet: {
+            return 'CV slettet';
         }
         case Hendelse.DeltMedKandidat: {
             const dagerTilSvarfrist = Math.floor(moment(svarfrist).diff(moment(), 'days', true));

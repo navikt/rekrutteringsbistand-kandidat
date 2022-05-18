@@ -91,6 +91,7 @@ export type KandidatlisteState = {
     søkPåusynligKandidat: Nettressurs<UsynligKandidat[]>;
     endreFormidlingsutfallForUsynligKandidat: Record<FormidlingId, Nettressurs<FormidlingId>>;
     endreKandidatlistestatus: Nettstatus;
+    slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus;
 };
 
 export type Kandidatlistefilter = {
@@ -139,6 +140,7 @@ const initialState: KandidatlisteState = {
     søkPåusynligKandidat: ikkeLastet(),
     endreFormidlingsutfallForUsynligKandidat: {},
     endreKandidatlistestatus: Nettstatus.IkkeLastet,
+    slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.IkkeLastet,
 };
 
 const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
@@ -674,6 +676,28 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 kandidatliste: suksess(action.kandidatliste),
+            };
+        }
+
+        case KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatliste: {
+            return {
+                ...state,
+                slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.SenderInn,
+            };
+        }
+
+        case KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatlisteSuccess: {
+            return {
+                ...state,
+                slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.Suksess,
+                kandidatliste: suksess(action.kandidatliste),
+            };
+        }
+
+        case KandidatlisteActionType.SlettCvFraArbeidsgiversKandidatlisteFailure: {
+            return {
+                ...state,
+                slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.Feil,
             };
         }
 

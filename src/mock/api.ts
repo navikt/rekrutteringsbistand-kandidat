@@ -75,6 +75,7 @@ const url = {
     putFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat/:formidlingId/utfall`,
     putKandidatlistestatus: `${api}/veileder/kandidatlister/:kandidatlisteId/status`,
     getKandidatlisteBasertPåAnnonsenummer: `${api}/veileder/stilling/byNr/:annonsenummer/kandidatliste`,
+    putSlettCvFraArbeidsgiversKandidatliste: `${api}/veileder/kandidat/arbeidsgiverliste/:kandidatlisteId/:kandidatnummer`,
 
     forespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/:stillingsId`,
     forespørselOmDelingAvCvForKandidat: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
@@ -326,6 +327,41 @@ const postEnhetsregister = () => {
     return enhetsregister;
 };
 
+const putSlettCvFraArbeidsgiversKandidatliste = (
+    url: string,
+    options: fetchMock.MockOptionsMethodPost
+): MockResponse => {
+    const splittetUrl = url.split('/');
+
+    const kandidatnummer = splittetUrl.pop();
+    const kandidatlisteId = splittetUrl.pop();
+
+    const kandidatliste = kandidatlister.find(
+        (liste) => liste.kandidatlisteId === kandidatlisteId
+    )!!;
+
+    return {
+        ...kandidatliste,
+        kandidater: kandidatliste.kandidater.map((kandidat) =>
+            kandidat.kandidatnr !== kandidatnummer
+                ? kandidat
+                : {
+                      ...kandidat,
+                      utfall: Kandidatutfall.IkkePresentert,
+                      utfallsendringer: [
+                          ...kandidat.utfallsendringer,
+                          {
+                              utfall: Kandidatutfall.IkkePresentert,
+                              tidspunkt: new Date().toISOString(),
+                              registrertAvIdent: meg.ident,
+                              sendtTilArbeidsgiversKandidatliste: false,
+                          },
+                      ],
+                  }
+        ),
+    };
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -385,14 +421,13 @@ fetchMock
         log({ body: forespørslerOmDelingAvCv, status: 201 })
     )
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
+    .put(url.putSlettCvFraArbeidsgiversKandidatliste, log(putSlettCvFraArbeidsgiversKandidatliste))
 
     // Stillingssøk
     .get(url.stilling, log(stilling))
 
     // Kandidatmatch
-    .post(url.kandidatmatch, log(foreslåtteKandidater), {
-        delay: 1000,
-    })
+    .post(url.kandidatmatch, log(foreslåtteKandidater))
 
     // Misc
     .get(url.toggles, log(featureToggles))

@@ -15,6 +15,7 @@ import { v5 as uuid } from 'uuid';
 import cver from './cv.mock';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
 import { enAnnenVeileder, enVeileder, meg, Veileder } from './veiledere.mock';
+import moment from 'moment';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
@@ -165,17 +166,39 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
             ...mockKandidat(0, meg),
             status: Kandidatstatus.TilIntervju,
             utfall: Kandidatutfall.IkkePresentert,
+            utfallsendringer: [
+                {
+                    registrertAvIdent: meg.ident,
+                    sendtTilArbeidsgiversKandidatliste: false,
+                    tidspunkt: new Date().toISOString(),
+                    utfall: Kandidatutfall.IkkePresentert,
+                },
+                {
+                    registrertAvIdent: meg.ident,
+                    sendtTilArbeidsgiversKandidatliste: true,
+                    tidspunkt: moment().subtract(1, 'day').toISOString(),
+                    utfall: Kandidatutfall.Presentert,
+                },
+            ],
         },
         {
             ...mockKandidat(1, meg),
             status: Kandidatstatus.Kontaktet,
-            utfall: Kandidatutfall.IkkePresentert,
+            utfall: Kandidatutfall.Presentert,
             ...inaktivKandidat,
         },
         {
             ...mockKandidat(2, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
             status: Kandidatstatus.Kontaktet,
-            utfall: Kandidatutfall.IkkePresentert,
+            utfall: Kandidatutfall.Presentert,
+            utfallsendringer: [
+                {
+                    registrertAvIdent: meg.ident,
+                    sendtTilArbeidsgiversKandidatliste: true,
+                    tidspunkt: new Date().toISOString(),
+                    utfall: Kandidatutfall.Presentert,
+                },
+            ],
         },
         {
             ...mockKandidat(3, meg, forrigeUke),

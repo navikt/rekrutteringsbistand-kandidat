@@ -1,7 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import Lenke from 'nav-frontend-lenker';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import {
     erKobletTilArbeidsgiver,
@@ -16,12 +14,7 @@ import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/Forespørse
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatmeldinger } from '../domene/Kandidatressurser';
-import AppState from '../../AppState';
-import { Normaltekst } from 'nav-frontend-typografi';
-import {
-    hentForespørslerForKandidatForStilling,
-    TilstandPåForespørsel,
-} from './forespørsel-om-deling-av-cv/Forespørsel';
+import DelMedArbeidsgiverKnapp from './DelMedArbeidsgiverKnapp';
 import './KnappeRad.less';
 
 type Props = {
@@ -45,8 +38,6 @@ const KnappeRad: FunctionComponent<Props> = ({
     visArkiverte,
 }) => {
     const markerteKandidater = useMarkerteKandidater(kandidatliste.kandidater);
-    const { forespørslerOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
-
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
     const markerteAktiveKandidater = markerteKandidater.filter((kandidat) => kandidat.fodselsnr);
     const minstEnKandidatHarIkkeFåttSms =
@@ -54,20 +45,6 @@ const KnappeRad: FunctionComponent<Props> = ({
         markerteAktiveKandidater.some(
             (markertKandidat) => !sendteMeldinger.data[markertKandidat.fodselsnr!]
         );
-
-    const minstEnAvKandidateneHarSvartJa =
-        forespørslerOmDelingAvCv.kind === Nettstatus.Suksess &&
-        markerteKandidater.some((markertKandidat) => {
-            const forespørsel = hentForespørslerForKandidatForStilling(
-                markertKandidat.aktørid,
-                forespørslerOmDelingAvCv.data
-            );
-
-            return (
-                forespørsel?.gjeldendeForespørsel.tilstand === TilstandPåForespørsel.HarSvart &&
-                forespørsel.gjeldendeForespørsel.svar?.harSvartJa
-            );
-        });
 
     const skalViseEkstraKnapper =
         kandidatliste.kanEditere && erKobletTilStilling(kandidatliste) && !visArkiverte;
@@ -119,61 +96,14 @@ const KnappeRad: FunctionComponent<Props> = ({
                             markerteKandidater={markerteKandidater}
                         />
                     )}
-                    {skalViseDelMedArbeidsgiverKnapp &&
-                        (minstEnKandidatErMarkert ? (
-                            <>
-                                {minstEnAvKandidateneHarSvartJa ||
-                                !kandidaterMåGodkjenneDelingAvCv(kandidatliste) ? (
-                                    <Lenkeknapp
-                                        onClick={onKandidatShare}
-                                        className="kandidatlisteknapper__knapp Share"
-                                    >
-                                        <DeleIkon />
-                                    </Lenkeknapp>
-                                ) : (
-                                    <MedPopover
-                                        hjelpetekst={
-                                            <>
-                                                <Normaltekst className="blokk-xs">
-                                                    Kandidaten(e) har ikke svart eller svart nei på
-                                                    om CV-en kan deles. Du kan derfor ikke dele
-                                                    disse.
-                                                </Normaltekst>
-                                                <Normaltekst>
-                                                    Har du hatt dialog med kandidaten, og fått
-                                                    bekreftet at NAV kan dele CV-en? Da må du
-                                                    registrere dette i aktivitetsplanen. Har du ikke
-                                                    delt stillingen med kandidaten må du gjøre det
-                                                    først.{' '}
-                                                    <Lenke
-                                                        target="_blank"
-                                                        rel="noreferrer noopener"
-                                                        href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Del-stillinger-med-kandidater-i-Aktivitetsplanen.aspx#har-du-ringt-kandidaten-istedenfor-%C3%A5-dele-i-aktivitetsplanen"
-                                                    >
-                                                        Se rutiner på Navet
-                                                    </Lenke>
-                                                    .
-                                                </Normaltekst>
-                                            </>
-                                        }
-                                        tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
-                                    >
-                                        <Lenkeknapp className="kandidatlisteknapper__knapp Share">
-                                            <DeleIkon />
-                                        </Lenkeknapp>
-                                    </MedPopover>
-                                )}
-                            </>
-                        ) : (
-                            <MedPopover
-                                hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
-                                tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
-                            >
-                                <Lenkeknapp className="kandidatlisteknapper__knapp Share">
-                                    <DeleIkon />
-                                </Lenkeknapp>
-                            </MedPopover>
-                        ))}
+                    {skalViseDelMedArbeidsgiverKnapp && (
+                        <DelMedArbeidsgiverKnapp
+                            minstEnKandidatErMarkert={minstEnKandidatErMarkert}
+                            kandidatliste={kandidatliste}
+                            markerteKandidater={markerteKandidater}
+                            onKandidatShare={onKandidatShare}
+                        />
+                    )}
                     {skalViseAngreSlettingKnapp &&
                         (minstEnKandidatErMarkert ? (
                             <Lenkeknapp
@@ -203,13 +133,6 @@ const SmsIkon: FunctionComponent = () => (
     <>
         <i className="Sms__icon" />
         <span>Send SMS</span>
-    </>
-);
-
-const DeleIkon: FunctionComponent = () => (
-    <>
-        <i className="Share__icon" />
-        <span>Del med arbeidsgiver (presenter)</span>
     </>
 );
 
