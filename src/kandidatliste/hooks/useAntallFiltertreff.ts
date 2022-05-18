@@ -80,6 +80,7 @@ const hentAntallMedHendelse = (
     kandidater.forEach((kandidat) => {
         const hendelse = hentKandidatensSisteHendelse(
             kandidat.utfall,
+            kandidat.utfallsendringer,
             forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
                 ? hentForespørslerForKandidatForStilling(
                       kandidat.aktørid,

@@ -48,6 +48,7 @@ export const filtrerKandidater = (
                 filter.hendelse[
                     hentKandidatensSisteHendelse(
                         kandidat.utfall,
+                        kandidat.utfallsendringer,
                         forespørslerOmDelingAvCv.kind === Nettstatus.Suksess
                             ? hentForespørslerForKandidatForStilling(
                                   kandidat.aktørid,
