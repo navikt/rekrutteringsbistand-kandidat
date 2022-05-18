@@ -77,7 +77,7 @@ type VeilederPrototype = {
 
 type ArbeidserfaringPrototype = {
     score: number;
-    arbeidserfaringer: ArbeidserfaringerPrototype[];
+    erfaringer: ArbeidserfaringerPrototype[];
 };
 
 type ArbeidserfaringerPrototype = {
@@ -97,7 +97,7 @@ type ArbeidserfaringerPrototype = {
 
 type UtdannelsePrototype = {
     score: number;
-    utdannelser: UtdannelserPrototype[];
+    erfaringer: UtdannelserPrototype[];
 };
 
 type UtdannelserPrototype = {
@@ -184,7 +184,7 @@ enum FerdighetsnivåPrototype {
 
 type StillingerJobbprofilPrototype = {
     score: number;
-    stillinger: StillingPrototype[];
+    erfaringer: StillingPrototype[];
 };
 
 type StillingPrototype = {
@@ -193,7 +193,7 @@ type StillingPrototype = {
 };
 
 type GeografiJobbprofilPrototype = {
-    score: number;
+    //score: number;
     steder: StedPrototype[];
 };
 
@@ -205,7 +205,7 @@ type StedPrototype = {
 
 type KompetanserJobbprofilPrototype = {
     score: number;
-    kompetanser: Kompetanse[];
+    erfaringer: Kompetanse[];
 };
 
 type Kompetanse = {

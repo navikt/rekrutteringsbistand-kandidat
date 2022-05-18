@@ -105,13 +105,13 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                         <h3>Jobbønsker {score(kandidat.score_total)}</h3>
                         <h4>Jobber og yrker {score(kandidat.stillinger_jobbprofil.score)}</h4>
                         <ul>
-                            {kandidat.stillinger_jobbprofil.stillinger.map((stillingØnske) => (
+                            {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske) => (
                                 <li key={stillingØnske.stilling}>
                                     {stillingØnske.stilling} {score(stillingØnske.score)}
                                 </li>
                             ))}
                         </ul>
-                        <h4>Hvor kan du jobbe? {score(kandidat.geografi_jobbprofil.score)}</h4>
+                        <h4>Hvor kan du jobbe? (score todo)</h4>
                         <ul>
                             {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                                 <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
@@ -158,7 +158,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <h3>Utdanninger {score(kandidat.utdannelse.score)}</h3>
                         <ul>
-                            {kandidat.utdannelse.utdannelser.map((utdannelse) => (
+                            {kandidat.utdannelse.erfaringer.map((utdannelse) => (
                                 <li key={utdannelse.nuskodeGrad}>
                                     {utdannelse.laerested} {score(utdannelse.score)}
                                     <ul>
@@ -192,116 +192,103 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <h3>Arbeidserfaringer {score(kandidat.arbeidserfaring.score)}</h3>
                         <ul>
-                            {kandidat.arbeidserfaring.arbeidserfaringer.map(
-                                (arbeidserfaring, index) => (
-                                    <li key={arbeidserfaring.janzzKonseptid}>
-                                        <ul>
-                                            {arbeidserfaring.stillingstittel}{' '}
-                                            {score(arbeidserfaring.score)}
-                                            <li>Styrkkode: {arbeidserfaring.styrkkode}</li>
-                                            <li>Bedrift: {arbeidserfaring.arbeidsgiver}</li>
-                                            <li>Sted: {arbeidserfaring.sted}</li>
-                                            <li>Arbeidsoppgaver: {arbeidserfaring.beskrivelse}</li>
-                                            <li>
-                                                StillingstittelFritekst:{' '}
-                                                {arbeidserfaring.stillingstittelFritekst}
-                                            </li>
-                                            <li>
-                                                JanzzKonseptid: {arbeidserfaring.janzzKonseptid}
-                                            </li>
-                                            <li>
-                                                TilTidspunkt:{' '}
-                                                {tilDato(arbeidserfaring.tilTidspunkt)}
-                                            </li>
-                                            <li>
-                                                IkkeAktueltForFremtiden:{' '}
-                                                {booleanTilTekst(
-                                                    arbeidserfaring.ikkeAktueltForFremtiden
+                            {kandidat.arbeidserfaring.erfaringer.map((arbeidserfaring, index) => (
+                                <li key={arbeidserfaring.janzzKonseptid}>
+                                    <ul>
+                                        {arbeidserfaring.stillingstittel}{' '}
+                                        {score(arbeidserfaring.score)}
+                                        <li>Styrkkode: {arbeidserfaring.styrkkode}</li>
+                                        <li>Bedrift: {arbeidserfaring.arbeidsgiver}</li>
+                                        <li>Sted: {arbeidserfaring.sted}</li>
+                                        <li>Arbeidsoppgaver: {arbeidserfaring.beskrivelse}</li>
+                                        <li>
+                                            StillingstittelFritekst:{' '}
+                                            {arbeidserfaring.stillingstittelFritekst}
+                                        </li>
+                                        <li>JanzzKonseptid: {arbeidserfaring.janzzKonseptid}</li>
+                                        <li>
+                                            TilTidspunkt: {tilDato(arbeidserfaring.tilTidspunkt)}
+                                        </li>
+                                        <li>
+                                            IkkeAktueltForFremtiden:{' '}
+                                            {booleanTilTekst(
+                                                arbeidserfaring.ikkeAktueltForFremtiden
+                                            )}
+                                        </li>
+                                        <li>
+                                            FraTidspunkt: {tilDato(arbeidserfaring.fraTidspunkt)}
+                                        </li>
+                                        <li className="blokk-xl">
+                                            Score forklaring:
+                                            <table>
+                                                {arbeidserfaring.ordScore && (
+                                                    <tr>
+                                                        {<th></th>}
+                                                        {arbeidserfaring.ordScore.map(
+                                                            (ordscore) => (
+                                                                <th>{ordscore[0][1]}</th>
+                                                            )
+                                                        )}
+                                                    </tr>
                                                 )}
-                                            </li>
-                                            <li>
-                                                FraTidspunkt:{' '}
-                                                {tilDato(arbeidserfaring.fraTidspunkt)}
-                                            </li>
-                                            <li className="blokk-xl">
-                                                Score forklaring:
-                                                <table>
-                                                    {arbeidserfaring.ordScore && (
-                                                        <tr>
-                                                            {<th></th>}
-                                                            {arbeidserfaring.ordScore.map(
-                                                                (ordscore) => (
-                                                                    <th>{ordscore[0][1]}</th>
-                                                                )
-                                                            )}
-                                                        </tr>
-                                                    )}
-                                                    {arbeidserfaring.ordScore &&
-                                                        arbeidserfaring.ordScore.map((ordscore) => {
-                                                            const fraKandidat = ordscore[0];
-                                                            const ordFraKandidat = fraKandidat[1];
-                                                            const fraStilling = ordscore[1];
-                                                            const stillingord = fraStilling.map(
-                                                                (f) => (
-                                                                    <td>
-                                                                        {scoreProsentpoeng(f[2])}
-                                                                    </td>
-                                                                )
-                                                            );
-                                                            return (
-                                                                <tr>
-                                                                    <td>{ordFraKandidat}</td>
-                                                                    {stillingord}
-                                                                </tr>
-                                                            );
-                                                        })}
-                                                </table>
-                                            </li>
-                                            <li>
-                                                Score forklaring alternativ:
-                                                <table>
-                                                    <th>Ord fra kandidat</th>
-                                                    <th>Ord fra stilling</th>
-                                                    <th>Ord fra stilling</th>
-                                                    {arbeidserfaring.ordScore &&
-                                                        arbeidserfaring.ordScore.map((ordscore) => {
-                                                            const fraKandidat = ordscore[0];
-                                                            const ordFraKandidat = fraKandidat[1];
-                                                            const fraStilling = ordscore[1];
+                                                {arbeidserfaring.ordScore &&
+                                                    arbeidserfaring.ordScore.map((ordscore) => {
+                                                        const fraKandidat = ordscore[0];
+                                                        const ordFraKandidat = fraKandidat[1];
+                                                        const fraStilling = ordscore[1];
+                                                        const stillingord = fraStilling.map((f) => (
+                                                            <td>{scoreProsentpoeng(f[2])}</td>
+                                                        ));
+                                                        return (
+                                                            <tr>
+                                                                <td>{ordFraKandidat}</td>
+                                                                {stillingord}
+                                                            </tr>
+                                                        );
+                                                    })}
+                                            </table>
+                                        </li>
+                                        <li>
+                                            Score forklaring alternativ:
+                                            <table>
+                                                <th>Ord fra kandidat</th>
+                                                <th>Ord fra stilling</th>
+                                                <th>Ord fra stilling</th>
+                                                {arbeidserfaring.ordScore &&
+                                                    arbeidserfaring.ordScore.map((ordscore) => {
+                                                        const fraKandidat = ordscore[0];
+                                                        const ordFraKandidat = fraKandidat[1];
+                                                        const fraStilling = ordscore[1];
 
-                                                            const stillingord = fraStilling
-                                                                .sort(
-                                                                    (s1, s2) =>
-                                                                        scoreProsentpoeng(s2[2]) -
-                                                                        scoreProsentpoeng(s1[2])
-                                                                )
-                                                                .slice(0, 2)
-                                                                .map((f) => (
-                                                                    <td>
-                                                                        {scoreProsentpoeng(f[2]) >
-                                                                            50 &&
-                                                                            scoreProsentpoeng(
-                                                                                f[2]
-                                                                            ) +
-                                                                                '%' +
-                                                                                ' ' +
-                                                                                f[1]}
-                                                                    </td>
-                                                                ));
-                                                            return (
-                                                                <tr>
-                                                                    <td>{ordFraKandidat}</td>
-                                                                    {stillingord}
-                                                                </tr>
-                                                            );
-                                                        })}
-                                                </table>
-                                            </li>
-                                        </ul>
-                                        <br />
-                                    </li>
-                                )
-                            )}
+                                                        const stillingord = fraStilling
+                                                            .sort(
+                                                                (s1, s2) =>
+                                                                    scoreProsentpoeng(s2[2]) -
+                                                                    scoreProsentpoeng(s1[2])
+                                                            )
+                                                            .slice(0, 2)
+                                                            .map((f) => (
+                                                                <td>
+                                                                    {scoreProsentpoeng(f[2]) > 50 &&
+                                                                        scoreProsentpoeng(f[2]) +
+                                                                            '%' +
+                                                                            ' ' +
+                                                                            f[1]}
+                                                                </td>
+                                                            ));
+                                                        return (
+                                                            <tr>
+                                                                <td>{ordFraKandidat}</td>
+                                                                {stillingord}
+                                                            </tr>
+                                                        );
+                                                    })}
+                                            </table>
+                                        </li>
+                                    </ul>
+                                    <br />
+                                </li>
+                            ))}
                         </ul>
                     </section>
                     <section className="blokk-xl">
@@ -322,7 +309,7 @@ const KandidatmatchPrototype: FunctionComponent = () => {
                     <section className="blokk-xl">
                         <h3>Kompetanser {score(kandidat.kompetanser_jobbprofil.score)}</h3>
                         <ul>
-                            {kandidat.kompetanser_jobbprofil.kompetanser.map((kompetanse) => (
+                            {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse) => (
                                 <li key={kompetanse.kompetanse}>
                                     {kompetanse.kompetanse} {score(kompetanse.score)}
                                 </li>

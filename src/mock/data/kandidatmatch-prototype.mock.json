@@ -37,7 +37,7 @@
         },
         "arbeidserfaring": {
             "score": 0.34,
-            "arbeidserfaringer": [
+            "erfaringer": [
                 {
                     "stillingstittel": "Serviceingeniør olje",
                     "styrkkode": "3117.53",
@@ -120,7 +120,7 @@
         },
         "utdannelse": {
             "score": 0.34,
-            "utdannelser": [
+            "erfaringer": [
                 {
                     "laerested": "Tinus Olsen Fagskole",
                     "beskrivelse": "",
@@ -264,20 +264,19 @@
         },
         "stillinger_jobbprofil": {
             "score": 0.34,
-            "stillinger": [
+            "erfaringer": [
                 { "stilling": "Industrimekaniker", "score": 0.34 },
                 { "stilling": "Serviceingeniør (olje)", "score": 0.34 }
             ]
         },
         "kompetanser_jobbprofil": {
             "score": 0.34,
-            "kompetanser": [
+            "erfaringer": [
                 { "kompetanse": "Oljeboring", "score": 0.74 },
                 { "kompetanse": "Oljeleting", "score": 0.63 }
             ]
         },
         "geografi_jobbprofil": {
-            "score": 0.34,
             "steder": [
                 { "sted": "Våler (viken)", "kode": "NO30.3018", "score": 0.34 },
                 { "sted": "Norge", "kode": "NO", "score": 0.34 },
