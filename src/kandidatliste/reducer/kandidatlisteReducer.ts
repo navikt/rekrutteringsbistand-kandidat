@@ -698,7 +698,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 slettCvFraArbeidsgiversKandidatlisteStatus: Nettstatus.Feil,
-                kandidatliste: feil(action.error),
             };
         }
 

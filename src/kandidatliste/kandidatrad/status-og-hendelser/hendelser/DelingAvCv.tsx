@@ -7,7 +7,7 @@ import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 import { useSelector } from 'react-redux';
 import AppState from '../../../../AppState';
 import { Nettstatus } from '../../../../api/Nettressurs';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { cvErSendtTilArbeidsgiverOgSlettet } from './CvErSlettet';
 
 type Props = {
@@ -259,6 +259,11 @@ const DelingAvCv: FunctionComponent<Props> = ({
                                 Avbryt
                             </Knapp>
                         </>
+                    )}
+                    {slettCvStatus === Nettstatus.Feil && (
+                        <Feilmelding className="hendelse__feilmelding">
+                            Klarte ikke å slette CV-en. Vennligst prøv igjen senere.
+                        </Feilmelding>
                     )}
                 </Hendelse>
             );

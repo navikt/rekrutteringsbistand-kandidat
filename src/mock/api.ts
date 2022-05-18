@@ -419,21 +419,13 @@ fetchMock
         log({ body: forespørslerOmDelingAvCv, status: 201 })
     )
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
-    .put(
-        url.putSlettCvFraArbeidsgiversKandidatliste,
-        log(putSlettCvFraArbeidsgiversKandidatliste),
-        {
-            delay: 1000,
-        }
-    )
+    .put(url.putSlettCvFraArbeidsgiversKandidatliste, log(putSlettCvFraArbeidsgiversKandidatliste))
 
     // Stillingssøk
     .get(url.stilling, log(stilling))
 
     // Kandidatmatch
-    .post(url.kandidatmatch, log(foreslåtteKandidater), {
-        delay: 1000,
-    })
+    .post(url.kandidatmatch, log(foreslåtteKandidater))
 
     // Misc
     .get(url.toggles, log(featureToggles))
