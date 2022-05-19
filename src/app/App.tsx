@@ -25,6 +25,7 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Varsling from '../common/varsling/Varsling';
 import './App.less';
 import KandidatmatchPrototype from '../kandidatmatch-prototype/KandidatmatchPrototype';
+import KandidatmatchStillingPrototype from '../kandidatmatch-prototype/KandidatmatchStillingPrototype';
 
 type Props = {
     error: {
@@ -69,7 +70,7 @@ const App: FunctionComponent<Props> = (props) => {
                         <Route
                             exact
                             path="/prototype/stilling/:stillingId"
-                            component={KandidatmatchPrototype}
+                            component={KandidatmatchStillingPrototype}
                         />
 
                         <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
