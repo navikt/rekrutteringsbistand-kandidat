@@ -82,6 +82,7 @@ const KandidatmatchStillingPrototype: FunctionComponent<Props> = ({ match }) => 
                             {kandiater?.map((k) => (
                                 <li key={k.aktoerId}>
                                     {k.fornavn} {k.etternavn} {score(k.score)}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
                                     <Link
                                         className="kandidatmatch__navn"
                                         to={lenkeTilKandidat(k.arenaKandidatnr)}
@@ -89,6 +90,8 @@ const KandidatmatchStillingPrototype: FunctionComponent<Props> = ({ match }) => 
                                         {' '}
                                         CV
                                     </Link>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Link to={`/prototype/${stilling.uuid}`}> Match</Link>
                                 </li>
                             ))}
                         </ul>
