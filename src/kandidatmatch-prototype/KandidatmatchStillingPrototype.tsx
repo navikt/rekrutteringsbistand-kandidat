@@ -54,6 +54,8 @@ const KandidatmatchStillingPrototype: FunctionComponent<Props> = ({ match }) => 
         return `(${isNaN(score) ? 0 : score}% Match)`;
     };
 
+    const kandidaterSortert = kandiater?.sort((a, b) => b.score - a.score);
+
     console.log('kandidater', kandiater);
     console.log('stilling', stilling);
 
