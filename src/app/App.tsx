@@ -64,7 +64,7 @@ const App: FunctionComponent<Props> = (props) => {
                     <Switch>
                         <Route
                             exact
-                            path="/prototype/:stillingId"
+                            path="/prototype/stilling/:stillingId/kandidat/:kandidatNr"
                             component={KandidatmatchPrototype}
                         />
                         <Route

@@ -6,10 +6,11 @@ import { RouteChildrenProps } from 'react-router-dom';
 
 type Props = RouteChildrenProps<{
     stillingId: string;
+    kandidatNr: string;
 }>;
 
 const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
-    const [prototype, setPrototype] = useState<Prototype[] | undefined>(undefined);
+    const [kandidat, setKandidat] = useState<Prototype | undefined>(undefined);
 
     useEffect(() => {
         console.log('Henter ai data');
@@ -17,6 +18,7 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
             try {
                 const stillingsId = match?.params.stillingId!;
                 const stilling = await hentStilling(stillingsId);
+                const kandidatNr = match?.params.kandidatNr!;
 
                 const response = await fetch('/kandidatmatch-api/match', {
                     method: 'POST',
@@ -28,7 +30,9 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Returnerer ai data', data);
-                    setPrototype(data);
+                    const valgtKandidat = data.find((k) => k.arenaKandidatnr == kandidatNr);
+                    console.log('valgtKandidat', valgtKandidat);
+                    setKandidat(valgtKandidat);
                 } else {
                     console.log('Kall mot ai feilet, status', response.status);
                     throw await response.text();
@@ -39,9 +43,7 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
         };
 
         hentPrototype();
-    }, [match?.params.stillingId]);
-
-    const kandidat = prototype ? prototype[0] : undefined;
+    }, [match?.params.stillingId, match?.params.kandidatNr]);
 
     const score = (scoreDesimal) => {
         return `(${Math.round(scoreDesimal * 100)}% Match)`;
