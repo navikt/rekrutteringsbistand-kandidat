@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import Prototype, { ErfaringPrototype } from './Prototype';
+import Prototype from './Prototype';
 import { hentStilling } from '../kandidatmatch/kandidatmatchApi';
 import './KandidatmatchStillingPrototype.less';
 import { Link, RouteChildrenProps } from 'react-router-dom';
