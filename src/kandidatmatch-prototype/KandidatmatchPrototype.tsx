@@ -30,7 +30,7 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Returnerer ai data', data);
-                    const valgtKandidat = data.find((k) => k.arenaKandidatnr == kandidatNr);
+                    const valgtKandidat = data.find((k) => k.arenaKandidatnr === kandidatNr);
                     console.log('valgtKandidat', valgtKandidat);
                     setKandidat(valgtKandidat);
                 } else {
