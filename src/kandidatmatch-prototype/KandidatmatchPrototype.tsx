@@ -39,7 +39,7 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
         };
 
         hentPrototype();
-    }, []);
+    }, [match?.params.stillingId]);
 
     const kandidat = prototype ? prototype[0] : undefined;
 
