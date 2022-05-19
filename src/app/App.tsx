@@ -66,6 +66,12 @@ const App: FunctionComponent<Props> = (props) => {
                             path="/prototype/:stillingId"
                             component={KandidatmatchPrototype}
                         />
+                        <Route
+                            exact
+                            path="/prototype/stilling/:stillingId"
+                            component={KandidatmatchPrototype}
+                        />
+
                         <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
                         <Route
                             exact
