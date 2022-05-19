@@ -45,7 +45,7 @@ const Utviklingsapp: FunctionComponent = () => {
                         </Link>
                     </div>
                     <div className="utviklingsapp__lenke">
-                        <Link to="/prototype">Prototype</Link>
+                        <Link to="/prototype/ecaac27c-de33-4fb2-a0ed-c22436bfe611">Prototype</Link>
                     </div>
                 </header>
                 <main>

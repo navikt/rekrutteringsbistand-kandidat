@@ -61,7 +61,11 @@ const App: FunctionComponent<Props> = (props) => {
                 <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
-                        <Route exact path="/prototype" component={KandidatmatchPrototype} />
+                        <Route
+                            exact
+                            path="/prototype/:stillingId"
+                            component={KandidatmatchPrototype}
+                        />
                         <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
                         <Route
                             exact

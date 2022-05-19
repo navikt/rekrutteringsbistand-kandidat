@@ -2,15 +2,20 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import Prototype, { ErfaringPrototype } from './Prototype';
 import { hentStilling } from '../kandidatmatch/kandidatmatchApi';
 import './KandidatmatchPrototype.less';
+import { RouteChildrenProps } from 'react-router-dom';
 
-const KandidatmatchPrototype: FunctionComponent = () => {
+type Props = RouteChildrenProps<{
+    stillingId: string;
+}>;
+
+const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
     const [prototype, setPrototype] = useState<Prototype[] | undefined>(undefined);
 
     useEffect(() => {
         console.log('Henter ai data');
         const hentPrototype = async () => {
             try {
-                const stillingsId = 'ecaac27c-de33-4fb2-a0ed-c22436bfe611';
+                const stillingsId = match?.params.stillingId!;
                 const stilling = await hentStilling(stillingsId);
 
                 const response = await fetch('/kandidatmatch-api/match', {
@@ -62,16 +67,6 @@ const KandidatmatchPrototype: FunctionComponent = () => {
     function booleanTilTekst(verdi: boolean) {
         return verdi ? 'Ja' : 'Nei';
     }
-
-    console.log(
-        'kandidat.arbeidserfaring.erfaringer[0].ordScore',
-        kandidat?.arbeidserfaring.erfaringer[0].ordScore
-    );
-
-    console.log(
-        'kandidat.utdannelse.erfaringer[0].ordScore',
-        kandidat?.utdannelse.erfaringer[0].ordScore
-    );
 
     const forklaring = (erfaring: ErfaringPrototype, index: number) => {
         return (
