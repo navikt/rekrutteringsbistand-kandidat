@@ -3,8 +3,7 @@ import Prototype, { ErfaringPrototype } from './Prototype';
 import { hentStilling } from '../kandidatmatch/kandidatmatchApi';
 import './KandidatmatchStillingPrototype.less';
 import { Link, RouteChildrenProps } from 'react-router-dom';
-import Lenke from 'nav-frontend-lenker';
-import { lenkeTilStilling } from '../app/paths';
+import { lenkeTilStilling, lenkeTilKandidatside, Kandidatfane } from '../app/paths';
 
 type Props = RouteChildrenProps<{
     stillingId: string;
@@ -57,24 +56,45 @@ const KandidatmatchStillingPrototype: FunctionComponent<Props> = ({ match }) => 
 
     console.log('kandidater', kandiater);
     console.log('stilling', stilling);
+
+    const lenkeTilKandidat = (kandidatId: string) =>
+        lenkeTilKandidatside(
+            kandidatId,
+            Kandidatfane.Cv,
+            undefined,
+            stilling?.uuid,
+            undefined,
+            true
+        );
     return (
-        <div className="prototype">
-            <div className="blokk-xl">
-                <h1>{stilling?.title}</h1>
-                <Link to={lenkeTilStilling(stilling?.uuid!)} className="lenke">
-                    Se stillingsannonse
-                </Link>
-            </div>
-            <div className="blokk-xl">
-                Matcher
-                <ul>
-                    {kandiater?.map((k) => (
-                        <li key={k.aktoerId}>
-                            {k.fornavn} {k.etternavn} {score(k.score)}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+        <div>
+            {stilling && (
+                <div className="prototype">
+                    <div className="blokk-xl">
+                        <h1>{stilling.title}</h1>
+                        <Link to={lenkeTilStilling(stilling?.uuid!)} className="lenke">
+                            Se stillingsannonse
+                        </Link>
+                    </div>
+                    <div className="blokk-xl">
+                        Matcher
+                        <ul>
+                            {kandiater?.map((k) => (
+                                <li key={k.aktoerId}>
+                                    {k.fornavn} {k.etternavn} {score(k.score)}
+                                    <Link
+                                        className="kandidatmatch__navn"
+                                        to={lenkeTilKandidat(k.arenaKandidatnr)}
+                                    >
+                                        {' '}
+                                        CV
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
