@@ -97,7 +97,7 @@ const KandidatmatchStillingPrototype: FunctionComponent<Props> = ({ match }) => 
                                         to={`/prototype/stilling/${stilling.uuid}/kandidat/${k.arenaKandidatnr}`}
                                     >
                                         {' '}
-                                        Match
+                                        Matchforklaring
                                     </Link>
                                 </li>
                             ))}
