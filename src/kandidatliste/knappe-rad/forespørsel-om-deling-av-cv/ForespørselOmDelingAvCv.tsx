@@ -118,7 +118,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             } else if (markerteKandidaterSomIkkeErForespurt.length === 0) {
                 setKanIkkeDelePopover(event.currentTarget);
                 setKanIkkeDeleFeilmelding(
-                    'Du har allerede delt stillingen med alle de markerte kandidatene. Du kan ikke dele den på nytt.'
+                    'Du har allerede delt stillingen med alle de markerte kandidatene. Hvis en kandidat har svart "nei" eller svarfristen er utløpt, kan du dele stillingen på nytt via "blyanten" til kandidaten.'
                 );
             } else {
                 åpneModal();
