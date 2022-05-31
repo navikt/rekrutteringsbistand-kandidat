@@ -11,10 +11,8 @@ import Søkefiltre from './søkefiltre/Søkefiltre';
 import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 import useSlettAlleKriterier from './useSlettAlleKriterier';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
-import './Kandidatsøk.less';
 import { useLocation } from 'react-router-dom';
-import Kandidatmatch from '../kandidatmatch/Kandidatmatch';
-import { erIkkeProd } from '../utils/featureToggleUtils';
+import './Kandidatsøk.less';
 
 interface Props {
     visFantFåKandidater?: boolean;
@@ -52,11 +50,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                 </div>
             ) : (
                 <Container fluid className="resultatvisning--container blokk-l">
-                    {erIkkeProd ? (
-                        stillingsId && <Kandidatmatch stillingsId={stillingsId} />
-                    ) : (
-                        <ViktigeYrker />
-                    )}
+                    <ViktigeYrker />
                     <Column xs="12" sm="4">
                         <div className="sokekriterier--column" id="sokekriterier">
                             <div className="knapp-wrapper">

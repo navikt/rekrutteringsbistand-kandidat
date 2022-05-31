@@ -10,7 +10,7 @@ import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 import enhetsregister from './json/enhetsregister.json';
 import cver from './data/cv.mock';
 import stilling from './data/stilling.mock.json';
-import prototype from './data/kandidatmatch-response.mock.json';
+import kandidatmatch from './data/kandidatmatch-response.mock.json';
 
 import {
     kandidatliste,
@@ -31,8 +31,7 @@ import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler
 import { KANDIDATSOK_API, SMS_API, ENHETSREGISTER_API, SYNLIGHET_API } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
-import foreslåtteKandidater from './data/kandidatmatch.mock';
-import { KANDIDATMATCH_API_URL, STILLINGSSØK_PROXY } from '../kandidatmatch/kandidatmatchApi';
+import { KANDIDATMATCH_API_URL, STILLINGSSØK_PROXY } from '../automatisk-matching/kandidatmatchApi';
 
 fetchMock.config.fallbackToNetwork = true;
 
@@ -415,7 +414,6 @@ fetchMock
     .get(url.forespørselOmDelingAvCv, log(forespørslerOmDelingAvCv))
     .get(url.forespørselOmDelingAvCvForKandidat, log(forespørslerOmDelingAvCvForKandidat))
     .post(url.postForespørselOmDelingAvCv, log({ body: forespørslerOmDelingAvCv, status: 201 }))
-    .post('/kandidatmatch-api/match', log(prototype))
     .post(
         url.postResendForespørselOmDelingAvCv,
         log({ body: forespørslerOmDelingAvCv, status: 201 })
@@ -427,7 +425,7 @@ fetchMock
     .get(url.stilling, log(stilling))
 
     // Kandidatmatch
-    .post(url.kandidatmatch, log(foreslåtteKandidater))
+    .post(url.kandidatmatch, log(kandidatmatch))
 
     // Misc
     .get(url.toggles, log(featureToggles))

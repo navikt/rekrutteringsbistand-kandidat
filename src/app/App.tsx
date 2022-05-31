@@ -23,9 +23,9 @@ import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Varsling from '../common/varsling/Varsling';
+import MatcherForStilling from '../automatisk-matching/AlleMatcher';
+import Matchforklaring from '../automatisk-matching/Matchforklaring';
 import './App.less';
-import KandidatmatchPrototype from '../kandidatmatch-prototype/KandidatmatchPrototype';
-import KandidatmatchStillingPrototype from '../kandidatmatch-prototype/KandidatmatchStillingPrototype';
 
 type Props = {
     error: {
@@ -64,13 +64,13 @@ const App: FunctionComponent<Props> = (props) => {
                     <Switch>
                         <Route
                             exact
-                            path="/prototype/stilling/:stillingId/kandidat/:kandidatNr"
-                            component={KandidatmatchPrototype}
+                            path="/prototype/stilling/:stillingsId"
+                            component={MatcherForStilling}
                         />
                         <Route
                             exact
-                            path="/prototype/stilling/:stillingId"
-                            component={KandidatmatchStillingPrototype}
+                            path="/prototype/stilling/:stillingsId/forklaring/:kandidatNr"
+                            component={Matchforklaring}
                         />
 
                         <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
