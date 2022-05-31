@@ -53,7 +53,7 @@ type Prototype = {
     score: number;
 
     // Veileder
-    veileder: VeilederPrototype;
+    veileder: VeilederPrototype | null;
     tilretteleggingsbehov: string | null;
 };
 

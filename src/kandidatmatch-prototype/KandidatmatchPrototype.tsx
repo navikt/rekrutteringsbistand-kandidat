@@ -127,10 +127,12 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                         <p>Fødselsdato: {kandidat.foedselsdato}</p>
                         <p>Aktørid: {kandidat.aktoerId}</p>
                         <p>Cvid: {kandidat.cvId}</p>
-                        <p>
-                            Veileder: {kandidat.veileder.veilederId} {kandidat.veileder.tilordnet}{' '}
-                            {kandidat.veileder.aktorId}
-                        </p>
+                        {kandidat.veileder && (
+                            <p>
+                                Veileder: {kandidat.veileder.veilederId}{' '}
+                                {kandidat.veileder.tilordnet} {kandidat.veileder.aktorId}
+                            </p>
+                        )}
                         <p aria-label="NAV-kontor">NAV-kontor: Dummy NAV-kontor</p>
                         <p>Disponerer bil: {booleanTilTekst(kandidat.disponererBil === true)}</p>
                     </section>
