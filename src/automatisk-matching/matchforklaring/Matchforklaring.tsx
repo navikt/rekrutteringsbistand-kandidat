@@ -4,10 +4,10 @@ import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from '../useKandidatmatch';
 import { ErfaringPrototype } from '../Kandidatmatch';
 import { booleanTilTekst, tilProsent, tilProsentpoeng } from '../formatering';
-import './Matchforklaring.less';
 import Personalia from './Personalia';
 import { Back } from '@navikt/ds-icons';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import './Matchforklaring.less';
 
 type Props = RouteChildrenProps<{
     stillingsId: string;
@@ -59,12 +59,14 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 <ul>
                     {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske, index) => (
                         <li key={stillingØnske.tekst}>
-                            {stillingØnske.tekst} {tilProsent(stillingØnske.score)}
+                            <h3>
+                                {stillingØnske.tekst} ({tilProsent(stillingØnske.score)})
+                            </h3>
                             <Matchmatrise erfaring={stillingØnske} />
                         </li>
                     ))}
                 </ul>
-                <h3>Hvor kan du jobbe? (score todo)</h3>
+                <h3>Hvor kan du jobbe?</h3>
                 <ul>
                     {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                         <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
@@ -167,14 +169,18 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 <ul>
                     {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse, index) => (
                         <li key={kompetanse.tekst}>
-                            {kompetanse.tekst} {tilProsent(kompetanse.score)}
+                            <h3>
+                                {kompetanse.tekst} ({tilProsent(kompetanse.score)})
+                            </h3>
                             <Matchmatrise erfaring={kompetanse} />
                         </li>
                     ))}
                 </ul>
             </Seksjon>
             <Seksjon tittel="Offentlige godkjenninger">
-                <p>Autorisasjoner, førerbevis, tjenestebevis</p>
+                <p>
+                    <i>F.eks. autorisasjoner, førerbevis, tjenestebevis</i>
+                </p>
                 {kandidat.sertifikat.length > 0 ? (
                     <ul>
                         {kandidat.sertifikat.map((sertifikat) => (
@@ -199,19 +205,23 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 )}
             </Seksjon>
             <Seksjon tittel="Andre godkjenninger">
-                <ul>
-                    {kandidat.godkjenninger.map((godkjenning) => (
-                        <li key={godkjenning.tittel}>
-                            <ul>
-                                <li>Tittel: {godkjenning.tittel} </li>
-                                <li>konsept_id: {godkjenning.konsept_id} </li>
-                                <li>Utsteder: {godkjenning.utsteder} </li>
-                                <li>Fullført: {godkjenning.gjennomfoert} </li>
-                                <li>Utløper: {tilDato(godkjenning.utloeper)} </li>
-                            </ul>
-                        </li>
-                    ))}
-                </ul>
+                {kandidat.godkjenninger.length > 0 ? (
+                    <ul>
+                        {kandidat.godkjenninger.map((godkjenning) => (
+                            <li key={godkjenning.tittel}>
+                                <ul>
+                                    <li>Tittel: {godkjenning.tittel} </li>
+                                    <li>konsept_id: {godkjenning.konsept_id} </li>
+                                    <li>Utsteder: {godkjenning.utsteder} </li>
+                                    <li>Fullført: {godkjenning.gjennomfoert} </li>
+                                    <li>Utløper: {tilDato(godkjenning.utloeper)} </li>
+                                </ul>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <IngenData />
+                )}
             </Seksjon>
             <Seksjon tittel="Språkferdigheter">
                 {kandidat.spraakferdigheter.length > 0 ? (
@@ -231,35 +241,43 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 )}
             </Seksjon>
             <Seksjon tittel="Førerkort">
-                <ul>
-                    {kandidat.foererkort.klasse.map((førerkort) => (
-                        <li key={førerkort.klasse}>
-                            <ul>
-                                <li>Klasse: {førerkort.klasse}</li>
-                                <li>Beskrivelse: {førerkort.klasse_beskrivelse}</li>
-                                <li>Gyldig fra: {tilDato(førerkort.fra_tidspunkt)}</li>
-                                <li>Gyldig til: {tilDato(førerkort.utloeper)}</li>
-                            </ul>
-                            <br />
-                        </li>
-                    ))}
-                </ul>
+                {kandidat.foererkort.klasse.length > 0 ? (
+                    <ul>
+                        {kandidat.foererkort.klasse.map((førerkort) => (
+                            <li key={førerkort.klasse}>
+                                <ul>
+                                    <li>Klasse: {førerkort.klasse}</li>
+                                    <li>Beskrivelse: {førerkort.klasse_beskrivelse}</li>
+                                    <li>Gyldig fra: {tilDato(førerkort.fra_tidspunkt)}</li>
+                                    <li>Gyldig til: {tilDato(førerkort.utloeper)}</li>
+                                </ul>
+                                <br />
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <IngenData />
+                )}
             </Seksjon>
             <Seksjon tittel="Kurs">
-                <ul>
-                    {kandidat.kurs.map((kurs, index) => (
-                        <li key={kurs.tittel}>
-                            {kurs.tittel}
-                            <ul>
-                                <li>Kursholder: {kurs.utsteder}</li>
-                                <li>
-                                    Kurslengde {kurs.varighet_enhet}: {kurs.varighet}
-                                </li>
-                                <li>Fullført: {tilDato(kurs.tidspunkt)}</li>
-                            </ul>
-                        </li>
-                    ))}
-                </ul>
+                {kandidat.kurs.length > 0 ? (
+                    <ul>
+                        {kandidat.kurs.map((kurs, index) => (
+                            <li key={kurs.tittel}>
+                                {kurs.tittel}
+                                <ul>
+                                    <li>Kursholder: {kurs.utsteder}</li>
+                                    <li>
+                                        Kurslengde {kurs.varighet_enhet}: {kurs.varighet}
+                                    </li>
+                                    <li>Fullført: {tilDato(kurs.tidspunkt)}</li>
+                                </ul>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <IngenData />
+                )}
             </Seksjon>
             <Seksjon tittel="Oppfølgingsinformasjon">
                 <ul>
@@ -322,42 +340,44 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
 };
 
 const Matchmatrise = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
+    if (erfaring.ordScore.length === 0) {
+        return <IngenData />;
+    }
+
+    const [, matchedeOrdFraKandidat] = erfaring.ordScore[0];
+    const alleOrdFraKandidat = matchedeOrdFraKandidat.map(([, ord]) => ord);
+
     return (
         <div className="blokk-m">
-            <h4>Hvor godt matcher ord i stillingsannonsen med ord fra kandidaten?</h4>
+            <h4>Hvor godt matcher hvert ord i stillingsannonsen med ord fra kandidaten?</h4>
             <table>
                 <thead>
                     <tr>
                         <th>Ord fra stilling</th>
-                        <th colSpan={erfaring.ordScore.length - 1}>Ord fra kandidaten</th>
+                        <th colSpan={alleOrdFraKandidat.length}>
+                            Ord fra kandidaten og relasjon (%)
+                        </th>
                     </tr>
                 </thead>
                 <thead>
-                    {erfaring.ordScore && (
-                        <tr>
-                            <th />
-                            {erfaring.ordScore &&
-                                erfaring.ordScore[0][1].map((o, tableHeaderIndex) => (
-                                    <th key={`th-${tableHeaderIndex}`}>{o[1]}</th>
-                                ))}
-                        </tr>
-                    )}
+                    <tr>
+                        <th />
+                        {alleOrdFraKandidat.map((ord) => (
+                            <th key={`th-${ord}`}>{ord}</th>
+                        ))}
+                    </tr>
                 </thead>
                 <tbody>
-                    {erfaring.ordScore &&
-                        erfaring.ordScore.map((ordscore, i) => {
-                            const ordFraKandidat = ordscore[0][1];
-                            const stillingord = ordscore[1].map((f, i) => (
-                                <td key={i}>{tilProsentpoeng(Number(f[2]))}</td>
-                            ));
-
-                            return (
-                                <tr key={i}>
-                                    <td>{ordFraKandidat}</td>
-                                    {stillingord}
-                                </tr>
-                            );
-                        })}
+                    {erfaring.ordScore.map(([[, ordFraStilling], matchedeOrdFraKandidaten], i) => {
+                        return (
+                            <tr key={ordFraStilling}>
+                                <td>{ordFraStilling}</td>
+                                {matchedeOrdFraKandidaten.map(([, ord, score]) => (
+                                    <td key={ord}>{tilProsentpoeng(score)}</td>
+                                ))}
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         </div>
@@ -367,19 +387,19 @@ const Matchmatrise = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
 const ForkortetMatchmatrise = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
     return (
         <div className="blokk-m">
-            <h4>Hvilke ord hos kandidaten matchet best ord fra stillingsannonsen?</h4>
+            <h4>Hvilke ord hos kandidaten er mest relatert til ord fra stillingsannonsen?</h4>
             <table>
                 <thead>
                     <tr>
                         <th>Ord fra stilling</th>
-                        <th colSpan={2}>Ord fra kandidaten</th>
+                        <th colSpan={2}>Relatert ord fra kandidaten</th>
                     </tr>
                 </thead>
                 <thead>
                     <tr>
                         <th />
-                        <th>Best match</th>
-                        <th>Nest best match</th>
+                        <th>Mest relatert</th>
+                        <th>Nest mest relatert</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -409,7 +429,7 @@ const ForkortetMatchmatrise = ({ erfaring }: { erfaring: ErfaringPrototype }) =>
     );
 };
 
-const IngenData = () => <p>Ingen data</p>;
+const IngenData = () => <p>Ikke oppgitt</p>;
 
 export const Seksjon = ({
     tittel,
