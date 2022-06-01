@@ -4,7 +4,7 @@ import { lasterInn, Nettressurs, Nettstatus, suksess } from '../api/Nettressurs'
 import AppState from '../AppState';
 import Kandidatmatch from './Kandidatmatch';
 import { hentKandidater, hentStilling } from './kandidatmatchApi';
-import { MatchAction } from './kandidatmatchReducer';
+import { MatchAction, Stilling } from './kandidatmatchReducer';
 
 const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
     const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
             });
         };
 
-        const hent = async (stilling: any) => {
+        const hent = async (stilling: Stilling) => {
             setKandidater(lasterInn());
 
             const kandidater = await hentKandidater(stilling);
@@ -49,7 +49,7 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
         };
 
         if (stilling.kind === Nettstatus.Suksess && kandidater.kind === Nettstatus.IkkeLastet)
-            hent(stilling);
+            hent(stilling.data);
     }, [stilling, kandidater.kind, dispatch]);
 
     return {

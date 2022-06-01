@@ -1,5 +1,6 @@
 import { fetchJson, SearchApiError, postJson } from '../api/fetchUtils';
 import Kandidatmatch from './Kandidatmatch';
+import { Stilling } from './kandidatmatchReducer';
 
 export const KANDIDATMATCH_API_URL = '/kandidatmatch-api';
 export const STILLINGSSØK_PROXY = '/stillingssok-proxy';
@@ -16,7 +17,7 @@ export const hentStilling = async (stillingsId: string): Promise<any> => {
     }
 };
 
-export const hentKandidater = async (stilling: any): Promise<Kandidatmatch[]> => {
+export const hentKandidater = async (stilling: Stilling): Promise<Kandidatmatch[]> => {
     try {
         return await postJson(`${KANDIDATMATCH_API_URL}/match`, JSON.stringify(stilling));
     } catch (e) {

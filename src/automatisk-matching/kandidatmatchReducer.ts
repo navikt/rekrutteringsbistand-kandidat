@@ -1,7 +1,7 @@
 import { ikkeLastet, Nettressurs } from '../api/Nettressurs';
 import Kandidatmatch from './Kandidatmatch';
 
-type Stilling = {
+export type Stilling = {
     stilling: {
         uuid: string;
         title: string;
