@@ -15,6 +15,7 @@ import { TilgjengelighetState } from './kandidatsøk/søkefiltre/tilgjengelighet
 import { TilretteleggingsbehovState } from './kandidatsøk/søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 import { PrioriterteMålgrupperState } from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
 import { VarslingState } from './common/varsling/varslingReducer';
+import { KandidatmatchState } from './automatisk-matching/kandidatmatchReducer';
 
 type AppState = {
     cv: CvState;
@@ -44,6 +45,7 @@ type AppState = {
         utdanning: UtdanningState;
         prioriterteMålgrupper: PrioriterteMålgrupperState;
     };
+    kandidatmatch: KandidatmatchState;
 };
 
 // TODO Følgende burde defineres i sine respektive reducere

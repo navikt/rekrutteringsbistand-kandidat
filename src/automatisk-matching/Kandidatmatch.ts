@@ -1,4 +1,4 @@
-type Prototype = {
+type Kandidatmatch = {
     // Personalia
     fodselsnummer: string;
     arenaKandidatnr: string;
@@ -16,8 +16,8 @@ type Prototype = {
     foererkort: FørerkortPrototype;
 
     // Cv
-    arbeidserfaring: ErfaringerPrototype;
-    utdannelse: ErfaringerPrototype;
+    arbeidserfaring: Erfaringer;
+    utdannelse: Erfaringer;
     sammendrag: ErfaringPrototype;
 
     fagdokumentasjon: FagdokumentasjonPrototype[];
@@ -35,9 +35,9 @@ type Prototype = {
     synligForVeileder: boolean;
 
     // Jobbprofil
-    stillinger_jobbprofil: ErfaringerPrototype;
-    kompetanser_jobbprofil: ErfaringerPrototype;
-    geografi_jobbprofil: GeografiJobbprofilPrototype;
+    stillinger_jobbprofil: Erfaringer;
+    kompetanser_jobbprofil: Erfaringer;
+    geografi_jobbprofil: GeografiJobbprofil;
     ansettelsesformer_jobbprofil: string[];
     arbeidstider_jobbprofil: string[];
     arbeidsdager_jobbprofil: string[];
@@ -53,17 +53,17 @@ type Prototype = {
     score: number;
 
     // Veileder
-    veileder: VeilederPrototype | null;
+    veileder: Veileder | null;
     tilretteleggingsbehov: string | null;
 };
 
-type VeilederPrototype = {
+type Veileder = {
     aktorId: string;
     veilederId: string;
     tilordnet: string;
 };
 
-type ErfaringerPrototype = {
+type Erfaringer = {
     erfaringer: ErfaringPrototype[];
     score: number;
 };
@@ -144,7 +144,7 @@ enum FerdighetsnivåPrototype {
     FOERSTESPRAAK,
 }
 
-type GeografiJobbprofilPrototype = {
+type GeografiJobbprofil = {
     //score: number;
     steder: StedPrototype[];
 };
@@ -194,4 +194,4 @@ type OrdFraKandidat = [Index, string];
 
 type MatchetOrdFraStilling = [Index, string, Score];
 
-export default Prototype;
+export default Kandidatmatch;

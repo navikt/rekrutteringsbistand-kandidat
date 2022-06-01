@@ -31,6 +31,7 @@ import kandidatlisteSaga from './kandidatliste/reducer/kandidatlisteSaga';
 import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
 import prioriterteMålgrupperReducer from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
 import varslingReducer, { varslingSaga } from './common/varsling/varslingReducer';
+import kandidatmatchReducer from './automatisk-matching/kandidatmatchReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -65,6 +66,7 @@ const store = createStore(
         søk: searchReducer,
         søkefilter: søkefiltreReducer,
         varsling: varslingReducer,
+        kandidatmatch: kandidatmatchReducer,
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );

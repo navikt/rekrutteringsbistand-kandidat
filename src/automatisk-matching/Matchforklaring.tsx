@@ -1,57 +1,25 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import Prototype, { ErfaringPrototype } from './Prototype';
-import { hentStilling } from '../kandidatmatch/kandidatmatchApi';
-import './KandidatmatchPrototype.less';
+import React, { FunctionComponent } from 'react';
 import { RouteChildrenProps } from 'react-router-dom';
+import { Feilmelding } from 'nav-frontend-typografi';
+import useKandidatmatch from './useKandidatmatch';
+import { ErfaringPrototype } from './Kandidatmatch';
+import { tilProsent, tilProsentpoeng } from './formatering';
+import './Matchforklaring.less';
 
 type Props = RouteChildrenProps<{
-    stillingId: string;
+    stillingsId: string;
     kandidatNr: string;
 }>;
 
-const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
-    const [kandidat, setKandidat] = useState<Prototype | undefined>(undefined);
+const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
+    const stillingsId = match?.params.stillingsId;
+    const kandidatNr = match?.params.kandidatNr;
 
-    useEffect(() => {
-        console.log('Henter ai data');
-        const hentPrototype = async () => {
-            try {
-                const stillingsId = match?.params.stillingId!;
-                const stilling = await hentStilling(stillingsId);
-                const kandidatNr = match?.params.kandidatNr!;
+    const { valgtKandidat: kandidat } = useKandidatmatch(stillingsId, kandidatNr);
 
-                const response = await fetch('/kandidatmatch-api/match', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        stilling,
-                    }),
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Returnerer ai data', data);
-                    const valgtKandidat = data.find((k) => k.arenaKandidatnr === kandidatNr);
-                    console.log('valgtKandidat', valgtKandidat);
-                    setKandidat(valgtKandidat);
-                } else {
-                    console.log('Kall mot ai feilet, status', response.status);
-                    throw await response.text();
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        };
-
-        hentPrototype();
-    }, [match?.params.stillingId, match?.params.kandidatNr]);
-
-    const score = (scoreDesimal) => {
-        return `(${Math.round(scoreDesimal * 100)}% Match)`;
-    };
-
-    const scoreProsentpoeng = (scoreDesimal) => {
-        return Math.round(scoreDesimal * 100);
-    };
+    if (stillingsId === undefined || kandidatNr === undefined) {
+        return <Feilmelding>Du må oppgi stillingsId og kandidatNr</Feilmelding>;
+    }
 
     function isNumeric(num: string) {
         return !isNaN(parseFloat(num)) && parseFloat(num).toString() === num;
@@ -87,7 +55,7 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                             erfaring.ordScore.map((ordscore) => {
                                 const ordFraKandidat = ordscore[0][1];
                                 const stillingord = ordscore[1].map((f, i) => (
-                                    <td key={i}>{scoreProsentpoeng(f[2])}</td>
+                                    <td key={i}>{tilProsentpoeng(Number(f[2]))}</td>
                                 ));
                                 return (
                                     <tr>
@@ -103,10 +71,10 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
     };
 
     return (
-        <div className="prototype">
+        <div className="matchforklaring">
             <div className="blokk-xl">
                 <h1>
-                    {kandidat?.fornavn} {kandidat?.etternavn} {score(kandidat?.score)}
+                    {kandidat?.fornavn} {kandidat?.etternavn} {tilProsent(kandidat?.score)}
                 </h1>
             </div>
             {kandidat && (
@@ -137,17 +105,17 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                         <p>Disponerer bil: {booleanTilTekst(kandidat.disponererBil === true)}</p>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Sammendrag/Om meg {score(kandidat.sammendrag.score)}</h3>
+                        <h3>Sammendrag/Om meg {tilProsent(kandidat.sammendrag.score)}</h3>
                         <p>{kandidat.sammendrag.tekst}</p>
                     </section>
                     <section className="blokk-xl">
                         <h3>Jobbønsker</h3>
-                        <h4>Jobber og yrker {score(kandidat.stillinger_jobbprofil.score)}</h4>
+                        <h4>Jobber og yrker {tilProsent(kandidat.stillinger_jobbprofil.score)}</h4>
                         <ul>
                             {kandidat.stillinger_jobbprofil.erfaringer.map(
                                 (stillingØnske, index) => (
                                     <li key={stillingØnske.tekst}>
-                                        {stillingØnske.tekst} {score(stillingØnske.score)}
+                                        {stillingØnske.tekst} {tilProsent(stillingØnske.score)}
                                         {forklaring(stillingØnske, index)}
                                     </li>
                                 )
@@ -197,11 +165,11 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Utdanninger {score(kandidat.utdannelse.score)}</h3>
+                        <h3>Utdanninger {tilProsent(kandidat.utdannelse.score)}</h3>
                         <ul>
                             {kandidat.utdannelse.erfaringer.map((utdannelse, index) => (
                                 <li key={utdannelse.tekst}>
-                                    {utdannelse.tekst} {score(utdannelse.score)}
+                                    {utdannelse.tekst} {tilProsent(utdannelse.score)}
                                     {forklaring(utdannelse, index)}
                                 </li>
                             ))}
@@ -222,12 +190,12 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Arbeidserfaringer {score(kandidat.arbeidserfaring.score)}</h3>
+                        <h3>Arbeidserfaringer {tilProsent(kandidat.arbeidserfaring.score)}</h3>
                         <ul>
                             {kandidat.arbeidserfaring.erfaringer.map((arbeidserfaring, index) => (
                                 <li key={arbeidserfaring.tekst}>
                                     <ul>
-                                        {arbeidserfaring.tekst} {score(arbeidserfaring.score)}
+                                        {arbeidserfaring.tekst} {tilProsent(arbeidserfaring.score)}
                                         {forklaring(arbeidserfaring, index)}
                                         <li>
                                             Score forklaring alternativ:
@@ -244,14 +212,14 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                                                         const stillingord = fraStilling
                                                             .sort(
                                                                 (s1, s2) =>
-                                                                    scoreProsentpoeng(s2[2]) -
-                                                                    scoreProsentpoeng(s1[2])
+                                                                    tilProsentpoeng(s2[2]) -
+                                                                    tilProsentpoeng(s1[2])
                                                             )
                                                             .slice(0, 2)
                                                             .map((f, i) => (
                                                                 <td key={i}>
-                                                                    {scoreProsentpoeng(f[2]) > 0 &&
-                                                                        scoreProsentpoeng(f[2]) +
+                                                                    {tilProsentpoeng(f[2]) > 0 &&
+                                                                        tilProsentpoeng(f[2]) +
                                                                             '%' +
                                                                             ' ' +
                                                                             f[1]}
@@ -288,11 +256,11 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
                         </ul>
                     </section>
                     <section className="blokk-xl">
-                        <h3>Kompetanser {score(kandidat.kompetanser_jobbprofil.score)}</h3>
+                        <h3>Kompetanser {tilProsent(kandidat.kompetanser_jobbprofil.score)}</h3>
                         <ul>
                             {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse, index) => (
                                 <li key={kompetanse.tekst}>
-                                    {kompetanse.tekst} {score(kompetanse.score)}
+                                    {kompetanse.tekst} {tilProsent(kompetanse.score)}
                                     {forklaring(kompetanse, index)}
                                 </li>
                             ))}
@@ -473,4 +441,4 @@ const KandidatmatchPrototype: FunctionComponent<Props> = ({ match }) => {
     );
 };
 
-export default KandidatmatchPrototype;
+export default Matchforklaring;
