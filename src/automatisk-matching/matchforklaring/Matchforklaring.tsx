@@ -47,7 +47,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 <Back />
                 Tilbake til oversikten
             </Link>
-            <h1>
+            <h1 className="blokk-l">
                 {kandidat?.fornavn} {kandidat?.etternavn} ({tilProsent(kandidat?.score)})
             </h1>
             <Personalia kandidat={kandidat} />
