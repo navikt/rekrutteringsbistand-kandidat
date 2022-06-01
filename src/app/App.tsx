@@ -24,7 +24,7 @@ import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Varsling from '../common/varsling/Varsling';
 import MatcherForStilling from '../automatisk-matching/AlleMatcher';
-import Matchforklaring from '../automatisk-matching/Matchforklaring';
+import Matchforklaring from '../automatisk-matching/matchforklaring/Matchforklaring';
 import './App.less';
 
 type Props = {

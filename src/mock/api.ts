@@ -10,7 +10,7 @@ import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 import enhetsregister from './json/enhetsregister.json';
 import cver from './data/cv.mock';
 import stilling from './data/stilling.mock.json';
-import kandidatmatch from './data/kandidatmatch-response.mock.json';
+import kandidatmatch from './data/kandidatmatch.mock.json';
 
 import {
     kandidatliste,

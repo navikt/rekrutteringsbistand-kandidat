@@ -45,7 +45,9 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
             setKandidater(lasterInn());
 
             const kandidater = await hentKandidater(stilling);
-            setKandidater(suksess(kandidater));
+            const behandledeKandidater = behandleKandidater(kandidater);
+
+            setKandidater(suksess(behandledeKandidater));
         };
 
         if (stilling.kind === Nettstatus.Suksess && kandidater.kind === Nettstatus.IkkeLastet)
@@ -57,6 +59,12 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
         kandidater,
         valgtKandidat,
     };
+};
+
+const behandleKandidater = (kandidater: Kandidatmatch[]): Kandidatmatch[] => {
+    const sortertEtterTotalscore = kandidater.sort((a, b) => b.score - a.score);
+
+    return sortertEtterTotalscore;
 };
 
 export default useKandidatmatch;

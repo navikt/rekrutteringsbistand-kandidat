@@ -183,15 +183,14 @@ type OppfolgingsperiodePrototype = {
     sluttDato: Date;
 };
 
-type Index = number;
 type Score = number;
+type Ord = string;
+type Posisjon = number;
 
-type OrdScore = OrdrelasjonMellomKandidatOgStilling[];
+type OrdScore = [OrdFraStilling, MatchetOrdFraKandidat[]];
 
-type OrdrelasjonMellomKandidatOgStilling = [OrdFraKandidat, MatchetOrdFraStilling[]];
+type OrdFraStilling = [Posisjon[], Ord];
 
-type OrdFraKandidat = [Index, string];
-
-type MatchetOrdFraStilling = [Index, string, Score];
+type MatchetOrdFraKandidat = [Posisjon[], Ord, Score];
 
 export default Kandidatmatch;

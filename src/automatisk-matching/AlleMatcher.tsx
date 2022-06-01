@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react';
-import { Feilmelding, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Feilmelding, Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import { Nettstatus } from '../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { tilProsent } from './formatering';
 import { Kandidatfane, lenkeTilKandidatside } from '../app/paths';
 import { Link, RouteChildrenProps } from 'react-router-dom';
 import useKandidatmatch from './useKandidatmatch';
+import { Next } from '@navikt/ds-icons';
 import './AlleMatcher.less';
 
 type Props = RouteChildrenProps<{
@@ -30,10 +31,12 @@ const AlleMatcher: FunctionComponent<Props> = ({ match }) => {
 
     return (
         <div className="alle-matcher">
-            <Undertittel>Foreslåtte kandidater til «{stilling.data.stilling.title}»</Undertittel>
+            <Innholdstittel className="blokk-xxs">
+                Foreslåtte kandidater til «{stilling.data.stilling.title}»
+            </Innholdstittel>
             <Normaltekst>
-                Kandidatene som er foreslått av NAV er de som har høyest sannsynlighet for å bli
-                stillingen.
+                Kandidatene er foreslått automatisk med utgangspunkt i likhet mellom ordene i
+                kandidaten og stillingen.
             </Normaltekst>
             <section aria-live="polite" aria-busy={kandidater.kind === Nettstatus.LasterInn}>
                 {kandidater.kind === Nettstatus.LasterInn && <NavFrontendSpinner />}
@@ -59,6 +62,7 @@ const AlleMatcher: FunctionComponent<Props> = ({ match }) => {
                                     )}
                                 >
                                     Se matcheforklaring
+                                    <Next />
                                 </Link>
                             </li>
                         ))}

@@ -6,3 +6,5 @@ export const tilProsent = (desimal?: number) => {
 export const tilProsentpoeng = (desimal: any) => {
     return Math.round(desimal * 100);
 };
+
+export const booleanTilTekst = (verdi: boolean) => (verdi ? 'Ja' : 'Nei');
