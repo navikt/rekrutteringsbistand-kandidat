@@ -6,6 +6,7 @@ export type Stilling = {
         uuid: string;
         title: string;
     };
+    stillingsinfo: any;
 };
 
 export type KandidatmatchState = {

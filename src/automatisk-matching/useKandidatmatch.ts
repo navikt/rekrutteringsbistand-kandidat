@@ -44,7 +44,7 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
         const hent = async (stilling: Stilling) => {
             setKandidater(lasterInn());
 
-            const kandidater = await hentKandidater(stilling.stilling);
+            const kandidater = await hentKandidater(stilling);
             setKandidater(suksess(kandidater));
         };
 
