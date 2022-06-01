@@ -4,7 +4,7 @@ import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from './useKandidatmatch';
 import { ErfaringPrototype } from './Kandidatmatch';
 import { tilProsent, tilProsentpoeng } from './formatering';
-import { Nettstatus } from '../api/Nettressurs';
+import './Matchforklaring.less';
 
 type Props = RouteChildrenProps<{
     stillingsId: string;
@@ -15,11 +15,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
     const stillingsId = match?.params.stillingsId;
     const kandidatNr = match?.params.kandidatNr;
 
-    const { kandidater } = useKandidatmatch(stillingsId, kandidatNr);
-    const kandidat =
-        kandidater.kind === Nettstatus.Suksess
-            ? kandidater.data.find((k) => k.arenaKandidatnr === kandidatNr)
-            : undefined;
+    const { valgtKandidat: kandidat } = useKandidatmatch(stillingsId, kandidatNr);
 
     if (stillingsId === undefined || kandidatNr === undefined) {
         return <Feilmelding>Du må oppgi stillingsId og kandidatNr</Feilmelding>;
@@ -75,7 +71,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
     };
 
     return (
-        <div className="prototype">
+        <div className="matchforklaring">
             <div className="blokk-xl">
                 <h1>
                     {kandidat?.fornavn} {kandidat?.etternavn} {tilProsent(kandidat?.score)}

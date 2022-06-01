@@ -16,12 +16,12 @@ export type KandidatmatchState = {
 export type MatchAction = SetStillingForMatchingAction | SetKandidatmatchAction;
 
 type SetStillingForMatchingAction = {
-    type: 'SetStillingForMatching';
+    type: 'SET_STILLING_FOR_MATCHING';
     stilling: Nettressurs<Stilling>;
 };
 
 type SetKandidatmatchAction = {
-    type: 'SetKandidatmatch';
+    type: 'SET_KANDIDATMATCH';
     kandidater: Nettressurs<Kandidatmatch[]>;
 };
 
@@ -32,13 +32,13 @@ const initialValues = {
 
 const kandidatmatchReducer = (state: KandidatmatchState = initialValues, action: MatchAction) => {
     switch (action.type) {
-        case 'SetStillingForMatching':
+        case 'SET_STILLING_FOR_MATCHING':
             return {
                 ...state,
                 stilling: action.stilling,
             };
 
-        case 'SetKandidatmatch':
+        case 'SET_KANDIDATMATCH':
             return {
                 ...state,
                 kandidater: action.kandidater,

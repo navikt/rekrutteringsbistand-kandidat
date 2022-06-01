@@ -6,6 +6,7 @@ import { tilProsent } from './formatering';
 import { Kandidatfane, lenkeTilKandidatside } from '../app/paths';
 import { Link, RouteChildrenProps } from 'react-router-dom';
 import useKandidatmatch from './useKandidatmatch';
+import './AlleMatcher.less';
 
 type Props = RouteChildrenProps<{
     stillingsId: string;
@@ -28,7 +29,7 @@ const AlleMatcher: FunctionComponent<Props> = ({ match }) => {
     }
 
     return (
-        <>
+        <div className="alle-matcher">
             <Undertittel>Foreslåtte kandidater til «{stilling.data.stilling.title}»</Undertittel>
             <Normaltekst>
                 Kandidatene som er foreslått av NAV er de som har høyest sannsynlighet for å bli
@@ -64,7 +65,7 @@ const AlleMatcher: FunctionComponent<Props> = ({ match }) => {
                     </ul>
                 )}
             </section>
-        </>
+        </div>
     );
 };
 

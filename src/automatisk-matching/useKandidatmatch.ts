@@ -10,10 +10,15 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
     const dispatch = useDispatch();
     const { stilling, kandidater } = useSelector((state: AppState) => state.kandidatmatch);
 
+    let valgtKandidat: Kandidatmatch | undefined;
+    if (kandidater.kind === Nettstatus.Suksess && kandidatNr) {
+        valgtKandidat = kandidater.data.find((kandidat) => kandidat.arenaKandidatnr === kandidatNr);
+    }
+
     useEffect(() => {
         const setStilling = (stilling: any) => {
             dispatch<MatchAction>({
-                type: 'SetStillingForMatching',
+                type: 'SET_STILLING_FOR_MATCHING',
                 stilling,
             });
         };
@@ -31,7 +36,7 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
     useEffect(() => {
         const setKandidater = (kandidater: Nettressurs<Kandidatmatch[]>) => {
             dispatch<MatchAction>({
-                type: 'SetKandidatmatch',
+                type: 'SET_KANDIDATMATCH',
                 kandidater,
             });
         };
@@ -50,6 +55,7 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
     return {
         stilling,
         kandidater,
+        valgtKandidat,
     };
 };
 
