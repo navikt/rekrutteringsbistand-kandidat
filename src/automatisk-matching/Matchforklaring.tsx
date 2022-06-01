@@ -38,38 +38,6 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
         return verdi ? 'Ja' : 'Nei';
     }
 
-    const forklaring = (erfaring: ErfaringPrototype, index: number) => {
-        return (
-            <>
-                <li className="blokk-xl">
-                    Score forklaring:
-                    <table>
-                        {erfaring.ordScore && (
-                            <tr>
-                                {<th></th>}
-                                {erfaring.ordScore &&
-                                    erfaring.ordScore[0][1].map((o) => <th key={index}>{o[1]}</th>)}
-                            </tr>
-                        )}
-                        {erfaring.ordScore &&
-                            erfaring.ordScore.map((ordscore) => {
-                                const ordFraKandidat = ordscore[0][1];
-                                const stillingord = ordscore[1].map((f, i) => (
-                                    <td key={i}>{tilProsentpoeng(Number(f[2]))}</td>
-                                ));
-                                return (
-                                    <tr>
-                                        <td>{ordFraKandidat}</td>
-                                        {stillingord}
-                                    </tr>
-                                );
-                            })}
-                    </table>
-                </li>
-            </>
-        );
-    };
-
     return (
         <div className="matchforklaring">
             <div className="blokk-xl">
@@ -116,7 +84,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                                 (stillingØnske, index) => (
                                     <li key={stillingØnske.tekst}>
                                         {stillingØnske.tekst} {tilProsent(stillingØnske.score)}
-                                        {forklaring(stillingØnske, index)}
+                                        <Matchmatrise erfaring={stillingØnske} />
                                     </li>
                                 )
                             )}
@@ -170,7 +138,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                             {kandidat.utdannelse.erfaringer.map((utdannelse, index) => (
                                 <li key={utdannelse.tekst}>
                                     {utdannelse.tekst} {tilProsent(utdannelse.score)}
-                                    {forklaring(utdannelse, index)}
+                                    <Matchmatrise erfaring={utdannelse} />
                                 </li>
                             ))}
                         </ul>
@@ -196,44 +164,8 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                                 <li key={arbeidserfaring.tekst}>
                                     <ul>
                                         {arbeidserfaring.tekst} {tilProsent(arbeidserfaring.score)}
-                                        {forklaring(arbeidserfaring, index)}
-                                        <li>
-                                            Score forklaring alternativ:
-                                            <table>
-                                                <th>Ord fra kandidat</th>
-                                                <th>Ord fra stilling</th>
-                                                <th>Ord fra stilling</th>
-                                                {arbeidserfaring.ordScore &&
-                                                    arbeidserfaring.ordScore.map((ordscore) => {
-                                                        const fraKandidat = ordscore[0];
-                                                        const ordFraKandidat = fraKandidat[1];
-                                                        const fraStilling = ordscore[1];
-
-                                                        const stillingord = fraStilling
-                                                            .sort(
-                                                                (s1, s2) =>
-                                                                    tilProsentpoeng(s2[2]) -
-                                                                    tilProsentpoeng(s1[2])
-                                                            )
-                                                            .slice(0, 2)
-                                                            .map((f, i) => (
-                                                                <td key={i}>
-                                                                    {tilProsentpoeng(f[2]) > 0 &&
-                                                                        tilProsentpoeng(f[2]) +
-                                                                            '%' +
-                                                                            ' ' +
-                                                                            f[1]}
-                                                                </td>
-                                                            ));
-                                                        return (
-                                                            <tr>
-                                                                <td>{ordFraKandidat}</td>
-                                                                {stillingord}
-                                                            </tr>
-                                                        );
-                                                    })}
-                                            </table>
-                                        </li>
+                                        <Matchmatrise erfaring={arbeidserfaring} />
+                                        <ForkortetMatchmatrise erfaring={arbeidserfaring} />
                                     </ul>
                                     <br />
                                 </li>
@@ -261,7 +193,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                             {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse, index) => (
                                 <li key={kompetanse.tekst}>
                                     {kompetanse.tekst} {tilProsent(kompetanse.score)}
-                                    {forklaring(kompetanse, index)}
+                                    <Matchmatrise erfaring={kompetanse} />
                                 </li>
                             ))}
                         </ul>
@@ -437,6 +369,90 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     </section>
                 </>
             )}
+        </div>
+    );
+};
+
+const Matchmatrise = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
+    return (
+        <div className="blokk-m">
+            Score forklaring:
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ord fra stilling</th>
+                        <th colSpan={erfaring.ordScore.length - 1}>Ord fra kandidaten</th>
+                    </tr>
+                </thead>
+                <thead>
+                    {erfaring.ordScore && (
+                        <tr>
+                            <th />
+                            {erfaring.ordScore &&
+                                erfaring.ordScore[0][1].map((o, tableHeaderIndex) => (
+                                    <th key={`th-${tableHeaderIndex}`}>{o[1]}</th>
+                                ))}
+                        </tr>
+                    )}
+                </thead>
+                <tbody>
+                    {erfaring.ordScore &&
+                        erfaring.ordScore.map((ordscore, i) => {
+                            const ordFraKandidat = ordscore[0][1];
+                            const stillingord = ordscore[1].map((f, i) => (
+                                <td key={i}>{tilProsentpoeng(Number(f[2]))}</td>
+                            ));
+
+                            return (
+                                <tr key={i}>
+                                    <td>{ordFraKandidat}</td>
+                                    {stillingord}
+                                </tr>
+                            );
+                        })}
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+const ForkortetMatchmatrise = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
+    return (
+        <div className="blokk-m">
+            Score forklaring alternativ:
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ord fra kandidat</th>
+                        <th>Ord fra stilling</th>
+                        <th>Ord fra stilling</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {erfaring.ordScore &&
+                        erfaring.ordScore.map((ordscore, k) => {
+                            const fraKandidat = ordscore[0];
+                            const ordFraKandidat = fraKandidat[1];
+                            const fraStilling = ordscore[1];
+
+                            const stillingord = fraStilling
+                                .sort((s1, s2) => tilProsentpoeng(s2[2]) - tilProsentpoeng(s1[2]))
+                                .slice(0, 2)
+                                .map((f, i) => (
+                                    <td key={i}>
+                                        {tilProsentpoeng(f[2]) > 0 &&
+                                            `${tilProsentpoeng(f[2])}% ${f[1]}`}
+                                    </td>
+                                ));
+                            return (
+                                <tr key={k}>
+                                    <td>{ordFraKandidat}</td>
+                                    {stillingord}
+                                </tr>
+                            );
+                        })}
+                </tbody>
+            </table>
         </div>
     );
 };
