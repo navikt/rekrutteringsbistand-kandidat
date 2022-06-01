@@ -55,7 +55,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 <p>{kandidat.sammendrag.tekst}</p>
             </Seksjon>
             <Seksjon tittel="Jobbønsker">
-                <h3>Jobber og yrker {tilProsent(kandidat.stillinger_jobbprofil.score)}</h3>
+                <h3>Jobber og yrker ({tilProsent(kandidat.stillinger_jobbprofil.score)})</h3>
                 <ul>
                     {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske, index) => (
                         <li key={stillingØnske.tekst}>
@@ -445,7 +445,7 @@ export const Seksjon = ({
     <section className={`blokk-m${className === undefined ? '' : ' ' + className}`}>
         <h2>
             {tittel}
-            {match && <> ({tilProsent(match)})</>}
+            {match ? <> ({tilProsent(match)})</> : ''}
         </h2>
         {children}
     </section>
