@@ -2,11 +2,12 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import { Link, RouteChildrenProps } from 'react-router-dom';
 import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from '../useKandidatmatch';
-import { ErfaringPrototype } from '../Kandidatmatch';
-import { booleanTilTekst, tilProsent, tilProsentpoeng } from '../formatering';
+import { booleanTilTekst, tilDato, tilProsent } from '../formatering';
 import Personalia from './Personalia';
 import { Back } from '@navikt/ds-icons';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import ForkortetMatrise from './ForkortetMatrise';
+import Matrise from './Matrise';
 import './Matchforklaring.less';
 
 type Props = RouteChildrenProps<{
@@ -22,19 +23,6 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
 
     if (stillingsId === undefined || kandidatNr === undefined) {
         return <Feilmelding>Du må oppgi stillingsId og kandidatNr</Feilmelding>;
-    }
-
-    function isNumeric(num: string) {
-        return !isNaN(parseFloat(num)) && parseFloat(num).toString() === num;
-    }
-
-    function tilDato(dato: number | Date | number[] | string) {
-        if (dato == null) return '';
-        else if (typeof dato === 'number') return new Date(dato).toDateString();
-        else if (Array.isArray(dato)) return dato.join('.');
-        else if (dato instanceof Date) return dato.toDateString();
-        else if (isNumeric(dato)) return new Date(+dato).toDateString();
-        else return new Date(dato).toDateString();
     }
 
     if (!kandidat) {
@@ -62,7 +50,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                             <h3>
                                 {stillingØnske.tekst} ({tilProsent(stillingØnske.score)})
                             </h3>
-                            <Matchmatrise erfaring={stillingØnske} />
+                            <Matrise erfaring={stillingØnske} />
                         </li>
                     ))}
                 </ul>
@@ -114,7 +102,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                             <h3>
                                 {utdannelse.tekst} ({tilProsent(utdannelse.score)})
                             </h3>
-                            <Matchmatrise erfaring={utdannelse} />
+                            <Matrise erfaring={utdannelse} />
                         </li>
                     ))}
                 </ul>
@@ -144,8 +132,8 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                                 <h3>
                                     {arbeidserfaring.tekst} ({tilProsent(arbeidserfaring.score)})
                                 </h3>
-                                <Matchmatrise erfaring={arbeidserfaring} />
-                                <ForkortetMatchmatrise erfaring={arbeidserfaring} />
+                                <Matrise erfaring={arbeidserfaring} />
+                                <ForkortetMatrise erfaring={arbeidserfaring} />
                             </ul>
                         </li>
                     ))}
@@ -172,7 +160,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                             <h3>
                                 {kompetanse.tekst} ({tilProsent(kompetanse.score)})
                             </h3>
-                            <Matchmatrise erfaring={kompetanse} />
+                            <Matrise erfaring={kompetanse} />
                         </li>
                     ))}
                 </ul>
@@ -262,7 +250,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
             <Seksjon tittel="Kurs">
                 {kandidat.kurs.length > 0 ? (
                     <ul>
-                        {kandidat.kurs.map((kurs, index) => (
+                        {kandidat.kurs.map((kurs) => (
                             <li key={kurs.tittel}>
                                 {kurs.tittel}
                                 <ul>
@@ -339,97 +327,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
     );
 };
 
-const Matchmatrise = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
-    if (erfaring.ordScore.length === 0) {
-        return <IngenData />;
-    }
-
-    const [, matchedeOrdFraKandidat] = erfaring.ordScore[0];
-    const alleOrdFraKandidat = matchedeOrdFraKandidat.map(([, ord]) => ord);
-
-    return (
-        <div className="blokk-m">
-            <h4>Hvor godt matcher hvert ord i stillingsannonsen med ord fra kandidaten?</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ord fra stilling</th>
-                        <th colSpan={alleOrdFraKandidat.length}>
-                            Ord fra kandidaten og relasjon (%)
-                        </th>
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <th />
-                        {alleOrdFraKandidat.map((ord) => (
-                            <th key={`th-${ord}`}>{ord}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {erfaring.ordScore.map(([[, ordFraStilling], matchedeOrdFraKandidaten], i) => {
-                        return (
-                            <tr key={ordFraStilling}>
-                                <td>{ordFraStilling}</td>
-                                {matchedeOrdFraKandidaten.map(([, ord, score]) => (
-                                    <td key={ord}>{tilProsentpoeng(score)}</td>
-                                ))}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-        </div>
-    );
-};
-
-const ForkortetMatchmatrise = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
-    return (
-        <div className="blokk-m">
-            <h4>Hvilke ord hos kandidaten er mest relatert til ord fra stillingsannonsen?</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ord fra stilling</th>
-                        <th colSpan={2}>Relatert ord fra kandidaten</th>
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <th />
-                        <th>Mest relatert</th>
-                        <th>Nest mest relatert</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {erfaring.ordScore.map((ordscore, k) => {
-                        const [ordFraStilling, matchedeOrdFraKandidat] = ordscore;
-                        const toBesteMatcherFraKandidat = matchedeOrdFraKandidat
-                            .sort(([, , score1], [, , score2]) => score2 - score1)
-                            .slice(0, 2);
-
-                        return (
-                            <tr key={k}>
-                                <td>{ordFraStilling[1]}</td>
-                                {toBesteMatcherFraKandidat.map(([, ord, score], index) => {
-                                    return (
-                                        <td key={index}>
-                                            <span>{ord}</span>
-                                            <span> ({tilProsent(score)})</span>
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-        </div>
-    );
-};
-
-const IngenData = () => <p>Ikke oppgitt</p>;
+export const IngenData = () => <p>Ikke oppgitt</p>;
 
 export const Seksjon = ({
     tittel,
