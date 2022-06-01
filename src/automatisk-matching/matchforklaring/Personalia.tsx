@@ -61,15 +61,10 @@ const Personalia = ({ kandidat }: { kandidat: Kandidatmatch }) => (
                 </tr>
 
                 {kandidat.veileder && (
-                    <>
-                        <tr>
-                            <td>
-                                Veileder: {kandidat.veileder.veilederId}{' '}
-                                {kandidat.veileder.tilordnet}
-                            </td>
-                            <td>{kandidat.veileder.aktorId}</td>
-                        </tr>
-                    </>
+                    <tr>
+                        <td>Veileder</td>
+                        <td>{kandidat.veileder.veilederId}</td>
+                    </tr>
                 )}
 
                 <tr>
