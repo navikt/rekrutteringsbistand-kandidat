@@ -3,7 +3,7 @@ import { Feilmelding, Innholdstittel, Normaltekst } from 'nav-frontend-typografi
 import { Nettstatus } from '../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { tilProsent } from './formatering';
-import { Kandidatfane, lenkeTilKandidatside } from '../app/paths';
+import { Kandidatfane, lenkeTilKandidatside, lenkeTilStilling } from '../app/paths';
 import { Link, RouteChildrenProps } from 'react-router-dom';
 import useKandidatmatch from './useKandidatmatch';
 import { Next } from '@navikt/ds-icons';
@@ -31,6 +31,11 @@ const AlleMatcher: FunctionComponent<Props> = ({ match }) => {
 
     return (
         <div className="alle-matcher">
+            <Link className="lenke" to={lenkeTilStilling(stillingsId)}>
+                Gå til stilling
+                <Next />
+            </Link>
+            <div className="blokk-xxs" />
             <Innholdstittel className="blokk-xxs">
                 Foreslåtte kandidater til «{stilling.data.stilling.title}»
             </Innholdstittel>
