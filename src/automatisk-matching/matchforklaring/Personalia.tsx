@@ -1,7 +1,7 @@
 import React from 'react';
 import { booleanTilTekst } from '../formatering';
 import Kandidatmatch from '../Kandidatmatch';
-import { Seksjon } from './Matchforklaring';
+import { Seksjon } from './Seksjon';
 
 const Personalia = ({ kandidat }: { kandidat: Kandidatmatch }) => (
     <Seksjon tittel="Personalia" className="matchforklaring__personalia">

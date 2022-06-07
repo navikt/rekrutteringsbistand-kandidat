@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Link, RouteChildrenProps } from 'react-router-dom';
 import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from '../useKandidatmatch';
@@ -9,6 +9,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import ForkortetMatrise from './ForkortetMatrise';
 import Matrise from './Matrise';
 import './Matchforklaring.less';
+import Seksjon from './Seksjon';
 
 type Props = RouteChildrenProps<{
     stillingsId: string;
@@ -42,7 +43,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
             <Seksjon tittel="Sammendrag" match={kandidat.sammendrag.score}>
                 <p>{kandidat.sammendrag.tekst}</p>
             </Seksjon>
-            <Seksjon tittel="Jobbønsker">
+            <Seksjon sammentrukket tittel="Jobbønsker">
                 <h3>Jobber og yrker ({tilProsent(kandidat.stillinger_jobbprofil.score)})</h3>
                 <ul>
                     {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske, index) => (
@@ -95,7 +96,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     ))}
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Utdanninger" match={kandidat.utdannelse.score}>
+            <Seksjon sammentrukket tittel="Utdanninger" match={kandidat.utdannelse.score}>
                 <ul>
                     {kandidat.utdannelse.erfaringer.map((utdannelse, index) => (
                         <li key={utdannelse.tekst}>
@@ -107,7 +108,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     ))}
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Fagbrev">
+            <Seksjon sammentrukket tittel="Fagbrev">
                 {kandidat.fagdokumentasjon.length > 0 ? (
                     <ul>
                         {kandidat.fagdokumentasjon.map((dok) => (
@@ -124,7 +125,11 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Arbeidserfaringer" match={kandidat.arbeidserfaring.score}>
+            <Seksjon
+                sammentrukket
+                tittel="Arbeidserfaringer"
+                match={kandidat.arbeidserfaring.score}
+            >
                 <ul>
                     {kandidat.arbeidserfaring.erfaringer.map((arbeidserfaring, index) => (
                         <li key={arbeidserfaring.tekst}>
@@ -139,7 +144,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     ))}
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Andre erfaringer">
+            <Seksjon sammentrukket tittel="Andre erfaringer">
                 <ul>
                     {kandidat.annenErfaring.map((erfaring) => (
                         <li key={erfaring.beskrivelse}>
@@ -153,7 +158,11 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     ))}
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Kompetanser" match={kandidat.kompetanser_jobbprofil.score}>
+            <Seksjon
+                sammentrukket
+                tittel="Kompetanser"
+                match={kandidat.kompetanser_jobbprofil.score}
+            >
                 <ul>
                     {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse, index) => (
                         <li key={kompetanse.tekst}>
@@ -165,7 +174,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     ))}
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Offentlige godkjenninger">
+            <Seksjon sammentrukket tittel="Offentlige godkjenninger">
                 <p>
                     <i>F.eks. autorisasjoner, førerbevis, tjenestebevis</i>
                 </p>
@@ -192,7 +201,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Andre godkjenninger">
+            <Seksjon sammentrukket tittel="Andre godkjenninger">
                 {kandidat.godkjenninger.length > 0 ? (
                     <ul>
                         {kandidat.godkjenninger.map((godkjenning) => (
@@ -211,7 +220,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Språkferdigheter">
+            <Seksjon sammentrukket tittel="Språkferdigheter">
                 {kandidat.spraakferdigheter.length > 0 ? (
                     <ul>
                         {kandidat.spraakferdigheter.map((språkferdighet) => (
@@ -228,7 +237,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Førerkort">
+            <Seksjon sammentrukket tittel="Førerkort">
                 {kandidat.foererkort.klasse.length > 0 ? (
                     <ul>
                         {kandidat.foererkort.klasse.map((førerkort) => (
@@ -247,7 +256,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Kurs">
+            <Seksjon sammentrukket tittel="Kurs">
                 {kandidat.kurs.length > 0 ? (
                     <ul>
                         {kandidat.kurs.map((kurs) => (
@@ -267,7 +276,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Oppfølgingsinformasjon">
+            <Seksjon sammentrukket tittel="Oppfølgingsinformasjon">
                 <ul>
                     <li>Fødselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>
                     <li>Formidlingsgruppe: {kandidat.oppfolgingsinformasjon.formidlingsgruppe}</li>
@@ -297,7 +306,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <li>Sist endret: {tilDato(kandidat.oppfolgingsinformasjon.sistEndretDato)}</li>
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Oppfølgingsperiode">
+            <Seksjon sammentrukket tittel="Oppfølgingsperiode">
                 <ul>
                     <li>UUID: {kandidat.oppfolgingsperiode.uuid} </li>
                     <li>Aktør-id: {kandidat.oppfolgingsperiode.aktorId} </li>
@@ -305,7 +314,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <li>Slutt: {tilDato(kandidat.oppfolgingsperiode.sluttDato)} </li>
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Tilretteleggingsbehov">
+            <Seksjon sammentrukket tittel="Tilretteleggingsbehov">
                 {kandidat.tilretteleggingsbehov && kandidat.tilretteleggingsbehov.length > 0 ? (
                     <ul>
                         {kandidat.tilretteleggingsbehov.split(',').map((behov) => (
@@ -316,7 +325,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                     <p>Kandidaten har ingen tilretteleggingsbehov</p>
                 )}
             </Seksjon>
-            <Seksjon tittel="Tilleggsinformasjon">
+            <Seksjon sammentrukket tittel="Tilleggsinformasjon">
                 <p>OppstartKode: {kandidat.oppstartKode}</p>
                 <p>SynligForArbeidsgiver: {booleanTilTekst(kandidat.synligForArbeidsgiver)} </p>
                 <p>SynligForVeileder: {booleanTilTekst(kandidat.synligForVeileder)} </p>
@@ -328,25 +337,5 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
 };
 
 export const IngenData = () => <p>Ikke oppgitt</p>;
-
-export const Seksjon = ({
-    tittel,
-    match,
-    className,
-    children,
-}: {
-    tittel: string;
-    match?: number;
-    className?: string;
-    children?: ReactNode;
-}) => (
-    <section className={`blokk-m${className === undefined ? '' : ' ' + className}`}>
-        <h2>
-            {tittel}
-            {match ? <> ({tilProsent(match)})</> : ''}
-        </h2>
-        {children}
-    </section>
-);
 
 export default Matchforklaring;
