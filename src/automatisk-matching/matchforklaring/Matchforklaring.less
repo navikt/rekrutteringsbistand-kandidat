@@ -37,21 +37,35 @@
         background-color: white;
         border-radius: 0.25rem;
 
-        &--sammentrukket {
+        &[open] .matchforklaring__seksjonsikon--ned {
             display: none;
         }
-    }
 
-    &__seksjontittel--sammentrekkbar {
-        &:hover {
-            color: @navBla;
-            text-decoration: underline;
+        &:not([open]) .matchforklaring__seksjonsikon--opp {
+            display: none;
+        }
+
+        summary {
+            list-style: none;
+
+            h2 {
+                display: flex;
+                align-items: center;
+            }
+
+            &:hover {
+                h2 {
+                    cursor: pointer;
+                    color: @navBla;
+                    text-decoration: underline;
+                }
+            }
         }
     }
 
-    &__seksjonikon {
+    &__seksjonsikon {
         display: inline-block;
-        margin-left: 1rem;
+        margin-right: 1rem;
         transform: scale(0.75);
     }
 }

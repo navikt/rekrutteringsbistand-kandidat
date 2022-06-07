@@ -4,7 +4,7 @@ import Kandidatmatch from '../Kandidatmatch';
 import { Seksjon } from './Seksjon';
 
 const Personalia = ({ kandidat }: { kandidat: Kandidatmatch }) => (
-    <Seksjon tittel="Personalia" className="matchforklaring__personalia">
+    <Seksjon åpen tittel="Personalia" className="matchforklaring__personalia">
         <table>
             <tbody>
                 <tr>
