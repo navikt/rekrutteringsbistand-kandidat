@@ -45,16 +45,14 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
             </Seksjon>
             <Seksjon tittel="Jobbønsker">
                 <h3>Jobber og yrker ({tilProsent(kandidat.stillinger_jobbprofil.score)})</h3>
-                <ul>
-                    {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske, index) => (
-                        <li key={stillingØnske.tekst}>
-                            <h3>
-                                {stillingØnske.tekst} ({tilProsent(stillingØnske.score)})
-                            </h3>
-                            <Matrise erfaring={stillingØnske} />
-                        </li>
-                    ))}
-                </ul>
+                {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske, index) => (
+                    <>
+                        <h4 key={stillingØnske.tekst}>
+                            {stillingØnske.tekst} ({tilProsent(stillingØnske.score)})
+                        </h4>
+                        <Matrise erfaring={stillingØnske} />
+                    </>
+                ))}
                 <h3>Hvor kan du jobbe?</h3>
                 <ul>
                     {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
@@ -97,16 +95,14 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 </ul>
             </Seksjon>
             <Seksjon tittel="Utdanninger" match={kandidat.utdannelse.score}>
-                <ul>
-                    {kandidat.utdannelse.erfaringer.map((utdannelse, index) => (
-                        <li key={utdannelse.tekst}>
-                            <h3>
-                                {utdannelse.tekst} ({tilProsent(utdannelse.score)})
-                            </h3>
-                            <Matrise erfaring={utdannelse} />
-                        </li>
-                    ))}
-                </ul>
+                {kandidat.utdannelse.erfaringer.map((utdannelse, index) => (
+                    <div key={utdannelse.tekst}>
+                        <h3>
+                            {utdannelse.tekst} ({tilProsent(utdannelse.score)})
+                        </h3>
+                        <Matrise erfaring={utdannelse} />
+                    </div>
+                ))}
             </Seksjon>
             <Seksjon tittel="Fagbrev">
                 {kandidat.fagdokumentasjon.length > 0 ? (
@@ -126,19 +122,15 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 )}
             </Seksjon>
             <Seksjon tittel="Arbeidserfaringer" match={kandidat.arbeidserfaring.score}>
-                <ul>
-                    {kandidat.arbeidserfaring.erfaringer.map((arbeidserfaring, index) => (
-                        <li key={arbeidserfaring.tekst}>
-                            <ul>
-                                <h3>
-                                    {arbeidserfaring.tekst} ({tilProsent(arbeidserfaring.score)})
-                                </h3>
-                                <Matrise erfaring={arbeidserfaring} />
-                                <ForkortetMatrise erfaring={arbeidserfaring} />
-                            </ul>
-                        </li>
-                    ))}
-                </ul>
+                {kandidat.arbeidserfaring.erfaringer.map((arbeidserfaring, index) => (
+                    <div key={arbeidserfaring.tekst}>
+                        <h3>
+                            {arbeidserfaring.tekst} ({tilProsent(arbeidserfaring.score)})
+                        </h3>
+                        <Matrise erfaring={arbeidserfaring} />
+                        <ForkortetMatrise erfaring={arbeidserfaring} />
+                    </div>
+                ))}
             </Seksjon>
             <Seksjon tittel="Andre erfaringer">
                 <ul>
@@ -155,16 +147,14 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                 </ul>
             </Seksjon>
             <Seksjon tittel="Kompetanser" match={kandidat.kompetanser_jobbprofil.score}>
-                <ul>
-                    {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse, index) => (
-                        <li key={kompetanse.tekst}>
-                            <h3>
-                                {kompetanse.tekst} ({tilProsent(kompetanse.score)})
-                            </h3>
-                            <Matrise erfaring={kompetanse} />
-                        </li>
-                    ))}
-                </ul>
+                {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse) => (
+                    <div key={kompetanse.tekst}>
+                        <h3>
+                            {kompetanse.tekst} ({tilProsent(kompetanse.score)})
+                        </h3>
+                        <Matrise erfaring={kompetanse} />
+                    </div>
+                ))}
             </Seksjon>
             <Seksjon tittel="Offentlige godkjenninger">
                 <p>
