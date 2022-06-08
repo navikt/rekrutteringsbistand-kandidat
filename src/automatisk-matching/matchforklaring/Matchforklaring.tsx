@@ -6,7 +6,6 @@ import { booleanTilTekst, tilDato, tilProsent } from '../formatering';
 import Personalia from './Personalia';
 import { Back } from '@navikt/ds-icons';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import ForkortetMatrise from './ForkortetMatrise';
 import Matrise from './Matrise';
 import Seksjon from './Seksjon';
 import './Matchforklaring.less';
@@ -45,13 +44,14 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
             </Seksjon>
             <Seksjon tittel="Jobbønsker" match={kandidat.stillinger_jobbprofil.score}>
                 {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske, index) => (
-                    <>
-                        <h3 key={stillingØnske.tekst}>
-                            {stillingØnske.tekst} ({tilProsent(stillingØnske.score)})
-                        </h3>
-                        <Matrise erfaring={stillingØnske} />
-                    </>
+                    <Matrise
+                        tittel={stillingØnske.tekst}
+                        match={stillingØnske.score}
+                        erfaring={stillingØnske}
+                        visForkortetMatrise
+                    />
                 ))}
+                <div className="blokk-l" />
                 <h3>Arbeidsforhold</h3>
                 <h4>Hvor kan du jobbe?</h4>
                 <ul>
@@ -96,12 +96,12 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
             </Seksjon>
             <Seksjon tittel="Utdanninger" match={kandidat.utdannelse.score}>
                 {kandidat.utdannelse.erfaringer.map((utdannelse, index) => (
-                    <div key={utdannelse.tekst}>
-                        <h3>
-                            {utdannelse.tekst} ({tilProsent(utdannelse.score)})
-                        </h3>
-                        <Matrise erfaring={utdannelse} />
-                    </div>
+                    <Matrise
+                        tittel={utdannelse.tekst}
+                        match={utdannelse.score}
+                        erfaring={utdannelse}
+                        visForkortetMatrise
+                    />
                 ))}
             </Seksjon>
             <Seksjon tittel="Fagbrev">
@@ -123,13 +123,12 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
             </Seksjon>
             <Seksjon tittel="Arbeidserfaringer" match={kandidat.arbeidserfaring.score}>
                 {kandidat.arbeidserfaring.erfaringer.map((arbeidserfaring, index) => (
-                    <div key={arbeidserfaring.tekst}>
-                        <h3>
-                            {arbeidserfaring.tekst} ({tilProsent(arbeidserfaring.score)})
-                        </h3>
-                        <Matrise erfaring={arbeidserfaring} />
-                        <ForkortetMatrise erfaring={arbeidserfaring} />
-                    </div>
+                    <Matrise
+                        tittel={arbeidserfaring.tekst}
+                        match={arbeidserfaring.score}
+                        erfaring={arbeidserfaring}
+                        visForkortetMatrise
+                    />
                 ))}
             </Seksjon>
             <Seksjon tittel="Andre erfaringer">
@@ -148,12 +147,12 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
             </Seksjon>
             <Seksjon tittel="Kompetanser" match={kandidat.kompetanser_jobbprofil.score}>
                 {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse) => (
-                    <div key={kompetanse.tekst}>
-                        <h3>
-                            {kompetanse.tekst} ({tilProsent(kompetanse.score)})
-                        </h3>
-                        <Matrise erfaring={kompetanse} />
-                    </div>
+                    <Matrise
+                        tittel={kompetanse.tekst}
+                        match={kompetanse.score}
+                        erfaring={kompetanse}
+                        visForkortetMatrise
+                    />
                 ))}
             </Seksjon>
             <Seksjon tittel="Offentlige godkjenninger">

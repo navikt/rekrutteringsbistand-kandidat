@@ -1,3 +1,5 @@
+@import '../../variabler.less';
+
 .matchforklaring {
     padding: 2rem;
 
@@ -26,6 +28,41 @@
 
         td:first-child {
             font-weight: bold;
+        }
+    }
+}
+
+.matchforklaring-matrise {
+    &__up,
+    &__down {
+        margin-right: 1rem;
+        margin-left: 3px;
+    }
+
+    &[open] {
+        .matchforklaring-matrise__down {
+            display: none;
+        }
+
+        summary h3:hover {
+            cursor: n-resize;
+        }
+    }
+
+    &:not([open]) {
+        .matchforklaring-matrise__up {
+            display: none;
+        }
+
+        summary h3:hover {
+            cursor: s-resize;
+        }
+    }
+
+    summary {
+        h3:hover {
+            color: @navBla;
+            text-decoration: underline;
         }
     }
 }
