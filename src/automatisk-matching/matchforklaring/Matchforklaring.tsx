@@ -43,17 +43,17 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
             <Seksjon åpen tittel="Sammendrag" match={kandidat.sammendrag.score}>
                 <p>{kandidat.sammendrag.tekst}</p>
             </Seksjon>
-            <Seksjon tittel="Jobbønsker">
-                <h3>Jobber og yrker ({tilProsent(kandidat.stillinger_jobbprofil.score)})</h3>
+            <Seksjon tittel="Jobbønsker" match={kandidat.stillinger_jobbprofil.score}>
                 {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske, index) => (
                     <>
-                        <h4 key={stillingØnske.tekst}>
+                        <h3 key={stillingØnske.tekst}>
                             {stillingØnske.tekst} ({tilProsent(stillingØnske.score)})
-                        </h4>
+                        </h3>
                         <Matrise erfaring={stillingØnske} />
                     </>
                 ))}
-                <h3>Hvor kan du jobbe?</h3>
+                <h3>Arbeidsforhold</h3>
+                <h4>Hvor kan du jobbe?</h4>
                 <ul>
                     {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
                         <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
@@ -61,25 +61,25 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                         </li>
                     ))}
                 </ul>
-                <h3>Vil du jobbe heltid eller deltid?</h3>
+                <h4>Vil du jobbe heltid eller deltid?</h4>
                 <ul>
                     {kandidat.omfang_jobbprofil.map((omfang) => (
                         <li key={omfang + kandidat.fodselsnummer}>{omfang}</li>
                     ))}
                 </ul>
-                <h3>Når kan du jobbe?</h3>
+                <h4>Når kan du jobbe?</h4>
                 <ul>
                     {kandidat.arbeidstider_jobbprofil.map((arbeidstid) => (
                         <li key={arbeidstid + kandidat.fodselsnummer}>{arbeidstid}</li>
                     ))}
                 </ul>
-                <h3>Når kan du jobbe?</h3>
+                <h4>Når kan du jobbe?</h4>
                 <ul>
                     {kandidat.arbeidsdager_jobbprofil.map((arbeidsdag) => (
                         <li key={arbeidsdag + kandidat.fodselsnummer}>{arbeidsdag}</li>
                     ))}
                 </ul>
-                <h3>Når kan du jobbe?</h3>
+                <h4>Når kan du jobbe?</h4>
                 <ul>
                     {kandidat.arbeidstidsordninger_jobbprofil.map((arbeidstidsordning) => (
                         <li key={arbeidstidsordning + kandidat.fodselsnummer}>
@@ -87,7 +87,7 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                         </li>
                     ))}
                 </ul>
-                <h3>Hva slags ansettelse ønsker du?</h3>
+                <h4>Hva slags ansettelse ønsker du?</h4>
                 <ul>
                     {kandidat.ansettelsesformer_jobbprofil.map((ansettelsesform) => (
                         <li key={ansettelsesform + kandidat.fodselsnummer}>{ansettelsesform}</li>
