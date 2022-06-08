@@ -13,20 +13,12 @@
 
         summary {
             margin-bottom: 1rem;
-
-            h2:hover {
-                cursor: n-resize;
-            }
         }
     }
 
     &:not([open]) {
         .matchforklaring-seksjon__ikon--opp {
             display: none;
-        }
-
-        summary h2:hover {
-            cursor: s-resize;
         }
     }
 
@@ -41,6 +33,7 @@
 
         &:hover {
             h2 {
+                cursor: pointer;
                 color: @navBla;
                 text-decoration: underline;
             }
