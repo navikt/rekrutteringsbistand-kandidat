@@ -59,3 +59,31 @@
         }
     }
 }
+
+.matchdetaljer-matrise {
+    &__up,
+    &__down {
+        margin-right: 1rem;
+        margin-left: 3px;
+    }
+
+    &[open] {
+        .matchdetaljer-seksjon__ikon--ned {
+            display: none;
+        }
+    }
+
+    &:not([open]) {
+        .matchdetaljer-seksjon__ikon--opp {
+            display: none;
+        }
+    }
+
+    summary {
+        h3:hover {
+            cursor: pointer;
+            color: @navBla;
+            text-decoration: underline;
+        }
+    }
+}
