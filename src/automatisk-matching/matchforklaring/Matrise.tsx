@@ -1,9 +1,10 @@
 import React from 'react';
 import { Collapse, Expand } from '@navikt/ds-icons';
-import { tilProsent, tilProsentpoeng } from '../formatering';
+import { tilProsent } from '../formatering';
 import { ErfaringPrototype } from '../Kandidatmatch';
 import ForkortetMatrise from './ForkortetMatrise';
 import { IngenData } from './Matchforklaring';
+import Matchdetaljer from './Matchdetaljer';
 
 type Props = {
     erfaring: ErfaringPrototype;
@@ -18,9 +19,6 @@ const Matrise = ({ erfaring, tittel, match }: Props) => {
         return <IngenData />;
     }
 
-    const [, matchedeOrdFraKandidat] = erfaring.ordScore[0];
-    const alleOrdFraKandidat = matchedeOrdFraKandidat.map(([, ord]) => ord);
-
     return (
         <details className="matchforklaring-matrise">
             <summary>
@@ -32,50 +30,7 @@ const Matrise = ({ erfaring, tittel, match }: Props) => {
             </summary>
 
             <ForkortetMatrise erfaring={erfaring} minimumTreffprosent={minimumTreffprosent} />
-
-            <details className="matchdetaljer-matrise">
-                <summary>
-                    <Expand className="matchdetaljer-seksjon__ikon--ned" />
-                    <Collapse className="matchdetaljer-seksjon__ikon--opp" />
-                    Matchdetaljer
-                </summary>
-                <div className="blokk-m">
-                    <h4>Hvor godt matcher hvert ord i stillingsannonsen med ord fra kandidaten?</h4>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Ord fra stilling</th>
-                                <th colSpan={alleOrdFraKandidat.length}>
-                                    Ord fra kandidaten og relasjon (%)
-                                </th>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <th />
-                                {alleOrdFraKandidat.map((ord) => (
-                                    <th key={`th-${ord}`}>{ord}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {erfaring.ordScore.map(
-                                ([[, ordFraStilling], matchedeOrdFraKandidaten], i) => {
-                                    return (
-                                        <tr key={ordFraStilling}>
-                                            <td>{ordFraStilling}</td>
-                                            {matchedeOrdFraKandidaten.map(([, ord, score]) => (
-                                                <td key={ord}>{tilProsentpoeng(score)}</td>
-                                            ))}
-                                        </tr>
-                                    );
-                                }
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-                )
-            </details>
+            <Matchdetaljer erfaring={erfaring} />
         </details>
     );
 };
