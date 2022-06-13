@@ -59,3 +59,29 @@
         }
     }
 }
+
+.matchdetaljer {
+    &__ikon--opp,
+    &__ikon--ned {
+        margin-right: 1rem;
+        margin-left: 3px;
+    }
+
+    &[open] {
+        .matchdetaljer__ikon--ned {
+            display: none;
+        }
+    }
+
+    &:not([open]) {
+        .matchdetaljer__ikon--opp {
+            display: none;
+        }
+    }
+
+    summary:hover {
+        cursor: pointer;
+        color: @navBla;
+        text-decoration: underline;
+    }
+}

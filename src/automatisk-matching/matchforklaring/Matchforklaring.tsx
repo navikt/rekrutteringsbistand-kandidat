@@ -48,7 +48,6 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                         tittel={stillingØnske.tekst}
                         match={stillingØnske.score}
                         erfaring={stillingØnske}
-                        visForkortetMatrise
                     />
                 ))}
                 <div className="blokk-l" />
@@ -100,7 +99,6 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                         tittel={utdannelse.tekst}
                         match={utdannelse.score}
                         erfaring={utdannelse}
-                        visForkortetMatrise
                     />
                 ))}
             </Seksjon>
@@ -127,7 +125,6 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                         tittel={arbeidserfaring.tekst}
                         match={arbeidserfaring.score}
                         erfaring={arbeidserfaring}
-                        visForkortetMatrise
                     />
                 ))}
             </Seksjon>
@@ -151,7 +148,6 @@ const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
                         tittel={kompetanse.tekst}
                         match={kompetanse.score}
                         erfaring={kompetanse}
-                        visForkortetMatrise
                     />
                 ))}
             </Seksjon>
