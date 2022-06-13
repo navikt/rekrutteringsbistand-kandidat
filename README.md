@@ -7,7 +7,7 @@ den tidligere, felles kodebasen.
 ## Kjør lokalt uten backend (mock)
 
 ```sh
-npm install
+npm install 
 npm run start:mock
 ```
 
