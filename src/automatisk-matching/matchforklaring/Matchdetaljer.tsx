@@ -8,11 +8,11 @@ const Matchdetaljer = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
     const alleOrdFraKandidat = matchedeOrdFraKandidat.map(([, ord]) => ord);
 
     return (
-        <details className="matchdetaljer-matrise">
+        <details className="matchdetaljer">
             <summary>
-                <Expand className="matchdetaljer-seksjon__ikon--ned" />
-                <Collapse className="matchdetaljer-seksjon__ikon--opp" />
-                Matchdetaljer
+                <Expand className="matchdetaljer__ikon--ned" />
+                <Collapse className="matchdetaljer__ikon--opp" />
+                <span>Matchdetaljer</span>
             </summary>
             <div className="blokk-m">
                 <h4>Hvor godt matcher hvert ord i stillingsannonsen med ord fra kandidaten?</h4>
@@ -49,7 +49,6 @@ const Matchdetaljer = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
                     </tbody>
                 </table>
             </div>
-            )
         </details>
     );
 };

@@ -60,30 +60,28 @@
     }
 }
 
-.matchdetaljer-matrise {
-    &__up,
-    &__down {
+.matchdetaljer {
+    &__ikon--opp,
+    &__ikon--ned {
         margin-right: 1rem;
         margin-left: 3px;
     }
 
     &[open] {
-        .matchdetaljer-seksjon__ikon--ned {
+        .matchdetaljer__ikon--ned {
             display: none;
         }
     }
 
     &:not([open]) {
-        .matchdetaljer-seksjon__ikon--opp {
+        .matchdetaljer__ikon--opp {
             display: none;
         }
     }
 
-    summary {
-        h3:hover {
-            cursor: pointer;
-            color: @navBla;
-            text-decoration: underline;
-        }
+    summary:hover {
+        cursor: pointer;
+        color: @navBla;
+        text-decoration: underline;
     }
 }
