@@ -26,7 +26,7 @@ export const hentKandidater = async (stilling: Stilling): Promise<Kandidatmatch[
         return await postJson(`${KANDIDATMATCH_API_URL}/match`, JSON.stringify(body));
     } catch (e) {
         throw new SearchApiError({
-            message: 'Klarte ikke å hente foreslåtte kandidater',
+            message: `Klarte ikke å hente foreslåtte kandidater (${e.status}): ${e.message}`,
             status: e.status,
         });
     }

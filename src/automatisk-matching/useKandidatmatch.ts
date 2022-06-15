@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { lasterInn, Nettressurs, Nettstatus, suksess } from '../api/Nettressurs';
+import { feil, lasterInn, Nettressurs, Nettstatus, suksess } from '../api/Nettressurs';
 import AppState from '../AppState';
 import Kandidatmatch from './Kandidatmatch';
 import { hentKandidater, hentStilling } from './kandidatmatchApi';
@@ -26,8 +26,12 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
         const hent = async (stillingsId: string) => {
             setStilling(lasterInn());
 
-            const stilling = await hentStilling(stillingsId);
-            setStilling(suksess(stilling));
+            try {
+                const stilling = await hentStilling(stillingsId);
+                setStilling(suksess(stilling));
+            } catch (e) {
+                setStilling(feil(e));
+            }
         };
 
         if (stillingsId && stilling.kind === Nettstatus.IkkeLastet) hent(stillingsId);
@@ -44,10 +48,13 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
         const hent = async (stilling: Stilling) => {
             setKandidater(lasterInn());
 
-            const kandidater = await hentKandidater(stilling);
-            const behandledeKandidater = behandleKandidater(kandidater);
-
-            setKandidater(suksess(behandledeKandidater));
+            try {
+                const kandidater = await hentKandidater(stilling);
+                const behandledeKandidater = behandleKandidater(kandidater);
+                setKandidater(suksess(behandledeKandidater));
+            } catch (error) {
+                setKandidater(feil(error));
+            }
         };
 
         if (stilling.kind === Nettstatus.Suksess && kandidater.kind === Nettstatus.IkkeLastet)

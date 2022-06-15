@@ -39,7 +39,7 @@ const AlleMatcher: FunctionComponent<Props> = ({ match }) => {
             <Innholdstittel className="blokk-xxs">
                 Foreslåtte kandidater til «{stilling.data.stilling.title}»
             </Innholdstittel>
-            <Normaltekst>
+            <Normaltekst className="blokk-s">
                 Kandidatene er foreslått automatisk med utgangspunkt i likhet mellom ordene i
                 kandidaten og stillingen.
             </Normaltekst>
