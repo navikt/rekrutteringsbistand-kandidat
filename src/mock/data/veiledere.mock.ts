@@ -4,6 +4,7 @@ export type Veileder = {
     fornavn: string;
     etternavn: string;
     epost: string;
+    navKontor: string;
 };
 
 export const meg: Veileder = {
@@ -12,6 +13,7 @@ export const meg: Veileder = {
     fornavn: 'Clark',
     etternavn: 'Kent',
     epost: 'clark.kent@trygdeetaten.no',
+    navKontor: '1111',
 };
 
 export const enVeileder: Veileder = {
@@ -20,6 +22,7 @@ export const enVeileder: Veileder = {
     fornavn: 'Bruce',
     etternavn: 'Wayne',
     epost: 'bruce.wayne@trygdeetaten.no',
+    navKontor: '2222',
 };
 
 export const enAnnenVeileder: Veileder = {
@@ -28,4 +31,5 @@ export const enAnnenVeileder: Veileder = {
     fornavn: 'Peter',
     etternavn: 'Parker',
     epost: 'peter.parker@trygdeetaten.no',
+    navKontor: '3333',
 };

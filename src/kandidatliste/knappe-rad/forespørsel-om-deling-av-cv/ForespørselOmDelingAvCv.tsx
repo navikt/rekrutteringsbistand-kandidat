@@ -26,6 +26,7 @@ type Props = {
 const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, markerteKandidater }) => {
     const dispatch = useDispatch();
 
+    const { valgtNavKontor } = useSelector((state: AppState) => state.navKontor);
     const { sendForespørselOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
     const [modalErÅpen, setModalErÅpen] = useState<boolean>(false);
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
@@ -135,6 +136,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             aktorIder: markerteKandidaterSomIkkeErForespurt.map((kandidat) => kandidat.aktørid!),
             stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
+            navKontor: valgtNavKontor ? valgtNavKontor : '0000',
         };
 
         dispatch<KandidatlisteAction>({
