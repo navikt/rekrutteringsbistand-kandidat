@@ -111,7 +111,12 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         if (kanIkkeDelePopover) {
             setKanIkkeDelePopover(undefined);
         } else {
-            if (markerteKandidater.length === 0) {
+            if (valgtNavKontor === null) {
+                setKanIkkeDelePopover(event.currentTarget);
+                setKanIkkeDeleFeilmelding(
+                    'Du må representere et NAV-kontor før du kan dele stillingen med kandidaten.'
+                );
+            } else if (markerteKandidater.length === 0) {
                 setKanIkkeDelePopover(event.currentTarget);
                 setKanIkkeDeleFeilmelding(
                     'Du må huke av for kandidatene du ønsker å dele stillingen med.'
@@ -136,7 +141,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             aktorIder: markerteKandidaterSomIkkeErForespurt.map((kandidat) => kandidat.aktørid!),
             stillingsId,
             svarfrist: lagSvarfristPåSekundet(svarfrist, egenvalgtFrist),
-            navKontor: valgtNavKontor ? valgtNavKontor : '0000',
+            navKontor: valgtNavKontor!,
         };
 
         dispatch<KandidatlisteAction>({

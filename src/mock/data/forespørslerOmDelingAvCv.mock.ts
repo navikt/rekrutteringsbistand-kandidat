@@ -18,11 +18,11 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             deltAv: meg.ident,
             navKontor: meg.navKontor,
             deltTidspunkt: moment().subtract(10, 'day').toISOString(),
-            deltStatus: ForespørselDeltStatus.IkkeSendt,
+            deltStatus: ForespørselDeltStatus.Sendt,
             svarfrist: moment().add(5, 'day').startOf('day').subtract(2, 'hours').toISOString(),
             tilstand: TilstandPåForespørsel.HarSvart,
             svar: {
-                harSvartJa: true,
+                harSvartJa: false,
                 svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
                 svartAv: {
                     ident: kandidatlister[0].kandidater[2].aktørid!,

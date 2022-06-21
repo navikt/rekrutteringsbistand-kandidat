@@ -13,7 +13,7 @@ export const meg: Veileder = {
     fornavn: 'Clark',
     etternavn: 'Kent',
     epost: 'clark.kent@trygdeetaten.no',
-    navKontor: '1111',
+    navKontor: '0239',
 };
 
 export const enVeileder: Veileder = {

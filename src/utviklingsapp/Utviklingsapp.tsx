@@ -5,13 +5,14 @@ import { Link, Router } from 'react-router-dom';
 import { AppContainer, cssScopeForApp } from '../index';
 import history from './history';
 import './Utviklingsapp.less';
+import { meg } from '../mock/data/veiledere.mock';
 
 const Utviklingsapp: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setNavKontor('0239');
+            setNavKontor(meg.navKontor);
         }, 500);
 
         return () => {
