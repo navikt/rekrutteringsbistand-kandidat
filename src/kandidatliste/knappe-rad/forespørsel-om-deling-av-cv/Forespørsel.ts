@@ -5,11 +5,13 @@ export type ForespørselOutboundDto = {
     stillingsId: string;
     svarfrist: Date;
     aktorIder: string[];
+    navKontor: string;
 };
 
 export type ResendForespørselOutboundDto = {
     stillingsId: string;
     svarfrist: Date;
+    navKontor: string;
 };
 
 type MedSvar = {
@@ -28,6 +30,7 @@ export type ForespørselOmDelingAvCv = {
     deltStatus: ForespørselDeltStatus;
     deltTidspunkt: string;
     deltAv: string;
+    navKontor: string;
     svarfrist: string;
 } & (MedSvar | UtenSvar);
 
