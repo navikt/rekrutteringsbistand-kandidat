@@ -53,7 +53,7 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
                     <div className="viktige-yrker__tittel">
                         <Systemtittel>Finn kandidater til viktige yrker</Systemtittel>
                         <Ingress>
-                            Koronasituasjonen gjør at vi kan risikere mangel på arbeidskraft til
+                            Situasjonen på arbeidsmarkedet gjør at vi kan risikere mangel på arbeidskraft til
                             viktige oppgaver i samfunnet.
                         </Ingress>
                     </div>
