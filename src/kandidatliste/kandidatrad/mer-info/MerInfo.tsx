@@ -3,7 +3,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
 import { Kandidat } from '../../domene/Kandidat';
-import { erIkkeProd } from '../../../utils/featureToggleUtils';
+import { ARBEIDSRETTET_OPPFOLGING_URL } from '../../../common/fasitProperties';
 
 interface Props {
     kandidat: Kandidat;
@@ -33,11 +33,7 @@ const MerInfo: FunctionComponent<Props> = ({ kandidat }) => {
                 </Normaltekst>
                 <a
                     className="frittstaende-lenke ForlateSiden link"
-                    href={
-                        erIkkeProd
-                            ? `https://app-q1.adeo.no/veilarbpersonflatefs/${kandidat.fodselsnr}`
-                            : `https://app.adeo.no/veilarbpersonflatefs/${kandidat.fodselsnr}`
-                    }
+                    href={`${ARBEIDSRETTET_OPPFOLGING_URL}/${kandidat.fodselsnr}`}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
