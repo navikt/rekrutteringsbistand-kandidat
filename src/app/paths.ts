@@ -2,12 +2,10 @@ import { KandidatQueryParam } from '../kandidatside/Kandidatside';
 
 const nesteSeparator = (lenke: string) => (lenke.includes('?') ? '&' : '?');
 
-export const appPrefiks = '';
-
-export const lenkeTilKandidatlisteoversikt = `${appPrefiks}/kandidater/lister`;
+export const lenkeTilKandidatlisteoversikt = `/kandidater/lister`;
 
 export const lenkeTilKandidatliste = (kandidatlisteId: string, filterQuery?: URLSearchParams) => {
-    let lenke = `${appPrefiks}/kandidater/lister/detaljer/${kandidatlisteId}`;
+    let lenke = `/kandidater/lister/detaljer/${kandidatlisteId}`;
 
     if (filterQuery) {
         lenke += `?${filterQuery}`;
@@ -21,7 +19,7 @@ export const lenkeTilKandidat = (
     kandidatlisteId?: string,
     stillingsId?: string
 ) => {
-    const path = `${appPrefiks}/kandidater/kandidat/${kandidatnummer}/cv`;
+    const path = `/kandidater/kandidat/${kandidatnummer}/cv`;
     if (kandidatlisteId) return path + `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
     if (stillingsId) return path + `?${KandidatQueryParam.StillingId}=${stillingsId}`;
 
@@ -29,9 +27,7 @@ export const lenkeTilKandidat = (
 };
 
 export const lenkeTilStilling = (stillingsId: string, redigeringsmodus?: boolean) =>
-    `${appPrefiks}/stillinger/stilling/${stillingsId}${
-        redigeringsmodus ? '?redigeringsmodus=true' : ''
-    }`;
+    `/stillinger/stilling/${stillingsId}${redigeringsmodus ? '?redigeringsmodus=true' : ''}`;
 
 export const lenkeTilKandidatsøk = (
     params?: string,
@@ -43,15 +39,15 @@ export const lenkeTilKandidatsøk = (
     } else if (kandidatlisteId) {
         return lenkeTilFinnKandidaterUtenStilling(kandidatlisteId, params);
     } else {
-        return `${appPrefiks}/kandidater${params ? '?' + params : ''}`;
+        return `/kandidater${params ? '?' + params : ''}`;
     }
 };
 
 export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string, params?: string) =>
-    `${appPrefiks}/kandidater/stilling/${stillingsId}${params ? '?' + params : ''}`;
+    `/kandidater/stilling/${stillingsId}${params ? '?' + params : ''}`;
 
 export const lenkeTilFinnKandidaterUtenStilling = (stillingsId: string, params?: string) =>
-    `${appPrefiks}/kandidater/kandidatliste/${stillingsId}${params ? '?' + params : ''}`;
+    `/kandidater/kandidatliste/${stillingsId}${params ? '?' + params : ''}`;
 
 export enum Kandidatfane {
     Cv,
@@ -77,7 +73,7 @@ export const lenkeTilCv = (
     fraKandidatliste?: boolean,
     fraKandidatmatch?: boolean
 ) => {
-    let lenke = `${appPrefiks}/kandidater/kandidat/${kandidatnr}/cv`;
+    let lenke = `/kandidater/kandidat/${kandidatnr}/cv`;
     return (
         lenke +
         queryParamsForKandidatside(kandidatlisteId, stillingsId, fraKandidatliste, fraKandidatmatch)
@@ -90,7 +86,7 @@ export const lenkeTilHistorikk = (
     stillingsId?: string,
     fraKandidatliste?: boolean
 ) => {
-    let lenke = `${appPrefiks}/kandidater/kandidat/${kandidatnr}/historikk`;
+    let lenke = `/kandidater/kandidat/${kandidatnr}/historikk`;
     return lenke + queryParamsForKandidatside(kandidatlisteId, stillingsId, fraKandidatliste);
 };
 

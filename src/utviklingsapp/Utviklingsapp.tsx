@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
-import { Link, Router } from 'react-router-dom';
+import { BrowserRouter, Link } from 'react-router-dom';
 
 import { AppContainer, cssScopeForApp } from '../index';
 import history from './history';
@@ -22,16 +22,16 @@ const Utviklingsapp: FunctionComponent = () => {
 
     return (
         <div className={cssScopeForApp}>
-            <Router history={history}>
+            <BrowserRouter>
                 <header className="utviklingsapp">
                     <Systemtittel>Utviklingsapp for rekrutteringsbistand-kandidat</Systemtittel>
                     <div className="utviklingsapp__lenke">
                         <Link
+                            state={{
+                                fraMeny: true,
+                            }}
                             to={{
                                 pathname: '/kandidater',
-                                state: {
-                                    fraMeny: true,
-                                },
                             }}
                         >
                             Kandidatsøk
@@ -57,7 +57,7 @@ const Utviklingsapp: FunctionComponent = () => {
                 <main>
                     <AppContainer history={history} navKontor={navKontor} />
                 </main>
-            </Router>
+            </BrowserRouter>
         </div>
     );
 };

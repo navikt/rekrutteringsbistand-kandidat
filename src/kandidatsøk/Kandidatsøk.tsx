@@ -21,6 +21,8 @@ interface Props {
     header?: ReactElement;
 }
 
+type State = { fraMeny: boolean } | undefined;
+
 export const Kandidatsøk: FunctionComponent<Props> = ({
     visFantFåKandidater,
     kandidatlisteId,
@@ -29,14 +31,14 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
 }) => {
     useNullstillKandidatlisteState();
 
-    const { state } = useLocation<{ fraMeny: boolean } | undefined>();
+    const { state } = useLocation();
 
     const onSlettAlleKriterierKlikk = useSlettAlleKriterier(kandidatlisteId);
     const venterPåFørsteSøk = useSelector((state: AppState) => state.søk.isInitialSearch);
     const scrolletFraToppen = useSelector((state: AppState) => state.søk.scrolletFraToppen);
 
     useEffect(() => {
-        if (!venterPåFørsteSøk && !state?.fraMeny) {
+        if (!venterPåFørsteSøk && !(state as State)?.fraMeny) {
             window.scrollTo(0, scrolletFraToppen);
         }
     }, [venterPåFørsteSøk, scrolletFraToppen, state]);

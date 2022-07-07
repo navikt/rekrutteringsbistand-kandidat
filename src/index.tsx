@@ -6,7 +6,6 @@ import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 import Modal from 'react-modal';
 import { Provider } from 'react-redux';
 import store from './reduxStore';
-import { Router } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { History } from 'history';
 import FeilMedApp from './FeilMedApp';
@@ -44,9 +43,7 @@ export const AppContainer: FunctionComponent<AppProps> = ({ history, navKontor }
     <div id="rekrutteringsbistand-kandidat" className={cssScopeForApp}>
         <Sentry.ErrorBoundary fallback={(error) => <FeilMedApp {...error} />}>
             <Provider store={store}>
-                <Router history={history}>
-                    <App navKontor={navKontor} />
-                </Router>
+                <App navKontor={navKontor} />
             </Provider>
         </Sentry.ErrorBoundary>
     </div>

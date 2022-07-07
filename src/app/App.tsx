@@ -9,7 +9,6 @@ import AppState from '../AppState';
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { getMiljø, Miljø } from '../utils/miljøUtils';
-import { Redirect, Route, Switch } from 'react-router-dom';
 import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
 import KandidatsøkIKontekstAvKandidatliste from '../kandidatsøk/KandidatsøkIKontekstAvKandidatliste';
 import KandidatsøkIKontekstAvStilling from '../kandidatsøk/KandidatsøkIKontekstAvStilling';
@@ -26,6 +25,7 @@ import Varsling from '../common/varsling/Varsling';
 import MatcherForStilling from '../automatisk-matching/AlleMatcher';
 import Matchforklaring from '../automatisk-matching/matchforklaring/Matchforklaring';
 import './App.less';
+import { Route, Routes } from 'react-router-dom';
 
 type Props = {
     error: {
@@ -61,55 +61,40 @@ const App: FunctionComponent<Props> = (props) => {
             <Normaltekst tag="div" className="App">
                 <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
-                    <Switch>
+                    <Routes>
                         <Route
-                            exact
                             path="/prototype/stilling/:stillingsId"
-                            component={MatcherForStilling}
+                            element={<MatcherForStilling />}
                         />
                         <Route
-                            exact
                             path="/prototype/stilling/:stillingsId/forklaring/:kandidatNr"
-                            component={Matchforklaring}
+                            element={<Matchforklaring />}
                         />
 
-                        <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
+                        <Route path="/kandidater" element={<KandidatsøkUtenKontekst />} />
                         <Route
-                            exact
                             path="/kandidater/kandidatliste/:kandidatlisteId"
-                            component={KandidatsøkIKontekstAvKandidatliste}
+                            element={<KandidatsøkIKontekstAvKandidatliste />}
                         />
                         <Route
-                            exact
                             path="/kandidater/stilling/:stillingsId"
-                            component={KandidatsøkIKontekstAvStilling}
+                            element={<KandidatsøkIKontekstAvStilling />}
                         />
-                        <Route exact path="/kandidater/lister" component={Kandidatlisteoversikt} />
+                        <Route path="/kandidater/lister" element={<Kandidatlisteoversikt />} />
                         <Route
-                            exact
                             path="/kandidater/lister/stilling/:id/detaljer"
-                            component={KandidatlistesideMedStilling}
+                            element={<KandidatlistesideMedStilling />}
                         />
                         <Route
-                            exact
                             path="/kandidater/lister/detaljer/:listeid"
-                            component={KandidatlisteUtenStilling}
+                            element={<KandidatlisteUtenStilling />}
                         />
-                        <Route path="/kandidater/kandidat/:kandidatnr">
-                            <Kandidatside>
-                                <Switch>
-                                    <Route path="/kandidater/kandidat/:kandidatnr/cv">
-                                        <CvSide />
-                                    </Route>
-                                    <Route path="/kandidater/kandidat/:kandidatnr/historikk">
-                                        <Historikkside />
-                                    </Route>
-                                    <Redirect to="/kandidater/kandidat/:kandidatnr/cv" />
-                                </Switch>
-                            </Kandidatside>
+                        <Route path="kandidater/kandidat/:kandidatnr" element={<Kandidatside />}>
+                            <Route path="cv" element={<CvSide />} />
+                            <Route path="historikk" element={<Historikkside />} />
                         </Route>
-                        <Route component={NotFound} />
-                    </Switch>
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
                 </main>
             </Normaltekst>
             <TilToppenKnapp />

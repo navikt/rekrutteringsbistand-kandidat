@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RouteChildrenProps } from 'react-router-dom';
 import { KandidatsøkActionType } from './reducer/searchActions';
 import { harUrlParametere } from './reducer/searchQuery';
 import { Kandidatsøk } from './Kandidatsøk';
@@ -9,14 +8,15 @@ import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
 import useKandidatliste from './useKandidatliste';
+import { useParams } from 'react-router-dom';
 
-type Props = RouteChildrenProps<{
+type Params = {
     kandidatlisteId: string;
-}>;
+};
 
-const KandidatsøkIKontekstAvKandidatliste: FunctionComponent<Props> = ({ match }) => {
+const KandidatsøkIKontekstAvKandidatliste = () => {
     const dispatch = useDispatch();
-    const kandidatlisteIdFraUrl = match?.params.kandidatlisteId;
+    const { kandidatlisteId: kandidatlisteIdFraUrl } = useParams<Params>();
 
     useKandidatliste(undefined, kandidatlisteIdFraUrl);
 

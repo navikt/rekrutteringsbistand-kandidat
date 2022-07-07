@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
     erEierAvKandidatlisten,
@@ -70,7 +70,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
     useHentForespørslerOmDelingAvCv(kandidatliste.stillingId);
 
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
     const location = useLocation();
 
     const { filter, sms, forespørslerOmDelingAvCv } = useSelector(
@@ -98,14 +98,18 @@ const Kandidatliste: FunctionComponent<Props> = ({
             type: KandidatlisteActionType.EndreKandidatlisteFilter,
             filter: oppdatertFilter,
         });
-    }, [dispatch, history, location.search, antallFilterTreffJSON]);
+    }, [dispatch, location.search, antallFilterTreffJSON]);
 
     const setFilterIUrl = (filter: Kandidatlistefilter) => {
         const query = filterTilQueryParams(filter).toString();
-        history.replace({
-            pathname: history.location.pathname,
-            search: query,
-        });
+        navigate(
+            {
+                search: query,
+            },
+            {
+                replace: true,
+            }
+        );
     };
 
     const toggleVisArkiverteOgFjernMarkering = () => {
