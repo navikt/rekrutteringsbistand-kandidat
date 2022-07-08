@@ -1,11 +1,14 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import { createBrowserHistory } from 'history';
 import { Systemtittel } from 'nav-frontend-typografi';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { AppContainer, cssScopeForApp } from '../index';
-import history from './history';
-import './Utviklingsapp.less';
+import { AppMedStore, cssScopeForApp } from '../index';
+import CustomRouter from './CustomRouter';
 import { meg } from '../mock/data/veiledere.mock';
+import './Utviklingsapp.less';
+
+const history = createBrowserHistory();
 
 const Utviklingsapp: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
@@ -22,7 +25,7 @@ const Utviklingsapp: FunctionComponent = () => {
 
     return (
         <div className={cssScopeForApp}>
-            <BrowserRouter>
+            <CustomRouter history={history}>
                 <header className="utviklingsapp">
                     <Systemtittel>Utviklingsapp for rekrutteringsbistand-kandidat</Systemtittel>
                     <div className="utviklingsapp__lenke">
@@ -54,10 +57,8 @@ const Utviklingsapp: FunctionComponent = () => {
                         </Link>
                     </div>
                 </header>
-                <main>
-                    <AppContainer history={history} navKontor={navKontor} />
-                </main>
-            </BrowserRouter>
+                <AppMedStore history={history} navKontor={navKontor} />
+            </CustomRouter>
         </div>
     );
 };
