@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import Kandidatlisteside from './Kandidatlisteside';
 
-type Props = RouteComponentProps<{
+type Params = {
     id: string;
-}>;
+};
 
-const KandidatlistesideMedStilling: FunctionComponent<Props> = (props) => {
-    const id = props.match.params.id;
+const KandidatlistesideMedStilling = () => {
+    const { id } = useParams<Params>();
 
     return <Kandidatlisteside stillingsId={id} />;
 };

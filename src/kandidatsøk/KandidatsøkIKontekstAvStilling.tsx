@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RouteChildrenProps } from 'react-router-dom';
 import { KandidatsøkActionType } from './reducer/searchActions';
 import { harUrlParametere } from './reducer/searchQuery';
 import { KandidaterErLagretSuksessmelding } from './kandidater-er-lagret-suksessmelding/KandidaterErLagretSuksessmelding';
@@ -9,11 +8,12 @@ import { Kandidatsøk } from './Kandidatsøk';
 import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
 import useKandidatliste from './useKandidatliste';
+import { useParams } from 'react-router-dom';
 
-type Props = RouteChildrenProps<{ stillingsId: string }>;
+type Params = { stillingsId: string };
 
-const KandidatsøkIKontekstAvStilling: FunctionComponent<Props> = ({ match }) => {
-    const stillingsIdFraUrl = match?.params.stillingsId;
+const KandidatsøkIKontekstAvStilling = () => {
+    const { stillingsId: stillingsIdFraUrl } = useParams<Params>();
 
     const dispatch = useDispatch();
     const maksAntallTreff = useSelector((state: AppState) => state.søk.maksAntallTreff);

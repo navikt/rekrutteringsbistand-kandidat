@@ -36,24 +36,28 @@ Sentry.init({
 export const cssScopeForApp = 'rek-kandidat';
 
 type AppProps = {
-    history: History;
     navKontor: string | null;
+    history: History;
 };
 
-export const AppContainer: FunctionComponent<AppProps> = ({ history, navKontor }) => (
+export const AppMedRouter: FunctionComponent<AppProps> = (props) => (
     <div id="rekrutteringsbistand-kandidat" className={cssScopeForApp}>
         <Sentry.ErrorBoundary fallback={(error) => <FeilMedApp {...error} />}>
-            <Provider store={store}>
-                <Router history={history}>
-                    <App navKontor={navKontor} />
-                </Router>
-            </Provider>
+            <Router navigator={props.history} location={props.history.location}>
+                <AppMedStore {...props} />
+            </Router>
         </Sentry.ErrorBoundary>
     </div>
 );
 
+export const AppMedStore: FunctionComponent<AppProps> = ({ navKontor }) => (
+    <Provider store={store}>
+        <App navKontor={navKontor} />
+    </Provider>
+);
+
 if (process.env.REACT_APP_EXPORT) {
-    Navspa.eksporter('rekrutteringsbistand-kandidat', AppContainer);
+    Navspa.eksporter('rekrutteringsbistand-kandidat', AppMedRouter);
 } else {
     ReactDOM.render(<Utviklingsapp />, document.getElementById('utviklingsapp'));
 }

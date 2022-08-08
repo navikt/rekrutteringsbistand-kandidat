@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { useLocation, useRouteMatch, Link } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 
 interface Props {
     sti: string;
@@ -8,14 +8,14 @@ interface Props {
 
 const Kandidattab: FunctionComponent<Props> = ({ sti, label }) => {
     const { search, pathname } = useLocation();
-    const { url } = useRouteMatch();
+    const { kandidatnr } = useParams();
 
     const aktiv = pathname.split('/').reverse()[0] === sti;
 
     return (
         <Link
             className={`kandidatmeny__tab${aktiv ? ' kandidatmeny__tab--aktiv' : ''}`}
-            to={`${url}/${sti}${search}`}
+            to={`/kandidater/kandidat/${kandidatnr}/${sti}${search}`}
         >
             {label}
         </Link>

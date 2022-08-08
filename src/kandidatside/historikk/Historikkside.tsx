@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
 import { ikkeLastet, lasterInn, Nettressurs, Nettstatus, suksess } from '../../api/Nettressurs';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import AppState from '../../AppState';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
@@ -14,22 +14,21 @@ import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { ForespørselOmDelingAvCv } from '../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { fetchForespørslerOmDelingAvCvForKandidat } from '../../api/forespørselOmDelingAvCvApi';
 import 'nav-frontend-tabell-style';
-import './Historikkside.less';
 import { fetchSmserForKandidat } from '../../api/api';
 import { Sms } from '../../kandidatliste/domene/Kandidatressurser';
+import './Historikkside.less';
 
 const Historikkside: FunctionComponent = () => {
     const dispatch = useDispatch();
 
     const { search } = useLocation();
-    const { params } = useRouteMatch<{ kandidatnr: string }>();
+    const { kandidatnr } = useParams<{ kandidatnr: string }>();
     const queryParams = new URLSearchParams(search);
-    const kandidatnr = params.kandidatnr;
     const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
 
     const historikk = useSelector((state: AppState) => state.historikk);
     const cv = useSelector((state: AppState) => state.cv.cv);
-    const kandidatStatus = useSelector(hentStatus(kandidatnr));
+    const kandidatStatus = useSelector(hentStatus(kandidatnr!));
     const [forespørslerOmDelingAvCv, setForespørslerOmDelingAvCv] = useState<
         Nettressurs<ForespørselOmDelingAvCv[]>
     >(ikkeLastet());

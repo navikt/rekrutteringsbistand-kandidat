@@ -1,11 +1,11 @@
 import { lenkeTilCv } from '../../../app/paths';
-import { useHistory } from 'react-router-dom';
 import { sendEvent } from '../../../amplitude/amplitude';
 import { useState, useEffect } from 'react';
 import { Fritekststatus, Fritekstvalidering, validerFritekstfelt } from './validering';
+import { useNavigate } from 'react-router-dom';
 
 const useFritekstvalidering = (input: string, hasSubmit: boolean) => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [validering, setValidering] = useState<Fritekstvalidering>({
         status: Fritekststatus.IkkeEtFnr,
@@ -31,9 +31,9 @@ const useFritekstvalidering = (input: string, hasSubmit: boolean) => {
             validering.kandidatnr
         ) {
             sendEvent('fødselsnummersøk', 'naviger_til_cv');
-            history.push(lenkeTilCv(validering.kandidatnr));
+            navigate(lenkeTilCv(validering.kandidatnr));
         }
-    }, [hasSubmit, validering, history]);
+    }, [hasSubmit, validering, navigate]);
 
     return validering;
 };

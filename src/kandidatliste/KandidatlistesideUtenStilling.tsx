@@ -1,15 +1,15 @@
-import React, { FunctionComponent } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import Kandidatlisteside from './Kandidatlisteside';
 
-type Props = RouteComponentProps<{
+type Params = {
     listeid: string;
-}>;
+};
 
-const KandidatlistesideUtenStilling: FunctionComponent<Props> = (props) => {
-    const id = props.match.params.listeid;
+const KandidatlistesideUtenStilling = () => {
+    const { listeid } = useParams<Params>();
 
-    return <Kandidatlisteside kandidatlisteId={id} />;
+    return <Kandidatlisteside kandidatlisteId={listeid} />;
 };
 
 export default KandidatlistesideUtenStilling;

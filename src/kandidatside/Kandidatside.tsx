@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import KandidatsideFraSøk from './fra-søk/KandidatsideFraSøk';
 import KandidatsideFraKandidatliste from './fra-kandidatliste/KandidatsideFraKandidatliste';
 import './Kandidatside.less';
@@ -15,11 +15,11 @@ type RouteParams = {
     kandidatnr: string;
 };
 
-const Kandidatside: FunctionComponent = ({ children }) => {
+const Kandidatside: FunctionComponent = () => {
     const { search } = useLocation();
-    const { params } = useRouteMatch<RouteParams>();
+    const params = useParams<RouteParams>();
 
-    const kandidatnr = params.kandidatnr;
+    const kandidatnr = params.kandidatnr!;
 
     const queryParams = new URLSearchParams(search);
     const stillingId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
@@ -29,7 +29,7 @@ const Kandidatside: FunctionComponent = ({ children }) => {
 
     return fraKandidatliste && kandidatlisteId ? (
         <KandidatsideFraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
-            {children}
+            <Outlet />
         </KandidatsideFraKandidatliste>
     ) : (
         <KandidatsideFraSøk
@@ -38,7 +38,7 @@ const Kandidatside: FunctionComponent = ({ children }) => {
             kandidatlisteId={kandidatlisteId}
             fraKandidatmatch={fraKandidatmatch}
         >
-            {children}
+            <Outlet />
         </KandidatsideFraSøk>
     );
 };

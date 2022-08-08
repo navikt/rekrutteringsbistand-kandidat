@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { Link, RouteChildrenProps } from 'react-router-dom';
+import React from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from '../useKandidatmatch';
 import { booleanTilTekst, tilDato, tilProsent } from '../formatering';
@@ -10,14 +10,13 @@ import Matrise from './Matrise';
 import Seksjon from './Seksjon';
 import './Matchforklaring.less';
 
-type Props = RouteChildrenProps<{
+type Params = {
     stillingsId: string;
     kandidatNr: string;
-}>;
+};
 
-const Matchforklaring: FunctionComponent<Props> = ({ match }) => {
-    const stillingsId = match?.params.stillingsId;
-    const kandidatNr = match?.params.kandidatNr;
+const Matchforklaring = () => {
+    const { stillingsId, kandidatNr } = useParams<Params>();
 
     const { valgtKandidat: kandidat } = useKandidatmatch(stillingsId, kandidatNr);
 

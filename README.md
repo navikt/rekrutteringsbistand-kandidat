@@ -18,8 +18,7 @@ npm install
 npm start
 ```
 
-For å få inn testdata må prosjektet rekrutteringsbistand-kandidat-api kjøre på port 8766 med Elastic Search i
-bakgrunnen.
+For å få inn testdata må prosjektet rekrutteringsbistand-kandidat-api kjøre på port 8766 med Elastic Search i bakgrunnen.
 
 ## Hvordan kjøre opp applikasjonen i Docker
 
