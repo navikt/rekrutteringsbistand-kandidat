@@ -21,4 +21,4 @@ spec:
         - name: LAST_NED_CV_URL
           value: https://pam-personbruker-veileder.dev.intern.nav.no/cv/pdf?fnr=
         - name: ARBEIDSRETTET_OPPFOLGING_URL
-          value: https://veilarbportefoljeflatefs.dev.intern.nav.no
+          value: https://veilarbpersonflate.dev.intern.nav.no
