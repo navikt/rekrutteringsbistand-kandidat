@@ -176,7 +176,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
                 {
                     registrertAvIdent: meg.ident,
                     sendtTilArbeidsgiversKandidatliste: true,
-                    tidspunkt: moment().subtract(3, 'day').toISOString(),
+                    tidspunkt: moment().subtract(1, 'day').toISOString(),
                     utfall: Kandidatutfall.Presentert,
                 },
             ],
@@ -195,19 +195,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
                 {
                     registrertAvIdent: meg.ident,
                     sendtTilArbeidsgiversKandidatliste: true,
-                    tidspunkt: moment().subtract(3, 'day').toISOString(),
-                    utfall: Kandidatutfall.Presentert,
-                },
-                {
-                    registrertAvIdent: meg.ident,
-                    sendtTilArbeidsgiversKandidatliste: false,
-                    tidspunkt: moment().subtract(2, 'day').toISOString(),
-                    utfall: Kandidatutfall.FåttJobben,
-                },
-                {
-                    registrertAvIdent: meg.ident,
-                    sendtTilArbeidsgiversKandidatliste: false,
-                    tidspunkt: moment().subtract(1, 'day').toISOString(),
+                    tidspunkt: new Date().toISOString(),
                     utfall: Kandidatutfall.Presentert,
                 },
             ],

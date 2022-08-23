@@ -37,13 +37,9 @@ const hentInitiellVisning = (
     } else if (utfall === Kandidatutfall.IkkePresentert) {
         return Visning.Registrer;
     } else {
-        // Hvis CV-en allerede har blitt sendt til arbeidsgivers kandidatliste og så fjerner registrering FÅTT_JOBBEN
-        // er "Slett CV" eneste mulige handling.
-        const cvHarNoensinneBlittSendtTilArbeidsgiversKandidatliste = utfallsendringer.find(
-            (utfallsendring) => utfallsendring.sendtTilArbeidsgiversKandidatliste
-        );
+        const sisteUtfallsendring = hentSisteKandidatutfall(utfall, utfallsendringer);
 
-        if (cvHarNoensinneBlittSendtTilArbeidsgiversKandidatliste) {
+        if (sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste) {
             return Visning.SlettSendtCv;
         } else {
             return Visning.CvErDelt;
