@@ -39,7 +39,7 @@ const hentInitiellVisning = (
     } else {
         const sisteUtfallsendring = hentSisteKandidatutfall(utfall, utfallsendringer);
         const fjernetFåttJobbenRegistreringEtterÅHaSendtCvTilArbeidsgiversKandidatliste =
-            utfallsendringer[1]?.utfall == Kandidatutfall.FåttJobben &&
+            utfallsendringer[1]?.utfall === Kandidatutfall.FåttJobben &&
             utfallsendringer[2]?.sendtTilArbeidsgiversKandidatliste;
 
         if (
