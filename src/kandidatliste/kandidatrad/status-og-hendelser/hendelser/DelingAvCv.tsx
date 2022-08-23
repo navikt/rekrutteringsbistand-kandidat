@@ -38,8 +38,14 @@ const hentInitiellVisning = (
         return Visning.Registrer;
     } else {
         const sisteUtfallsendring = hentSisteKandidatutfall(utfall, utfallsendringer);
+        const fjernetFåttJobbenRegistreringEtterÅHaSendtCvTilArbeidsgiversKandidatliste =
+            utfallsendringer[1]?.utfall == Kandidatutfall.FåttJobben &&
+            utfallsendringer[2]?.sendtTilArbeidsgiversKandidatliste;
 
-        if (sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste) {
+        if (
+            sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste ||
+            fjernetFåttJobbenRegistreringEtterÅHaSendtCvTilArbeidsgiversKandidatliste
+        ) {
             return Visning.SlettSendtCv;
         } else {
             return Visning.CvErDelt;
