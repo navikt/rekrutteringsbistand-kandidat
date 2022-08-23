@@ -6,7 +6,12 @@ import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { sendEvent } from '../../amplitude/amplitude';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
-import { lenkeTilKandidatliste, lenkeTilKandidatsøk } from '../../app/paths';
+import {
+    lenkeTilAutomatiskMatching,
+    lenkeTilKandidatliste,
+    lenkeTilKandidatsøk,
+    lenkeTilNyttKandidatsøk,
+} from '../../app/paths';
 import AppState from '../../AppState';
 import HjelpetekstFading from '../../common/varsling/HjelpetekstFading';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
@@ -14,27 +19,23 @@ import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
-import { toUrlQuery } from '../../kandidatsøk/reducer/searchQuery';
 import Cv from '../cv/reducer/cv-typer';
 import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
 import Kandidatheader from '../header/Kandidatheader';
 import Kandidatmeny from '../meny/Kandidatmeny';
+import { Søkekontekst } from './KandidatsideFraSøk';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 
 type Props = {
     kandidatnr: string;
-    fraKandidatmatch: boolean;
-    kandidatlisteKontekst?: {
-        stillingsId?: string;
-        kandidatlisteId?: string;
-        kandidatliste: Nettressurs<Kandidatliste>;
-    };
+    kontekst: Søkekontekst;
+    kandidatliste: Nettressurs<Kandidatliste>;
 };
 
 const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     kandidatnr,
-    fraKandidatmatch,
-    kandidatlisteKontekst,
+    kandidatliste,
+    kontekst,
     children,
 }) => {
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
@@ -42,13 +43,8 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
     );
     const cv = useSelector((state: AppState) => state.cv.cv);
-    const søkeparametre = useSelector((state: AppState) => toUrlQuery(state));
-
-    const lenkeTilKandidatsøket = lenkeTilKandidatsøk(
-        søkeparametre,
-        kandidatlisteKontekst?.stillingsId,
-        kandidatlisteKontekst?.kandidatlisteId
-    );
+    const valgtKandidat = useSelector((state: AppState) => state.søk.valgtKandidatNr);
+    const lenkeTilKandidatsøket = byggLenkeTilbakeTilKandidatsøket(kontekst, valgtKandidat);
 
     const [visLeggTilKandidatModal, setVisLeggTilKandidatModal] = useState<boolean>(false);
     const [visKandidatenErLagtTil, setVisKandidatenErLagtTil] = useState<boolean>(false);
@@ -56,12 +52,17 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     const { aktivKandidat, lenkeTilForrige, lenkeTilNeste, antallKandidater } =
         useNavigerbareKandidaterFraSøk(
             kandidatnr,
-            kandidatlisteKontekst?.kandidatlisteId,
-            kandidatlisteKontekst?.stillingsId
+            kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk' ||
+                kontekst.kontekst === 'finnKandidaterTilKandidatlisteUtenStilling'
+                ? kontekst.kandidatlisteId
+                : undefined,
+            kontekst.kontekst === 'finnKandidaterTilKandidatlisteMedStilling'
+                ? kontekst.stillingsId
+                : undefined
         );
 
     useEffect(() => {
-        if (kandidatlisteKontekst && leggTilKandidatStatus === Nettstatus.Suksess) {
+        if (leggTilKandidatStatus === Nettstatus.Suksess) {
             setVisKandidatenErLagtTil(true);
             setVisLeggTilKandidatModal(false);
 
@@ -73,7 +74,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                 clearTimeout(timeout);
             };
         }
-    }, [kandidatlisteKontekst, leggTilKandidatStatus]);
+    }, [leggTilKandidatStatus]);
 
     const onLeggTilKandidat = (cv: Cv) => (kandidatliste: Kandidatliste) => {
         sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
@@ -97,25 +98,22 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
         <>
             <Kandidatheader
                 cv={cv}
-                tilbakeLink={lenkeTilKandidatsøket}
+                tilbakelenke={lenkeTilKandidatsøket}
                 antallKandidater={antallKandidater}
                 gjeldendeKandidatIndex={aktivKandidat}
                 nesteKandidat={lenkeTilNeste}
                 forrigeKandidat={lenkeTilForrige}
-                fraKandidatmatch={fraKandidatmatch}
+                fraKandidatmatch={kontekst.kontekst === 'fraAutomatiskMatching'}
             />
             <Kandidatmeny cv={cv}>
-                {kandidatlisteKontekst &&
-                kandidatlisteKontekst.kandidatliste.kind === Nettstatus.Suksess &&
-                kandidatlisteKontekst.kandidatliste.data.kandidater.some(
+                {kandidatliste.kind === Nettstatus.Suksess &&
+                kandidatliste.data.kandidater.some(
                     (kandidat) => kandidat.kandidatnr === kandidatnr
                 ) ? (
                     <>
                         Kandidaten er lagret i&nbsp;
                         <Link
-                            to={lenkeTilKandidatliste(
-                                kandidatlisteKontekst.kandidatliste.data.kandidatlisteId
-                            )}
+                            to={lenkeTilKandidatliste(kandidatliste.data.kandidatlisteId)}
                             className="lenke"
                         >
                             kandidatlisten
@@ -131,7 +129,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                 )}
             </Kandidatmeny>
             {children}
-            {!fraKandidatmatch && (
+            {kontekst.kontekst !== 'fraAutomatiskMatching' && (
                 <div className="kandidatside__forrige-neste-wrapper">
                     <ForrigeNeste
                         lenkeClass="kandidatside__forrige-neste-lenke"
@@ -142,27 +140,27 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                     />
                 </div>
             )}
-            {kandidatlisteKontekst?.kandidatliste.kind === Nettstatus.Suksess && (
+            {kandidatliste.kind === Nettstatus.Suksess && (
                 <HjelpetekstFading
                     id="hjelpetekstfading"
                     type="suksess"
                     synlig={visKandidatenErLagtTil}
                     innhold={`${'Kandidaten'} er lagret i kandidatlisten «${
-                        kandidatlisteKontekst.kandidatliste.data.tittel
+                        kandidatliste.data.tittel
                     }»`}
                 />
             )}
             {visLeggTilKandidatModal && cv.kind === Nettstatus.Suksess && (
                 <>
-                    {kandidatlisteKontekst ? (
+                    {kandidatliste.kind !== Nettstatus.IkkeLastet ? (
                         <>
-                            {kandidatlisteKontekst.kandidatliste.kind === Nettstatus.Suksess && (
+                            {kandidatliste.kind === Nettstatus.Suksess && (
                                 <LagreKandidaterTilStillingModal
                                     antallMarkerteKandidater={1}
                                     vis={visLeggTilKandidatModal}
                                     onRequestClose={() => setVisLeggTilKandidatModal(false)}
                                     onLagre={onLeggTilKandidat(cv.data)}
-                                    kandidatliste={kandidatlisteKontekst.kandidatliste.data}
+                                    kandidatliste={kandidatliste.data}
                                     isSaving={leggTilKandidatStatus === Nettstatus.SenderInn}
                                 />
                             )}
@@ -178,6 +176,54 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
             )}
         </>
     );
+};
+
+const byggLenkeTilbakeTilKandidatsøket = (
+    kontekst: Søkekontekst,
+    valgtKandidat: string
+): {
+    to: string;
+    state?: object;
+} => {
+    switch (kontekst.kontekst) {
+        case 'fraAutomatiskMatching':
+            return {
+                to: lenkeTilAutomatiskMatching(kontekst.stillingsId),
+            };
+
+        case 'fraKandidatsøk':
+            return {
+                to: lenkeTilKandidatsøk(kontekst.søk),
+            };
+
+        case 'finnKandidaterTilKandidatlisteMedStilling':
+            return {
+                to: lenkeTilKandidatsøk(kontekst.søk, kontekst.stillingsId),
+            };
+
+        case 'finnKandidaterTilKandidatlisteUtenStilling':
+            return {
+                to: lenkeTilKandidatsøk(kontekst.søk, undefined, kontekst.kandidatlisteId),
+            };
+
+        case 'fraNyttKandidatsøk':
+            return {
+                to: lenkeTilNyttKandidatsøk(kontekst.søk),
+                state: {
+                    markerteKandidater: kontekst.markerteKandidater,
+                    kandidat: valgtKandidat,
+                },
+            };
+
+        case 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk':
+            return {
+                to: lenkeTilNyttKandidatsøk(kontekst.søk, kontekst.kandidatlisteId),
+                state: {
+                    markerteKandidater: kontekst.markerteKandidater,
+                    kandidat: valgtKandidat,
+                },
+            };
+    }
 };
 
 export default KandidatsideFraSøkInner;
