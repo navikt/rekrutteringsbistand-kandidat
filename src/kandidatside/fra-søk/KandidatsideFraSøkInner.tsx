@@ -23,7 +23,7 @@ import Cv from '../cv/reducer/cv-typer';
 import ForrigeNeste from '../header/forrige-neste/ForrigeNeste';
 import Kandidatheader from '../header/Kandidatheader';
 import Kandidatmeny from '../meny/Kandidatmeny';
-import { Søkekontekst } from './KandidatsideFraSøk';
+import { Søkekontekst } from '../søkekontekst';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 
 type Props = {
@@ -49,17 +49,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     const [visLeggTilKandidatModal, setVisLeggTilKandidatModal] = useState<boolean>(false);
     const [visKandidatenErLagtTil, setVisKandidatenErLagtTil] = useState<boolean>(false);
 
-    const { aktivKandidat, lenkeTilForrige, lenkeTilNeste, antallKandidater } =
-        useNavigerbareKandidaterFraSøk(
-            kandidatnr,
-            kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk' ||
-                kontekst.kontekst === 'finnKandidaterTilKandidatlisteUtenStilling'
-                ? kontekst.kandidatlisteId
-                : undefined,
-            kontekst.kontekst === 'finnKandidaterTilKandidatlisteMedStilling'
-                ? kontekst.stillingsId
-                : undefined
-        );
+    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kontekst);
 
     useEffect(() => {
         if (leggTilKandidatStatus === Nettstatus.Suksess) {
@@ -99,11 +89,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
             <Kandidatheader
                 cv={cv}
                 tilbakelenke={lenkeTilKandidatsøket}
-                antallKandidater={antallKandidater}
-                gjeldendeKandidatIndex={aktivKandidat}
-                nesteKandidat={lenkeTilNeste}
-                forrigeKandidat={lenkeTilForrige}
-                fraKandidatmatch={kontekst.kontekst === 'fraAutomatiskMatching'}
+                kandidatnavigering={kandidatnavigering}
             />
             <Kandidatmeny cv={cv}>
                 {kandidatliste.kind === Nettstatus.Suksess &&
@@ -129,14 +115,11 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                 )}
             </Kandidatmeny>
             {children}
-            {kontekst.kontekst !== 'fraAutomatiskMatching' && (
+            {kandidatnavigering && (
                 <div className="kandidatside__forrige-neste-wrapper">
                     <ForrigeNeste
                         lenkeClass="kandidatside__forrige-neste-lenke"
-                        forrigeKandidat={lenkeTilForrige}
-                        nesteKandidat={lenkeTilNeste}
-                        antallKandidater={antallKandidater}
-                        gjeldendeKandidatIndex={aktivKandidat}
+                        kandidatnavigering={kandidatnavigering}
                     />
                 </div>
             )}

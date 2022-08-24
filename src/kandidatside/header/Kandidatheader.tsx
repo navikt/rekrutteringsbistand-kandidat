@@ -10,29 +10,18 @@ import Cv from '../cv/reducer/cv-typer';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import Skeleton from 'react-loading-skeleton';
 import './Kandidatheader.less';
+import { Kandidatnavigering } from '../fra-søk/useNavigerbareKandidaterFraSøk';
 
 interface Props {
     cv: Nettressurs<Cv>;
+    kandidatnavigering: Kandidatnavigering | null;
     tilbakelenke: {
         to: string;
         state?: object;
     };
-    antallKandidater: number;
-    gjeldendeKandidatIndex: number;
-    forrigeKandidat?: string;
-    nesteKandidat?: string;
-    fraKandidatmatch?: boolean;
 }
 
-const Kandidatheader: FunctionComponent<Props> = ({
-    cv,
-    antallKandidater,
-    tilbakelenke,
-    gjeldendeKandidatIndex,
-    forrigeKandidat,
-    nesteKandidat,
-    fraKandidatmatch,
-}) => {
+const Kandidatheader: FunctionComponent<Props> = ({ cv, tilbakelenke, kandidatnavigering }) => {
     useMaskerFødselsnumre();
 
     const tilbakeLenkeTekst = tilbakelenke.to.includes('kandidater/lister')
@@ -127,14 +116,11 @@ const Kandidatheader: FunctionComponent<Props> = ({
                         )}
                     </div>
                 </div>
-                {!fraKandidatmatch && (
+                {kandidatnavigering && (
                     <ForrigeNeste
                         className="kandidatheader__forrige-neste-knapper"
+                        kandidatnavigering={kandidatnavigering}
                         lenkeClass=""
-                        forrigeKandidat={forrigeKandidat}
-                        nesteKandidat={nesteKandidat}
-                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                        antallKandidater={antallKandidater}
                     />
                 )}
             </div>

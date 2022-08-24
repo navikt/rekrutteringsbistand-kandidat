@@ -9,43 +9,13 @@ import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import { KandidatsøkAction, KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
 import { CvAction, CvActionType } from '../cv/reducer/cvReducer';
+import { Søkekontekst } from '../søkekontekst';
 import KandidatsideFraSøkInner from './KandidatsideFraSøkInner';
 
 type Props = {
     kandidatnr: string;
     kontekst: Søkekontekst;
 };
-
-export type Søkekontekst =
-    | {
-          kontekst: 'fraAutomatiskMatching';
-          stillingsId: string;
-      }
-    | {
-          kontekst: 'fraKandidatsøk';
-          søk?: string;
-      }
-    | {
-          kontekst: 'finnKandidaterTilKandidatlisteMedStilling';
-          stillingsId: string;
-          søk?: string;
-      }
-    | {
-          kontekst: 'finnKandidaterTilKandidatlisteUtenStilling';
-          kandidatlisteId: string;
-          søk?: string;
-      }
-    | {
-          kontekst: 'fraNyttKandidatsøk';
-          søk?: string;
-          markerteKandidater?: string[];
-      }
-    | {
-          kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk';
-          kandidatlisteId: string;
-          søk?: string;
-          markerteKandidater?: string[];
-      };
 
 const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, children }) => {
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
