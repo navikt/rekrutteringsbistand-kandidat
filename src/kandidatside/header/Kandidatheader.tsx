@@ -13,7 +13,10 @@ import './Kandidatheader.less';
 
 interface Props {
     cv: Nettressurs<Cv>;
-    tilbakeLink: string;
+    tilbakelenke: {
+        to: string;
+        state?: object;
+    };
     antallKandidater: number;
     gjeldendeKandidatIndex: number;
     forrigeKandidat?: string;
@@ -24,7 +27,7 @@ interface Props {
 const Kandidatheader: FunctionComponent<Props> = ({
     cv,
     antallKandidater,
-    tilbakeLink,
+    tilbakelenke,
     gjeldendeKandidatIndex,
     forrigeKandidat,
     nesteKandidat,
@@ -32,7 +35,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
 }) => {
     useMaskerFødselsnumre();
 
-    const tilbakeLenkeTekst = tilbakeLink.includes('kandidater/lister')
+    const tilbakeLenkeTekst = tilbakelenke.to.includes('kandidater/lister')
         ? 'Til kandidatlisten'
         : 'Til kandidatsøket';
 
@@ -57,7 +60,12 @@ const Kandidatheader: FunctionComponent<Props> = ({
         <header className="kandidatheader">
             <div className="kandidatheader__inner">
                 <div className="kandidatheader__tilbakeknapp">
-                    <LenkeMedChevron type="venstre" to={tilbakeLink} text={tilbakeLenkeTekst} />
+                    <LenkeMedChevron
+                        type="venstre"
+                        to={tilbakelenke.to}
+                        state={tilbakelenke.state}
+                        text={tilbakeLenkeTekst}
+                    />
                 </div>
                 <div>
                     <Systemtittel className="blokk-xs">

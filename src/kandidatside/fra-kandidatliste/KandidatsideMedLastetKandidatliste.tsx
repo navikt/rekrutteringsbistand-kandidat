@@ -61,10 +61,12 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
         <div>
             <Kandidatheader
                 cv={cv}
-                tilbakeLink={lenkeTilKandidatliste(
-                    kandidatliste.kandidatlisteId,
-                    filterTilQueryParams(filter)
-                )}
+                tilbakelenke={{
+                    to: lenkeTilKandidatliste(
+                        kandidatliste.kandidatlisteId,
+                        filterTilQueryParams(filter)
+                    ),
+                }}
                 gjeldendeKandidatIndex={aktivKandidat}
                 antallKandidater={antallKandidater}
                 nesteKandidat={lenkeTilNeste}
