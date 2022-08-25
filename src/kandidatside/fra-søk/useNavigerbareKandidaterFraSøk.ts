@@ -84,6 +84,10 @@ const useNavigerbareKandidaterFraSøk = (
             neste = lenkeTilKandidatside(nesteKandidat, fane, kandidatlisteId, stillingsId);
         }
     } else {
+        if (kontekst.kandidater === undefined) {
+            return null;
+        }
+
         index = kontekst.kandidater.findIndex((kandidat) => kandidat === kandidatnr)!;
 
         const kandidatlisteId =

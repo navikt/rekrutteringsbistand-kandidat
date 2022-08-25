@@ -1,8 +1,8 @@
 export type StateFraNyttKandidatsøk =
     | {
           search?: string;
-          markerteKandidater: string[];
-          kandidater: string[];
+          markerteKandidater?: string[];
+          kandidater?: string[];
       }
     | undefined;
 
@@ -28,13 +28,13 @@ export type Søkekontekst =
     | {
           kontekst: 'fraNyttKandidatsøk';
           søk?: string;
-          kandidater: string[];
+          kandidater?: string[];
           markerteKandidater?: string[];
       }
     | {
           kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk';
           kandidatlisteId: string;
-          kandidater: string[];
+          kandidater?: string[];
           søk?: string;
           markerteKandidater?: string[];
       };
@@ -59,14 +59,14 @@ export const hentSøkekontekst = (
                 kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk',
                 kandidatlisteId: kandidatlisteIdFraUrl,
                 søk: stateFraNyttSøk?.search,
-                kandidater: stateFraNyttSøk?.kandidater!,
+                kandidater: stateFraNyttSøk?.kandidater,
                 markerteKandidater: stateFraNyttSøk?.markerteKandidater,
             };
         } else {
             return {
                 kontekst: 'fraNyttKandidatsøk',
                 søk: stateFraNyttSøk?.search,
-                kandidater: stateFraNyttSøk?.kandidater!,
+                kandidater: stateFraNyttSøk?.kandidater,
                 markerteKandidater: stateFraNyttSøk?.markerteKandidater,
             };
         }
