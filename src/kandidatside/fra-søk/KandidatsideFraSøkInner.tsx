@@ -51,6 +51,8 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
 
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kontekst);
 
+    console.log('Navigering:', kandidatnavigering);
+
     useEffect(() => {
         if (leggTilKandidatStatus === Nettstatus.Suksess) {
             setVisKandidatenErLagtTil(true);

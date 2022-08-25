@@ -56,6 +56,16 @@ const Utviklingsapp: FunctionComponent = () => {
                             Prototype stilling
                         </Link>
                     </div>
+                    <div className="utviklingsapp__lenke">
+                        <Link
+                            to="/kandidater/kandidat/AB123456?fraNyttKandidatsok=true"
+                            state={{
+                                kandidater: ['AB123456', 'BC123456'],
+                            }}
+                        >
+                            Til kandidat
+                        </Link>
+                    </div>
                 </header>
                 <AppMedStore history={history} navKontor={navKontor} />
             </CustomRouter>

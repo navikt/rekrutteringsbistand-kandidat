@@ -125,6 +125,7 @@ export const lenkeTilHistorikk = (
     kandidatlisteId?: string,
     stillingsId?: string,
     fraKandidatliste?: boolean,
+    fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
 ) => {
     let lenke = `/kandidater/kandidat/${kandidatnr}/historikk`;
@@ -134,6 +135,7 @@ export const lenkeTilHistorikk = (
             kandidatlisteId,
             stillingsId,
             fraKandidatliste,
+            fraKandidatmatch,
             fraNyttKandidatsøk
         )
     );

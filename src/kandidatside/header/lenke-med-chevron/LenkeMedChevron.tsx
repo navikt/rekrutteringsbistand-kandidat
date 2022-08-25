@@ -24,7 +24,11 @@ export const LenkeMedChevron = ({ to, state, text, className, type }: LenkeMedCh
                     <span>{text}</span>
                 </Link>
             ) : (
-                <Link to={to} className={`lenke-med-chevron--hoyre lenke ${className}`}>
+                <Link
+                    to={to}
+                    state={state}
+                    className={`lenke-med-chevron--hoyre lenke ${className}`}
+                >
                     <span>{text}</span>
                     <HoyreChevron />
                 </Link>

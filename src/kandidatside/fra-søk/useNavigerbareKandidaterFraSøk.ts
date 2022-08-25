@@ -24,8 +24,7 @@ const useNavigerbareKandidaterFraSøk = (
     const fane = useAktivKandidatsidefane();
     const { state } = useLocation();
 
-    console.log('State fra nytt kandidatsøk:', state);
-    console.log('Kontekst fra nytt kandidatsøk:', kontekst);
+    console.log('Oppdatert state?', state);
 
     const { kandidater: kandidaterFraState, totaltAntallTreff } = useSelector(
         (state: AppState) => state.søk.searchResultat.resultat
@@ -58,6 +57,7 @@ const useNavigerbareKandidaterFraSøk = (
     let index = 0;
     let forrige: string | undefined = undefined;
     let neste: string | undefined = undefined;
+    let antall = 0;
 
     if (
         kontekst.kontekst === 'fraKandidatsøk' ||
@@ -67,6 +67,8 @@ const useNavigerbareKandidaterFraSøk = (
         const aktivKandidat = kandidaterFraState.findIndex(
             (kandidat) => kandidat.arenaKandidatnr === kandidatnr
         );
+
+        antall = totaltAntallTreff;
 
         const kandidatlisteId =
             kontekst.kontekst === 'finnKandidaterTilKandidatlisteUtenStilling'
@@ -91,7 +93,8 @@ const useNavigerbareKandidaterFraSøk = (
             return null;
         }
 
-        index = kontekst.kandidater.findIndex((kandidat) => kandidat === kandidatnr)!;
+        antall = kontekst.kandidater.length;
+        index = kontekst.kandidater.findIndex((kandidat) => kandidat === kandidatnr);
 
         const kandidatlisteId =
             kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
@@ -130,7 +133,7 @@ const useNavigerbareKandidaterFraSøk = (
         index,
         forrige,
         neste,
-        antall: totaltAntallTreff,
+        antall,
         state: state as StateFraNyttKandidatsøk,
     };
 };
