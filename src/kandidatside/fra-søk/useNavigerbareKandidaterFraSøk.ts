@@ -25,6 +25,7 @@ const useNavigerbareKandidaterFraSøk = (
     const { state } = useLocation();
 
     console.log('State fra nytt kandidatsøk:', state);
+    console.log('Kontekst fra nytt kandidatsøk:', kontekst);
 
     const { kandidater: kandidaterFraState, totaltAntallTreff } = useSelector(
         (state: AppState) => state.søk.searchResultat.resultat
