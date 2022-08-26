@@ -3,6 +3,7 @@ export type StateFraNyttKandidatsøk =
           search?: string;
           markerteKandidater?: string[];
           kandidater?: string[];
+          kandidat?: string;
       }
     | undefined;
 
