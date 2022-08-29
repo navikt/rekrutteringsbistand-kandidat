@@ -46,17 +46,11 @@ export const lenkeTilKandidatsøk = (
     }
 };
 
-export const lenkeTilNyttKandidatsøk = (search?: string, kandidatlisteId?: string) => {
+export const lenkeTilNyttKandidatsøk = (searchParams?: string) => {
     let url = '/kandidatsok';
 
-    if (search) {
-        url += search;
-    } else {
-        url += '?';
-    }
-
-    if (kandidatlisteId) {
-        url += `&kandidatliste=${kandidatlisteId}`;
+    if (searchParams) {
+        url += '?' + searchParams;
     }
 
     return url;

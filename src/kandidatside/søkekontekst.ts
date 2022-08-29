@@ -1,11 +1,9 @@
-export type StateFraNyttKandidatsøk =
-    | {
-          search?: string;
-          markerteKandidater?: string[];
-          kandidater?: string[];
-          kandidat?: string;
-      }
-    | undefined;
+export type NyttKandidatsøkØkt = Partial<{
+    sistBesøkteKandidat: string;
+    markerteKandidater: string[];
+    kandidater: string[];
+    searchParams: string;
+}>;
 
 export type Søkekontekst =
     | {
@@ -28,25 +26,22 @@ export type Søkekontekst =
       }
     | {
           kontekst: 'fraNyttKandidatsøk';
-          søk?: string;
-          kandidater?: string[];
-          markerteKandidater?: string[];
+          økt?: NyttKandidatsøkØkt;
       }
     | {
           kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk';
           kandidatlisteId: string;
-          kandidater?: string[];
-          søk?: string;
-          markerteKandidater?: string[];
+          økt?: NyttKandidatsøkØkt;
       };
 
 export const hentSøkekontekst = (
+    kandidatnr: string,
     stillingsIdFraUrl: string | undefined,
     kandidatlisteIdFraUrl: string | undefined,
     fraNyttKandidatsøk: boolean,
     fraAutomatiskMatching: boolean,
     søkeparametreFraGammeltSøk: string,
-    stateFraNyttSøk?: StateFraNyttKandidatsøk
+    nyttKandidatsøkØkt?: NyttKandidatsøkØkt
 ): Søkekontekst => {
     if (fraAutomatiskMatching && stillingsIdFraUrl) {
         return {
@@ -55,20 +50,18 @@ export const hentSøkekontekst = (
         };
     }
     if (fraNyttKandidatsøk) {
+        skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
+
         if (kandidatlisteIdFraUrl) {
             return {
                 kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk',
                 kandidatlisteId: kandidatlisteIdFraUrl,
-                søk: stateFraNyttSøk?.search,
-                kandidater: stateFraNyttSøk?.kandidater,
-                markerteKandidater: stateFraNyttSøk?.markerteKandidater,
+                økt: nyttKandidatsøkØkt,
             };
         } else {
             return {
                 kontekst: 'fraNyttKandidatsøk',
-                søk: stateFraNyttSøk?.search,
-                kandidater: stateFraNyttSøk?.kandidater,
-                markerteKandidater: stateFraNyttSøk?.markerteKandidater,
+                økt: nyttKandidatsøkØkt,
             };
         }
     } else {
@@ -88,4 +81,25 @@ export const hentSøkekontekst = (
             return { kontekst: 'fraKandidatsøk', søk: søkeparametreFraGammeltSøk };
         }
     }
+};
+
+export const hentØktFraNyttKandidatsøk = (): NyttKandidatsøkØkt | undefined => {
+    const kandidatsøkString = window.sessionStorage.getItem('kandidatsøk');
+
+    if (!kandidatsøkString) {
+        return undefined;
+    }
+
+    return JSON.parse(kandidatsøkString);
+};
+
+export const skrivKandidatnrTilNyttKandidatsøkØkt = (kandidatNr: string) => {
+    const session = hentØktFraNyttKandidatsøk() || {};
+
+    const oppdatertSession: NyttKandidatsøkØkt = {
+        ...session,
+        sistBesøkteKandidat: kandidatNr,
+    };
+
+    window.sessionStorage.setItem('kandidatsøk', JSON.stringify(oppdatertSession));
 };

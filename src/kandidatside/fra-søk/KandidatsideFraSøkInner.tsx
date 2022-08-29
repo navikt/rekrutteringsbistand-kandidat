@@ -193,20 +193,12 @@ const byggLenkeTilbakeTilKandidatsøket = (
 
         case 'fraNyttKandidatsøk':
             return {
-                to: lenkeTilNyttKandidatsøk(kontekst.søk),
-                state: {
-                    markerteKandidater: kontekst.markerteKandidater,
-                    kandidat: valgtKandidat,
-                },
+                to: lenkeTilNyttKandidatsøk(kontekst.økt?.searchParams),
             };
 
         case 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk':
             return {
-                to: lenkeTilNyttKandidatsøk(kontekst.søk, kontekst.kandidatlisteId),
-                state: {
-                    markerteKandidater: kontekst.markerteKandidater,
-                    kandidat: valgtKandidat,
-                },
+                to: lenkeTilNyttKandidatsøk(kontekst.økt?.searchParams),
             };
     }
 };

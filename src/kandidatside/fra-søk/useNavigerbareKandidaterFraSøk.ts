@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { lenkeTilKandidatside } from '../../app/paths';
-import AppState from '../../AppState';
 import { KandidatsøkAction, KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
+import { Søkekontekst } from '../søkekontekst';
+import AppState from '../../AppState';
 import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
-import { StateFraNyttKandidatsøk, Søkekontekst } from '../søkekontekst';
 
 export type Kandidatnavigering = {
     neste?: string;
@@ -22,7 +21,6 @@ const useNavigerbareKandidaterFraSøk = (
 ): Kandidatnavigering | null => {
     const dispatch: Dispatch<KandidatsøkAction> = useDispatch();
     const fane = useAktivKandidatsidefane();
-    const { state } = useLocation();
 
     const { kandidater: kandidaterFraState, totaltAntallTreff } = useSelector(
         (state: AppState) => state.søk.searchResultat.resultat
@@ -56,9 +54,6 @@ const useNavigerbareKandidaterFraSøk = (
     let forrige: string | undefined = undefined;
     let neste: string | undefined = undefined;
     let antall = 0;
-    let oppdatertState = {
-        ...(state as StateFraNyttKandidatsøk),
-    };
 
     if (
         kontekst.kontekst === 'fraKandidatsøk' ||
@@ -90,20 +85,20 @@ const useNavigerbareKandidaterFraSøk = (
             neste = lenkeTilKandidatside(nesteKandidat, fane, kandidatlisteId, stillingsId);
         }
     } else {
-        if (kontekst.kandidater === undefined) {
+        if (kontekst.økt?.kandidater === undefined) {
             return null;
         }
 
-        antall = kontekst.kandidater.length;
-        index = kontekst.kandidater.findIndex((kandidat) => kandidat === kandidatnr);
+        antall = kontekst.økt.kandidater.length;
+        index = kontekst.økt.kandidater.findIndex((kandidat) => kandidat === kandidatnr);
 
         const kandidatlisteId =
             kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
                 ? kontekst.kandidatlisteId
                 : undefined;
 
-        const forrigeKandidatnr = kontekst.kandidater[index - 1];
-        const nesteKandidatnr = kontekst.kandidater[index + 1];
+        const forrigeKandidatnr = kontekst.økt.kandidater[index - 1];
+        const nesteKandidatnr = kontekst.økt.kandidater[index + 1];
 
         if (forrigeKandidatnr) {
             forrige = lenkeTilKandidatside(
@@ -128,8 +123,6 @@ const useNavigerbareKandidaterFraSøk = (
                 true
             );
         }
-
-        oppdatertState.kandidat = kandidatnr;
     }
 
     return {
@@ -137,7 +130,6 @@ const useNavigerbareKandidaterFraSøk = (
         forrige,
         neste,
         antall,
-        state: oppdatertState,
     };
 };
 
