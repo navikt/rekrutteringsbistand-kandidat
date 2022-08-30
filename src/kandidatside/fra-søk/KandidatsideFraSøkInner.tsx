@@ -43,15 +43,12 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
     );
     const cv = useSelector((state: AppState) => state.cv.cv);
-    const valgtKandidat = useSelector((state: AppState) => state.søk.valgtKandidatNr);
-    const lenkeTilKandidatsøket = byggLenkeTilbakeTilKandidatsøket(kontekst, valgtKandidat);
+    const lenkeTilKandidatsøket = byggLenkeTilbakeTilKandidatsøket(kontekst);
 
     const [visLeggTilKandidatModal, setVisLeggTilKandidatModal] = useState<boolean>(false);
     const [visKandidatenErLagtTil, setVisKandidatenErLagtTil] = useState<boolean>(false);
 
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kontekst);
-
-    console.log('Navigering:', kandidatnavigering);
 
     useEffect(() => {
         if (leggTilKandidatStatus === Nettstatus.Suksess) {
@@ -164,8 +161,7 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
 };
 
 const byggLenkeTilbakeTilKandidatsøket = (
-    kontekst: Søkekontekst,
-    valgtKandidat: string
+    kontekst: Søkekontekst
 ): {
     to: string;
     state?: object;

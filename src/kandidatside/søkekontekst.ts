@@ -5,34 +5,46 @@ export type NyttKandidatsøkØkt = Partial<{
     searchParams: string;
 }>;
 
+export type FraAutomatiskMatching = {
+    kontekst: 'fraAutomatiskMatching';
+    stillingsId: string;
+};
+
+export type FraKandidatsøk = {
+    kontekst: 'fraKandidatsøk';
+    søk?: string;
+};
+
+export type FinnKandidaterTilKandidatlisteMedStilling = {
+    kontekst: 'finnKandidaterTilKandidatlisteMedStilling';
+    stillingsId: string;
+    søk?: string;
+};
+
+export type FinnKandidaterTilKandidatlisteUtenStilling = {
+    kontekst: 'finnKandidaterTilKandidatlisteUtenStilling';
+    kandidatlisteId: string;
+    søk?: string;
+};
+
+export type FraNyttkandidatsøk = {
+    kontekst: 'fraNyttKandidatsøk';
+    økt?: NyttKandidatsøkØkt;
+};
+
+export type FinnKandidaterTilKandidatlisteFraNyttKandidatsøkKontekst = {
+    kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk';
+    kandidatlisteId: string;
+    økt?: NyttKandidatsøkØkt;
+};
+
 export type Søkekontekst =
-    | {
-          kontekst: 'fraAutomatiskMatching';
-          stillingsId: string;
-      }
-    | {
-          kontekst: 'fraKandidatsøk';
-          søk?: string;
-      }
-    | {
-          kontekst: 'finnKandidaterTilKandidatlisteMedStilling';
-          stillingsId: string;
-          søk?: string;
-      }
-    | {
-          kontekst: 'finnKandidaterTilKandidatlisteUtenStilling';
-          kandidatlisteId: string;
-          søk?: string;
-      }
-    | {
-          kontekst: 'fraNyttKandidatsøk';
-          økt?: NyttKandidatsøkØkt;
-      }
-    | {
-          kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk';
-          kandidatlisteId: string;
-          økt?: NyttKandidatsøkØkt;
-      };
+    | FraAutomatiskMatching
+    | FraKandidatsøk
+    | FinnKandidaterTilKandidatlisteMedStilling
+    | FinnKandidaterTilKandidatlisteUtenStilling
+    | FraNyttkandidatsøk
+    | FinnKandidaterTilKandidatlisteFraNyttKandidatsøkKontekst;
 
 export const hentSøkekontekst = (
     kandidatnr: string,
