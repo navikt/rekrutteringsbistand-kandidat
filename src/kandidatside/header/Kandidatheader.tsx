@@ -10,29 +10,21 @@ import Cv from '../cv/reducer/cv-typer';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import Skeleton from 'react-loading-skeleton';
 import './Kandidatheader.less';
+import { Kandidatnavigering } from '../fra-søk/useNavigerbareKandidaterFraSøk';
 
 interface Props {
     cv: Nettressurs<Cv>;
-    tilbakeLink: string;
-    antallKandidater: number;
-    gjeldendeKandidatIndex: number;
-    forrigeKandidat?: string;
-    nesteKandidat?: string;
-    fraKandidatmatch?: boolean;
+    kandidatnavigering: Kandidatnavigering | null;
+    tilbakelenke: {
+        to: string;
+        state?: object;
+    };
 }
 
-const Kandidatheader: FunctionComponent<Props> = ({
-    cv,
-    antallKandidater,
-    tilbakeLink,
-    gjeldendeKandidatIndex,
-    forrigeKandidat,
-    nesteKandidat,
-    fraKandidatmatch,
-}) => {
+const Kandidatheader: FunctionComponent<Props> = ({ cv, tilbakelenke, kandidatnavigering }) => {
     useMaskerFødselsnumre();
 
-    const tilbakeLenkeTekst = tilbakeLink.includes('kandidater/lister')
+    const tilbakeLenkeTekst = tilbakelenke.to.includes('kandidater/lister')
         ? 'Til kandidatlisten'
         : 'Til kandidatsøket';
 
@@ -57,7 +49,12 @@ const Kandidatheader: FunctionComponent<Props> = ({
         <header className="kandidatheader">
             <div className="kandidatheader__inner">
                 <div className="kandidatheader__tilbakeknapp">
-                    <LenkeMedChevron type="venstre" to={tilbakeLink} text={tilbakeLenkeTekst} />
+                    <LenkeMedChevron
+                        type="venstre"
+                        to={tilbakelenke.to}
+                        state={tilbakelenke.state}
+                        text={tilbakeLenkeTekst}
+                    />
                 </div>
                 <div>
                     <Systemtittel className="blokk-xs">
@@ -119,14 +116,11 @@ const Kandidatheader: FunctionComponent<Props> = ({
                         )}
                     </div>
                 </div>
-                {!fraKandidatmatch && (
+                {kandidatnavigering && (
                     <ForrigeNeste
                         className="kandidatheader__forrige-neste-knapper"
+                        kandidatnavigering={kandidatnavigering}
                         lenkeClass=""
-                        forrigeKandidat={forrigeKandidat}
-                        nesteKandidat={nesteKandidat}
-                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                        antallKandidater={antallKandidater}
                     />
                 )}
             </div>

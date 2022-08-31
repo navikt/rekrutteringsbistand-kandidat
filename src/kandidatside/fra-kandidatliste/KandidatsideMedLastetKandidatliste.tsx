@@ -45,8 +45,7 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
     const forespørselOmDelingAvCv = useForespørselOmDelingAvCv(kandidat.aktørid);
     const melding = useSendtKandidatmelding(kandidat.fodselsnr);
 
-    const { aktivKandidat, lenkeTilForrige, lenkeTilNeste, antallKandidater } =
-        useNavigerbareKandidater(kandidat.kandidatnr, kandidatliste);
+    const kandidatnavigering = useNavigerbareKandidater(kandidat.kandidatnr, kandidatliste);
 
     const onKandidatStatusChange = (status: Kandidatstatus) => {
         dispatch({
@@ -61,14 +60,13 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
         <div>
             <Kandidatheader
                 cv={cv}
-                tilbakeLink={lenkeTilKandidatliste(
-                    kandidatliste.kandidatlisteId,
-                    filterTilQueryParams(filter)
-                )}
-                gjeldendeKandidatIndex={aktivKandidat}
-                antallKandidater={antallKandidater}
-                nesteKandidat={lenkeTilNeste}
-                forrigeKandidat={lenkeTilForrige}
+                tilbakelenke={{
+                    to: lenkeTilKandidatliste(
+                        kandidatliste.kandidatlisteId,
+                        filterTilQueryParams(filter)
+                    ),
+                }}
+                kandidatnavigering={kandidatnavigering}
             />
             <Kandidatmeny cv={cv}>
                 <div className="kandidatside__status-select">
@@ -93,10 +91,7 @@ const KandidatsideMedLastetKandidatliste: FunctionComponent<Props> = ({
             <div className="kandidatside__forrige-neste-wrapper">
                 <ForrigeNeste
                     lenkeClass="kandidatside__forrige-neste-lenke"
-                    forrigeKandidat={lenkeTilForrige}
-                    nesteKandidat={lenkeTilNeste}
-                    gjeldendeKandidatIndex={aktivKandidat}
-                    antallKandidater={antallKandidater}
+                    kandidatnavigering={kandidatnavigering}
                 />
             </div>
         </div>

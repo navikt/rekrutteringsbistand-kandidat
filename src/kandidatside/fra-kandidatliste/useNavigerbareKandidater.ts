@@ -5,9 +5,13 @@ import { erInaktiv } from '../../kandidatliste/domene/Kandidat';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import useFiltrerteKandidater from '../../kandidatliste/hooks/useFiltrerteKandidater';
 import useSorterteKandidater from '../../kandidatliste/hooks/useSorterteKandidater';
+import { Kandidatnavigering } from '../fra-søk/useNavigerbareKandidaterFraSøk';
 import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
 
-const useNavigerbareKandidater = (kandidatnr: string, kandidatliste: Kandidatliste) => {
+const useNavigerbareKandidater = (
+    kandidatnr: string,
+    kandidatliste: Kandidatliste
+): Kandidatnavigering => {
     const { forespørslerOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
 
     const aktivFane = useAktivKandidatsidefane();
@@ -30,18 +34,18 @@ const useNavigerbareKandidater = (kandidatnr: string, kandidatliste: Kandidatlis
               )
             : undefined;
 
-    const aktivKandidat = kandidatnumre.indexOf(kandidatnr);
-    const nesteKandidatNummer = kandidatnumre[aktivKandidat + 1];
-    const forrigeKandidatNummer = kandidatnumre[aktivKandidat - 1];
+    const index = kandidatnumre.indexOf(kandidatnr);
+    const nesteKandidatNummer = kandidatnumre[index + 1];
+    const forrigeKandidatNummer = kandidatnumre[index - 1];
 
-    const forrigeKandidatLink = hentLenkeTilKandidat(forrigeKandidatNummer);
-    const nesteKandidatLink = hentLenkeTilKandidat(nesteKandidatNummer);
+    const forrige = hentLenkeTilKandidat(forrigeKandidatNummer);
+    const neste = hentLenkeTilKandidat(nesteKandidatNummer);
 
     return {
-        aktivKandidat,
-        antallKandidater: kandidatnumre.length,
-        lenkeTilForrige: forrigeKandidatLink,
-        lenkeTilNeste: nesteKandidatLink,
+        index,
+        forrige,
+        neste,
+        antall: kandidatnumre.length,
     };
 };
 

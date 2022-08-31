@@ -1,43 +1,36 @@
 import React, { FunctionComponent } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { LenkeMedChevron } from '../lenke-med-chevron/LenkeMedChevron';
+import { Kandidatnavigering } from '../../fra-søk/useNavigerbareKandidaterFraSøk';
 import './ForrigeNeste.less';
 
 type Props = {
     className?: string;
     lenkeClass: string;
-    forrigeKandidat?: string;
-    nesteKandidat?: string;
-    gjeldendeKandidatIndex?: number;
-    antallKandidater: number;
+    kandidatnavigering: Kandidatnavigering;
 };
 
-const ForrigeNeste: FunctionComponent<Props> = ({
-    className,
-    lenkeClass,
-    forrigeKandidat,
-    nesteKandidat,
-    gjeldendeKandidatIndex = 0,
-    antallKandidater,
-}) => {
-    if (antallKandidater > 1) {
+const ForrigeNeste: FunctionComponent<Props> = ({ className, lenkeClass, kandidatnavigering }) => {
+    const { forrige, neste, antall, index } = kandidatnavigering;
+
+    if (antall > 1) {
         const klasseNavn = className ? className : '';
         return (
             <div className={'forrige-neste ' + klasseNavn}>
-                {forrigeKandidat && (
+                {forrige && (
                     <LenkeMedChevron
-                        to={forrigeKandidat}
+                        to={forrige}
                         className={lenkeClass}
                         type="venstre"
                         text="Forrige kandidat"
                     />
                 )}
                 <Normaltekst className="forrige-neste__index">
-                    {gjeldendeKandidatIndex + 1} av {antallKandidater}
+                    {index + 1} av {antall}
                 </Normaltekst>
-                {nesteKandidat ? (
+                {neste ? (
                     <LenkeMedChevron
-                        to={nesteKandidat}
+                        to={neste}
                         className={lenkeClass}
                         type="hoyre"
                         text="Neste kandidat"

@@ -9,33 +9,17 @@ import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import { KandidatsøkAction, KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
 import { CvAction, CvActionType } from '../cv/reducer/cvReducer';
+import { Søkekontekst } from '../søkekontekst';
 import KandidatsideFraSøkInner from './KandidatsideFraSøkInner';
 
 type Props = {
     kandidatnr: string;
-    stillingsId?: string;
-    kandidatlisteId?: string;
-    fraKandidatmatch: boolean;
+    kontekst: Søkekontekst;
 };
 
-const KandidatsideFraSøk: FunctionComponent<Props> = ({
-    kandidatnr,
-    stillingsId,
-    kandidatlisteId,
-    fraKandidatmatch,
-    children,
-}) => {
+const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, children }) => {
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
-
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
-    const kommerFraKandidatliste = kandidatlisteId !== undefined || stillingsId !== undefined;
-    const kandidatlisteKontekst = kommerFraKandidatliste
-        ? {
-              stillingsId,
-              kandidatlisteId,
-              kandidatliste,
-          }
-        : undefined;
 
     const scrollTilToppen = () => {
         window.scrollTo(0, 0);
@@ -57,13 +41,6 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
     };
 
     const onFørsteSidelast = () => {
-        const hentKandidatlisteMedKandidatlisteId = (kandidatlisteId: string) => {
-            dispatch({
-                type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
-                kandidatlisteId,
-            });
-        };
-
         const hentKandidatlisteMedStillingsId = (stillingsId: string) => {
             dispatch({
                 type: KandidatlisteActionType.HentKandidatlisteMedStillingsId,
@@ -71,29 +48,33 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({
             });
         };
 
-        if (kommerFraKandidatliste && kandidatliste.kind === Nettstatus.IkkeLastet) {
-            if (kandidatlisteId) {
-                hentKandidatlisteMedKandidatlisteId(kandidatlisteId);
-            } else if (stillingsId) {
-                hentKandidatlisteMedStillingsId(stillingsId);
+        const hentKandidatlisteMedKandidatlisteId = (kandidatlisteId: string) => {
+            dispatch({
+                type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
+                kandidatlisteId,
+            });
+        };
+
+        if (kandidatliste.kind === Nettstatus.IkkeLastet) {
+            if (kontekst.kontekst === 'finnKandidaterTilKandidatlisteMedStilling') {
+                hentKandidatlisteMedStillingsId(kontekst.stillingsId);
+            } else if (
+                kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk' ||
+                kontekst.kontekst === 'finnKandidaterTilKandidatlisteUtenStilling'
+            ) {
+                hentKandidatlisteMedKandidatlisteId(kontekst.kandidatlisteId);
             }
         }
     };
 
     useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
-    useEffect(onFørsteSidelast, [
-        dispatch,
-        kandidatliste,
-        stillingsId,
-        kandidatlisteId,
-        kommerFraKandidatliste,
-    ]);
+    useEffect(onFørsteSidelast, [dispatch, kandidatliste.kind, kontekst]);
 
     return (
         <KandidatsideFraSøkInner
             kandidatnr={kandidatnr}
-            kandidatlisteKontekst={kandidatlisteKontekst}
-            fraKandidatmatch={fraKandidatmatch}
+            kandidatliste={kandidatliste}
+            kontekst={kontekst}
         >
             {children}
         </KandidatsideFraSøkInner>
