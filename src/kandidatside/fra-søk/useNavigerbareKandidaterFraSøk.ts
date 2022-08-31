@@ -61,11 +61,10 @@ const hentKandidatnavigeringForGammeltSøk = (
         | FinnKandidaterTilKandidatlisteUtenStilling,
     kandidater: MarkerbartSøkeresultat[]
 ): Kandidatnavigering => {
-    let index = 0;
     let forrige: string | undefined = undefined;
     let neste: string | undefined = undefined;
 
-    const aktivKandidat = kandidater.findIndex(
+    const aktivKandidatIndex = kandidater.findIndex(
         (kandidat) => kandidat.arenaKandidatnr === kandidatnr
     );
 
@@ -78,18 +77,18 @@ const hentKandidatnavigeringForGammeltSøk = (
             ? kontekst.stillingsId
             : undefined;
 
-    const forrigeKandidat = kandidater[aktivKandidat - 1]?.arenaKandidatnr;
+    const forrigeKandidat = kandidater[aktivKandidatIndex - 1]?.arenaKandidatnr;
     if (forrigeKandidat) {
         forrige = lenkeTilKandidatside(forrigeKandidat, fane, kandidatlisteId, stillingsId);
     }
 
-    const nesteKandidat = kandidater[aktivKandidat + 1]?.arenaKandidatnr;
+    const nesteKandidat = kandidater[aktivKandidatIndex + 1]?.arenaKandidatnr;
     if (nesteKandidat) {
         neste = lenkeTilKandidatside(nesteKandidat, fane, kandidatlisteId, stillingsId);
     }
 
     return {
-        index,
+        index: aktivKandidatIndex,
         antall: totaltAntallTreff,
         forrige,
         neste,
