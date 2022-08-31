@@ -18,7 +18,6 @@ export type Kandidatnavigering = {
     forrige?: string;
     index: number;
     antall: number;
-    state?: object;
 };
 
 const useNavigerbareKandidaterFraSøk = (

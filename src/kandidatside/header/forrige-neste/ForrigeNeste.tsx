@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ForrigeNeste: FunctionComponent<Props> = ({ className, lenkeClass, kandidatnavigering }) => {
-    const { forrige, neste, antall, index, state } = kandidatnavigering;
+    const { forrige, neste, antall, index } = kandidatnavigering;
 
     if (antall > 1) {
         const klasseNavn = className ? className : '';
@@ -20,7 +20,6 @@ const ForrigeNeste: FunctionComponent<Props> = ({ className, lenkeClass, kandida
                 {forrige && (
                     <LenkeMedChevron
                         to={forrige}
-                        state={state}
                         className={lenkeClass}
                         type="venstre"
                         text="Forrige kandidat"
@@ -32,7 +31,6 @@ const ForrigeNeste: FunctionComponent<Props> = ({ className, lenkeClass, kandida
                 {neste ? (
                     <LenkeMedChevron
                         to={neste}
-                        state={state}
                         className={lenkeClass}
                         type="hoyre"
                         text="Neste kandidat"
