@@ -4,14 +4,16 @@ import { sendEvent } from '../../amplitude/amplitude';
 import Kandidattab from './Kandidattab';
 import Cv from '../cv/reducer/cv-typer';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
-import { ARBEIDSRETTET_OPPFOLGING_URL } from '../../common/fasitProperties';
 import './Kandidatmeny.less';
+import useMiljøvariabler from '../../common/useMiljøvariabler';
 
 type Props = {
     cv: Nettressurs<Cv>;
 };
 
 const Kandidatmeny: FunctionComponent<Props> = ({ cv, children }) => {
+    const { arbeidsrettetOppfølgingUrl } = useMiljøvariabler();
+
     return (
         <div className="kandidatmeny">
             <div className="kandidatmeny__venstre">
@@ -22,7 +24,7 @@ const Kandidatmeny: FunctionComponent<Props> = ({ cv, children }) => {
                 {cv.kind === Nettstatus.Suksess && (
                     <a
                         className="ForlateSiden lenke"
-                        href={`${ARBEIDSRETTET_OPPFOLGING_URL}/${cv.data.fodselsnummer}`}
+                        href={`${arbeidsrettetOppfølgingUrl}/${cv.data.fodselsnummer}`}
                         target="_blank"
                         onClick={() => sendEvent('cv_aktivitetsplan_lenke', 'klikk')}
                         rel="noopener noreferrer"
