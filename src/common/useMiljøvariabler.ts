@@ -1,6 +1,6 @@
 export enum Miljøvariabel {
     LastNedCvUrl = 'KANDIDAT_LAST_NED_CV_URL',
-    ArbeidsrettetOppfølgingUrl = 'ARBEIDSRETTET_OPPFOLGING_URL',
+    ArbeidsrettetOppfølgingUrl = 'KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL',
 }
 
 const useMiljøvariabler = () => {
