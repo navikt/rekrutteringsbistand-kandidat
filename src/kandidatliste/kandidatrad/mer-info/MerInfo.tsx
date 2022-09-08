@@ -3,13 +3,15 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
 import { Kandidat } from '../../domene/Kandidat';
-import { ARBEIDSRETTET_OPPFOLGING_URL } from '../../../common/fasitProperties';
+import useMiljøvariabler from '../../../common/useMiljøvariabler';
 
 interface Props {
     kandidat: Kandidat;
 }
 
 const MerInfo: FunctionComponent<Props> = ({ kandidat }) => {
+    const { arbeidsrettetOppfølgingUrl } = useMiljøvariabler();
+
     return (
         <InfoUnderKandidat className="mer-info">
             <div className="kontaktinfo-kolonne">
@@ -33,7 +35,7 @@ const MerInfo: FunctionComponent<Props> = ({ kandidat }) => {
                 </Normaltekst>
                 <a
                     className="frittstaende-lenke ForlateSiden link"
-                    href={`${ARBEIDSRETTET_OPPFOLGING_URL}/${kandidat.fodselsnr}`}
+                    href={`${arbeidsrettetOppfølgingUrl}/${kandidat.fodselsnr}`}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
