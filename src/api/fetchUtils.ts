@@ -26,7 +26,10 @@ export async function fetchJson(url: string, includeCredentials: boolean = false
         }
         if (response.status === 200 || response.status === 201) {
             return response.json();
+        } else if (response.status === 401) {
+            videresendTilInnlogging();
         }
+
         let error;
         try {
             error = await response.json();
@@ -47,6 +50,10 @@ export async function fetchJson(url: string, includeCredentials: boolean = false
         });
     }
 }
+
+const videresendTilInnlogging = () => {
+    window.location.href = `/oauth2/login?redirect=${window.location.pathname}`;
+};
 
 export async function deleteJsonMedType<T>(
     url: string,
