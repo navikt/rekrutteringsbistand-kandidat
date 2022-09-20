@@ -37,10 +37,10 @@ const ForkortetMatrise = ({
                                 .slice(0, 2);
 
                             return (
-                                tilProsentpoeng(toBesteMatcherFraKandidat[0][2]) >=
+                                tilProsentpoeng(toBesteMatcherFraKandidat[0].score) >=
                                     minimumTreffprosent && (
                                     <tr key={k}>
-                                        <td>{ordFraStilling[1]}</td>
+                                        <td>{ordFraStilling.ord}</td>
                                         {toBesteMatcherFraKandidat.map(
                                             (matchedeOrdFraKandidat, index) => {
                                                 return (
