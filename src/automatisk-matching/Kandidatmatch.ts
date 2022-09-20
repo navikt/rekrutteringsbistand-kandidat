@@ -90,9 +90,9 @@ type FørerkortPrototype = {
 
 type FoererkortKlassePrototype = {
     klasse: string;
-    klasse_beskrivelse: string;
-    fra_tidspunkt: number;
     utloeper: number;
+    klasseBeskrivelse: string;
+    fraTidspunkt: number;
 };
 
 type Oppfolgingsinformasjon = {

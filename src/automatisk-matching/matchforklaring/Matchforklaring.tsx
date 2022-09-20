@@ -220,8 +220,8 @@ const Matchforklaring = () => {
                             <li key={førerkort.klasse}>
                                 <ul>
                                     <li>Klasse: {førerkort.klasse}</li>
-                                    <li>Beskrivelse: {førerkort.klasse_beskrivelse}</li>
-                                    <li>Gyldig fra: {tilDato(førerkort.fra_tidspunkt)}</li>
+                                    <li>Beskrivelse: {førerkort.klasseBeskrivelse}</li>
+                                    <li>Gyldig fra: {tilDato(førerkort.fraTidspunkt)}</li>
                                     <li>Gyldig til: {tilDato(førerkort.utloeper)}</li>
                                 </ul>
                                 <br />
