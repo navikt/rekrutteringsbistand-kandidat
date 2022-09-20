@@ -5,7 +5,7 @@ import { tilProsentpoeng } from '../formatering';
 
 const Matchdetaljer = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
     const [, matchedeOrdFraKandidat] = erfaring.ordScore[0];
-    const alleOrdFraKandidat = matchedeOrdFraKandidat.map(([, ord]) => ord);
+    const alleOrdFraKandidat = matchedeOrdFraKandidat.map((matchetOrd) => matchetOrd.ord);
 
     return (
         <details className="matchdetaljer">
@@ -34,18 +34,18 @@ const Matchdetaljer = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {erfaring.ordScore.map(
-                            ([[, ordFraStilling], matchedeOrdFraKandidaten], i) => {
-                                return (
-                                    <tr key={ordFraStilling}>
-                                        <td>{ordFraStilling}</td>
-                                        {matchedeOrdFraKandidaten.map(([, ord, score]) => (
-                                            <td key={ord}>{tilProsentpoeng(score)}</td>
-                                        ))}
-                                    </tr>
-                                );
-                            }
-                        )}
+                        {erfaring.ordScore.map(([ordFraStilling, matchedeOrdFraKandidaten], i) => {
+                            return (
+                                <tr key={ordFraStilling.ord}>
+                                    <td>{ordFraStilling.ord}</td>
+                                    {matchedeOrdFraKandidaten.map((matchetOrd) => (
+                                        <td key={matchetOrd.ord}>
+                                            {tilProsentpoeng(matchetOrd.score)}
+                                        </td>
+                                    ))}
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>
