@@ -22,14 +22,18 @@ const ForkortetMatrise = ({
                 <tbody>
                     {erfaring.ordScore
                         .sort(([, matchedeOrdFraKandidat1], [, matchedeOrdFraKandidat2]) => {
-                            const [, , score1] = matchedeOrdFraKandidat1[0];
-                            const [, , score2] = matchedeOrdFraKandidat2[0];
+                            const score1 = matchedeOrdFraKandidat1[0].score;
+                            const score2 = matchedeOrdFraKandidat2[0].score;
                             return tilProsentpoeng(score2) - tilProsentpoeng(score1);
                         })
                         .map((ordscore, k) => {
                             const [ordFraStilling, matchedeOrdFraKandidat] = ordscore;
                             const toBesteMatcherFraKandidat = matchedeOrdFraKandidat
-                                .sort(([, , score1], [, , score2]) => score2 - score1)
+                                .sort(
+                                    (matchedeOrdFraKandidat1, matchedeOrdFraKandidat2) =>
+                                        matchedeOrdFraKandidat2.score -
+                                        matchedeOrdFraKandidat1.score
+                                )
                                 .slice(0, 2);
 
                             return (
@@ -37,16 +41,28 @@ const ForkortetMatrise = ({
                                     minimumTreffprosent && (
                                     <tr key={k}>
                                         <td>{ordFraStilling[1]}</td>
-                                        {toBesteMatcherFraKandidat.map(([, ord, score], index) => {
-                                            return (
-                                                tilProsentpoeng(score) >= minimumTreffprosent && (
-                                                    <td key={index}>
-                                                        <span>{ord}</span>
-                                                        <span> ({tilProsent(score)})</span>
-                                                    </td>
-                                                )
-                                            );
-                                        })}
+                                        {toBesteMatcherFraKandidat.map(
+                                            (matchedeOrdFraKandidat, index) => {
+                                                return (
+                                                    tilProsentpoeng(matchedeOrdFraKandidat.score) >=
+                                                        minimumTreffprosent && (
+                                                        <td key={index}>
+                                                            <span>
+                                                                {matchedeOrdFraKandidat.ord}
+                                                            </span>
+                                                            <span>
+                                                                {' '}
+                                                                (
+                                                                {tilProsent(
+                                                                    matchedeOrdFraKandidat.score
+                                                                )}
+                                                                )
+                                                            </span>
+                                                        </td>
+                                                    )
+                                                );
+                                            }
+                                        )}
                                     </tr>
                                 )
                             );
