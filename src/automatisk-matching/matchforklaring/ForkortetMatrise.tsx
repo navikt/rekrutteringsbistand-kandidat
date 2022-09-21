@@ -51,7 +51,6 @@ const ForkortetMatrise = ({
                                                                 {matchedeOrdFraKandidat.ord}
                                                             </span>
                                                             <span>
-                                                                {' '}
                                                                 (
                                                                 {tilProsent(
                                                                     matchedeOrdFraKandidat.score

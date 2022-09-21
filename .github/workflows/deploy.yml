@@ -48,7 +48,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev-gcp
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/videresend-til-innlogging-ved-401'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/oppdaterer-foererkort'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
