@@ -9,6 +9,7 @@ import AppState from '../../../../AppState';
 import { Nettstatus } from '../../../../api/Nettressurs';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { cvErSendtTilArbeidsgiverOgSlettet } from './CvErSlettet';
+import FåttJobben from './FåttJobben';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -132,7 +133,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={utfallsbeskrivelse}
                 >
-                    {kanEndre && !cvErSlettet && (
+                    {kanEndre && !cvErSlettet && utfall !== Kandidatutfall.FåttJobben && (
                         <Flatknapp
                             onClick={onFjernRegistrering}
                             className="endre-status-og-hendelser__registrer-hendelse"
@@ -153,7 +154,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={utfallsbeskrivelse}
                 >
-                    {kanEndre && (
+                    {kanEndre && utfall !== Kandidatutfall.FåttJobben && (
                         <Flatknapp
                             onClick={onSlettSendtCv}
                             className="endre-status-og-hendelser__registrer-hendelse"
