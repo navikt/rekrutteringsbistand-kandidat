@@ -9,7 +9,6 @@ import AppState from '../../../../AppState';
 import { Nettstatus } from '../../../../api/Nettressurs';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { cvErSendtTilArbeidsgiverOgSlettet } from './CvErSlettet';
-import FåttJobben from './FåttJobben';
 
 type Props = {
     utfall: Kandidatutfall;
