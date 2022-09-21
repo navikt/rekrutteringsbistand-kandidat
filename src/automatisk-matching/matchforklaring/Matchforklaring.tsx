@@ -53,9 +53,9 @@ const Matchforklaring = () => {
                 <h3>Arbeidsforhold</h3>
                 <h4>Hvor kan du jobbe?</h4>
                 <ul>
-                    {kandidat.geografi_jobbprofil.map((sted) => (
-                        <li key={sted.kode + kandidat.fodselsnummer}>
-                            {sted.sted} {sted.kode}
+                    {kandidat.geografi_jobbprofil.steder.map((geografiJobbProfil) => (
+                        <li key={geografiJobbProfil.kode + kandidat.fodselsnummer}>
+                            {geografiJobbProfil.sted} {geografiJobbProfil.kode}
                         </li>
                     ))}
                 </ul>

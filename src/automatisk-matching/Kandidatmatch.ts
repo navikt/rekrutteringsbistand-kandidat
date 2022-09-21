@@ -144,7 +144,10 @@ enum FerdighetsnivåPrototype {
     FOERSTESPRAAK,
 }
 
-type GeografiJobbprofil = [sted: StedPrototype];
+type GeografiJobbprofil = {
+    score: number;
+    steder: StedPrototype[];
+};
 
 type StedPrototype = {
     sted: string;
