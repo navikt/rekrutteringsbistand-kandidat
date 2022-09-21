@@ -179,14 +179,17 @@ type OppfolgingsperiodePrototype = {
     sluttDato: Date;
 };
 
-type Score = number;
-type Ord = string;
-type Posisjon = number;
-
 type OrdScore = [OrdFraStilling, MatchetOrdFraKandidat[]];
 
-type OrdFraStilling = [Posisjon[], Ord];
+type OrdFraStilling = {
+    indeks: number[];
+    ord: string;
+};
 
-type MatchetOrdFraKandidat = [Posisjon[], Ord, Score];
+type MatchetOrdFraKandidat = {
+    indeks: number[];
+    ord: string;
+    score: number;
+};
 
 export default Kandidatmatch;

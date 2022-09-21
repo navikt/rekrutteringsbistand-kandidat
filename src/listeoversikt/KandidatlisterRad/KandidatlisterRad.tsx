@@ -12,12 +12,7 @@ import {
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
-import {
-    lenkeTilFinnKandidaterMedStilling,
-    lenkeTilFinnKandidaterUtenStilling,
-    lenkeTilKandidatliste,
-    lenkeTilStilling,
-} from '../../app/paths';
+import { lenkeTilFinnKandidater, lenkeTilKandidatliste, lenkeTilStilling } from '../../app/paths';
 import './KandidatlisterRad.less';
 
 export type FeilmeldingIMeny = {
@@ -117,13 +112,10 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                 <Link
                     className="FinnKandidater"
                     aria-label={`Finn kandidater til listen ${kandidatlisteSammendrag.tittel}`}
-                    to={
-                        erKobletTilStilling(kandidatlisteSammendrag)
-                            ? lenkeTilFinnKandidaterMedStilling(kandidatlisteSammendrag.stillingId!)
-                            : lenkeTilFinnKandidaterUtenStilling(
-                                  kandidatlisteSammendrag.kandidatlisteId
-                              )
-                    }
+                    to={lenkeTilFinnKandidater(
+                        kandidatlisteSammendrag.stillingId,
+                        kandidatlisteSammendrag.kandidatlisteId
+                    )}
                 >
                     <i className="FinnKandidater__icon" />
                 </Link>

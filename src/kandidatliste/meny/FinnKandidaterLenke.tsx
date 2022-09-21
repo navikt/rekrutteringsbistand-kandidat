@@ -1,9 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
-import {
-    lenkeTilFinnKandidaterMedStilling,
-    lenkeTilFinnKandidaterUtenStilling,
-} from '../../app/paths';
+import { lenkeTilFinnKandidater } from '../../app/paths';
 
 type Props = {
     stillingId: string | null;
@@ -12,11 +9,7 @@ type Props = {
 
 const FinnKandidaterLenke: FunctionComponent<Props> = ({ stillingId, kandidatlisteId }) => (
     <Link
-        to={
-            stillingId
-                ? lenkeTilFinnKandidaterMedStilling(stillingId)
-                : lenkeTilFinnKandidaterUtenStilling(kandidatlisteId)
-        }
+        to={lenkeTilFinnKandidater(stillingId, kandidatlisteId)}
         className="finn-kandidater FinnKandidater lenke"
     >
         <i className="FinnKandidater__icon" />
