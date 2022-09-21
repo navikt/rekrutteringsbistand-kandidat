@@ -1,4 +1,5 @@
 import { KandidatQueryParam } from '../kandidatside/Kandidatside';
+import { erIkkeProd } from '../utils/featureToggleUtils';
 
 const nesteSeparator = (lenke: string) => (lenke.includes('?') ? '&' : '?');
 
@@ -56,11 +57,24 @@ export const lenkeTilNyttKandidatsøk = (searchParams?: string) => {
     return url;
 };
 
+export const lenkeTilFinnKandidater = (stillingId: string | null, kandidatlisteId: string) => {
+    if (erIkkeProd) {
+        return lenkeTilFinnKandidaterINyttKandidatsøk(kandidatlisteId);
+    } else {
+        return stillingId
+            ? lenkeTilFinnKandidaterMedStilling(stillingId)
+            : lenkeTilFinnKandidaterUtenStilling(kandidatlisteId);
+    }
+};
+
 export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string, params?: string) =>
     `/kandidater/stilling/${stillingsId}${params ? '?' + params : ''}`;
 
 export const lenkeTilFinnKandidaterUtenStilling = (stillingsId: string, params?: string) =>
     `/kandidater/kandidatliste/${stillingsId}${params ? '?' + params : ''}`;
+
+export const lenkeTilFinnKandidaterINyttKandidatsøk = (kandidatlisteId: string) =>
+    `/kandidatsok?kandidatliste=${kandidatlisteId}`;
 
 export enum Kandidatfane {
     Cv,
