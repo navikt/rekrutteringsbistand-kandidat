@@ -134,8 +134,8 @@ const Matchforklaring = () => {
                             <ul>
                                 <li>Beskrivelse: {erfaring.beskrivelse}</li>
                                 <li>Rolle: {erfaring.rolle}</li>
-                                <li>Fra: {tilDato(erfaring.fra_tidspunkt)}</li>
-                                <li>Til: {tilDato(erfaring.til_tidspunkt)}</li>
+                                <li>Fra: {tilDato(erfaring.fraTidspunkt)}</li>
+                                <li>Til: {tilDato(erfaring.tilTidspunkt)}</li>
                             </ul>
                         </li>
                     ))}
@@ -162,8 +162,7 @@ const Matchforklaring = () => {
                                     <li>Tittel: {sertifikat.tittel}</li>
                                     <li>Sertifikatnavn: {sertifikat.sertifikatnavn}</li>
                                     <li>
-                                        sertifikatnavn_fritekst:{' '}
-                                        {sertifikat.sertifikatnavn_fritekst}
+                                        sertifikatnavn_fritekst: {sertifikat.sertifikatnavnFritekst}
                                     </li>
                                     <li>Utsteder: {sertifikat.utsteder}</li>
                                     <li>Fullført: {sertifikat.gjennomfoert}</li>
@@ -184,7 +183,7 @@ const Matchforklaring = () => {
                             <li key={godkjenning.tittel}>
                                 <ul>
                                     <li>Tittel: {godkjenning.tittel} </li>
-                                    <li>konsept_id: {godkjenning.konsept_id} </li>
+                                    <li>konseptId: {godkjenning.konseptId} </li>
                                     <li>Utsteder: {godkjenning.utsteder} </li>
                                     <li>Fullført: {godkjenning.gjennomfoert} </li>
                                     <li>Utløper: {tilDato(godkjenning.utloeper)} </li>
@@ -241,7 +240,7 @@ const Matchforklaring = () => {
                                 <ul>
                                     <li>Kursholder: {kurs.utsteder}</li>
                                     <li>
-                                        Kurslengde {kurs.varighet_enhet}: {kurs.varighet}
+                                        Kurslengde {kurs.varighetEnhet}: {kurs.varighet}
                                     </li>
                                     <li>Fullført: {tilDato(kurs.tidspunkt)}</li>
                                 </ul>
@@ -264,13 +263,13 @@ const Matchforklaring = () => {
                         Kvalifiseringsgruppe: {kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}
                     </li>
                     <li>Rettighetsgruppe: {kandidat.oppfolgingsinformasjon.rettighetsgruppe}</li>
-                    <li>Hovedmaal: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>
+                    <li>Hovedmål: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>
                     <li>
                         SikkerhetstiltakType: {kandidat.oppfolgingsinformasjon.sikkerhetstiltakType}
                     </li>
                     <li>Diskresjonskode: {kandidat.oppfolgingsinformasjon.diskresjonskode}</li>
                     <li>
-                        Har oppfolgingssak:{' '}
+                        Har oppfølgingssak:{' '}
                         {booleanTilTekst(kandidat.oppfolgingsinformasjon.harOppfolgingssak)}
                     </li>
                     <li>

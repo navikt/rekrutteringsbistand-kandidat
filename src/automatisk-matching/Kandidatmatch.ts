@@ -6,7 +6,7 @@ type Kandidatmatch = {
     fornavn: string;
     etternavn: string;
     epost: string;
-    telefon: number;
+    telefon: string;
     gateadresse: string;
     postnummer: string;
     poststed: string;
@@ -26,7 +26,7 @@ type Kandidatmatch = {
     sertifikat: SertifikatPrototype[];
     spraakferdigheter: SpråkferdighetPrototype[];
 
-    aktoerId: string;
+    aktoerId: number;
     oppstartKode: string;
     disponererBil: boolean;
     annenErfaring: AnnenErfaringPrototype[];
@@ -77,11 +77,11 @@ export type ErfaringPrototype = {
 type SertifikatPrototype = {
     tittel: string;
     sertifikatnavn: string;
-    sertifikatnavn_fritekst: string;
-    konsept_id: string;
     utsteder: string;
-    gjennomfoert: Date;
+    gjennomfoert: number[];
     utloeper: number;
+    konseptId: string;
+    sertifikatnavnFritekst: string;
 };
 
 type FørerkortPrototype = {
@@ -110,8 +110,8 @@ type Oppfolgingsinformasjon = {
     harOppfolgingssak: boolean;
     sperretAnsatt: boolean;
     erDoed: boolean;
-    doedFraDato: Date;
-    sistEndretDato: Date;
+    doedFraDato: string;
+    sistEndretDato: string;
 };
 
 export type KursPrototype = {
@@ -119,7 +119,7 @@ export type KursPrototype = {
     utsteder: string;
     tidspunkt: number; // ms epoch?
     varighet: number;
-    varighet_enhet: TidsenhetPrototype;
+    varighetEnhet: TidsenhetPrototype;
 };
 
 export enum TidsenhetPrototype {
@@ -162,24 +162,24 @@ type FagdokumentasjonPrototype = {
 
 type GodkjenningerPrototype = {
     tittel: string;
-    konsept_id: string;
     utsteder: string;
-    gjennomfoert: Date;
+    gjennomfoert: number[];
     utloeper: number;
+    konseptId: string;
 };
 
 type AnnenErfaringPrototype = {
     beskrivelse: string;
     rolle: string;
-    fra_tidspunkt: number;
-    til_tidspunkt: number;
+    fraTidspunkt: number;
+    tilTidspunkt: number;
 };
 
 type OppfolgingsperiodePrototype = {
     uuid: string;
     aktorId: string;
-    startDato: Date;
-    sluttDato: Date;
+    startDato: string;
+    sluttDato: string;
 };
 
 type OrdScore = [OrdFraStilling, MatchetOrdFraKandidat[]];
