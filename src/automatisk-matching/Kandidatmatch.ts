@@ -145,14 +145,13 @@ enum FerdighetsnivåPrototype {
 }
 
 type GeografiJobbprofil = {
-    //score: number;
+    score: number;
     steder: StedPrototype[];
 };
 
 type StedPrototype = {
     sted: string;
     kode: string;
-    score: number;
 };
 
 type FagdokumentasjonPrototype = {
