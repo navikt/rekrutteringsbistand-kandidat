@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from '../useKandidatmatch';
-import { booleanTilTekst, tilDato, tilProsent, tilProsentpoeng } from '../formatering';
+import { booleanTilTekst, tilDato, tilProsent } from '../formatering';
 import Personalia from './Personalia';
 import { Back } from '@navikt/ds-icons';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -45,8 +45,7 @@ const Matchforklaring = () => {
                 {kandidat.stillinger_jobbprofil.erfaringer
                     .sort(
                         (stillingØnske1, stillingØnske2) =>
-                            tilProsentpoeng(stillingØnske2.score) -
-                            tilProsentpoeng(stillingØnske1.score)
+                            stillingØnske2.score - stillingØnske1.score
                     )
                     .map((stillingØnske, index) => (
                         <Matrise
@@ -100,10 +99,7 @@ const Matchforklaring = () => {
             </Seksjon>
             <Seksjon tittel="Utdanninger" match={kandidat.utdannelse.score}>
                 {kandidat.utdannelse.erfaringer
-                    .sort(
-                        (utdannelse1, utdannelse2) =>
-                            tilProsentpoeng(utdannelse2.score) - tilProsentpoeng(utdannelse1.score)
-                    )
+                    .sort((utdannelse1, utdannelse2) => utdannelse2.score - utdannelse1.score)
                     .map((utdannelse, index) => (
                         <Matrise
                             tittel={utdannelse.tekst}
@@ -133,8 +129,7 @@ const Matchforklaring = () => {
                 {kandidat.arbeidserfaring.erfaringer
                     .sort(
                         (arbeidserfaring1, arbeidserfaring2) =>
-                            tilProsentpoeng(arbeidserfaring2.score) -
-                            tilProsentpoeng(arbeidserfaring1.score)
+                            arbeidserfaring2.score - arbeidserfaring1.score
                     )
                     .map((arbeidserfaring, index) => (
                         <Matrise

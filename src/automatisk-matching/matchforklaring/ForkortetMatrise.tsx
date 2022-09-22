@@ -22,9 +22,9 @@ const ForkortetMatrise = ({
                 <tbody>
                     {erfaring.ordScore
                         .sort(([, matchedeOrdFraKandidat1], [, matchedeOrdFraKandidat2]) => {
-                            const score1 = matchedeOrdFraKandidat1[0].score;
-                            const score2 = matchedeOrdFraKandidat2[0].score;
-                            return tilProsentpoeng(score2) - tilProsentpoeng(score1);
+                            const score1 = Math.max(...matchedeOrdFraKandidat1.map((o) => o.score));
+                            const score2 = Math.max(...matchedeOrdFraKandidat2.map((o) => o.score));
+                            return score2 - score1;
                         })
                         .map((ordscore, k) => {
                             const [ordFraStilling, matchedeOrdFraKandidat] = ordscore;
