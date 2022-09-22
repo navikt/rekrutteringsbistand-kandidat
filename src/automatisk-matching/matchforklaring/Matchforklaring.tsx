@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from '../useKandidatmatch';
-import { booleanTilTekst, tilDato, tilProsent } from '../formatering';
+import { booleanTilTekst, tilDato, tilProsent, tilProsentpoeng } from '../formatering';
 import Personalia from './Personalia';
 import { Back } from '@navikt/ds-icons';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -42,13 +42,19 @@ const Matchforklaring = () => {
                 <p>{kandidat.sammendrag.tekst}</p>
             </Seksjon>
             <Seksjon tittel="Jobbønsker" match={kandidat.stillinger_jobbprofil.score}>
-                {kandidat.stillinger_jobbprofil.erfaringer.map((stillingØnske, index) => (
-                    <Matrise
-                        tittel={stillingØnske.tekst}
-                        match={stillingØnske.score}
-                        erfaring={stillingØnske}
-                    />
-                ))}
+                {kandidat.stillinger_jobbprofil.erfaringer
+                    .sort(
+                        (stillingØnske1, stillingØnske2) =>
+                            tilProsentpoeng(stillingØnske2.score) -
+                            tilProsentpoeng(stillingØnske1.score)
+                    )
+                    .map((stillingØnske, index) => (
+                        <Matrise
+                            tittel={stillingØnske.tekst}
+                            match={stillingØnske.score}
+                            erfaring={stillingØnske}
+                        />
+                    ))}
                 <div className="blokk-l" />
                 <h3>Arbeidsforhold</h3>
                 <h4>Hvor kan du jobbe?</h4>
@@ -93,13 +99,18 @@ const Matchforklaring = () => {
                 </ul>
             </Seksjon>
             <Seksjon tittel="Utdanninger" match={kandidat.utdannelse.score}>
-                {kandidat.utdannelse.erfaringer.map((utdannelse, index) => (
-                    <Matrise
-                        tittel={utdannelse.tekst}
-                        match={utdannelse.score}
-                        erfaring={utdannelse}
-                    />
-                ))}
+                {kandidat.utdannelse.erfaringer
+                    .sort(
+                        (utdannelse1, utdannelse2) =>
+                            tilProsentpoeng(utdannelse2.score) - tilProsentpoeng(utdannelse1.score)
+                    )
+                    .map((utdannelse, index) => (
+                        <Matrise
+                            tittel={utdannelse.tekst}
+                            match={utdannelse.score}
+                            erfaring={utdannelse}
+                        />
+                    ))}
             </Seksjon>
             <Seksjon tittel="Fagbrev">
                 {kandidat.fagdokumentasjon.length > 0 ? (
@@ -119,13 +130,19 @@ const Matchforklaring = () => {
                 )}
             </Seksjon>
             <Seksjon tittel="Arbeidserfaringer" match={kandidat.arbeidserfaring.score}>
-                {kandidat.arbeidserfaring.erfaringer.map((arbeidserfaring, index) => (
-                    <Matrise
-                        tittel={arbeidserfaring.tekst}
-                        match={arbeidserfaring.score}
-                        erfaring={arbeidserfaring}
-                    />
-                ))}
+                {kandidat.arbeidserfaring.erfaringer
+                    .sort(
+                        (arbeidserfaring1, arbeidserfaring2) =>
+                            tilProsentpoeng(arbeidserfaring2.score) -
+                            tilProsentpoeng(arbeidserfaring1.score)
+                    )
+                    .map((arbeidserfaring, index) => (
+                        <Matrise
+                            tittel={arbeidserfaring.tekst}
+                            match={arbeidserfaring.score}
+                            erfaring={arbeidserfaring}
+                        />
+                    ))}
             </Seksjon>
             <Seksjon tittel="Andre erfaringer">
                 <ul>
