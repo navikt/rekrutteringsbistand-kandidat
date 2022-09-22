@@ -23,21 +23,6 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
             });
         };
 
-        const hent = async (stillingsId: string) => {
-            setStilling(lasterInn());
-
-            try {
-                const stilling = await hentStilling(stillingsId);
-                setStilling(suksess(stilling));
-            } catch (e) {
-                setStilling(feil(e));
-            }
-        };
-
-        if (stillingsId && stilling.kind === Nettstatus.IkkeLastet) hent(stillingsId);
-    }, [stillingsId, stilling.kind, dispatch]);
-
-    useEffect(() => {
         const setKandidater = (kandidater: Nettressurs<Kandidatmatch[]>) => {
             dispatch<MatchAction>({
                 type: 'SET_KANDIDATMATCH',
@@ -45,7 +30,22 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
             });
         };
 
-        const hent = async (stilling: Stilling) => {
+        const hentStillingTilMatching = async (
+            stillingsId: string
+        ): Promise<Stilling | undefined> => {
+            setStilling(lasterInn());
+
+            try {
+                const stilling = await hentStilling(stillingsId);
+                setStilling(suksess(stilling));
+
+                return stilling;
+            } catch (e) {
+                setStilling(feil(e));
+            }
+        };
+
+        const hentKandidaterTilMatching = async (stilling: Stilling) => {
             setKandidater(lasterInn());
 
             try {
@@ -57,9 +57,22 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
             }
         };
 
-        if (stilling.kind === Nettstatus.Suksess && kandidater.kind === Nettstatus.IkkeLastet)
-            hent(stilling.data);
-    }, [stilling, kandidater.kind, dispatch]);
+        const brukAutomatiskMatching = async (stillingsId: string) => {
+            const stilling = await hentStillingTilMatching(stillingsId);
+
+            if (stilling) {
+                hentKandidaterTilMatching(stilling);
+            }
+        };
+
+        const stillingErIkkeLastet = stilling.kind === Nettstatus.IkkeLastet;
+        const enAnnenStillingErLastet =
+            stilling.kind === Nettstatus.Suksess && stilling.data.stilling.uuid !== stillingsId;
+
+        if (stillingsId && (stillingErIkkeLastet || enAnnenStillingErLastet)) {
+            brukAutomatiskMatching(stillingsId);
+        }
+    }, [stillingsId, stilling, dispatch]);
 
     return {
         stilling,

@@ -49,11 +49,13 @@ const Utviklingsapp: FunctionComponent = () => {
                         </Link>
                     </div>
                     <div className="utviklingsapp__lenke">
-                        <Link to="/prototype/ecaac27c-de33-4fb2-a0ed-c22436bfe611">Prototype</Link>
+                        <Link to="/prototype/stilling/1ea746af-66be-4cf8-a051-9e815f77b1d1">
+                            Kandidatmatch
+                        </Link>
                     </div>
                     <div className="utviklingsapp__lenke">
-                        <Link to="/prototype/stilling/ecaac27c-de33-4fb2-a0ed-c22436bfe611">
-                            Prototype stilling
+                        <Link to="/prototype/stilling/2ea746af-66be-4cf8-a051-9e815f77b1d1">
+                            Kandidatmatch (2)
                         </Link>
                     </div>
                     <div className="utviklingsapp__lenke">
