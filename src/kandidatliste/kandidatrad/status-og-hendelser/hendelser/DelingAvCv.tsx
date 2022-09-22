@@ -97,6 +97,8 @@ const DelingAvCv: FunctionComponent<Props> = ({
         utfallsendringer
     );
 
+    const gjeldendeUtfallErFåttJobben = utfall === Kandidatutfall.FåttJobben;
+
     const utfallsbeskrivelse = sisteUtfallPresentert
         ? `${formaterDatoNaturlig(sisteUtfallPresentert.tidspunkt)} av ${
               sisteUtfallPresentert.registrertAvIdent
@@ -132,7 +134,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={utfallsbeskrivelse}
                 >
-                    {kanEndre && !cvErSlettet && (
+                    {kanEndre && !cvErSlettet && !gjeldendeUtfallErFåttJobben && (
                         <Flatknapp
                             onClick={onFjernRegistrering}
                             className="endre-status-og-hendelser__registrer-hendelse"
@@ -153,7 +155,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={utfallsbeskrivelse}
                 >
-                    {kanEndre && (
+                    {kanEndre && !gjeldendeUtfallErFåttJobben && (
                         <Flatknapp
                             onClick={onSlettSendtCv}
                             className="endre-status-og-hendelser__registrer-hendelse"
