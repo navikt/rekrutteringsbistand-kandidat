@@ -40,6 +40,7 @@ const Matchforklaring = () => {
             <Personalia kandidat={kandidat} />
             <Seksjon åpen tittel="Sammendrag" match={kandidat.sammendrag.score}>
                 <p>{kandidat.sammendrag.tekst}</p>
+                <Matrise tittel="Detaljer" erfaring={kandidat.sammendrag} />
             </Seksjon>
             <Seksjon tittel="Jobbønsker" match={kandidat.stillinger_jobbprofil.score}>
                 {kandidat.stillinger_jobbprofil.erfaringer
