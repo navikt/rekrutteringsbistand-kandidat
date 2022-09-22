@@ -1,0 +1,146 @@
+{
+    "_source": {
+        "stillingsinfo": {
+            "stillingsid": "2ea746af-66be-4cf8-a051-9e815f77b1d1",
+            "stillingsinfoid": "8e74803e-6973-4115-befe-6ee1e0f28533",
+            "notat": "Testnotat for tøysekopper.",
+            "eierNavident": null,
+            "eierNavn": null,
+            "stillingskategori": "STILLING"
+        },
+        "stilling": {
+            "id": 298124,
+            "uuid": "2ea746af-66be-4cf8-a051-9e815f77b1d1",
+            "created": "2020-09-29T14:38:27.225324",
+            "createdBy": "pam-rekrutteringsbistand",
+            "updated": "2020-09-30T12:15:42.784718",
+            "updatedBy": "pam-rekrutteringsbistand",
+            "mediaList": [],
+            "contactList": [
+                {
+                    "name": null,
+                    "email": "test@nav.no",
+                    "phone": null,
+                    "role": null,
+                    "title": null
+                }
+            ],
+            "title": "Sjokoladeselger til sjokkpris",
+            "status": "ACTIVE",
+            "privacy": "INTERNAL_NOT_SHOWN",
+            "source": "DIR",
+            "medium": "DIR",
+            "reference": "2ea746af-66be-4cf8-a051-9e815f77b1d1",
+            "published": "2020-09-30T01:00:00",
+            "expires": "2020-11-20T02:00:00",
+            "employer": {
+                "id": 203480,
+                "uuid": "c7ebcc88-02a1-4eec-80e1-f7a866744f0e",
+                "created": "2019-11-18T11:42:21.042131",
+                "createdBy": "pam-ad",
+                "updated": "2020-09-29T14:43:49.735974",
+                "updatedBy": "pam-ad",
+                "mediaList": [],
+                "contactList": [],
+                "location": {
+                    "address": "Lilleakerveien 37D",
+                    "postalCode": "0284",
+                    "county": "OSLO",
+                    "municipal": "OSLO",
+                    "municipalCode": "0301",
+                    "city": "OSLO",
+                    "country": "NORGE",
+                    "latitude": "59.92172360812686",
+                    "longitude": "10.637563808231683"
+                },
+                "locationList": [
+                    {
+                        "address": "Lilleakerveien 37D",
+                        "postalCode": "0284",
+                        "county": "OSLO",
+                        "municipal": "OSLO",
+                        "municipalCode": "0301",
+                        "city": "OSLO",
+                        "country": "NORGE",
+                        "latitude": "59.92172360812686",
+                        "longitude": "10.637563808231683"
+                    }
+                ],
+                "properties": {
+                    "nace2": "[{\"code\":\"90.012\",\"name\":\"Utøvende kunstnere og underholdningsvirksomhet innen scenekunst\"}]"
+                },
+                "name": "TULLEKONTORET AS",
+                "orgnr": "976434099",
+                "status": "ACTIVE",
+                "parentOrgnr": "912819973",
+                "publicName": "TULLEKONTORET AS",
+                "deactivated": null,
+                "orgform": "BEDR",
+                "employees": 1
+            },
+            "administration": {
+                "id": 268789,
+                "status": "DONE",
+                "comments": null,
+                "reportee": "F_Z992776 E_Z992776",
+                "remarks": [],
+                "navIdent": "A123456"
+            },
+            "location": {
+                "address": null,
+                "postalCode": null,
+                "county": null,
+                "municipal": null,
+                "municipalCode": null,
+                "city": null,
+                "country": "SVERIGE",
+                "latitude": null,
+                "longitude": null
+            },
+            "locationList": [
+                {
+                    "address": null,
+                    "postalCode": null,
+                    "county": null,
+                    "municipal": null,
+                    "municipalCode": null,
+                    "city": null,
+                    "country": "SVERIGE",
+                    "latitude": null,
+                    "longitude": null
+                }
+            ],
+            "categoryList": [
+                {
+                    "id": 7,
+                    "code": "0000.03",
+                    "categoryType": "STYRK08NAV",
+                    "name": "Uidentifiserbart yrke",
+                    "description": null,
+                    "parentId": 4
+                }
+            ],
+            "properties": {
+                "extent": "Heltid",
+                "workhours": "[\"Dagtid\"]",
+                "employerhomepage": "https://www.tullekontoret.no",
+                "applicationdue": "Snarest",
+                "workday": "[\"Ukedager\"]",
+                "jobtitle": "Uidentifiserbart yrke",
+                "positioncount": "4",
+                "engagementtype": "Fast",
+                "employerdescription": "<p>Tullekontoret – stolt leverandør av tull og tøys siden 1953. Våre dyktige tøysekopper sørger for at du får den opplevelsen du fortjener.</p>",
+                "adtext": "<p>Vi trenger flere tøysekopper!</p><h2>Lorem ipsum dolor sit amet</h2><p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>Etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Mauris vitae ultricies leo integer. Feugiat nisl <b>pretium fusce</b> id velit ut tortor pretium.<p>",
+                "applicationemail": "test@nav.no",
+                "classification_input_source": "categoryName",
+                "sector": "Offentlig",
+                "tags": "[\"TILTAK_ELLER_VIRKEMIDDEL__LÆRLINGPLASS\"]"
+            },
+            "publishedByAdmin": "2020-09-29T14:43:49.760339",
+            "businessName": "Tullekontoret",
+            "firstPublished": true,
+            "deactivatedByExpiry": false,
+            "activationOnPublishingDate": false
+        }
+    }
+}

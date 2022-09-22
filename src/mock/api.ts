@@ -10,6 +10,7 @@ import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 import enhetsregister from './json/enhetsregister.json';
 import cver from './data/cv.mock';
 import stilling from './data/stilling.mock.json';
+import annenStilling from './data/annen-stilling.mock.json';
 import kandidatmatch from './data/kandidatmatch.mock.json';
 
 import {
@@ -136,6 +137,11 @@ const getKandidatlister = (url: string) => {
 const getKandidatliste = (url: string) => {
     const kandidatlisteId = url.split('/').pop();
     return kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+};
+
+const getStilling = (url: string) => {
+    const stillingsId = url.split('/').pop();
+    return stillingsId === stilling._source.stilling.uuid ? stilling : annenStilling;
 };
 
 const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) => {
@@ -422,7 +428,7 @@ fetchMock
     .put(url.putSlettCvFraArbeidsgiversKandidatliste, log(putSlettCvFraArbeidsgiversKandidatliste))
 
     // Stillingssøk
-    .get(url.stilling, log(stilling))
+    .get(url.stilling, log(getStilling))
 
     // Kandidatmatch
     .post(url.kandidatmatch, log(kandidatmatch))
