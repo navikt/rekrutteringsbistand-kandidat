@@ -155,7 +155,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={utfallsbeskrivelse}
                 >
-                    {kanEndre && utfall && !gjeldendeUtfallErFåttJobben && (
+                    {kanEndre && !gjeldendeUtfallErFåttJobben && (
                         <Flatknapp
                             onClick={onSlettSendtCv}
                             className="endre-status-og-hendelser__registrer-hendelse"
