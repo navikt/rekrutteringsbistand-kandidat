@@ -55,24 +55,12 @@ const bleSendtTilArbeidsgiversKandidatlisteFørAvregistreringAvFåttJobben = (
 ): Boolean => {
     if (utfallsendringer.length < 3) return false;
 
-    const rekkefølgeAvutfallsendringerHvisFjernetRegistreringAvFåttJobbenEtterPresentering = [
-        Kandidatutfall.Presentert,
-        Kandidatutfall.FåttJobben,
-        Kandidatutfall.Presentert,
-    ];
-    const sisteTreUtfallsendringer = utfallsendringer.slice(0, 3);
-    const reellRekkefølge = sisteTreUtfallsendringer.map((utfallsendring) => utfallsendring.utfall);
+    const [sisteUtfall, nestSisteutfall, tredjeSisteUtfall] = utfallsendringer;
 
-    const harFjernetRegistreringAvFåttJobben = reellRekkefølge.every((element, index) => {
-        return (
-            element.toString() ===
-            rekkefølgeAvutfallsendringerHvisFjernetRegistreringAvFåttJobbenEtterPresentering[
-                index
-            ].toString()
-        );
-    });
-
-    console.log('Utfallsendringer er like: ' + harFjernetRegistreringAvFåttJobben);
+    const harFjernetRegistreringAvFåttJobben =
+        sisteUtfall.utfall === Kandidatutfall.Presentert &&
+        nestSisteutfall.utfall === Kandidatutfall.FåttJobben &&
+        tredjeSisteUtfall.utfall === Kandidatutfall.Presentert;
 
     if (harFjernetRegistreringAvFåttJobben) {
         const presentertUtfallFørAvregistreringAvFåttJobben = utfallsendringer[2];
