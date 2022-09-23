@@ -62,12 +62,9 @@ const bleSendtTilArbeidsgiversKandidatlisteFørAvregistreringAvFåttJobben = (
         nestSisteutfall.utfall === Kandidatutfall.FåttJobben &&
         tredjeSisteUtfall.utfall === Kandidatutfall.Presentert;
 
-    if (harFjernetRegistreringAvFåttJobben) {
-        const presentertUtfallFørAvregistreringAvFåttJobben = utfallsendringer[2];
-        return presentertUtfallFørAvregistreringAvFåttJobben.sendtTilArbeidsgiversKandidatliste;
-    } else {
-        return false;
-    }
+    return (
+        harFjernetRegistreringAvFåttJobben && tredjeSisteUtfall.sendtTilArbeidsgiversKandidatliste
+    );
 };
 
 const DelingAvCv: FunctionComponent<Props> = ({
