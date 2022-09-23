@@ -22,11 +22,11 @@ export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvC
             svarfrist: moment().add(5, 'day').startOf('day').subtract(2, 'hours').toISOString(),
             tilstand: TilstandPåForespørsel.HarSvart,
             svar: {
-                harSvartJa: false,
-                svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
+                harSvartJa: true,
+                svarTidspunkt: moment().subtract(1, 'day').startOf('day').toISOString(),
                 svartAv: {
-                    ident: kandidatlister[0].kandidater[2].aktørid!,
-                    identType: IdentType.AktørId,
+                    ident: meg.ident,
+                    identType: IdentType.NavIdent,
                 },
             },
         },

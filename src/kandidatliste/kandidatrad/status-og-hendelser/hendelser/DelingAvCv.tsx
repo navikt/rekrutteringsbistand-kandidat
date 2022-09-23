@@ -39,12 +39,32 @@ const hentInitiellVisning = (
     } else {
         const sisteUtfallsendring = hentSisteKandidatutfall(utfall, utfallsendringer);
 
-        if (sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste) {
+        if (
+            sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste ||
+            bleSendtTilArbeidsgiversKandidatlisteFørAvregistreringAvFåttJobben(utfallsendringer)
+        ) {
             return Visning.SlettSendtCv;
         } else {
             return Visning.CvErDelt;
         }
     }
+};
+
+const bleSendtTilArbeidsgiversKandidatlisteFørAvregistreringAvFåttJobben = (
+    utfallsendringer: Utfallsendring[]
+): Boolean => {
+    if (utfallsendringer.length < 3) return false;
+
+    const [sisteUtfall, nestSisteutfall, tredjeSisteUtfall] = utfallsendringer;
+
+    const harFjernetRegistreringAvFåttJobben =
+        sisteUtfall.utfall === Kandidatutfall.Presentert &&
+        nestSisteutfall.utfall === Kandidatutfall.FåttJobben &&
+        tredjeSisteUtfall.utfall === Kandidatutfall.Presentert;
+
+    return (
+        harFjernetRegistreringAvFåttJobben && tredjeSisteUtfall.sendtTilArbeidsgiversKandidatliste
+    );
 };
 
 const DelingAvCv: FunctionComponent<Props> = ({

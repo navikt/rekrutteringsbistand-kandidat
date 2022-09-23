@@ -194,8 +194,20 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
             utfallsendringer: [
                 {
                     registrertAvIdent: meg.ident,
-                    sendtTilArbeidsgiversKandidatliste: true,
+                    sendtTilArbeidsgiversKandidatliste: false,
                     tidspunkt: new Date().toISOString(),
+                    utfall: Kandidatutfall.Presentert,
+                },
+                {
+                    registrertAvIdent: meg.ident,
+                    sendtTilArbeidsgiversKandidatliste: false,
+                    tidspunkt: moment().subtract(1, 'day').toISOString(),
+                    utfall: Kandidatutfall.FåttJobben,
+                },
+                {
+                    registrertAvIdent: meg.ident,
+                    sendtTilArbeidsgiversKandidatliste: true,
+                    tidspunkt: moment().subtract(2, 'day').toISOString(),
                     utfall: Kandidatutfall.Presentert,
                 },
             ],
