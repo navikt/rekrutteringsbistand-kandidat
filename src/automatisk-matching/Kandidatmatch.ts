@@ -37,7 +37,7 @@ type Kandidatmatch = {
     // Jobbprofil
     stillinger_jobbprofil: Erfaringer;
     kompetanser_jobbprofil: Erfaringer;
-    geografi_jobbprofil: GeografiJobbprofil;
+    geografi_jobbprofil: StedPrototype[];
     ansettelsesformer_jobbprofil: string[];
     arbeidstider_jobbprofil: string[];
     arbeidsdager_jobbprofil: string[];
@@ -143,11 +143,6 @@ enum FerdighetsnivåPrototype {
     VELDIG_GODT,
     FOERSTESPRAAK,
 }
-
-type GeografiJobbprofil = {
-    score: number;
-    steder: StedPrototype[];
-};
 
 type StedPrototype = {
     sted: string;

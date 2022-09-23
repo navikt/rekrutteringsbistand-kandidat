@@ -7740,23 +7740,20 @@
         "omfang_jobbprofil": ["HELTID"],
         "utdannelse_joined_vec": ["NO38.3818", "NO38.3808", "NO03.0301"],
         "sammendrag_vec": [],
-        "geografi_jobbprofil": {
-            "steder": [
-                {
-                    "sted": "Oslo",
-                    "kode": "NO03"
-                },
-                {
-                    "sted": "Tinn",
-                    "kode": "NO38.3818"
-                },
-                {
-                    "sted": "Notodden",
-                    "kode": "NO38.3808"
-                }
-            ],
-            "score": 1
-        },
+        "geografi_jobbprofil": [
+            {
+                "sted": "Oslo",
+                "kode": "NO03"
+            },
+            {
+                "sted": "Tinn",
+                "kode": "NO38.3818"
+            },
+            {
+                "sted": "Notodden",
+                "kode": "NO38.3808"
+            }
+        ],
         "stillinger_jobbprofil": {
             "erfaringer": [
                 {
@@ -13833,23 +13830,20 @@
             "NO38.3818"
         ],
         "sammendrag_vec": [],
-        "geografi_jobbprofil": {
-            "steder": [
-                {
-                    "sted": "Lindesnes",
-                    "kode": "NO42.4205"
-                },
-                {
-                    "sted": "Vestfold og Telemark",
-                    "kode": "NO38"
-                },
-                {
-                    "sted": "Bodø",
-                    "kode": "NO18.1804"
-                }
-            ],
-            "score": 1
-        },
+        "geografi_jobbprofil": [
+            {
+                "sted": "Lindesnes",
+                "kode": "NO42.4205"
+            },
+            {
+                "sted": "Vestfold og Telemark",
+                "kode": "NO38"
+            },
+            {
+                "sted": "Bodø",
+                "kode": "NO18.1804"
+            }
+        ],
         "stillinger_jobbprofil": {
             "erfaringer": [
                 {
@@ -16307,31 +16301,28 @@
             "NO11.1101"
         ],
         "sammendrag_vec": [],
-        "geografi_jobbprofil": {
-            "steder": [
-                {
-                    "sted": "Våler (viken)",
-                    "kode": "NO30.3018"
-                },
-                {
-                    "sted": "Norge",
-                    "kode": "NO"
-                },
-                {
-                    "sted": "Viken",
-                    "kode": "NO30"
-                },
-                {
-                    "sted": "Vestfold og telemark",
-                    "kode": "NO38"
-                },
-                {
-                    "sted": "Rogaland",
-                    "kode": "NO11"
-                }
-            ],
-            "score": 1
-        },
+        "geografi_jobbprofil": [
+            {
+                "sted": "Våler (viken)",
+                "kode": "NO30.3018"
+            },
+            {
+                "sted": "Norge",
+                "kode": "NO"
+            },
+            {
+                "sted": "Viken",
+                "kode": "NO30"
+            },
+            {
+                "sted": "Vestfold og telemark",
+                "kode": "NO38"
+            },
+            {
+                "sted": "Rogaland",
+                "kode": "NO11"
+            }
+        ],
         "stillinger_jobbprofil": {
             "erfaringer": [],
             "score": null
