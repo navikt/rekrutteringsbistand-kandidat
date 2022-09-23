@@ -39,11 +39,46 @@ const hentInitiellVisning = (
     } else {
         const sisteUtfallsendring = hentSisteKandidatutfall(utfall, utfallsendringer);
 
-        if (sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste) {
+        if (
+            sisteUtfallsendring?.sendtTilArbeidsgiversKandidatliste ||
+            bleSendtTilArbeidsgiversKandidatlisteFørAvregistreringAvFåttJobben(utfallsendringer)
+        ) {
             return Visning.SlettSendtCv;
         } else {
             return Visning.CvErDelt;
         }
+    }
+};
+
+const bleSendtTilArbeidsgiversKandidatlisteFørAvregistreringAvFåttJobben = (
+    utfallsendringer: Utfallsendring[]
+): Boolean => {
+    if (utfallsendringer.length < 3) return false;
+
+    const rekkefølgeAvutfallsendringerHvisFjernetRegistreringAvFåttJobbenEtterPresentering = [
+        Kandidatutfall.Presentert,
+        Kandidatutfall.FåttJobben,
+        Kandidatutfall.Presentert,
+    ];
+    const sisteTreUtfallsendringer = utfallsendringer.slice(0, 3);
+    const reellRekkefølge = sisteTreUtfallsendringer.map((utfallsendring) => utfallsendring.utfall);
+
+    const harFjernetRegistreringAvFåttJobben = reellRekkefølge.every((element, index) => {
+        return (
+            element.toString() ===
+            rekkefølgeAvutfallsendringerHvisFjernetRegistreringAvFåttJobbenEtterPresentering[
+                index
+            ].toString()
+        );
+    });
+
+    console.log('Utfallsendringer er like: ' + harFjernetRegistreringAvFåttJobben);
+
+    if (harFjernetRegistreringAvFåttJobben) {
+        const presentertUtfallFørAvregistreringAvFåttJobben = utfallsendringer[2];
+        return presentertUtfallFørAvregistreringAvFåttJobben.sendtTilArbeidsgiversKandidatliste;
+    } else {
+        return false;
     }
 };
 
