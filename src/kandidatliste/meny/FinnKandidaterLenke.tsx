@@ -11,6 +11,9 @@ const FinnKandidaterLenke: FunctionComponent<Props> = ({ stillingId, kandidatlis
     <Link
         to={lenkeTilFinnKandidater(stillingId, kandidatlisteId)}
         className="finn-kandidater FinnKandidater lenke"
+        state={{
+            brukKriterierFraStillingen: true,
+        }}
     >
         <i className="FinnKandidater__icon" />
         <span>Finn kandidater</span>
