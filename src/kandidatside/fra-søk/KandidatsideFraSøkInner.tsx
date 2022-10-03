@@ -190,11 +190,13 @@ const byggLenkeTilbakeTilKandidatsøket = (
         case 'fraNyttKandidatsøk':
             return {
                 to: lenkeTilNyttKandidatsøk(kontekst.økt?.searchParams),
+                state: { scrollTilKandidat: true },
             };
 
         case 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk':
             return {
                 to: lenkeTilNyttKandidatsøk(kontekst.økt?.searchParams),
+                state: { scrollTilKandidat: true },
             };
     }
 };
