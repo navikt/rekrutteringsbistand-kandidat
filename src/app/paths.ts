@@ -97,6 +97,7 @@ export const lenkeTilKandidatside = (
               kandidatlisteId,
               stillingsId,
               fraKandidatliste,
+              fraKandidatmatch,
               fraNyttKandidatsøk
           );
 
