@@ -43,7 +43,8 @@ const InformasjonOmUsynligKandidat: FunctionComponent<Props> = ({
             <>
                 <Undertittel className="blokk-xxs">Fra folkeregisteret</Undertittel>
                 <Normaltekst>
-                    Du er ikke eier av stillingen og kan derfor ikke registrere formidling.
+                    Ikke aktuelt. Du er ikke eier av stillingen og kan derfor ikke registrere
+                    formidling.
                 </Normaltekst>
             </>
         );
