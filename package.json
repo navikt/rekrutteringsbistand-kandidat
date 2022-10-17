@@ -11,7 +11,6 @@
         "start:mock:export": "BROWSER=none REACT_APP_EXPORT=true REACT_APP_MOCK=true craco start",
         "start:express": "node ./server/server.js",
         "build": "REACT_APP_EXPORT=true REACT_APP_SENTRY_RELEASE=$(git rev-parse --short HEAD)  craco build",
-        "build:labs": "REACT_APP_MOCK=true craco build",
         "sentry-release": "(export SENTRY_RELEASE=$(git rev-parse --short HEAD); node scripts/sentry-release)",
         "test": "craco test",
         "docker-build": "npm run build && docker build . -t rekrutteringsbistand-kandidat",
@@ -19,9 +18,6 @@
         "docker-kill": "npm run docker-stop && npm run docker-rm",
         "docker-rm": "docker rm rekrutteringsbistand-kandidat",
         "docker-stop": "docker stop rekrutteringsbistand-kandidat",
-        "docker:labs:build": "docker build --tag rekbis-kandidat-lab . -f labs/Dockerfile",
-        "docker:labs:run": "docker run -p 8080:8080 rekbis-kandidat-lab",
-        "docker:labs": "npm run docker:build-labs && npm run docker:run-labs",
         "prepare": "husky install",
         "format": "prettier --write ."
     },
