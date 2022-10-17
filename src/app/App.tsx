@@ -8,7 +8,6 @@ import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
 import AppState from '../AppState';
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { getMiljø, Miljø } from '../utils/miljøUtils';
 import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
 import KandidatsøkIKontekstAvKandidatliste from '../kandidatsøk/KandidatsøkIKontekstAvKandidatliste';
 import KandidatsøkIKontekstAvStilling from '../kandidatsøk/KandidatsøkIKontekstAvStilling';
@@ -60,7 +59,6 @@ const App: FunctionComponent<Props> = (props) => {
             <Varsling />
             <Normaltekst tag="div" className="App">
                 <main className="App__main">
-                    {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Routes>
                         <Route
                             path="/prototype/stilling/:stillingsId"
