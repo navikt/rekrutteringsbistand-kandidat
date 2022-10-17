@@ -1,30 +1,29 @@
 import React, { FunctionComponent, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
-import { setNavKontorIAmplitude } from '../amplitude/amplitude';
-import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
-import AppState from '../AppState';
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
-import { Normaltekst } from 'nav-frontend-typografi';
-import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
-import KandidatsøkIKontekstAvKandidatliste from '../kandidatsøk/KandidatsøkIKontekstAvKandidatliste';
-import KandidatsøkIKontekstAvStilling from '../kandidatsøk/KandidatsøkIKontekstAvStilling';
+import { setNavKontorIAmplitude } from '../amplitude/amplitude';
+import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
+import AppState from '../AppState';
+import CvSide from '../kandidatside/cv/CvSide';
+import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
+import Historikkside from '../kandidatside/historikk/Historikkside';
 import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
-import CvSide from '../kandidatside/cv/CvSide';
-import Historikkside from '../kandidatside/historikk/Historikkside';
-import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
-import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Varsling from '../common/varsling/Varsling';
+import KandidatsøkIKontekstAvKandidatliste from '../kandidatsøk/KandidatsøkIKontekstAvKandidatliste';
+import KandidatsøkIKontekstAvStilling from '../kandidatsøk/KandidatsøkIKontekstAvStilling';
+import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
 import MatcherForStilling from '../automatisk-matching/AlleMatcher';
 import Matchforklaring from '../automatisk-matching/matchforklaring/Matchforklaring';
+import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
+import Varsling from '../common/varsling/Varsling';
 import './App.less';
-import { Route, Routes } from 'react-router-dom';
 
 type Props = {
     error: {
@@ -99,14 +98,6 @@ const App: FunctionComponent<Props> = (props) => {
         </>
     );
 };
-
-const AdvarselOmMocketApp = () => (
-    <AlertStripeAdvarsel>
-        <b>Dette er en testversjon av Rekrutteringsbistand. </b>
-        Den er ikke knyttet til noen database, så handlinger har ingen konsekvenser utenom enkle,
-        grafiske tilbakemeldinger.
-    </AlertStripeAdvarsel>
-);
 
 const mapStateToProps = (state: AppState) => ({
     error: state.søk.error,
