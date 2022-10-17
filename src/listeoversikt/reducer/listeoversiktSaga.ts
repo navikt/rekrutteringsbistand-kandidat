@@ -1,5 +1,5 @@
 import { Nettstatus } from '../../api/Nettressurs';
-import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
+import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
     deleteKandidatliste,

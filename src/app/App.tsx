@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { setNavKontorIAmplitude } from '../amplitude/amplitude';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
@@ -20,24 +19,20 @@ import MatcherForStilling from '../automatisk-matching/AlleMatcher';
 import Matchforklaring from '../automatisk-matching/matchforklaring/Matchforklaring';
 import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import Varsling from '../common/varsling/Varsling';
+import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
 import './App.less';
 
 type Props = {
     error: {
         status: number;
     };
-    fetchFeatureToggles: () => void;
     fjernError: () => void;
     navKontor: string | null;
     velgNavKontor: (navKontor: string | null) => void;
 };
 
 const App: FunctionComponent<Props> = (props) => {
-    const { error, fetchFeatureToggles, fjernError, navKontor, velgNavKontor } = props;
-
-    useEffect(() => {
-        fetchFeatureToggles();
-    }, [fetchFeatureToggles]);
+    const { error, fjernError, navKontor, velgNavKontor } = props;
 
     useEffect(() => {
         if (navKontor) {
@@ -91,7 +86,6 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction | NavKontorAction>) => ({
-    fetchFeatureToggles: () => dispatch({ type: KandidatsøkActionType.FetchFeatureTogglesBegin }),
     fjernError: () => dispatch({ type: KandidatsøkActionType.FjernError }),
     velgNavKontor: (valgtNavKontor: string) =>
         dispatch({ type: NavKontorActionTypes.VelgNavKontor, valgtNavKontor }),
