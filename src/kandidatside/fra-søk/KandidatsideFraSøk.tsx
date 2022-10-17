@@ -7,7 +7,7 @@ import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import { KandidatsøkAction, KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
+import { KandidatsøkAction } from '../../kandidatsøk/reducer/searchActions';
 import { CvAction, CvActionType } from '../cv/reducer/cvReducer';
 import { Søkekontekst } from '../søkekontekst';
 import KandidatsideFraSøkInner from './KandidatsideFraSøkInner';
@@ -26,28 +26,16 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
     };
 
     const onNavigeringTilKandidat = () => {
-        const markerKandidatISøket = () => {
-            dispatch({ type: KandidatsøkActionType.SettKandidatnummer, kandidatnr });
-        };
-
         const hentKandidatensCv = () => {
             dispatch({ type: CvActionType.FetchCv, arenaKandidatnr: kandidatnr });
         };
 
         scrollTilToppen();
-        markerKandidatISøket();
         hentKandidatensCv();
         sendEvent('cv', 'visning');
     };
 
     const onFørsteSidelast = () => {
-        const hentKandidatlisteMedStillingsId = (stillingsId: string) => {
-            dispatch({
-                type: KandidatlisteActionType.HentKandidatlisteMedStillingsId,
-                stillingsId,
-            });
-        };
-
         const hentKandidatlisteMedKandidatlisteId = (kandidatlisteId: string) => {
             dispatch({
                 type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
@@ -56,12 +44,7 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
         };
 
         if (kandidatliste.kind === Nettstatus.IkkeLastet) {
-            if (kontekst.kontekst === 'finnKandidaterTilKandidatlisteMedStilling') {
-                hentKandidatlisteMedStillingsId(kontekst.stillingsId);
-            } else if (
-                kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk' ||
-                kontekst.kontekst === 'finnKandidaterTilKandidatlisteUtenStilling'
-            ) {
+            if (kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk') {
                 hentKandidatlisteMedKandidatlisteId(kontekst.kandidatlisteId);
             }
         }

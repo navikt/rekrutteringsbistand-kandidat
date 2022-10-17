@@ -11,7 +11,6 @@ import {
     putJson,
     SearchApiError,
 } from './fetchUtils';
-import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Bransje';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
 import Cv, { Fødselsnummersøk } from '../kandidatside/cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
@@ -405,14 +404,6 @@ export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlis
 export const fetchFerdigutfylteStillinger = () => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
 };
-
-export const postFerdigutfylteStillingerKlikk = (
-    ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
-) =>
-    postJson(
-        `${KANDIDATSOK_API}/veileder/ferdigutfyltesok/klikk`,
-        JSON.stringify(ferdigutfylteStillingerKlikk)
-    );
 
 export const hentKandidatnr = (fnr: string): Promise<{ kandidatnr: string }> => {
     return postJson(`${KANDIDATSOK_API}/fnr-til-kandidatnr`, JSON.stringify({ fnr }));

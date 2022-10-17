@@ -16,9 +16,6 @@ import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
-import KandidatsøkIKontekstAvKandidatliste from '../kandidatsøk/KandidatsøkIKontekstAvKandidatliste';
-import KandidatsøkIKontekstAvStilling from '../kandidatsøk/KandidatsøkIKontekstAvStilling';
-import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
 import MatcherForStilling from '../automatisk-matching/AlleMatcher';
 import Matchforklaring from '../automatisk-matching/matchforklaring/Matchforklaring';
 import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
@@ -67,16 +64,6 @@ const App: FunctionComponent<Props> = (props) => {
                             path="/prototype/stilling/:stillingsId/forklaring/:kandidatNr"
                             element={<Matchforklaring />}
                         />
-
-                        <Route path="/kandidater" element={<KandidatsøkUtenKontekst />} />
-                        <Route
-                            path="/kandidater/kandidatliste/:kandidatlisteId"
-                            element={<KandidatsøkIKontekstAvKandidatliste />}
-                        />
-                        <Route
-                            path="/kandidater/stilling/:stillingsId"
-                            element={<KandidatsøkIKontekstAvStilling />}
-                        />
                         <Route path="/kandidater/lister" element={<Kandidatlisteoversikt />} />
                         <Route
                             path="/kandidater/lister/stilling/:id/detaljer"
@@ -106,7 +93,6 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction | NavKontorAction>) => ({
     fetchFeatureToggles: () => dispatch({ type: KandidatsøkActionType.FetchFeatureTogglesBegin }),
     fjernError: () => dispatch({ type: KandidatsøkActionType.FjernError }),
-    lukkAlleSokepanel: () => dispatch({ type: KandidatsøkActionType.LukkAlleSokepanel }),
     velgNavKontor: (valgtNavKontor: string) =>
         dispatch({ type: NavKontorActionTypes.VelgNavKontor, valgtNavKontor }),
 });

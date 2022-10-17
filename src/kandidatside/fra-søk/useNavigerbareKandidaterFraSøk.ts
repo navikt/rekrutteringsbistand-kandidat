@@ -1,17 +1,11 @@
-import { useSelector } from 'react-redux';
 import { Kandidatfane, lenkeTilKandidatside } from '../../app/paths';
 import {
     FinnKandidaterTilKandidatlisteFraNyttKandidatsøkKontekst,
-    FinnKandidaterTilKandidatlisteMedStilling,
-    FinnKandidaterTilKandidatlisteUtenStilling,
-    FraKandidatsøk,
     FraNyttkandidatsøk,
     Søkekontekst,
 } from '../søkekontekst';
-import AppState from '../../AppState';
 import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
 import useLastInnFlereKandidater from './useLastInnFlereKandidater';
-import { MarkerbartSøkeresultat } from '../../kandidatsøk/kandidater-og-modal/KandidaterOgModal';
 
 export type Kandidatnavigering = {
     neste?: string;
@@ -28,71 +22,11 @@ const useNavigerbareKandidaterFraSøk = (
 
     useLastInnFlereKandidater(kontekst, kandidatnr);
 
-    const { kandidater: kandidaterFraState, totaltAntallTreff } = useSelector(
-        (state: AppState) => state.søk.searchResultat.resultat
-    );
-
     if (kontekst.kontekst === 'fraAutomatiskMatching') {
         return null;
-    } else if (
-        kontekst.kontekst === 'fraKandidatsøk' ||
-        kontekst.kontekst === 'finnKandidaterTilKandidatlisteMedStilling' ||
-        kontekst.kontekst === 'finnKandidaterTilKandidatlisteUtenStilling'
-    ) {
-        return hentKandidatnavigeringForGammeltSøk(
-            kandidatnr,
-            totaltAntallTreff,
-            fane,
-            kontekst,
-            kandidaterFraState
-        );
     } else {
         return hentKandidatnavigeringForNyttSøk(kandidatnr, fane, kontekst);
     }
-};
-
-const hentKandidatnavigeringForGammeltSøk = (
-    kandidatnr: string,
-    totaltAntallTreff: number,
-    fane: Kandidatfane,
-    kontekst:
-        | FraKandidatsøk
-        | FinnKandidaterTilKandidatlisteMedStilling
-        | FinnKandidaterTilKandidatlisteUtenStilling,
-    kandidater: MarkerbartSøkeresultat[]
-): Kandidatnavigering => {
-    let forrige: string | undefined = undefined;
-    let neste: string | undefined = undefined;
-
-    const aktivKandidatIndex = kandidater.findIndex(
-        (kandidat) => kandidat.arenaKandidatnr === kandidatnr
-    );
-
-    const kandidatlisteId =
-        kontekst.kontekst === 'finnKandidaterTilKandidatlisteUtenStilling'
-            ? kontekst.kandidatlisteId
-            : undefined;
-    const stillingsId =
-        kontekst.kontekst === 'finnKandidaterTilKandidatlisteMedStilling'
-            ? kontekst.stillingsId
-            : undefined;
-
-    const forrigeKandidat = kandidater[aktivKandidatIndex - 1]?.arenaKandidatnr;
-    if (forrigeKandidat) {
-        forrige = lenkeTilKandidatside(forrigeKandidat, fane, kandidatlisteId, stillingsId);
-    }
-
-    const nesteKandidat = kandidater[aktivKandidatIndex + 1]?.arenaKandidatnr;
-    if (nesteKandidat) {
-        neste = lenkeTilKandidatside(nesteKandidat, fane, kandidatlisteId, stillingsId);
-    }
-
-    return {
-        index: aktivKandidatIndex,
-        antall: totaltAntallTreff,
-        forrige,
-        neste,
-    };
 };
 
 const hentKandidatnavigeringForNyttSøk = (

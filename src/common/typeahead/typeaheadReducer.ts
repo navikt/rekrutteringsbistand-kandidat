@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadSuggestionsRest } from '../../api/api';
-import { forerkortSuggestions } from '../../kandidatsøk/søkefiltre/forerkort/forerkort';
 import { SearchApiError } from '../../api/fetchUtils';
 
 export enum TypeaheadActionType {
@@ -179,40 +178,32 @@ function* fetchTypeaheadGeografi(value: string, branch: TypeaheadBranch) {
 function* fetchTypeAheadSuggestions(action: FetchTypeAheadSuggestionsAction) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 2;
     const { branch, value } = action;
-    if (branch === TypeaheadBranch.Forerkort) {
-        yield put({
-            type: TypeaheadActionType.FetchTypeAheadSuggestionsSuccess,
-            suggestions: forerkortSuggestions(value),
-            branch,
-            query: value,
-        });
-    } else {
-        const typeAheadBranch = getTypeAheadBranch(branch);
 
-        if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
-            try {
-                if (branch === TypeaheadBranch.Geografi) {
-                    yield fetchTypeaheadGeografi(value, branch);
-                } else {
-                    const response = yield call(fetchTypeaheadSuggestionsRest, {
-                        [typeAheadBranch]: value,
-                    });
-                    yield put({
-                        type: TypeaheadActionType.FetchTypeAheadSuggestionsSuccess,
-                        suggestions: response.suggestions,
-                        branch,
-                        query: value,
-                    });
-                }
-            } catch (e) {
-                if (e instanceof SearchApiError) {
-                    yield put({
-                        type: TypeaheadActionType.FetchTypeAheadSuggestionsFailure,
-                        error: e,
-                    });
-                } else {
-                    throw e;
-                }
+    const typeAheadBranch = getTypeAheadBranch(branch);
+
+    if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
+        try {
+            if (branch === TypeaheadBranch.Geografi) {
+                yield fetchTypeaheadGeografi(value, branch);
+            } else {
+                const response = yield call(fetchTypeaheadSuggestionsRest, {
+                    [typeAheadBranch]: value,
+                });
+                yield put({
+                    type: TypeaheadActionType.FetchTypeAheadSuggestionsSuccess,
+                    suggestions: response.suggestions,
+                    branch,
+                    query: value,
+                });
+            }
+        } catch (e) {
+            if (e instanceof SearchApiError) {
+                yield put({
+                    type: TypeaheadActionType.FetchTypeAheadSuggestionsFailure,
+                    error: e,
+                });
+            } else {
+                throw e;
             }
         }
     }

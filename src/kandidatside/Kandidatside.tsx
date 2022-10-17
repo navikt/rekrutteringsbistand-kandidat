@@ -2,10 +2,7 @@ import React, { FunctionComponent, useRef } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import KandidatsideFraSøk from './fra-søk/KandidatsideFraSøk';
 import KandidatsideFraKandidatliste from './fra-kandidatliste/KandidatsideFraKandidatliste';
-import { useSelector } from 'react-redux';
-import { toUrlQuery } from '../kandidatsøk/reducer/searchQuery';
 import { hentSøkekontekst, hentØktFraNyttKandidatsøk } from './søkekontekst';
-import AppState from '../AppState';
 import './Kandidatside.less';
 
 export enum KandidatQueryParam {
@@ -25,7 +22,6 @@ const Kandidatside: FunctionComponent = () => {
     const { search } = useLocation();
     const params = useParams<RouteParams>();
 
-    const søkeparametreFraGammeltSøk = useSelector((state: AppState) => toUrlQuery(state));
     const kandidatnr = params.kandidatnr!;
     const queryParams = new URLSearchParams(search);
 
@@ -42,15 +38,12 @@ const Kandidatside: FunctionComponent = () => {
         );
     }
 
-    const fraNyttKandidatsøk = queryParams.get(KandidatQueryParam.FraNyttKandidatsøk) === 'true';
     const stillingsId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
     const kontekst = hentSøkekontekst(
         kandidatnr,
         stillingsId,
         kandidatlisteId,
-        fraNyttKandidatsøk,
         fraAutomatiskMatching,
-        søkeparametreFraGammeltSøk,
         nyttKandidatsøkØkt.current
     );
 
