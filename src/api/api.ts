@@ -1,8 +1,6 @@
 import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../kandidatliste/domene/Kandidat';
-import FEATURE_TOGGLES from '../common/konstanter';
 import { Nettressurs, Nettstatus } from './Nettressurs';
 import {
-    createCallIdHeader,
     deleteJsonMedType,
     deleteReq,
     fetchJson,
@@ -58,37 +56,6 @@ const employerNameCompletionQueryTemplate = (match) => ({
     },
     size: 50,
 });
-
-export async function fetchTypeaheadSuggestionsRest(query = {}) {
-    const resultat = await fetch(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/typeahead?${convertToUrlParams(query)}`,
-        {
-            credentials: 'include',
-            headers: createCallIdHeader(),
-        }
-    );
-    return resultat.json();
-}
-
-export function fetchFeatureToggles() {
-    return fetchJson(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/toggles?feature=${FEATURE_TOGGLES.join(',')}`
-    );
-}
-
-export function fetchKandidater(query = {}) {
-    return fetchJson(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/sok?${convertToUrlParams(query)}`,
-        true
-    );
-}
-
-export function fetchKandidaterES(query = {}) {
-    return fetchJson(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/sok?${convertToUrlParams(query)}`,
-        true
-    );
-}
 
 export function fetchCv(kandidatnr: string): Promise<Cv> {
     return fetchJson(

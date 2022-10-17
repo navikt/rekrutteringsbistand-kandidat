@@ -1,5 +1,4 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
-import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
 import createSagaMiddleware from 'redux-saga';
 import cvReducer, { cvSaga } from './kandidatside/cv/reducer/cvReducer';
 import enhetsregisterReducer, {
@@ -18,10 +17,6 @@ import kandidatmatchReducer from './automatisk-matching/kandidatmatchReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const søkefiltreReducer = combineReducers({
-    typeahead: typeaheadReducer,
-});
-
 const store = createStore(
     combineReducers({
         cv: cvReducer,
@@ -31,14 +26,12 @@ const store = createStore(
         listeoversikt: listeoversiktReducer,
         navKontor: valgtNavKontorReducer,
         søk: searchReducer,
-        søkefilter: søkefiltreReducer,
         varsling: varslingReducer,
         kandidatmatch: kandidatmatchReducer,
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
 sagaMiddleware.run(historikkSaga);
 sagaMiddleware.run(kandidatlisteSaga);

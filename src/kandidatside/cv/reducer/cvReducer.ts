@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { ApiError, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
-import { fetchCv } from '../../../api/api';
 import { SearchApiError } from '../../../api/fetchUtils';
+import { fetchCv } from '../../../api/api';
 import Cv from './cv-typer';
 
 export enum CvActionType {

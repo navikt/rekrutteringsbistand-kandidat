@@ -1,14 +1,11 @@
 import { useLayoutEffect } from 'react';
 import { fnr } from '@navikt/fnrvalidator';
-import { useSelector } from 'react-redux';
-import AppState from '../AppState';
 
 const erstatningstegn = '*';
 
 const useMaskerFødselsnumre = () => {
-    const maskerFødselsnumre = useSelector(
-        (state: AppState) => state.søk.featureToggles['masker-fnr']
-    );
+    // TODO: Masker fødselsnumre uten å bruke Unleash
+    const maskerFødselsnumre = false;
 
     useLayoutEffect(() => {
         if (maskerFødselsnumre) {
@@ -28,7 +25,7 @@ const maskerAlleFødselsnumre = (fraElement: HTMLElement | null) => {
 
 const hentAlleTekstnoder = (el: HTMLElement) => {
     let alleTekstnoder: Node[] = [];
-    let treeWalker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+    let treeWalker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
 
     let nesteNode: Node | null = treeWalker.nextNode();
     while (nesteNode !== null) {
