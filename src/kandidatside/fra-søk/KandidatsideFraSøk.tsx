@@ -7,7 +7,7 @@ import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import { KandidatsøkAction } from '../../kandidatsøk/reducer/searchActions';
+import { KandidatsøkAction } from '../../kandidatsøk/reducer/searchReducer';
 import { CvAction, CvActionType } from '../cv/reducer/cvReducer';
 import { Søkekontekst } from '../søkekontekst';
 import KandidatsideFraSøkInner from './KandidatsideFraSøkInner';

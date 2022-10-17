@@ -8,7 +8,7 @@ import {
     slettCvFraArbeidsgiversKandidatliste,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchActions';
+import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import KandidatlisteAction, {
     OpprettKandidatlisteAction,
