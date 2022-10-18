@@ -9,7 +9,6 @@ import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import {
     lenkeTilAutomatiskMatching,
     lenkeTilKandidatliste,
-    lenkeTilKandidatsøk,
     lenkeTilNyttKandidatsøk,
 } from '../../app/paths';
 import AppState from '../../AppState';
@@ -170,21 +169,6 @@ const byggLenkeTilbakeTilKandidatsøket = (
         case 'fraAutomatiskMatching':
             return {
                 to: lenkeTilAutomatiskMatching(kontekst.stillingsId),
-            };
-
-        case 'fraKandidatsøk':
-            return {
-                to: lenkeTilKandidatsøk(kontekst.søk),
-            };
-
-        case 'finnKandidaterTilKandidatlisteMedStilling':
-            return {
-                to: lenkeTilKandidatsøk(kontekst.søk, kontekst.stillingsId),
-            };
-
-        case 'finnKandidaterTilKandidatlisteUtenStilling':
-            return {
-                to: lenkeTilKandidatsøk(kontekst.søk, undefined, kontekst.kandidatlisteId),
             };
 
         case 'fraNyttKandidatsøk':

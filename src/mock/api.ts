@@ -1,12 +1,8 @@
 import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
 
 import notater from './json/notater.json';
-import sokeord from './json/sokeord.json';
 import kandidatlisteBasertPaAnnonsenummer from './json/kandidatlisteBasertPaAnnonsenummer.json';
-import arenageografikoder from './json/arenageografikoder.json';
-import typeaheadgeo from './json/typeaheadgeo.json';
 import sms from './json/sms.json';
-import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 import enhetsregister from './json/enhetsregister.json';
 import cver from './data/cv.mock';
 import stilling from './data/stilling.mock.json';
@@ -21,8 +17,6 @@ import {
     mockUsynligKandidat,
 } from './data/kandidatliste.mock';
 import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat.mock';
-import { featureToggles } from './data/feature-toggles.mock';
-import søk from './data/søk.mock';
 import { meg } from './data/veiledere.mock';
 import {
     forespørslerOmDelingAvCv,
@@ -44,14 +38,6 @@ const synlighetApi = `express:${SYNLIGHET_API}`;
 const stillingssøkProxy = `express:${STILLINGSSØK_PROXY}`;
 
 const url = {
-    // Kandidatsøket
-    kandidatsøk: `${api}/veileder/kandidatsok/sok`,
-    kandidatlisteFraStilling: `${api}/veileder/stilling/:stillingsId/kandidatliste`,
-    søkeord: `${api}/kandidatsok/stilling/sokeord/:kandidatlisteId`,
-    arenageografikoder: `${api}/kodeverk/arenageografikoder/:kode`,
-    ferdigutfyltesokurl: `${api}/veileder/ferdigutfyltesok`,
-    ferdigutfyltesokurlPost: `${api}/veileder/ferdigutfyltesok/klikk`,
-    typeahead: `${api}/veileder/kandidatsok/typeahead`,
     fnrsok: `${api}/veileder/kandidatsok/fnrsok`,
     synlighetsevaluering: `${synlighetApi}/evaluering/:fnr`,
 
@@ -381,13 +367,6 @@ const log = (response: MockResponse | MockResponseFunction) => {
 };
 
 fetchMock
-    // Kandidatsøk
-    .get(url.kandidatsøk, log(søk))
-    .get(url.kandidatlisteFraStilling, log(kandidatliste))
-    .get(url.ferdigutfyltesokurl, log(ferdigutfyltesok))
-    .post(url.ferdigutfyltesokurlPost, log(ferdigutfyltesok))
-    .get(url.typeahead, log(typeaheadgeo))
-
     // CV
     .get(url.cv, log(getCv), {
         delay: 200,
@@ -411,8 +390,6 @@ fetchMock
     .get(url.synlighetsevaluering, log(getSynlighetsevaluering))
     .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(postDelKandidater))
-    .get(url.søkeord, log(sokeord))
-    .get(url.arenageografikoder, log(arenageografikoder))
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
@@ -434,5 +411,4 @@ fetchMock
     .post(url.kandidatmatch, log(kandidatmatch))
 
     // Misc
-    .get(url.toggles, log(featureToggles))
     .post(url.enhetsregister, log(postEnhetsregister));

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { setNavKontorIAmplitude } from '../amplitude/amplitude';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
@@ -16,31 +15,24 @@ import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
-import KandidatsøkIKontekstAvKandidatliste from '../kandidatsøk/KandidatsøkIKontekstAvKandidatliste';
-import KandidatsøkIKontekstAvStilling from '../kandidatsøk/KandidatsøkIKontekstAvStilling';
-import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
 import MatcherForStilling from '../automatisk-matching/AlleMatcher';
 import Matchforklaring from '../automatisk-matching/matchforklaring/Matchforklaring';
 import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import Varsling from '../common/varsling/Varsling';
+import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
 import './App.less';
 
 type Props = {
     error: {
         status: number;
     };
-    fetchFeatureToggles: () => void;
     fjernError: () => void;
     navKontor: string | null;
     velgNavKontor: (navKontor: string | null) => void;
 };
 
 const App: FunctionComponent<Props> = (props) => {
-    const { error, fetchFeatureToggles, fjernError, navKontor, velgNavKontor } = props;
-
-    useEffect(() => {
-        fetchFeatureToggles();
-    }, [fetchFeatureToggles]);
+    const { error, fjernError, navKontor, velgNavKontor } = props;
 
     useEffect(() => {
         if (navKontor) {
@@ -66,16 +58,6 @@ const App: FunctionComponent<Props> = (props) => {
                         <Route
                             path="/prototype/stilling/:stillingsId/forklaring/:kandidatNr"
                             element={<Matchforklaring />}
-                        />
-
-                        <Route path="/kandidater" element={<KandidatsøkUtenKontekst />} />
-                        <Route
-                            path="/kandidater/kandidatliste/:kandidatlisteId"
-                            element={<KandidatsøkIKontekstAvKandidatliste />}
-                        />
-                        <Route
-                            path="/kandidater/stilling/:stillingsId"
-                            element={<KandidatsøkIKontekstAvStilling />}
                         />
                         <Route path="/kandidater/lister" element={<Kandidatlisteoversikt />} />
                         <Route
@@ -104,9 +86,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<KandidatsøkAction | NavKontorAction>) => ({
-    fetchFeatureToggles: () => dispatch({ type: KandidatsøkActionType.FetchFeatureTogglesBegin }),
     fjernError: () => dispatch({ type: KandidatsøkActionType.FjernError }),
-    lukkAlleSokepanel: () => dispatch({ type: KandidatsøkActionType.LukkAlleSokepanel }),
     velgNavKontor: (valgtNavKontor: string) =>
         dispatch({ type: NavKontorActionTypes.VelgNavKontor, valgtNavKontor }),
 });

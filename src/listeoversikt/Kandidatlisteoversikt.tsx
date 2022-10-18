@@ -7,7 +7,6 @@ import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilte
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
-import { KandidatsøkActionType } from '../kandidatsøk/reducer/searchActions';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
@@ -18,7 +17,6 @@ import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
-import { hentQueryUtenKriterier } from '../kandidatsøk/useSlettAlleKriterier';
 import './Kandidatlisteoversikt.less';
 
 enum Modalvisning {
@@ -60,10 +58,7 @@ type Props = {
     slettKandidatliste: any;
     resetSletteStatus: any;
     sletteStatus: Nettressurs<{ slettetTittel: string }>;
-
     nullstillValgtKandidatIKandidatliste: any;
-    nullstillSøkekriterierIKandidatsøk: any;
-    lukkSøkepanelerIKandidatsøk: () => void;
 };
 
 class Kandidatlisteoversikt extends React.Component<Props> {
@@ -93,9 +88,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 
     componentDidMount() {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-
-        this.props.nullstillSøkekriterierIKandidatsøk(hentQueryUtenKriterier());
-        this.props.lukkSøkepanelerIKandidatsøk();
 
         this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
         this.props.nullstillValgtKandidatIKandidatliste();
@@ -365,8 +357,6 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: any) => void) => ({
-    nullstillSøkekriterierIKandidatsøk: (query: any) =>
-        dispatch({ type: KandidatsøkActionType.SetState, query }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
         dispatch({
             type: ListeoversiktActionType.HentKandidatlister,
@@ -393,7 +383,6 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
         dispatch({
             type: KandidatlisteActionType.VelgKandidat,
         }),
-    lukkSøkepanelerIKandidatsøk: () => dispatch({ type: KandidatsøkActionType.LukkAlleSokepanel }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlisteoversikt);

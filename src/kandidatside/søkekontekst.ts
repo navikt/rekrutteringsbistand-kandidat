@@ -40,9 +40,6 @@ export type FinnKandidaterTilKandidatlisteFraNyttKandidatsøkKontekst = {
 
 export type Søkekontekst =
     | FraAutomatiskMatching
-    | FraKandidatsøk
-    | FinnKandidaterTilKandidatlisteMedStilling
-    | FinnKandidaterTilKandidatlisteUtenStilling
     | FraNyttkandidatsøk
     | FinnKandidaterTilKandidatlisteFraNyttKandidatsøkKontekst;
 
@@ -50,9 +47,7 @@ export const hentSøkekontekst = (
     kandidatnr: string,
     stillingsIdFraUrl: string | undefined,
     kandidatlisteIdFraUrl: string | undefined,
-    fraNyttKandidatsøk: boolean,
     fraAutomatiskMatching: boolean,
-    søkeparametreFraGammeltSøk: string,
     nyttKandidatsøkØkt?: NyttKandidatsøkØkt
 ): Søkekontekst => {
     if (fraAutomatiskMatching && stillingsIdFraUrl) {
@@ -61,37 +56,20 @@ export const hentSøkekontekst = (
             stillingsId: stillingsIdFraUrl,
         };
     }
-    if (fraNyttKandidatsøk) {
-        skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
 
-        if (kandidatlisteIdFraUrl) {
-            return {
-                kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk',
-                kandidatlisteId: kandidatlisteIdFraUrl,
-                økt: nyttKandidatsøkØkt,
-            };
-        } else {
-            return {
-                kontekst: 'fraNyttKandidatsøk',
-                økt: nyttKandidatsøkØkt,
-            };
-        }
+    skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
+
+    if (kandidatlisteIdFraUrl) {
+        return {
+            kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk',
+            kandidatlisteId: kandidatlisteIdFraUrl,
+            økt: nyttKandidatsøkØkt,
+        };
     } else {
-        if (stillingsIdFraUrl) {
-            return {
-                kontekst: 'finnKandidaterTilKandidatlisteMedStilling',
-                stillingsId: stillingsIdFraUrl,
-                søk: søkeparametreFraGammeltSøk,
-            };
-        } else if (kandidatlisteIdFraUrl) {
-            return {
-                kontekst: 'finnKandidaterTilKandidatlisteUtenStilling',
-                kandidatlisteId: kandidatlisteIdFraUrl,
-                søk: søkeparametreFraGammeltSøk,
-            };
-        } else {
-            return { kontekst: 'fraKandidatsøk', søk: søkeparametreFraGammeltSøk };
-        }
+        return {
+            kontekst: 'fraNyttKandidatsøk',
+            økt: nyttKandidatsøkØkt,
+        };
     }
 };
 

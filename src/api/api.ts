@@ -1,8 +1,6 @@
 import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../kandidatliste/domene/Kandidat';
-import FEATURE_TOGGLES from '../common/konstanter';
 import { Nettressurs, Nettstatus } from './Nettressurs';
 import {
-    createCallIdHeader,
     deleteJsonMedType,
     deleteReq,
     fetchJson,
@@ -11,7 +9,6 @@ import {
     putJson,
     SearchApiError,
 } from './fetchUtils';
-import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Bransje';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
 import Cv, { Fødselsnummersøk } from '../kandidatside/cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
@@ -59,37 +56,6 @@ const employerNameCompletionQueryTemplate = (match) => ({
     },
     size: 50,
 });
-
-export async function fetchTypeaheadSuggestionsRest(query = {}) {
-    const resultat = await fetch(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/typeahead?${convertToUrlParams(query)}`,
-        {
-            credentials: 'include',
-            headers: createCallIdHeader(),
-        }
-    );
-    return resultat.json();
-}
-
-export function fetchFeatureToggles() {
-    return fetchJson(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/toggles?feature=${FEATURE_TOGGLES.join(',')}`
-    );
-}
-
-export function fetchKandidater(query = {}) {
-    return fetchJson(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/sok?${convertToUrlParams(query)}`,
-        true
-    );
-}
-
-export function fetchKandidaterES(query = {}) {
-    return fetchJson(
-        `${KANDIDATSOK_API}/veileder/kandidatsok/sok?${convertToUrlParams(query)}`,
-        true
-    );
-}
 
 export function fetchCv(kandidatnr: string): Promise<Cv> {
     return fetchJson(
@@ -405,14 +371,6 @@ export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlis
 export const fetchFerdigutfylteStillinger = () => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
 };
-
-export const postFerdigutfylteStillingerKlikk = (
-    ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
-) =>
-    postJson(
-        `${KANDIDATSOK_API}/veileder/ferdigutfyltesok/klikk`,
-        JSON.stringify(ferdigutfylteStillingerKlikk)
-    );
 
 export const hentKandidatnr = (fnr: string): Promise<{ kandidatnr: string }> => {
     return postJson(`${KANDIDATSOK_API}/fnr-til-kandidatnr`, JSON.stringify({ fnr }));
