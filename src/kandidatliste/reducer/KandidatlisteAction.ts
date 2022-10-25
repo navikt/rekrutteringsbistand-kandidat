@@ -133,6 +133,7 @@ export interface LagreKandidatIKandidatlisteAction {
     kandidatliste: any;
     fodselsnummer: string;
     kandidatnr: string;
+    notat?: any;
 }
 
 export interface LagreKandidatIKandidatlisteSuccessAction {
