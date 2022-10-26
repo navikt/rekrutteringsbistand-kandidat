@@ -56,7 +56,7 @@ const AlleMatcher = () => {
                                     className="lenke"
                                     to={opprettLenkeTilCv(kandidat.arenaKandidatnr, stillingsId)}
                                 >
-                                    {kandidat.fornavn} {kandidat.etternavn}
+                                    {kandidat.arenaKandidatnr}
                                 </Link>{' '}
                                 ({tilProsent(kandidat.score)}):{' '}
                                 <Link
