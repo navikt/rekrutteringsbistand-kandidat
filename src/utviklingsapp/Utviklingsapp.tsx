@@ -38,8 +38,13 @@ const Utviklingsapp: FunctionComponent = () => {
                         </Link>
                     </div>
                     <div className="utviklingsapp__lenke">
-                        <Link to="/prototype/stilling/2ea746af-66be-4cf8-a051-9e815f77b1d1">
-                            Kandidatmatch (2)
+                        <Link
+                            state={{
+                                aktørIder: ['PAM010nudgb5v', 'PAM013tc53ryp'],
+                            }}
+                            to="/prototype/stilling/2ea746af-66be-4cf8-a051-9e815f77b1d1"
+                        >
+                            Kandidatmatch (med aktørIder)
                         </Link>
                     </div>
                     <div className="utviklingsapp__lenke">

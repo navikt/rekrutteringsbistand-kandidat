@@ -4,10 +4,14 @@ import { Nettstatus } from '../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { tilProsent } from './formatering';
 import { Kandidatfane, lenkeTilKandidatside, lenkeTilStilling } from '../app/paths';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import useKandidatmatch from './useKandidatmatch';
 import { Next } from '@navikt/ds-icons';
 import './AlleMatcher.less';
+
+export type Navigeringsstate = Partial<{
+    aktørIder: string[];
+}>;
 
 type Params = {
     stillingsId: string;
@@ -15,7 +19,9 @@ type Params = {
 
 const AlleMatcher = () => {
     const { stillingsId } = useParams<Params>();
-    const { stilling, kandidater } = useKandidatmatch(stillingsId);
+    const { state } = useLocation();
+    const { aktørIder } = (state || {}) as Navigeringsstate;
+    const { stilling, kandidater } = useKandidatmatch(stillingsId, aktørIder);
 
     if (stillingsId === undefined) {
         return <Feilmelding>Oppgi en stillingsId i URL-en</Feilmelding>;

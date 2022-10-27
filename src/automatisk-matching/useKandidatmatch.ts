@@ -6,7 +6,7 @@ import Kandidatmatch from './Kandidatmatch';
 import { hentKandidater, hentStilling } from './kandidatmatchApi';
 import { MatchAction, Stilling } from './kandidatmatchReducer';
 
-const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
+const useKandidatmatch = (stillingsId?: string, aktørIder?: string[], kandidatNr?: string) => {
     const dispatch = useDispatch();
     const { stilling, kandidater } = useSelector((state: AppState) => state.kandidatmatch);
 
@@ -45,11 +45,11 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
             }
         };
 
-        const hentKandidaterTilMatching = async (stilling: Stilling) => {
+        const hentKandidaterTilMatching = async (stilling: Stilling, aktørIder?: string[]) => {
             setKandidater(lasterInn());
 
             try {
-                const kandidater = await hentKandidater(stilling);
+                const kandidater = await hentKandidater(stilling, aktørIder);
                 const behandledeKandidater = behandleKandidater(kandidater);
                 setKandidater(suksess(behandledeKandidater));
             } catch (error) {
@@ -61,7 +61,7 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
             const stilling = await hentStillingTilMatching(stillingsId);
 
             if (stilling) {
-                hentKandidaterTilMatching(stilling);
+                hentKandidaterTilMatching(stilling, aktørIder);
             }
         };
 
@@ -72,7 +72,7 @@ const useKandidatmatch = (stillingsId?: string, kandidatNr?: string) => {
         if (stillingsId && (stillingErIkkeLastet || enAnnenStillingErLastet)) {
             brukAutomatiskMatching(stillingsId);
         }
-    }, [stillingsId, stilling, dispatch]);
+    }, [stillingsId, stilling, aktørIder, dispatch]);
 
     return {
         stilling,

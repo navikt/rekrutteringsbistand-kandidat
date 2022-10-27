@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from '../useKandidatmatch';
 import { booleanTilTekst, tilDato, tilProsent } from '../formatering';
@@ -9,6 +9,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import Matrise from './Matrise';
 import Seksjon from './Seksjon';
 import './Matchforklaring.less';
+import { Navigeringsstate } from '../AlleMatcher';
 
 type Params = {
     stillingsId: string;
@@ -17,8 +18,10 @@ type Params = {
 
 const Matchforklaring = () => {
     const { stillingsId, kandidatNr } = useParams<Params>();
+    const { state } = useLocation();
+    const { aktørIder } = (state || {}) as Navigeringsstate;
 
-    const { valgtKandidat: kandidat } = useKandidatmatch(stillingsId, kandidatNr);
+    const { valgtKandidat: kandidat } = useKandidatmatch(stillingsId, aktørIder, kandidatNr);
 
     if (stillingsId === undefined || kandidatNr === undefined) {
         return <Feilmelding>Du må oppgi stillingsId og kandidatNr</Feilmelding>;
