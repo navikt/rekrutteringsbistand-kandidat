@@ -19,7 +19,7 @@ export const hentStilling = async (stillingsId: string): Promise<any> => {
 
 type KandidatmatchDto = {
     stilling: Stilling;
-    aktørIder?: string[];
+    aktørId?: string[];
 };
 
 export const hentKandidater = async (
@@ -32,7 +32,7 @@ export const hentKandidater = async (
         };
 
         if (aktørIder) {
-            body.aktørIder = aktørIder;
+            body.aktørId = aktørIder;
         }
 
         return await postJson(`${KANDIDATMATCH_API_URL}/match`, JSON.stringify(body));
