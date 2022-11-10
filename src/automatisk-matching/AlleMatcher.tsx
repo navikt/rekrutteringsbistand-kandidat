@@ -2,7 +2,6 @@ import React from 'react';
 import { Feilmelding, Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import { Nettstatus } from '../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { tilProsent } from './formatering';
 import { Kandidatfane, lenkeTilKandidatside, lenkeTilStilling } from '../app/paths';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import useKandidatmatch from './useKandidatmatch';
@@ -63,8 +62,8 @@ const AlleMatcher = () => {
                                     to={opprettLenkeTilCv(kandidat.arenaKandidatnr, stillingsId)}
                                 >
                                     {kandidat.arenaKandidatnr}
-                                </Link>{' '}
-                                ({tilProsent(kandidat.score)}):{' '}
+                                </Link>
+                                <span> – </span>
                                 <Link
                                     className="lenke"
                                     to={opprettLenkeTilMatchforklaring(
