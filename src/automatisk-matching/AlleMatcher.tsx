@@ -54,8 +54,8 @@ const AlleMatcher = () => {
                     <Feilmelding>{kandidater.error.message}</Feilmelding>
                 )}
                 {kandidater.kind === Nettstatus.Suksess && (
-                    <ul>
-                        {kandidater.data.map((kandidat) => (
+                    <ol>
+                        {kandidater.data.map((kandidat, index) => (
                             <li key={kandidat.arenaKandidatnr}>
                                 <Link
                                     className="lenke"
@@ -76,7 +76,7 @@ const AlleMatcher = () => {
                                 </Link>
                             </li>
                         ))}
-                    </ul>
+                    </ol>
                 )}
             </section>
         </div>
