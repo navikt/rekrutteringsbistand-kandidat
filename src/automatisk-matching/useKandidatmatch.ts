@@ -8,12 +8,21 @@ import { MatchAction, Stilling } from './kandidatmatchReducer';
 
 const useKandidatmatch = (stillingsId?: string, aktørIder?: string[], kandidatNr?: string) => {
     const dispatch = useDispatch();
-    const { stilling, kandidater } = useSelector((state: AppState) => state.kandidatmatch);
+    const { stilling, kandidater, markerteKandidater } = useSelector(
+        (state: AppState) => state.kandidatmatch
+    );
 
     let valgtKandidat: Kandidatmatch | undefined;
     if (kandidater.kind === Nettstatus.Suksess && kandidatNr) {
         valgtKandidat = kandidater.data.find((kandidat) => kandidat.arenaKandidatnr === kandidatNr);
     }
+
+    const setMarkerteKandidater = (markerteKandidater: string[]) => {
+        dispatch<MatchAction>({
+            type: 'SET_MARKERTE_KANDIDATMATCHER',
+            markerteKandidater,
+        });
+    };
 
     useEffect(() => {
         const setStilling = (stilling: any) => {
@@ -78,6 +87,8 @@ const useKandidatmatch = (stillingsId?: string, aktørIder?: string[], kandidatN
         stilling,
         kandidater,
         valgtKandidat,
+        markerteKandidater,
+        setMarkerteKandidater,
     };
 };
 

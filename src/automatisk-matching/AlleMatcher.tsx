@@ -7,6 +7,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import useKandidatmatch from './useKandidatmatch';
 import { Next } from '@navikt/ds-icons';
 import './AlleMatcher.less';
+import { Checkbox } from 'nav-frontend-skjema';
 
 export type Navigeringsstate = Partial<{
     aktørIder: string[];
@@ -20,7 +21,10 @@ const AlleMatcher = () => {
     const { stillingsId } = useParams<Params>();
     const { state } = useLocation();
     const { aktørIder } = (state || {}) as Navigeringsstate;
-    const { stilling, kandidater } = useKandidatmatch(stillingsId, aktørIder);
+    const { stilling, kandidater, markerteKandidater, setMarkerteKandidater } = useKandidatmatch(
+        stillingsId,
+        aktørIder
+    );
 
     if (stillingsId === undefined) {
         return <Feilmelding>Oppgi en stillingsId i URL-en</Feilmelding>;
@@ -33,6 +37,17 @@ const AlleMatcher = () => {
     if (stilling.kind !== Nettstatus.Suksess) {
         return <Feilmelding>Klarte ikke å laste inn stilling</Feilmelding>;
     }
+
+    const onMarkertKandidat = (kandidatnummer: string) => {
+        if (markerteKandidater.includes(kandidatnummer)) {
+            const markertkeKandidaterUtenValgtKandiat = markerteKandidater.filter(
+                (kandidat) => kandidat !== kandidatnummer
+            );
+            setMarkerteKandidater(markertkeKandidaterUtenValgtKandiat);
+        } else {
+            setMarkerteKandidater([...markerteKandidater, kandidatnummer]);
+        }
+    };
 
     return (
         <div className="alle-matcher">
@@ -57,23 +72,36 @@ const AlleMatcher = () => {
                     <ol>
                         {kandidater.data.map((kandidat, index) => (
                             <li key={kandidat.arenaKandidatnr}>
-                                <Link
-                                    className="lenke"
-                                    to={opprettLenkeTilCv(kandidat.arenaKandidatnr, stillingsId)}
-                                >
-                                    {kandidat.arenaKandidatnr}
-                                </Link>
-                                <span> – </span>
-                                <Link
-                                    className="lenke"
-                                    to={opprettLenkeTilMatchforklaring(
-                                        kandidat.arenaKandidatnr,
-                                        stillingsId
+                                <Checkbox
+                                    defaultChecked={markerteKandidater.includes(
+                                        kandidat.arenaKandidatnr
                                     )}
-                                >
-                                    Se matcheforklaring
-                                    <Next />
-                                </Link>
+                                    onChange={() => onMarkertKandidat(kandidat.arenaKandidatnr)}
+                                    label={
+                                        <>
+                                            <Link
+                                                className="lenke"
+                                                to={opprettLenkeTilCv(
+                                                    kandidat.arenaKandidatnr,
+                                                    stillingsId
+                                                )}
+                                            >
+                                                {kandidat.arenaKandidatnr}
+                                            </Link>
+                                            <span> – </span>
+                                            <Link
+                                                className="lenke"
+                                                to={opprettLenkeTilMatchforklaring(
+                                                    kandidat.arenaKandidatnr,
+                                                    stillingsId
+                                                )}
+                                            >
+                                                Se matcheforklaring
+                                                <Next />
+                                            </Link>
+                                        </>
+                                    }
+                                />
                             </li>
                         ))}
                     </ol>

@@ -12,9 +12,13 @@ export type Stilling = {
 export type KandidatmatchState = {
     stilling: Nettressurs<Stilling>;
     kandidater: Nettressurs<Kandidatmatch[]>;
+    markerteKandidater: string[];
 };
 
-export type MatchAction = SetStillingForMatchingAction | SetKandidatmatchAction;
+export type MatchAction =
+    | SetStillingForMatchingAction
+    | SetKandidatmatchAction
+    | SetMarkerteKandidaterAction;
 
 type SetStillingForMatchingAction = {
     type: 'SET_STILLING_FOR_MATCHING';
@@ -26,9 +30,15 @@ type SetKandidatmatchAction = {
     kandidater: Nettressurs<Kandidatmatch[]>;
 };
 
+type SetMarkerteKandidaterAction = {
+    type: 'SET_MARKERTE_KANDIDATMATCHER';
+    markerteKandidater: string[];
+};
+
 const initialValues = {
     stilling: ikkeLastet(),
     kandidater: ikkeLastet(),
+    markerteKandidater: [],
 };
 
 const kandidatmatchReducer = (state: KandidatmatchState = initialValues, action: MatchAction) => {
@@ -43,6 +53,12 @@ const kandidatmatchReducer = (state: KandidatmatchState = initialValues, action:
             return {
                 ...state,
                 kandidater: action.kandidater,
+            };
+
+        case 'SET_MARKERTE_KANDIDATMATCHER':
+            return {
+                ...state,
+                markerteKandidater: action.markerteKandidater,
             };
     }
 
