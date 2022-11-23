@@ -30,7 +30,7 @@
         "sammendrag": {
             "tekst": "Jeg er en utvikler som brenner for frontend! Holder meg alltid oppdatert på det nyeste i markedet, og liker å spre denne kunnskapen til andre.",
             "score": 0.6980659959618848,
-            "ordScore": [
+            "ord_score": [
                 [
                     {
                         "indeks": [0],
@@ -1056,7 +1056,7 @@
                 {
                     "tekst": "IT-konsulent IT-konsulent og fagleder for en frontend-relatert faggruppe for et stort, norsk konsulentselskap. Hadde blandt annet Nav som kunde i 3,5 år. ",
                     "score": 0.36015896738553155,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -2230,7 +2230,7 @@
                 {
                     "tekst": "Javascript utvikler Internship for å utvikle en applikasjon og nytt konsept for UKA-festivalen i Trondheim. ",
                     "score": 0.5858434717449316,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -3084,7 +3084,7 @@
                 {
                     "tekst": "Frontend-utvikler Utvikler for DHIS2, District Health Information Systems, en forskningsgruppe på Universitetet i Oslo som lager verdens største helseinformasjonssystem. ",
                     "score": 0.6633536854223739,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -4258,7 +4258,7 @@
                 {
                     "tekst": "Avdelingsingeniør Sommerjobb og deltidsjobb i USIT ",
                     "score": 0.4214476829167788,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -4712,7 +4712,7 @@
                 {
                     "tekst": "Studentassistent Oppgaveretter i INF2810 (Funksjonell programmering)Oppgaveretter Oppgaveretter",
                     "score": 0.6494569129670407,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -5246,7 +5246,7 @@
                 {
                     "tekst": "Selger Selger i Telenorbutikken. Solgte mobiltelefoner, abonnementer og andre tjenester. ",
                     "score": 0.5402117807140323,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -5785,7 +5785,7 @@
                 {
                     "tekst": "Spesialisering innen generiske informasjonssystemer Master i Informatikk: Programmering og nettverk",
                     "score": 0.6793453363067334,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -6559,7 +6559,7 @@
                 {
                     "tekst": "Utveksling til California Utvekslingsstudent",
                     "score": 0.5084451083128467,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -6933,7 +6933,7 @@
                 {
                     "tekst": " Bachelor i Informatikk: Programmering og nettverk",
                     "score": 0.6603736337254986,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -7387,7 +7387,7 @@
                 {
                     "tekst": "Studiespesialisering i realfag Studiespesialisering",
                     "score": 0.49395667311697566,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -7759,7 +7759,7 @@
                 {
                     "tekst": "Utvikler",
                     "score": 0.6103305187699796,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -7973,7 +7973,7 @@
                 {
                     "tekst": "IT-konsulent",
                     "score": 0.2230004028347406,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -8267,7 +8267,7 @@
                 {
                     "tekst": "Javascript utvikler",
                     "score": 0.6120154807214593,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -8561,7 +8561,7 @@
                 {
                     "tekst": "Frontend-utvikler",
                     "score": 0.6447554470193501,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -8855,7 +8855,7 @@
                 {
                     "tekst": "Frontend full-stack developer",
                     "score": 0.2990181840556363,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -9309,7 +9309,7 @@
                 {
                     "tekst": "Møbelsnekker",
                     "score": 0.2488214490126493,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -9528,7 +9528,7 @@
                 {
                     "tekst": "Microsoft Word",
                     "score": 0.2331817779834222,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -9822,7 +9822,7 @@
                 {
                     "tekst": "Microsoft Excel",
                     "score": 0.3177519558170371,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -10116,7 +10116,7 @@
                 {
                     "tekst": "JavaScript",
                     "score": 0.2025802787394136,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -10330,7 +10330,7 @@
                 {
                     "tekst": "Kotlin",
                     "score": null,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -10544,7 +10544,7 @@
                 {
                     "tekst": "Lisp",
                     "score": null,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -10758,7 +10758,7 @@
                 {
                     "tekst": "Java (Programmeringsspråk)",
                     "score": 0.4325835687586681,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -11052,7 +11052,7 @@
                 {
                     "tekst": "ReactJS",
                     "score": null,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -11266,7 +11266,7 @@
                 {
                     "tekst": "Gatsby.js",
                     "score": 0.0986702960382001,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -11819,7 +11819,7 @@
         "sammendrag": {
             "tekst": "Jeg er rimelig god til å unngå streker fra nalen",
             "score": 0.3655110490250304,
-            "ordScore": [
+            "ord_score": [
                 [
                     {
                         "indeks": [0],
@@ -12291,7 +12291,7 @@
                 {
                     "tekst": "Rektor Smidde bånd mellom elever og lærere Smedrektor",
                     "score": 0.460405022469635,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -12905,7 +12905,7 @@
                 {
                     "tekst": "Annonsekonsulent (avis) Ringte litt rundt ",
                     "score": -0.025774245447586525,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -13284,12 +13284,12 @@
                 {
                     "tekst": " ",
                     "score": null,
-                    "ordScore": []
+                    "ord_score": []
                 },
                 {
                     "tekst": "Nalbruk og vaskemidler Vindusvasking",
                     "score": 0.3329718355588544,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -13849,7 +13849,7 @@
                 {
                     "tekst": "Vinduspusser",
                     "score": null,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -14068,7 +14068,7 @@
                 {
                     "tekst": "Rengjøring av vinduer i høyden",
                     "score": 0.31843121588718365,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -14511,7 +14511,7 @@
         "sammendrag": {
             "tekst": "",
             "score": null,
-            "ordScore": []
+            "ord_score": []
         },
         "foererkort": {
             "klasse": []
@@ -14521,7 +14521,7 @@
                 {
                     "tekst": "Serviceingeniør olje  Serviceingeniør (olje)",
                     "score": 0.33134163436302366,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -14815,7 +14815,7 @@
                 {
                     "tekst": "Prosjektingeniør olje  Prosjektingeniør (olje)",
                     "score": 0.34508457434108203,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -15114,7 +15114,7 @@
                 {
                     "tekst": " Ingeniørutdanning, maskin, toårig",
                     "score": 0.40439896455533136,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -15488,7 +15488,7 @@
                 {
                     "tekst": " Kjøretøy, Vg2",
                     "score": 0.321609699596343,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -15782,7 +15782,7 @@
                 {
                     "tekst": " Mekaniske fag, grunnkurs",
                     "score": 0.486373644420485,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
@@ -16332,7 +16332,7 @@
                 {
                     "tekst": "Fagbrev/svennebrev",
                     "score": 0.23853026901689642,
-                    "ordScore": [
+                    "ord_score": [
                         [
                             {
                                 "indeks": [0],
