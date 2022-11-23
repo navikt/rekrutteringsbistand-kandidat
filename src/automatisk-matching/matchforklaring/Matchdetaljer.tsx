@@ -4,7 +4,7 @@ import { ErfaringPrototype } from '../Kandidatmatch';
 import { tilProsentpoeng } from '../formatering';
 
 const Matchdetaljer = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
-    const [, matchedeOrdFraKandidat] = erfaring.ordScore[0];
+    const [, matchedeOrdFraKandidat] = erfaring.ord_score[0];
     const alleOrdFraKandidat = matchedeOrdFraKandidat.map((matchetOrd) => matchetOrd.ord);
 
     return (
@@ -34,7 +34,7 @@ const Matchdetaljer = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {erfaring.ordScore.map(([ordFraStilling, matchedeOrdFraKandidaten], i) => {
+                        {erfaring.ord_score.map(([ordFraStilling, matchedeOrdFraKandidaten], i) => {
                             return (
                                 <tr key={ordFraStilling.ord}>
                                     <td>{ordFraStilling.ord}</td>

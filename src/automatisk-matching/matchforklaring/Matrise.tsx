@@ -15,7 +15,7 @@ type Props = {
 const Matrise = ({ erfaring, tittel, match }: Props) => {
     const minimumTreffprosent: Number = 25;
 
-    if (erfaring.ordScore.length === 0) {
+    if (erfaring.ord_score.length === 0) {
         return <IngenData />;
     }
 

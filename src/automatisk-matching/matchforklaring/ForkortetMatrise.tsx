@@ -20,7 +20,7 @@ const ForkortetMatrise = ({
                     </tr>
                 </thead>
                 <tbody>
-                    {erfaring.ordScore
+                    {erfaring.ord_score
                         .sort(([, matchedeOrdFraKandidat1], [, matchedeOrdFraKandidat2]) => {
                             const score1 = Math.max(
                                 ...matchedeOrdFraKandidat1.map((ord) => ord.score)
