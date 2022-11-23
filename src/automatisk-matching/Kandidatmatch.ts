@@ -70,7 +70,7 @@ type Erfaringer = {
 
 export type ErfaringPrototype = {
     score: number;
-    ordScore: OrdScore[];
+    ord_score: OrdScore[];
     tekst: string;
 };
 
