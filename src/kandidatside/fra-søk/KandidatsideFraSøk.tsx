@@ -59,13 +59,11 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
         if (
             (kandidatliste.kind === Nettstatus.IkkeLastet && kandidatlisteIdFraNyttKandidatsøk) ||
             (kandidatlisteIdFraNyttKandidatsøk &&
-                kandidatlisteIdFraState != kandidatlisteIdFraNyttKandidatsøk)
+                kandidatlisteIdFraState !== kandidatlisteIdFraNyttKandidatsøk)
         ) {
             hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraNyttKandidatsøk);
         }
     };
-
-    //             kandidatliste.data.kandidatlisteId !== kontekst.kandidatlisteId!
 
     useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
     useEffect(onFørsteSidelast, [dispatch, kandidatliste.kind, kontekst]);
