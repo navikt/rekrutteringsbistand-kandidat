@@ -43,19 +43,20 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
             });
         };
 
-        const kandidatlisteFraState =
-            kandidatliste.kind === Nettstatus.Suksess ? kandidatliste.data : null;
-
         const kandidatlisteIdFraKontekst =
             kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
                 ? kontekst.kandidatlisteId
                 : null;
 
         if (kandidatlisteIdFraKontekst) {
-            if (
-                !kandidatlisteFraState ||
-                kandidatlisteIdFraKontekst !== kandidatlisteFraState?.kandidatlisteId
+            if (kandidatliste.kind === Nettstatus.IkkeLastet) {
+                hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
+            } else if (
+                kandidatliste.kind === Nettstatus.Suksess &&
+                kandidatliste.data.kandidatlisteId !== kandidatlisteIdFraKontekst
             ) {
+                hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
+            } else if (Nettstatus.FinnesIkke || Nettstatus.Feil) {
                 hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
             }
         }
