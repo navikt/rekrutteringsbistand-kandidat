@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { sendEvent } from '../../amplitude/amplitude';
@@ -49,12 +48,24 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
             });
         };
 
-        if (kandidatliste.kind === Nettstatus.IkkeLastet) {
-            if (kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk') {
-                hentKandidatlisteMedKandidatlisteId(kontekst.kandidatlisteId);
-            }
+        const kandidatlisteIdFraNyttKandidatsøk: string | null =
+            kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
+                ? kontekst.kandidatlisteId
+                : null;
+
+        const kandidatlisteIdFraState: string | null =
+            kandidatliste.kind === Nettstatus.Suksess ? kandidatliste.data.kandidatlisteId : null;
+
+        if (
+            (kandidatliste.kind === Nettstatus.IkkeLastet && kandidatlisteIdFraNyttKandidatsøk) ||
+            (kandidatlisteIdFraNyttKandidatsøk &&
+                kandidatlisteIdFraState != kandidatlisteIdFraNyttKandidatsøk)
+        ) {
+            hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraNyttKandidatsøk);
         }
     };
+
+    //             kandidatliste.data.kandidatlisteId !== kontekst.kandidatlisteId!
 
     useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
     useEffect(onFørsteSidelast, [dispatch, kandidatliste.kind, kontekst]);
