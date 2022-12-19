@@ -50,13 +50,11 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
 
         if (kandidatlisteIdFraKontekst) {
             if (kandidatliste.kind === Nettstatus.IkkeLastet) {
-                console.log('Henter kandidatliste fordi den aldri har blitt lasta inn');
                 hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
             } else if (
                 kandidatliste.kind === Nettstatus.Suksess &&
                 kandidatliste.data.kandidatlisteId !== kandidatlisteIdFraKontekst
             ) {
-                console.log('Henter kandidatliste fordi den i state er anneredes fra URL');
                 hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
             }
         }
