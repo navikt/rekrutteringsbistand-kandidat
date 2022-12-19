@@ -39,6 +39,7 @@ const Kandidatside: FunctionComponent = () => {
     }
 
     const stillingsId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
+
     const kontekst = hentSøkekontekst(
         kandidatnr,
         stillingsId,

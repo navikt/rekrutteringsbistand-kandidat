@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { sendEvent } from '../../amplitude/amplitude';
@@ -19,6 +18,7 @@ type Props = {
 
 const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, children }) => {
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
+
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
 
     const scrollTilToppen = () => {
@@ -43,14 +43,25 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
             });
         };
 
-        if (kandidatliste.kind === Nettstatus.IkkeLastet) {
-            if (kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk') {
-                hentKandidatlisteMedKandidatlisteId(kontekst.kandidatlisteId);
+        const kandidatlisteIdFraKontekst =
+            kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
+                ? kontekst.kandidatlisteId
+                : null;
+
+        if (kandidatlisteIdFraKontekst) {
+            if (kandidatliste.kind === Nettstatus.IkkeLastet) {
+                hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
+            } else if (
+                kandidatliste.kind === Nettstatus.Suksess &&
+                kandidatliste.data.kandidatlisteId !== kandidatlisteIdFraKontekst
+            ) {
+                hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
             }
         }
     };
 
     useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
     useEffect(onFørsteSidelast, [dispatch, kandidatliste.kind, kontekst]);
 
     return (
