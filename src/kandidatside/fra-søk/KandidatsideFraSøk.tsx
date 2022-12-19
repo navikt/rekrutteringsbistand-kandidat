@@ -19,7 +19,6 @@ type Props = {
 const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, children }) => {
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
 
-    // TODO: Vi henter kandidatliste fra state, men har aldri satt den nye fra URL-en i state
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
 
     const scrollTilToppen = () => {
