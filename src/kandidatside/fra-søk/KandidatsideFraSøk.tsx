@@ -66,7 +66,8 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
     };
 
     useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
-    useEffect(onFørsteSidelast, [dispatch, kandidatliste, kontekst]);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    useEffect(onFørsteSidelast, [dispatch, kandidatliste.kind, kontekst]);
 
     return (
         <KandidatsideFraSøkInner
