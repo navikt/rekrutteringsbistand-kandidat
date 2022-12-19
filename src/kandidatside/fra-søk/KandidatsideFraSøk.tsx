@@ -22,8 +22,6 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
     // TODO: Vi henter kandidatliste fra state, men har aldri satt den nye fra URL-en i state
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
 
-    console.log('Kandidatliste fra useSelector', kandidatliste);
-
     const scrollTilToppen = () => {
         window.scrollTo(0, 0);
     };
@@ -39,9 +37,7 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
     };
 
     const onFørsteSidelast = () => {
-        console.log('Kaller onFørsteSideLast');
         const hentKandidatlisteMedKandidatlisteId = (kandidatlisteId: string) => {
-            console.log('Henter kandidatliste med kandidatlisteId: ', kandidatlisteId);
             dispatch({
                 type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
                 kandidatlisteId,
@@ -55,13 +51,6 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
             kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
                 ? kontekst.kandidatlisteId
                 : null;
-
-        if (
-            kandidatlisteIdFraKontekst &&
-            kandidatlisteIdFraKontekst !== kandidatlisteFraState?.kandidatlisteId
-        ) {
-            console.log('Må erstatte kandidatlista som er i state');
-        }
 
         if (kandidatlisteIdFraKontekst) {
             if (

@@ -30,11 +30,6 @@ const Kandidatside: FunctionComponent = () => {
     const fraAutomatiskMatching =
         queryParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
 
-    console.log(
-        'Kommer fra kandidatliste og har kandidatlisteId: ',
-        fraKandidatliste && kandidatlisteId
-    );
-
     if (fraKandidatliste && kandidatlisteId) {
         return (
             <KandidatsideFraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
@@ -45,8 +40,6 @@ const Kandidatside: FunctionComponent = () => {
 
     const stillingsId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
 
-    console.log('Skal hente søkekontekst');
-
     const kontekst = hentSøkekontekst(
         kandidatnr,
         stillingsId,
@@ -54,8 +47,6 @@ const Kandidatside: FunctionComponent = () => {
         fraAutomatiskMatching,
         nyttKandidatsøkØkt.current
     );
-
-    console.log('Søkekontekst', kontekst);
 
     return (
         <KandidatsideFraSøk kandidatnr={kandidatnr} kontekst={kontekst}>

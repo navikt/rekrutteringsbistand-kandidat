@@ -37,7 +37,6 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
     kontekst,
     children,
 }) => {
-    console.log('KandidatsideFraSøkInner med kandidatliste', kandidatliste);
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
     const leggTilKandidatStatus = useSelector(
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
