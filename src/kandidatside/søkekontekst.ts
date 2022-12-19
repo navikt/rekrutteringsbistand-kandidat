@@ -60,6 +60,7 @@ export const hentSøkekontekst = (
     skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
 
     if (kandidatlisteIdFraUrl) {
+        console.log('Ja, har kandidatlisteId fra URL');
         return {
             kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk',
             kandidatlisteId: kandidatlisteIdFraUrl,

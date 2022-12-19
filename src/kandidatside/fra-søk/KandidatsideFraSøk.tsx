@@ -19,7 +19,11 @@ type Props = {
 
 const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, children }) => {
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
+
+    // TODO: Vi henter kandidatliste fra state, men har aldri satt den nye fra URL-en i state
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
+
+    console.log('Kandidatliste fra useSelector', kandidatliste);
 
     const scrollTilToppen = () => {
         window.scrollTo(0, 0);
@@ -36,7 +40,9 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
     };
 
     const onFørsteSidelast = () => {
+        console.log('Kaller onFørsteSideLast');
         const hentKandidatlisteMedKandidatlisteId = (kandidatlisteId: string) => {
+            console.log('Henter kandidatliste med kandidatlisteId: ', kandidatlisteId);
             dispatch({
                 type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
                 kandidatlisteId,
