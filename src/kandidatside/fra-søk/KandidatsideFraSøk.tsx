@@ -66,7 +66,7 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
     };
 
     useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
-    useEffect(onFørsteSidelast, [dispatch, kandidatliste.kind, kontekst]);
+    useEffect(onFørsteSidelast, [dispatch, kandidatliste, kontekst]);
 
     return (
         <KandidatsideFraSøkInner
