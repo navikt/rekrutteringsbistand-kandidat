@@ -58,9 +58,6 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
             ) {
                 console.log('Henter kandidatliste fordi den i state er anneredes fra URL');
                 hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
-            } else if (Nettstatus.FinnesIkke || Nettstatus.Feil) {
-                console.log('Henter kandidatliste fordi forrige henting feilet');
-                hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
             }
         }
     };
