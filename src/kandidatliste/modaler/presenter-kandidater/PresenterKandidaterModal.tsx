@@ -1,15 +1,17 @@
 import React, { ChangeEvent } from 'react';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Feilmelding, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { erGyldigEpost } from './epostValidering';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
+import { Nettstatus } from '../../../api/Nettressurs';
 import './PresenterKandidaterModal.less';
 
 type Props = {
     vis?: boolean; // Default true
+    deleStatus: Nettstatus;
     onSubmit: (beskjed: string, mailadresser: string[]) => void;
     onClose: () => void;
     antallMarkerteKandidater: number;
@@ -129,6 +131,7 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
     render() {
         const {
             vis = true,
+            deleStatus,
             antallMarkerteKandidater,
             antallKandidaterSomHarSvartJa,
             alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere,
@@ -224,11 +227,20 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                         />
                     </div>
                     <div>
-                        <Hovedknapp onClick={this.validerOgLagre}>Del</Hovedknapp>
+                        <Hovedknapp
+                            disabled={deleStatus === Nettstatus.LasterInn}
+                            spinner={deleStatus === Nettstatus.LasterInn}
+                            onClick={this.validerOgLagre}
+                        >
+                            Del
+                        </Hovedknapp>
                         <Flatknapp className="avbryt--knapp" onClick={this.props.onClose}>
                             Avbryt
                         </Flatknapp>
                     </div>
+                    {deleStatus === Nettstatus.Feil && (
+                        <Feilmelding>Kunne ikke dele med arbeidsgiver akkurat nå</Feilmelding>
+                    )}
                 </div>
             </ModalMedKandidatScope>
         );

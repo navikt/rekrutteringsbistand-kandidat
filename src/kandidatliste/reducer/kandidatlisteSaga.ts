@@ -168,6 +168,7 @@ function* presenterKandidater(action: PresenterKandidaterAction) {
             kandidatnummerListe,
             navKontor
         );
+
         yield put({
             type: KandidatlisteActionType.PresenterKandidaterSuccess,
             kandidatliste: response,
@@ -628,7 +629,6 @@ function* kandidatlisteSaga() {
             KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure,
             KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure,
             KandidatlisteActionType.EndreStatusKandidatFailure,
-            KandidatlisteActionType.PresenterKandidaterFailure,
             KandidatlisteActionType.LeggTilKandidaterFailure,
             KandidatlisteActionType.OpprettNotatFailure,
             KandidatlisteActionType.EndreNotatFailure,

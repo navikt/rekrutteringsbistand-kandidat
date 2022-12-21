@@ -281,7 +281,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.PresenterKandidaterFailure:
             return {
                 ...state,
-                deleStatus: Nettstatus.IkkeLastet,
+                deleStatus: Nettstatus.Feil,
             };
 
         case KandidatlisteActionType.ResetDelestatus:
