@@ -11,7 +11,7 @@ import { kandidatlisterForKandidatMock } from './kandidatlister-for-kandidat.moc
 import { AktørId } from '../../kandidatliste/domene/Kandidat';
 
 export const forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]> = {
-    [kandidatlister[0].kandidater[2].aktørid!]: [
+    [kandidatlister[0].kandidater[5].aktørid!]: [
         {
             aktørId: kandidatlister[0].kandidater[2].aktørid!,
             stillingsId: kandidatliste.stillingId!,

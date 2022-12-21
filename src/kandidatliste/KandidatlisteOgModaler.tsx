@@ -124,6 +124,10 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             ).length;
 
             this.fjernAllMarkering();
+            this.setState({
+                deleModalOpen: false,
+            });
+
             this.visInfobanner(
                 `${
                     antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
@@ -234,7 +238,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             ? this.hentMarkerteKandidaterSomHarSvartJa().map((k) => k.kandidatnr)
             : this.hentKandidatnumrePåMarkerteKandidater();
 
-        this.sendEventForPresentertKandidatliste(kandidaterSomSkalDeles);
+        this.sendAmplitudeEventForPresentertKandidatliste(kandidaterSomSkalDeles);
 
         this.props.presenterKandidater(
             beskjed,
@@ -243,12 +247,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             kandidaterSomSkalDeles,
             valgtNavKontor
         );
-        this.setState({
-            deleModalOpen: false,
-        });
     };
 
-    sendEventForPresentertKandidatliste = (kandidaterSomSkalDeles: string[]) => {
+    sendAmplitudeEventForPresentertKandidatliste = (kandidaterSomSkalDeles: string[]) => {
         const { kandidatliste } = this.props;
 
         const opprettetDato = new Date(kandidatliste.opprettetTidspunkt);
@@ -296,7 +297,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 
     render() {
         const { deleModalOpen, infobanner, leggTilModalOpen } = this.state;
-        const { kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
+        const { deleStatus, kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
         const { kandidater } = kandidatliste;
         const markerteKandidater = this.hentMarkerteKandidater();
         const kandidaterSomHarSvartJa = this.hentMarkerteKandidaterSomHarSvartJa();
@@ -306,6 +307,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                 {deleModalOpen && (
                     <PresenterKandidaterModal
                         vis={this.state.deleModalOpen}
+                        deleStatus={deleStatus}
                         onClose={this.onToggleDeleModal}
                         onSubmit={this.onDelMedArbeidsgiver}
                         antallMarkerteKandidater={markerteKandidater.length}
