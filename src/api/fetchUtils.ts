@@ -1,3 +1,4 @@
+import { lenkeTilTilgangsside } from '../app/paths';
 import { feil, Nettressurs, suksess } from './Nettressurs';
 
 export const createCallIdHeader = () => ({
@@ -28,6 +29,8 @@ export async function fetchJson(url: string, includeCredentials: boolean = false
             return response.json();
         } else if (response.status === 401) {
             videresendTilInnlogging();
+        } else if (response.status === 403) {
+            videresendTilTilgangsside();
         }
 
         let error;
@@ -53,6 +56,10 @@ export async function fetchJson(url: string, includeCredentials: boolean = false
 
 const videresendTilInnlogging = () => {
     window.location.href = `/oauth2/login?redirect=${window.location.pathname}`;
+};
+
+const videresendTilTilgangsside = () => {
+    window.location.href = lenkeTilTilgangsside;
 };
 
 export async function deleteJsonMedType<T>(
