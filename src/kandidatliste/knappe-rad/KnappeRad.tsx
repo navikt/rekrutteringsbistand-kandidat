@@ -53,8 +53,7 @@ const KnappeRad: FunctionComponent<Props> = ({
         kandidatliste.kanEditere &&
         erKobletTilStilling(kandidatliste) &&
         erKobletTilArbeidsgiver(kandidatliste) &&
-        kandidatliste.stillingskategori !==
-            (Stillingskategori.Jobbmesse || Stillingskategori.Formidling) &&
+        kandidatliste.stillingskategori == Stillingskategori.Stilling &&
         !visArkiverte;
 
     const skalViseDelMedKandidatKnapp =
