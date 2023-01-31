@@ -69,7 +69,7 @@ const Personalia = ({ kandidat }: { kandidat: Kandidatmatch }) => (
 
                 <tr>
                     <td>NAV-kontor</td>
-                    <td>{kandidat.oppfolgingsinformasjon.oppfolgingsenhet}</td>
+                    {/*<td>{kandidat.oppfolgingsinformasjon.oppfolgingsenhet}</td>*/}
                 </tr>
                 <tr>
                     <td>Disponerer bil</td>
