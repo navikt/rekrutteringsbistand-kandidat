@@ -289,36 +289,36 @@ const Matchforklaring = () => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Oppfølgingsinformasjon">
-                <ul>
-                    <li>Fødselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>
-                    <li>Formidlingsgruppe: {kandidat.oppfolgingsinformasjon.formidlingsgruppe}</li>
-                    <li>iservFraDato: {tilDato(kandidat.oppfolgingsinformasjon.iservFraDato)}</li>
-                    <li>Fornavn: {kandidat.oppfolgingsinformasjon.fornavn}</li>
-                    <li>Etternavn: {kandidat.oppfolgingsinformasjon.etternavn}</li>
-                    <li>Oppfølgingsenhet: {kandidat.oppfolgingsinformasjon.oppfolgingsenhet}</li>
-                    <li>
-                        Kvalifiseringsgruppe: {kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}
-                    </li>
-                    <li>Rettighetsgruppe: {kandidat.oppfolgingsinformasjon.rettighetsgruppe}</li>
-                    <li>Hovedmål: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>
-                    <li>
-                        SikkerhetstiltakType: {kandidat.oppfolgingsinformasjon.sikkerhetstiltakType}
-                    </li>
-                    <li>Diskresjonskode: {kandidat.oppfolgingsinformasjon.diskresjonskode}</li>
-                    <li>
-                        Har oppfølgingssak:{' '}
-                        {booleanTilTekst(kandidat.oppfolgingsinformasjon.harOppfolgingssak)}
-                    </li>
-                    <li>
-                        Er sperret ansatt:{' '}
-                        {booleanTilTekst(kandidat.oppfolgingsinformasjon.sperretAnsatt)}
-                    </li>
-                    <li>Er død: {booleanTilTekst(kandidat.oppfolgingsinformasjon.erDoed)}</li>
-                    <li>Dødsdato: {tilDato(kandidat.oppfolgingsinformasjon.doedFraDato)}</li>
-                    <li>Sist endret: {tilDato(kandidat.oppfolgingsinformasjon.sistEndretDato)}</li>
-                </ul>
-            </Seksjon>
+            {/*<Seksjon tittel="Oppfølgingsinformasjon">*/}
+            {/*    <ul>*/}
+            {/*        <li>Fødselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>*/}
+            {/*        <li>Formidlingsgruppe: {kandidat.oppfolgingsinformasjon.formidlingsgruppe}</li>*/}
+            {/*        <li>iservFraDato: {tilDato(kandidat.oppfolgingsinformasjon.iservFraDato)}</li>*/}
+            {/*        <li>Fornavn: {kandidat.oppfolgingsinformasjon.fornavn}</li>*/}
+            {/*        <li>Etternavn: {kandidat.oppfolgingsinformasjon.etternavn}</li>*/}
+            {/*        <li>Oppfølgingsenhet: {kandidat.oppfolgingsinformasjon.oppfolgingsenhet}</li>*/}
+            {/*        <li>*/}
+            {/*            Kvalifiseringsgruppe: {kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}*/}
+            {/*        </li>*/}
+            {/*        <li>Rettighetsgruppe: {kandidat.oppfolgingsinformasjon.rettighetsgruppe}</li>*/}
+            {/*        <li>Hovedmål: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>*/}
+            {/*        <li>*/}
+            {/*            SikkerhetstiltakType: {kandidat.oppfolgingsinformasjon.sikkerhetstiltakType}*/}
+            {/*        </li>*/}
+            {/*        <li>Diskresjonskode: {kandidat.oppfolgingsinformasjon.diskresjonskode}</li>*/}
+            {/*        <li>*/}
+            {/*            Har oppfølgingssak:{' '}*/}
+            {/*            {booleanTilTekst(kandidat.oppfolgingsinformasjon.harOppfolgingssak)}*/}
+            {/*        </li>*/}
+            {/*        <li>*/}
+            {/*            Er sperret ansatt:{' '}*/}
+            {/*            {booleanTilTekst(kandidat.oppfolgingsinformasjon.sperretAnsatt)}*/}
+            {/*        </li>*/}
+            {/*        <li>Er død: {booleanTilTekst(kandidat.oppfolgingsinformasjon.erDoed)}</li>*/}
+            {/*        <li>Dødsdato: {tilDato(kandidat.oppfolgingsinformasjon.doedFraDato)}</li>*/}
+            {/*        <li>Sist endret: {tilDato(kandidat.oppfolgingsinformasjon.sistEndretDato)}</li>*/}
+            {/*    </ul>*/}
+            {/*</Seksjon>*/}
             <Seksjon tittel="Oppfølgingsperiode">
                 <ul>
                     <li>UUID: {kandidat.oppfolgingsperiode.uuid} </li>
