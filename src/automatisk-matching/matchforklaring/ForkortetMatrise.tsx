@@ -15,61 +15,129 @@ const ForkortetMatrise = ({
             <table>
                 <thead>
                     <tr>
-                        <th>Ord fra stilling</th>
-                        <th colSpan={2}>Relatert ord fra kandidaten</th>
+                        <th>Bokmål</th>
+                        <th colSpan={2}>Nynorsk</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {erfaring.ord_score
-                        .sort(([, matchedeOrdFraKandidat1], [, matchedeOrdFraKandidat2]) => {
-                            const score1 = Math.max(
-                                ...matchedeOrdFraKandidat1.map((ord) => ord.score)
-                            );
-                            const score2 = Math.max(
-                                ...matchedeOrdFraKandidat2.map((ord) => ord.score)
-                            );
-                            return score2 - score1;
-                        })
-                        .map((ordscore, k) => {
-                            const [ordFraStilling, matchedeOrdFraKandidat] = ordscore;
-                            const toBesteMatcherFraKandidat = matchedeOrdFraKandidat
-                                .sort(
-                                    (matchedeOrdFraKandidat1, matchedeOrdFraKandidat2) =>
-                                        matchedeOrdFraKandidat2.score -
-                                        matchedeOrdFraKandidat1.score
-                                )
-                                .slice(0, 2);
+                    <th>
+                        <thead>
+                            <tr>
+                                <th>Ord fra stilling</th>
+                                <th colSpan={2}>Relatert ord fra kandidaten</th>
+                            </tr>
+                        </thead>
+                        {erfaring.ord_score
+                            .sort(([, matchedeOrdFraKandidat1], [, matchedeOrdFraKandidat2]) => {
+                                const score1 = Math.max(
+                                    ...matchedeOrdFraKandidat1.map((ord) => ord.score)
+                                );
+                                const score2 = Math.max(
+                                    ...matchedeOrdFraKandidat2.map((ord) => ord.score)
+                                );
+                                return score2 - score1;
+                            })
+                            .map((ordscore, k) => {
+                                const [ordFraStilling, matchedeOrdFraKandidat] = ordscore;
+                                const toBesteMatcherFraKandidat = matchedeOrdFraKandidat
+                                    .sort(
+                                        (matchedeOrdFraKandidat1, matchedeOrdFraKandidat2) =>
+                                            matchedeOrdFraKandidat2.score -
+                                            matchedeOrdFraKandidat1.score
+                                    )
+                                    .slice(0, 2);
 
-                            return (
-                                tilProsentpoeng(toBesteMatcherFraKandidat[0].score) >=
-                                    minimumTreffprosent && (
-                                    <tr key={k}>
-                                        <td>{ordFraStilling.ord}</td>
-                                        {toBesteMatcherFraKandidat.map(
-                                            (matchedeOrdFraKandidat, index) => {
-                                                return (
-                                                    tilProsentpoeng(matchedeOrdFraKandidat.score) >=
-                                                        minimumTreffprosent && (
-                                                        <td key={index}>
-                                                            <span>
-                                                                {matchedeOrdFraKandidat.ord}
-                                                            </span>
-                                                            <span>
-                                                                (
-                                                                {tilProsent(
-                                                                    matchedeOrdFraKandidat.score
-                                                                )}
-                                                                )
-                                                            </span>
-                                                        </td>
-                                                    )
-                                                );
-                                            }
-                                        )}
-                                    </tr>
-                                )
-                            );
-                        })}
+                                return (
+                                    tilProsentpoeng(toBesteMatcherFraKandidat[0].score) >=
+                                        minimumTreffprosent && (
+                                        <tr key={k}>
+                                            <td>{ordFraStilling.ord}</td>
+                                            {toBesteMatcherFraKandidat.map(
+                                                (matchedeOrdFraKandidat, index) => {
+                                                    return (
+                                                        tilProsentpoeng(
+                                                            matchedeOrdFraKandidat.score
+                                                        ) >= minimumTreffprosent && (
+                                                            <td key={index}>
+                                                                <span>
+                                                                    {matchedeOrdFraKandidat.ord}
+                                                                </span>
+                                                                <span>
+                                                                    (
+                                                                    {tilProsent(
+                                                                        matchedeOrdFraKandidat.score
+                                                                    )}
+                                                                    )
+                                                                </span>
+                                                            </td>
+                                                        )
+                                                    );
+                                                }
+                                            )}
+                                        </tr>
+                                    )
+                                );
+                            })}
+                    </th>
+                    <th>
+                        <thead>
+                            <tr>
+                                <th>Ord fra stilling</th>
+                                <th colSpan={2}>Relatert ord fra kandidaten</th>
+                            </tr>
+                        </thead>
+                        {erfaring.ord_score
+                            .sort(([, matchedeOrdFraKandidat1], [, matchedeOrdFraKandidat2]) => {
+                                const nn_score1 = Math.max(
+                                    ...matchedeOrdFraKandidat1.map((ord) => ord.nn_score)
+                                );
+                                const nn_score2 = Math.max(
+                                    ...matchedeOrdFraKandidat2.map((ord) => ord.nn_score)
+                                );
+                                return nn_score2 - nn_score1;
+                            })
+                            .map((ordscore, k) => {
+                                const [ordFraStilling, matchedeOrdFraKandidat] = ordscore;
+                                const toBesteMatcherFraKandidat = matchedeOrdFraKandidat
+                                    .sort(
+                                        (matchedeOrdFraKandidat1, matchedeOrdFraKandidat2) =>
+                                            matchedeOrdFraKandidat2.nn_score -
+                                            matchedeOrdFraKandidat1.nn_score
+                                    )
+                                    .slice(0, 2);
+
+                                return (
+                                    tilProsentpoeng(toBesteMatcherFraKandidat[0].nn_score) >=
+                                        minimumTreffprosent && (
+                                        <tr key={k}>
+                                            <td>{ordFraStilling.ord}</td>
+                                            {toBesteMatcherFraKandidat.map(
+                                                (matchedeOrdFraKandidat, index) => {
+                                                    return (
+                                                        tilProsentpoeng(
+                                                            matchedeOrdFraKandidat.nn_score
+                                                        ) >= minimumTreffprosent && (
+                                                            <td key={index}>
+                                                                <span>
+                                                                    {matchedeOrdFraKandidat.ord}
+                                                                </span>
+                                                                <span>
+                                                                    (
+                                                                    {tilProsent(
+                                                                        matchedeOrdFraKandidat.nn_score
+                                                                    )}
+                                                                    )
+                                                                </span>
+                                                            </td>
+                                                        )
+                                                    );
+                                                }
+                                            )}
+                                        </tr>
+                                    )
+                                );
+                            })}
+                    </th>
                 </tbody>
             </table>
         </div>

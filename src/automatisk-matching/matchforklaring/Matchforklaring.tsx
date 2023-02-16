@@ -38,14 +38,24 @@ const Matchforklaring = () => {
                 Tilbake til oversikten
             </Link>
             <h1 className="blokk-l">
-                {kandidat?.fornavn} {kandidat?.etternavn} ({tilProsent(kandidat?.score)})
+                {kandidat?.fornavn} {kandidat?.etternavn} ({tilProsent(kandidat?.score)}) | Nynorsk:
+                ({tilProsent(kandidat?.nn_score)})
             </h1>
             <Personalia kandidat={kandidat} />
-            <Seksjon åpen tittel="Sammendrag" match={kandidat.sammendrag.score}>
+            <Seksjon
+                åpen
+                tittel="Sammendrag"
+                match={kandidat.sammendrag.score}
+                nn_match={kandidat.sammendrag.nn_score}
+            >
                 <p>{kandidat.sammendrag.tekst}</p>
                 <Matrise tittel="Detaljer" erfaring={kandidat.sammendrag} />
             </Seksjon>
-            <Seksjon tittel="Jobbønsker" match={kandidat.stillinger_jobbprofil.score}>
+            <Seksjon
+                tittel="Jobbønsker"
+                match={kandidat.stillinger_jobbprofil.score}
+                nn_match={kandidat.stillinger_jobbprofil.nn_score}
+            >
                 {kandidat.stillinger_jobbprofil.erfaringer
                     .sort(
                         (stillingØnske1, stillingØnske2) =>
@@ -101,7 +111,11 @@ const Matchforklaring = () => {
                     ))}
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Utdanninger" match={kandidat.utdannelse.score}>
+            <Seksjon
+                tittel="Utdanninger"
+                match={kandidat.utdannelse.score}
+                nn_match={kandidat.utdannelse.nn_score}
+            >
                 {kandidat.utdannelse.erfaringer
                     .sort((utdannelse1, utdannelse2) => utdannelse2.score - utdannelse1.score)
                     .map((utdannelse, index) => (
@@ -129,7 +143,11 @@ const Matchforklaring = () => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Arbeidserfaringer" match={kandidat.arbeidserfaring.score}>
+            <Seksjon
+                tittel="Arbeidserfaringer"
+                match={kandidat.arbeidserfaring.score}
+                nn_match={kandidat.arbeidserfaring.nn_score}
+            >
                 {kandidat.arbeidserfaring.erfaringer
                     .sort(
                         (arbeidserfaring1, arbeidserfaring2) =>
@@ -157,7 +175,11 @@ const Matchforklaring = () => {
                     ))}
                 </ul>
             </Seksjon>
-            <Seksjon tittel="Kompetanser" match={kandidat.kompetanser_jobbprofil.score}>
+            <Seksjon
+                tittel="Kompetanser"
+                match={kandidat.kompetanser_jobbprofil.score}
+                nn_match={kandidat.kompetanser_jobbprofil.nn_score}
+            >
                 {kandidat.kompetanser_jobbprofil.erfaringer.map((kompetanse) => (
                     <Matrise
                         tittel={kompetanse.tekst}
@@ -267,36 +289,36 @@ const Matchforklaring = () => {
                     <IngenData />
                 )}
             </Seksjon>
-            <Seksjon tittel="Oppfølgingsinformasjon">
-                <ul>
-                    <li>Fødselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>
-                    <li>Formidlingsgruppe: {kandidat.oppfolgingsinformasjon.formidlingsgruppe}</li>
-                    <li>iservFraDato: {tilDato(kandidat.oppfolgingsinformasjon.iservFraDato)}</li>
-                    <li>Fornavn: {kandidat.oppfolgingsinformasjon.fornavn}</li>
-                    <li>Etternavn: {kandidat.oppfolgingsinformasjon.etternavn}</li>
-                    <li>Oppfølgingsenhet: {kandidat.oppfolgingsinformasjon.oppfolgingsenhet}</li>
-                    <li>
-                        Kvalifiseringsgruppe: {kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}
-                    </li>
-                    <li>Rettighetsgruppe: {kandidat.oppfolgingsinformasjon.rettighetsgruppe}</li>
-                    <li>Hovedmål: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>
-                    <li>
-                        SikkerhetstiltakType: {kandidat.oppfolgingsinformasjon.sikkerhetstiltakType}
-                    </li>
-                    <li>Diskresjonskode: {kandidat.oppfolgingsinformasjon.diskresjonskode}</li>
-                    <li>
-                        Har oppfølgingssak:{' '}
-                        {booleanTilTekst(kandidat.oppfolgingsinformasjon.harOppfolgingssak)}
-                    </li>
-                    <li>
-                        Er sperret ansatt:{' '}
-                        {booleanTilTekst(kandidat.oppfolgingsinformasjon.sperretAnsatt)}
-                    </li>
-                    <li>Er død: {booleanTilTekst(kandidat.oppfolgingsinformasjon.erDoed)}</li>
-                    <li>Dødsdato: {tilDato(kandidat.oppfolgingsinformasjon.doedFraDato)}</li>
-                    <li>Sist endret: {tilDato(kandidat.oppfolgingsinformasjon.sistEndretDato)}</li>
-                </ul>
-            </Seksjon>
+            {/*<Seksjon tittel="Oppfølgingsinformasjon">*/}
+            {/*    <ul>*/}
+            {/*        <li>Fødselsnummer: {kandidat.oppfolgingsinformasjon.fodselsnummer}</li>*/}
+            {/*        <li>Formidlingsgruppe: {kandidat.oppfolgingsinformasjon.formidlingsgruppe}</li>*/}
+            {/*        <li>iservFraDato: {tilDato(kandidat.oppfolgingsinformasjon.iservFraDato)}</li>*/}
+            {/*        <li>Fornavn: {kandidat.oppfolgingsinformasjon.fornavn}</li>*/}
+            {/*        <li>Etternavn: {kandidat.oppfolgingsinformasjon.etternavn}</li>*/}
+            {/*        <li>Oppfølgingsenhet: {kandidat.oppfolgingsinformasjon.oppfolgingsenhet}</li>*/}
+            {/*        <li>*/}
+            {/*            Kvalifiseringsgruppe: {kandidat.oppfolgingsinformasjon.kvalifiseringsgruppe}*/}
+            {/*        </li>*/}
+            {/*        <li>Rettighetsgruppe: {kandidat.oppfolgingsinformasjon.rettighetsgruppe}</li>*/}
+            {/*        <li>Hovedmål: {kandidat.oppfolgingsinformasjon.hovedmaal}</li>*/}
+            {/*        <li>*/}
+            {/*            SikkerhetstiltakType: {kandidat.oppfolgingsinformasjon.sikkerhetstiltakType}*/}
+            {/*        </li>*/}
+            {/*        <li>Diskresjonskode: {kandidat.oppfolgingsinformasjon.diskresjonskode}</li>*/}
+            {/*        <li>*/}
+            {/*            Har oppfølgingssak:{' '}*/}
+            {/*            {booleanTilTekst(kandidat.oppfolgingsinformasjon.harOppfolgingssak)}*/}
+            {/*        </li>*/}
+            {/*        <li>*/}
+            {/*            Er sperret ansatt:{' '}*/}
+            {/*            {booleanTilTekst(kandidat.oppfolgingsinformasjon.sperretAnsatt)}*/}
+            {/*        </li>*/}
+            {/*        <li>Er død: {booleanTilTekst(kandidat.oppfolgingsinformasjon.erDoed)}</li>*/}
+            {/*        <li>Dødsdato: {tilDato(kandidat.oppfolgingsinformasjon.doedFraDato)}</li>*/}
+            {/*        <li>Sist endret: {tilDato(kandidat.oppfolgingsinformasjon.sistEndretDato)}</li>*/}
+            {/*    </ul>*/}
+            {/*</Seksjon>*/}
             <Seksjon tittel="Oppfølgingsperiode">
                 <ul>
                     <li>UUID: {kandidat.oppfolgingsperiode.uuid} </li>

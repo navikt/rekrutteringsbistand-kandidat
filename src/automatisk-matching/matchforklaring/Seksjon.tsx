@@ -6,12 +6,14 @@ import './Seksjon.less';
 export const Seksjon = ({
     tittel,
     match,
+    nn_match,
     åpen,
     className,
     children,
 }: {
     tittel: string;
     match?: number;
+    nn_match?: number;
     åpen?: boolean;
     className?: string;
     children?: ReactNode;
@@ -27,7 +29,8 @@ export const Seksjon = ({
                         <Collapse className="matchforklaring-seksjon__ikon--opp" />
                     </span>
                     {tittel}
-                    {match ? <> ({tilProsent(match)})</> : ''}
+                    {match ? <> (Bokmål: {tilProsent(match)})</> : ''}
+                    {nn_match ? <> (Nynorsk: {tilProsent(nn_match)})</> : ''}
                 </h2>
             </summary>
             {children}

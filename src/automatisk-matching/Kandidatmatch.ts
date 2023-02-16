@@ -51,6 +51,8 @@ type Kandidatmatch = {
 
     // Match
     score: number;
+    // Match Nynorsk
+    nn_score: number;
 
     // Veileder
     veileder: Veileder | null;
@@ -66,10 +68,12 @@ type Veileder = {
 type Erfaringer = {
     erfaringer: ErfaringPrototype[];
     score: number;
+    nn_score: number;
 };
 
 export type ErfaringPrototype = {
     score: number;
+    nn_score: number;
     ord_score: OrdScore[];
     tekst: string;
 };
@@ -188,6 +192,7 @@ type MatchetOrdFraKandidat = {
     indeks: number[];
     ord: string;
     score: number;
+    nn_score: number;
 };
 
 export default Kandidatmatch;
