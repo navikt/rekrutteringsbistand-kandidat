@@ -15,8 +15,8 @@ const ForkortetMatrise = ({
             <table>
                 <thead>
                     <tr>
-                        <th>Bokmål</th>
-                        <th colSpan={2}>Nynorsk</th>
+                        <th>Spacy</th>
+                        <th colSpan={2}>Gensim</th>
                     </tr>
                 </thead>
                 <tbody>

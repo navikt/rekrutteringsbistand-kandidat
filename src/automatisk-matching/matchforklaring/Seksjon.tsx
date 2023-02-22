@@ -29,8 +29,8 @@ export const Seksjon = ({
                         <Collapse className="matchforklaring-seksjon__ikon--opp" />
                     </span>
                     {tittel}
-                    {match ? <> (Bokmål: {tilProsent(match)})</> : ''}
-                    {nn_match ? <> (Nynorsk: {tilProsent(nn_match)})</> : ''}
+                    {match ? <> (spacy: {tilProsent(match)})</> : ''}
+                    {nn_match ? <> (gensim: {tilProsent(nn_match)})</> : ''}
                 </h2>
             </summary>
             {children}
