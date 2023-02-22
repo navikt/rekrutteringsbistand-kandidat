@@ -38,8 +38,8 @@ const Matchforklaring = () => {
                 Tilbake til oversikten
             </Link>
             <h1 className="blokk-l">
-                {kandidat?.fornavn} {kandidat?.etternavn} ({tilProsent(kandidat?.score)}) | Nynorsk:
-                ({tilProsent(kandidat?.nn_score)})
+                {kandidat?.fornavn} {kandidat?.etternavn} | spacy: ({tilProsent(kandidat?.score)}) |
+                gensim: ({tilProsent(kandidat?.nn_score)})
             </h1>
             <Personalia kandidat={kandidat} />
             <Seksjon
