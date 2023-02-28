@@ -1,5 +1,4 @@
 const CracoLessPlugin = require('craco-less');
-const CracoEsbuildPlugin = require('craco-esbuild');
 const cssprefixer = require('postcss-prefix-selector');
 
 module.exports = {
@@ -25,5 +24,5 @@ module.exports = {
             ],
         },
     },
-    plugins: [{ plugin: CracoEsbuildPlugin }, { plugin: CracoLessPlugin }],
+    plugins: [{ plugin: CracoLessPlugin }],
 };

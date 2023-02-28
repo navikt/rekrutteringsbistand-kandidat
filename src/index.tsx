@@ -56,8 +56,16 @@ export const AppMedStore: FunctionComponent<AppProps> = ({ navKontor }) => (
     </Provider>
 );
 
+const renderUtviklingsapp = async () => {
+    if (process.env.REACT_APP_MOCK) {
+        await import('./mock/mock-api');
+    }
+
+    ReactDOM.render(<Utviklingsapp />, document.getElementById('utviklingsapp'));
+};
+
 if (process.env.REACT_APP_EXPORT) {
     Navspa.eksporter('rekrutteringsbistand-kandidat', AppMedRouter);
 } else {
-    ReactDOM.render(<Utviklingsapp />, document.getElementById('utviklingsapp'));
+    renderUtviklingsapp();
 }

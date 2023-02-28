@@ -1,6 +1,6 @@
 import * as cvData from './cv-data.mock';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
-import { meg } from './veiledere.mock';
+import { Veileder } from './veileder';
 
 export const antall = 20;
 
@@ -75,14 +75,14 @@ const fødselsnumre = [
     '18105726895',
 ];
 
-const baseCv: Cv = {
+const baseCv = (veileder: Veileder): Cv => ({
     fornavn: '<fornavn>',
     etternavn: '<etternavn>',
     kandidatnummer: '<kandidatnr>',
 
-    veilederEpost: meg.epost,
-    veilederIdent: meg.ident,
-    veilederNavn: meg.navn,
+    veilederEpost: veileder.epost,
+    veilederIdent: veileder.ident,
+    veilederNavn: veileder.navn,
 
     aktorId: '<aktorId>',
     fodselsdato: '2019-01-09',
@@ -161,7 +161,7 @@ const baseCv: Cv = {
     ],
     fodselsnummer: '<fødselsnummer>',
     tilretteleggingsbehov: true,
-};
+});
 
 const bokstaver = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -170,13 +170,12 @@ export const kandidatnumre = tomListe.map((_, i) => {
     return toBokstaver + '123456';
 });
 
-const cver = tomListe.map((_, i) => ({
-    ...baseCv,
-    kandidatnummer: kandidatnumre[i],
-    fornavn: fornavn[i % fornavn.length],
-    etternavn: etternavn[i % etternavn.length],
-    fodselsnummer: fødselsnumre[i % fødselsnumre.length],
-    aktorId: '00' + fødselsnumre[i % fødselsnumre.length],
-}));
-
-export default cver;
+export const mockCver = (veileder: Veileder) =>
+    tomListe.map((_, i) => ({
+        ...baseCv(veileder),
+        kandidatnummer: kandidatnumre[i],
+        fornavn: fornavn[i % fornavn.length],
+        etternavn: etternavn[i % etternavn.length],
+        fodselsnummer: fødselsnumre[i % fødselsnumre.length],
+        aktorId: '00' + fødselsnumre[i % fødselsnumre.length],
+    }));

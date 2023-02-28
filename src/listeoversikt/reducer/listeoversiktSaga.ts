@@ -16,6 +16,8 @@ import {
 import { SearchApiError } from '../../api/fetchUtils';
 
 function* hentKandidatlister() {
+    console.log('Heisann');
+
     const state: AppState = yield select();
     try {
         let mergedQuery = {
@@ -23,6 +25,8 @@ function* hentKandidatlister() {
             ...state.listeoversikt.sortering,
         };
         const kandidatlister = yield fetchKandidatlister(mergedQuery);
+        console.log('Heisann 2', kandidatlister);
+
         yield put({ type: ListeoversiktActionType.HentKandidatlisterSuccess, kandidatlister });
     } catch (e) {
         if (e instanceof SearchApiError) {

@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 
 import { AppMedStore, cssScopeForApp } from '../index';
 import CustomRouter from './CustomRouter';
-import { meg } from '../mock/data/veiledere.mock';
+import { mock } from '../mock/mock-data';
+import { Stilling } from '../automatisk-matching/kandidatmatchReducer';
+import { meg } from '../mock/data/veileder';
 import './Utviklingsapp.less';
 
 const history = createBrowserHistory();
@@ -23,6 +25,12 @@ const Utviklingsapp: FunctionComponent = () => {
         };
     });
 
+    const enKandidatliste = mock.kandidatlister[0];
+    const enKandidat = enKandidatliste.kandidater[0];
+    const enAnnenKandidat = enKandidatliste.kandidater[1];
+    const enStilling = mock.stilling._source as unknown as Stilling;
+    const enAnnenStilling = mock.annenStilling._source as unknown as Stilling;
+
     return (
         <div className={cssScopeForApp}>
             <CustomRouter history={history}>
@@ -31,14 +39,22 @@ const Utviklingsapp: FunctionComponent = () => {
 
                     <Utviklingslenke to="/kandidater/lister">Kandidatlister</Utviklingslenke>
                     <Utviklingslenke
-                        to="/kandidater/kandidat/AB123456/cv?fraNyttKandidatsok=true"
+                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true`}
                         state={{
-                            kandidater: ['AB123456', 'BC123456'],
+                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
                         }}
                     >
-                        Kandidatside (CV/Historikk)
+                        Kandidatside
                     </Utviklingslenke>
-                    <Utviklingslenke to="/prototype/stilling/1ea746af-66be-4cf8-a051-9e815f77b1d1">
+                    <Utviklingslenke
+                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?kandidatlisteId=${enKandidatliste.kandidatlisteId}&fraKandidatliste=true`}
+                        state={{
+                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
+                        }}
+                    >
+                        Kandidatside fra liste
+                    </Utviklingslenke>
+                    <Utviklingslenke to={`/prototype/stilling/${enStilling.stilling.uuid}`}>
                         Kandidatmatch
                     </Utviklingslenke>
 
@@ -46,7 +62,7 @@ const Utviklingsapp: FunctionComponent = () => {
                         state={{
                             aktørIder: ['PAM010nudgb5v', 'PAM013tc53ryp'],
                         }}
-                        to="/prototype/stilling/2ea746af-66be-4cf8-a051-9e815f77b1d1"
+                        to={`/prototype/stilling/${enAnnenStilling.stilling.uuid}`}
                     >
                         Kandidatmatch (med aktørIder)
                     </Utviklingslenke>
