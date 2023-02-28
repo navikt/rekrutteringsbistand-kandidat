@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { Feilmelding, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { erGyldigEpost } from './epostValidering';
+import { inneholderSærnorskeBokstaver, erGyldigEpost } from './epostValidering';
 import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
@@ -107,6 +107,11 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                 return {
                     ...mailadresseFelt,
                     errorTekst: 'Mailadressen er ugyldig',
+                };
+            } else if (inneholderSærnorskeBokstaver(mailadresseFelt.value.trim())) {
+                return {
+                    ...mailadresseFelt,
+                    errorTekst: 'Særnorske bokstaver i e-postadresse støttes ikke',
                 };
             }
             return mailadresseFelt;

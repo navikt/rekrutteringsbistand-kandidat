@@ -5,3 +5,5 @@ export const erGyldigEpost = (epost: string): boolean => {
     );
     return regex.test(epost);
 };
+
+export const inneholderSærnorskeBokstaver = (tekst: string): boolean => /[æøå]/.test(tekst);
