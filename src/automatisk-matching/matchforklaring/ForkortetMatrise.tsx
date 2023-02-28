@@ -32,9 +32,11 @@ const ForkortetMatrise = ({
                                 const score1 = Math.max(
                                     ...matchedeOrdFraKandidat1.map((ord) => ord.score)
                                 );
+                                console.log(score1);
                                 const score2 = Math.max(
                                     ...matchedeOrdFraKandidat2.map((ord) => ord.score)
                                 );
+                                console.log(score2);
                                 return score2 - score1;
                             })
                             .map((ordscore, k) => {
