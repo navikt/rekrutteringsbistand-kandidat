@@ -7,15 +7,15 @@ import {
 } from './data/kandidat/kandidatliste.mock';
 import { kandidatlisterForKandidatMock } from './data/kandidat/kandidatlister-for-kandidat.mock';
 import { enAnnenVeileder, meg } from './data/kandidat/veileder.mock';
-import sms from './sms/sms.mock.json';
+import sms from './data/sms/sms.mock.json';
 
-import stilling from './stillingssøk/stilling.mock.json';
-import annenStilling from './stillingssøk/annen-stilling.mock.json';
+import stilling from './data/stillingssøk/stilling.mock.json';
+import annenStilling from './data/stillingssøk/annen-stilling.mock.json';
 import {
     mockForespørslerOmDelingAvCv,
     mockForespørslerOmDelingAvCvForKandidat,
 } from './data/forespørselOmDelingAvCv/forespørselOmDelingAvCv.mock';
-import kandidatmatch from './kandidatmatch/kandidatmatch.mock.json';
+import kandidatmatch from './data/kandidatmatch/kandidatmatch.mock.json';
 import enhetsregister from './data/kandidat/enhetsregister.mock.json';
 import notater from './data/kandidat/notater.mock.json';
 import kandidatlisteBasertPåAnnonsenummer from './data/kandidat/kandidatlisteBasertPåAnnonsenummer.mock.json';
@@ -42,7 +42,7 @@ export const mock = {
         notater,
     },
     sms: {
-        sms,
+        sms: sms as any,
     },
     forespørselOmDelingAvCv: {
         forespørslerOmDelingAvCv: mockForespørslerOmDelingAvCv(meg, kandidatliste),
@@ -59,7 +59,7 @@ export const mock = {
         usynligKandidat,
     },
     stillingssøk: {
-        stilling,
-        annenStilling,
+        stilling: stilling as any,
+        annenStilling: annenStilling as any,
     },
 };
