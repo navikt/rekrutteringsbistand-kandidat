@@ -4,8 +4,6 @@ export enum Miljøvariabel {
 }
 
 const useMiljøvariabler = () => {
-    console.log('Miljøvariabel:', window[Miljøvariabel.ArbeidsrettetOppfølgingUrl]);
-
     if (process.env.NODE_ENV === 'development') {
         return {
             lastNedCvUrl: process.env.REACT_APP_LAST_NED_CV_URL,

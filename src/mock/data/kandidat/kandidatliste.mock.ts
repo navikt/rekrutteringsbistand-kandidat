@@ -1,76 +1,39 @@
+import moment from 'moment';
+import { v5 as uuid } from 'uuid';
+
+import type Cv from '../../../kandidatside/cv/reducer/cv-typer';
+import { KanSletteEnum } from '../../../listeoversikt/Kandidatlisteoversikt';
 import {
     Kandidatliste,
     KandidatlisteSammendrag,
     Kandidatlistestatus,
     Stillingskategori,
-} from '../../kandidatliste/domene/Kandidatliste';
+} from '../../../kandidatliste/domene/Kandidatliste';
 import {
     FormidlingAvUsynligKandidat,
     Kandidat,
     Kandidatstatus,
     Kandidatutfall,
-} from '../../kandidatliste/domene/Kandidat';
-import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
-import { v5 as uuid } from 'uuid';
-import cver from './cv.mock';
-import Cv from '../../kandidatside/cv/reducer/cv-typer';
-import { enAnnenVeileder, enVeileder, meg, Veileder } from './veiledere.mock';
-import moment from 'moment';
+} from '../../../kandidatliste/domene/Kandidat';
+import { Veileder } from './veileder.mock';
+import { mockStrings } from './mock-strings';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
 
-const bedrifter = [
-    'Accenture',
-    'Atea',
-    'Bekk',
-    'Bouvet',
-    'Capgemini',
-    'Ciber',
-    'Deloitte',
-    'Evry',
-    'Itera',
-    'JProfessionals',
-    'Kantega',
-    'KPMG',
-    'NAV',
-    'Sopra',
-    'Visma',
-];
-
-const verb = ['søker', 'trenger', 'har behov for', 'ønsker å ansette', 'leter etter'];
-
-const yrker = [
-    'piloter',
-    'leger',
-    'brannslukkere',
-    'politifolk',
-    'rørleggere',
-    'ambulansesjåfører',
-    'sykepleiere',
-    'ambassadører',
-    'professorer',
-    'prester',
-    'dyrleger',
-    'nødhjelpsarbeidere',
-    'lærere',
-    'influencere',
-    'dykkere',
-    'forfattere',
-    'musikkstjerner',
-    'livvakter',
-    'skuespillere',
-    'fysioterapeuter',
-];
+const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
+const iDag = new Date();
+const forrigeUke = new Date(Number(new Date()) - 1000 * 60 * 60 * 24 * 7);
 
 const lagTittel = (i: number) =>
-    `${bedrifter[i % bedrifter.length]} ${verb[i % verb.length]} ${yrker[i % yrker.length]}`;
+    `${mockStrings.bedrifter[i % mockStrings.bedrifter.length]} ${
+        mockStrings.verb[i % mockStrings.verb.length]
+    } ${mockStrings.yrker[i % mockStrings.yrker.length]}`;
 
-const lagTittelForListeUtenStilling = (i: number) => `Liste over ${yrker[i % yrker.length]}`;
+const lagTittelForListeUtenStilling = (i: number) =>
+    `Liste over ${mockStrings.yrker[i % mockStrings.yrker.length]}`;
 
-const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
-
-const standard: Kandidatliste = {
+const standardKandidatliste = (eier: Veileder): Kandidatliste => ({
     kandidatlisteId: 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29',
     tittel: 'Tulleskolen søker tøysekopper',
     beskrivelse:
@@ -79,8 +42,8 @@ const standard: Kandidatliste = {
     organisasjonNavn: 'TULLEKONTORET AS',
     stillingId: 'ce3da214-8771-4115-9362-b83145150551',
     opprettetAv: {
-        ident: meg.ident,
-        navn: meg.navn,
+        ident: eier.ident,
+        navn: eier.navn,
     },
     opprettetTidspunkt: '2019-11-18T11:40:34.732',
     kanEditere: true,
@@ -90,27 +53,20 @@ const standard: Kandidatliste = {
     kandidater: [],
     formidlingerAvUsynligKandidat: [],
     antallStillinger: 7,
-};
+});
 
-const iDag = new Date();
-const forrigeUke = new Date(Number(new Date()) - 1000 * 60 * 60 * 24 * 7);
-
-export const mockKandidat = (
-    cvIndex: number,
-    lagtTilAv: Veileder = meg,
-    lagtTilTidspunkt = iDag
-): Kandidat => ({
-    kandidatnr: cver[cvIndex].kandidatnummer,
+export const mockKandidat = (cv: Cv, lagtTilAv: Veileder, lagtTilTidspunkt = iDag): Kandidat => ({
+    kandidatnr: cv.kandidatnummer,
     status: Kandidatstatus.Vurderes,
     lagtTilTidspunkt: lagtTilTidspunkt.toISOString(),
     lagtTilAv: {
         ident: lagtTilAv?.ident || '<ident>',
         navn: lagtTilAv?.navn || '<veileders-navn>',
     },
-    fornavn: cver[cvIndex].fornavn,
-    etternavn: cver[cvIndex].etternavn,
-    fodselsdato: cver[cvIndex].fodselsdato,
-    fodselsnr: cver[cvIndex].fodselsnummer,
+    fornavn: cv.fornavn,
+    etternavn: cv.etternavn,
+    fodselsdato: cv.fodselsdato,
+    fodselsnr: cv.fodselsnummer,
     utfall: Kandidatutfall.IkkePresentert,
     utfallsendringer: [],
     telefon: '(+47) 123456789',
@@ -120,7 +76,7 @@ export const mockKandidat = (
     antallNotater: 1,
     arkivertTidspunkt: null,
     arkivertAv: null,
-    aktørid: cver[cvIndex].aktorId,
+    aktørid: cv.aktorId,
     erSynlig: true,
 });
 
@@ -132,7 +88,7 @@ const inaktivKandidat = {
     fodselsnr: null,
 };
 
-const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({
+const fraCvTilUsynligKandidat = (cv: Cv, meg: Veileder): FormidlingAvUsynligKandidat => ({
     id: '0',
     fornavn: cv.fornavn,
     mellomnavn: null,
@@ -147,11 +103,23 @@ const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({
     arkivertTidspunkt: null,
 });
 
-export const mockUsynligKandidat = (index: number): FormidlingAvUsynligKandidat => ({
-    ...fraCvTilUsynligKandidat(cver[index]),
+export const mockUsynligKandidat = (cv: Cv, meg: Veileder): FormidlingAvUsynligKandidat => ({
+    ...fraCvTilUsynligKandidat(cv, meg),
 });
 
-export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
+export const mockKandidatlister = (
+    eier: Veileder,
+    enAnnenVeileder: Veileder,
+    cver: Cv[]
+): Kandidatliste[] =>
+    tomListe.map((_, index) => mockKandidatliste(eier, enAnnenVeileder, cver, index));
+
+const mockKandidatliste = (
+    eier: Veileder,
+    enAnnenVeileder: Veileder,
+    cver: Cv[],
+    i: number
+): Kandidatliste => {
     const erEier = i < 10;
     const harStilling = i % 5 < 3;
     const erLukket = i % 5 === 2;
@@ -160,21 +128,23 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
     const harAlleSomFåttJobb = i === 1;
     const enAnnenVeilederHarOgsåLagtTilKandidater = i === 0;
 
+    let kandidatliste = standardKandidatliste(eier);
     let kandidater: Kandidat[] = [];
+
     let standardKandidater: Kandidat[] = [
         {
-            ...mockKandidat(0, meg),
+            ...mockKandidat(cver[0], eier),
             status: Kandidatstatus.TilIntervju,
             utfall: Kandidatutfall.IkkePresentert,
             utfallsendringer: [
                 {
-                    registrertAvIdent: meg.ident,
+                    registrertAvIdent: eier.ident,
                     sendtTilArbeidsgiversKandidatliste: false,
                     tidspunkt: new Date().toISOString(),
                     utfall: Kandidatutfall.IkkePresentert,
                 },
                 {
-                    registrertAvIdent: meg.ident,
+                    registrertAvIdent: eier.ident,
                     sendtTilArbeidsgiversKandidatliste: true,
                     tidspunkt: moment().subtract(1, 'day').toISOString(),
                     utfall: Kandidatutfall.Presentert,
@@ -182,30 +152,33 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
             ],
         },
         {
-            ...mockKandidat(1, meg),
+            ...mockKandidat(cver[1], eier),
             status: Kandidatstatus.Kontaktet,
             utfall: Kandidatutfall.Presentert,
             ...inaktivKandidat,
         },
         {
-            ...mockKandidat(2, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
+            ...mockKandidat(
+                cver[2],
+                enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : eier
+            ),
             status: Kandidatstatus.Kontaktet,
             utfall: Kandidatutfall.Presentert,
             utfallsendringer: [
                 {
-                    registrertAvIdent: meg.ident,
+                    registrertAvIdent: eier.ident,
                     sendtTilArbeidsgiversKandidatliste: false,
                     tidspunkt: new Date().toISOString(),
                     utfall: Kandidatutfall.Presentert,
                 },
                 {
-                    registrertAvIdent: meg.ident,
+                    registrertAvIdent: eier.ident,
                     sendtTilArbeidsgiversKandidatliste: false,
                     tidspunkt: moment().subtract(1, 'day').toISOString(),
                     utfall: Kandidatutfall.FåttJobben,
                 },
                 {
-                    registrertAvIdent: meg.ident,
+                    registrertAvIdent: eier.ident,
                     sendtTilArbeidsgiversKandidatliste: true,
                     tidspunkt: moment().subtract(2, 'day').toISOString(),
                     utfall: Kandidatutfall.Presentert,
@@ -213,27 +186,31 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
             ],
         },
         {
-            ...mockKandidat(3, meg, forrigeUke),
+            ...mockKandidat(cver[3], eier, forrigeUke),
             status: Kandidatstatus.Aktuell,
             utfall: Kandidatutfall.IkkePresentert,
         },
         {
-            ...mockKandidat(4, meg),
+            ...mockKandidat(cver[4], eier),
             status: Kandidatstatus.Uaktuell,
             utfall: Kandidatutfall.IkkePresentert,
             ...inaktivKandidat,
         },
         {
-            ...mockKandidat(5, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
+            ...mockKandidat(
+                cver[5],
+                enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : eier
+            ),
             status: Kandidatstatus.Uinteressert,
             utfall: Kandidatutfall.IkkePresentert,
         },
         {
-            ...mockKandidat(6, meg, forrigeUke),
+            ...mockKandidat(cver[6], eier, forrigeUke),
             status: Kandidatstatus.Vurderes,
             utfall: Kandidatutfall.IkkePresentert,
         },
     ];
+
     if (!erTomListe) {
         kandidater = standardKandidater;
     }
@@ -246,32 +223,35 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
     }
 
     return {
-        ...standard,
+        ...kandidatliste,
+        opprettetTidspunkt: new Date().toISOString(),
+
+        stillingskategori: Stillingskategori.Stilling,
         tittel: harStilling ? lagTittel(i) : lagTittelForListeUtenStilling(i),
         kandidatlisteId: lagUuid(lagTittel(i)),
         status: erLukket ? Kandidatlistestatus.Lukket : Kandidatlistestatus.Åpen,
-        kanEditere: erEier ? standard.kanEditere : false,
-        kanSlette: erEier ? standard.kanSlette : KanSletteEnum.ER_IKKE_DIN,
-        organisasjonNavn: harStilling ? standard.organisasjonNavn : null,
-        stillingId: harStilling ? standard.stillingId : null,
+        kanEditere: erEier ? kandidatliste.kanEditere : false,
+        kanSlette: erEier ? kandidatliste.kanSlette : KanSletteEnum.ER_IKKE_DIN,
+        stillingId: harStilling ? kandidatliste.stillingId : null,
         opprettetAv: erEier
-            ? standard.opprettetAv
+            ? kandidatliste.opprettetAv
             : {
-                  ident: enVeileder.ident,
-                  navn: enVeileder.navn,
+                  ident: enAnnenVeileder.ident,
+                  navn: enAnnenVeileder.navn,
               },
         kandidater,
         formidlingerAvUsynligKandidat:
-            harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(7)] : [],
+            harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(cver[7], eier)] : [],
     };
-});
+};
 
-export const kandidatlistesammendragLister: KandidatlisteSammendrag[] = kandidatlister.map((l) => {
-    return {
-        ...(l as unknown as KandidatlisteSammendrag),
-        antallKandidater: l.kandidater.length,
-        antallUsynligeKandidater: l.formidlingerAvUsynligKandidat.length,
-    };
-});
-
-export const kandidatliste = kandidatlister[0];
+export const kandidatlistesammendragLister = (
+    kandidatlister: Kandidatliste[]
+): KandidatlisteSammendrag[] =>
+    kandidatlister.map((liste) => {
+        return {
+            ...(liste as unknown as KandidatlisteSammendrag),
+            antallKandidater: liste.kandidater.length,
+            antallUsynligeKandidater: liste.formidlingerAvUsynligKandidat.length,
+        };
+    });

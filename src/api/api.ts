@@ -22,10 +22,6 @@ export const KANDIDATSOK_API = `/kandidat-api`;
 export const SMS_API = `/sms-api`;
 export const SYNLIGHET_API = `/synlighet-api`;
 
-if (process.env.REACT_APP_MOCK) {
-    require('../mock/api.ts');
-}
-
 const convertToUrlParams = (query: object) =>
     Object.keys(query)
         .map((key) => {

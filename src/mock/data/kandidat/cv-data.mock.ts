@@ -6,7 +6,7 @@ import {
     Yrkeserfaring,
     Kompetanse,
     Utdanning,
-} from '../../kandidatside/cv/reducer/cv-typer';
+} from '../../../kandidatside/cv/reducer/cv-typer';
 
 export const utdanning: Utdanning[] = [
     {

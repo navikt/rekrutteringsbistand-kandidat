@@ -1,6 +1,6 @@
-import { Kandidatstatus, Kandidatutfall } from '../../kandidatliste/domene/Kandidat';
-import { KandidatlisteForKandidat } from '../../kandidatside/historikk/historikkReducer';
-import { meg } from './veiledere.mock';
+import { Kandidatstatus, Kandidatutfall } from '../../../kandidatliste/domene/Kandidat';
+import { KandidatlisteForKandidat } from '../../../kandidatside/historikk/historikkReducer';
+import { Veileder } from './veileder.mock';
 
 const kandidatlisteId = 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29';
 const kandidatlisteId2 = '53d32269-08df-4950-a4f9-41ad6f36129f';
@@ -9,7 +9,7 @@ const kandidatlisteId4 = '43d32269-08df-4950-a4f9-41ad6f36129f';
 const stillingsId = 'ce3da214-8771-4115-9362-b83145150551';
 const stillingsId2 = 'be3da214-8771-4115-9362-b83145150551';
 
-export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
+export const kandidatlisterForKandidatMock = (eier: Veileder): KandidatlisteForKandidat[] => [
     {
         uuid: kandidatlisteId,
         lagtTilTidspunkt: '2020-05-18T15:05:53.147',
@@ -44,7 +44,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         slettet: false,
         utfallsendringer: [
             {
-                registrertAvIdent: meg.ident,
+                registrertAvIdent: eier.ident,
                 tidspunkt: new Date().toISOString(),
                 utfall: Kandidatutfall.Presentert,
                 sendtTilArbeidsgiversKandidatliste: true,
@@ -67,13 +67,13 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         slettet: true,
         utfallsendringer: [
             {
-                registrertAvIdent: meg.ident,
+                registrertAvIdent: eier.ident,
                 tidspunkt: new Date().toISOString(),
                 utfall: Kandidatutfall.Presentert,
                 sendtTilArbeidsgiversKandidatliste: true,
             },
             {
-                registrertAvIdent: meg.ident,
+                registrertAvIdent: eier.ident,
                 tidspunkt: new Date().toISOString(),
                 utfall: Kandidatutfall.FåttJobben,
                 sendtTilArbeidsgiversKandidatliste: false,
