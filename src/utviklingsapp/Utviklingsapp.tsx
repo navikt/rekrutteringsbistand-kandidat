@@ -15,11 +15,11 @@ const history = createBrowserHistory();
 const Utviklingsapp: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
-    const enKandidatliste = mock.kandidatlister[0];
+    const enKandidatliste = mock.kandidat.kandidatlister[0];
     const enKandidat = enKandidatliste.kandidater[0];
     const enAnnenKandidat = enKandidatliste.kandidater[1];
-    const enStilling = mock.stilling._source as unknown as Stilling;
-    const enAnnenStilling = mock.annenStilling._source as unknown as Stilling;
+    const enStilling = mock.stillingssøk.stilling._source as unknown as Stilling;
+    const enAnnenStilling = mock.stillingssøk.annenStilling._source as unknown as Stilling;
 
     const stateFraKandidatsøk = {
         kandidater: enKandidatliste.kandidater.map((k) => k.kandidatnr),
@@ -44,16 +44,13 @@ const Utviklingsapp: FunctionComponent = () => {
                     <Systemtittel>Utviklingsapp for rekrutteringsbistand-kandidat</Systemtittel>
 
                     <Utviklingslenke to="/kandidater/lister">Kandidatlister</Utviklingslenke>
-                    <Utviklingslenke to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv`}>
-                        Kandidatside uten kontekst
-                    </Utviklingslenke>
                     <Utviklingslenke
                         to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true`}
                     >
                         Kandidatside fra søk
                     </Utviklingslenke>
                     <Utviklingslenke
-                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?kandidatlisteId=${enKandidatliste.kandidatlisteId}&fraKandidatliste=true`}
+                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatliste=true&kandidatlisteId=${enKandidatliste.kandidatlisteId}`}
                         state={{
                             kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
                         }}

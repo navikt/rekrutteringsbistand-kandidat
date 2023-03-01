@@ -26,36 +26,55 @@ const kandidat = (index?: number): Kandidat => kandidatliste.kandidater[index ||
 const usynligKandidat = mockUsynligKandidat(cver[7], meg);
 
 type Mock = {
-    cver: Cv[];
-    kandidatlister: Kandidatliste[];
-    kandidatliste: Kandidatliste;
-    kandidat: (index: number) => Kandidat;
-    usynligKandidat: UsynligKandidat;
-    kandidatlisterForKandidat: KandidatlisteForKandidat[];
-    kandidatlisteForKandidat: KandidatlisteForKandidat;
-    kandidatlistesammendrag: KandidatlisteSammendrag[];
-    forespørselOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]>;
-    forespørselOmDelingAvCvForKandidat: ForespørselOmDelingAvCv[];
-    stilling: any;
-    annenStilling: any;
+    kandidat: {
+        cver: Cv[];
+        kandidatlister: Kandidatliste[];
+        kandidatliste: Kandidatliste;
+        kandidat: (index: number) => Kandidat;
+        kandidatlisterForKandidat: KandidatlisteForKandidat[];
+        kandidatlisteForKandidat: KandidatlisteForKandidat;
+        kandidatlistesammendrag: KandidatlisteSammendrag[];
+    };
+    sms: {};
+    forespørselOmDelingAvCv: {
+        forespørslerOmDelingAvCv: Record<AktørId, ForespørselOmDelingAvCv[]>;
+        forespørslerOmDelingAvCvForKandidat: ForespørselOmDelingAvCv[];
+    };
+    kandidatmatch: {};
+    synlighet: {
+        usynligKandidat: UsynligKandidat;
+    };
+    stillingssøk: {
+        stilling: any;
+        annenStilling: any;
+    };
 };
 
 export const mock: Mock = {
-    cver: mockCver(meg),
-    kandidatlister,
-    kandidatliste: kandidatlister[0],
-    kandidat,
-    usynligKandidat,
-    kandidatlisterForKandidat,
-    kandidatlisteForKandidat,
-    kandidatlistesammendrag: kandidatlistesammendragLister(kandidatlister),
-    forespørselOmDelingAvCv: mocketForespørslerOmDelingAvCv(meg, kandidatliste),
-    forespørselOmDelingAvCvForKandidat: mocketForespørslerOmDelingAvCvForKandidat(
-        meg,
-        kandidat().aktørid!,
-        kandidatlisteForKandidat
-    ),
-
-    stilling,
-    annenStilling,
+    kandidat: {
+        cver: mockCver(meg),
+        kandidatlister,
+        kandidatliste: kandidatlister[0],
+        kandidat,
+        kandidatlisterForKandidat,
+        kandidatlisteForKandidat,
+        kandidatlistesammendrag: kandidatlistesammendragLister(kandidatlister),
+    },
+    sms: {},
+    forespørselOmDelingAvCv: {
+        forespørslerOmDelingAvCv: mocketForespørslerOmDelingAvCv(meg, kandidatliste),
+        forespørslerOmDelingAvCvForKandidat: mocketForespørslerOmDelingAvCvForKandidat(
+            meg,
+            kandidat().aktørid!,
+            kandidatlisteForKandidat
+        ),
+    },
+    kandidatmatch: {},
+    synlighet: {
+        usynligKandidat,
+    },
+    stillingssøk: {
+        stilling,
+        annenStilling,
+    },
 };

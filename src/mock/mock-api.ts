@@ -78,11 +78,11 @@ const getCv = (url: string) => {
     if (!kandidatnr) {
         return 404;
     } else {
-        return mock.cver.find((cv) => cv.kandidatnummer === kandidatnr);
+        return mock.kandidat.cver.find((cv) => cv.kandidatnummer === kandidatnr);
     }
 };
 
-const getUsynligKandidat = () => [mock.usynligKandidat];
+const getUsynligKandidat = () => [mock.synlighet.usynligKandidat];
 
 const getKandidatlister = (url: string) => {
     console.log('Hei');
@@ -92,10 +92,10 @@ const getKandidatlister = (url: string) => {
     const stillingsfilter = params.get('type');
     const eierfilter = params.get('kunEgne') && Boolean(params.get('kunEgne'));
 
-    let filtrerteKandidatlister = mock.kandidatlistesammendrag;
+    let filtrerteKandidatlister = mock.kandidat.kandidatlistesammendrag;
 
     if (stillingsfilter) {
-        filtrerteKandidatlister = mock.kandidatlistesammendrag.filter((k) =>
+        filtrerteKandidatlister = mock.kandidat.kandidatlistesammendrag.filter((k) =>
             stillingsfilter === 'MED_STILLING' ? !!k.stillingId : !k.stillingId
         );
     }
@@ -113,17 +113,19 @@ const getKandidatlister = (url: string) => {
 const getKandidatliste = (url: string) => {
     const kandidatlisteId = url.split('/').pop();
 
-    return mock.kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+    return mock.kandidat.kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 };
 
 const getStilling = (url: string) => {
     const stillingsId = url.split('/').pop();
-    return stillingsId === mock.stilling._source.stilling.uuid ? mock.stilling : annenStilling;
+    return stillingsId === mock.stillingssøk.stilling._source.stilling.uuid
+        ? mock.stillingssøk.stilling
+        : annenStilling;
 };
 
 const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatlisteId = url.split('/')[url.split('/').length - 2];
-    const kandidatliste = mock.kandidatlister.find(
+    const kandidatliste = mock.kandidat.kandidatlister.find(
         (liste) => liste.kandidatlisteId === kandidatlisteId
     );
 
@@ -135,10 +137,10 @@ const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) =>
 
     const kandidatnumre = JSON.parse(String(options.body));
     const cvIndekser: number[] = kandidatnumre.map((kandidat: any) =>
-        mock.cver.findIndex((cv) => cv.kandidatnummer === kandidat.kandidatnr)
+        mock.kandidat.cver.findIndex((cv) => cv.kandidatnummer === kandidat.kandidatnr)
     );
 
-    const nyeKandidater = cvIndekser.map((cvIndeks) => mock.kandidat(cvIndeks));
+    const nyeKandidater = cvIndekser.map((cvIndeks) => mock.kandidat.kandidat(cvIndeks));
 
     return {
         ...kandidatliste,
@@ -151,7 +153,7 @@ const postFormidlingerAvUsynligKandidat = (
     options: fetchMock.MockOptionsMethodPost
 ) => {
     const kandidatlisteId = url.split('/')[url.split('/').length - 2];
-    const kandidatliste = mock.kandidatlister.find(
+    const kandidatliste = mock.kandidat.kandidatlister.find(
         (liste) => liste.kandidatlisteId === kandidatlisteId
     );
     const body: FormidlingAvUsynligKandidatOutboundDto = JSON.parse(String(options.body));
@@ -177,8 +179,8 @@ const putStatus = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const status = JSON.parse(String(options.body)).status;
 
     return {
-        ...mock.kandidatliste,
-        kandidater: mock.kandidatliste.kandidater.map((kandidat) =>
+        ...mock.kandidat.kandidatliste,
+        kandidater: mock.kandidat.kandidatliste.kandidater.map((kandidat) =>
             kandidat.kandidatnr !== kandidatnr
                 ? kandidat
                 : {
@@ -194,8 +196,8 @@ const putUtfall = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const utfall = JSON.parse(String(options.body)).utfall;
 
     return {
-        ...mock.kandidatliste,
-        kandidater: mock.kandidatliste.kandidater.map((kandidat) =>
+        ...mock.kandidat.kandidatliste,
+        kandidater: mock.kandidat.kandidatliste.kandidater.map((kandidat) =>
             kandidat.kandidatnr !== kandidatnr
                 ? kandidat
                 : {
@@ -214,23 +216,23 @@ const putUtfallForFormidlingAvUsynligKandidat = (
     const utfall = JSON.parse(String(options.body)).utfall;
 
     return {
-        ...mock.kandidatliste,
-        formidlingerAvUsynligKandidat: mock.kandidatliste.formidlingerAvUsynligKandidat.map(
-            (formidling) =>
+        ...mock.kandidat.kandidatliste,
+        formidlingerAvUsynligKandidat:
+            mock.kandidat.kandidatliste.formidlingerAvUsynligKandidat.map((formidling) =>
                 formidling.id !== formidlingId
                     ? formidling
                     : {
                           ...formidling,
                           utfall,
                       }
-        ),
+            ),
     };
 };
 
 const putArkivert = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatnr = url.split('/').reverse()[1];
     const arkivert = JSON.parse(String(options.body));
-    const kandidat = mock.kandidatliste.kandidater.find(
+    const kandidat = mock.kandidat.kandidatliste.kandidater.find(
         (kandidat) => kandidat.kandidatnr === kandidatnr
     );
 
@@ -243,7 +245,7 @@ const putArkivert = (url: string, options: fetchMock.MockOptionsMethodPut) => {
 const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatlisteId = url.split('/').reverse()[1];
     const status = JSON.parse(String(options.body)).status;
-    const kandidatliste = mock.kandidatlister.find(
+    const kandidatliste = mock.kandidat.kandidatlister.find(
         (liste) => liste.kandidatlisteId === kandidatlisteId
     );
 
@@ -258,7 +260,7 @@ const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMetho
 
 const postDelKandidater = (url: string, options: fetchMock.MockOptionsMethodPost) => {
     const kandidatlisteId = url.split('/').reverse()[1];
-    const kandidatliste = mock.kandidatlister.find(
+    const kandidatliste = mock.kandidat.kandidatlister.find(
         (liste) => liste.kandidatlisteId === kandidatlisteId
     );
     const delteKandidater = JSON.parse(String(options.body)).kandidater;
@@ -281,7 +283,7 @@ const postDelKandidater = (url: string, options: fetchMock.MockOptionsMethodPost
 
 const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost): MockResponse => {
     const fnr = JSON.parse(String(options.body)).fnr;
-    const cv = mock.cver.find((k) => k.fodselsnummer === fnr);
+    const cv = mock.kandidat.cver.find((k) => k.fodselsnummer === fnr);
 
     if (cv) {
         return {
@@ -327,7 +329,7 @@ const putSlettCvFraArbeidsgiversKandidatliste = (
     const kandidatnummer = splittetUrl.pop();
     const kandidatlisteId = splittetUrl.pop();
 
-    const kandidatliste = mock.kandidatlister.find(
+    const kandidatliste = mock.kandidat.kandidatlister.find(
         (liste) => liste.kandidatlisteId === kandidatlisteId
     )!!;
 
@@ -371,7 +373,7 @@ fetchMock
     .get(url.cv, log(getCv), {
         delay: 200,
     })
-    .get(url.listeoversikt, log(mock.kandidatlisterForKandidat))
+    .get(url.listeoversikt, log(mock.kandidat.kandidatlisterForKandidat))
 
     // Kandidatliste
     .get(url.kandidatlister, log(getKandidatlister))
@@ -394,12 +396,18 @@ fetchMock
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
-    .get(url.forespørselOmDelingAvCv, log(mock.forespørselOmDelingAvCv))
-    .get(url.forespørselOmDelingAvCvForKandidat, log(mock.forespørselOmDelingAvCvForKandidat))
-    .post(url.postForespørselOmDelingAvCv, log({ body: mock.forespørselOmDelingAvCv, status: 201 }))
+    .get(url.forespørselOmDelingAvCv, log(mock.forespørselOmDelingAvCv.forespørslerOmDelingAvCv))
+    .get(
+        url.forespørselOmDelingAvCvForKandidat,
+        log(mock.forespørselOmDelingAvCv.forespørslerOmDelingAvCvForKandidat)
+    )
+    .post(
+        url.postForespørselOmDelingAvCv,
+        log({ body: mock.forespørselOmDelingAvCv.forespørslerOmDelingAvCv, status: 201 })
+    )
     .post(
         url.postResendForespørselOmDelingAvCv,
-        log({ body: mock.forespørselOmDelingAvCv, status: 201 })
+        log({ body: mock.forespørselOmDelingAvCv.forespørslerOmDelingAvCv, status: 201 })
     )
     .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
     .put(url.putSlettCvFraArbeidsgiversKandidatliste, log(putSlettCvFraArbeidsgiversKandidatliste))
