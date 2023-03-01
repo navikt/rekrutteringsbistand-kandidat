@@ -15,21 +15,27 @@ const history = createBrowserHistory();
 const Utviklingsapp: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
+    const enKandidatliste = mock.kandidatlister[0];
+    const enKandidat = enKandidatliste.kandidater[0];
+    const enAnnenKandidat = enKandidatliste.kandidater[1];
+    const enStilling = mock.stilling._source as unknown as Stilling;
+    const enAnnenStilling = mock.annenStilling._source as unknown as Stilling;
+
+    const stateFraKandidatsøk = {
+        kandidater: enKandidatliste.kandidater.map((k) => k.kandidatnr),
+    };
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             setNavKontor(meg.navKontor);
+
+            sessionStorage.setItem('kandidatsøk', JSON.stringify(stateFraKandidatsøk));
         }, 500);
 
         return () => {
             clearTimeout(timeout);
         };
     });
-
-    const enKandidatliste = mock.kandidatlister[0];
-    const enKandidat = enKandidatliste.kandidater[0];
-    const enAnnenKandidat = enKandidatliste.kandidater[1];
-    const enStilling = mock.stilling._source as unknown as Stilling;
-    const enAnnenStilling = mock.annenStilling._source as unknown as Stilling;
 
     return (
         <div className={cssScopeForApp}>
@@ -38,13 +44,13 @@ const Utviklingsapp: FunctionComponent = () => {
                     <Systemtittel>Utviklingsapp for rekrutteringsbistand-kandidat</Systemtittel>
 
                     <Utviklingslenke to="/kandidater/lister">Kandidatlister</Utviklingslenke>
+                    <Utviklingslenke to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv`}>
+                        Kandidatside uten kontekst
+                    </Utviklingslenke>
                     <Utviklingslenke
                         to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true`}
-                        state={{
-                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
-                        }}
                     >
-                        Kandidatside
+                        Kandidatside fra søk
                     </Utviklingslenke>
                     <Utviklingslenke
                         to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?kandidatlisteId=${enKandidatliste.kandidatlisteId}&fraKandidatliste=true`}
