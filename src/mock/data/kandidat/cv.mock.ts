@@ -1,79 +1,11 @@
 import * as cvData from './cv-data.mock';
-import Cv from '../../kandidatside/cv/reducer/cv-typer';
-import { Veileder } from './veileder';
+import Cv from '../../../kandidatside/cv/reducer/cv-typer';
+import { Veileder } from './veileder.mock';
+import { mockStrings } from './mock-strings';
 
 export const antall = 20;
 
 const tomListe = [...new Array(antall)];
-
-const fornavn = [
-    'André',
-    'Are',
-    'Bendik',
-    'Eivind',
-    'Gro',
-    'Håvard',
-    'Henrietta',
-    'Hilde',
-    'Joar',
-    'Kjetil',
-    'Lars Andreas',
-    'Malaz',
-    'Malin',
-    'Martin',
-    'Mats',
-    'Preben',
-    'Sindre',
-    'Thomas',
-    'Torstein',
-    'Vinh',
-];
-
-const etternavn = [
-    'Andersen',
-    'Berg',
-    'Dahl',
-    'Eriksen',
-    'Hagen',
-    'Halvorsen',
-    'Hansen',
-    'Haugen',
-    'Jensen',
-    'Johansen',
-    'Johnsen',
-    'Karlsen',
-    'Kristiansen',
-    'Larsen',
-    'Moen',
-    'Nilsen',
-    'Olsen',
-    'Pedersen',
-    'Pettersen',
-    'Solberg',
-];
-
-const fødselsnumre = [
-    '25068036448',
-    '31057943257',
-    '13018231837',
-    '29117333955',
-    '10059343721',
-    '21049538526',
-    '26018828331',
-    '21067630103',
-    '17026726816',
-    '22080097003',
-    '26088024140',
-    '12077918556',
-    '22119749836',
-    '01038215430',
-    '26066914886',
-    '13106340786',
-    '02085427108',
-    '16039539091',
-    '16047926231',
-    '18105726895',
-];
 
 const baseCv = (veileder: Veileder): Cv => ({
     fornavn: '<fornavn>',
@@ -174,8 +106,8 @@ export const mockCver = (veileder: Veileder) =>
     tomListe.map((_, i) => ({
         ...baseCv(veileder),
         kandidatnummer: kandidatnumre[i],
-        fornavn: fornavn[i % fornavn.length],
-        etternavn: etternavn[i % etternavn.length],
-        fodselsnummer: fødselsnumre[i % fødselsnumre.length],
-        aktorId: '00' + fødselsnumre[i % fødselsnumre.length],
+        fornavn: mockStrings.fornavn[i % mockStrings.fornavn.length],
+        etternavn: mockStrings.etternavn[i % mockStrings.etternavn.length],
+        fodselsnummer: mockStrings.fødselsnumre[i % mockStrings.fødselsnumre.length],
+        aktorId: '00' + mockStrings.fødselsnumre[i % mockStrings.fødselsnumre.length],
     }));

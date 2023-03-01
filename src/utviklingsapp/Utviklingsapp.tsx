@@ -7,7 +7,7 @@ import { AppMedStore, cssScopeForApp } from '../index';
 import CustomRouter from './CustomRouter';
 import { mock } from '../mock/mock-data';
 import { Stilling } from '../automatisk-matching/kandidatmatchReducer';
-import { meg } from '../mock/data/veileder';
+import { meg } from '../mock/data/kandidat/veileder.mock';
 import './Utviklingsapp.less';
 
 const history = createBrowserHistory();

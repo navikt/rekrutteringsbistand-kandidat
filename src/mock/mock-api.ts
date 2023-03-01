@@ -1,19 +1,13 @@
 import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
 
-import notater from './json/notater.json';
-import kandidatlisteBasertPaAnnonsenummer from './json/kandidatlisteBasertPaAnnonsenummer.json';
-import sms from './json/sms.json';
-import enhetsregister from './json/enhetsregister.json';
-import annenStilling from './data/annen-stilling.mock.json';
-import kandidatmatch from './data/kandidatmatch.mock.json';
-import { mock } from './mock-data';
-
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { KANDIDATSOK_API, SMS_API, ENHETSREGISTER_API, SYNLIGHET_API } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
-import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
 import { KANDIDATMATCH_API_URL, STILLINGSSØK_PROXY } from '../automatisk-matching/kandidatmatchApi';
-import { meg } from './data/veileder';
+import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
+
+import { mock } from './mock-data';
+import { meg } from './data/kandidat/veileder.mock';
 
 fetchMock.config.fallbackToNetwork = true;
 
@@ -120,7 +114,7 @@ const getStilling = (url: string) => {
     const stillingsId = url.split('/').pop();
     return stillingsId === mock.stillingssøk.stilling._source.stilling.uuid
         ? mock.stillingssøk.stilling
-        : annenStilling;
+        : mock.stillingssøk.annenStilling;
 };
 
 const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) => {
@@ -167,7 +161,7 @@ const postFormidlingerAvUsynligKandidat = (
         formidlingerAvUsynligKandidat: [
             ...kandidatliste.formidlingerAvUsynligKandidat,
             {
-                ...{} /*enUsynligKandidat*/,
+                ...mock.synlighet.usynligKandidat,
                 utfall: body.fåttJobb ? Kandidatutfall.FåttJobben : Kandidatutfall.Presentert,
             },
         ],
@@ -316,10 +310,6 @@ const getSynlighetsevaluering = (): MockResponse => {
     };
 };
 
-const postEnhetsregister = () => {
-    return enhetsregister;
-};
-
 const putSlettCvFraArbeidsgiversKandidatliste = (
     url: string,
     options: fetchMock.MockOptionsMethodPost
@@ -379,11 +369,11 @@ fetchMock
     .get(url.kandidatlister, log(getKandidatlister))
     .get(url.kandidatliste, log(getKandidatliste))
     .post(url.kandidatlistePost, log(201))
-    .get(url.notater, log(notater))
-    .post(url.notater, log(notater))
-    .mock(url.notaterMedId, log(notater))
-    .get(url.sms, log(sms))
-    .get(url.smsFnr, log(sms))
+    .get(url.notater, log(mock.kandidat.notater))
+    .post(url.notater, log(mock.kandidat.notater))
+    .mock(url.notaterMedId, log(mock.kandidat.notater))
+    .get(url.sms, log(mock.sms.sms))
+    .get(url.smsFnr, log(mock.sms.sms))
     .post(url.smsPost, log(201))
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
@@ -409,14 +399,17 @@ fetchMock
         url.postResendForespørselOmDelingAvCv,
         log({ body: mock.forespørselOmDelingAvCv.forespørslerOmDelingAvCv, status: 201 })
     )
-    .get(url.getKandidatlisteBasertPåAnnonsenummer, log(kandidatlisteBasertPaAnnonsenummer))
+    .get(
+        url.getKandidatlisteBasertPåAnnonsenummer,
+        log(mock.kandidat.kandidatlisteBasertPåAnnonsenummer)
+    )
     .put(url.putSlettCvFraArbeidsgiversKandidatliste, log(putSlettCvFraArbeidsgiversKandidatliste))
 
     // Stillingssøk
     .get(url.stilling, log(getStilling))
 
     // Kandidatmatch
-    .post(url.kandidatmatch, log(kandidatmatch))
+    .post(url.kandidatmatch, log(mock.kandidatmatch.kandidatmatch))
 
     // Misc
-    .post(url.enhetsregister, log(postEnhetsregister));
+    .post(url.enhetsregister, log(mock.kandidat.enhetsregister));

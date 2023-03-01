@@ -1,82 +1,37 @@
 import moment from 'moment';
 import { v5 as uuid } from 'uuid';
 
-import type Cv from '../../kandidatside/cv/reducer/cv-typer';
-import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
+import type Cv from '../../../kandidatside/cv/reducer/cv-typer';
+import { KanSletteEnum } from '../../../listeoversikt/Kandidatlisteoversikt';
 import {
     Kandidatliste,
     KandidatlisteSammendrag,
     Kandidatlistestatus,
     Stillingskategori,
-} from '../../kandidatliste/domene/Kandidatliste';
+} from '../../../kandidatliste/domene/Kandidatliste';
 import {
-    AktørId,
     FormidlingAvUsynligKandidat,
     Kandidat,
     Kandidatstatus,
     Kandidatutfall,
-} from '../../kandidatliste/domene/Kandidat';
-import {
-    ForespørselDeltStatus,
-    ForespørselOmDelingAvCv,
-    IdentType,
-    TilstandPåForespørsel,
-} from '../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import type { KandidatlisteForKandidat } from '../../kandidatside/historikk/historikkReducer';
-import { Veileder } from './veileder';
+} from '../../../kandidatliste/domene/Kandidat';
+import { Veileder } from './veileder.mock';
+import { mockStrings } from './mock-strings';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
 
-const bedrifter = [
-    'Accenture',
-    'Atea',
-    'Bekk',
-    'Bouvet',
-    'Capgemini',
-    'Ciber',
-    'Deloitte',
-    'Evry',
-    'Itera',
-    'JProfessionals',
-    'Kantega',
-    'KPMG',
-    'NAV',
-    'Sopra',
-    'Visma',
-];
-
-const verb = ['søker', 'trenger', 'har behov for', 'ønsker å ansette', 'leter etter'];
-
-const yrker = [
-    'piloter',
-    'leger',
-    'brannslukkere',
-    'politifolk',
-    'rørleggere',
-    'ambulansesjåfører',
-    'sykepleiere',
-    'ambassadører',
-    'professorer',
-    'prester',
-    'dyrleger',
-    'nødhjelpsarbeidere',
-    'lærere',
-    'influencere',
-    'dykkere',
-    'forfattere',
-    'musikkstjerner',
-    'livvakter',
-    'skuespillere',
-    'fysioterapeuter',
-];
+const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
+const iDag = new Date();
+const forrigeUke = new Date(Number(new Date()) - 1000 * 60 * 60 * 24 * 7);
 
 const lagTittel = (i: number) =>
-    `${bedrifter[i % bedrifter.length]} ${verb[i % verb.length]} ${yrker[i % yrker.length]}`;
+    `${mockStrings.bedrifter[i % mockStrings.bedrifter.length]} ${
+        mockStrings.verb[i % mockStrings.verb.length]
+    } ${mockStrings.yrker[i % mockStrings.yrker.length]}`;
 
-const lagTittelForListeUtenStilling = (i: number) => `Liste over ${yrker[i % yrker.length]}`;
-
-const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
+const lagTittelForListeUtenStilling = (i: number) =>
+    `Liste over ${mockStrings.yrker[i % mockStrings.yrker.length]}`;
 
 const standardKandidatliste = (eier: Veileder): Kandidatliste => ({
     kandidatlisteId: 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29',
@@ -99,9 +54,6 @@ const standardKandidatliste = (eier: Veileder): Kandidatliste => ({
     formidlingerAvUsynligKandidat: [],
     antallStillinger: 7,
 });
-
-const iDag = new Date();
-const forrigeUke = new Date(Number(new Date()) - 1000 * 60 * 60 * 24 * 7);
 
 export const mockKandidat = (cv: Cv, lagtTilAv: Veileder, lagtTilTidspunkt = iDag): Kandidat => ({
     kandidatnr: cv.kandidatnummer,
@@ -303,54 +255,3 @@ export const kandidatlistesammendragLister = (
             antallUsynligeKandidater: liste.formidlingerAvUsynligKandidat.length,
         };
     });
-
-export const mocketForespørslerOmDelingAvCv = (
-    eier: Veileder,
-    kandidatliste: Kandidatliste
-): Record<AktørId, ForespørselOmDelingAvCv[]> => ({
-    [kandidatliste.kandidater[5].aktørid!!]: [
-        {
-            aktørId: kandidatliste.kandidater[5].aktørid!!,
-            stillingsId: kandidatliste.stillingId!,
-            deltAv: eier.ident,
-            navKontor: eier.navKontor,
-            deltTidspunkt: moment().subtract(10, 'day').toISOString(),
-            deltStatus: ForespørselDeltStatus.Sendt,
-            svarfrist: moment().add(5, 'day').startOf('day').subtract(2, 'hours').toISOString(),
-            tilstand: TilstandPåForespørsel.HarSvart,
-            svar: {
-                harSvartJa: true,
-                svarTidspunkt: moment().subtract(1, 'day').startOf('day').toISOString(),
-                svartAv: {
-                    ident: eier.ident,
-                    identType: IdentType.NavIdent,
-                },
-            },
-        },
-    ],
-});
-
-export const mocketForespørslerOmDelingAvCvForKandidat = (
-    eier: Veileder,
-    aktørId: string,
-    kandidatlisteForKandidat: KandidatlisteForKandidat
-): ForespørselOmDelingAvCv[] => [
-    {
-        aktørId,
-        stillingsId: kandidatlisteForKandidat.stillingId!,
-        deltAv: eier.ident,
-        navKontor: eier.navKontor,
-        deltTidspunkt: new Date().toISOString(),
-        deltStatus: ForespørselDeltStatus.Sendt,
-        svarfrist: moment().add(2, 'day').startOf('day').toISOString(),
-        tilstand: TilstandPåForespørsel.HarSvart,
-        svar: {
-            harSvartJa: true,
-            svarTidspunkt: moment().add(1, 'day').startOf('day').toISOString(),
-            svartAv: {
-                ident: aktørId,
-                identType: IdentType.AktørId,
-            },
-        },
-    },
-];
