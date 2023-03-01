@@ -18,7 +18,6 @@ type Props = {
 
 const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, children }) => {
     const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
-
     const { kandidatliste } = useSelector((state: AppState) => state.kandidatliste);
 
     const scrollTilToppen = () => {
@@ -35,7 +34,7 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
         sendEvent('cv', 'visning');
     };
 
-    const onFørsteSidelast = () => {
+    const lastInnKandidatliste = (kandidatlisteId: string | null) => {
         const hentKandidatlisteMedKandidatlisteId = (kandidatlisteId: string) => {
             dispatch({
                 type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
@@ -43,26 +42,32 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
             });
         };
 
-        const kandidatlisteIdFraKontekst =
-            kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
-                ? kontekst.kandidatlisteId
-                : null;
-
-        if (kandidatlisteIdFraKontekst) {
+        if (kandidatlisteId) {
             if (kandidatliste.kind === Nettstatus.IkkeLastet) {
-                hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
+                hentKandidatlisteMedKandidatlisteId(kandidatlisteId);
             } else if (
                 kandidatliste.kind === Nettstatus.Suksess &&
-                kandidatliste.data.kandidatlisteId !== kandidatlisteIdFraKontekst
+                kandidatliste.data.kandidatlisteId !== kandidatlisteId
             ) {
-                hentKandidatlisteMedKandidatlisteId(kandidatlisteIdFraKontekst);
+                hentKandidatlisteMedKandidatlisteId(kandidatlisteId);
             }
         }
     };
 
     useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
+
+    const kandidatlisteIdFraKontekst =
+        kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
+            ? kontekst.kandidatlisteId
+            : null;
+
+    /*
+    const kandidatlisteId =
+        kandidatliste.kind === Nettstatus.Suksess ? kandidatliste.data.kandidatlisteId : null;
+    */
+
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    useEffect(onFørsteSidelast, [dispatch, kandidatliste.kind, kontekst]);
+    useEffect(() => lastInnKandidatliste(kandidatlisteIdFraKontekst), [kandidatlisteIdFraKontekst]);
 
     return (
         <KandidatsideFraSøkInner

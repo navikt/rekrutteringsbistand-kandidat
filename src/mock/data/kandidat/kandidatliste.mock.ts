@@ -131,8 +131,10 @@ const mockKandidatliste = (
     let kandidatliste = standardKandidatliste(eier);
     let kandidater: Kandidat[] = [];
 
-    let standardKandidater: Kandidat[] = [
-        {
+    let standardKandidater: Kandidat[] = [];
+
+    if (i !== 1) {
+        standardKandidater.push({
             ...mockKandidat(cver[0], eier),
             status: Kandidatstatus.TilIntervju,
             utfall: Kandidatutfall.IkkePresentert,
@@ -150,65 +152,65 @@ const mockKandidatliste = (
                     utfall: Kandidatutfall.Presentert,
                 },
             ],
-        },
-        {
-            ...mockKandidat(cver[1], eier),
-            status: Kandidatstatus.Kontaktet,
-            utfall: Kandidatutfall.Presentert,
-            ...inaktivKandidat,
-        },
-        {
-            ...mockKandidat(
-                cver[2],
-                enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : eier
-            ),
-            status: Kandidatstatus.Kontaktet,
-            utfall: Kandidatutfall.Presentert,
-            utfallsendringer: [
-                {
-                    registrertAvIdent: eier.ident,
-                    sendtTilArbeidsgiversKandidatliste: false,
-                    tidspunkt: new Date().toISOString(),
-                    utfall: Kandidatutfall.Presentert,
-                },
-                {
-                    registrertAvIdent: eier.ident,
-                    sendtTilArbeidsgiversKandidatliste: false,
-                    tidspunkt: moment().subtract(1, 'day').toISOString(),
-                    utfall: Kandidatutfall.FåttJobben,
-                },
-                {
-                    registrertAvIdent: eier.ident,
-                    sendtTilArbeidsgiversKandidatliste: true,
-                    tidspunkt: moment().subtract(2, 'day').toISOString(),
-                    utfall: Kandidatutfall.Presentert,
-                },
-            ],
-        },
-        {
-            ...mockKandidat(cver[3], eier, forrigeUke),
-            status: Kandidatstatus.Aktuell,
-            utfall: Kandidatutfall.IkkePresentert,
-        },
-        {
-            ...mockKandidat(cver[4], eier),
-            status: Kandidatstatus.Uaktuell,
-            utfall: Kandidatutfall.IkkePresentert,
-            ...inaktivKandidat,
-        },
-        {
-            ...mockKandidat(
-                cver[5],
-                enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : eier
-            ),
-            status: Kandidatstatus.Uinteressert,
-            utfall: Kandidatutfall.IkkePresentert,
-        },
-        {
-            ...mockKandidat(cver[6], eier, forrigeUke),
-            status: Kandidatstatus.Vurderes,
-            utfall: Kandidatutfall.IkkePresentert,
-        },
+        });
+    }
+
+    standardKandidater = [
+        ...standardKandidater,
+        ...[
+            {
+                ...mockKandidat(
+                    cver[2],
+                    enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : eier
+                ),
+                status: Kandidatstatus.Kontaktet,
+                utfall: Kandidatutfall.Presentert,
+                utfallsendringer: [
+                    {
+                        registrertAvIdent: eier.ident,
+                        sendtTilArbeidsgiversKandidatliste: false,
+                        tidspunkt: new Date().toISOString(),
+                        utfall: Kandidatutfall.Presentert,
+                    },
+                    {
+                        registrertAvIdent: eier.ident,
+                        sendtTilArbeidsgiversKandidatliste: false,
+                        tidspunkt: moment().subtract(1, 'day').toISOString(),
+                        utfall: Kandidatutfall.FåttJobben,
+                    },
+                    {
+                        registrertAvIdent: eier.ident,
+                        sendtTilArbeidsgiversKandidatliste: true,
+                        tidspunkt: moment().subtract(2, 'day').toISOString(),
+                        utfall: Kandidatutfall.Presentert,
+                    },
+                ],
+            },
+            {
+                ...mockKandidat(cver[3], eier, forrigeUke),
+                status: Kandidatstatus.Aktuell,
+                utfall: Kandidatutfall.IkkePresentert,
+            },
+            {
+                ...mockKandidat(cver[4], eier),
+                status: Kandidatstatus.Uaktuell,
+                utfall: Kandidatutfall.IkkePresentert,
+                ...inaktivKandidat,
+            },
+            {
+                ...mockKandidat(
+                    cver[5],
+                    enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : eier
+                ),
+                status: Kandidatstatus.Uinteressert,
+                utfall: Kandidatutfall.IkkePresentert,
+            },
+            {
+                ...mockKandidat(cver[6], eier, forrigeUke),
+                status: Kandidatstatus.Vurderes,
+                utfall: Kandidatutfall.IkkePresentert,
+            },
+        ],
     ];
 
     if (!erTomListe) {
