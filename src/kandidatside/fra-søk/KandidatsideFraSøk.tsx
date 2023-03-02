@@ -61,11 +61,6 @@ const KandidatsideFraSøk: FunctionComponent<Props> = ({ kandidatnr, kontekst, c
             ? kontekst.kandidatlisteId
             : null;
 
-    /*
-    const kandidatlisteId =
-        kandidatliste.kind === Nettstatus.Suksess ? kandidatliste.data.kandidatlisteId : null;
-    */
-
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
     useEffect(() => lastInnKandidatliste(kandidatlisteIdFraKontekst), [kandidatlisteIdFraKontekst]);
 
