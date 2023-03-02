@@ -58,7 +58,9 @@ const KandidatsideFraKandidatliste: FunctionComponent<Props> = ({
 
     if (
         kandidatliste.kind === Nettstatus.IkkeLastet ||
-        kandidatliste.kind === Nettstatus.LasterInn
+        kandidatliste.kind === Nettstatus.LasterInn ||
+        (kandidatliste.kind === Nettstatus.Suksess &&
+            kandidatliste.data.kandidatlisteId !== kandidatlisteId)
     ) {
         return (
             <div className="text-center">

@@ -79,8 +79,6 @@ const getCv = (url: string) => {
 const getUsynligKandidat = () => [mock.synlighet.usynligKandidat];
 
 const getKandidatlister = (url: string) => {
-    console.log('Hei');
-
     const queryParams = url.split('?').pop();
     const params = new URLSearchParams(queryParams);
     const stillingsfilter = params.get('type');

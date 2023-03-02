@@ -31,10 +31,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
 }) => {
     useMaskerFødselsnumre();
 
-    const tilbakeLenkeTekst =
-        søkekontekst?.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
-            ? 'Til kandidatlisten'
-            : 'Til kandidatsøket';
+    const tilbakeLenkeTekst = søkekontekst ? 'Til kandidatsøket' : 'Til kandidatlisten';
 
     let fødselsinfo: ReactNode;
     if (cv.kind === Nettstatus.Suksess) {

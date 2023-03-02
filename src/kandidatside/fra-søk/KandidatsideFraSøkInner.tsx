@@ -175,11 +175,19 @@ const Lagreknapp = ({
         }
     }
 
-    return (
-        <Hovedknapp className="kandidatside__lagreknapp" onClick={onClick}>
-            Lagre kandidat i kandidatliste
-        </Hovedknapp>
-    );
+    if (kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk') {
+        return (
+            <Hovedknapp className="kandidatside__lagreknapp" onClick={onClick}>
+                Lagre kandidat
+            </Hovedknapp>
+        );
+    } else {
+        return (
+            <Hovedknapp className="kandidatside__lagreknapp" onClick={onClick}>
+                Lagre kandidat i kandidatliste
+            </Hovedknapp>
+        );
+    }
 };
 
 const byggLenkeTilbakeTilKandidatsøket = (
