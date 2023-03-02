@@ -10,11 +10,6 @@ export type FraAutomatiskMatching = {
     stillingsId: string;
 };
 
-export type FraKandidatsøk = {
-    kontekst: 'fraKandidatsøk';
-    søk?: string;
-};
-
 export type FinnKandidaterTilKandidatlisteMedStilling = {
     kontekst: 'finnKandidaterTilKandidatlisteMedStilling';
     stillingsId: string;

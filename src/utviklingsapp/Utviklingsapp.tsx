@@ -16,7 +16,9 @@ const Utviklingsapp: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
     const enKandidatliste = mock.kandidat.kandidatlister[0];
+    const enAnnenKandidatliste = mock.kandidat.kandidatlister[1];
     const enKandidat = enKandidatliste.kandidater[0];
+
     const enAnnenKandidat = enKandidatliste.kandidater[1];
     const enStilling = mock.stillingssøk.stilling._source as unknown as Stilling;
     const enAnnenStilling = mock.stillingssøk.annenStilling._source as unknown as Stilling;
@@ -47,7 +49,15 @@ const Utviklingsapp: FunctionComponent = () => {
                     <Utviklingslenke
                         to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true`}
                     >
-                        Kandidatside fra søk
+                        Kandidatside fra vanlig søk
+                    </Utviklingslenke>
+                    <Utviklingslenke
+                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true&kandidatlisteId=${enAnnenKandidatliste.kandidatlisteId}`}
+                        state={{
+                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
+                        }}
+                    >
+                        Kandidatside fra finn kandidater
                     </Utviklingslenke>
                     <Utviklingslenke
                         to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatliste=true&kandidatlisteId=${enKandidatliste.kandidatlisteId}`}
