@@ -5,6 +5,7 @@ enum KandidatlisteActionType {
     HentKandidatlisteMedKandidatlisteId = 'HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID',
     HentKandidatlisteMedKandidatlisteIdSuccess = 'HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS',
     HentKandidatlisteMedKandidatlisteIdFailure = 'HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE',
+    NullstillKandidatliste = 'NULLSTILL_KANDIDATLISTE',
     OpprettKandidatliste = 'OPPRETT_KANDIDATLISTE',
     OpprettKandidatlisteSuccess = 'OPPRETT_KANDIDATLISTE_SUCCESS',
     OpprettKandidatlisteFailure = 'OPPRETT_KANDIDATLISTE_FAILURE',

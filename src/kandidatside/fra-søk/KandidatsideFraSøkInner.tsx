@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { sendEvent } from '../../amplitude/amplitude';
-import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { Nettstatus } from '../../api/Nettressurs';
 import {
     lenkeTilAutomatiskMatching,
     lenkeTilKandidatliste,
@@ -28,15 +28,9 @@ import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 type Props = {
     kandidatnr: string;
     kontekst: Søkekontekst;
-    kandidatliste: Nettressurs<Kandidatliste>;
 };
 
-const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
-    kandidatnr,
-    kandidatliste,
-    kontekst,
-    children,
-}) => {
+const KandidatsideFraSøkInner: FunctionComponent<Props> = ({ kandidatnr, kontekst, children }) => {
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
     const leggTilKandidatStatus = useSelector(
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
@@ -82,35 +76,25 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
         });
     };
 
+    const kandidatlisteKontekst =
+        kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
+            ? kontekst.kandidatliste
+            : undefined;
+
     return (
         <>
             <Kandidatheader
                 cv={cv}
+                søkekontekst={kontekst}
                 tilbakelenke={lenkeTilKandidatsøket}
                 kandidatnavigering={kandidatnavigering}
             />
             <Kandidatmeny cv={cv}>
-                {kandidatliste.kind === Nettstatus.Suksess &&
-                kandidatliste.data.kandidater.some(
-                    (kandidat) => kandidat.kandidatnr === kandidatnr
-                ) ? (
-                    <>
-                        Kandidaten er lagret i&nbsp;
-                        <Link
-                            to={lenkeTilKandidatliste(kandidatliste.data.kandidatlisteId)}
-                            className="lenke"
-                        >
-                            kandidatlisten
-                        </Link>
-                    </>
-                ) : (
-                    <Hovedknapp
-                        className="kandidatside__lagreknapp"
-                        onClick={() => setVisLeggTilKandidatModal(true)}
-                    >
-                        Lagre kandidat i kandidatliste
-                    </Hovedknapp>
-                )}
+                <Lagreknapp
+                    kandidatnr={kandidatnr}
+                    kontekst={kontekst}
+                    onClick={() => setVisLeggTilKandidatModal(true)}
+                />
             </Kandidatmeny>
             {children}
             {kandidatnavigering && (
@@ -121,27 +105,28 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                     />
                 </div>
             )}
-            {kandidatliste.kind === Nettstatus.Suksess && (
+            {kandidatlisteKontekst?.kind === Nettstatus.Suksess && (
                 <HjelpetekstFading
                     id="hjelpetekstfading"
                     type="suksess"
                     synlig={visKandidatenErLagtTil}
                     innhold={`${'Kandidaten'} er lagret i kandidatlisten «${
-                        kandidatliste.data.tittel
+                        kandidatlisteKontekst.data.tittel
                     }»`}
                 />
             )}
             {visLeggTilKandidatModal && cv.kind === Nettstatus.Suksess && (
                 <>
-                    {kandidatliste.kind !== Nettstatus.IkkeLastet ? (
+                    {/* TODO: Erstatt modaler med nye modaler fra kandidatsøket  */}
+                    {kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk' ? (
                         <>
-                            {kandidatliste.kind === Nettstatus.Suksess && (
+                            {kontekst.kandidatliste.kind === Nettstatus.Suksess && (
                                 <LagreKandidaterTilStillingModal
                                     antallMarkerteKandidater={1}
                                     vis={visLeggTilKandidatModal}
                                     onRequestClose={() => setVisLeggTilKandidatModal(false)}
                                     onLagre={onLeggTilKandidat(cv.data)}
-                                    kandidatliste={kandidatliste.data}
+                                    kandidatliste={kontekst.kandidatliste.data}
                                     isSaving={leggTilKandidatStatus === Nettstatus.SenderInn}
                                 />
                             )}
@@ -156,6 +141,44 @@ const KandidatsideFraSøkInner: FunctionComponent<Props> = ({
                 </>
             )}
         </>
+    );
+};
+
+const Lagreknapp = ({
+    kontekst,
+    kandidatnr,
+    onClick,
+}: {
+    kontekst: Søkekontekst;
+    kandidatnr: string;
+    onClick: () => void;
+}) => {
+    if (kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk') {
+        if (kontekst.kandidatliste.kind === Nettstatus.Suksess) {
+            const kandidatenErAlleredePåLista = kontekst.kandidatliste.data.kandidater.some(
+                (kandidat) => kandidat.kandidatnr === kandidatnr
+            );
+
+            if (kandidatenErAlleredePåLista) {
+                return (
+                    <>
+                        Kandidaten er lagret i&nbsp;
+                        <Link
+                            to={lenkeTilKandidatliste(kontekst.kandidatlisteId)}
+                            className="lenke"
+                        >
+                            kandidatlisten
+                        </Link>
+                    </>
+                );
+            }
+        }
+    }
+
+    return (
+        <Hovedknapp className="kandidatside__lagreknapp" onClick={onClick}>
+            Lagre kandidat i kandidatliste
+        </Hovedknapp>
     );
 };
 

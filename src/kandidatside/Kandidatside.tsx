@@ -4,6 +4,8 @@ import KandidatsideFraSøk from './fra-søk/KandidatsideFraSøk';
 import KandidatsideFraKandidatliste from './fra-kandidatliste/KandidatsideFraKandidatliste';
 import { hentSøkekontekst, hentØktFraNyttKandidatsøk } from './søkekontekst';
 import './Kandidatside.less';
+import { useSelector } from 'react-redux';
+import AppState from '../AppState';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -18,6 +20,8 @@ type RouteParams = {
 };
 
 const Kandidatside: FunctionComponent = () => {
+    const kandidatlisteState = useSelector((state: AppState) => state.kandidatliste);
+
     const nyttKandidatsøkØkt = useRef(hentØktFraNyttKandidatsøk());
     const { search } = useLocation();
     const params = useParams<RouteParams>();
@@ -45,6 +49,7 @@ const Kandidatside: FunctionComponent = () => {
         stillingsId,
         kandidatlisteId,
         fraAutomatiskMatching,
+        kandidatlisteState.kandidatliste,
         nyttKandidatsøkØkt.current
     );
 

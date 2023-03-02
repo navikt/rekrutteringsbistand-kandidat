@@ -232,6 +232,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 kandidatliste: feil(action.error),
             };
+        case KandidatlisteActionType.NullstillKandidatliste: {
+            return {
+                ...state,
+                kandidatliste: ikkeLastet(),
+            };
+        }
         case KandidatlisteActionType.EndreStatusKandidatSuccess:
             return {
                 ...state,

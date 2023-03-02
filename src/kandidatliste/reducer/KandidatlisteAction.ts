@@ -45,6 +45,10 @@ export interface HentKandidatlisteMedKandidatlisteIdFailureAction {
     error: ApiError;
 }
 
+export interface NullstillKandidatlisteAction {
+    type: KandidatlisteActionType.NullstillKandidatliste;
+}
+
 export type Kandidatlisteinfo = {
     tittel: string;
     beskrivelse?: string;
@@ -483,6 +487,7 @@ type KandidatlisteAction =
     | HentKandidatlisteMedKandidatlisteIdAction
     | HentKandidatlisteMedKandidatlisteIdSuccessAction
     | HentKandidatlisteMedKandidatlisteIdFailureAction
+    | NullstillKandidatlisteAction
     | PresenterKandidaterAction
     | PresenterKandidaterSuccessAction
     | PresenterKandidaterFailureAction

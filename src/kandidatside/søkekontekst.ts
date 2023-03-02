@@ -1,3 +1,6 @@
+import { Nettressurs } from '../api/Nettressurs';
+import { Kandidatliste } from '../kandidatliste/domene/Kandidatliste';
+
 export type NyttKandidatsøkØkt = Partial<{
     sistBesøkteKandidat: string;
     markerteKandidater: string[];
@@ -30,6 +33,7 @@ export type FraNyttkandidatsøk = {
 export type FinnKandidaterTilKandidatlisteFraNyttKandidatsøkKontekst = {
     kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk';
     kandidatlisteId: string;
+    kandidatliste: Nettressurs<Kandidatliste>;
     økt?: NyttKandidatsøkØkt;
 };
 
@@ -43,6 +47,7 @@ export const hentSøkekontekst = (
     stillingsIdFraUrl: string | undefined,
     kandidatlisteIdFraUrl: string | undefined,
     fraAutomatiskMatching: boolean,
+    kandidatlisteFraState?: Nettressurs<Kandidatliste>,
     nyttKandidatsøkØkt?: NyttKandidatsøkØkt
 ): Søkekontekst => {
     if (fraAutomatiskMatching && stillingsIdFraUrl) {
@@ -58,6 +63,7 @@ export const hentSøkekontekst = (
         return {
             kontekst: 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk',
             kandidatlisteId: kandidatlisteIdFraUrl,
+            kandidatliste: kandidatlisteFraState!,
             økt: nyttKandidatsøkØkt,
         };
     } else {

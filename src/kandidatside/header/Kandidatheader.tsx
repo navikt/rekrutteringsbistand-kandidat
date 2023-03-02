@@ -11,9 +11,11 @@ import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import Skeleton from 'react-loading-skeleton';
 import './Kandidatheader.less';
 import { Kandidatnavigering } from '../fra-søk/useNavigerbareKandidaterFraSøk';
+import { Søkekontekst } from '../søkekontekst';
 
 interface Props {
     cv: Nettressurs<Cv>;
+    søkekontekst?: Søkekontekst;
     kandidatnavigering: Kandidatnavigering | null;
     tilbakelenke: {
         to: string;
@@ -21,12 +23,18 @@ interface Props {
     };
 }
 
-const Kandidatheader: FunctionComponent<Props> = ({ cv, tilbakelenke, kandidatnavigering }) => {
+const Kandidatheader: FunctionComponent<Props> = ({
+    cv,
+    tilbakelenke,
+    søkekontekst,
+    kandidatnavigering,
+}) => {
     useMaskerFødselsnumre();
 
-    const tilbakeLenkeTekst = tilbakelenke.to.includes('kandidater/lister')
-        ? 'Til kandidatlisten'
-        : 'Til kandidatsøket';
+    const tilbakeLenkeTekst =
+        søkekontekst?.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
+            ? 'Til kandidatlisten'
+            : 'Til kandidatsøket';
 
     let fødselsinfo: ReactNode;
     if (cv.kind === Nettstatus.Suksess) {
