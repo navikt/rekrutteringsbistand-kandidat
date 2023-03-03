@@ -1,0 +1,42 @@
+.header {
+    background-color: var(--rekrutteringsbistandBla);
+    padding: 1.25rem 2rem 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: var(--kandidatsok-innhold-bredde);
+    margin: 0 auto;
+    position: relative;
+}
+
+.tilbakeknapp {
+    width: var(--kandidatsok-sidepanel-bredde);
+    margin-right: 3rem;
+    margin-bottom: 1rem;
+}
+
+.kontaktinfo > *:not(:last-child)::after {
+    content: '|';
+    margin: 0 0.5rem;
+}
+
+.forrigeNesteKnapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin-top: 0rem;
+}
+
+@media (min-width: 1281px) {
+    .header {
+        margin-bottom: 2.5rem;
+    }
+
+    .inner {
+        flex-direction: row;
+    }
+}
