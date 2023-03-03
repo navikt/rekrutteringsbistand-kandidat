@@ -1,9 +1,35 @@
 .header {
-    background-color: var(--rekrutteringsbistandBla);
+    background-color: var(--a-deepblue-50);
     padding: 1.25rem 2rem 2rem;
     margin-bottom: 2.5rem;
 }
 
+.navigasjon {
+    background-color: var(--a-deepblue-100);
+    padding: 1rem;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+}
+
+.column {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    margin: 0 auto;
+    max-width: var(--kandidatsok-innhold-bredde);
+}
+
+.header > .column {
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 60rem;
+}
+
+/* GAMMELT */
 .inner {
     display: flex;
     flex-direction: column;
@@ -13,22 +39,9 @@
     position: relative;
 }
 
-.tilbakeknapp {
-    width: var(--kandidatsok-sidepanel-bredde);
-    margin-right: 3rem;
-    margin-bottom: 1rem;
-}
-
 .kontaktinfo > *:not(:last-child)::after {
     content: '|';
     margin: 0 0.5rem;
-}
-
-.forrigeNesteKnapper {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    margin-top: 0rem;
 }
 
 @media (min-width: 1281px) {

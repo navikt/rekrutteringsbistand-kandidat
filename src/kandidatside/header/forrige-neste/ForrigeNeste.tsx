@@ -1,47 +1,45 @@
 import React, { FunctionComponent } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { LenkeMedChevron } from '../lenke-med-chevron/LenkeMedChevron';
 import { Kandidatnavigering } from '../../fra-søk/useNavigerbareKandidaterFraSøk';
-import './ForrigeNeste.less';
+import { Link } from 'react-router-dom';
+import { Back, Next } from '@navikt/ds-icons';
+import { BodyShort } from '@navikt/ds-react';
+import css from './ForrigeNeste.module.css';
 
 type Props = {
-    className?: string;
-    lenkeClass: string;
     kandidatnavigering: Kandidatnavigering;
+    lenkeClass?: string;
 };
 
-const ForrigeNeste: FunctionComponent<Props> = ({ className, lenkeClass, kandidatnavigering }) => {
+const ForrigeNeste: FunctionComponent<Props> = ({ kandidatnavigering, lenkeClass }) => {
     const { forrige, neste, antall, index } = kandidatnavigering;
 
-    if (antall > 1) {
-        const klasseNavn = className ? className : '';
-        return (
-            <div className={'forrige-neste ' + klasseNavn}>
-                {forrige && (
-                    <LenkeMedChevron
-                        to={forrige}
-                        className={lenkeClass}
-                        type="venstre"
-                        text="Forrige kandidat"
-                    />
-                )}
-                <Normaltekst className="forrige-neste__index">
-                    {index + 1} av {antall}
-                </Normaltekst>
-                {neste ? (
-                    <LenkeMedChevron
-                        to={neste}
-                        className={lenkeClass}
-                        type="hoyre"
-                        text="Neste kandidat"
-                    />
-                ) : (
-                    <div className="forrige-neste__placeholder" />
-                )}
-            </div>
-        );
+    if (antall === 0) {
+        return null;
     }
-    return null;
+
+    let forrigeCls = 'navds-link' + (forrige ? '' : ' ' + css.skjult);
+    let nesteCls = 'navds-link' + (neste ? '' : ' ' + css.skjult);
+
+    if (lenkeClass) {
+        forrigeCls += ' ' + lenkeClass;
+        nesteCls += ' ' + lenkeClass;
+    }
+
+    return (
+        <div className={css.forrigeNeste}>
+            <Link className={forrigeCls} to={forrige || '#'}>
+                <Back />
+                Forrige kandidat
+            </Link>
+            <BodyShort as="span">
+                {index + 1} av {antall}
+            </BodyShort>
+            <Link className={nesteCls} to={neste || '#'}>
+                Neste kandidat
+                <Next />
+            </Link>
+        </div>
+    );
 };
 
 export default ForrigeNeste;

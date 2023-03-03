@@ -4,7 +4,6 @@ import Skeleton from 'react-loading-skeleton';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { Kandidatnavigering } from '../fra-søk/useNavigerbareKandidaterFraSøk';
-import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Søkekontekst } from '../søkekontekst';
 import Cv from '../cv/reducer/cv-typer';
@@ -13,6 +12,9 @@ import useMaskerFødselsnumre from '../../app/useMaskerFødselsnumre';
 import Personalia from './Personalia';
 import css from './Kandidatheader.module.css';
 import Fødselsinfo from './Fødselsinfo';
+import { Link } from 'react-router-dom';
+import { Back } from '@navikt/ds-icons';
+import { Heading } from '@navikt/ds-react';
 
 type Props = {
     cv: Nettressurs<Cv>;
@@ -27,57 +29,63 @@ type Props = {
 const Kandidatheader = ({ cv, tilbakelenke, søkekontekst, kandidatnavigering }: Props) => {
     useMaskerFødselsnumre();
 
-    const tilbakeLenkeTekst = søkekontekst ? 'Til kandidatsøket' : 'Til kandidatlisten';
-
     return (
-        <header className={css.header}>
-            <div className={css.inner}>
-                <div className={css.tilbakeknapp}>
-                    <LenkeMedChevron
-                        type="venstre"
-                        to={tilbakelenke.to}
-                        state={tilbakelenke.state}
-                        text={tilbakeLenkeTekst}
-                    />
+        <>
+            <nav className={css.navigasjon}>
+                <div className={css.column}>
+                    <Link className="navds-link" {...tilbakelenke}>
+                        <Back />
+                        {søkekontekst ? 'Til kandidatsøket' : 'Til kandidatlisten'}
+                    </Link>
+                    {kandidatnavigering && <ForrigeNeste kandidatnavigering={kandidatnavigering} />}
                 </div>
-                <div>
-                    <Systemtittel className="blokk-xs">
-                        {cv.kind === Nettstatus.Suksess && hentNavnFraCv(cv.data)}
-                        {cv.kind === Nettstatus.FinnesIkke ||
-                            (cv.kind === Nettstatus.Feil &&
-                                'Informasjonen om kandidaten kan ikke vises')}
-                        {cv.kind === Nettstatus.LasterInn && <Skeleton width={200} />}
-                    </Systemtittel>
-                    <div className={css.kontaktinfo + ' blokk-xxs'}>
-                        {cv.kind === Nettstatus.LasterInn && <Skeleton width={300} />}
-                        {cv.kind === Nettstatus.Suksess && (
-                            <>
+            </nav>
+            <div className={css.header}>
+                <div className={css.column}>
+                    {cv.kind === Nettstatus.Feil && (
+                        <Heading level="1" size="medium">
+                            Informasjonen om kandidaten kan ikke vises
+                        </Heading>
+                    )}
+
+                    {cv.kind === Nettstatus.LasterInn && (
+                        <>
+                            <Heading level="1" size="medium">
+                                <Skeleton width={200} />
+                            </Heading>
+                            <div className={css.kontaktinfo}>
+                                <Skeleton width={300} />
+                            </div>
+                            <div className={css.kontaktinfo}>
+                                <Skeleton width={600} />
+                            </div>
+                        </>
+                    )}
+
+                    {cv.kind === Nettstatus.Suksess && (
+                        <>
+                            <Heading level="1" size="medium">
+                                {hentNavnFraCv(cv.data)}
+                            </Heading>
+                            <div className={css.kontaktinfo}>
                                 <Fødselsinfo cv={cv.data} />
                                 <span>
                                     Veileder:{' '}
                                     <strong>
                                         {cv.data.veilederNavn
                                             ? `${cv.data.veilederNavn} (${cv.data.veilederIdent})`
-                                            : 'ikke tildelt'}
+                                            : 'Ikke tildelt'}
                                     </strong>
                                 </span>
-                            </>
-                        )}
-                    </div>
-                    <div className={css.kontaktinfo}>
-                        {cv.kind === Nettstatus.LasterInn && <Skeleton width={600} />}
-                        {cv.kind === Nettstatus.Suksess && <Personalia cv={cv.data} />}
-                    </div>
+                            </div>
+                            <div className={css.kontaktinfo}>
+                                <Personalia cv={cv.data} />
+                            </div>
+                        </>
+                    )}
                 </div>
-                {kandidatnavigering && (
-                    <ForrigeNeste
-                        className={css.forrigeNesteKnapper}
-                        kandidatnavigering={kandidatnavigering}
-                        lenkeClass=""
-                    />
-                )}
             </div>
-        </header>
+        </>
     );
 };
 
