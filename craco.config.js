@@ -28,7 +28,7 @@ module.exports = {
             plugins: [
                 postcssPrefixSelector({
                     prefix: appScope,
-                    exclude: ['html', 'body', appScope],
+                    exclude: ['html', 'body', ':root', appScope],
                     transform: prefiksStylingMedAppScope,
                 }),
             ],
