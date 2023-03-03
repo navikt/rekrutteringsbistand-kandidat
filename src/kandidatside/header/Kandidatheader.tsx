@@ -1,5 +1,4 @@
 import React from 'react';
-import { Systemtittel } from 'nav-frontend-typografi';
 import Skeleton from 'react-loading-skeleton';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
