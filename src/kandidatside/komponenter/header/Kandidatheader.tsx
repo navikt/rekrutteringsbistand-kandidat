@@ -2,9 +2,8 @@ import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
-import { Kandidatnavigering } from '../../fraSøkUtenKontekst/useNavigerbareKandidaterFraSøk';
+import { Kandidatnavigering } from '../../fraSøkGammel/useNavigerbareKandidaterFraSøk';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
-import { Søkekontekst } from '../../søkekontekst';
 import Cv from '../../../cv/reducer/cv-typer';
 import ForrigeNeste from './forrige-neste/ForrigeNeste';
 import useMaskerFødselsnumre from '../../../app/useMaskerFødselsnumre';
@@ -17,15 +16,15 @@ import { Heading } from '@navikt/ds-react';
 
 type Props = {
     cv: Nettressurs<Cv>;
-    søkekontekst?: Søkekontekst;
     kandidatnavigering: Kandidatnavigering | null;
+    tilbakelenkeTekst: string;
     tilbakelenke: {
         to: string;
         state?: object;
     };
 };
 
-const Kandidatheader = ({ cv, tilbakelenke, søkekontekst, kandidatnavigering }: Props) => {
+const Kandidatheader = ({ cv, tilbakelenke, tilbakelenkeTekst, kandidatnavigering }: Props) => {
     useMaskerFødselsnumre();
 
     return (
@@ -34,7 +33,7 @@ const Kandidatheader = ({ cv, tilbakelenke, søkekontekst, kandidatnavigering }:
                 <div className={css.column}>
                     <Link className="navds-link" {...tilbakelenke}>
                         <Back />
-                        {søkekontekst ? 'Til kandidatsøket' : 'Til kandidatlisten'}
+                        {tilbakelenkeTekst}
                     </Link>
                     {kandidatnavigering && <ForrigeNeste kandidatnavigering={kandidatnavigering} />}
                 </div>

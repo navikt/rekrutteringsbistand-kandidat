@@ -1,5 +1,9 @@
 import { Kandidatfane, lenkeTilKandidatside } from '../../app/paths';
-import { NyttKandidatsøkØkt } from '../søkekontekst';
+import {
+    FinnKandidaterTilKandidatlisteFraNyttKandidatsøkKontekst,
+    FraNyttkandidatsøk,
+    Søkekontekst,
+} from '../søkekontekst';
 import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
 
 export type Kandidatnavigering = {
@@ -11,37 +15,47 @@ export type Kandidatnavigering = {
 
 const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
-    økt: NyttKandidatsøkØkt
+    kontekst: Søkekontekst
 ): Kandidatnavigering | null => {
     const fane = useAktivKandidatsidefane();
-    return hentKandidatnavigeringForNyttSøk(kandidatnr, fane, økt);
+
+    if (kontekst.kontekst === 'fraAutomatiskMatching') {
+        return null;
+    } else {
+        return hentKandidatnavigeringForNyttSøk(kandidatnr, fane, kontekst);
+    }
 };
 
 const hentKandidatnavigeringForNyttSøk = (
     kandidatnr: string,
     fane: Kandidatfane,
-    økt: NyttKandidatsøkØkt
+    kontekst: FraNyttkandidatsøk | FinnKandidaterTilKandidatlisteFraNyttKandidatsøkKontekst
 ): Kandidatnavigering | null => {
     let index = 0;
     let forrige: string | undefined = undefined;
     let neste: string | undefined = undefined;
     let antall = 0;
 
-    if (økt?.kandidater === undefined) {
+    if (kontekst.økt?.kandidater === undefined) {
         return null;
     }
 
-    antall = økt.kandidater.length;
-    index = økt.kandidater.findIndex((kandidat) => kandidat === kandidatnr);
+    antall = kontekst.økt.kandidater.length;
+    index = kontekst.økt.kandidater.findIndex((kandidat) => kandidat === kandidatnr);
 
-    const forrigeKandidatnr = økt.kandidater[index - 1];
-    const nesteKandidatnr = økt.kandidater[index + 1];
+    const kandidatlisteId =
+        kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
+            ? kontekst.kandidatlisteId
+            : undefined;
+
+    const forrigeKandidatnr = kontekst.økt.kandidater[index - 1];
+    const nesteKandidatnr = kontekst.økt.kandidater[index + 1];
 
     if (forrigeKandidatnr) {
         forrige = lenkeTilKandidatside(
             forrigeKandidatnr,
             fane,
-            undefined,
+            kandidatlisteId,
             undefined,
             false,
             false,
@@ -53,7 +67,7 @@ const hentKandidatnavigeringForNyttSøk = (
         neste = lenkeTilKandidatside(
             nesteKandidatnr,
             fane,
-            undefined,
+            kandidatlisteId,
             undefined,
             false,
             false,

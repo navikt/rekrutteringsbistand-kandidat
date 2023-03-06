@@ -2,7 +2,7 @@ import React, { FunctionComponent, useRef } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
+import FraSøkUtenKontekst from './fraSøkGammel/FraSøkUtenKontekst';
 import { hentSøkekontekst, hentØktFraNyttKandidatsøk } from './søkekontekst';
 import AppState from '../AppState';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';

@@ -1,79 +1,64 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { sendEvent } from '../../amplitude/amplitude';
 import { Nettstatus } from '../../api/Nettressurs';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import { KandidatsøkAction } from '../../kandidatsøk/reducer/searchReducer';
-import { CvAction, CvActionType } from '../../cv/reducer/cvReducer';
-import { Søkekontekst } from '../søkekontekst';
+import { CvAction } from '../../cv/reducer/cvReducer';
+import { FraNyttkandidatsøk, NyttKandidatsøkØkt, Søkekontekst } from '../søkekontekst';
 import KandidatsideFraSøkInner from './KandidatsideFraSøkInner';
+import useScrollTilToppen from '../../common/useScrollTilToppen';
+import useCv from './useCv';
+import { lenkeTilNyttKandidatsøk } from '../../app/paths';
+import AppState from '../../AppState';
+import Kandidatheader from '../komponenter/header/Kandidatheader';
+import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
+import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
+import { Button } from '@navikt/ds-react';
+import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModal';
 
 type Props = {
     kandidatnr: string;
-    kontekst: Søkekontekst;
+    søkeøkt: NyttKandidatsøkØkt;
 };
 
-const FraSøkUtenKontekst: FunctionComponent<Props> = ({ kandidatnr, kontekst, children }) => {
-    const dispatch: Dispatch<KandidatlisteAction | KandidatsøkAction | CvAction> = useDispatch();
+const FraSøkUtenKontekst: FunctionComponent<Props> = ({ kandidatnr, søkeøkt, children }) => {
+    useScrollTilToppen(kandidatnr);
 
-    const scrollTilToppen = () => {
-        window.scrollTo(0, 0);
+    const cv = useCv(kandidatnr);
+    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, søkeøkt);
+
+    const [visKandidatlisterModal, setVisKandidatlisterModal] = useState<boolean>(false);
+
+    const tilbakelenke = {
+        to: lenkeTilNyttKandidatsøk(søkeøkt.searchParams),
+        state: { scrollTilKandidat: true },
     };
-
-    const onNavigeringTilKandidat = () => {
-        const hentKandidatensCv = () => {
-            dispatch({ type: CvActionType.FetchCv, arenaKandidatnr: kandidatnr });
-        };
-
-        scrollTilToppen();
-        hentKandidatensCv();
-        sendEvent('cv', 'visning');
-    };
-
-    const synkroniserKandidatlistestate = (kontekst: Søkekontekst) => {
-        const hentKandidatlisteMedKandidatlisteId = (kandidatlisteId: string) => {
-            dispatch({
-                type: KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId,
-                kandidatlisteId,
-            });
-        };
-
-        const nullstillKandidatliste = () => {
-            dispatch({
-                type: KandidatlisteActionType.NullstillKandidatliste,
-            });
-        };
-
-        if (kontekst.kontekst === 'fraNyttKandidatsøk') {
-            nullstillKandidatliste();
-        } else if (kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk') {
-            const kandidatlisteErIkkeLastet = kontekst.kandidatliste.kind === Nettstatus.IkkeLastet;
-            const harEndretKandidatliste =
-                kontekst.kandidatliste.kind === Nettstatus.Suksess &&
-                kontekst.kandidatliste.data.kandidatlisteId !== kontekst.kandidatlisteId;
-
-            if (kandidatlisteErIkkeLastet || harEndretKandidatliste) {
-                hentKandidatlisteMedKandidatlisteId(kontekst.kandidatlisteId);
-            }
-        }
-    };
-
-    useEffect(onNavigeringTilKandidat, [dispatch, kandidatnr]);
-
-    const kandidatlisteIdFraKontekst =
-        kontekst.kontekst === 'finnKandidaterTilKandidatlisteFraNyttKandidatsøk'
-            ? kontekst.kandidatlisteId
-            : null;
-
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    useEffect(() => synkroniserKandidatlistestate(kontekst), [kandidatlisteIdFraKontekst]);
 
     return (
-        <KandidatsideFraSøkInner kandidatnr={kandidatnr} kontekst={kontekst}>
+        <>
+            <Kandidatheader
+                cv={cv}
+                kandidatnavigering={kandidatnavigering}
+                tilbakelenkeTekst="Til kandidatsøket"
+                tilbakelenke={tilbakelenke}
+            />
+            <Kandidatmeny cv={cv}>
+                <Button variant="primary" onClick={() => setVisKandidatlisterModal(true)}>
+                    Lagre kandidat i kandidatlister
+                </Button>
+            </Kandidatmeny>
             {children}
-        </KandidatsideFraSøkInner>
+            <LagreKandidaterModal
+                vis={visKandidatlisterModal}
+                onRequestClose={() => setVisKandidatlisterModal(false)}
+                onLagre={() => {
+                    setVisKandidatlisterModal(false);
+                }}
+            />
+        </>
     );
 };
 

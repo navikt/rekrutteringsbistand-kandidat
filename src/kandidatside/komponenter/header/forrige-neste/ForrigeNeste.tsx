@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Kandidatnavigering } from '../../../fraSøkUtenKontekst/useNavigerbareKandidaterFraSøk';
+import { Kandidatnavigering } from '../../../fraSøkGammel/useNavigerbareKandidaterFraSøk';
 import { Link } from 'react-router-dom';
 import { Back, Next } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
