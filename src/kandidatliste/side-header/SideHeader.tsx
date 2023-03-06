@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeEmployerName } from '../../kandidatsøk/utils';
-import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../app/paths';
 import {
     erKobletTilArbeidsgiver,
@@ -20,6 +19,7 @@ import {
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
 import './SideHeader.less';
+import { Back } from '@navikt/ds-icons';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -51,11 +51,10 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
         <header className="side-header">
             <div className="side-header__inner">
                 <div className="side-header__tilbake">
-                    <LenkeMedChevron
-                        to={lenkeTilKandidatlisteoversikt}
-                        text="Til kandidatlister"
-                        type="venstre"
-                    />
+                    <Link className="navds-link" to={lenkeTilKandidatlisteoversikt}>
+                        <Back />
+                        Til kandidatlister
+                    </Link>
                 </div>
                 <div className="side-header__informasjon">
                     <Systemtittel className="side-header__tittel">

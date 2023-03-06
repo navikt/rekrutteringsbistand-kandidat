@@ -1,0 +1,9 @@
+.forrigeNeste {
+    display: inline-flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.skjult {
+    visibility: hidden;
+}

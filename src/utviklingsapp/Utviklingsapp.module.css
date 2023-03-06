@@ -1,0 +1,19 @@
+.banner {
+    display: flex;
+    gap: 2rem;
+
+    background-color: white;
+    font-size: 0.9rem;
+    align-items: center;
+
+    padding: 1rem;
+    color: var(--a-gray-60);
+}
+
+.lenker {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 2.5rem;
+    gap: 0.05rem 2rem;
+}
