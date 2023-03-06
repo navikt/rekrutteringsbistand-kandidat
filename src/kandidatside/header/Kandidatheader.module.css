@@ -30,16 +30,6 @@
     max-width: 65rem;
 }
 
-/* GAMMELT */
-.inner {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: var(--kandidatsok-innhold-bredde);
-    margin: 0 auto;
-    position: relative;
-}
-
 .kontaktinfo > *:not(:last-child)::after {
     content: '|';
     margin: 0 0.5rem;
@@ -48,9 +38,5 @@
 @media (min-width: 1281px) {
     .header {
         margin-bottom: 2.5rem;
-    }
-
-    .inner {
-        flex-direction: row;
     }
 }
