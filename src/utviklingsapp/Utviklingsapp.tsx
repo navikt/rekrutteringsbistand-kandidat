@@ -8,7 +8,7 @@ import CustomRouter from './CustomRouter';
 import { mock } from '../mock/mock-data';
 import { Stilling } from '../automatisk-matching/kandidatmatchReducer';
 import { meg } from '../mock/data/kandidat/veileder.mock';
-import './Utviklingsapp.less';
+import css from './Utviklingsapp.module.css';
 
 const history = createBrowserHistory();
 
@@ -42,43 +42,45 @@ const Utviklingsapp: FunctionComponent = () => {
     return (
         <div className={cssScopeForApp}>
             <CustomRouter history={history}>
-                <header className="utviklingsapp">
-                    <Systemtittel>Utviklingsapp for rekrutteringsbistand-kandidat</Systemtittel>
+                <header className={css.banner}>
+                    <Systemtittel>Utviklingsapp</Systemtittel>
 
-                    <Utviklingslenke to="/kandidater/lister">Kandidatlister</Utviklingslenke>
-                    <Utviklingslenke
-                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true`}
-                    >
-                        Kandidatside fra vanlig søk
-                    </Utviklingslenke>
-                    <Utviklingslenke
-                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true&kandidatlisteId=${enAnnenKandidatliste.kandidatlisteId}`}
-                        state={{
-                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
-                        }}
-                    >
-                        Kandidatside fra finn kandidater
-                    </Utviklingslenke>
-                    <Utviklingslenke
-                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatliste=true&kandidatlisteId=${enKandidatliste.kandidatlisteId}`}
-                        state={{
-                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
-                        }}
-                    >
-                        Kandidatside fra liste
-                    </Utviklingslenke>
-                    <Utviklingslenke to={`/prototype/stilling/${enStilling.stilling.uuid}`}>
-                        Kandidatmatch
-                    </Utviklingslenke>
+                    <nav className={css.lenker}>
+                        <Utviklingslenke to="/kandidater/lister">Kandidatlister</Utviklingslenke>
+                        <Utviklingslenke
+                            to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true`}
+                        >
+                            Kandidatside fra vanlig søk
+                        </Utviklingslenke>
+                        <Utviklingslenke
+                            to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true&kandidatlisteId=${enAnnenKandidatliste.kandidatlisteId}`}
+                            state={{
+                                kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
+                            }}
+                        >
+                            Kandidatside fra finn kandidater
+                        </Utviklingslenke>
+                        <Utviklingslenke
+                            to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatliste=true&kandidatlisteId=${enKandidatliste.kandidatlisteId}`}
+                            state={{
+                                kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
+                            }}
+                        >
+                            Kandidatside fra liste
+                        </Utviklingslenke>
+                        <Utviklingslenke to={`/prototype/stilling/${enStilling.stilling.uuid}`}>
+                            Kandidatmatch
+                        </Utviklingslenke>
 
-                    <Utviklingslenke
-                        state={{
-                            aktørIder: ['PAM010nudgb5v', 'PAM013tc53ryp'],
-                        }}
-                        to={`/prototype/stilling/${enAnnenStilling.stilling.uuid}`}
-                    >
-                        Kandidatmatch (med aktørIder)
-                    </Utviklingslenke>
+                        <Utviklingslenke
+                            state={{
+                                aktørIder: ['PAM010nudgb5v', 'PAM013tc53ryp'],
+                            }}
+                            to={`/prototype/stilling/${enAnnenStilling.stilling.uuid}`}
+                        >
+                            Kandidatmatch (med aktørIder)
+                        </Utviklingslenke>
+                    </nav>
                 </header>
                 <AppMedStore history={history} navKontor={navKontor} />
             </CustomRouter>
@@ -95,11 +97,9 @@ const Utviklingslenke = ({
     state?: object;
     children: ReactNode;
 }) => (
-    <div className="utviklingsapp__lenke">
-        <Link state={state} to={to}>
-            {children}
-        </Link>
-    </div>
+    <Link state={state} to={to}>
+        {children}
+    </Link>
 );
 
 export default Utviklingsapp;
