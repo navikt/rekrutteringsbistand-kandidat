@@ -6,7 +6,7 @@ import fnrValidator from '@navikt/fnrvalidator';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../../api/api';
-import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
+import { Fødselsnummersøk } from '../../../cv/reducer/cv-typer';
 import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { SearchApiError } from '../../../api/fetchUtils';

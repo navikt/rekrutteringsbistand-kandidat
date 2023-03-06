@@ -1,4 +1,4 @@
-import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
+import { CvSøkeresultat } from '../../cv/reducer/cv-typer';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -559,6 +559,11 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sendForespørselOmDelingAvCv: ikkeLastet(),
             };
         }
+        case KandidatlisteActionType.NullstillForespørslerOmDelingAvCv:
+            return {
+                ...state,
+                forespørslerOmDelingAvCv: ikkeLastet(),
+            };
         case KandidatlisteActionType.HentForespørslerOmDelingAvCv:
             return {
                 ...state,

@@ -8,9 +8,9 @@ import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorRed
 import { setNavKontorIAmplitude } from '../amplitude/amplitude';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import AppState from '../AppState';
-import CvSide from '../kandidatside/cv/CvSide';
+import CvSide from '../cv/CvSide';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
-import Historikkside from '../kandidatside/historikk/Historikkside';
+import Historikkside from '../historikk/Historikkside';
 import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';

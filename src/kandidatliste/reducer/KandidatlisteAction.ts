@@ -391,6 +391,10 @@ export interface HentSendteMeldingerFailureAction {
     error: SearchApiError;
 }
 
+export interface NullstillForespørslerOmDelingAvCv {
+    type: KandidatlisteActionType.NullstillForespørslerOmDelingAvCv;
+}
+
 export interface HentForespørslerOmDelingAvCvAction {
     type: KandidatlisteActionType.HentForespørslerOmDelingAvCv;
     stillingsId: string;
@@ -548,6 +552,7 @@ type KandidatlisteAction =
     | EndreKandidatlistestatusAction
     | EndreKandidatlistestatusSuccessAction
     | EndreKandidatlistestatusFailureAction
+    | NullstillForespørslerOmDelingAvCv
     | HentForespørslerOmDelingAvCvAction
     | HentForespørslerOmDelingAvCvSuccessAction
     | HentForespørslerOmDelingAvCvFailureAction

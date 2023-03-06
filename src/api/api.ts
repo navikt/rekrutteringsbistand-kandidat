@@ -10,7 +10,7 @@ import {
     SearchApiError,
 } from './fetchUtils';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
-import Cv, { Fødselsnummersøk } from '../kandidatside/cv/reducer/cv-typer';
+import Cv, { Fødselsnummersøk } from '../cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 import {
     FormidlingAvUsynligKandidatOutboundDto,

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { v5 as uuid } from 'uuid';
 
-import type Cv from '../../../kandidatside/cv/reducer/cv-typer';
+import type Cv from '../../../cv/reducer/cv-typer';
 import { KanSletteEnum } from '../../../listeoversikt/Kandidatlisteoversikt';
 import {
     Kandidatliste,

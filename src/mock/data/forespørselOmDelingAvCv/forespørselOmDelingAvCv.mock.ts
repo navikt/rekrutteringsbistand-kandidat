@@ -7,7 +7,7 @@ import {
     TilstandPåForespørsel,
     IdentType,
 } from '../../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import { KandidatlisteForKandidat } from '../../../kandidatside/historikk/historikkReducer';
+import { KandidatlisteForKandidat } from '../../../historikk/historikkReducer';
 import { Veileder } from '../kandidat/veileder.mock';
 
 export const mockForespørslerOmDelingAvCv = (

@@ -4,7 +4,7 @@ import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { sendEvent } from '../../../amplitude/amplitude';
 import { postKandidaterTilKandidatliste } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
-import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
+import { Fødselsnummersøk } from '../../../cv/reducer/cv-typer';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { KandidatOutboundDto } from './LeggTilKandidatModal';
 import { useDispatch } from 'react-redux';

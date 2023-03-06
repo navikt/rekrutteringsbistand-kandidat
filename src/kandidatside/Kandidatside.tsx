@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useRef } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
-import KandidatsideFraSøk from './fra-søk/KandidatsideFraSøk';
-import KandidatsideFraKandidatliste from './fra-kandidatliste/KandidatsideFraKandidatliste';
-import { hentSøkekontekst, hentØktFraNyttKandidatsøk } from './søkekontekst';
-import './Kandidatside.less';
 import { useSelector } from 'react-redux';
+
+import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
+import { hentSøkekontekst, hentØktFraNyttKandidatsøk } from './søkekontekst';
 import AppState from '../AppState';
+import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
+import './Kandidatside.less';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -29,19 +30,19 @@ const Kandidatside: FunctionComponent = () => {
     const kandidatnr = params.kandidatnr!;
     const queryParams = new URLSearchParams(search);
 
-    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId) ?? undefined;
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
-    const fraAutomatiskMatching =
-        queryParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
+    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId) ?? undefined;
 
     if (fraKandidatliste && kandidatlisteId) {
         return (
-            <KandidatsideFraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
+            <FraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
                 <Outlet />
-            </KandidatsideFraKandidatliste>
+            </FraKandidatliste>
         );
     }
 
+    const fraAutomatiskMatching =
+        queryParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
     const stillingsId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
 
     const kontekst = hentSøkekontekst(
@@ -54,9 +55,9 @@ const Kandidatside: FunctionComponent = () => {
     );
 
     return (
-        <KandidatsideFraSøk kandidatnr={kandidatnr} kontekst={kontekst}>
+        <FraSøkUtenKontekst kandidatnr={kandidatnr} kontekst={kontekst}>
             <Outlet />
-        </KandidatsideFraSøk>
+        </FraSøkUtenKontekst>
     );
 };
 

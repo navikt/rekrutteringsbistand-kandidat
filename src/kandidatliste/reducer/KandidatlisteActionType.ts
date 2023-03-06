@@ -73,6 +73,7 @@ enum KandidatlisteActionType {
     EndreKandidatlistestatus = 'ENDRE_KANDIDATLISTESTATUS',
     EndreKandidatlistestatusSuccess = 'ENDRE_KANDIDATLISTESTATUS_SUCCESS',
     EndreKandidatlistestatusFailure = 'ENDRE_KANDIDATLISTESTATUS_FAILURE',
+    NullstillForespørslerOmDelingAvCv = 'NULLSTILL_FORESPØRSLER_OM_DELING_AV_CV',
     HentForespørslerOmDelingAvCv = 'HENT_FORESPØRSLER_OM_DELING_AV_CV',
     HentForespørslerOmDelingAvCvSuccess = 'HENT_FORESPØRSLER_OM_DELING_AV_CV_SUCCESS',
     HentForespørslerOmDelingAvCvFailure = 'HENT_FORESPØRSLER_OM_DELING_AV_CV_FAILURE',
