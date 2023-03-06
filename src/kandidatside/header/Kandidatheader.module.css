@@ -13,6 +13,13 @@
     z-index: 2;
 }
 
+.navigasjon::after {
+    content: '';
+    height: 1px;
+    width: 100%;
+    background-color: black;
+}
+
 .column {
     display: flex;
     flex-direction: row;
@@ -28,6 +35,8 @@
     flex-direction: column;
     align-items: flex-start;
     max-width: 65rem;
+    position: relative;
+    z-index: 2;
 }
 
 .kontaktinfo > *:not(:last-child)::after {
@@ -35,8 +44,8 @@
     margin: 0 0.5rem;
 }
 
-@media (min-width: 1281px) {
+@media (min-width: 1450px) {
     .header {
-        margin-bottom: 2.5rem;
+        margin-top: -2.5rem;
     }
 }

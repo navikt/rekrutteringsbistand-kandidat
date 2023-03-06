@@ -27,10 +27,12 @@ const ForrigeNeste: FunctionComponent<Props> = ({ kandidatnavigering, lenkeClass
 
     return (
         <div className={css.forrigeNeste}>
-            <Link className={forrigeCls} to={forrige || '#'}>
-                <Back />
-                Forrige kandidat
-            </Link>
+            {forrige && (
+                <Link className={forrigeCls} to={forrige || '#'}>
+                    <Back />
+                    Forrige kandidat
+                </Link>
+            )}
             <BodyShort as="span">
                 {index + 1} av {antall}
             </BodyShort>
