@@ -10,6 +10,7 @@ import useCv from '../hooks/useCv';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
 import useFaner from '../hooks/useFaner';
+import { AddPeople } from '@navikt/ds-icons';
 
 type Props = {
     tabs: ReactNode;
@@ -44,8 +45,12 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søke
             />
             <Tabs value={fane} onChange={setFane}>
                 <Kandidatmeny tabs={tabs} cv={cv}>
-                    <Button variant="secondary" onClick={() => setVisKandidatlisterModal(true)}>
-                        Lagre kandidat i kandidatlister
+                    <Button
+                        size="small"
+                        icon={<AddPeople aria-hidden />}
+                        onClick={() => setVisKandidatlisterModal(true)}
+                    >
+                        Velg kandidatlister
                     </Button>
                 </Kandidatmeny>
                 <Tabs.Panel value={fane}>{children}</Tabs.Panel>
