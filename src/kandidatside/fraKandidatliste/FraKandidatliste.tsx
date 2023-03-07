@@ -19,13 +19,14 @@ import { filterTilQueryParams } from '../../kandidatliste/filter/filter-utils';
 import StatusOgHendelser from '../../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import useCv from '../hooks/useCv';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
-import useCv from './useCv';
 import useForespørselOmDelingAvCv from './useForespørselOmDelingAvCv';
-import useKandidatliste from './useKandidatliste';
+import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidater from './useNavigerbareKandidater';
 import useSendtKandidatmelding from './useSendtKandidatmelding';
+import useValgtKandidatIKandidatliste from './useValgtKandidatIKandidatliste';
 
 type Props = {
     kandidatnr: string;
@@ -35,8 +36,9 @@ type Props = {
 
 const FraKandidatliste = ({ kandidatnr, kandidatlisteId, children }: Props) => {
     useScrollTilToppen(kandidatnr);
+    useValgtKandidatIKandidatliste(kandidatnr, kandidatlisteId);
 
-    const cv = useCv(kandidatnr, kandidatlisteId);
+    const cv = useCv(kandidatnr);
     const kandidatliste = useKandidatliste(kandidatlisteId);
 
     if (kandidatliste.kind === Nettstatus.LasterInn) {

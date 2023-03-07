@@ -21,10 +21,10 @@ import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import LagreKandidaterTilStillingModal from '../../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
-import useCv from './useCv';
-import useKandidatliste from '../fraKandidatliste/useKandidatliste';
+import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
+import useCv from '../hooks/useCv';
 
 type Props = {
     kandidatnr: string;

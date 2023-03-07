@@ -6,7 +6,7 @@ import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '..
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModal';
-import useCv from './useCv';
+import useCv from '../hooks/useCv';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
 
