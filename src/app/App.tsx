@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Normaltekst } from 'nav-frontend-typografi';
 
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { setNavKontorIAmplitude } from '../amplitude/amplitude';
@@ -20,8 +19,8 @@ import Matchforklaring from '../automatisk-matching/matchforklaring/Matchforklar
 import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import Varsling from '../common/varsling/Varsling';
 import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
-import './App.less';
 import ManglerTilgang from './ManglerTilgang';
+import './App.less';
 
 type Props = {
     error: {
@@ -49,7 +48,7 @@ const App: FunctionComponent<Props> = (props) => {
     return (
         <>
             <Varsling />
-            <Normaltekst tag="div" className="App">
+            <div className="App">
                 <main className="App__main">
                     <Routes>
                         <Route path="/kandidater/mangler-tilgang" element={<ManglerTilgang />} />
@@ -77,7 +76,7 @@ const App: FunctionComponent<Props> = (props) => {
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </main>
-            </Normaltekst>
+            </div>
             <TilToppenKnapp />
         </>
     );

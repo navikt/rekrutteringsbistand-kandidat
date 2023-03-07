@@ -1,13 +1,7 @@
 import { lenkeTilKandidatside } from '../../app/paths';
 import { NyttKandidatsøkØkt } from '../søkekontekst';
 import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
-
-export type Kandidatnavigering = {
-    neste?: string;
-    forrige?: string;
-    index: number;
-    antall: number;
-};
+import { Kandidatnavigering } from '../komponenter/header/forrige-neste/ForrigeNeste';
 
 const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,

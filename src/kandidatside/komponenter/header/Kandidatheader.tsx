@@ -2,17 +2,16 @@ import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
-import { Kandidatnavigering } from '../../fraSøkGammel/useNavigerbareKandidaterFraSøk';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import Cv from '../../../cv/reducer/cv-typer';
-import ForrigeNeste from './forrige-neste/ForrigeNeste';
+import ForrigeNeste, { Kandidatnavigering } from './forrige-neste/ForrigeNeste';
 import useMaskerFødselsnumre from '../../../app/useMaskerFødselsnumre';
 import Personalia from './Personalia';
 import css from './Kandidatheader.module.css';
 import Fødselsinfo from './Fødselsinfo';
 import { Link } from 'react-router-dom';
 import { Back } from '@navikt/ds-icons';
-import { Heading } from '@navikt/ds-react';
+import { BodyShort, Heading } from '@navikt/ds-react';
 
 type Props = {
     cv: Nettressurs<Cv>;
@@ -65,20 +64,20 @@ const Kandidatheader = ({ cv, tilbakelenke, tilbakelenkeTekst, kandidatnavigerin
                             <Heading level="1" size="medium">
                                 {hentNavnFraCv(cv.data)}
                             </Heading>
-                            <div className={css.kontaktinfo}>
+                            <BodyShort className={css.kontaktinfo}>
                                 <Fødselsinfo cv={cv.data} />
-                                <span>
+                                <BodyShort as="span">
                                     Veileder:{' '}
                                     <strong>
                                         {cv.data.veilederNavn
                                             ? `${cv.data.veilederNavn} (${cv.data.veilederIdent})`
                                             : 'Ikke tildelt'}
                                     </strong>
-                                </span>
-                            </div>
-                            <div className={css.kontaktinfo}>
+                                </BodyShort>
+                            </BodyShort>
+                            <BodyShort className={css.kontaktinfo}>
                                 <Personalia cv={cv.data} />
-                            </div>
+                            </BodyShort>
                         </>
                     )}
                 </div>

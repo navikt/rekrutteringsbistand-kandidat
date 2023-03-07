@@ -1,9 +1,15 @@
 import React, { FunctionComponent } from 'react';
-import { Kandidatnavigering } from '../../../fraSøkGammel/useNavigerbareKandidaterFraSøk';
 import { Link } from 'react-router-dom';
 import { Back, Next } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 import css from './ForrigeNeste.module.css';
+
+export type Kandidatnavigering = {
+    neste?: string;
+    forrige?: string;
+    index: number;
+    antall: number;
+};
 
 type Props = {
     kandidatnavigering: Kandidatnavigering;

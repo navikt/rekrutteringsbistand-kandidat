@@ -39,7 +39,7 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ kandidatnr, søkeøkt, 
                 tilbakelenke={tilbakelenke}
             />
             <Kandidatmeny cv={cv}>
-                <Button variant="primary" onClick={() => setVisKandidatlisterModal(true)}>
+                <Button variant="secondary" onClick={() => setVisKandidatlisterModal(true)}>
                     Lagre kandidat i kandidatlister
                 </Button>
             </Kandidatmeny>

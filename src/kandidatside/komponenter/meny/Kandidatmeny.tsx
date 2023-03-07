@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 
 import { sendEvent } from '../../../amplitude/amplitude';
 import Kandidattab from './Kandidattab';
@@ -6,6 +6,8 @@ import Cv from '../../../cv/reducer/cv-typer';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import './Kandidatmeny.less';
 import useMiljøvariabler from '../../../common/useMiljøvariabler';
+import { Link } from '@navikt/ds-react';
+import { ExternalLink } from '@navikt/ds-icons';
 
 type Props = {
     cv: Nettressurs<Cv>;
@@ -21,17 +23,16 @@ const Kandidatmeny: FunctionComponent<Props> = ({ cv, children }) => {
                     <Kandidattab sti="cv" label="CV og jobbønsker" />
                     <Kandidattab sti="historikk" label="Historikk" />
                 </nav>
+
                 {cv.kind === Nettstatus.Suksess && (
-                    <a
-                        className="ForlateSiden lenke"
-                        href={`${arbeidsrettetOppfølgingUrl}/${cv.data.fodselsnummer}`}
+                    <Link
                         target="_blank"
+                        href={`${arbeidsrettetOppfølgingUrl}/${cv.data.fodselsnummer}`}
                         onClick={() => sendEvent('cv_aktivitetsplan_lenke', 'klikk')}
-                        rel="noopener noreferrer"
                     >
-                        <i className="ForlateSiden__icon" />
-                        <span className="kandidatmeny__se-aktivitetsplan">Se aktivitetsplan</span>
-                    </a>
+                        Se aktivitetsplan
+                        <ExternalLink />
+                    </Link>
                 )}
             </div>
             <div className="kandidatmeny__children">{children}</div>
