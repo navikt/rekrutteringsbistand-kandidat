@@ -5,8 +5,8 @@ import Cv from '../../../cv/reducer/cv-typer';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import useMiljøvariabler from '../../../common/useMiljøvariabler';
 import { Link } from '@navikt/ds-react';
-import { ExternalLink } from '@navikt/ds-icons';
-import './Kandidatmeny.less';
+import { Download, ExternalLink } from '@navikt/ds-icons';
+import css from './Kandidatmeny.module.css';
 
 type Props = {
     cv: Nettressurs<Cv>;
@@ -14,25 +14,35 @@ type Props = {
 };
 
 const Kandidatmeny: FunctionComponent<Props> = ({ cv, tabs, children }) => {
-    const { arbeidsrettetOppfølgingUrl } = useMiljøvariabler();
+    const { lastNedCvUrl, arbeidsrettetOppfølgingUrl } = useMiljøvariabler();
 
     return (
-        <div className="kandidatmeny">
-            <div className="kandidatmeny__venstre">
-                <nav className="kandidatmeny__tabs">{tabs}</nav>
-
+        <div className={css.wrapper}>
+            <div className={css.meny}>
+                <nav className={css.faner}>{tabs}</nav>
                 {cv.kind === Nettstatus.Suksess && (
-                    <Link
-                        target="_blank"
-                        href={`${arbeidsrettetOppfølgingUrl}/${cv.data.fodselsnummer}`}
-                        onClick={() => sendEvent('cv_aktivitetsplan_lenke', 'klikk')}
-                    >
-                        Se aktivitetsplan
-                        <ExternalLink />
-                    </Link>
+                    <div className={css.lenker}>
+                        <Link
+                            target="_blank"
+                            href={`${arbeidsrettetOppfølgingUrl}/${cv.data.fodselsnummer}`}
+                            onClick={() => sendEvent('cv_aktivitetsplan_lenke', 'klikk')}
+                        >
+                            Se aktivitetsplan
+                            <ExternalLink />
+                        </Link>
+                        <Link
+                            target="_blank"
+                            href={`${lastNedCvUrl}${cv.data.fodselsnummer}`}
+                            onClick={() => sendEvent('cv_last_ned', 'klikk')}
+                        >
+                            Last ned CV
+                            <Download />
+                        </Link>
+                    </div>
                 )}
+
+                <div className={css.høyre}>{children}</div>
             </div>
-            <div className="kandidatmeny__children">{children}</div>
         </div>
     );
 };

@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
-import KandidatCv from './cv/Cv';
-import Jobbønsker from './jobbønsker/Jobbønsker';
-import KandidatTilretteleggingsbehov from './tilretteleggingsbehov/Tilretteleggingsbehov';
-import LastNedCv from '../kandidatside/komponenter/last-ned-cv/LastNedCv';
 import { useSelector } from 'react-redux';
-import AppState from '../AppState';
-import { Nettstatus } from '../api/Nettressurs';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
+
+import { Nettstatus } from '../api/Nettressurs';
+import AppState from '../AppState';
+import Jobbønsker from './jobbønsker/Jobbønsker';
+import KandidatCv from './cv/Cv';
+import KandidatTilretteleggingsbehov from './tilretteleggingsbehov/Tilretteleggingsbehov';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 
 const CvSide: FunctionComponent = () => {
@@ -28,7 +28,6 @@ const CvSide: FunctionComponent = () => {
     if (cv.kind === Nettstatus.Suksess) {
         return (
             <>
-                <LastNedCv fodselsnummer={cv.data.fodselsnummer} />
                 <Jobbønsker cv={cv.data} />
                 <KandidatCv cv={cv.data} />
                 {cv.data.tilretteleggingsbehov && (

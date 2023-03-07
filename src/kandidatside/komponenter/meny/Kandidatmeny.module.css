@@ -1,0 +1,44 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.meny {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    padding: 0 1rem;
+    background-color: white;
+    margin-bottom: 1.5rem;
+    border-radius: 0.25rem;
+}
+
+.faner button:global(.navds-tabs__tab) {
+    min-height: 4rem;
+}
+
+.lenker {
+    display: flex;
+    gap: 1rem;
+}
+
+.venstre {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.høyre {
+    margin-left: auto;
+}
+
+@media (min-width: 1000px) {
+    .wrapper {
+        margin: 0 2rem;
+    }
+
+    .meny {
+        max-width: var(--kandidatsok-innhold-bredde);
+    }
+}

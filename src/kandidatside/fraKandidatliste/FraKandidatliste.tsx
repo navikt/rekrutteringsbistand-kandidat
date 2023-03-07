@@ -28,6 +28,7 @@ import useNavigerbareKandidater from './useNavigerbareKandidater';
 import useSendtKandidatmelding from './useSendtKandidatmelding';
 import useValgtKandidatIKandidatliste from './useValgtKandidatIKandidatliste';
 import useFaner from '../hooks/useFaner';
+import css from './FraKandidatliste.module.css';
 
 type Props = {
     tabs: ReactNode;
@@ -36,7 +37,7 @@ type Props = {
     children: React.ReactNode;
 };
 
-const FraKandidatliste = ({ kandidatnr, kandidatlisteId, children, ...props }: Props) => {
+const FraKandidatliste = ({ tabs, kandidatnr, kandidatlisteId, children, ...props }: Props) => {
     useScrollTilToppen(kandidatnr);
     useValgtKandidatIKandidatliste(kandidatnr, kandidatlisteId);
 
@@ -62,7 +63,7 @@ const FraKandidatliste = ({ kandidatnr, kandidatlisteId, children, ...props }: P
 
         return (
             <FraKandidatlisteInner
-                {...props}
+                tabs={tabs}
                 cv={cv}
                 kandidat={kandidat}
                 kandidatliste={kandidatliste.data}
@@ -124,7 +125,7 @@ const FraKandidatlisteInner = ({
             />
             <Tabs value={fane} onChange={setFane}>
                 <Kandidatmeny tabs={tabs} cv={cv}>
-                    <div className="kandidatside__status-select">
+                    <div className={css.velgStatus}>
                         <Label htmlFor="cv-status-og-hendelse">{endreStatusTekst}</Label>
                         <StatusOgHendelser
                             id="cv-status-og-hendelse"
@@ -140,8 +141,8 @@ const FraKandidatlisteInner = ({
                         />
                     </div>
                 </Kandidatmeny>
+                <Tabs.Panel value={fane}>{children}</Tabs.Panel>
             </Tabs>
-            <Tabs.Panel value={fane}>{children}</Tabs.Panel>
         </>
     );
 };

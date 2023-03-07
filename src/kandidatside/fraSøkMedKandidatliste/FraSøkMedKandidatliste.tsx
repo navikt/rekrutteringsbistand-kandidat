@@ -26,6 +26,7 @@ import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
 import useCv from '../hooks/useCv';
 import useFaner from '../hooks/useFaner';
+import { AddPeople } from '@navikt/ds-icons';
 
 type Props = {
     tabs: ReactNode;
@@ -128,7 +129,11 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
                             </Link>
                         </BodyShort>
                     ) : (
-                        <Button variant="secondary" onClick={() => setVisLagreKandidatModal(true)}>
+                        <Button
+                            size="small"
+                            icon={<AddPeople aria-hidden />}
+                            onClick={() => setVisLagreKandidatModal(true)}
+                        >
                             Lagre kandidat
                         </Button>
                     )}

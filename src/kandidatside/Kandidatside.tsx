@@ -3,11 +3,11 @@ import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { Tabs } from '@navikt/ds-react';
 
 import { hentØktFraNyttKandidatsøk, NyttKandidatsøkØkt } from './søkekontekst';
+import { Applicant, Dialog } from '@navikt/ds-icons';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
 import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
 import Sidefeil from '../common/sidefeil/Sidefeil';
 import FraSøkMedKandidatliste from './fraSøkMedKandidatliste/FraSøkMedKandidatliste';
-import './Kandidatside.less';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -77,8 +77,8 @@ const Kandidatside: FunctionComponent = () => {
 
 const Faner = () => (
     <Tabs.List>
-        <Tabs.Tab value="cv" label="CV og jobbønsker" />
-        <Tabs.Tab value="historikk" label="Historikk" />
+        <Tabs.Tab icon={<Applicant />} value="cv" label="CV og jobbønsker" />
+        <Tabs.Tab icon={<Dialog />} value="historikk" label="Historikk" />
     </Tabs.List>
 );
 
