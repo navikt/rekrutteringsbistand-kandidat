@@ -358,6 +358,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     antallLagredeKandidater: 0,
                 },
             };
+
+        case KandidatlisteActionType.NullstillKandidatIKandidatliste:
+            return {
+                ...state,
+                lagreKandidatIKandidatlisteStatus: Nettstatus.IkkeLastet,
+            };
         case KandidatlisteActionType.LagreKandidatIKandidatliste:
             return {
                 ...state,

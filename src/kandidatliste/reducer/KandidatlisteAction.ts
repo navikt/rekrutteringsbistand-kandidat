@@ -132,6 +132,10 @@ export interface LeggTilKandidaterResetAction {
     type: KandidatlisteActionType.LeggTilKandidaterReset;
 }
 
+export interface NullstillKandidatIKandidatlisteAction {
+    type: KandidatlisteActionType.NullstillKandidatIKandidatliste;
+}
+
 export interface LagreKandidatIKandidatlisteAction {
     type: KandidatlisteActionType.LagreKandidatIKandidatliste;
     kandidatliste: any;
@@ -499,6 +503,7 @@ type KandidatlisteAction =
     | LeggTilKandidaterAction
     | LeggTilKandidaterSuccessAction
     | LeggTilKandidaterFailureAction
+    | NullstillKandidatIKandidatlisteAction
     | LagreKandidatIKandidatlisteAction
     | LagreKandidatIKandidatlisteSuccessAction
     | LagreKandidatIKandidatlisteFailureAction

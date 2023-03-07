@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
 import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
+import { AddPeople } from '@navikt/ds-icons';
 
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import {
@@ -13,20 +14,19 @@ import {
 import { Nettstatus } from '../../api/Nettressurs';
 import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
 import { sendEvent } from '../../amplitude/amplitude';
+import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
 import AppState from '../../AppState';
 import Cv from '../../cv/reducer/cv-typer';
-import HjelpetekstFading from '../../common/varsling/HjelpetekstFading';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import LagreKandidaterTilStillingModal from '../../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
+import useCv from '../hooks/useCv';
+import useFaner from '../hooks/useFaner';
 import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
-import useCv from '../hooks/useCv';
-import useFaner from '../hooks/useFaner';
-import { AddPeople } from '@navikt/ds-icons';
 
 type Props = {
     tabs: ReactNode;
@@ -44,11 +44,13 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     fraAutomatiskMatching,
     children,
 }) => {
-    const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
+    const dispatch: Dispatch<KandidatlisteAction | VarslingAction> = useDispatch();
 
     useScrollTilToppen(kandidatnr);
 
     const [fane, setFane] = useFaner();
+    const [visLagreKandidatModal, setVisLagreKandidatModal] = useState<boolean>(false);
+
     const cv = useCv(kandidatnr);
     const kandidatliste = useKandidatliste(kandidatlisteId);
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(
@@ -57,32 +59,33 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
         søkeøkt,
         fraAutomatiskMatching
     );
+
     const lagreKandidatStatus = useSelector(
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
     );
 
-    const [visLagreKandidatModal, setVisLagreKandidatModal] = useState<boolean>(false);
-    const [visKandidatenErLagret, setVisKandidatenErLagret] = useState<boolean>(false);
-
     useEffect(() => {
         skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
-    }, [kandidatnr]);
+        dispatch({
+            type: KandidatlisteActionType.NullstillKandidatIKandidatliste,
+        });
+    }, [dispatch, kandidatnr]);
 
     useEffect(() => {
-        // TODO: Bruk global komponent
-        if (lagreKandidatStatus === Nettstatus.Suksess) {
+        if (
+            lagreKandidatStatus === Nettstatus.Suksess &&
+            kandidatliste.kind === Nettstatus.Suksess
+        ) {
             setVisLagreKandidatModal(false);
-            setVisKandidatenErLagret(true);
 
-            const timeout = setTimeout(() => {
-                setVisKandidatenErLagret(false);
-            }, 5000);
-
-            return () => {
-                clearTimeout(timeout);
-            };
+            dispatch({
+                type: VarslingActionType.VisVarsling,
+                alertType: 'suksess',
+                innhold: `Kandidaten er lagret i kandidatlisten «${kandidatliste.data.tittel}»`,
+            });
         }
-    }, [lagreKandidatStatus]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, lagreKandidatStatus]);
 
     const onLagreKandidat = (cv: Cv) => (kandidatliste: Kandidatliste) => {
         sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
@@ -140,15 +143,6 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
                 </Kandidatmeny>
                 <Tabs.Panel value={fane}>{children}</Tabs.Panel>
             </Tabs>
-
-            {kandidatliste?.kind === Nettstatus.Suksess && (
-                <HjelpetekstFading
-                    id="hjelpetekstfading"
-                    type="suksess"
-                    synlig={visKandidatenErLagret}
-                    innhold={`Kandidaten er lagret i kandidatlisten «${kandidatliste.data.tittel}»`}
-                />
-            )}
 
             {visLagreKandidatModal &&
                 cv.kind === Nettstatus.Suksess &&

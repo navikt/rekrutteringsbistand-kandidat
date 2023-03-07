@@ -21,6 +21,7 @@ enum KandidatlisteActionType {
     LeggTilKandidaterSuccess = 'LEGG_TIL_KANDIDATER_SUCCESS',
     LeggTilKandidaterFailure = 'LEGG_TIL_KANDIDATER_FAILURE',
     LeggTilKandidaterReset = 'LEGG_TIL_KANDIDATER_RESET',
+    NullstillKandidatIKandidatliste = 'NULLSTILL_KANDIDAT_I_KANDIDATLISTE',
     LagreKandidatIKandidatliste = 'LAGRE_KANDIDAT_I_KANDIDATLISTE',
     LagreKandidatIKandidatlisteSuccess = 'LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS',
     LagreKandidatIKandidatlisteFailure = 'LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE',
