@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux';
-import { BodyShort, Button } from '@navikt/ds-react';
+import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
@@ -25,8 +25,10 @@ import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
 import useCv from '../hooks/useCv';
+import useFaner from '../hooks/useFaner';
 
 type Props = {
+    tabs: ReactNode;
     kandidatnr: string;
     kandidatlisteId: string;
     søkeøkt: NyttKandidatsøkØkt;
@@ -34,6 +36,7 @@ type Props = {
 };
 
 const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
+    tabs,
     kandidatnr,
     kandidatlisteId,
     søkeøkt,
@@ -43,6 +46,8 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
 
     useScrollTilToppen(kandidatnr);
+
+    const [fane, setFane] = useFaner();
     const cv = useCv(kandidatnr);
     const kandidatliste = useKandidatliste(kandidatlisteId);
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(
@@ -110,21 +115,26 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
                 tilbakelenke={lenkeTilFinnKandidater}
                 kandidatnavigering={kandidatnavigering}
             />
-            <Kandidatmeny cv={cv}>
-                {kandidatErAlleredeLagretIListen ? (
-                    <BodyShort>
-                        <span>Kandidaten er lagret i </span>
-                        <Link to={lenkeTilKandidatliste(kandidatlisteId)} className="navds-link">
-                            kandidatlisten
-                        </Link>
-                    </BodyShort>
-                ) : (
-                    <Button variant="secondary" onClick={() => setVisLagreKandidatModal(true)}>
-                        Lagre kandidat
-                    </Button>
-                )}
-            </Kandidatmeny>
-            {children}
+            <Tabs value={fane} onChange={setFane}>
+                <Kandidatmeny tabs={tabs} cv={cv}>
+                    {kandidatErAlleredeLagretIListen ? (
+                        <BodyShort>
+                            <span>Kandidaten er lagret i </span>
+                            <Link
+                                to={lenkeTilKandidatliste(kandidatlisteId)}
+                                className="navds-link"
+                            >
+                                kandidatlisten
+                            </Link>
+                        </BodyShort>
+                    ) : (
+                        <Button variant="secondary" onClick={() => setVisLagreKandidatModal(true)}>
+                            Lagre kandidat
+                        </Button>
+                    )}
+                </Kandidatmeny>
+                <Tabs.Panel value={fane}>{children}</Tabs.Panel>
+            </Tabs>
 
             {kandidatliste?.kind === Nettstatus.Suksess && (
                 <HjelpetekstFading

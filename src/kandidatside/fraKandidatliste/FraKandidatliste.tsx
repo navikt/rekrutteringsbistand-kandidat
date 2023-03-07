@@ -1,5 +1,5 @@
-import { Label } from '@navikt/ds-react';
-import React, { Dispatch } from 'react';
+import { Label, Tabs } from '@navikt/ds-react';
+import React, { Dispatch, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
@@ -27,14 +27,16 @@ import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidater from './useNavigerbareKandidater';
 import useSendtKandidatmelding from './useSendtKandidatmelding';
 import useValgtKandidatIKandidatliste from './useValgtKandidatIKandidatliste';
+import useFaner from '../hooks/useFaner';
 
 type Props = {
+    tabs: ReactNode;
     kandidatnr: string;
     kandidatlisteId: string;
     children: React.ReactNode;
 };
 
-const FraKandidatliste = ({ kandidatnr, kandidatlisteId, children }: Props) => {
+const FraKandidatliste = ({ kandidatnr, kandidatlisteId, children, ...props }: Props) => {
     useScrollTilToppen(kandidatnr);
     useValgtKandidatIKandidatliste(kandidatnr, kandidatlisteId);
 
@@ -59,7 +61,12 @@ const FraKandidatliste = ({ kandidatnr, kandidatlisteId, children }: Props) => {
         }
 
         return (
-            <FraKandidatlisteInner cv={cv} kandidat={kandidat} kandidatliste={kandidatliste.data}>
+            <FraKandidatlisteInner
+                {...props}
+                cv={cv}
+                kandidat={kandidat}
+                kandidatliste={kandidatliste.data}
+            >
                 {children}
             </FraKandidatlisteInner>
         );
@@ -69,11 +76,13 @@ const FraKandidatliste = ({ kandidatnr, kandidatlisteId, children }: Props) => {
 };
 
 const FraKandidatlisteInner = ({
+    tabs,
     cv,
     kandidat,
     kandidatliste,
     children,
 }: {
+    tabs: ReactNode;
     cv: Nettressurs<Cv>;
     kandidat: Kandidat;
     kandidatliste: Kandidatliste;
@@ -82,6 +91,7 @@ const FraKandidatlisteInner = ({
     const dispatch: Dispatch<KandidatlisteAction> = useDispatch();
     const state = useSelector((state: AppState) => state.kandidatliste);
 
+    const [fane, setFane] = useFaner();
     const forespørsel = useForespørselOmDelingAvCv(kandidat, kandidatliste);
     const melding = useSendtKandidatmelding(kandidat, kandidatliste);
     const navigering = useNavigerbareKandidater(kandidat.kandidatnr, kandidatliste);
@@ -112,24 +122,26 @@ const FraKandidatlisteInner = ({
                     to: tilbakelenke,
                 }}
             />
-            <Kandidatmeny cv={cv}>
-                <div className="kandidatside__status-select">
-                    <Label htmlFor="cv-status-og-hendelse">{endreStatusTekst}</Label>
-                    <StatusOgHendelser
-                        id="cv-status-og-hendelse"
-                        kandidat={kandidat}
-                        kandidatliste={kandidatliste}
-                        forespørselOmDelingAvCv={forespørsel}
-                        onStatusChange={onKandidatStatusChange}
-                        sms={melding}
-                        kanEditere={
-                            kandidatliste.kanEditere &&
-                            kandidatliste.status === Kandidatlistestatus.Åpen
-                        }
-                    />
-                </div>
-            </Kandidatmeny>
-            {children}
+            <Tabs value={fane} onChange={setFane}>
+                <Kandidatmeny tabs={tabs} cv={cv}>
+                    <div className="kandidatside__status-select">
+                        <Label htmlFor="cv-status-og-hendelse">{endreStatusTekst}</Label>
+                        <StatusOgHendelser
+                            id="cv-status-og-hendelse"
+                            kandidat={kandidat}
+                            kandidatliste={kandidatliste}
+                            forespørselOmDelingAvCv={forespørsel}
+                            onStatusChange={onKandidatStatusChange}
+                            sms={melding}
+                            kanEditere={
+                                kandidatliste.kanEditere &&
+                                kandidatliste.status === Kandidatlistestatus.Åpen
+                            }
+                        />
+                    </div>
+                </Kandidatmeny>
+            </Tabs>
+            <Tabs.Panel value={fane}>{children}</Tabs.Panel>
         </>
     );
 };

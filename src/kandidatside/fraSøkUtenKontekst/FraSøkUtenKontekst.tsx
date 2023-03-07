@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button } from '@navikt/ds-react';
+import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { Button, Tabs } from '@navikt/ds-react';
 
 import { lenkeTilNyttKandidatsøk } from '../../app/paths';
 import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
@@ -9,14 +9,18 @@ import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModa
 import useCv from '../hooks/useCv';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
+import useFaner from '../hooks/useFaner';
 
 type Props = {
+    tabs: ReactNode;
     kandidatnr: string;
     søkeøkt: NyttKandidatsøkØkt;
 };
 
-const FraSøkUtenKontekst: FunctionComponent<Props> = ({ kandidatnr, søkeøkt, children }) => {
+const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søkeøkt, children }) => {
     useScrollTilToppen(kandidatnr);
+
+    const [fane, setFane] = useFaner();
     const cv = useCv(kandidatnr);
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, søkeøkt);
     const [visKandidatlisterModal, setVisKandidatlisterModal] = useState<boolean>(false);
@@ -38,12 +42,14 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ kandidatnr, søkeøkt, 
                 tilbakelenkeTekst="Til kandidatsøket"
                 tilbakelenke={tilbakelenke}
             />
-            <Kandidatmeny cv={cv}>
-                <Button variant="secondary" onClick={() => setVisKandidatlisterModal(true)}>
-                    Lagre kandidat i kandidatlister
-                </Button>
-            </Kandidatmeny>
-            {children}
+            <Tabs value={fane} onChange={setFane}>
+                <Kandidatmeny tabs={tabs} cv={cv}>
+                    <Button variant="secondary" onClick={() => setVisKandidatlisterModal(true)}>
+                        Lagre kandidat i kandidatlister
+                    </Button>
+                </Kandidatmeny>
+                <Tabs.Panel value={fane}>{children}</Tabs.Panel>
+            </Tabs>
             <LagreKandidaterModal
                 vis={visKandidatlisterModal}
                 onRequestClose={() => setVisKandidatlisterModal(false)}

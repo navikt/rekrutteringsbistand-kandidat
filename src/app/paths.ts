@@ -72,8 +72,8 @@ export const lenkeTilFinnKandidaterINyttKandidatsøk = (kandidatlisteId: string)
     `/kandidatsok?kandidatliste=${kandidatlisteId}`;
 
 export enum Kandidatfane {
-    Cv,
-    Historikk,
+    Cv = 'cv',
+    Historikk = 'historikk',
 }
 
 export const lenkeTilKandidatside = (

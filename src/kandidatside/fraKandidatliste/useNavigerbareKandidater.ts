@@ -5,8 +5,8 @@ import { erInaktiv } from '../../kandidatliste/domene/Kandidat';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import useFiltrerteKandidater from '../../kandidatliste/hooks/useFiltrerteKandidater';
 import useSorterteKandidater from '../../kandidatliste/hooks/useSorterteKandidater';
-import { Kandidatnavigering } from '../fraSøkUtenKontekst/useNavigerbareKandidaterFraSøk';
-import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
+import useFaner from '../hooks/useFaner';
+import { Kandidatnavigering } from '../komponenter/header/forrige-neste/ForrigeNeste';
 
 const useNavigerbareKandidater = (
     kandidatnr: string,
@@ -14,7 +14,7 @@ const useNavigerbareKandidater = (
 ): Kandidatnavigering => {
     const { forespørslerOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
 
-    const aktivFane = useAktivKandidatsidefane();
+    const [fane] = useFaner();
     const filtrerteKandidater = useFiltrerteKandidater(kandidatliste.kandidater);
     const aktiveKandidater = filtrerteKandidater.filter((kandidat) => !erInaktiv(kandidat));
     const sorterteKandidater = useSorterteKandidater(
@@ -27,7 +27,7 @@ const useNavigerbareKandidater = (
         kandidatnummer
             ? lenkeTilKandidatside(
                   kandidatnummer,
-                  aktivFane,
+                  fane,
                   kandidatliste.kandidatlisteId,
                   undefined,
                   true

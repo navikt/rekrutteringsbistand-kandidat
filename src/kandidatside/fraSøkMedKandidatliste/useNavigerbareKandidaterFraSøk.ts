@@ -1,7 +1,7 @@
-import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
+import useFaner from '../hooks/useFaner';
 import { lenkeTilKandidatside } from '../../app/paths';
 import { NyttKandidatsøkØkt } from '../søkekontekst';
-import { Kandidatnavigering } from '../fraSøkUtenKontekst/useNavigerbareKandidaterFraSøk';
+import { Kandidatnavigering } from '../komponenter/header/forrige-neste/ForrigeNeste';
 
 const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
@@ -9,7 +9,7 @@ const useNavigerbareKandidaterFraSøk = (
     økt: NyttKandidatsøkØkt,
     fraAutomatiskMatching: boolean
 ): Kandidatnavigering | null => {
-    const fane = useAktivKandidatsidefane();
+    const [fane] = useFaner();
 
     let index = 0;
     let forrige: string | undefined = undefined;

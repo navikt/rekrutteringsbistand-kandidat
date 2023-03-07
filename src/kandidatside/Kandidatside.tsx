@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useRef } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { Tabs } from '@navikt/ds-react';
 
 import { hentØktFraNyttKandidatsøk, NyttKandidatsøkØkt } from './søkekontekst';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
@@ -38,7 +39,11 @@ const Kandidatside: FunctionComponent = () => {
     if (kommerFraKandidatliste) {
         if (kandidatlisteIdFraUrl) {
             return (
-                <FraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteIdFraUrl}>
+                <FraKandidatliste
+                    tabs={<Faner />}
+                    kandidatnr={kandidatnr}
+                    kandidatlisteId={kandidatlisteIdFraUrl}
+                >
                     <Outlet />
                 </FraKandidatliste>
             );
@@ -49,6 +54,7 @@ const Kandidatside: FunctionComponent = () => {
         if (kandidatlisteIdFraUrl) {
             return (
                 <FraSøkMedKandidatliste
+                    tabs={<Faner />}
                     kandidatnr={kandidatnr}
                     kandidatlisteId={kandidatlisteIdFraUrl}
                     søkeøkt={søkeøkt}
@@ -59,7 +65,7 @@ const Kandidatside: FunctionComponent = () => {
             );
         } else {
             return (
-                <FraSøkUtenKontekst kandidatnr={kandidatnr} søkeøkt={søkeøkt}>
+                <FraSøkUtenKontekst tabs={<Faner />} kandidatnr={kandidatnr} søkeøkt={søkeøkt}>
                     <Outlet />
                 </FraSøkUtenKontekst>
             );
@@ -68,5 +74,12 @@ const Kandidatside: FunctionComponent = () => {
         return <Sidefeil feilmelding="Klarte ikke å bestemme riktig kontekst" />;
     }
 };
+
+const Faner = () => (
+    <Tabs.List>
+        <Tabs.Tab value="cv" label="CV og jobbønsker" />
+        <Tabs.Tab value="historikk" label="Historikk" />
+    </Tabs.List>
+);
 
 export default Kandidatside;
