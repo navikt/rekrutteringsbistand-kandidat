@@ -1,23 +1,14 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from 'redux';
-import { sendEvent } from '../../amplitude/amplitude';
-import { Nettstatus } from '../../api/Nettressurs';
-import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
-import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import { KandidatsøkAction } from '../../kandidatsøk/reducer/searchReducer';
-import { CvAction } from '../../cv/reducer/cvReducer';
-import { FraNyttkandidatsøk, NyttKandidatsøkØkt, Søkekontekst } from '../søkekontekst';
-import KandidatsideFraSøkInner from './KandidatsideFraSøkInner';
-import useScrollTilToppen from '../../common/useScrollTilToppen';
-import useCv from './useCv';
-import { lenkeTilNyttKandidatsøk } from '../../app/paths';
-import AppState from '../../AppState';
-import Kandidatheader from '../komponenter/header/Kandidatheader';
-import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
-import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import { Button } from '@navikt/ds-react';
+
+import { lenkeTilNyttKandidatsøk } from '../../app/paths';
+import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
+import Kandidatheader from '../komponenter/header/Kandidatheader';
+import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import LagreKandidaterModal from '../../kandidatsøk/modaler/LagreKandidaterModal';
+import useCv from './useCv';
+import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
+import useScrollTilToppen from '../../common/useScrollTilToppen';
 
 type Props = {
     kandidatnr: string;
@@ -26,11 +17,13 @@ type Props = {
 
 const FraSøkUtenKontekst: FunctionComponent<Props> = ({ kandidatnr, søkeøkt, children }) => {
     useScrollTilToppen(kandidatnr);
-
     const cv = useCv(kandidatnr);
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, søkeøkt);
-
     const [visKandidatlisterModal, setVisKandidatlisterModal] = useState<boolean>(false);
+
+    useEffect(() => {
+        skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
+    }, [kandidatnr]);
 
     const tilbakelenke = {
         to: lenkeTilNyttKandidatsøk(søkeøkt.searchParams),

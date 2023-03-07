@@ -2,11 +2,14 @@ import React, { FunctionComponent, useRef } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import FraSøkUtenKontekst from './fraSøkGammel/FraSøkUtenKontekst';
-import { hentSøkekontekst, hentØktFraNyttKandidatsøk } from './søkekontekst';
+import FraSøkGammel from './fraSøkGammel/FraSøkGammel';
+import { hentSøkekontekst, hentØktFraNyttKandidatsøk, NyttKandidatsøkØkt } from './søkekontekst';
 import AppState from '../AppState';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
+import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
+import Sidefeil from '../common/sidefeil/Sidefeil';
 import './Kandidatside.less';
+import FraSøkMedKandidatliste from './fraSøkMedKandidatliste/FraSøkMedKandidatliste';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -21,44 +24,49 @@ type RouteParams = {
 };
 
 const Kandidatside: FunctionComponent = () => {
-    const kandidatlisteState = useSelector((state: AppState) => state.kandidatliste);
+    const søkeøktRef = useRef<NyttKandidatsøkØkt>(hentØktFraNyttKandidatsøk());
+    const søkeøkt = søkeøktRef.current || {};
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const routeParams = useParams<RouteParams>();
+    const kandidatnr = routeParams.kandidatnr!;
 
-    const nyttKandidatsøkØkt = useRef(hentØktFraNyttKandidatsøk());
-    const { search } = useLocation();
-    const params = useParams<RouteParams>();
+    const kandidatlisteIdFraUrl = searchParams.get(KandidatQueryParam.KandidatlisteId);
+    const kommerFraKandidatliste = searchParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
+    const kommerFraKandidatsøket =
+        searchParams.get(KandidatQueryParam.FraNyttKandidatsøk) === 'true';
 
-    const kandidatnr = params.kandidatnr!;
-    const queryParams = new URLSearchParams(search);
-
-    const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
-    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId) ?? undefined;
-
-    if (fraKandidatliste && kandidatlisteId) {
-        return (
-            <FraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
-                <Outlet />
-            </FraKandidatliste>
-        );
+    if (kommerFraKandidatliste) {
+        if (kandidatlisteIdFraUrl) {
+            return (
+                <FraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteIdFraUrl}>
+                    <Outlet />
+                </FraKandidatliste>
+            );
+        } else {
+            return <Sidefeil feilmelding="Mangler kandidatlisteId i URL" />;
+        }
+    } else if (kommerFraKandidatsøket) {
+        if (kandidatlisteIdFraUrl) {
+            return (
+                <FraSøkMedKandidatliste
+                    kandidatnr={kandidatnr}
+                    kandidatlisteId={kandidatlisteIdFraUrl}
+                    søkeøkt={søkeøkt}
+                >
+                    <Outlet />
+                </FraSøkMedKandidatliste>
+            );
+        } else {
+            return (
+                <FraSøkUtenKontekst kandidatnr={kandidatnr} søkeøkt={søkeøkt}>
+                    <Outlet />
+                </FraSøkUtenKontekst>
+            );
+        }
+    } else {
+        return <Sidefeil feilmelding="Klarte ikke å bestemme riktig kontekst" />;
     }
-
-    const fraAutomatiskMatching =
-        queryParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
-    const stillingsId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
-
-    const kontekst = hentSøkekontekst(
-        kandidatnr,
-        stillingsId,
-        kandidatlisteId,
-        fraAutomatiskMatching,
-        kandidatlisteState.kandidatliste,
-        nyttKandidatsøkØkt.current
-    );
-
-    return (
-        <FraSøkUtenKontekst kandidatnr={kandidatnr} kontekst={kontekst}>
-            <Outlet />
-        </FraSøkUtenKontekst>
-    );
 };
 
 export default Kandidatside;

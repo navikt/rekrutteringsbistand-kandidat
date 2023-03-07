@@ -27,6 +27,8 @@ type Props = {
 const Kandidatheader = ({ cv, tilbakelenke, tilbakelenkeTekst, kandidatnavigering }: Props) => {
     useMaskerFødselsnumre();
 
+    console.log('Tekst:', tilbakelenkeTekst);
+
     return (
         <>
             <nav className={css.navigasjon}>

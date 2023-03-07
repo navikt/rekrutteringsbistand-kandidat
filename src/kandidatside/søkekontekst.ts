@@ -47,8 +47,8 @@ export const hentSøkekontekst = (
     stillingsIdFraUrl: string | undefined,
     kandidatlisteIdFraUrl: string | undefined,
     fraAutomatiskMatching: boolean,
-    kandidatlisteFraState?: Nettressurs<Kandidatliste>,
-    nyttKandidatsøkØkt?: NyttKandidatsøkØkt
+    nyttKandidatsøkØkt: NyttKandidatsøkØkt,
+    kandidatlisteFraState?: Nettressurs<Kandidatliste>
 ): Søkekontekst => {
     if (fraAutomatiskMatching && stillingsIdFraUrl) {
         return {
@@ -74,11 +74,11 @@ export const hentSøkekontekst = (
     }
 };
 
-export const hentØktFraNyttKandidatsøk = (): NyttKandidatsøkØkt | undefined => {
+export const hentØktFraNyttKandidatsøk = (): NyttKandidatsøkØkt | null => {
     const kandidatsøkString = window.sessionStorage.getItem('kandidatsøk');
 
     if (!kandidatsøkString) {
-        return undefined;
+        return null;
     }
 
     return JSON.parse(kandidatsøkString);
