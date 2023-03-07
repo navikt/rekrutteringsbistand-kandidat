@@ -80,7 +80,6 @@ export const lenkeTilKandidatside = (
     kandidatnr: string,
     aktivFane: Kandidatfane,
     kandidatlisteId?: string,
-    stillingsId?: string,
     fraKandidatliste?: boolean,
     fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
@@ -89,7 +88,6 @@ export const lenkeTilKandidatside = (
         ? lenkeTilCv(
               kandidatnr,
               kandidatlisteId,
-              stillingsId,
               fraKandidatliste,
               fraKandidatmatch,
               fraNyttKandidatsøk
@@ -97,7 +95,6 @@ export const lenkeTilKandidatside = (
         : lenkeTilHistorikk(
               kandidatnr,
               kandidatlisteId,
-              stillingsId,
               fraKandidatliste,
               fraKandidatmatch,
               fraNyttKandidatsøk
@@ -106,7 +103,6 @@ export const lenkeTilKandidatside = (
 export const lenkeTilCv = (
     kandidatnr: string,
     kandidatlisteId?: string,
-    stillingsId?: string,
     fraKandidatliste?: boolean,
     fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
@@ -116,7 +112,6 @@ export const lenkeTilCv = (
         lenke +
         queryParamsForKandidatside(
             kandidatlisteId,
-            stillingsId,
             fraKandidatliste,
             fraKandidatmatch,
             fraNyttKandidatsøk
@@ -127,7 +122,6 @@ export const lenkeTilCv = (
 export const lenkeTilHistorikk = (
     kandidatnr: string,
     kandidatlisteId?: string,
-    stillingsId?: string,
     fraKandidatliste?: boolean,
     fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
@@ -137,7 +131,6 @@ export const lenkeTilHistorikk = (
         lenke +
         queryParamsForKandidatside(
             kandidatlisteId,
-            stillingsId,
             fraKandidatliste,
             fraKandidatmatch,
             fraNyttKandidatsøk
@@ -147,7 +140,6 @@ export const lenkeTilHistorikk = (
 
 const queryParamsForKandidatside = (
     kandidatlisteId?: string,
-    stillingsId?: string,
     fraKandidatliste?: boolean,
     fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
@@ -158,11 +150,6 @@ const queryParamsForKandidatside = (
         queryParams +=
             nesteSeparator(queryParams) +
             `${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
-    }
-
-    if (stillingsId) {
-        queryParams +=
-            nesteSeparator(queryParams) + `${KandidatQueryParam.StillingId}=${stillingsId}`;
     }
 
     if (fraKandidatliste) {

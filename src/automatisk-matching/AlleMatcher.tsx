@@ -81,9 +81,12 @@ const AlleMatcher = () => {
                                         <>
                                             <Link
                                                 className="lenke"
-                                                to={opprettLenkeTilCv(
+                                                to={lenkeTilKandidatside(
                                                     kandidat.arenaKandidatnr,
-                                                    stillingsId
+                                                    Kandidatfane.Cv,
+                                                    kandidatlisteId, // TODO: Fiks
+                                                    undefined,
+                                                    true
                                                 )}
                                             >
                                                 {kandidat.arenaKandidatnr}
@@ -113,8 +116,5 @@ const AlleMatcher = () => {
 
 const opprettLenkeTilMatchforklaring = (kandidatNr: string, stillingsId: string) =>
     `/prototype/stilling/${stillingsId}/forklaring/${kandidatNr}`;
-
-const opprettLenkeTilCv = (kandidatNr: string, stillingId: string) =>
-    lenkeTilKandidatside(kandidatNr, Kandidatfane.Cv, undefined, stillingId, undefined, true);
 
 export default AlleMatcher;

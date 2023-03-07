@@ -38,27 +38,11 @@ const hentKandidatnavigeringForNyttSøk = (
     const nesteKandidatnr = økt.kandidater[index + 1];
 
     if (forrigeKandidatnr) {
-        forrige = lenkeTilKandidatside(
-            forrigeKandidatnr,
-            fane,
-            undefined,
-            undefined,
-            false,
-            false,
-            true
-        );
+        forrige = lenkeTilKandidatside(forrigeKandidatnr, fane, undefined, false, false, true);
     }
 
     if (nesteKandidatnr) {
-        neste = lenkeTilKandidatside(
-            nesteKandidatnr,
-            fane,
-            undefined,
-            undefined,
-            false,
-            false,
-            true
-        );
+        neste = lenkeTilKandidatside(nesteKandidatnr, fane, undefined, false, false, true);
     }
 
     return {

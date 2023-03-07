@@ -5,7 +5,7 @@ import { erInaktiv } from '../../kandidatliste/domene/Kandidat';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import useFiltrerteKandidater from '../../kandidatliste/hooks/useFiltrerteKandidater';
 import useSorterteKandidater from '../../kandidatliste/hooks/useSorterteKandidater';
-import { Kandidatnavigering } from '../fraSøkGammel/useNavigerbareKandidaterFraSøk';
+import { Kandidatnavigering } from '../fraSøkUtenKontekst/useNavigerbareKandidaterFraSøk';
 import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
 
 const useNavigerbareKandidater = (

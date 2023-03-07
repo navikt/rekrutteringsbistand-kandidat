@@ -30,7 +30,6 @@ const useNavigerbareKandidaterFraSøk = (
             forrigeKandidatnr,
             fane,
             kandidatlisteId,
-            undefined,
             false,
             false,
             true
@@ -38,15 +37,7 @@ const useNavigerbareKandidaterFraSøk = (
     }
 
     if (nesteKandidatnr) {
-        neste = lenkeTilKandidatside(
-            nesteKandidatnr,
-            fane,
-            kandidatlisteId,
-            undefined,
-            false,
-            false,
-            true
-        );
+        neste = lenkeTilKandidatside(nesteKandidatnr, fane, kandidatlisteId, false, false, true);
     }
 
     return {

@@ -1,15 +1,12 @@
 import React, { FunctionComponent, useRef } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
-import FraSøkGammel from './fraSøkGammel/FraSøkGammel';
-import { hentSøkekontekst, hentØktFraNyttKandidatsøk, NyttKandidatsøkØkt } from './søkekontekst';
-import AppState from '../AppState';
+import { hentØktFraNyttKandidatsøk, NyttKandidatsøkØkt } from './søkekontekst';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
 import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
 import Sidefeil from '../common/sidefeil/Sidefeil';
-import './Kandidatside.less';
 import FraSøkMedKandidatliste from './fraSøkMedKandidatliste/FraSøkMedKandidatliste';
+import './Kandidatside.less';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -35,6 +32,8 @@ const Kandidatside: FunctionComponent = () => {
     const kommerFraKandidatliste = searchParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
     const kommerFraKandidatsøket =
         searchParams.get(KandidatQueryParam.FraNyttKandidatsøk) === 'true';
+    const kommerFraAutomatiskMatching =
+        searchParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
 
     if (kommerFraKandidatliste) {
         if (kandidatlisteIdFraUrl) {
@@ -53,6 +52,7 @@ const Kandidatside: FunctionComponent = () => {
                     kandidatnr={kandidatnr}
                     kandidatlisteId={kandidatlisteIdFraUrl}
                     søkeøkt={søkeøkt}
+                    fraAutomatiskMatching={kommerFraAutomatiskMatching}
                 >
                     <Outlet />
                 </FraSøkMedKandidatliste>
