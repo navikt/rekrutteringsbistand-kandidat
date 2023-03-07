@@ -6,8 +6,11 @@ import { Kandidatfane, lenkeTilKandidatside, lenkeTilStilling } from '../app/pat
 import { Link, useLocation, useParams } from 'react-router-dom';
 import useKandidatmatch from './useKandidatmatch';
 import { Next } from '@navikt/ds-icons';
-import './AlleMatcher.less';
 import { Checkbox } from 'nav-frontend-skjema';
+import useKandidatlisteMedStillingsId from './useKandidatlisteMedStillingsId';
+import './AlleMatcher.less';
+import Sidefeil from '../common/sidefeil/Sidefeil';
+import Sidelaster from '../common/sidelaster/Sidelaster';
 
 export type Navigeringsstate = Partial<{
     aktørIder: string[];
@@ -26,16 +29,27 @@ const AlleMatcher = () => {
         aktørIder
     );
 
+    const kandidatliste = useKandidatlisteMedStillingsId(stillingsId);
+
     if (stillingsId === undefined) {
-        return <Feilmelding>Oppgi en stillingsId i URL-en</Feilmelding>;
+        return <Sidefeil feilmelding="Oppgi en stillingsId i URL-en" />;
     }
 
-    if (stilling.kind === Nettstatus.IkkeLastet || stilling.kind === Nettstatus.LasterInn) {
-        return <NavFrontendSpinner />;
+    if (
+        stilling.kind === Nettstatus.IkkeLastet ||
+        stilling.kind === Nettstatus.LasterInn ||
+        kandidatliste.kind === Nettstatus.IkkeLastet ||
+        kandidatliste.kind === Nettstatus.LasterInn
+    ) {
+        return <Sidelaster />;
     }
 
     if (stilling.kind !== Nettstatus.Suksess) {
-        return <Feilmelding>Klarte ikke å laste inn stilling</Feilmelding>;
+        return <Sidefeil feilmelding="Klarte ikke å laste inn stilling" />;
+    }
+
+    if (kandidatliste.kind !== Nettstatus.Suksess) {
+        return <Sidefeil feilmelding="Klarte ikke å laste inn kandidatliste" />;
     }
 
     const onMarkertKandidat = (kandidatnummer: string) => {
@@ -68,47 +82,48 @@ const AlleMatcher = () => {
                 {kandidater.kind === Nettstatus.Feil && (
                     <Feilmelding>{kandidater.error.message}</Feilmelding>
                 )}
-                {kandidater.kind === Nettstatus.Suksess && (
-                    <ol>
-                        {kandidater.data.map((kandidat, index) => (
-                            <li key={kandidat.arenaKandidatnr}>
-                                <Checkbox
-                                    defaultChecked={markerteKandidater.includes(
-                                        kandidat.arenaKandidatnr
-                                    )}
-                                    onChange={() => onMarkertKandidat(kandidat.arenaKandidatnr)}
-                                    label={
-                                        <>
-                                            <Link
-                                                className="lenke"
-                                                to={lenkeTilKandidatside(
-                                                    kandidat.arenaKandidatnr,
-                                                    Kandidatfane.Cv,
-                                                    kandidatlisteId, // TODO: Fiks
-                                                    undefined,
-                                                    true
-                                                )}
-                                            >
-                                                {kandidat.arenaKandidatnr}
-                                            </Link>
-                                            <span> – </span>
-                                            <Link
-                                                className="lenke"
-                                                to={opprettLenkeTilMatchforklaring(
-                                                    kandidat.arenaKandidatnr,
-                                                    stillingsId
-                                                )}
-                                            >
-                                                Se matcheforklaring
-                                                <Next />
-                                            </Link>
-                                        </>
-                                    }
-                                />
-                            </li>
-                        ))}
-                    </ol>
-                )}
+                {kandidater.kind === Nettstatus.Suksess &&
+                    kandidatliste.kind === Nettstatus.Suksess && (
+                        <ol>
+                            {kandidater.data.map((kandidat, index) => (
+                                <li key={kandidat.arenaKandidatnr}>
+                                    <Checkbox
+                                        defaultChecked={markerteKandidater.includes(
+                                            kandidat.arenaKandidatnr
+                                        )}
+                                        onChange={() => onMarkertKandidat(kandidat.arenaKandidatnr)}
+                                        label={
+                                            <>
+                                                <Link
+                                                    className="lenke"
+                                                    to={lenkeTilKandidatside(
+                                                        kandidat.arenaKandidatnr,
+                                                        Kandidatfane.Cv,
+                                                        kandidatliste.data.kandidatlisteId,
+                                                        undefined,
+                                                        true
+                                                    )}
+                                                >
+                                                    {kandidat.arenaKandidatnr}
+                                                </Link>
+                                                <span> – </span>
+                                                <Link
+                                                    className="lenke"
+                                                    to={opprettLenkeTilMatchforklaring(
+                                                        kandidat.arenaKandidatnr,
+                                                        stillingsId
+                                                    )}
+                                                >
+                                                    Se matcheforklaring
+                                                    <Next />
+                                                </Link>
+                                            </>
+                                        }
+                                    />
+                                </li>
+                            ))}
+                        </ol>
+                    )}
             </section>
         </div>
     );

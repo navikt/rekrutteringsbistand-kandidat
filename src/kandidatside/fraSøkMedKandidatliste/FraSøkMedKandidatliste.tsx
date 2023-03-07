@@ -5,7 +5,11 @@ import { BodyShort, Button } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
-import { lenkeTilKandidatliste, lenkeTilNyttKandidatsøk } from '../../app/paths';
+import {
+    lenkeTilAutomatiskMatching,
+    lenkeTilKandidatliste,
+    lenkeTilNyttKandidatsøk,
+} from '../../app/paths';
 import { Nettstatus } from '../../api/Nettressurs';
 import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
 import { sendEvent } from '../../amplitude/amplitude';
@@ -41,7 +45,12 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     useScrollTilToppen(kandidatnr);
     const cv = useCv(kandidatnr);
     const kandidatliste = useKandidatliste(kandidatlisteId);
-    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kandidatlisteId, søkeøkt);
+    const kandidatnavigering = useNavigerbareKandidaterFraSøk(
+        kandidatnr,
+        kandidatlisteId,
+        søkeøkt,
+        fraAutomatiskMatching
+    );
     const lagreKandidatStatus = useSelector(
         (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
     );
@@ -81,7 +90,11 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     };
 
     const lenkeTilFinnKandidater = {
-        to: lenkeTilNyttKandidatsøk(søkeøkt?.searchParams),
+        to: fraAutomatiskMatching
+            ? lenkeTilAutomatiskMatching(
+                  (kandidatliste.kind === Nettstatus.Suksess && kandidatliste.data.stillingId) || ''
+              )
+            : lenkeTilNyttKandidatsøk(søkeøkt?.searchParams),
         state: { scrollTilKandidat: true },
     };
 

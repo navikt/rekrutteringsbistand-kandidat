@@ -1,4 +1,4 @@
-import { Kandidatfane, lenkeTilKandidatside } from '../../app/paths';
+import { lenkeTilKandidatside } from '../../app/paths';
 import { NyttKandidatsøkØkt } from '../søkekontekst';
 import useAktivKandidatsidefane from '../hooks/useAktivKandidatsidefane';
 
@@ -14,14 +14,6 @@ const useNavigerbareKandidaterFraSøk = (
     økt: NyttKandidatsøkØkt
 ): Kandidatnavigering | null => {
     const fane = useAktivKandidatsidefane();
-    return hentKandidatnavigeringForNyttSøk(kandidatnr, fane, økt);
-};
-
-const hentKandidatnavigeringForNyttSøk = (
-    kandidatnr: string,
-    fane: Kandidatfane,
-    økt: NyttKandidatsøkØkt
-): Kandidatnavigering | null => {
     let index = 0;
     let forrige: string | undefined = undefined;
     let neste: string | undefined = undefined;

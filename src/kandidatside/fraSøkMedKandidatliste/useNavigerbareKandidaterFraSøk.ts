@@ -6,7 +6,8 @@ import { Kandidatnavigering } from '../fraSøkUtenKontekst/useNavigerbareKandida
 const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
     kandidatlisteId: string,
-    økt: NyttKandidatsøkØkt
+    økt: NyttKandidatsøkØkt,
+    fraAutomatiskMatching: boolean
 ): Kandidatnavigering | null => {
     const fane = useAktivKandidatsidefane();
 
@@ -31,13 +32,20 @@ const useNavigerbareKandidaterFraSøk = (
             fane,
             kandidatlisteId,
             false,
-            false,
-            true
+            fraAutomatiskMatching,
+            !fraAutomatiskMatching
         );
     }
 
     if (nesteKandidatnr) {
-        neste = lenkeTilKandidatside(nesteKandidatnr, fane, kandidatlisteId, false, false, true);
+        neste = lenkeTilKandidatside(
+            nesteKandidatnr,
+            fane,
+            kandidatlisteId,
+            false,
+            fraAutomatiskMatching,
+            !fraAutomatiskMatching
+        );
     }
 
     return {

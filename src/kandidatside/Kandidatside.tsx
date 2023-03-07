@@ -45,7 +45,7 @@ const Kandidatside: FunctionComponent = () => {
         } else {
             return <Sidefeil feilmelding="Mangler kandidatlisteId i URL" />;
         }
-    } else if (kommerFraKandidatsøket) {
+    } else if (kommerFraKandidatsøket || kommerFraAutomatiskMatching) {
         if (kandidatlisteIdFraUrl) {
             return (
                 <FraSøkMedKandidatliste
