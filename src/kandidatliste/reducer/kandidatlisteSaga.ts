@@ -36,7 +36,6 @@ import KandidatlisteAction, {
     SendForespørselOmDelingAvCv,
     SlettCvFraArbeidsgiversKandidatliste,
     LeggTilKandidaterAction,
-    LagreKandidatIKandidatlisteAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -293,32 +292,6 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.LeggTilKandidaterFailure, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* lagreKandidatIKandidatliste(action: LagreKandidatIKandidatlisteAction) {
-    try {
-        yield call(leggTilKandidater, {
-            type: KandidatlisteActionType.LeggTilKandidater,
-            kandidatliste: action.kandidatliste,
-            kandidater: [
-                {
-                    kandidatnr: action.kandidatnr,
-                    notat: action.notat,
-                },
-            ],
-        });
-
-        yield put({ type: KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({
-                type: KandidatlisteActionType.LagreKandidatIKandidatlisteFailure,
-                error: e,
-            });
         } else {
             throw e;
         }

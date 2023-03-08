@@ -73,7 +73,6 @@ export type KandidatlisteState = {
     hentListeMedAnnonsenummerStatus: Nettstatus;
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
-    lagreKandidatIKandidatlisteStatus: Nettstatus;
     arkivering: {
         statusArkivering: Nettstatus;
         statusDearkivering: Nettstatus;
@@ -118,7 +117,6 @@ const initialState: KandidatlisteState = {
     hentListeMedAnnonsenummerStatus: Nettstatus.IkkeLastet,
     hentListeMedAnnonsenummerStatusMessage: '',
     kandidatlisteMedAnnonsenummer: undefined,
-    lagreKandidatIKandidatlisteStatus: Nettstatus.IkkeLastet,
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: ikkeLastet(),
@@ -359,26 +357,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
             };
 
-        case KandidatlisteActionType.NullstillKandidatIKandidatliste:
-            return {
-                ...state,
-                lagreKandidatIKandidatlisteStatus: Nettstatus.IkkeLastet,
-            };
-        case KandidatlisteActionType.LagreKandidatIKandidatliste:
-            return {
-                ...state,
-                lagreKandidatIKandidatlisteStatus: Nettstatus.SenderInn,
-            };
-        case KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess:
-            return {
-                ...state,
-                lagreKandidatIKandidatlisteStatus: Nettstatus.Suksess,
-            };
-        case KandidatlisteActionType.LagreKandidatIKandidatlisteFailure:
-            return {
-                ...state,
-                lagreKandidatIKandidatlisteStatus: Nettstatus.Feil,
-            };
         case KandidatlisteActionType.HentNotater:
             return {
                 ...state,

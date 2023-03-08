@@ -1,19 +1,20 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Ingress } from 'nav-frontend-typografi';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import 'nav-frontend-tabell-style';
+
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
 import { ikkeLastet, lasterInn, Nettressurs, Nettstatus, suksess } from '../api/Nettressurs';
-import { useLocation, useParams } from 'react-router-dom';
 import AppState from '../AppState';
-import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../kandidatside/Kandidatside';
 import { sendEvent } from '../amplitude/amplitude';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import Cv from '../cv/reducer/cv-typer';
 import { capitalizeFirstLetter } from '../kandidatsøk/utils';
 import { ForespørselOmDelingAvCv } from '../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { fetchForespørslerOmDelingAvCvForKandidat } from '../api/forespørselOmDelingAvCvApi';
-import 'nav-frontend-tabell-style';
 import { fetchSmserForKandidat } from '../api/api';
 import { Sms } from '../kandidatliste/domene/Kandidatressurser';
 import './Historikkside.less';
@@ -33,10 +34,6 @@ const Historikkside: FunctionComponent = () => {
         Nettressurs<ForespørselOmDelingAvCv[]>
     >(ikkeLastet());
     const [smser, setSmser] = useState<Nettressurs<[Sms]>>(ikkeLastet());
-
-    const lagreKandidatIKandidatlisteStatus = useSelector(
-        (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
-    );
 
     useEffect(() => {
         const hentForespørslerOmDelingAvCvForKandidat = async (aktørId: string) => {
@@ -62,15 +59,6 @@ const Historikkside: FunctionComponent = () => {
             kandidatnr,
         });
     }, [kandidatnr, kandidatStatus, dispatch]);
-
-    useEffect(() => {
-        if (lagreKandidatIKandidatlisteStatus === Nettstatus.Suksess) {
-            dispatch({
-                type: KandidatlisterForKandidatActionType.Fetch,
-                kandidatnr,
-            });
-        }
-    }, [kandidatnr, lagreKandidatIKandidatlisteStatus, dispatch]);
 
     useEffect(() => {
         if (historikk.kandidatlisterForKandidat.kind === Nettstatus.Suksess) {

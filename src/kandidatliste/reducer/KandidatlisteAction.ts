@@ -132,26 +132,6 @@ export interface LeggTilKandidaterResetAction {
     type: KandidatlisteActionType.LeggTilKandidaterReset;
 }
 
-export interface NullstillKandidatIKandidatlisteAction {
-    type: KandidatlisteActionType.NullstillKandidatIKandidatliste;
-}
-
-export interface LagreKandidatIKandidatlisteAction {
-    type: KandidatlisteActionType.LagreKandidatIKandidatliste;
-    kandidatliste: any;
-    fodselsnummer: string;
-    kandidatnr: string;
-    notat?: any;
-}
-
-export interface LagreKandidatIKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess;
-}
-
-export interface LagreKandidatIKandidatlisteFailureAction {
-    type: KandidatlisteActionType.LagreKandidatIKandidatlisteFailure;
-}
-
 export interface EndreStatusKandidatAction {
     type: KandidatlisteActionType.EndreStatusKandidat;
     status: Kandidatstatus;
@@ -503,10 +483,6 @@ type KandidatlisteAction =
     | LeggTilKandidaterAction
     | LeggTilKandidaterSuccessAction
     | LeggTilKandidaterFailureAction
-    | NullstillKandidatIKandidatlisteAction
-    | LagreKandidatIKandidatlisteAction
-    | LagreKandidatIKandidatlisteSuccessAction
-    | LagreKandidatIKandidatlisteFailureAction
     | EndreStatusKandidatAction
     | EndreStatusKandidatSuccessAction
     | EndreStatusKandidatFailureAction
