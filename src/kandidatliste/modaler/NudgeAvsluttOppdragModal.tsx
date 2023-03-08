@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './NudgeAvsluttOppdragModal.less';
-import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 
 interface Props {
     antallKandidaterSomHarFåttJobb: number;
@@ -29,10 +29,9 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     return (
         klar && (
             <ModalMedKandidatScope
-                closeButton
-                isOpen={true}
-                contentLabel="Foreslå å avslutte oppdraget (lukke kandidatlisten)"
-                onRequestClose={onAvbryt}
+                open={true}
+                aria-label="Forslag om å avslutte oppdraget"
+                onClose={onAvbryt}
                 className="nudgeAvsluttOppdragModal"
             >
                 <Systemtittel className="nudgeAvsluttOppdragModal__tittel">

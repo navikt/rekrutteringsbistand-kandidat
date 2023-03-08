@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { Systemtittel } from 'nav-frontend-typografi';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import { Nettstatus } from '../../api/Nettressurs';
 import KandidatlisteAction, {
     Kandidatlisteinfo,
@@ -28,10 +28,9 @@ const OpprettModal: FunctionComponent<Props> = ({
     onAvbrytClick,
 }) => (
     <ModalMedKandidatScope
-        isOpen
-        closeButton
-        contentLabel="modal opprett kandidatliste"
-        onRequestClose={onAvbrytClick}
+        open
+        aria-label="Opprett kandidatliste"
+        onClose={onAvbrytClick}
         className="modal--opprett-kandidatliste__veileder"
     >
         <Systemtittel className="blokk-s">Opprett kandidatliste</Systemtittel>

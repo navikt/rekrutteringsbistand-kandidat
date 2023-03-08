@@ -2,8 +2,10 @@ import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import Navspa from '@navikt/navspa';
 
+import '@navikt/ds-css';
+import './index.less';
+
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
-import Modal from 'react-modal';
 import { Provider } from 'react-redux';
 import store from './reduxStore';
 import { Router } from 'react-router-dom';
@@ -13,14 +15,15 @@ import FeilMedApp from './FeilMedApp';
 import { getMiljø, Miljø } from './utils/miljøUtils';
 import { fjernPersonopplysninger } from './utils/sentryUtils';
 import App from './app/App';
-import '@navikt/ds-css';
-import './index.less';
+import ReactModal from 'react-modal';
+import { Modal } from '@navikt/ds-react';
 
 const appElement =
     document.getElementById('rekrutteringsbistand-container') ||
     document.getElementById('utviklingsapp');
 if (appElement) {
     Modal.setAppElement(appElement);
+    ReactModal.setAppElement(appElement);
 }
 
 Sentry.init({

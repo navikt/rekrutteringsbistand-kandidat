@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import { erKobletTilStilling } from '../../kandidatliste/domene/Kandidatliste';
 import './LagreKandidaterTilStillingModal.less';
 
@@ -27,11 +27,10 @@ const LagreKandidaterTilStillingModal = (props) => {
 
     return (
         <ModalMedKandidatScope
-            isOpen={vis}
-            onRequestClose={onRequestClose}
-            contentLabel="LagreKandidaterModal."
+            open={vis}
+            onClose={onRequestClose}
+            aria-label="Lagre kandidater"
             className="LagreKandidaterTilStillingModal"
-            appElement={document.getElementById('app')}
         >
             <div className="LagreKandidaterTilStillingModal--wrapper">
                 <Systemtittel className="tittel">

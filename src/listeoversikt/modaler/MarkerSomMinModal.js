@@ -3,17 +3,15 @@ import PropTypes from 'prop-types';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { lenkeTilStilling } from '../../app/paths';
-import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import { Link } from 'react-router-dom';
 
 const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytClick }) => (
     <ModalMedKandidatScope
-        isOpen
-        contentLabel="modal opprett kandidatliste"
-        onRequestClose={onAvbrytClick}
+        open
+        onClose={onAvbrytClick}
+        aria-label="Marker som min"
         className="modal--marker-kandidatliste-som-min"
-        closeButton
-        appElement={document.getElementById('app')}
     >
         <Systemtittel className="blokk-s">Marker som min</Systemtittel>
         {stillingsId ? (

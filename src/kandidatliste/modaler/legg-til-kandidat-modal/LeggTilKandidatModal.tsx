@@ -15,7 +15,7 @@ import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluer
 import BekreftMedNotat from './BekreftMedNotat';
 import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
-import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import './LeggTilKandidatModal.less';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 
@@ -123,11 +123,10 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
 
     return (
         <ModalMedKandidatScope
-            isOpen={vis}
+            open={vis}
+            onClose={onClose}
+            aria-label="Legg til kandidat-modal"
             className="LeggTilKandidatModal"
-            contentLabel="Legg til kandidat-modal"
-            contentClass="LeggTilKandidatModal__innhold"
-            onRequestClose={onClose}
         >
             <Systemtittel className="LeggTilKandidatModal__tittel">Legg til kandidat</Systemtittel>
             <AlertStripeAdvarsel className="LeggTilKandidatModal__advarsel">

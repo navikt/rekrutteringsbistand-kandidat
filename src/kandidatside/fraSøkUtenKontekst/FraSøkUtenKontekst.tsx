@@ -59,7 +59,7 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søke
                 vis={visKandidatlisterModal}
                 onRequestClose={() => setVisKandidatlisterModal(false)}
                 onLagre={() => {
-                    setVisKandidatlisterModal(false);
+                    console.log('Lagret?');
                 }}
             />
         </>

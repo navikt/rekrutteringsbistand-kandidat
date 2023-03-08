@@ -13,7 +13,7 @@ import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteAc
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { ListeoversiktActionType } from '../../listeoversikt/reducer/ListeoversiktAction';
-import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import { Nettstatus } from '../../api/Nettressurs';
 import './LagreKandidaterModal.less';
 
@@ -253,11 +253,10 @@ class LagreKandidaterModal extends React.Component {
 
         return (
             <ModalMedKandidatScope
-                isOpen={vis}
-                onRequestClose={onRequestClose}
-                contentLabel="LagreKandidaterModal."
+                open={vis}
+                onClose={onRequestClose}
+                aria-label="Lagre kandidater"
                 className="LagreKandidaterModal"
-                appElement={document.getElementById('app')}
             >
                 <div>
                     {lagretKandidatliste && (

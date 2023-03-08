@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { FunctionComponent } from 'react';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
-import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 
 interface Props {
     slettKandidatliste: () => void;
@@ -14,11 +14,10 @@ const SlettKandidatlisteModal: FunctionComponent<Props> = ({
     onAvbrytClick,
 }) => (
     <ModalMedKandidatScope
-        isOpen
-        contentLabel="modal opprett kandidatliste"
-        onRequestClose={onAvbrytClick}
+        open
+        onClose={onAvbrytClick}
+        aria-label="Slett kandidatliste"
         className="modal--marker-kandidatliste-som-min"
-        closeButton
     >
         <Systemtittel className="blokk-s">Slett kandidatliste</Systemtittel>
         <div>

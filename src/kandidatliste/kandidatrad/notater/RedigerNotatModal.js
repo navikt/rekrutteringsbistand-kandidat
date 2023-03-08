@@ -4,7 +4,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Notat } from '../../PropTypes';
-import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 
 export default class RedigerNotatModal extends React.Component {
     constructor(props) {
@@ -35,12 +35,7 @@ export default class RedigerNotatModal extends React.Component {
         const { onClose } = this.props;
         const { notatTekst, feilmelding } = this.state;
         return (
-            <ModalMedKandidatScope
-                isOpen
-                contentLabel={'Rediger notat'}
-                onRequestClose={onClose}
-                appElement={document.getElementById('app')}
-            >
+            <ModalMedKandidatScope open aria-label="Rediger notat" onClose={onClose}>
                 <div className="RedigerNotatModal">
                     <Systemtittel className="overskrift">Rediger notat</Systemtittel>
                     <div className="tekstomrade">

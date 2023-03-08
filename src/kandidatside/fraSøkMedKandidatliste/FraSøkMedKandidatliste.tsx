@@ -1,11 +1,10 @@
 import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import { AddPeople } from '@navikt/ds-icons';
 
-import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import {
     lenkeTilAutomatiskMatching,
     lenkeTilKandidatliste,
@@ -13,20 +12,18 @@ import {
 } from '../../app/paths';
 import { Nettstatus } from '../../api/Nettressurs';
 import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
-import { sendEvent } from '../../amplitude/amplitude';
 import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
-import AppState from '../../AppState';
-import Cv from '../../cv/reducer/cv-typer';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
-import LagreKandidaterTilStillingModal from '../../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
 import useCv from '../hooks/useCv';
 import useFaner from '../hooks/useFaner';
 import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
+import LagreKandidatIKandidatlisteModal from './LagreKandidatIKandidatlisteModal';
+import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 
 type Props = {
     tabs: ReactNode;
@@ -60,10 +57,6 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
         fraAutomatiskMatching
     );
 
-    const lagreKandidatStatus = useSelector(
-        (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
-    );
-
     useEffect(() => {
         skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
         dispatch({
@@ -71,22 +64,7 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
         });
     }, [dispatch, kandidatnr]);
 
-    useEffect(() => {
-        if (
-            lagreKandidatStatus === Nettstatus.Suksess &&
-            kandidatliste.kind === Nettstatus.Suksess
-        ) {
-            setVisLagreKandidatModal(false);
-
-            dispatch({
-                type: VarslingActionType.VisVarsling,
-                alertType: 'suksess',
-                innhold: `Kandidaten er lagret i kandidatlisten «${kandidatliste.data.tittel}»`,
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, lagreKandidatStatus]);
-
+    /*
     const onLagreKandidat = (cv: Cv) => (kandidatliste: Kandidatliste) => {
         sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
 
@@ -95,6 +73,15 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
             kandidatliste,
             fodselsnummer: cv.fodselsnummer,
             kandidatnr,
+        });
+    };
+    */
+
+    const handleLagretKandidat = (kandidatliste: Kandidatliste) => {
+        dispatch({
+            type: VarslingActionType.VisVarsling,
+            alertType: 'suksess',
+            innhold: `Kandidaten er lagret i kandidatlisten «${kandidatliste.tittel}»`,
         });
     };
 
@@ -144,19 +131,13 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
                 <Tabs.Panel value={fane}>{children}</Tabs.Panel>
             </Tabs>
 
-            {visLagreKandidatModal &&
-                cv.kind === Nettstatus.Suksess &&
-                kandidatliste.kind === Nettstatus.Suksess && (
-                    /* TODO: Erstatt modaler med nye modaler fra kandidatsøket  */
-                    <LagreKandidaterTilStillingModal
-                        vis={visLagreKandidatModal}
-                        antallMarkerteKandidater={1}
-                        onRequestClose={() => setVisLagreKandidatModal(false)}
-                        onLagre={onLagreKandidat(cv.data)}
-                        kandidatliste={kandidatliste.data}
-                        isSaving={lagreKandidatStatus === Nettstatus.SenderInn}
-                    />
-                )}
+            <LagreKandidatIKandidatlisteModal
+                vis={visLagreKandidatModal}
+                kandidatliste={kandidatliste}
+                kandidatnr={kandidatnr}
+                onClose={() => setVisLagreKandidatModal(false)}
+                onLagre={handleLagretKandidat}
+            />
         </>
     );
 };
