@@ -13,6 +13,7 @@ import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kand
 import Cv, { Fødselsnummersøk } from '../cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { MineKandidatlister } from '../kandidatside/fraSøkUtenKontekst/lagre-kandidat-modal/useMineKandidatlister';
 
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
@@ -290,6 +291,16 @@ export const putArkivertForFlereKandidater = (
 
 export const fetchKandidatlister = (query = {}) =>
     fetchJson(`${KANDIDATSOK_API}/veileder/kandidatlister?${convertToUrlParams(query)}`, true);
+
+export const fetchMineKandidatlister = async (
+    side: number,
+    pageSize: number
+): Promise<MineKandidatlister> =>
+    await fetchJson(
+        `${KANDIDATSOK_API}/veileder/kandidatlister?kunEgne=true&status=ÅPEN&pagesize=${pageSize}${
+            side > 1 ? `&pagenumber=${side - 1}` : ''
+        }`
+    );
 
 export const fetchKandidatlisterForKandidat = (
     kandidatnr: string,
