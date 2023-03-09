@@ -1,5 +1,5 @@
 import * as cvData from './cv-data.mock';
-import Cv from '../../../kandidatside/cv/reducer/cv-typer';
+import Cv from '../../../cv/reducer/cv-typer';
 import { Veileder } from './veileder.mock';
 import { mockStrings } from './mock-strings';
 

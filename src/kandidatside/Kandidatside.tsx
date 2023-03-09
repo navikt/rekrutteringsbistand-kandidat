@@ -1,11 +1,13 @@
 import React, { FunctionComponent, useRef } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
-import KandidatsideFraSøk from './fra-søk/KandidatsideFraSøk';
-import KandidatsideFraKandidatliste from './fra-kandidatliste/KandidatsideFraKandidatliste';
-import { hentSøkekontekst, hentØktFraNyttKandidatsøk } from './søkekontekst';
-import './Kandidatside.less';
-import { useSelector } from 'react-redux';
-import AppState from '../AppState';
+import { Tabs } from '@navikt/ds-react';
+
+import { hentØktFraNyttKandidatsøk, NyttKandidatsøkØkt } from './søkekontekst';
+import { Applicant, Dialog } from '@navikt/ds-icons';
+import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
+import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
+import Sidefeil from '../common/sidefeil/Sidefeil';
+import FraSøkMedKandidatliste from './fraSøkMedKandidatliste/FraSøkMedKandidatliste';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -20,44 +22,64 @@ type RouteParams = {
 };
 
 const Kandidatside: FunctionComponent = () => {
-    const kandidatlisteState = useSelector((state: AppState) => state.kandidatliste);
+    const søkeøktRef = useRef<NyttKandidatsøkØkt>(hentØktFraNyttKandidatsøk());
+    const søkeøkt = søkeøktRef.current || {};
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const routeParams = useParams<RouteParams>();
+    const kandidatnr = routeParams.kandidatnr!;
 
-    const nyttKandidatsøkØkt = useRef(hentØktFraNyttKandidatsøk());
-    const { search } = useLocation();
-    const params = useParams<RouteParams>();
+    const kandidatlisteIdFraUrl = searchParams.get(KandidatQueryParam.KandidatlisteId);
+    const kommerFraKandidatliste = searchParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
+    const kommerFraKandidatsøket =
+        searchParams.get(KandidatQueryParam.FraNyttKandidatsøk) === 'true';
+    const kommerFraAutomatiskMatching =
+        searchParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
 
-    const kandidatnr = params.kandidatnr!;
-    const queryParams = new URLSearchParams(search);
-
-    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId) ?? undefined;
-    const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
-    const fraAutomatiskMatching =
-        queryParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
-
-    if (fraKandidatliste && kandidatlisteId) {
-        return (
-            <KandidatsideFraKandidatliste kandidatnr={kandidatnr} kandidatlisteId={kandidatlisteId}>
-                <Outlet />
-            </KandidatsideFraKandidatliste>
-        );
+    if (kommerFraKandidatliste) {
+        if (kandidatlisteIdFraUrl) {
+            return (
+                <FraKandidatliste
+                    tabs={<Faner />}
+                    kandidatnr={kandidatnr}
+                    kandidatlisteId={kandidatlisteIdFraUrl}
+                >
+                    <Outlet />
+                </FraKandidatliste>
+            );
+        } else {
+            return <Sidefeil feilmelding="Mangler kandidatlisteId i URL" />;
+        }
+    } else if (kommerFraKandidatsøket || kommerFraAutomatiskMatching) {
+        if (kandidatlisteIdFraUrl) {
+            return (
+                <FraSøkMedKandidatliste
+                    tabs={<Faner />}
+                    kandidatnr={kandidatnr}
+                    kandidatlisteId={kandidatlisteIdFraUrl}
+                    søkeøkt={søkeøkt}
+                    fraAutomatiskMatching={kommerFraAutomatiskMatching}
+                >
+                    <Outlet />
+                </FraSøkMedKandidatliste>
+            );
+        } else {
+            return (
+                <FraSøkUtenKontekst tabs={<Faner />} kandidatnr={kandidatnr} søkeøkt={søkeøkt}>
+                    <Outlet />
+                </FraSøkUtenKontekst>
+            );
+        }
+    } else {
+        return <Sidefeil feilmelding="Klarte ikke å bestemme riktig kontekst" />;
     }
-
-    const stillingsId = queryParams.get(KandidatQueryParam.StillingId) ?? undefined;
-
-    const kontekst = hentSøkekontekst(
-        kandidatnr,
-        stillingsId,
-        kandidatlisteId,
-        fraAutomatiskMatching,
-        kandidatlisteState.kandidatliste,
-        nyttKandidatsøkØkt.current
-    );
-
-    return (
-        <KandidatsideFraSøk kandidatnr={kandidatnr} kontekst={kontekst}>
-            <Outlet />
-        </KandidatsideFraSøk>
-    );
 };
+
+const Faner = () => (
+    <Tabs.List>
+        <Tabs.Tab icon={<Applicant />} value="cv" label="CV og jobbønsker" />
+        <Tabs.Tab icon={<Dialog />} value="historikk" label="Historikk" />
+    </Tabs.List>
+);
 
 export default Kandidatside;

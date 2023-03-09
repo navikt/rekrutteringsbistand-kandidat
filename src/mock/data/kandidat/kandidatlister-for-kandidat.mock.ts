@@ -1,5 +1,5 @@
 import { Kandidatstatus, Kandidatutfall } from '../../../kandidatliste/domene/Kandidat';
-import { KandidatlisteForKandidat } from '../../../kandidatside/historikk/historikkReducer';
+import { KandidatlisteForKandidat } from '../../../historikk/historikkReducer';
 import { Veileder } from './veileder.mock';
 
 const kandidatlisteId = 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29';

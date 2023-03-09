@@ -1,20 +1,21 @@
 import React, { FunctionComponent } from 'react';
-import ReactDOM from 'react-dom';
-import Navspa from '@navikt/navspa';
-
-import Utviklingsapp from './utviklingsapp/Utviklingsapp';
-import Modal from 'react-modal';
-import { Provider } from 'react-redux';
-import store from './reduxStore';
+import { Modal } from '@navikt/ds-react';
 import { Router } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
+import Navspa from '@navikt/navspa';
+import ReactDOM from 'react-dom';
+
+import '@navikt/ds-css';
+import './index.less';
+
+import Utviklingsapp from './utviklingsapp/Utviklingsapp';
+import { Provider } from 'react-redux';
+import store from './reduxStore';
 import { History } from 'history';
 import FeilMedApp from './FeilMedApp';
 import { getMiljø, Miljø } from './utils/miljøUtils';
 import { fjernPersonopplysninger } from './utils/sentryUtils';
 import App from './app/App';
-import '@navikt/ds-css';
-import './index.less';
 
 const appElement =
     document.getElementById('rekrutteringsbistand-container') ||

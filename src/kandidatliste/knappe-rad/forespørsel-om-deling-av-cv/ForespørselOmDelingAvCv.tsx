@@ -12,7 +12,7 @@ import AppState from '../../../AppState';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
-import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import VelgSvarfrist, { lagSvarfristPåSekundet, Svarfrist } from './VelgSvarfrist';
@@ -161,10 +161,10 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                 Del med kandidat
             </Lenkeknapp>
             <ModalMedKandidatScope
-                isOpen={modalErÅpen}
-                contentLabel="Del stillingen med de markerte kandidatene"
-                onRequestClose={lukkModal}
+                open={modalErÅpen}
+                aria-label="Del stillingen med de markerte kandidatene"
                 className="foresporsel-om-deling-av-cv__modal"
+                onClose={lukkModal}
             >
                 <Systemtittel className="blokk-s">
                     Del med {markerteKandidaterSomIkkeErForespurt.length}{' '}

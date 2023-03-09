@@ -3,7 +3,7 @@ import { Notat } from '../../domene/Kandidatressurser';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NotatInfo from './NotatInfo';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
-import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 
 interface SlettemodalProps {
     notat: Notat;
@@ -22,9 +22,9 @@ const Slettemodal: FunctionComponent<SlettemodalProps> = ({
 
     return (
         <ModalMedKandidatScope
-            isOpen
-            contentLabel={'Rediger notat'}
-            onRequestClose={onCloseSletteModal}
+            open
+            aria-label="Rediger notat"
+            onClose={onCloseSletteModal}
             className="slett-notat-modal"
         >
             <Systemtittel className="slett-notat-modal__overskrift">Slett notat</Systemtittel>

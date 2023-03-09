@@ -1,4 +1,4 @@
-import { CvSøkeresultat } from '../../kandidatside/cv/reducer/cv-typer';
+import { CvSøkeresultat } from '../../cv/reducer/cv-typer';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -62,18 +62,9 @@ export type KandidatlisteState = {
     sendForespørselOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
     forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
     fodselsnummer?: string;
-    leggTilKandidater: {
-        lagreStatus: Nettstatus;
-        antallLagredeKandidater: number;
-        lagretListe?: {
-            kandidatlisteId: string;
-            tittel: string;
-        };
-    };
     hentListeMedAnnonsenummerStatus: Nettstatus;
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
-    lagreKandidatIKandidatlisteStatus: Nettstatus;
     arkivering: {
         statusArkivering: Nettstatus;
         statusDearkivering: Nettstatus;
@@ -118,7 +109,6 @@ const initialState: KandidatlisteState = {
     hentListeMedAnnonsenummerStatus: Nettstatus.IkkeLastet,
     hentListeMedAnnonsenummerStatusMessage: '',
     kandidatlisteMedAnnonsenummer: undefined,
-    lagreKandidatIKandidatlisteStatus: Nettstatus.IkkeLastet,
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: ikkeLastet(),
@@ -306,73 +296,20 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 notat: action.notat,
             };
-        case KandidatlisteActionType.LeggTilKandidater:
+        case KandidatlisteActionType.OppdaterKandidatlisteMedKandidat: {
             return {
                 ...state,
-                leggTilKandidater: {
-                    ...state.leggTilKandidater,
-                    lagreStatus: Nettstatus.SenderInn,
-                },
-            };
-        case KandidatlisteActionType.LeggTilKandidaterSuccess: {
-            const kandidatnotater = {
-                ...state.kandidatnotater,
-            };
-
-            const kandidattilstander = {
-                ...state.kandidattilstander,
-            };
-
-            action.lagredeKandidater.forEach((lagretKandidat) => {
-                kandidattilstander[lagretKandidat.kandidatnr] = initialKandidattilstand();
-                kandidatnotater[lagretKandidat.kandidatnr] = ikkeLastet();
-            });
-
-            return {
-                ...state,
-                leggTilKandidater: {
-                    ...state.leggTilKandidater,
-                    lagreStatus: Nettstatus.Suksess,
-                    antallLagredeKandidater: action.antallLagredeKandidater,
-                    lagretListe: action.lagretListe,
-                },
                 kandidatliste: suksess(action.kandidatliste),
-                kandidattilstander,
-                kandidatnotater,
+                kandidattilstander: {
+                    ...state.kandidattilstander,
+                    [action.kandidatnr]: initialKandidattilstand(),
+                },
+                kandidatnotater: {
+                    ...state.kandidatnotater,
+                    [action.kandidatnr]: ikkeLastet(),
+                },
             };
         }
-        case KandidatlisteActionType.LeggTilKandidaterFailure:
-            return {
-                ...state,
-                leggTilKandidater: {
-                    ...state.leggTilKandidater,
-                    lagreStatus: Nettstatus.Feil,
-                },
-            };
-
-        case KandidatlisteActionType.LeggTilKandidaterReset:
-            return {
-                ...state,
-                leggTilKandidater: {
-                    lagreStatus: Nettstatus.IkkeLastet,
-                    antallLagredeKandidater: 0,
-                },
-            };
-        case KandidatlisteActionType.LagreKandidatIKandidatliste:
-            return {
-                ...state,
-                lagreKandidatIKandidatlisteStatus: Nettstatus.SenderInn,
-            };
-        case KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess:
-            return {
-                ...state,
-                lagreKandidatIKandidatlisteStatus: Nettstatus.Suksess,
-            };
-        case KandidatlisteActionType.LagreKandidatIKandidatlisteFailure:
-            return {
-                ...state,
-                lagreKandidatIKandidatlisteStatus: Nettstatus.Feil,
-            };
         case KandidatlisteActionType.HentNotater:
             return {
                 ...state,
@@ -559,6 +496,11 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sendForespørselOmDelingAvCv: ikkeLastet(),
             };
         }
+        case KandidatlisteActionType.NullstillForespørslerOmDelingAvCv:
+            return {
+                ...state,
+                forespørslerOmDelingAvCv: ikkeLastet(),
+            };
         case KandidatlisteActionType.HentForespørslerOmDelingAvCv:
             return {
                 ...state,

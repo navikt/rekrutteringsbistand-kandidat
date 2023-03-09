@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { v5 as uuid } from 'uuid';
 
-import type Cv from '../../../kandidatside/cv/reducer/cv-typer';
+import type Cv from '../../../cv/reducer/cv-typer';
 import { KanSletteEnum } from '../../../listeoversikt/Kandidatlisteoversikt';
 import {
     Kandidatliste,
@@ -40,7 +40,7 @@ const standardKandidatliste = (eier: Veileder): Kandidatliste => ({
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     organisasjonReferanse: '976434099',
     organisasjonNavn: 'TULLEKONTORET AS',
-    stillingId: 'ce3da214-8771-4115-9362-b83145150551',
+    stillingId: '1ea746af-66be-4cf8-a051-9e815f77b1d1',
     opprettetAv: {
         ident: eier.ident,
         navn: eier.navn,

@@ -29,6 +29,7 @@ const url = {
     // Kandidatliste
     kandidatlister: `${api}/veileder/kandidatlister`,
     kandidatliste: `${api}/veileder/kandidatlister/:kandidatlisteId`,
+    kandidatlisteMedStilling: `${api}/veileder/stilling/:stillingsId/kandidatliste`,
     kandidatlistePost: `${api}/veileder/me/kandidatlister`,
     notater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater`,
     notaterMedId: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater/:notatId`,
@@ -106,6 +107,12 @@ const getKandidatliste = (url: string) => {
     const kandidatlisteId = url.split('/').pop();
 
     return mock.kandidat.kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+};
+
+const getKandidatlisteMedStilling = (url: string) => {
+    const stillingsId = url.split('/')[4];
+
+    return mock.kandidat.kandidatlister.find((liste) => liste.stillingId === stillingsId);
 };
 
 const getStilling = (url: string) => {
@@ -366,6 +373,7 @@ fetchMock
     // Kandidatliste
     .get(url.kandidatlister, log(getKandidatlister))
     .get(url.kandidatliste, log(getKandidatliste))
+    .get(url.kandidatlisteMedStilling, log(getKandidatlisteMedStilling))
     .post(url.kandidatlistePost, log(201))
     .get(url.notater, log(mock.kandidat.notater))
     .post(url.notater, log(mock.kandidat.notater))
@@ -376,8 +384,11 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
+
+    // Legg til kandidat fra kandidatliste-modal
     .post(url.fnrsok, log(postFnrsok))
     .get(url.synlighetsevaluering, log(getSynlighetsevaluering))
+
     .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(postDelKandidater))
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))

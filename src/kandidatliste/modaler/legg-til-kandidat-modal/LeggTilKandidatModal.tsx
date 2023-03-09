@@ -6,7 +6,7 @@ import fnrValidator from '@navikt/fnrvalidator';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../../api/api';
-import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
+import { Fødselsnummersøk } from '../../../cv/reducer/cv-typer';
 import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { SearchApiError } from '../../../api/fetchUtils';
@@ -15,14 +15,9 @@ import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluer
 import BekreftMedNotat from './BekreftMedNotat';
 import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
-import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
-import './LeggTilKandidatModal.less';
+import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
-
-export type KandidatOutboundDto = {
-    kandidatnr: string;
-    notat?: string;
-};
+import './LeggTilKandidatModal.less';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
@@ -70,13 +65,13 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
         if (fnr.length < 11) {
             tilbakestill();
         } else if (fnr.length > 11) {
-            tilbakestill('Fødselsnummeret er for langt');
+            setFeilmelding('Fødselsnummeret er for langt');
         } else {
+            tilbakestill();
+
             const erGyldig = validerFnr(fnr);
 
             if (erGyldig) {
-                setFeilmelding(null);
-
                 const finnesAllerede = erFnrAlleredeIListen(fnr);
                 setAlleredeLagtTil(finnesAllerede);
 
@@ -86,7 +81,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                     hentKandidatMedFødselsnummer(fnr);
                 }
             } else {
-                tilbakestill('Fødselsnummeret er ikke gyldig');
+                setFeilmelding('Fødselsnummeret er ikke gyldig');
             }
         }
     };
@@ -123,11 +118,10 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
 
     return (
         <ModalMedKandidatScope
-            isOpen={vis}
+            open={vis}
+            onClose={onClose}
+            aria-label="Legg til kandidat-modal"
             className="LeggTilKandidatModal"
-            contentLabel="Legg til kandidat-modal"
-            contentClass="LeggTilKandidatModal__innhold"
-            onRequestClose={onClose}
         >
             <Systemtittel className="LeggTilKandidatModal__tittel">Legg til kandidat</Systemtittel>
             <AlertStripeAdvarsel className="LeggTilKandidatModal__advarsel">

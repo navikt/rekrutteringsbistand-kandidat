@@ -12,7 +12,7 @@ import { Kandidat } from '../domene/Kandidat';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
-import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import './SendSmsModal.less';
 import { Stillingskategori } from '../domene/Kandidatliste';
@@ -93,11 +93,10 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
 
     return (
         <ModalMedKandidatScope
-            isOpen={vis}
+            open={vis}
             className="send-sms-modal"
-            onRequestClose={onClose}
-            contentLabel={`Send SMS til ${kandidater.length} kandidater`}
-            closeButton
+            onClose={onClose}
+            aria-label={`Send SMS til ${kandidater.length} kandidater`}
         >
             {(kandidaterSomHarFåttSms.length > 0 || harInaktiveKandidater) && (
                 <AlertStripeAdvarsel className="send-sms-modal__allerede-sendt-advarsel">

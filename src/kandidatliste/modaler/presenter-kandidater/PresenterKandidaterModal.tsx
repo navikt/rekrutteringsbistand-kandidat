@@ -3,7 +3,7 @@ import { Feilmelding, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { inneholderSærnorskeBokstaver, erGyldigEpost } from './epostValidering';
-import ModalMedKandidatScope from '../../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { Nettstatus } from '../../../api/Nettressurs';
@@ -151,9 +151,9 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
 
         return (
             <ModalMedKandidatScope
-                contentLabel="modal del kandidater"
-                isOpen={vis}
-                onRequestClose={this.props.onClose}
+                open={vis}
+                onClose={this.props.onClose}
+                aria-label="Del kandidater med arbeidsgiver"
                 className="PresenterKandidaterModal"
             >
                 <div className="wrapper">

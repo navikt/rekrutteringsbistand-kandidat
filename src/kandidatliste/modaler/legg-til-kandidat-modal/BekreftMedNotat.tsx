@@ -1,13 +1,13 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Textarea } from 'nav-frontend-skjema';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
+
 import { sendEvent } from '../../../amplitude/amplitude';
-import { postKandidaterTilKandidatliste } from '../../../api/api';
+import { postKandidatTilKandidatliste } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
-import { Fødselsnummersøk } from '../../../kandidatside/cv/reducer/cv-typer';
+import { Fødselsnummersøk } from '../../../cv/reducer/cv-typer';
 import { Kandidatliste } from '../../domene/Kandidatliste';
-import { KandidatOutboundDto } from './LeggTilKandidatModal';
-import { useDispatch } from 'react-redux';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
@@ -38,25 +38,23 @@ const BekreftMedNotat: FunctionComponent<{
             app: 'kandidat',
         });
 
-        const dto: KandidatOutboundDto[] = [
-            {
-                kandidatnr: kandidat.arenaKandidatnr,
-                notat,
-            },
-        ];
-
-        const respons = await postKandidaterTilKandidatliste(kandidatliste.kandidatlisteId, dto);
+        const respons = await postKandidatTilKandidatliste(
+            kandidatliste.kandidatlisteId,
+            kandidat.arenaKandidatnr,
+            notat
+        );
         setLeggTilKandidat(respons);
 
         if (respons.kind === Nettstatus.Suksess) {
             onClose();
-            varsleKandidatlisteOmNyKandidat(respons.data, dto);
+            varsleKandidatlisteOmNyKandidat(respons.data, kandidat.arenaKandidatnr, notat);
         }
     };
 
     const varsleKandidatlisteOmNyKandidat = (
         kandidatlisteMedNyKandidat: Kandidatliste,
-        nyeKandidater: KandidatOutboundDto[]
+        kandidatnr: string,
+        notat?: string
     ) => {
         dispatch<VarslingAction>({
             type: VarslingActionType.VisVarsling,
@@ -64,11 +62,10 @@ const BekreftMedNotat: FunctionComponent<{
         });
 
         dispatch<KandidatlisteAction>({
-            type: KandidatlisteActionType.LeggTilKandidaterSuccess,
-            antallLagredeKandidater: 1,
+            type: KandidatlisteActionType.OppdaterKandidatlisteMedKandidat,
             kandidatliste: kandidatlisteMedNyKandidat,
-            lagredeKandidater: nyeKandidater,
-            lagretListe: kandidatlisteMedNyKandidat,
+            kandidatnr,
+            notat,
         });
     };
 

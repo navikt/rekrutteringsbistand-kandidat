@@ -1,6 +1,6 @@
 import { ListeoversiktState } from './listeoversikt/reducer/listeoversiktReducer';
-import { CvState } from './kandidatside/cv/reducer/cvReducer';
-import { HistorikkState } from './kandidatside/historikk/historikkReducer';
+import { CvState } from './cv/reducer/cvReducer';
+import { HistorikkState } from './historikk/historikkReducer';
 import { KandidatlisteState } from './kandidatliste/reducer/kandidatlisteReducer';
 import { NavKontorState } from './navKontor/navKontorReducer';
 import { SearchState } from './kandidatsøk/reducer/searchReducer';

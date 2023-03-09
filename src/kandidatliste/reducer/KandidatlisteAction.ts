@@ -108,44 +108,11 @@ export interface ResetDeleStatusAction {
     type: KandidatlisteActionType.ResetDelestatus;
 }
 
-export interface LeggTilKandidaterAction {
-    type: KandidatlisteActionType.LeggTilKandidater;
-    kandidatliste: {
-        kandidatlisteId: string;
-    };
-    kandidater: Array<KandidatOutboundDto>;
-}
-
-export interface LeggTilKandidaterSuccessAction {
-    type: KandidatlisteActionType.LeggTilKandidaterSuccess;
-    antallLagredeKandidater: number;
-    lagretListe: any;
-    lagredeKandidater: Array<KandidatOutboundDto>;
+export interface OppdaterKandidatlisteMedKandidatAction {
+    type: KandidatlisteActionType.OppdaterKandidatlisteMedKandidat;
     kandidatliste: Kandidatliste;
-}
-
-export interface LeggTilKandidaterFailureAction {
-    type: KandidatlisteActionType.LeggTilKandidaterFailure;
-}
-
-export interface LeggTilKandidaterResetAction {
-    type: KandidatlisteActionType.LeggTilKandidaterReset;
-}
-
-export interface LagreKandidatIKandidatlisteAction {
-    type: KandidatlisteActionType.LagreKandidatIKandidatliste;
-    kandidatliste: any;
-    fodselsnummer: string;
     kandidatnr: string;
-    notat?: any;
-}
-
-export interface LagreKandidatIKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.LagreKandidatIKandidatlisteSuccess;
-}
-
-export interface LagreKandidatIKandidatlisteFailureAction {
-    type: KandidatlisteActionType.LagreKandidatIKandidatlisteFailure;
+    notat?: string;
 }
 
 export interface EndreStatusKandidatAction {
@@ -391,6 +358,10 @@ export interface HentSendteMeldingerFailureAction {
     error: SearchApiError;
 }
 
+export interface NullstillForespørslerOmDelingAvCv {
+    type: KandidatlisteActionType.NullstillForespørslerOmDelingAvCv;
+}
+
 export interface HentForespørslerOmDelingAvCvAction {
     type: KandidatlisteActionType.HentForespørslerOmDelingAvCv;
     stillingsId: string;
@@ -492,12 +463,7 @@ type KandidatlisteAction =
     | PresenterKandidaterSuccessAction
     | PresenterKandidaterFailureAction
     | ResetDeleStatusAction
-    | LeggTilKandidaterAction
-    | LeggTilKandidaterSuccessAction
-    | LeggTilKandidaterFailureAction
-    | LagreKandidatIKandidatlisteAction
-    | LagreKandidatIKandidatlisteSuccessAction
-    | LagreKandidatIKandidatlisteFailureAction
+    | OppdaterKandidatlisteMedKandidatAction
     | EndreStatusKandidatAction
     | EndreStatusKandidatSuccessAction
     | EndreStatusKandidatFailureAction
@@ -543,11 +509,11 @@ type KandidatlisteAction =
     | EndreFormidlingsutfallForUsynligKandidatAction
     | EndreFormidlingsutfallForUsynligKandidatSuccessAction
     | EndreFormidlingsutfallForUsynligKandidatFailureAction
-    | LeggTilKandidaterResetAction
     | FormidleUsynligKandidatSuccessAction
     | EndreKandidatlistestatusAction
     | EndreKandidatlistestatusSuccessAction
     | EndreKandidatlistestatusFailureAction
+    | NullstillForespørslerOmDelingAvCv
     | HentForespørslerOmDelingAvCvAction
     | HentForespørslerOmDelingAvCvSuccessAction
     | HentForespørslerOmDelingAvCvFailureAction

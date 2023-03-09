@@ -5,7 +5,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import { Nettstatus } from '../../api/Nettressurs';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
 import KandidatlisteAction, {
@@ -35,10 +35,9 @@ const EndreModal: FunctionComponent<Props> = ({
     onAvbrytClick,
 }) => (
     <ModalMedKandidatScope
-        isOpen
-        closeButton
-        contentLabel="modal endre kandidatliste"
-        onRequestClose={onAvbrytClick}
+        open
+        onClose={onAvbrytClick}
+        aria-label="Endre kandidatlisten"
         className="modal--opprett-kandidatliste__veileder"
     >
         <Systemtittel className="blokk-s">Endre kandidatlisten</Systemtittel>
