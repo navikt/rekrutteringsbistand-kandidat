@@ -389,7 +389,7 @@ fetchMock
     .post(url.fnrsok, log(postFnrsok))
     .get(url.synlighetsevaluering, log(getSynlighetsevaluering))
 
-    .post(url.postKandidater, log(postKandidater))
+    .post(url.postKandidater, log(postKandidater), { delay: 1000 })
     .post(url.delKandidater, log(postDelKandidater))
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))

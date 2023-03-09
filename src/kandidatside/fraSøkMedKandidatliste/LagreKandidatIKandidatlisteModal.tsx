@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { BodyLong, Button, Heading, Loader } from '@navikt/ds-react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -30,7 +30,15 @@ const LagreKandidatIKandidatlisteModal: FunctionComponent<Props> = ({
         Nettstatus.IkkeLastet
     );
 
+    useEffect(() => {
+        setLagreKandidatStatus(Nettstatus.IkkeLastet);
+    }, [kandidatnr]);
+
     const onBekreftClick = (kandidatlisteId: string) => async () => {
+        if (lagreKandidatStatus === Nettstatus.SenderInn) {
+            return;
+        }
+
         setLagreKandidatStatus(Nettstatus.SenderInn);
 
         try {
@@ -82,12 +90,15 @@ const LagreKandidatIKandidatlisteModal: FunctionComponent<Props> = ({
                         {kandidatliste.data.tittel}»?
                     </BodyLong>
                     <div className={css.knapper}>
-                        <Button onClick={onBekreftClick(kandidatliste.data.kandidatlisteId)}>
+                        <Button
+                            loading={lagreKandidatStatus === Nettstatus.SenderInn}
+                            onClick={onBekreftClick(kandidatliste.data.kandidatlisteId)}
+                        >
                             Lagre
                         </Button>
                         <Button
                             variant="tertiary"
-                            loading={lagreKandidatStatus === Nettstatus.SenderInn}
+                            disabled={lagreKandidatStatus === Nettstatus.SenderInn}
                             onClick={onClose}
                         >
                             Avbryt
