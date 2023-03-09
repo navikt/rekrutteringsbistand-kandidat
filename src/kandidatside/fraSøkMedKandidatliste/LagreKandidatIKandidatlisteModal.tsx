@@ -3,7 +3,7 @@ import { BodyLong, Button, Heading, Loader } from '@navikt/ds-react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { postKandidaterTilKandidatliste } from '../../api/api';
+import { postKandidatTilKandidatliste } from '../../api/api';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
@@ -35,11 +35,12 @@ const LagreKandidatIKandidatlisteModal: FunctionComponent<Props> = ({
         setLagreKandidatStatus(Nettstatus.SenderInn);
 
         try {
-            const oppdatertKandidatliste = await postKandidaterTilKandidatliste(kandidatlisteId, [
-                {
-                    kandidatnr,
-                },
-            ]);
+            const oppdatertKandidatliste = await postKandidatTilKandidatliste(
+                kandidatlisteId,
+                kandidatnr
+            );
+
+            console.log('Ja?:', kandidatlisteId, kandidatnr, ':', oppdatertKandidatliste);
 
             if (oppdatertKandidatliste.kind === Nettstatus.Suksess) {
                 oppdaterKandidatlisteMedKandidat(oppdatertKandidatliste.data);
@@ -55,15 +56,9 @@ const LagreKandidatIKandidatlisteModal: FunctionComponent<Props> = ({
 
     const oppdaterKandidatlisteMedKandidat = (kandidatliste: Kandidatliste) => {
         dispatch({
-            type: KandidatlisteActionType.LeggTilKandidaterSuccess,
+            type: KandidatlisteActionType.OppdaterKandidatlisteMedKandidat,
             kandidatliste,
-            antallLagredeKandidater: 1,
-            lagretListe: kandidatliste,
-            lagredeKandidater: [
-                {
-                    kandidatnr,
-                },
-            ],
+            kandidatnr,
         });
     };
 

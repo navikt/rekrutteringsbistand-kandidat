@@ -12,10 +12,7 @@ import {
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
 import Cv, { Fødselsnummersøk } from '../cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
-import {
-    FormidlingAvUsynligKandidatOutboundDto,
-    KandidatOutboundDto,
-} from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
@@ -192,14 +189,20 @@ export const postDelteKandidater = (
         })
     );
 
-export const postKandidaterTilKandidatliste = async (
+export const postKandidatTilKandidatliste = async (
     kandidatlisteId: string,
-    kandidater: KandidatOutboundDto[]
+    kandidatnr: string,
+    notat?: string
 ): Promise<Nettressurs<Kandidatliste>> => {
     try {
         const body = await postJson(
             `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater`,
-            JSON.stringify(kandidater)
+            JSON.stringify([
+                {
+                    kandidatnr,
+                    notat,
+                },
+            ])
         );
 
         return {

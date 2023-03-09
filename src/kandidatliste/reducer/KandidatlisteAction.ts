@@ -108,28 +108,11 @@ export interface ResetDeleStatusAction {
     type: KandidatlisteActionType.ResetDelestatus;
 }
 
-export interface LeggTilKandidaterAction {
-    type: KandidatlisteActionType.LeggTilKandidater;
-    kandidatliste: {
-        kandidatlisteId: string;
-    };
-    kandidater: Array<KandidatOutboundDto>;
-}
-
-export interface LeggTilKandidaterSuccessAction {
-    type: KandidatlisteActionType.LeggTilKandidaterSuccess;
-    antallLagredeKandidater: number;
-    lagretListe: any;
-    lagredeKandidater: Array<KandidatOutboundDto>;
+export interface OppdaterKandidatlisteMedKandidatAction {
+    type: KandidatlisteActionType.OppdaterKandidatlisteMedKandidat;
     kandidatliste: Kandidatliste;
-}
-
-export interface LeggTilKandidaterFailureAction {
-    type: KandidatlisteActionType.LeggTilKandidaterFailure;
-}
-
-export interface LeggTilKandidaterResetAction {
-    type: KandidatlisteActionType.LeggTilKandidaterReset;
+    kandidatnr: string;
+    notat?: string;
 }
 
 export interface EndreStatusKandidatAction {
@@ -480,9 +463,7 @@ type KandidatlisteAction =
     | PresenterKandidaterSuccessAction
     | PresenterKandidaterFailureAction
     | ResetDeleStatusAction
-    | LeggTilKandidaterAction
-    | LeggTilKandidaterSuccessAction
-    | LeggTilKandidaterFailureAction
+    | OppdaterKandidatlisteMedKandidatAction
     | EndreStatusKandidatAction
     | EndreStatusKandidatSuccessAction
     | EndreStatusKandidatFailureAction
@@ -528,7 +509,6 @@ type KandidatlisteAction =
     | EndreFormidlingsutfallForUsynligKandidatAction
     | EndreFormidlingsutfallForUsynligKandidatSuccessAction
     | EndreFormidlingsutfallForUsynligKandidatFailureAction
-    | LeggTilKandidaterResetAction
     | FormidleUsynligKandidatSuccessAction
     | EndreKandidatlistestatusAction
     | EndreKandidatlistestatusSuccessAction

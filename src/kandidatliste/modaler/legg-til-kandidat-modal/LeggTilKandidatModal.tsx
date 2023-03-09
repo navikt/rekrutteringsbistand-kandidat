@@ -16,13 +16,8 @@ import BekreftMedNotat from './BekreftMedNotat';
 import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
 import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
-import './LeggTilKandidatModal.less';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
-
-export type KandidatOutboundDto = {
-    kandidatnr: string;
-    notat?: string;
-};
+import './LeggTilKandidatModal.less';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;

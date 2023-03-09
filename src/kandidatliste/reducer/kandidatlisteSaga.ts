@@ -6,7 +6,6 @@ import {
     putUtfallKandidat,
     putKandidatlistestatus,
     slettCvFraArbeidsgiversKandidatliste,
-    postKandidaterTilKandidatliste,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
@@ -35,7 +34,6 @@ import KandidatlisteAction, {
     HentForespørslerOmDelingAvCvAction,
     SendForespørselOmDelingAvCv,
     SlettCvFraArbeidsgiversKandidatliste,
-    LeggTilKandidaterAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -60,7 +58,6 @@ import {
     ForespørslerForStillingInboundDto,
     sendForespørselOmDelingAvCv,
 } from '../../api/forespørselOmDelingAvCvApi';
-import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;
@@ -265,33 +262,6 @@ function* endreKandidatlistestatus(action: EndreKandidatlistestatusAction) {
                 type: KandidatlisteActionType.EndreKandidatlistestatusFailure,
                 error: e,
             });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* leggTilKandidater(action: LeggTilKandidaterAction) {
-    try {
-        const response: Nettressurs<Kandidatliste> = yield postKandidaterTilKandidatliste(
-            action.kandidatliste.kandidatlisteId,
-            action.kandidater
-        );
-
-        if (response.kind === Nettstatus.Suksess) {
-            yield put<KandidatlisteAction>({
-                type: KandidatlisteActionType.LeggTilKandidaterSuccess,
-                kandidatliste: response.data,
-                antallLagredeKandidater: action.kandidater.length,
-                lagretListe: action.kandidatliste,
-                lagredeKandidater: action.kandidater,
-            });
-        } else {
-            throw new SearchApiError(response.kind === Nettstatus.Feil ? response.error : '');
-        }
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.LeggTilKandidaterFailure, error: e });
         } else {
             throw e;
         }
@@ -580,7 +550,6 @@ function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.PresenterKandidater, presenterKandidater);
     yield takeLatest(KandidatlisteActionType.EndreStatusKandidat, endreKandidatstatus);
     yield takeLatest(KandidatlisteActionType.EndreUtfallKandidat, endreKandidatUtfall);
-    yield takeLatest(KandidatlisteActionType.LeggTilKandidater, leggTilKandidater);
     yield takeLatest(KandidatlisteActionType.HentNotater, hentNotater);
     yield takeLatest(KandidatlisteActionType.OpprettNotat, opprettNotat);
     yield takeLatest(KandidatlisteActionType.EndreNotat, endreNotat);
@@ -598,7 +567,6 @@ function* kandidatlisteSaga() {
             KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure,
             KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure,
             KandidatlisteActionType.EndreStatusKandidatFailure,
-            KandidatlisteActionType.LeggTilKandidaterFailure,
             KandidatlisteActionType.OpprettNotatFailure,
             KandidatlisteActionType.EndreNotatFailure,
             KandidatlisteActionType.ToggleArkivertFailure,
