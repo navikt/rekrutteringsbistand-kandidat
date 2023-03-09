@@ -45,13 +45,13 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søke
             />
             <Tabs value={fane} onChange={setFane}>
                 <Kandidatmeny tabs={tabs} cv={cv}>
-                    <Button
+                    {/*<Button
                         size="small"
                         icon={<AddPeople aria-hidden />}
                         onClick={() => setVisKandidatlisterModal(true)}
                     >
                         Velg kandidatlister
-                    </Button>
+                    </Button>*/}
                 </Kandidatmeny>
                 <Tabs.Panel value={fane}>{children}</Tabs.Panel>
             </Tabs>
