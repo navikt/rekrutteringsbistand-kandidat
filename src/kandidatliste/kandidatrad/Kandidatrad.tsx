@@ -174,7 +174,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             to={lenkeTilCv(
                                 kandidat.kandidatnr,
                                 kandidatliste.kandidatlisteId,
-                                undefined,
                                 true
                             )}
                         >
