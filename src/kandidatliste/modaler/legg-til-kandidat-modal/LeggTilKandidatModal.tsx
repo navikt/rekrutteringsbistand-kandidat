@@ -70,13 +70,13 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
         if (fnr.length < 11) {
             tilbakestill();
         } else if (fnr.length > 11) {
-            tilbakestill('Fødselsnummeret er for langt');
+            setFeilmelding('Fødselsnummeret er for langt');
         } else {
+            tilbakestill();
+
             const erGyldig = validerFnr(fnr);
 
             if (erGyldig) {
-                setFeilmelding(null);
-
                 const finnesAllerede = erFnrAlleredeIListen(fnr);
                 setAlleredeLagtTil(finnesAllerede);
 
@@ -86,7 +86,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                     hentKandidatMedFødselsnummer(fnr);
                 }
             } else {
-                tilbakestill('Fødselsnummeret er ikke gyldig');
+                setFeilmelding('Fødselsnummeret er ikke gyldig');
             }
         }
     };

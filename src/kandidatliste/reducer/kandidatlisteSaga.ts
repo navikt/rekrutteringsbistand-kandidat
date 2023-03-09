@@ -590,10 +590,6 @@ function* kandidatlisteSaga() {
         KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer,
         hentKandidatlisteMedAnnonsenummer
     );
-    yield takeLatest(
-        KandidatlisteActionType.LagreKandidatIKandidatliste,
-        lagreKandidatIKandidatliste
-    );
     yield takeLatest(KandidatlisteActionType.OppdaterKandidatliste, oppdaterKandidatliste);
     yield takeLatest(KandidatlisteActionType.AngreArkivering, angreArkiveringForKandidater);
     yield takeLatest(

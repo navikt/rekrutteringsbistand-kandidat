@@ -384,8 +384,11 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
+
+    // Legg til kandidat fra kandidatliste-modal
     .post(url.fnrsok, log(postFnrsok))
     .get(url.synlighetsevaluering, log(getSynlighetsevaluering))
+
     .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(postDelKandidater))
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
