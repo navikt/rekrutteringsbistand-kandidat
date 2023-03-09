@@ -1,6 +1,4 @@
 import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
 import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import { AddPeople } from '@navikt/ds-icons';
@@ -12,10 +10,7 @@ import {
 } from '../../app/paths';
 import { Nettstatus } from '../../api/Nettressurs';
 import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
-import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
-import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
-import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';
 import useFaner from '../hooks/useFaner';
@@ -23,7 +18,6 @@ import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
 import LagreKandidatIKandidatlisteModal from './LagreKandidatIKandidatlisteModal';
-import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 
 type Props = {
     tabs: ReactNode;
@@ -41,8 +35,6 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     fraAutomatiskMatching,
     children,
 }) => {
-    const dispatch: Dispatch<KandidatlisteAction | VarslingAction> = useDispatch();
-
     useScrollTilToppen(kandidatnr);
 
     const [fane, setFane] = useFaner();
@@ -59,31 +51,7 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
 
     useEffect(() => {
         skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
-        dispatch({
-            type: KandidatlisteActionType.NullstillKandidatIKandidatliste,
-        });
-    }, [dispatch, kandidatnr]);
-
-    /*
-    const onLagreKandidat = (cv: Cv) => (kandidatliste: Kandidatliste) => {
-        sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
-
-        dispatch({
-            type: KandidatlisteActionType.LagreKandidatIKandidatliste,
-            kandidatliste,
-            fodselsnummer: cv.fodselsnummer,
-            kandidatnr,
-        });
-    };
-    */
-
-    const handleLagretKandidat = (kandidatliste: Kandidatliste) => {
-        dispatch({
-            type: VarslingActionType.VisVarsling,
-            alertType: 'suksess',
-            innhold: `Kandidaten er lagret i kandidatlisten «${kandidatliste.tittel}»`,
-        });
-    };
+    }, [kandidatnr]);
 
     const lenkeTilFinnKandidater = {
         to: fraAutomatiskMatching
@@ -136,7 +104,6 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
                 kandidatliste={kandidatliste}
                 kandidatnr={kandidatnr}
                 onClose={() => setVisLagreKandidatModal(false)}
-                onLagre={handleLagretKandidat}
             />
         </>
     );

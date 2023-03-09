@@ -146,12 +146,6 @@ const queryParamsForKandidatside = (
 ) => {
     let queryParams = '';
 
-    if (kandidatlisteId) {
-        queryParams +=
-            nesteSeparator(queryParams) +
-            `${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
-    }
-
     if (fraKandidatliste) {
         queryParams += nesteSeparator(queryParams) + `${KandidatQueryParam.FraKandidatliste}=true`;
     }
@@ -164,6 +158,12 @@ const queryParamsForKandidatside = (
     if (fraNyttKandidatsøk) {
         queryParams +=
             nesteSeparator(queryParams) + `${KandidatQueryParam.FraNyttKandidatsøk}=true`;
+    }
+
+    if (kandidatlisteId) {
+        queryParams +=
+            nesteSeparator(queryParams) +
+            `${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
     }
 
     return queryParams;

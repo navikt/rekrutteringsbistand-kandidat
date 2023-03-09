@@ -1,13 +1,14 @@
 import { lenkeTilKandidatside } from '../../app/paths';
 import { NyttKandidatsøkØkt } from '../søkekontekst';
-import useAktivKandidatsidefane from '../hooks/useFaner';
+import useFaner from '../hooks/useFaner';
 import { Kandidatnavigering } from '../komponenter/header/forrige-neste/ForrigeNeste';
 
 const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
     økt: NyttKandidatsøkØkt
 ): Kandidatnavigering | null => {
-    const fane = useAktivKandidatsidefane();
+    const [fane] = useFaner();
+
     let index = 0;
     let forrige: string | undefined = undefined;
     let neste: string | undefined = undefined;
