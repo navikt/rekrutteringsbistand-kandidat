@@ -12,7 +12,7 @@ export type MineKandidatlister = {
     antall: number;
 };
 
-const SIDESTØRRELSE = 8;
+export const lagreIMineKandidatlisterSidestørrelse = 8;
 
 const useMineKandidatlister = (side: number) => {
     const [mineKandidatlister, setMineKandidatlister] = useState<Nettressurs<MineKandidatlister>>({
@@ -20,12 +20,17 @@ const useMineKandidatlister = (side: number) => {
     });
 
     const lastInnKandidatlister = useCallback(async () => {
-        setMineKandidatlister({
-            kind: Nettstatus.LasterInn,
-        });
+        if (mineKandidatlister.kind === Nettstatus.IkkeLastet) {
+            setMineKandidatlister({
+                kind: Nettstatus.LasterInn,
+            });
+        }
 
         try {
-            const nesteSideMedLister = await fetchMineKandidatlister(side, SIDESTØRRELSE);
+            const nesteSideMedLister = await fetchMineKandidatlister(
+                side,
+                lagreIMineKandidatlisterSidestørrelse
+            );
 
             setMineKandidatlister({
                 kind: Nettstatus.Suksess,

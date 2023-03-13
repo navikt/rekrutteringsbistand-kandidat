@@ -1,7 +1,9 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { CheckboxGroup, Loader, Pagination } from '@navikt/ds-react';
 import VelgbarKandidatliste from './VelgbarKandidatliste';
-import useMineKandidatlister from './useMineKandidatlister';
+import useMineKandidatlister, {
+    lagreIMineKandidatlisterSidestørrelse,
+} from './useMineKandidatlister';
 import { Nettstatus } from '../../../api/Nettressurs';
 import css from './VelgKandidatlister.module.css';
 
@@ -10,8 +12,6 @@ type Props = {
     lagredeLister: Set<string>;
     onKandidatlisteMarkert: (event: ChangeEvent<HTMLInputElement>) => void;
 };
-
-const pageSize = 8;
 
 const VelgKandidatlister: FunctionComponent<Props> = ({
     markerteLister,
@@ -51,7 +51,9 @@ const VelgKandidatlister: FunctionComponent<Props> = ({
                     page={side}
                     className={css.paginering}
                     onPageChange={hentFlereKandidatlister}
-                    count={Math.floor(mineKandidatlister.data.antall / pageSize)}
+                    count={Math.floor(
+                        mineKandidatlister.data.antall / lagreIMineKandidatlisterSidestørrelse
+                    )}
                 />
             </>
         );
