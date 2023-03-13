@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { BodyLong, Button, Heading, Loader } from '@navikt/ds-react';
+import { BodyLong, Button, Heading } from '@navikt/ds-react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -11,6 +11,7 @@ import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import css from './LagreKandidatIKandidatlisteModal.module.css';
+import Sidelaster from '../../common/sidelaster/Sidelaster';
 
 type Props = {
     vis: boolean;
@@ -82,7 +83,7 @@ const LagreKandidatIKandidatlisteModal: FunctionComponent<Props> = ({
             <Heading level="1" size="medium">
                 Lagre kandidaten i kandidatlisten
             </Heading>
-            {kandidatliste.kind === Nettstatus.LasterInn && <Loader />}
+            {kandidatliste.kind === Nettstatus.LasterInn && <Sidelaster />}
             {kandidatliste.kind === Nettstatus.Suksess && (
                 <>
                     <BodyLong className={css.beskrivelse}>

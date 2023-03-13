@@ -1,10 +1,11 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
-import { CheckboxGroup, Loader, Pagination } from '@navikt/ds-react';
+import { CheckboxGroup, Pagination } from '@navikt/ds-react';
 import VelgbarKandidatliste from './VelgbarKandidatliste';
 import useMineKandidatlister, {
     lagreIMineKandidatlisterSidestørrelse,
 } from './useMineKandidatlister';
 import { Nettstatus } from '../../../api/Nettressurs';
+import Sidelaster from '../../../common/sidelaster/Sidelaster';
 import css from './VelgKandidatlister.module.css';
 
 type Props = {
@@ -28,7 +29,7 @@ const VelgKandidatlister: FunctionComponent<Props> = ({
     const avhukedeLister = [...Array.from(markerteLister), ...Array.from(lagredeLister)];
 
     if (mineKandidatlister.kind === Nettstatus.LasterInn) {
-        return <Loader />;
+        return <Sidelaster />;
     } else if (mineKandidatlister.kind === Nettstatus.Suksess) {
         return (
             <>
