@@ -77,7 +77,7 @@ const Kandidatside: FunctionComponent = () => {
 
 const Faner = () => (
     <Tabs.List>
-        <Tabs.Tab icon={<Applicant />} value="cv" label="CV og jobbønsker" />
+        <Tabs.Tab icon={<Applicant />} value="cv" label="CV og Jobbprofil" />
         <Tabs.Tab icon={<Dialog />} value="historikk" label="Historikk" />
     </Tabs.List>
 );

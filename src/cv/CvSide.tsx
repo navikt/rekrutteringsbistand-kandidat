@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
-import Jobbønsker from './jobbønsker/Jobbønsker';
+import Jobbprofil from './jobbprofil/Jobbprofil';
 import KandidatCv from './cv/Cv';
 import KandidatTilretteleggingsbehov from './tilretteleggingsbehov/Tilretteleggingsbehov';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
@@ -25,7 +25,7 @@ const CvSide: FunctionComponent = () => {
     if (cv.kind === Nettstatus.Suksess) {
         return (
             <div className={css.side}>
-                <Jobbønsker cv={cv.data} />
+                <Jobbprofil cv={cv.data} />
                 <KandidatCv cv={cv.data} />
                 {cv.data.tilretteleggingsbehov && (
                     <KandidatTilretteleggingsbehov fnr={cv.data.fodselsnummer} />
