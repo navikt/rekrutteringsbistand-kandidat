@@ -61,7 +61,7 @@ const Kandidatheader = ({ cv, tilbakelenke, tilbakelenkeTekst, kandidatnavigerin
 
                     {cv.kind === Nettstatus.Suksess && (
                         <>
-                            <Heading level="1" size="medium">
+                            <Heading level="1" size="large">
                                 {hentNavnFraCv(cv.data)}
                             </Heading>
                             <BodyShort className={css.kontaktinfo}>
