@@ -1,0 +1,24 @@
+.side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0 auto;
+}
+
+.side > * {
+    max-width: 40rem;
+    width: 100%;
+}
+
+.jobbønskerOgTilretteleggingsbehov {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media (min-width: 1000px) {
+    .side {
+        max-width: var(--kandidatsok-innhold-bredde);
+    }
+}

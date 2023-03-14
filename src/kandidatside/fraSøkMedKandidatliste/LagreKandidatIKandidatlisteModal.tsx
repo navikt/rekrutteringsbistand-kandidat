@@ -10,8 +10,8 @@ import { VarslingAction, VarslingActionType } from '../../common/varsling/varsli
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
-import css from './LagreKandidatIKandidatlisteModal.module.css';
 import Sidelaster from '../../common/sidelaster/Sidelaster';
+import css from './LagreKandidatIKandidatlisteModal.module.css';
 
 type Props = {
     vis: boolean;
