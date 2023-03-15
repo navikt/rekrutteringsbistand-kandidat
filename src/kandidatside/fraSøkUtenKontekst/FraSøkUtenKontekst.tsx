@@ -11,6 +11,7 @@ import useScrollTilToppen from '../../common/useScrollTilToppen';
 import useFaner from '../hooks/useFaner';
 import LagreKandidaterIMineKandidatlisterModal from './lagre-kandidat-modal/LagreKandidatIMineKandidatlisterModal';
 import { AddPeople } from '@navikt/ds-icons';
+import css from './FraSøkUtenKontekst.module.css';
 
 type Props = {
     tabs: ReactNode;
@@ -47,6 +48,7 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søke
                 <Kandidatmeny tabs={tabs} cv={cv}>
                     <Button
                         size="small"
+                        className={css.velgKandidatlisterKnapp}
                         icon={<AddPeople aria-hidden />}
                         onClick={() => setVisKandidatlisterModal(true)}
                     >

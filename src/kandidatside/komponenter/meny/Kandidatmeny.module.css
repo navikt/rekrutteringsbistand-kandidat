@@ -1,6 +1,9 @@
 .wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    margin-bottom: 1.5rem;
+    gap: 1.5rem;
 }
 
 .meny {
@@ -10,17 +13,23 @@
     width: 100%;
     padding: 0 1rem;
     background-color: white;
-    margin-bottom: 2.5rem;
-    border-radius: 0.25rem;
+    border-bottom: 2px solid var(--a-border-divider);
+}
+
+.faner :global(.navds-tabs__tablist-wrapper) {
+    box-shadow: none;
 }
 
 .faner button:global(.navds-tabs__tab) {
     min-height: 4rem;
 }
 
-.lenker {
-    display: flex;
-    gap: 1rem;
+.lenkerIMeny {
+    display: none;
+}
+
+.lenkerUnderMeny {
+    padding: 0 1rem;
 }
 
 .venstre {
@@ -34,11 +43,20 @@
 }
 
 @media (min-width: 1000px) {
+    .lenkerIMeny {
+        display: unset;
+    }
+
+    .lenkerUnderMeny {
+        display: none;
+    }
+
     .wrapper {
-        margin: 0 2rem;
+        margin: 2rem;
     }
 
     .meny {
         max-width: var(--kandidatsok-innhold-bredde);
+        margin: 0 auto;
     }
 }
