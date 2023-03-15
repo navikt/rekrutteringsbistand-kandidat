@@ -1,25 +1,27 @@
 import React, { FunctionComponent } from 'react';
-import { Row } from 'nav-frontend-grid';
-import { Element, Undertekst, Normaltekst } from 'nav-frontend-typografi';
 import Tidsperiode from './Tidsperiode';
 import { Utdanning as UtdanningType } from '../reducer/cv-typer';
+import { Detail, BodyShort } from '@navikt/ds-react';
+import css from './Cv.module.css';
 
 type Props = { utdanning: UtdanningType };
 
 const Utdanning: FunctionComponent<Props> = ({ utdanning }) => {
     return (
-        <Row className="kandidat-cv__row-kategori">
-            <Undertekst className="kandidat-cv__tidsperiode">
+        <>
+            <Detail className={css.tidsperiode}>
                 <Tidsperiode fradato={utdanning.fraDato} tildato={utdanning.tilDato} />
-            </Undertekst>
-            {utdanning.utdannelsessted && <Normaltekst>{utdanning.utdannelsessted}</Normaltekst>}
-            <Element>
-                {utdanning.alternativtUtdanningsnavn
-                    ? utdanning.alternativtUtdanningsnavn
-                    : utdanning.nusKodeUtdanningsnavn}
-            </Element>
-            {utdanning.beskrivelse && <Normaltekst>{utdanning.beskrivelse}</Normaltekst>}
-        </Row>
+            </Detail>
+            <div className={css.erfaring}>
+                {utdanning.utdannelsessted && <BodyShort>{utdanning.utdannelsessted}</BodyShort>}
+                <BodyShort className={css.bold}>
+                    {utdanning.alternativtUtdanningsnavn
+                        ? utdanning.alternativtUtdanningsnavn
+                        : utdanning.nusKodeUtdanningsnavn}
+                </BodyShort>
+                {utdanning.beskrivelse && <BodyShort>{utdanning.beskrivelse}</BodyShort>}
+            </div>
+        </>
     );
 };
 

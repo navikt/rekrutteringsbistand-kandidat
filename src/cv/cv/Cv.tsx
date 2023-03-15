@@ -1,10 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 
-import sortByDato from './SortByDato';
+import sortByDato from './sortByDato';
 import CvType, { Sertifikat as SertifikatType } from '../reducer/cv-typer';
-import Beskrivelse from './Beskrivelse';
 import Yrkeserfaring from './Yrkeserfaring';
 import Utdanning from './Utdanning';
 import AnnenErfaring from './AnnenErfaring';
@@ -14,7 +13,8 @@ import Språkferdighet from './Språkferdighet';
 import Sertifikat from './Sertifikat';
 import Kurs from './Kurs';
 import Informasjonspanel from '../Informasjonspanel';
-import './Cv.less';
+import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
+import css from './Cv.module.css';
 
 type Props = {
     cv: CvType;
@@ -24,15 +24,48 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
     const autoriasjoner = cv.fagdokumentasjon?.filter((f) => f.type !== 'Autorisasjon') ?? [];
 
     return (
-        <Informasjonspanel tittel="CV" className="kandidat-cv">
+        <Informasjonspanel tittel="CV" className={css.cv}>
             {cv.beskrivelse && (
-                <Row className="kandidat-cv__row">
-                    <Column xs="12">
-                        <Undertittel className="kandidat-cv__overskrift">Sammendrag</Undertittel>
-                        <Beskrivelse beskrivelse={cv.beskrivelse} />
-                    </Column>
-                </Row>
+                <div className={css.sammendrag}>
+                    <Heading level="3" size="small">
+                        Sammendrag
+                    </Heading>
+                    <BodyLong>{cv.beskrivelse}</BodyLong>
+                </div>
             )}
+
+            {cv.utdanning?.length > 0 && (
+                <div className={css.utdanning}>
+                    <Heading level="3" size="small">
+                        Utdanning
+                    </Heading>
+                    <div className={css.erfaringer}>
+                        {sortByDato(cv.utdanning).map((utdanning) => (
+                            <Utdanning utdanning={utdanning} key={JSON.stringify(utdanning)} />
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {cv.utdanning?.length > 0 && (
+                <div className={css.utdanning}>
+                    <Heading level="3" size="small">
+                        Fagbrev/svennebrev og mesterbrev
+                    </Heading>
+                    <ul className={css.punktliste}>
+                        {autoriasjoner.map(({ tittel, type }) => (
+                            <Fragment key={JSON.stringify(tittel)}>
+                                {(tittel || type) && (
+                                    <BodyShort as="li">{tittel ?? type}</BodyShort>
+                                )}
+                            </Fragment>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            {/* GAMMELT */}
+
             {cv.utdanning && cv.utdanning.length !== 0 && (
                 <Row className="kandidat-cv__row">
                     <Column xs="12" sm="5">

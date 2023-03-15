@@ -1,0 +1,107 @@
+.cv {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sammendrag {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.utdanning {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.erfaringer {
+    display: flex;
+    flex-direction: column;
+}
+
+.tidsperiode:global(.navds-body-short) {
+    margin-bottom: 0rem;
+}
+
+.erfaring {
+    margin-bottom: 1rem;
+}
+
+.bold:global(.navds-body-short) {
+    font-weight: bold;
+}
+
+.punktliste {
+    padding-left: 1rem;
+    margin: 0;
+    column-count: 2;
+    column-gap: 2rem;
+}
+
+@media (min-width: 600px) {
+    .erfaringer {
+        display: grid;
+        grid-template-columns: 11rem 1fr;
+        gap: 1rem;
+    }
+
+    .sammendrag {
+        display: grid;
+        grid-template-columns: 11rem 1fr;
+        gap: 1rem;
+    }
+
+    .erfaring {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 900px) {
+    .utdanning {
+        display: grid;
+        grid-template-columns: 11rem 1fr;
+        gap: 1rem;
+    }
+
+    .punktliste {
+        column-count: 3;
+    }
+}
+
+/* GAMMELT */
+
+.row {
+    margin-bottom: 4rem;
+}
+
+.row:last-child {
+    margin-bottom: 1rem;
+}
+
+.row-kategori {
+    margin-bottom: 2rem;
+    padding-left: 0.5rem;
+}
+.row-kategori:last-child {
+    margin-bottom: 0;
+}
+
+.row-kategori :global(.typo-undertekst) {
+    margin-bottom: 0.25rem;
+}
+
+.row-kategori :global(.typo-normal) {
+    margin-bottom: 0.25rem;
+    word-break: break-word;
+}
+
+.row-kategori :global(.typo-element) {
+    margin-bottom: 0.25rem;
+    word-break: break-word;
+}
+
+.overskrift {
+    margin-bottom: 0.5rem;
+}

@@ -1,17 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { formaterDatoTilMånedOgÅr } from '../../utils/dateUtils';
 
-const formaterDatoHvisIkkeNull = (dato) => {
-    if (!dato) {
-        return null;
-    }
-
-    const formatert = formaterDatoTilMånedOgÅr(dato);
-    return formatert[0].toUpperCase() + formatert.substr(1);
+type Props = {
+    fradato: string | null;
+    tildato: string | null;
+    navarende?: boolean;
 };
 
-export default function Tidsperiode({ fradato, tildato, navarende }) {
+const Tidsperiode = ({ fradato, tildato, navarende }: Props) => {
     const fradatoFormatted = formaterDatoHvisIkkeNull(fradato);
     const tildatoFormatted = formaterDatoHvisIkkeNull(tildato);
 
@@ -38,16 +34,15 @@ export default function Tidsperiode({ fradato, tildato, navarende }) {
         );
     }
     return <span>{navarende && 'Nåværende'}</span>;
-}
-
-Tidsperiode.defaultProps = {
-    navarende: false,
-    fradato: undefined,
-    tildato: undefined,
 };
 
-Tidsperiode.propTypes = {
-    fradato: PropTypes.string,
-    tildato: PropTypes.string,
-    navarende: PropTypes.bool,
+const formaterDatoHvisIkkeNull = (dato: string | null) => {
+    if (!dato) {
+        return null;
+    }
+
+    const formatert = formaterDatoTilMånedOgÅr(dato);
+    return formatert[0].toUpperCase() + formatert.substring(1);
 };
+
+export default Tidsperiode;
