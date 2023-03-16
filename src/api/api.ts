@@ -14,6 +14,7 @@ import Cv, { Fødselsnummersøk } from '../cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { MineKandidatlister } from '../kandidatside/fraSøkUtenKontekst/lagre-kandidat-modal/useMineKandidatlister';
+import { sendEvent } from '../amplitude/amplitude';
 
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
@@ -339,8 +340,13 @@ export const fetchUsynligKandidat = async (
     }
 };
 
-export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) =>
-    fetchJson(`${KANDIDATSOK_API}/veileder/stilling/byNr/${annonsenummer}/kandidatliste`, true);
+export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) => {
+    sendEvent('"Lagre_i_kandidatliste_modal"', 'søkte_kandidatliste_basert_på_annonsenr');
+    return fetchJson(
+        `${KANDIDATSOK_API}/veileder/stilling/byNr/${annonsenummer}/kandidatliste`,
+        true
+    );
+};
 
 export const fetchArbeidsgivereEnhetsregister = (query) =>
     postJson(
