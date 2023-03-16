@@ -1,5 +1,5 @@
 import React from 'react';
-import { formaterDatoTilKortMånedOgÅr, formaterDatoTilMånedOgÅr } from '../../utils/dateUtils';
+import { formaterDatoTilMånedOgÅr } from '../../utils/dateUtils';
 
 type Props = {
     fradato: string | null;
@@ -8,13 +8,13 @@ type Props = {
 };
 
 const Tidsperiode = ({ fradato, tildato, navarende }: Props) => {
-    const fradatoFormatted = formaterDatoKortHvisIkkeNull(fradato);
-    const tildatoFormatted = formaterDatoKortHvisIkkeNull(tildato);
+    const fradatoFormatted = formaterDatoHvisIkkeNull(fradato);
+    const tildatoFormatted = formaterDatoHvisIkkeNull(tildato);
 
     if (fradatoFormatted && tildatoFormatted) {
         return (
             <span>
-                {fradatoFormatted} - {tildatoFormatted}
+                {fradatoFormatted} – {tildatoFormatted}
                 {navarende && ' (Nåværende)'}
             </span>
         );
@@ -22,7 +22,7 @@ const Tidsperiode = ({ fradato, tildato, navarende }: Props) => {
         return (
             <span>
                 {fradatoFormatted}
-                {navarende && ' - (Nåværende)'}
+                {navarende && ' – (Nåværende)'}
             </span>
         );
     } else if (tildatoFormatted) {
@@ -36,22 +36,12 @@ const Tidsperiode = ({ fradato, tildato, navarende }: Props) => {
     return <span>{navarende && 'Nåværende'}</span>;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formaterDatoHvisIkkeNull = (dato: string | null) => {
     if (!dato) {
         return null;
     }
 
-    const formatert = formaterDatoTilMånedOgÅr(dato);
-    return formatert[0].toUpperCase() + formatert.substring(1);
-};
-
-const formaterDatoKortHvisIkkeNull = (dato: string | null) => {
-    if (!dato) {
-        return null;
-    }
-
-    return formaterDatoTilKortMånedOgÅr(dato);
+    return formaterDatoTilMånedOgÅr(dato);
 };
 
 export default Tidsperiode;

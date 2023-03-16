@@ -1,7 +1,11 @@
+:root {
+    --kolonner: 11rem 1fr;
+}
+
 .cv {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 4rem;
 }
 
 .sammendrag {
@@ -21,8 +25,8 @@
     flex-direction: column;
 }
 
-.tidsperiode:global(.navds-body-short) {
-    margin-bottom: 0rem;
+.tidsperiode:global(.navds-detail) {
+    margin-top: 0.125rem;
 }
 
 .erfaring {
@@ -43,14 +47,14 @@
 @media (min-width: 600px) {
     .erfaringer {
         display: grid;
-        grid-template-columns: 11rem 1fr;
+        grid-template-columns: var(--kolonner);
         gap: 1rem;
     }
 
     .sammendrag {
         display: grid;
-        grid-template-columns: 11rem 1fr;
-        gap: 1rem;
+        grid-template-columns: var(--kolonner);
+        gap: 2rem;
     }
 
     .erfaring {
@@ -61,8 +65,8 @@
 @media (min-width: 900px) {
     .utdanning {
         display: grid;
-        grid-template-columns: 11rem 1fr;
-        gap: 1rem;
+        grid-template-columns: var(--kolonner);
+        gap: 2rem;
     }
 
     .punktliste {

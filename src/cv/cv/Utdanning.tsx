@@ -13,12 +13,12 @@ const Utdanning: FunctionComponent<Props> = ({ utdanning }) => {
                 <Tidsperiode fradato={utdanning.fraDato} tildato={utdanning.tilDato} />
             </Detail>
             <div className={css.erfaring}>
-                {utdanning.utdannelsessted && <BodyShort>{utdanning.utdannelsessted}</BodyShort>}
                 <BodyShort className={css.bold}>
                     {utdanning.alternativtUtdanningsnavn
                         ? utdanning.alternativtUtdanningsnavn
                         : utdanning.nusKodeUtdanningsnavn}
                 </BodyShort>
+                {utdanning.utdannelsessted && <BodyShort>{utdanning.utdannelsessted}</BodyShort>}
                 {utdanning.beskrivelse && <BodyShort>{utdanning.beskrivelse}</BodyShort>}
             </div>
         </>
