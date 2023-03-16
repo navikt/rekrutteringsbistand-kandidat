@@ -69,39 +69,3 @@
         column-count: 3;
     }
 }
-
-/* GAMMELT */
-
-.row {
-    margin-bottom: 4rem;
-}
-
-.row:last-child {
-    margin-bottom: 1rem;
-}
-
-.row-kategori {
-    margin-bottom: 2rem;
-    padding-left: 0.5rem;
-}
-.row-kategori:last-child {
-    margin-bottom: 0;
-}
-
-.row-kategori :global(.typo-undertekst) {
-    margin-bottom: 0.25rem;
-}
-
-.row-kategori :global(.typo-normal) {
-    margin-bottom: 0.25rem;
-    word-break: break-word;
-}
-
-.row-kategori :global(.typo-element) {
-    margin-bottom: 0.25rem;
-    word-break: break-word;
-}
-
-.overskrift {
-    margin-bottom: 0.5rem;
-}

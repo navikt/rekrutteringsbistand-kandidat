@@ -15,6 +15,7 @@ import Kurs from './Kurs';
 import Informasjonspanel from '../Informasjonspanel';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import css from './Cv.module.css';
+import Arbeidserfaring from './Arbeidserfaring';
 
 type Props = {
     cv: CvType;
@@ -61,6 +62,22 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                             </Fragment>
                         ))}
                     </ul>
+                </div>
+            )}
+
+            {cv.yrkeserfaring?.length > 0 && (
+                <div className={css.utdanning}>
+                    <Heading level="3" size="small">
+                        Arbeidserfaring
+                    </Heading>
+                    <div className={css.erfaringer}>
+                        {sortByDato(cv.yrkeserfaring).map((erfaring) => (
+                            <Arbeidserfaring
+                                key={JSON.stringify({ erfaring })}
+                                arbeidserfaring={erfaring}
+                            />
+                        ))}
+                    </div>
                 </div>
             )}
 

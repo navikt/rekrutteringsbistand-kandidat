@@ -43,3 +43,10 @@ export const formaterDatoTilMånedOgÅr = (isoDato: string) => {
         year: 'numeric',
     });
 };
+
+export const formaterDatoTilKortMånedOgÅr = (isoDato: string) => {
+    return new Date(isoDato).toLocaleString(Språk.Norsk, {
+        month: '2-digit',
+        year: 'numeric',
+    });
+};

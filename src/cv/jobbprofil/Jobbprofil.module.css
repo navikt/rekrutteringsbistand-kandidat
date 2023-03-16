@@ -1,7 +1,7 @@
 .liste {
     display: grid;
-    grid-template-columns: 16ch 3fr;
-    gap: 0.5rem;
+    grid-template-columns: 11rem 1fr;
+    gap: 0.5rem 1rem;
 }
 
 .liste dt:global(.navds-body-short) {

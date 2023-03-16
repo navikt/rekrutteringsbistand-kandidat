@@ -1,5 +1,5 @@
 import React from 'react';
-import { formaterDatoTilMånedOgÅr } from '../../utils/dateUtils';
+import { formaterDatoTilKortMånedOgÅr, formaterDatoTilMånedOgÅr } from '../../utils/dateUtils';
 
 type Props = {
     fradato: string | null;
@@ -8,8 +8,8 @@ type Props = {
 };
 
 const Tidsperiode = ({ fradato, tildato, navarende }: Props) => {
-    const fradatoFormatted = formaterDatoHvisIkkeNull(fradato);
-    const tildatoFormatted = formaterDatoHvisIkkeNull(tildato);
+    const fradatoFormatted = formaterDatoKortHvisIkkeNull(fradato);
+    const tildatoFormatted = formaterDatoKortHvisIkkeNull(tildato);
 
     if (fradatoFormatted && tildatoFormatted) {
         return (
@@ -36,6 +36,7 @@ const Tidsperiode = ({ fradato, tildato, navarende }: Props) => {
     return <span>{navarende && 'Nåværende'}</span>;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formaterDatoHvisIkkeNull = (dato: string | null) => {
     if (!dato) {
         return null;
@@ -43,6 +44,14 @@ const formaterDatoHvisIkkeNull = (dato: string | null) => {
 
     const formatert = formaterDatoTilMånedOgÅr(dato);
     return formatert[0].toUpperCase() + formatert.substring(1);
+};
+
+const formaterDatoKortHvisIkkeNull = (dato: string | null) => {
+    if (!dato) {
+        return null;
+    }
+
+    return formaterDatoTilKortMånedOgÅr(dato);
 };
 
 export default Tidsperiode;
