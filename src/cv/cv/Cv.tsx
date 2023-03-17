@@ -29,20 +29,6 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                 </div>
             )}
 
-            {cv.forerkort?.length > 0 && (
-                <BolkMedErfaringer tittel="Førerkort">
-                    {fjernDuplikater(sortByDato(cv.forerkort)).map((førerkort) => (
-                        <Erfaring fraDato={førerkort.fraDato} tilDato={førerkort.tilDato}>
-                            <BodyShort className={css.bold}>
-                                {førerkort.alternativtNavn
-                                    ? førerkort.alternativtNavn
-                                    : førerkort.sertifikatKodeNavn}
-                            </BodyShort>
-                        </Erfaring>
-                    ))}
-                </BolkMedErfaringer>
-            )}
-
             {cv.utdanning?.length > 0 && (
                 <BolkMedErfaringer tittel="Utdanning">
                     {sortByDato(cv.utdanning).map((utdanning) => (
@@ -139,6 +125,20 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                 <BolkMedErfaringer tittel="Kurs">
                     {sortByDato(cv.kurs).map((kurs, i) => (
                         <Kurs key={kurs.tittel} kurs={kurs} />
+                    ))}
+                </BolkMedErfaringer>
+            )}
+
+            {cv.forerkort?.length > 0 && (
+                <BolkMedErfaringer tittel="Førerkort">
+                    {fjernDuplikater(sortByDato(cv.forerkort)).map((førerkort) => (
+                        <Erfaring fraDato={førerkort.fraDato} tilDato={førerkort.tilDato}>
+                            <BodyShort className={css.bold}>
+                                {førerkort.alternativtNavn
+                                    ? førerkort.alternativtNavn
+                                    : førerkort.sertifikatKodeNavn}
+                            </BodyShort>
+                        </Erfaring>
                     ))}
                 </BolkMedErfaringer>
             )}
