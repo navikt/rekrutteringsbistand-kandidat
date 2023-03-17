@@ -16,7 +16,7 @@ type Props = {
 };
 
 const Cv: FunctionComponent<Props> = ({ cv }) => {
-    const autoriasjoner = cv.fagdokumentasjon?.filter((f) => f.type !== 'Autorisasjon') ?? [];
+    const autorisasjoner = cv.fagdokumentasjon?.filter((f) => f.type !== 'Autorisasjon') ?? [];
 
     return (
         <Informasjonspanel tittel="CV" className={css.cv}>
@@ -63,9 +63,9 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                 </BolkMedErfaringer>
             )}
 
-            {cv.utdanning?.length > 0 && (
+            {autorisasjoner?.length > 0 && (
                 <BolkMedPunktliste tittel="Fagbrev/svennebrev og mesterbrev">
-                    {autoriasjoner.map(({ tittel, type }) => (
+                    {autorisasjoner.map(({ tittel, type }) => (
                         <Fragment key={JSON.stringify(tittel)}>
                             {(tittel || type) && <BodyShort as="li">{tittel ?? type}</BodyShort>}
                         </Fragment>
