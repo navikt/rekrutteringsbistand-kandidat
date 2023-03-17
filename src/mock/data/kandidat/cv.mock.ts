@@ -90,8 +90,8 @@ const baseCv = (veileder: Veileder): Cv => ({
         {
             fraDato: '2004-01-02',
             tilDato: null,
-            rolle: 'ss',
-            beskrivelse: 'selger',
+            rolle: 'Erfaring som selger',
+            beskrivelse: 'Drev med salg fra tid til annen da jeg gikk på ungdomsskolen.',
         },
     ],
     godkjenninger: [

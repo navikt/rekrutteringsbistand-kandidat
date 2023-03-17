@@ -1,28 +1,30 @@
 import React, { FunctionComponent } from 'react';
-import { Row } from 'nav-frontend-grid';
-import { Element, Undertekst, Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort, Detail } from '@navikt/ds-react';
 import { Kurs as KursType, Omfang, Omfangenhet } from '../reducer/cv-typer';
 import TidspunktMedLabel from './TidspunktMedLabel';
 import { toDate } from './sortByDato';
+import css from './Cv.module.css';
 
 type Props = {
     kurs: KursType;
 };
 
 const Kurs: FunctionComponent<Props> = ({ kurs }) => {
-    let gjeldendeDato = kurs.tilDato ? kurs.tilDato : kurs.fraDato;
-    let dato = gjeldendeDato == null ? null : toDate(gjeldendeDato);
+    const gjeldendeDato = kurs.tilDato ? kurs.tilDato : kurs.fraDato;
+    const dato = gjeldendeDato == null ? null : toDate(gjeldendeDato);
+    const varighet = hentKursvarighet(kurs.omfang);
+
     return (
-        <Row className="kandidat-cv__row-kategori">
-            <Undertekst className="kandidat-cv__tidsperiode">
+        <>
+            <Detail className={css.tidsperiode}>
                 <TidspunktMedLabel tidspunkt={dato} labelTekst="Fullført:" />
-            </Undertekst>
-            {kurs.arrangor && <Normaltekst>{kurs.arrangor}</Normaltekst>}
-            {kurs.tittel && <Element>{kurs.tittel}</Element>}
-            {hentKursvarighet(kurs.omfang) && (
-                <Normaltekst>{`Varighet: ${hentKursvarighet(kurs.omfang)}`}</Normaltekst>
-            )}
-        </Row>
+            </Detail>
+            <div className={css.erfaring}>
+                {kurs.tittel && <BodyShort className={css.bold}>{kurs.tittel}</BodyShort>}
+                {kurs.arrangor && <BodyShort>{kurs.arrangor}</BodyShort>}
+                {varighet && <BodyShort>{`Varighet: ${varighet}`}</BodyShort>}
+            </div>
+        </>
     );
 };
 

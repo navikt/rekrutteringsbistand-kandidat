@@ -2,8 +2,8 @@ import React from 'react';
 import { formaterDatoTilMånedOgÅr } from '../../utils/dateUtils';
 
 type Props = {
-    fradato: string | null;
-    tildato: string | null;
+    fradato?: string | null;
+    tildato?: string | null;
     navarende?: boolean;
 };
 
@@ -36,7 +36,7 @@ const Tidsperiode = ({ fradato, tildato, navarende }: Props) => {
     return <span>{navarende && 'Nåværende'}</span>;
 };
 
-const formaterDatoHvisIkkeNull = (dato: string | null) => {
+const formaterDatoHvisIkkeNull = (dato?: string | null) => {
     if (!dato) {
         return null;
     }

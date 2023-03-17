@@ -14,7 +14,8 @@
     gap: 0.5rem;
 }
 
-.utdanning {
+.bolkMedErfaringer,
+.bolkMedPunktliste {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -58,7 +59,7 @@
     .sammendrag {
         display: grid;
         grid-template-columns: var(--kolonner);
-        gap: 2rem;
+        gap: 1rem;
     }
 
     .erfaring {
@@ -67,11 +68,14 @@
 }
 
 @media (min-width: 900px) {
-    .utdanning {
+    /*
+    .bolkMedErfaringer,
+    .bolkMedPunktliste {
         display: grid;
         grid-template-columns: var(--kolonner);
         gap: 2rem;
     }
+    */
 
     .punktliste {
         column-count: 3;

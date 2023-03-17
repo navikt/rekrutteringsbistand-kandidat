@@ -1,29 +1,30 @@
 import React, { FunctionComponent } from 'react';
-import { Row } from 'nav-frontend-grid';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Språkferdighet as SpråkferdighetType, Språkferdighetsnivå } from '../reducer/cv-typer';
+import { BodyShort } from '@navikt/ds-react';
+import css from './Cv.module.css';
 
 type Props = {
     ferdighet: SpråkferdighetType;
 };
 
-const Språkferdighet: FunctionComponent<Props> = ({ ferdighet }) => {
-    return (
-        <Row className="kandidat-cv__row-kategori">
-            <Element>{ferdighet.sprak}</Element>
+const Språkferdighet: FunctionComponent<Props> = ({ ferdighet }) => (
+    <>
+        <span />
+        <div className={css.erfaring}>
+            <BodyShort className={css.bold}>{ferdighet.sprak}</BodyShort>
             {ferdighet.ferdighetSkriftlig && (
-                <Normaltekst>
+                <BodyShort>
                     Skriftlig: {språkferdighetTilVisningsnavn(ferdighet.ferdighetSkriftlig)}
-                </Normaltekst>
+                </BodyShort>
             )}
             {ferdighet.ferdighetMuntlig && (
-                <Normaltekst>
+                <BodyShort>
                     Muntlig: {språkferdighetTilVisningsnavn(ferdighet.ferdighetMuntlig)}
-                </Normaltekst>
+                </BodyShort>
             )}
-        </Row>
-    );
-};
+        </div>
+    </>
+);
 
 const språkferdighetTilVisningsnavn = (ferdighet: Språkferdighetsnivå) => {
     switch (ferdighet) {

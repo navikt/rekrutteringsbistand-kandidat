@@ -1,13 +1,10 @@
-type Item = {
-    fraDato: string | null;
-    tilDato: string | null;
-};
-
 /**
  * Sorterer items etter dato. Sorterer først på tildato. Er disse like eller er en av disse
  * null sorteres det på fradato
  */
-const sortByDato = <T extends Item>(items: Array<T>): Array<T> => {
+const sortByDato = <T extends { fraDato?: string | null; tilDato?: string | null }>(
+    items: Array<T>
+): Array<T> => {
     return items.concat().sort((a, b) => {
         if (a.fraDato === null || b.fraDato === null) {
             return -1;
