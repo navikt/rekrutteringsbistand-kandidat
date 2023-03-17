@@ -9,7 +9,6 @@ type Props = {
 
 const Språkferdighet: FunctionComponent<Props> = ({ ferdighet }) => (
     <>
-        <span />
         <div className={css.erfaring}>
             <BodyShort className={css.bold}>{ferdighet.sprak}</BodyShort>
             {ferdighet.ferdighetSkriftlig && (

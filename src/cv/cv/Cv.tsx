@@ -21,12 +21,9 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
     return (
         <Informasjonspanel tittel="CV" className={css.cv}>
             {cv.beskrivelse && (
-                <div className={css.sammendrag}>
-                    <Heading level="3" size="medium">
-                        Sammendrag
-                    </Heading>
+                <BolkMedToKolonner tittel="Sammendrag">
                     <BodyLong>{cv.beskrivelse}</BodyLong>
-                </div>
+                </BolkMedToKolonner>
             )}
 
             {cv.utdanning?.length > 0 && (
@@ -144,15 +141,26 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
             )}
 
             {cv.sprakferdigheter?.length > 0 && (
-                <BolkMedErfaringer tittel="Språk">
-                    {cv.sprakferdigheter.map((ferdighet) => (
-                        <Språkferdighet ferdighet={ferdighet} />
-                    ))}
-                </BolkMedErfaringer>
+                <BolkMedToKolonner tittel="Språk">
+                    <div className={css.kolonne}>
+                        {cv.sprakferdigheter.map((ferdighet) => (
+                            <Språkferdighet ferdighet={ferdighet} />
+                        ))}
+                    </div>
+                </BolkMedToKolonner>
             )}
         </Informasjonspanel>
     );
 };
+
+const BolkMedToKolonner = ({ tittel, children }: { tittel: string; children: ReactNode }) => (
+    <div className={css.bolkMedToKolonner}>
+        <Heading level="3" size="medium">
+            {tittel}
+        </Heading>
+        {children}
+    </div>
+);
 
 export const BolkMedErfaringer = ({
     tittel,
