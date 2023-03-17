@@ -22,11 +22,25 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
         <Informasjonspanel tittel="CV" className={css.cv}>
             {cv.beskrivelse && (
                 <div className={css.sammendrag}>
-                    <Heading level="3" size="small">
+                    <Heading level="3" size="medium">
                         Sammendrag
                     </Heading>
                     <BodyLong>{cv.beskrivelse}</BodyLong>
                 </div>
+            )}
+
+            {cv.forerkort?.length > 0 && (
+                <BolkMedErfaringer tittel="Førerkort">
+                    {fjernDuplikater(sortByDato(cv.forerkort)).map((førerkort) => (
+                        <Erfaring fraDato={førerkort.fraDato} tilDato={førerkort.tilDato}>
+                            <BodyShort className={css.bold}>
+                                {førerkort.alternativtNavn
+                                    ? førerkort.alternativtNavn
+                                    : førerkort.sertifikatKodeNavn}
+                            </BodyShort>
+                        </Erfaring>
+                    ))}
+                </BolkMedErfaringer>
             )}
 
             {cv.utdanning?.length > 0 && (
@@ -136,20 +150,6 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                     ))}
                 </BolkMedErfaringer>
             )}
-
-            {cv.forerkort?.length > 0 && (
-                <BolkMedErfaringer tittel="Førerkort">
-                    {fjernDuplikater(sortByDato(cv.forerkort)).map((førerkort) => (
-                        <Erfaring fraDato={førerkort.fraDato} tilDato={førerkort.tilDato}>
-                            <BodyShort className={css.bold}>
-                                {førerkort.alternativtNavn
-                                    ? førerkort.alternativtNavn
-                                    : førerkort.sertifikatKodeNavn}
-                            </BodyShort>
-                        </Erfaring>
-                    ))}
-                </BolkMedErfaringer>
-            )}
         </Informasjonspanel>
     );
 };
@@ -162,7 +162,7 @@ export const BolkMedErfaringer = ({
     children: ReactNode;
 }) => (
     <div className={css.bolkMedErfaringer}>
-        <Heading level="3" size="small">
+        <Heading level="3" size="medium">
             {tittel}
         </Heading>
         <div className={css.erfaringer}>{children}</div>
@@ -177,10 +177,13 @@ export const BolkMedPunktliste = ({
     children: ReactNode;
 }) => (
     <div className={css.bolkMedPunktliste}>
-        <Heading level="3" size="small">
+        <Heading level="3" size="medium">
             {tittel}
         </Heading>
-        <div className={css.punktliste}>{children}</div>
+        <div className={css.erfaringer}>
+            <span />
+            <div className={css.punktliste}>{children}</div>
+        </div>
     </div>
 );
 

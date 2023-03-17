@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import Lenke from 'nav-frontend-lenker';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { useSelector } from 'react-redux';
 import { Nettstatus } from '../../api/Nettressurs';
@@ -13,6 +12,7 @@ import {
     TilstandPåForespørsel,
 } from './forespørsel-om-deling-av-cv/Forespørsel';
 import { cvErSendtTilArbeidsgiverOgSlettet } from '../kandidatrad/status-og-hendelser/hendelser/CvErSlettet';
+import { Link } from '@navikt/ds-react';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -72,13 +72,13 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                             Har du hatt dialog med kandidaten, og fått bekreftet at NAV kan dele
                             CV-en? Da må du registrere dette i aktivitetsplanen. Har du ikke delt
                             stillingen med kandidaten må du gjøre det først.{' '}
-                            <Lenke
+                            <Link
                                 target="_blank"
                                 rel="noreferrer noopener"
                                 href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Del-stillinger-med-kandidater-i-Aktivitetsplanen.aspx#har-du-ringt-kandidaten-istedenfor-%C3%A5-dele-i-aktivitetsplanen"
                             >
                                 Se rutiner på Navet
-                            </Lenke>
+                            </Link>
                             .
                         </Normaltekst>
                     </>

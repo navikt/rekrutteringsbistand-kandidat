@@ -5,7 +5,7 @@
 .cv {
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 3rem;
 }
 
 .sammendrag {
@@ -18,7 +18,7 @@
 .bolkMedPunktliste {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .arbeidsgiverOgSted {
@@ -43,7 +43,6 @@
 }
 
 .punktliste {
-    padding-left: 1rem;
     margin: 0;
     column-count: 2;
     column-gap: 2rem;
@@ -68,15 +67,6 @@
 }
 
 @media (min-width: 900px) {
-    /*
-    .bolkMedErfaringer,
-    .bolkMedPunktliste {
-        display: grid;
-        grid-template-columns: var(--kolonner);
-        gap: 2rem;
-    }
-    */
-
     .punktliste {
         column-count: 3;
     }

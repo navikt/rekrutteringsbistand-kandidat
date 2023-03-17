@@ -5,8 +5,8 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { inneholderSærnorskeBokstaver, erGyldigEpost } from './epostValidering';
 import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Lenke from 'nav-frontend-lenker';
 import { Nettstatus } from '../../../api/Nettressurs';
+import { Link } from '@navikt/ds-react';
 import './PresenterKandidaterModal.less';
 
 type Props = {
@@ -174,9 +174,9 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                                     Har du hatt dialog med kandidaten, og fått bekreftet at NAV kan
                                     dele CV-en? Da må du registrere dette i aktivitetsplanen. Har du
                                     ikke delt stillingen med kandidaten må du gjøre det først.{' '}
-                                    <Lenke href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Del-stillinger-med-kandidater-i-Aktivitetsplanen.aspx#har-du-ringt-kandidaten-istedenfor-%C3%A5-dele-i-aktivitetsplanen">
+                                    <Link href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Del-stillinger-med-kandidater-i-Aktivitetsplanen.aspx#har-du-ringt-kandidaten-istedenfor-%C3%A5-dele-i-aktivitetsplanen">
                                         Se rutiner
-                                    </Lenke>
+                                    </Link>
                                     .
                                 </Normaltekst>
                             </AlertStripeAdvarsel>
