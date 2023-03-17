@@ -35,7 +35,7 @@ const Arbeidserfaring: FunctionComponent<Props> = ({ arbeidserfaring }) => {
             </Detail>
             <div className={css.erfaring}>
                 <BodyShort className={css.bold}>{stillingstittel}</BodyShort>
-                <BodyShort>{arbeidsgiverOgSted}</BodyShort>
+                <BodyShort className={css.arbeidsgiverOgSted}>{arbeidsgiverOgSted}</BodyShort>
 
                 {arbeidserfaring.beskrivelse && (
                     <BodyShort>{arbeidserfaring.beskrivelse}</BodyShort>

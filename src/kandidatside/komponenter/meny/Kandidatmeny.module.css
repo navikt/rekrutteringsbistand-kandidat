@@ -20,7 +20,7 @@
     box-shadow: none;
 }
 
-.faner button:global(.navds-tabs__tab) {
+.faner button {
     min-height: 4rem;
 }
 

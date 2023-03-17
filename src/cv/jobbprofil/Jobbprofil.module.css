@@ -4,10 +4,10 @@
     gap: 0.5rem 1rem;
 }
 
-.liste dt:global(.navds-body-short) {
+.liste dt {
     font-weight: bold;
 }
 
-.liste dd:global(.navds-body-short) {
+.liste dd {
     text-wrap: balance;
 }

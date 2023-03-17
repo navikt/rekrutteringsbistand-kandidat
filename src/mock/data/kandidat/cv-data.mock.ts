@@ -7,6 +7,7 @@ import {
     Kompetanse,
     Utdanning,
 } from '../../../cv/reducer/cv-typer';
+import { mockStrings } from './mock-strings';
 
 export const utdanning: Utdanning[] = [
     {
@@ -56,7 +57,7 @@ export const yrkeserfaring: Yrkeserfaring[] = [
         utelukketForFremtiden: false,
         fraDato: '2012-08-02',
         tilDato: '2013-11-02',
-        beskrivelse: '',
+        beskrivelse: mockStrings.arbeidsbeskrivelser[0],
     },
     {
         arbeidsgiver: 'Meny Larvik sentrum',
@@ -66,7 +67,7 @@ export const yrkeserfaring: Yrkeserfaring[] = [
         utelukketForFremtiden: false,
         fraDato: '2011-08-02',
         tilDato: '2012-06-02',
-        beskrivelse: '',
+        beskrivelse: mockStrings.arbeidsbeskrivelser[1],
     },
     {
         arbeidsgiver: 'Lars Grimstad, Møbelringen, Larvik',

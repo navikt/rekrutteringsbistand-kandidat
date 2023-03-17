@@ -20,12 +20,16 @@
     gap: 0.5rem;
 }
 
+.arbeidsgiverOgSted {
+    margin-bottom: 0.5rem;
+}
+
 .erfaringer {
     display: flex;
     flex-direction: column;
 }
 
-.tidsperiode:global(.navds-detail) {
+.tidsperiode {
     margin-top: 0.125rem;
 }
 
@@ -33,7 +37,7 @@
     margin-bottom: 1rem;
 }
 
-.bold:global(.navds-body-short) {
+.bold {
     font-weight: bold;
 }
 
