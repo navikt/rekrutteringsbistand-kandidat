@@ -17,7 +17,7 @@ const Kurs: FunctionComponent<Props> = ({ kurs }) => {
     return (
         <>
             <Detail className={css.tidsperiode}>
-                <TidspunktMedLabel tidspunkt={dato} labelTekst="Fullført:" />
+                <TidspunktMedLabel tidspunkt={dato} labelTekst="fullført" />
             </Detail>
             <div className={css.erfaring}>
                 {kurs.tittel && <BodyShort className={css.bold}>{kurs.tittel}</BodyShort>}

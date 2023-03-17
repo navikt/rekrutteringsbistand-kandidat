@@ -20,7 +20,7 @@ import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import Varsling from '../common/varsling/Varsling';
 import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
 import ManglerTilgang from './ManglerTilgang';
-import './App.less';
+import css from './App.module.css';
 
 type Props = {
     error: {
@@ -48,8 +48,8 @@ const App: FunctionComponent<Props> = (props) => {
     return (
         <>
             <Varsling />
-            <div className="App">
-                <main className="App__main">
+            <div className={css.app}>
+                <main className={css.main}>
                     <Routes>
                         <Route path="/kandidater/mangler-tilgang" element={<ManglerTilgang />} />
                         <Route

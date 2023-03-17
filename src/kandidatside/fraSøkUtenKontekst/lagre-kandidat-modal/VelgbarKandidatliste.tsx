@@ -2,7 +2,7 @@ import React, { ChangeEvent, FunctionComponent } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { ExternalLink } from '@navikt/ds-icons';
-import { BodyShort, Checkbox } from '@navikt/ds-react';
+import { BodyShort, Checkbox, Label } from '@navikt/ds-react';
 
 import { Kandidatliste } from '../../../kandidatliste/domene/Kandidatliste';
 import { capitalizeEmployerName } from '../../../kandidatsøk/utils';
@@ -44,9 +44,9 @@ const VelgbarKandidatliste: FunctionComponent<Props> = ({
             >
                 {tittel}
             </Checkbox>
-            <label className={labelCls} htmlFor={checkboxId}>
+            <Label className={labelCls} htmlFor={checkboxId}>
                 {tittel}
-            </label>
+            </Label>
             <BodyShort className={classNames(css.arbeidsgiver, css.maksEnLinje)}>
                 {capitalizeEmployerName(kandidatliste.organisasjonNavn)}
             </BodyShort>
