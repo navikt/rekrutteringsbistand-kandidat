@@ -341,7 +341,7 @@ export const fetchUsynligKandidat = async (
 };
 
 export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) => {
-    sendEvent('"lagre_i_kandidatliste_modal"', 'søkte_kandidatliste_basert_på_annonsenr');
+    sendEvent('lagre_i_kandidatliste_modal', 'søkte_kandidatliste_basert_på_annonsenr');
     return fetchJson(
         `${KANDIDATSOK_API}/veileder/stilling/byNr/${annonsenummer}/kandidatliste`,
         true
