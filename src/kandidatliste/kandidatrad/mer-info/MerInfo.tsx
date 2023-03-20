@@ -4,6 +4,7 @@ import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
 import { Kandidat } from '../../domene/Kandidat';
 import useMiljøvariabler from '../../../common/useMiljøvariabler';
 import { Link } from '@navikt/ds-react';
+import { ExternalLink } from '@navikt/ds-icons';
 
 interface Props {
     kandidat: Kandidat;
@@ -33,15 +34,15 @@ const MerInfo: FunctionComponent<Props> = ({ kandidat }) => {
                     <strong>Innsatsgruppe:</strong>
                     {` ${kandidat.innsatsgruppe}`}
                 </Normaltekst>
-                <a
-                    className="frittstaende-lenke ForlateSiden link"
+                <Link
+                    className="frittstaende-lenke"
                     href={`${arbeidsrettetOppfølgingUrl}/${kandidat.fodselsnr}`}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <span className="lenke">Se aktivitetsplan</span>
-                    <i className="ForlateSiden__icon" />
-                </a>
+                    Se aktivitetsplan
+                    <ExternalLink aria-hidden />
+                </Link>
             </div>
         </InfoUnderKandidat>
     );

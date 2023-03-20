@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { sendEvent } from '../../amplitude/amplitude';
 import useMiljøvariabler from '../../common/useMiljøvariabler';
 import Informasjonspanel from '../Informasjonspanel';
-import './Tilretteleggingsbehov.less';
+import { BodyLong, Link } from '@navikt/ds-react';
+import { ExternalLink } from '@navikt/ds-icons';
+import css from './Tilretteleggingsbehov.module.css';
 
 interface Props {
     fnr: string;
@@ -14,17 +15,19 @@ const Tilretteleggingsbehov = ({ fnr }: Props) => {
 
     return (
         <Informasjonspanel tittel="Tilretteleggingsbehov">
-            <Normaltekst>Kandidaten trenger tilrettelegging</Normaltekst>
-            <a
-                href={`${arbeidsrettetOppfølgingUrl}/${fnr}?#visDetaljer&apneTilretteleggingsbehov`}
-                className="kandidat-tilretteleggingsbehov__lenke ForlateSiden lenke"
-                target="_blank"
-                onClick={() => sendEvent('cv_tilretteleggingsbehov_lenke', 'klikk')}
-                rel="noopener noreferrer"
-            >
-                <span>Se behov for tilrettelegging.</span>
-                <i className="ForlateSiden__icon" />
-            </a>
+            <BodyLong>Kandidaten trenger tilrettelegging</BodyLong>
+            <BodyLong>
+                <Link
+                    href={`${arbeidsrettetOppfølgingUrl}/${fnr}?#visDetaljer&apneTilretteleggingsbehov`}
+                    className={css.lenke}
+                    target="_blank"
+                    onClick={() => sendEvent('cv_tilretteleggingsbehov_lenke', 'klikk')}
+                    rel="noopener noreferrer"
+                >
+                    Se behov for tilrettelegging.
+                    <ExternalLink aria-hidden />
+                </Link>
+            </BodyLong>
         </Informasjonspanel>
     );
 };
