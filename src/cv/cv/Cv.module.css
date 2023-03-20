@@ -45,9 +45,8 @@
 }
 
 .punktliste {
+    padding: 0;
     margin: 0;
-    column-count: 2;
-    column-gap: 2rem;
 }
 
 @media (min-width: 600px) {
@@ -65,11 +64,5 @@
 
     .erfaring {
         margin-bottom: 0;
-    }
-}
-
-@media (min-width: 900px) {
-    .punktliste {
-        column-count: 3;
     }
 }

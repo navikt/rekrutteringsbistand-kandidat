@@ -190,7 +190,7 @@ export const BolkMedPunktliste = ({
         </Heading>
         <div className={css.erfaringer}>
             <span />
-            <div className={css.punktliste}>{children}</div>
+            <ul className={css.punktliste}>{children}</ul>
         </div>
     </div>
 );
