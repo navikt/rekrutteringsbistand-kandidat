@@ -39,7 +39,14 @@ export const formaterKlokkeslett = (isoDato: string, visSekunder = false) =>
 
 export const formaterDatoTilMånedOgÅr = (isoDato: string) => {
     return new Date(isoDato).toLocaleString(Språk.Norsk, {
-        month: 'long',
+        month: 'short',
+        year: 'numeric',
+    });
+};
+
+export const formaterDatoTilKortMånedOgÅr = (isoDato: string) => {
+    return new Date(isoDato).toLocaleString(Språk.Norsk, {
+        month: '2-digit',
         year: 'numeric',
     });
 };

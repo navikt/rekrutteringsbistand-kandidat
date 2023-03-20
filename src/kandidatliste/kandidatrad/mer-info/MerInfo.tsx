@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
 import { Kandidat } from '../../domene/Kandidat';
 import useMiljøvariabler from '../../../common/useMiljøvariabler';
+import { Link } from '@navikt/ds-react';
 
 interface Props {
     kandidat: Kandidat;
@@ -19,7 +19,7 @@ const MerInfo: FunctionComponent<Props> = ({ kandidat }) => {
                 <Normaltekst className="tekst">
                     E-post:{' '}
                     {kandidat.epost ? (
-                        <Lenke href={`mailto:${kandidat.epost}`}>{kandidat.epost}</Lenke>
+                        <Link href={`mailto:${kandidat.epost}`}>{kandidat.epost}</Link>
                     ) : (
                         <span>&mdash;</span>
                     )}

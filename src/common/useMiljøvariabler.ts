@@ -3,11 +3,14 @@ export enum Miljøvariabel {
     ArbeidsrettetOppfølgingUrl = 'KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL',
 }
 
-const useMiljøvariabler = () => {
+const useMiljøvariabler = (): {
+    lastNedCvUrl: string;
+    arbeidsrettetOppfølgingUrl: string;
+} => {
     if (process.env.NODE_ENV === 'development') {
         return {
-            lastNedCvUrl: process.env.REACT_APP_LAST_NED_CV_URL,
-            arbeidsrettetOppfølgingUrl: process.env.REACT_APP_ARBEIDSRETTET_OPPFOLGING_URL,
+            lastNedCvUrl: process.env.REACT_APP_LAST_NED_CV_URL!,
+            arbeidsrettetOppfølgingUrl: process.env.REACT_APP_ARBEIDSRETTET_OPPFOLGING_URL!,
         };
     }
 

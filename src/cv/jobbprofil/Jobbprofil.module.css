@@ -1,0 +1,13 @@
+.liste {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.liste dt {
+    font-weight: bold;
+}
+
+.liste dd {
+    text-wrap: balance;
+}

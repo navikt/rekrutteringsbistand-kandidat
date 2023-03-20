@@ -22,8 +22,9 @@ const baseCv = (veileder: Veileder): Cv => ({
     samtykkeDato: '2019-01-29',
     samtykkeStatus: 'G',
     disponererBil: false,
-    beskrivelse: '',
-    epost: 'anostoga@gmail.com',
+    beskrivelse:
+        'Som en dyktig urmaker med 12 års erfaring, har jeg opparbeidet meg omfattende kunnskap og ferdigheter innen reparasjon, vedlikehold og produksjon av ur. Jeg har erfaring med å håndtere en rekke forskjellige typer ur, fra mekaniske klokker til moderne smartklokker. I mitt tidligere arbeid som urmaker har jeg opparbeidet meg en god forståelse av kundens behov, og jeg er alltid forberedt på å yte den beste servicen og kvalitetsarbeidet for å sikre kundetilfredshet. Jeg er også vant til å arbeide effektivt og nøyaktig for å møte stramme tidsfrister.',
+    epost: 'eksempel@dev.nav.no',
     mobiltelefon: null,
     telefon: '91333532',
     adresse: {
@@ -41,6 +42,12 @@ const baseCv = (veileder: Veileder): Cv => ({
     fagdokumentasjon: [
         { tittel: 'Fagbrev maritime fag', type: 'Fagbrev/svennebrev', beskrivelse: null },
         { tittel: 'Svennebrev urmaker', type: 'Fagbrev/svennebrev', beskrivelse: 'ssas' },
+        { tittel: 'Enda noen greier', type: 'Fagbrev/svennebrev', beskrivelse: 'ssas' },
+        { tittel: 'Fagbrev sky', type: 'Fagbrev/svennebrev', beskrivelse: 'ssas' },
+        { tittel: 'Fagbrev maritime fag', type: 'Fagbrev/svennebrev', beskrivelse: null },
+        { tittel: 'Svennebrev urmaker', type: 'Fagbrev/svennebrev', beskrivelse: 'ssas' },
+        { tittel: 'Enda noen greier', type: 'Fagbrev/svennebrev', beskrivelse: 'ssas' },
+        { tittel: 'Fagbrev sky', type: 'Fagbrev/svennebrev', beskrivelse: 'ssas' },
         { tittel: 'Autorisasjon test', type: 'Autorisasjon', beskrivelse: 'aut' },
     ],
     yrkeserfaring: cvData.yrkeserfaring,
@@ -52,7 +59,19 @@ const baseCv = (veileder: Veileder): Cv => ({
     kurs: cvData.kurs,
     verv: [],
     geografiJobbonsker: [{ geografiKode: 'NO07.0712', geografiKodeTekst: 'Larvik' }],
-    yrkeJobbonsker: [{ styrkKode: null, styrkBeskrivelse: 'Slakter', primaertJobbonske: false }],
+    yrkeJobbonsker: [
+        { styrkKode: null, styrkBeskrivelse: 'Slakter', primaertJobbonske: true },
+        { styrkKode: null, styrkBeskrivelse: 'Lærer', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Lafter', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Frisør', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Utvikler', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Backend-utvikler', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Sanger', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Digital markedsfører', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Slakter', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Lærer', primaertJobbonske: false },
+        { styrkKode: null, styrkBeskrivelse: 'Lafter', primaertJobbonske: false },
+    ],
     omfangJobbprofil: [
         { heltidDeltidKode: 'HELTID', heltidDeltidKodeTekst: 'Heltid' },
         { heltidDeltidKode: 'DELTID', heltidDeltidKodeTekst: 'Deltid' },
@@ -71,8 +90,8 @@ const baseCv = (veileder: Veileder): Cv => ({
         {
             fraDato: '2004-01-02',
             tilDato: null,
-            rolle: 'ss',
-            beskrivelse: 'selger',
+            rolle: 'Erfaring som selger',
+            beskrivelse: 'Drev med salg fra tid til annen da jeg gikk på ungdomsskolen.',
         },
     ],
     godkjenninger: [

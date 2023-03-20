@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
 import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 
 import { Kandidatmeldinger, SmsStatus } from '../domene/Kandidatressurser';
 import { Kandidat } from '../domene/Kandidat';
@@ -14,8 +13,9 @@ import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
-import './SendSmsModal.less';
 import { Stillingskategori } from '../domene/Kandidatliste';
+import { Link } from '@navikt/ds-react';
+import './SendSmsModal.less';
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
@@ -157,9 +157,9 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                 <div id="forhåndsvisning" className="send-sms-modal__forhåndsvisning">
                     <Normaltekst>
                         <span>{genererMeldingUtenLenke(valgtMal)} </span>
-                        <Lenke href={lenkeMedPrefiks} target="_blank" rel="noopener noreferrer">
+                        <Link href={lenkeMedPrefiks} target="_blank" rel="noopener noreferrer">
                             {lenkeTilStilling}
-                        </Lenke>
+                        </Link>
                     </Normaltekst>
                 </div>
                 <div className="send-sms-modal__knapper">

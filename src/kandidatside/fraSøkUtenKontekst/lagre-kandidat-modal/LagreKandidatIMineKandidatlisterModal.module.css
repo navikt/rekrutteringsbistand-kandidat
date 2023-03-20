@@ -1,4 +1,4 @@
-.modal h1:global(.navds-heading) {
+.modal h1 {
     margin-bottom: 2rem;
 }
 
@@ -12,6 +12,6 @@
     margin-bottom: 2.5rem;
 }
 
-.søkPåKandidatliste :global(.navds-search__wrapper) {
+.søkPåKandidatliste {
     max-width: 18rem;
 }

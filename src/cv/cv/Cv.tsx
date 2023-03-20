@@ -1,194 +1,187 @@
-import React, { FunctionComponent } from 'react';
-import { Column, Row } from 'nav-frontend-grid';
-import { Element, Systemtittel, Undertittel } from 'nav-frontend-typografi';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import React, { Fragment, FunctionComponent, ReactNode } from 'react';
+import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 
-import sortByDato from './SortByDato';
+import sortByDato from './sortByDato';
 import CvType, { Sertifikat as SertifikatType } from '../reducer/cv-typer';
-import Beskrivelse from './Beskrivelse';
-import Yrkeserfaring from './Yrkeserfaring';
-import Utdanning from './Utdanning';
-import AnnenErfaring from './AnnenErfaring';
-import Førerkort from './Førerkort';
-import Godkjenning from './Godkjenning';
 import Språkferdighet from './Språkferdighet';
-import Sertifikat from './Sertifikat';
 import Kurs from './Kurs';
-import './Cv.less';
+import Informasjonspanel from '../Informasjonspanel';
+import Arbeidserfaring from './Arbeidserfaring';
+import Erfaring from './Erfaring';
+import Tidsperiode from './Tidsperiode';
+import css from './Cv.module.css';
 
 type Props = {
     cv: CvType;
 };
 
 const Cv: FunctionComponent<Props> = ({ cv }) => {
-    const autoriasjoner = cv.fagdokumentasjon?.filter((f) => f.type !== 'Autorisasjon') ?? [];
+    const autorisasjoner = cv.fagdokumentasjon?.filter((f) => f.type !== 'Autorisasjon') ?? [];
 
     return (
-        <div className="kandidat-cv">
-            <Ekspanderbartpanel
-                apen
-                id="ekspanderbartpanel-cv"
-                tittel={<Systemtittel>CV</Systemtittel>}
-            >
-                {cv.beskrivelse && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12">
-                            <Undertittel className="kandidat-cv__overskrift">
-                                Sammendrag
-                            </Undertittel>
-                            <Beskrivelse beskrivelse={cv.beskrivelse} />
-                        </Column>
-                    </Row>
-                )}
-                {cv.utdanning && cv.utdanning.length !== 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">Utdanning</Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {sortByDato(cv.utdanning).map((u, i) => (
-                                <Utdanning key={JSON.stringify({ ...u, index: i })} utdanning={u} />
-                            ))}
-                        </Column>
-                    </Row>
-                )}
-                {autoriasjoner.length > 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">
-                                Fagbrev/svennebrev og mesterbrev
-                            </Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {autoriasjoner.map((f, i) => (
-                                <Row
-                                    className="kandidat-cv__row-kategori"
-                                    key={JSON.stringify({ ...f, index: i })}
-                                >
-                                    {(f.tittel || f.type) && (
-                                        <Element>{f.tittel ? f.tittel : f.type}</Element>
-                                    )}
-                                </Row>
-                            ))}
-                        </Column>
-                    </Row>
-                )}
-                {cv.yrkeserfaring && cv.yrkeserfaring.length !== 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">
-                                Arbeidserfaring
-                            </Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {sortByDato(cv.yrkeserfaring).map((erfaring, i) => (
-                                <Yrkeserfaring
-                                    key={JSON.stringify({ ...erfaring, i })}
-                                    erfaring={erfaring}
-                                />
-                            ))}
-                        </Column>
-                    </Row>
-                )}
-                {cv.annenErfaring && cv.annenErfaring.length !== 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">
-                                Annen erfaring
-                            </Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {sortByDato(cv.annenErfaring).map((erfaring, i) => (
-                                <AnnenErfaring
-                                    key={JSON.stringify({ ...erfaring, index: i })}
-                                    erfaring={erfaring}
-                                />
-                            ))}
-                        </Column>
-                    </Row>
-                )}
-                {cv.forerkort && cv.forerkort.length !== 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">Førerkort</Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {fjernDuplikater(sortByDato(cv.forerkort)).map(
-                                (førerkort: SertifikatType, i: number) => (
-                                    <Førerkort
-                                        key={JSON.stringify({ ...førerkort, index: i })}
-                                        førerkort={førerkort}
-                                    />
-                                )
+        <Informasjonspanel tittel="CV" className={css.cv}>
+            {cv.beskrivelse && (
+                <BolkMedToKolonner tittel="Sammendrag">
+                    <BodyLong>{cv.beskrivelse}</BodyLong>
+                </BolkMedToKolonner>
+            )}
+
+            {cv.utdanning?.length > 0 && (
+                <BolkMedErfaringer tittel="Utdanning">
+                    {sortByDato(cv.utdanning).map((utdanning) => (
+                        <Erfaring fraDato={utdanning.fraDato} tilDato={utdanning.tilDato}>
+                            <BodyShort className={css.bold}>
+                                {utdanning.alternativtUtdanningsnavn
+                                    ? utdanning.alternativtUtdanningsnavn
+                                    : utdanning.nusKodeUtdanningsnavn}
+                            </BodyShort>
+                            {utdanning.utdannelsessted && (
+                                <BodyShort>{utdanning.utdannelsessted}</BodyShort>
                             )}
-                        </Column>
-                    </Row>
-                )}
-                {cv.godkjenninger && cv.godkjenninger.length !== 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">
-                                Godkjenninger i lovreguelerte yrker
-                            </Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {sortByDato(cv.godkjenninger).map((godkjenning, i) => (
-                                <Godkjenning
-                                    key={JSON.stringify({ ...godkjenning, index: i })}
-                                    godkjenning={godkjenning}
-                                />
-                            ))}
-                        </Column>
-                    </Row>
-                )}
-                {cv.sertifikater && cv.sertifikater.length !== 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">
-                                Andre godkjenninger
-                            </Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {sortByDato(cv.sertifikater).map((sertifikat: SertifikatType, i) => (
-                                <Sertifikat
-                                    key={JSON.stringify({ ...sertifikat, i })}
-                                    sertifikat={sertifikat}
-                                />
-                            ))}
-                        </Column>
-                    </Row>
-                )}
-                {cv.kurs && cv.kurs.length !== 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">Kurs</Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {sortByDato(cv.kurs).map((kurs, i) => (
-                                <Kurs key={JSON.stringify({ ...kurs, index: i })} kurs={kurs} />
-                            ))}
-                        </Column>
-                    </Row>
-                )}
-                {cv.sprakferdigheter && cv.sprakferdigheter.length !== 0 && (
-                    <Row className="kandidat-cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="kandidat-cv__overskrift">Språk</Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {cv.sprakferdigheter.map((ferdighet) => (
-                                <Språkferdighet
-                                    key={JSON.stringify(ferdighet)}
-                                    ferdighet={ferdighet}
-                                />
-                            ))}
-                        </Column>
-                    </Row>
-                )}
-            </Ekspanderbartpanel>
-        </div>
+                            {utdanning.beskrivelse && (
+                                <BodyShort>{utdanning.beskrivelse}</BodyShort>
+                            )}
+                        </Erfaring>
+                    ))}
+                </BolkMedErfaringer>
+            )}
+
+            {autorisasjoner?.length > 0 && (
+                <BolkMedPunktliste tittel="Fagbrev/svennebrev og mesterbrev">
+                    {autorisasjoner.map(({ tittel, type }) => (
+                        <Fragment key={JSON.stringify(tittel)}>
+                            {(tittel || type) && <BodyShort as="li">{tittel ?? type}</BodyShort>}
+                        </Fragment>
+                    ))}
+                </BolkMedPunktliste>
+            )}
+
+            {cv.yrkeserfaring?.length > 0 && (
+                <BolkMedErfaringer tittel="Arbeidserfaring">
+                    {sortByDato(cv.yrkeserfaring).map((erfaring) => (
+                        <Arbeidserfaring
+                            key={JSON.stringify({ erfaring })}
+                            arbeidserfaring={erfaring}
+                        />
+                    ))}
+                </BolkMedErfaringer>
+            )}
+
+            {cv.annenErfaring?.length > 0 && (
+                <BolkMedErfaringer tittel="Annen erfaring">
+                    {sortByDato(cv.annenErfaring).map((erfaring, i) => (
+                        <Erfaring
+                            key={erfaring.rolle}
+                            fraDato={erfaring.fraDato}
+                            tilDato={erfaring.tilDato}
+                        >
+                            <BodyShort className={css.bold}>{erfaring.rolle}</BodyShort>
+                            <BodyShort>{erfaring.beskrivelse}</BodyShort>
+                        </Erfaring>
+                    ))}
+                </BolkMedErfaringer>
+            )}
+
+            {cv.godkjenninger?.length > 0 && (
+                <BolkMedErfaringer tittel="Godkjenninger i lovreguelerte yrker">
+                    {cv.godkjenninger.map((godkjenning) => (
+                        <Erfaring fraDato={godkjenning.gjennomfoert}>
+                            <BodyShort className={css.bold}>{godkjenning.tittel}</BodyShort>
+                            <BodyShort>{godkjenning.utsteder}</BodyShort>
+                            {godkjenning.utloeper && (
+                                <BodyShort>
+                                    Utløper: <Tidsperiode tildato={godkjenning.utloeper} />
+                                </BodyShort>
+                            )}
+                        </Erfaring>
+                    ))}
+                </BolkMedErfaringer>
+            )}
+
+            {cv.sertifikater?.length > 0 && (
+                <BolkMedErfaringer tittel="Andre godkjenninger">
+                    {sortByDato(cv.sertifikater).map((sertifikat) => (
+                        <Erfaring key={sertifikat.sertifikatKode} fraDato={sertifikat.fraDato}>
+                            <BodyShort className={css.bold}>
+                                {sertifikat.alternativtNavn
+                                    ? sertifikat.alternativtNavn
+                                    : sertifikat.sertifikatKodeNavn}
+                            </BodyShort>
+                            {sertifikat.utsteder && <BodyShort>{sertifikat.utsteder}</BodyShort>}
+                            {sertifikat.tilDato && (
+                                <BodyShort>
+                                    Utløper: <Tidsperiode tildato={sertifikat.tilDato} />
+                                </BodyShort>
+                            )}
+                        </Erfaring>
+                    ))}
+                </BolkMedErfaringer>
+            )}
+
+            {cv.kurs?.length > 0 && (
+                <BolkMedErfaringer tittel="Kurs">
+                    {sortByDato(cv.kurs).map((kurs, i) => (
+                        <Kurs key={kurs.tittel} kurs={kurs} />
+                    ))}
+                </BolkMedErfaringer>
+            )}
+
+            {cv.forerkort?.length > 0 && (
+                <BolkMedErfaringer tittel="Førerkort">
+                    {fjernDuplikater(sortByDato(cv.forerkort)).map((førerkort) => (
+                        <Erfaring fraDato={førerkort.fraDato} tilDato={førerkort.tilDato}>
+                            <BodyShort className={css.bold}>
+                                {førerkort.alternativtNavn
+                                    ? førerkort.alternativtNavn
+                                    : førerkort.sertifikatKodeNavn}
+                            </BodyShort>
+                        </Erfaring>
+                    ))}
+                </BolkMedErfaringer>
+            )}
+
+            {cv.sprakferdigheter?.length > 0 && (
+                <BolkMedToKolonner tittel="Språk">
+                    <div className={css.kolonne}>
+                        {cv.sprakferdigheter.map((ferdighet) => (
+                            <Språkferdighet ferdighet={ferdighet} />
+                        ))}
+                    </div>
+                </BolkMedToKolonner>
+            )}
+        </Informasjonspanel>
     );
 };
+
+const BolkMedToKolonner = ({ tittel, children }: { tittel: string; children: ReactNode }) => (
+    <div className={css.bolkMedToKolonner}>
+        <Heading level="3" size="medium">
+            {tittel}
+        </Heading>
+        {children}
+    </div>
+);
+
+const BolkMedErfaringer = ({ tittel, children }: { tittel: string; children: ReactNode }) => (
+    <div className={css.bolkMedErfaringer}>
+        <Heading level="3" size="medium">
+            {tittel}
+        </Heading>
+        <div className={css.erfaringer}>{children}</div>
+    </div>
+);
+
+const BolkMedPunktliste = ({ tittel, children }: { tittel: string; children: ReactNode }) => (
+    <div className={css.bolkMedPunktliste}>
+        <Heading level="3" size="medium">
+            {tittel}
+        </Heading>
+        <div className={css.erfaringer}>
+            <span />
+            <ul className={css.punktliste}>{children}</ul>
+        </div>
+    </div>
+);
 
 const fjernDuplikater = (forerkortListe: SertifikatType[]) => {
     const forerkortAlleredeILista = new Set();

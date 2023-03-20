@@ -3,6 +3,6 @@
     max-width: 50rem;
 }
 
-.innhold:global(.navds-modal__content) {
+.innhold {
     padding: var(--a-spacing-8);
 }

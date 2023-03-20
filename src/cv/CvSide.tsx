@@ -1,24 +1,21 @@
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 
 import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
-import Jobbønsker from './jobbønsker/Jobbønsker';
+import Jobbprofil from './jobbprofil/Jobbprofil';
 import KandidatCv from './cv/Cv';
 import KandidatTilretteleggingsbehov from './tilretteleggingsbehov/Tilretteleggingsbehov';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import Sidelaster from '../common/sidelaster/Sidelaster';
+import Sidefeil from '../common/sidefeil/Sidefeil';
+import css from './CvSide.module.css';
 
 const CvSide: FunctionComponent = () => {
     const { cv } = useSelector((state: AppState) => state.cv);
 
     if (cv.kind === Nettstatus.LasterInn || cv.kind === Nettstatus.IkkeLastet) {
-        return (
-            <div className="text-center">
-                <NavFrontendSpinner type="L" />
-            </div>
-        );
+        return <Sidelaster />;
     }
 
     if (cv.kind === Nettstatus.FinnesIkke) {
@@ -27,17 +24,17 @@ const CvSide: FunctionComponent = () => {
 
     if (cv.kind === Nettstatus.Suksess) {
         return (
-            <>
-                <Jobbønsker cv={cv.data} />
+            <div className={css.side}>
+                <Jobbprofil cv={cv.data} />
                 <KandidatCv cv={cv.data} />
                 {cv.data.tilretteleggingsbehov && (
                     <KandidatTilretteleggingsbehov fnr={cv.data.fodselsnummer} />
                 )}
-            </>
+            </div>
         );
     }
 
-    return <AlertStripeFeil>Klarte ikke å hente kandidatens CV</AlertStripeFeil>;
+    return <Sidefeil feilmelding="Klarte ikke å hente kandidatens CV" />;
 };
 
 export default CvSide;

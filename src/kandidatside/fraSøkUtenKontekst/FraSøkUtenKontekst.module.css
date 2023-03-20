@@ -1,0 +1,9 @@
+.velgKandidatlisterKnapp span {
+    display: none;
+}
+
+@media (min-width: 600px) {
+    .velgKandidatlisterKnapp span {
+        display: unset;
+    }
+}

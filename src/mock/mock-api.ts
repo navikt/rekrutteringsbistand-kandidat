@@ -365,9 +365,7 @@ const log = (response: MockResponse | MockResponseFunction) => {
 
 fetchMock
     // CV
-    .get(url.cv, log(getCv), {
-        delay: 200,
-    })
+    .get(url.cv, log(getCv))
     .get(url.listeoversikt, log(mock.kandidat.kandidatlisterForKandidat))
 
     // Kandidatliste
