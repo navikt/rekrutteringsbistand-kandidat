@@ -162,13 +162,7 @@ const BolkMedToKolonner = ({ tittel, children }: { tittel: string; children: Rea
     </div>
 );
 
-export const BolkMedErfaringer = ({
-    tittel,
-    children,
-}: {
-    tittel: string;
-    children: ReactNode;
-}) => (
+const BolkMedErfaringer = ({ tittel, children }: { tittel: string; children: ReactNode }) => (
     <div className={css.bolkMedErfaringer}>
         <Heading level="3" size="medium">
             {tittel}
@@ -177,13 +171,7 @@ export const BolkMedErfaringer = ({
     </div>
 );
 
-export const BolkMedPunktliste = ({
-    tittel,
-    children,
-}: {
-    tittel: string;
-    children: ReactNode;
-}) => (
+const BolkMedPunktliste = ({ tittel, children }: { tittel: string; children: ReactNode }) => (
     <div className={css.bolkMedPunktliste}>
         <Heading level="3" size="medium">
             {tittel}
