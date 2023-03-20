@@ -33,17 +33,13 @@ Sentry.init({
     autoSessionTracking: false,
 });
 
-// Alle klassenavn blir prefikset med ".rek-kandidat" i craco-configen, så også koden
-// som brukes under utvikling må wrappes i et element med dette klassenavnet.
-export const cssScopeForApp = 'rek-kandidat';
-
 type AppProps = {
     navKontor: string | null;
     history: History;
 };
 
 export const AppMedRouter: FunctionComponent<AppProps> = (props) => (
-    <div id="rekrutteringsbistand-kandidat" className={cssScopeForApp}>
+    <div id="rekrutteringsbistand-kandidat">
         <Sentry.ErrorBoundary fallback={(error) => <FeilMedApp {...error} />}>
             <Router navigator={props.history} location={props.history.location}>
                 <AppMedStore {...props} />
