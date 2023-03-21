@@ -1,14 +1,18 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
+import classNames from 'classnames';
+import { Link as LinkIcon } from '@navikt/ds-icons';
+import { BodyShort, Detail, Table } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../app/paths';
-import { KandidatlisteForKandidat } from '../../historikkReducer';
-import { Undertekst } from 'nav-frontend-typografi';
-import StatusEtikett from '../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
-import Hendelsesetikett from '../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+
+import { capitalizeEmployerName } from '../../../kandidatsøk/utils';
 import { ForespørselOmDelingAvCv } from '../../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { KandidatlisteForKandidat } from '../../historikkReducer';
+import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../app/paths';
 import { Sms } from '../../../kandidatliste/domene/Kandidatressurser';
-import './Historikkrad.less';
+import Hendelsesetikett from '../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import StatusEtikett from '../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
+import css from './Historikkrad.module.css';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;
@@ -25,43 +29,50 @@ export const Historikkrad: FunctionComponent<Props> = ({
 }) => {
     const listenavn = kandidatliste.slettet ? (
         <>
-            {kandidatliste.tittel}{' '}
-            <Undertekst tag="span" className="historikkrad__slettet">
+            <BodyShort as="span">{kandidatliste.tittel} </BodyShort>
+            <Detail as="span" className={css.slettet}>
                 (slettet)
-            </Undertekst>
+            </Detail>
         </>
     ) : (
-        <Link className="lenke" to={lenkeTilKandidatliste(kandidatliste.uuid)}>
-            {kandidatliste.tittel}
-        </Link>
+        <Lenke to={lenkeTilKandidatliste(kandidatliste.uuid)}>{kandidatliste.tittel}</Lenke>
     );
+
     return (
-        <tr
-            key={kandidatliste.uuid}
-            className={'historikkrad ' + (aktiv ? 'tabell__tr--valgt' : '')}
-        >
-            <td>{moment(kandidatliste.lagtTilTidspunkt).format('DD.MM.YYYY')}</td>
-            <td>{listenavn}</td>
-            <td>{kandidatliste.organisasjonNavn}</td>
-            <td>
+        <Table.Row shadeOnHover={false} selected={aktiv} key={kandidatliste.uuid}>
+            <Table.DataCell>
+                {moment(kandidatliste.lagtTilTidspunkt).format('DD.MM.YYYY')}
+            </Table.DataCell>
+            <Table.DataCell>{listenavn}</Table.DataCell>
+            <Table.DataCell>
+                {capitalizeEmployerName(kandidatliste.organisasjonNavn)}
+            </Table.DataCell>
+            <Table.DataCell>
                 {kandidatliste.lagtTilAvNavn} ({kandidatliste.lagtTilAvIdent})
-            </td>
-            <td>
-                <StatusEtikett status={kandidatliste.status} />
-                <Hendelsesetikett
-                    utfall={kandidatliste.utfall}
-                    utfallsendringer={kandidatliste.utfallsendringer}
-                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                    sms={sms}
-                />
-            </td>
-            <td className="historikkrad__stilling">
+            </Table.DataCell>
+            <Table.DataCell>
+                <div className={css.statusOgHendelser}>
+                    <StatusEtikett status={kandidatliste.status} />
+                    <Hendelsesetikett
+                        utfall={kandidatliste.utfall}
+                        utfallsendringer={kandidatliste.utfallsendringer}
+                        forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                        sms={sms}
+                    />
+                </div>
+            </Table.DataCell>
+            <Table.DataCell className="historikkrad__stilling">
                 {!kandidatliste.slettet && kandidatliste.stillingId && (
-                    <Link to={lenkeTilStilling(kandidatliste.stillingId)} className="lenke">
-                        Se stilling
-                    </Link>
+                    <Lenke to={lenkeTilStilling(kandidatliste.stillingId)}>Se stilling</Lenke>
                 )}
-            </td>
-        </tr>
+            </Table.DataCell>
+        </Table.Row>
     );
 };
+
+const Lenke = ({ to, children }: { to: string; children: ReactNode }) => (
+    <Link to={to} className={classNames(css.lenke, 'navds-link')}>
+        {children}
+        <LinkIcon />
+    </Link>
+);

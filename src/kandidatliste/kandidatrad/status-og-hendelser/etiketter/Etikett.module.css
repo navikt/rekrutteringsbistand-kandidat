@@ -2,7 +2,6 @@
     display: inline-block;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-right: 0.5rem;
 
     padding: 1px 0.5rem;
     line-height: var(--a-font-line-height-large);

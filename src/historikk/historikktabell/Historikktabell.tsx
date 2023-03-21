@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import { KandidatlisteForKandidat } from '../historikkReducer';
-import { Historikkrad } from './Historikkrad/Historikkrad';
+import { Table } from '@navikt/ds-react';
+
 import { ForespørselOmDelingAvCv } from '../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Historikkrad } from './Historikkrad/Historikkrad';
+import { KandidatlisteForKandidat } from '../historikkReducer';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Sms } from '../../kandidatliste/domene/Kandidatressurser';
-import './Historikktabell.less';
 
 interface Props {
     kandidatlister: KandidatlisteForKandidat[];
@@ -19,19 +20,19 @@ export const Historikktabell: FunctionComponent<Props> = ({
     forespørslerOmDelingAvCvForKandidat,
     smser,
 }) => (
-    <table className="historikktabell tabell tabell--stripet">
-        <thead>
-            <tr>
-                <th>Lagt i listen</th>
-                <th>Navn på kandidatliste</th>
-                <th>Arbeidsgiver</th>
-                <th>Lagt til av</th>
-                <th>Status/hendelser</th>
-                <th>Stilling</th>
-            </tr>
-        </thead>
-        <tbody>
-            {kandidatlister.map((liste) => (
+    <Table zebraStripes>
+        <Table.Header>
+            <Table.Row>
+                <Table.HeaderCell>Lagt i listen</Table.HeaderCell>
+                <Table.HeaderCell>Navn på kandidatliste</Table.HeaderCell>
+                <Table.HeaderCell>Arbeidsgiver</Table.HeaderCell>
+                <Table.HeaderCell>Lagt til av</Table.HeaderCell>
+                <Table.HeaderCell>Status/hendelser</Table.HeaderCell>
+                <Table.HeaderCell>Stilling</Table.HeaderCell>
+            </Table.Row>
+        </Table.Header>
+        <Table.Body>
+            {kandidatlister.map((liste, i) => (
                 <Historikkrad
                     key={liste.uuid}
                     kandidatliste={liste}
@@ -43,8 +44,8 @@ export const Historikktabell: FunctionComponent<Props> = ({
                     sms={finnSms(smser, liste.uuid)}
                 />
             ))}
-        </tbody>
-    </table>
+        </Table.Body>
+    </Table>
 );
 
 export const finnForespørselOmDelingAvCv = (

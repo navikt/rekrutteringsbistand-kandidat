@@ -2,20 +2,19 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ingress } from '@navikt/ds-react';
-import 'nav-frontend-tabell-style';
 
-import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
-import { ikkeLastet, lasterInn, Nettressurs, Nettstatus, suksess } from '../api/Nettressurs';
-import AppState from '../AppState';
-import { Historikktabell } from './historikktabell/Historikktabell';
-import { KandidatQueryParam } from '../kandidatside/Kandidatside';
-import { sendEvent } from '../amplitude/amplitude';
-import Cv from '../cv/reducer/cv-typer';
 import { capitalizeFirstLetter } from '../kandidatsøk/utils';
-import { ForespørselOmDelingAvCv } from '../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { fetchForespørslerOmDelingAvCvForKandidat } from '../api/forespørselOmDelingAvCvApi';
 import { fetchSmserForKandidat } from '../api/api';
+import { ForespørselOmDelingAvCv } from '../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
+import { Historikktabell } from './historikktabell/Historikktabell';
+import { ikkeLastet, lasterInn, Nettressurs, Nettstatus, suksess } from '../api/Nettressurs';
+import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
+import { KandidatQueryParam } from '../kandidatside/Kandidatside';
+import { sendEvent } from '../amplitude/amplitude';
 import { Sms } from '../kandidatliste/domene/Kandidatressurser';
+import AppState from '../AppState';
+import Cv from '../cv/reducer/cv-typer';
 import Sidelaster from '../common/sidelaster/Sidelaster';
 import css from './Historikkside.module.css';
 

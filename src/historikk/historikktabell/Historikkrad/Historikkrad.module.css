@@ -1,0 +1,18 @@
+.utfall,
+.stilling {
+    white-space: nowrap;
+}
+
+.slettet {
+    color: var(--a-text-danger);
+}
+
+.lenke {
+    text-decoration: none;
+}
+
+.statusOgHendelser {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
