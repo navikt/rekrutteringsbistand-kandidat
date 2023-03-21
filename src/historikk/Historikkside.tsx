@@ -16,8 +16,8 @@ import { ForespørselOmDelingAvCv } from '../kandidatliste/knappe-rad/forespørs
 import { fetchForespørslerOmDelingAvCvForKandidat } from '../api/forespørselOmDelingAvCvApi';
 import { fetchSmserForKandidat } from '../api/api';
 import { Sms } from '../kandidatliste/domene/Kandidatressurser';
-import './Historikkside.less';
 import Sidelaster from '../common/sidelaster/Sidelaster';
+import css from './Historikkside.module.css';
 
 const Historikkside: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -80,8 +80,8 @@ const Historikkside: FunctionComponent = () => {
         const navn = hentKandidatensNavnFraCvEllerKandidatlister(cv, kandidatlister);
 
         return (
-            <div className="historikkside">
-                <Ingress className="blokk-m">
+            <div className={css.historikk}>
+                <Ingress className={css.ingress}>
                     <b>{navn}</b> er lagt til i <b>{kandidatlister.length}</b> kandidatlister
                 </Ingress>
                 <Historikktabell

@@ -1,0 +1,23 @@
+.historikk {
+    max-width: var(--kandidatsok-innhold-bredde);
+    margin: 0 auto;
+}
+
+.ingress {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .historikk {
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+}
+
+@media (min-width: 1590px) {
+    .historikk {
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
