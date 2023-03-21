@@ -45,7 +45,9 @@ export const Historikkrad: FunctionComponent<Props> = ({
             </Table.DataCell>
             <Table.DataCell>{listenavn}</Table.DataCell>
             <Table.DataCell>
-                {capitalizeEmployerName(kandidatliste.organisasjonNavn)}
+                {kandidatliste.organisasjonNavn
+                    ? capitalizeEmployerName(kandidatliste.organisasjonNavn)
+                    : ''}
             </Table.DataCell>
             <Table.DataCell>
                 {kandidatliste.lagtTilAvNavn} ({kandidatliste.lagtTilAvIdent})

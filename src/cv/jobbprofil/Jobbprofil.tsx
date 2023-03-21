@@ -43,10 +43,12 @@ const Jobbønsker: FunctionComponent<Props> = ({ cv }) => (
                     items={cv.ansettelsesformJobbprofil.map((u) => u.ansettelsesformKodeTekst)}
                 />
 
-                <Description
-                    label="Ledighet"
-                    items={[OPPSTARTSKODER[cv.oppstartKode.toUpperCase()].label]}
-                />
+                {cv.oppstartKode && (
+                    <Description
+                        label="Ledighet"
+                        items={[OPPSTARTSKODER[cv.oppstartKode.toUpperCase()]?.label]}
+                    />
+                )}
             </dl>
         )}
     </Informasjonspanel>
