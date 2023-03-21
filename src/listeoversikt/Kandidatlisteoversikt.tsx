@@ -4,9 +4,9 @@ import { Systemtittel } from 'nav-frontend-typografi';
 
 import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
-import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
+import Header from './header/Header';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
@@ -296,7 +296,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                     innhold={successMelding}
                 />
                 <div className="Kandidatlister">
-                    <KandidatlisterSideHeader
+                    <Header
                         søkeOrd={søkeOrd}
                         onSøkeOrdChange={this.onSøkeOrdChange}
                         onSubmitSøkKandidatlister={this.onSubmitSøkKandidatlister}

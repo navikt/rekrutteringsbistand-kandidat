@@ -1,16 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { Button, Search } from '@navikt/ds-react';
-import css from './KandidatlisterSideHeader.module.css';
+import css from './Header.module.css';
 
-interface Props {
+type Props = {
     søkeOrd?: string;
     onSøkeOrdChange: (event: string) => void;
     onSubmitSøkKandidatlister?: any;
     nullstillSøk: () => void;
     opprettListe: () => void;
-}
+};
 
-export const KandidatlisterSideHeader: FunctionComponent<Props> = ({
+const Header: FunctionComponent<Props> = ({
     søkeOrd,
     onSøkeOrdChange,
     onSubmitSøkKandidatlister,
@@ -34,3 +34,5 @@ export const KandidatlisterSideHeader: FunctionComponent<Props> = ({
         </div>
     </div>
 );
+
+export default Header;
