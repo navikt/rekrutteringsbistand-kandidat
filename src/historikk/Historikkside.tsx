@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Ingress } from 'nav-frontend-typografi';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Ingress } from '@navikt/ds-react';
 import 'nav-frontend-tabell-style';
 
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
@@ -18,6 +17,7 @@ import { fetchForespørslerOmDelingAvCvForKandidat } from '../api/forespørselOm
 import { fetchSmserForKandidat } from '../api/api';
 import { Sms } from '../kandidatliste/domene/Kandidatressurser';
 import './Historikkside.less';
+import Sidelaster from '../common/sidelaster/Sidelaster';
 
 const Historikkside: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -72,11 +72,7 @@ const Historikkside: FunctionComponent = () => {
         historikk.kandidatlisterForKandidat.kind === Nettstatus.IkkeLastet ||
         historikk.kandidatlisterForKandidat.kind === Nettstatus.LasterInn
     ) {
-        return (
-            <div className="text-center">
-                <NavFrontendSpinner type="L" />
-            </div>
-        );
+        return <Sidelaster />;
     }
 
     if (historikk.kandidatlisterForKandidat.kind === Nettstatus.Suksess) {

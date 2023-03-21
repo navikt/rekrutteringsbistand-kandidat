@@ -4,7 +4,7 @@ import css from './Sidelaster.module.css';
 
 const Sidelaster = () => (
     <div className={css.wrapper}>
-        <Loader size="large" />
+        <Loader size="2xlarge" />
     </div>
 );
 
