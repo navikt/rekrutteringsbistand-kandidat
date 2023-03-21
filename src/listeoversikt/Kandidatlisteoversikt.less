@@ -20,57 +20,6 @@
         grid-area: filter;
     }
 
-    .side-header {
-        background-color: @rekrutteringsbistandBla;
-        padding: 2.5rem 0rem;
-        border-bottom: 1px solid @navGra40;
-
-        .side-header__innhold {
-            margin: auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: center;
-
-            .header-child {
-                flex: 1;
-            }
-
-            .tittel-wrapper {
-                display: flex;
-                justify-content: center;
-                .kandidatlister__sok {
-                    position: relative;
-                    margin: auto;
-                    .skjemaelement__input {
-                        width: 640px;
-                        height: 3.5rem;
-                        padding: 1rem;
-                        border: 1px solid @navGra40;
-                    }
-                    .search-button {
-                        padding: 18px !important;
-                    }
-                }
-            }
-
-            .knapp-wrapper {
-                display: flex;
-                justify-content: space-between;
-                margin: auto;
-                .nullstill-sok__knapp {
-                    margin-left: 1rem;
-                }
-            }
-        }
-    }
-
-    // Dobbel selector for å overskrive styling fra nav-frontend
-    .kandidatlister__søkeknapp.knapp {
-        position: absolute;
-        right: 0;
-        height: 3.5rem;
-    }
-
     .kandidatlister-table--top {
         display: flex;
         justify-content: space-between;

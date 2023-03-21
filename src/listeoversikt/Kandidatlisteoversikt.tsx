@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Systemtittel } from 'nav-frontend-typografi';
 
@@ -141,8 +141,8 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         }
     };
 
-    onSøkeOrdChange = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setState({ søkeOrd: event.target.value });
+    onSøkeOrdChange = (value: string) => {
+        this.setState({ søkeOrd: value });
     };
 
     onSubmitSøkKandidatlister = (e) => {
