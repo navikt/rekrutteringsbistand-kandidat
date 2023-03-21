@@ -1,17 +1,17 @@
 import React, { FunctionComponent } from 'react';
 import { Kandidatstatus } from '../../../domene/Kandidat';
-import Etikett from 'nav-frontend-etiketter';
-import './StatusEtikett.less';
+import Etikett from './Etikett';
+import css from './StatusEtikett.module.css';
 
 type Props = {
     status: Kandidatstatus;
 };
 
 const StatusEtikett: FunctionComponent<Props> = ({ status }) => {
-    const etikettClassName = `status-etikett status-etikett--${status.toLowerCase()}`;
+    const etikettClassName = css[status.toLowerCase()];
 
     return (
-        <Etikett aria-label="Status" mini type="info" className={etikettClassName}>
+        <Etikett label="Status" className={etikettClassName}>
             {statusToDisplayName(status)}
         </Etikett>
     );

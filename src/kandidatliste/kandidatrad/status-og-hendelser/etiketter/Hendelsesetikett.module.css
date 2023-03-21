@@ -1,0 +1,27 @@
+.cv_delt {
+    background-color: var(--a-purple-100);
+    border-color: var(--a-purple-500);
+}
+
+.fått_jobben {
+    background-color: var(--a-blue-100);
+    border-color: var(--a-blue-500);
+}
+
+.svar_ja {
+    background-color: var(--a-green-100);
+    border-color: var(--a-green-500);
+}
+
+.delt_med_kandidat,
+.sms_sendt {
+    background-color: var(--a-deepblue-100);
+    border-color: var(--a-deepblue-500);
+}
+
+.cv_slettet,
+.svar_nei,
+.sms_feilet {
+    background-color: var(--a-red-100);
+    border-color: var(--a-red-500);
+}

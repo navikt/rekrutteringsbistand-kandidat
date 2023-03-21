@@ -1,15 +1,15 @@
 import React, { FunctionComponent } from 'react';
 import moment from 'moment';
-import Etikett from 'nav-frontend-etiketter';
 import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import {
     ForespørselOmDelingAvCv,
     TilstandPåForespørsel,
 } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import './Hendelsesetikett.less';
 import { formaterDato, formaterDatoUtenÅrstall } from '../../../../utils/dateUtils';
 import { Sms, SmsStatus } from '../../../domene/Kandidatressurser';
 import { cvErSendtTilArbeidsgiverOgSlettet } from '../hendelser/CvErSlettet';
+import Etikett from './Etikett';
+import css from './Hendelsesetikett.module.css';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -57,12 +57,7 @@ const Hendelsesetikett: FunctionComponent<Props> = ({
     }
 
     return (
-        <Etikett
-            mini
-            type="info"
-            aria-label="Utfall"
-            className={`hendelsesetikett hendelsesetikett--${hendelse.toLowerCase()}`}
-        >
+        <Etikett label="Utfall" className={css[hendelse.toLowerCase()]}>
             {label}
         </Etikett>
     );

@@ -1,0 +1,29 @@
+.vurderes {
+    background-color: var(--a-gray-100);
+    border-color: var(--a-gray-500);
+}
+
+.kontaktet {
+    background-color: var(--a-purple-50);
+    border-color: var(--a-purple-500);
+}
+
+.aktuell {
+    background-color: var(--a-green-100);
+    border-color: var(--a-green-500);
+}
+
+.uaktuell {
+    background-color: var(--a-red-100);
+    border-color: var(--a-red-500);
+}
+
+.uinteressert {
+    background-color: var(--a-orange-100);
+    border-color: var(--a-orange-500);
+}
+
+.til_intervju {
+    background-color: var(--a-blue-100);
+    border-color: var(--a-blue-500);
+}
