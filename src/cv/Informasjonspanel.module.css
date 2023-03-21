@@ -7,3 +7,9 @@
     padding: 1.5rem;
     background-color: white;
 }
+
+@media (min-width: 1000px) {
+    .content {
+        padding: 2rem;
+    }
+}
