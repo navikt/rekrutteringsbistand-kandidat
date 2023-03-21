@@ -47,9 +47,13 @@ const VelgbarKandidatliste: FunctionComponent<Props> = ({
             <Label className={labelCls} htmlFor={checkboxId}>
                 {tittel}
             </Label>
-            <BodyShort className={classNames(css.arbeidsgiver, css.maksEnLinje)}>
-                {capitalizeEmployerName(kandidatliste.organisasjonNavn)}
-            </BodyShort>
+            {kandidatliste.organisasjonNavn ? (
+                <BodyShort className={classNames(css.arbeidsgiver, css.maksEnLinje)}>
+                    {capitalizeEmployerName(kandidatliste.organisasjonNavn)}
+                </BodyShort>
+            ) : (
+                <span />
+            )}
             <BodyShort className={css.opprettet}>{opprettetDato}</BodyShort>
             <Link
                 target="_blank"
