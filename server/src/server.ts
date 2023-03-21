@@ -6,13 +6,13 @@ import fs from 'fs';
 const app = express();
 const port = process.env.PORT || 8080;
 
-const envPath = 'static/js/env.js';
+const envPath = 'assets/js/env.js';
 const envFile =
     `window.KANDIDAT_LAST_NED_CV_URL="${process.env.LAST_NED_CV_URL}";\n` +
     `window.KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL="${process.env.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
 
 const basePath = '/rekrutteringsbistand-kandidat';
-const buildPath = path.join(__dirname, '../build');
+const buildPath = path.join(__dirname, '../dist');
 
 const startServer = (manifest: string) => {
     app.use(compression());
@@ -21,7 +21,7 @@ const startServer = (manifest: string) => {
         res.type('application/javascript').send(envFile);
     });
 
-    app.use(`${basePath}/static`, express.static(buildPath + '/static'));
+    app.use(`${basePath}/assets`, express.static(buildPath + '/assets'));
     app.get(`${basePath}/asset-manifest.json`, (_, res) => {
         res.type('json').send(manifest);
     });

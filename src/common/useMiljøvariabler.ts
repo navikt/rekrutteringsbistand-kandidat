@@ -9,8 +9,8 @@ const useMiljøvariabler = (): {
 } => {
     if (process.env.NODE_ENV === 'development') {
         return {
-            lastNedCvUrl: process.env.REACT_APP_LAST_NED_CV_URL!,
-            arbeidsrettetOppfølgingUrl: process.env.REACT_APP_ARBEIDSRETTET_OPPFOLGING_URL!,
+            lastNedCvUrl: process.env.VITE_LAST_NED_CV_URL!,
+            arbeidsrettetOppfølgingUrl: process.env.VITE_ARBEIDSRETTET_OPPFOLGING_URL!,
         };
     }
 

@@ -17,6 +17,8 @@ import { getMiljø, Miljø } from './utils/miljøUtils';
 import { fjernPersonopplysninger } from './utils/sentryUtils';
 import App from './app/App';
 
+const skalEksporteres = import.meta.env.VITE_EXPORT || import.meta.env.MODE === 'production';
+
 const appElement =
     document.getElementById('rekrutteringsbistand-container') ||
     document.getElementById('utviklingsapp');
@@ -27,7 +29,7 @@ if (appElement) {
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
     environment: getMiljø(),
-    release: process.env.REACT_APP_SENTRY_RELEASE || 'unknown',
+    release: import.meta.env.VITE_SENTRY_RELEASE || 'unknown',
     enabled: getMiljø() === Miljø.DevGcp || getMiljø() === Miljø.ProdGcp,
     beforeSend: fjernPersonopplysninger,
     autoSessionTracking: false,
@@ -55,14 +57,14 @@ export const AppMedStore: FunctionComponent<AppProps> = ({ navKontor }) => (
 );
 
 const renderUtviklingsapp = async () => {
-    if (process.env.REACT_APP_MOCK) {
+    if (import.meta.env.VITE_MOCK) {
         await import('./mock/mock-api');
     }
 
     ReactDOM.render(<Utviklingsapp />, document.getElementById('utviklingsapp'));
 };
 
-if (process.env.REACT_APP_EXPORT) {
+if (skalEksporteres) {
     Navspa.eksporter('rekrutteringsbistand-kandidat', AppMedRouter);
 } else {
     renderUtviklingsapp();
