@@ -1,14 +1,18 @@
 import React, { ReactNode } from 'react';
-import { Table } from '@navikt/ds-react';
-import { useSelector } from 'react-redux';
+import { SortState, Table } from '@navikt/ds-react';
+import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../AppState';
-import { Retning } from '../common/sorterbarKolonneheader/Retning';
+import { nesteSorteringsretning, Retning } from '../common/sorterbarKolonneheader/Retning';
+import { KandidatlisteSorteringsfelt } from './Kandidatlistesortering';
+import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 
 type Props = {
     children: ReactNode;
 };
 
 const Kandidatlistetabell = ({ children }: Props) => {
+    const dispatch = useDispatch();
+
     const aktivtSorteringsfelt = useSelector(
         (state: AppState) => state.listeoversikt.sortering.sortField
     );
@@ -17,38 +21,34 @@ const Kandidatlistetabell = ({ children }: Props) => {
         (state: AppState) => state.listeoversikt.sortering.sortDirection
     );
 
-    /*
-    const endreSortering = (sorteringsfeltIndex: number) => {
-        const endringPåAktivtFelt = aktivtSorteringsfeltIndeks() === sorteringsfeltIndex;
-
-        const nyRetning = endringPåAktivtFelt
-            ? nesteSorteringsretning(aktivRetning)
-            : Retning.Stigende;
-        const felt =
-            nyRetning === null
-                ? null
-                : Object.keys(KandidatlisteSorteringsfelt)[sorteringsfeltIndex];
+    const onSortChange = (sorteringsfelt: KandidatlisteSorteringsfelt) => {
+        const sorteringPåNyttFelt = aktivtSorteringsfelt !== sorteringsfelt;
+        const nyRetning = sorteringPåNyttFelt
+            ? Retning.Stigende
+            : nesteSorteringsretning(aktivRetning);
 
         dispatch({
             type: ListeoversiktActionType.SetSortering,
-            sortering: { sortField: felt, sortDirection: nyRetning },
+            sortering: { sortField: sorteringsfelt, sortDirection: nyRetning },
         });
     };
-    */
 
-    let direction: string | null = null;
-    if (aktivRetning === Retning.Stigende) {
-        direction = 'ascending';
-    } else if (aktivRetning === Retning.Synkende) {
-        direction = 'descending';
-    }
+    const sort = aktivtSorteringsfelt
+        ? {
+              orderBy: aktivtSorteringsfelt,
+              direction: aktivRetning === Retning.Stigende ? 'ascending' : 'descending',
+          }
+        : undefined;
 
-    const sort = {
-        orderBy: String(aktivtSorteringsfelt) ?? undefined,
-        direction,
-    };
-
-    return <Table sort={sort} className="kandidatlister-table"></Table>;
+    return (
+        <Table
+            sort={sort as SortState}
+            onSortChange={onSortChange}
+            className="kandidatlister-table"
+        >
+            {children}
+        </Table>
+    );
 };
 
 export default Kandidatlistetabell;
