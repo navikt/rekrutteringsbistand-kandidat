@@ -6,6 +6,7 @@ import { KandidatlisteSorteringsfelt } from './Kandidatlistesortering';
 import AppState from '../AppState';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { nesteSorteringsretning, Retning } from '../common/sorterbarKolonneheader/Retning';
+import { Table } from '@navikt/ds-react';
 
 const ListeHeader: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -43,7 +44,16 @@ const ListeHeader: FunctionComponent = () => {
     };
 
     return (
-        <div className="liste-header liste-rad-innhold">
+        <Table.Header className="liste-rad-innhold">
+            <Table.Row>
+                <Table.ColumnHeader
+                    sortable
+                    sortKey={KandidatlisteSorteringsfelt.OpprettetTidspunkt}
+                >
+                    Dato opprettet
+                </Table.ColumnHeader>
+            </Table.Row>
+
             <SorterbarKolonneheader
                 tekst="Dato opprettet"
                 sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.OpprettetTidspunkt)}
@@ -85,7 +95,7 @@ const ListeHeader: FunctionComponent = () => {
             <div className="kolonne-smal">
                 <Element>Meny</Element>
             </div>
-        </div>
+        </Table.Header>
     );
 };
 

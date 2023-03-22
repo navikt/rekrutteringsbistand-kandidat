@@ -16,8 +16,9 @@ import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
-import './Kandidatlisteoversikt.less';
 import { Heading } from '@navikt/ds-react';
+import Kandidatlistetabell from './Kandidatlistetabell';
+import './Kandidatlisteoversikt.less';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',
@@ -319,7 +320,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                                 totaltAntallKandidatlister === 1 ? '' : 'r'
                             }`}</Heading>
                         </div>
-                        <div className="kandidatlister-table">
+                        <Kandidatlistetabell>
                             <ListeHeader />
                             <Kandidatlistevisning
                                 kandidatlister={kandidatlister}
@@ -328,7 +329,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                                 slettKandidatliste={this.onVisSlettKandidatlisteModal}
                                 fetching={fetchingKandidatlister}
                             />
-                        </div>
+                        </Kandidatlistetabell>
                         {fetchingKandidatlister === Nettstatus.Suksess &&
                             totaltAntallKandidatlister > 0 && (
                                 <Paginering
