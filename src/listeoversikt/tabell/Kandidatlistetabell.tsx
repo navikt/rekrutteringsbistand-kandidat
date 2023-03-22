@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 import { useDispatch, useSelector } from 'react-redux';
-import AppState from '../AppState';
-import { nesteSorteringsretning, Retning } from '../common/sorterbarKolonneheader/Retning';
-import { KandidatlisteSorteringsfelt } from './Kandidatlistesortering';
-import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
+import AppState from '../../AppState';
+import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
+import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
+import { ListeoversiktActionType } from '../reducer/ListeoversiktAction';
 
 type Props = {
     children: ReactNode;

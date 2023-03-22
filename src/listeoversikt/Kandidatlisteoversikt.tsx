@@ -10,14 +10,14 @@ import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import Kandidatlistevisning from './Kandidatlistevisning';
-import ListeHeader from './ListeHeader';
+import TabellBody from './tabell/TabellBody';
+import TabellHeader from './tabell/TabellHeader';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
 import { Heading } from '@navikt/ds-react';
-import Kandidatlistetabell from './Kandidatlistetabell';
+import Kandidatlistetabell from './tabell/Kandidatlistetabell';
 import './Kandidatlisteoversikt.less';
 
 enum Modalvisning {
@@ -321,8 +321,8 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                             }`}</Heading>
                         </div>
                         <Kandidatlistetabell>
-                            <ListeHeader />
-                            <Kandidatlistevisning
+                            <TabellHeader />
+                            <TabellBody
                                 kandidatlister={kandidatlister}
                                 endreKandidatliste={this.onEndreClick}
                                 markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}

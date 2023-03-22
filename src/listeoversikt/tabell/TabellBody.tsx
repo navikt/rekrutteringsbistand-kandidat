@@ -2,9 +2,9 @@ import React, { FunctionComponent } from 'react';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Systemtittel } from 'nav-frontend-typografi';
 
-import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
-import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
-import { Nettstatus } from '../api/Nettressurs';
+import { KandidatlisterRad } from '../KandidatlisterRad/KandidatlisterRad';
+import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
+import { Nettstatus } from '../../api/Nettressurs';
 
 type Props = {
     fetching: Nettstatus;
@@ -14,7 +14,7 @@ type Props = {
     slettKandidatliste: (kandidatliste: KandidatlisteSammendrag) => void;
 };
 
-const Kandidatlistevisning: FunctionComponent<Props> = ({
+const TabellBody: FunctionComponent<Props> = ({
     fetching,
     kandidatlister,
     endreKandidatliste,
@@ -52,4 +52,4 @@ const Kandidatlistevisning: FunctionComponent<Props> = ({
     );
 };
 
-export default Kandidatlistevisning;
+export default TabellBody;

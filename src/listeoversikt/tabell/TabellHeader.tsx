@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { KandidatlisteSorteringsfelt } from './Kandidatlistesortering';
+import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { Table } from '@navikt/ds-react';
 
-const ListeHeader: FunctionComponent = () => (
+const TabellHeader: FunctionComponent = () => (
     <Table.Header className="liste-rad-innhold">
         <Table.Row>
             <Table.ColumnHeader sortable sortKey={KandidatlisteSorteringsfelt.OpprettetTidspunkt}>
@@ -24,4 +24,4 @@ const ListeHeader: FunctionComponent = () => (
     </Table.Header>
 );
 
-export default ListeHeader;
+export default TabellHeader;
