@@ -1,6 +1,6 @@
 import React, { FunctionComponent, MouseEvent } from 'react';
-import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
-import { KanSletteEnum } from '../Kandidatlisteoversikt';
+import { KandidatlisteSammendrag } from '../../../kandidatliste/domene/Kandidatliste';
+import { KanSletteEnum } from '../../Kandidatlisteoversikt';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
@@ -10,7 +10,7 @@ type Props = {
     toggleDisabledSlettknappAnker: (e: MouseEvent<HTMLElement>) => void;
 };
 
-export const KandidatlisterDropdown: FunctionComponent<Props> = ({
+const Dropdownmeny: FunctionComponent<Props> = ({
     kandidatliste,
     markerSomMinModal,
     slettKandidatliste,
@@ -56,4 +56,4 @@ export const KandidatlisterDropdown: FunctionComponent<Props> = ({
     );
 };
 
-export default KandidatlisterDropdown;
+export default Dropdownmeny;

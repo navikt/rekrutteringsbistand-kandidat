@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Systemtittel } from 'nav-frontend-typografi';
+import { BodyLong } from '@navikt/ds-react';
 
-import { KandidatlisterRad } from '../KandidatlisterRad/KandidatlisterRad';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
 import { Nettstatus } from '../../api/Nettressurs';
+import Sidelaster from '../../common/sidelaster/Sidelaster';
+import Rad from './rad/Rad';
+import css from './TabellBody.module.css';
 
 type Props = {
     fetching: Nettstatus;
@@ -22,15 +23,11 @@ const TabellBody: FunctionComponent<Props> = ({
     slettKandidatliste,
 }) => {
     if (fetching !== Nettstatus.Suksess) {
-        return (
-            <div className="hent-kandidatlister--spinner">
-                <NavFrontendSpinner type="L" />
-            </div>
-        );
+        return <Sidelaster />;
     } else if (kandidatlister.length === 0) {
         return (
-            <div className="liste-rad__tom">
-                <Systemtittel>Fant ingen kandidatlister som matcher søket ditt.</Systemtittel>
+            <div className={css.fantIngenKandidater}>
+                <BodyLong size="medium">Fant ingen kandidatlister som matcher søket ditt.</BodyLong>
             </div>
         );
     }
@@ -38,14 +35,14 @@ const TabellBody: FunctionComponent<Props> = ({
     return (
         <>
             {kandidatlister.map((kandidatliste) => (
-                <KandidatlisterRad
+                <Rad
+                    key={kandidatliste.kandidatlisteId}
                     kandidatlisteSammendrag={kandidatliste}
                     endreKandidatliste={endreKandidatliste}
                     markerKandidatlisteSomMin={markerKandidatlisteSomMin}
                     slettKandidatliste={() => {
                         slettKandidatliste(kandidatliste);
                     }}
-                    key={kandidatliste.kandidatlisteId}
                 />
             ))}
         </>

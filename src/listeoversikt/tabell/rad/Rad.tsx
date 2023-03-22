@@ -2,18 +2,24 @@ import React, { FunctionComponent, MouseEvent, ReactNode, useState } from 'react
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { formaterDato } from '../../utils/dateUtils';
-import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
-import MedPopover from '../../common/med-popover/MedPopover';
+import { formaterDato } from '../../../utils/dateUtils';
+import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
+import MedPopover from '../../../common/med-popover/MedPopover';
 import {
     erKobletTilStilling,
     KandidatlisteSammendrag,
-} from '../../kandidatliste/domene/Kandidatliste';
-import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
+} from '../../../kandidatliste/domene/Kandidatliste';
+import Dropdownmeny from './Dropdownmeny';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
-import { lenkeTilFinnKandidater, lenkeTilKandidatliste, lenkeTilStilling } from '../../app/paths';
-import './KandidatlisterRad.less';
+import {
+    lenkeTilFinnKandidater,
+    lenkeTilKandidatliste,
+    lenkeTilStilling,
+} from '../../../app/paths';
+import './Rad.less';
+import { Edit } from '@navikt/ds-icons';
+import { Flatknapp } from 'nav-frontend-knapper';
 
 export type FeilmeldingIMeny = {
     anker?: HTMLElement;
@@ -27,7 +33,7 @@ type Props = {
     slettKandidatliste: () => void;
 };
 
-export const KandidatlisterRad: FunctionComponent<Props> = ({
+const Rad: FunctionComponent<Props> = ({
     kandidatlisteSammendrag,
     endreKandidatliste,
     markerKandidatlisteSomMin,
@@ -59,19 +65,19 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
     };
 
     const lenkeTilStillingElement = (stillingId: string) => (
-        <Link to={lenkeTilStilling(stillingId, true)} className="edit-lenke">
-            <span className="Edit__icon" />
+        <Link to={lenkeTilStilling(stillingId, true)}>
+            <Edit />
         </Link>
     );
 
     const lenkeknappTilEndreUtenStilling = (
-        <Lenkeknapp
+        <Flatknapp
+            className="powerknapp"
             aria-label={`Endre kandidatlisten ${kandidatlisteSammendrag.tittel}`}
             onClick={() => endreKandidatliste(kandidatlisteSammendrag)}
-            className="Edit"
         >
-            <i className="Edit__icon" />
-        </Lenkeknapp>
+            <Edit />
+        </Flatknapp>
     );
 
     const visKanEndre = erKobletTilStilling(kandidatlisteSammendrag)
@@ -127,7 +133,7 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                 className="kolonne-smal-knapp kandidatlister-rad__popover"
                 onPopoverClick={onDropdownPopoverClick}
                 hjelpetekst={
-                    <KandidatlisterMenyDropdown
+                    <Dropdownmeny
                         kandidatliste={kandidatlisteSammendrag}
                         markerSomMinModal={markerKandidatlisteSomMin}
                         slettKandidatliste={slettKandidatliste}
@@ -168,3 +174,5 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
         </div>
     );
 };
+
+export default Rad;
