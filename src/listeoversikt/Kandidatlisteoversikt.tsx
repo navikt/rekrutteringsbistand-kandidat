@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Systemtittel } from 'nav-frontend-typografi';
 
 import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
@@ -18,6 +17,7 @@ import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
 import './Kandidatlisteoversikt.less';
+import { Heading } from '@navikt/ds-react';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',
@@ -311,13 +311,13 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                             onFilterChange={this.onFilterChange}
                         />
                         <div className="kandidatlister-table--top">
-                            <Systemtittel>{`${
+                            <Heading level="1" size="medium">{`${
                                 totaltAntallKandidatlister === undefined
                                     ? '0'
                                     : totaltAntallKandidatlister
                             } kandidatliste${
                                 totaltAntallKandidatlister === 1 ? '' : 'r'
-                            }`}</Systemtittel>
+                            }`}</Heading>
                         </div>
                         <div className="kandidatlister-table">
                             <ListeHeader />
