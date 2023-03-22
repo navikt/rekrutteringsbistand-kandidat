@@ -1,12 +1,13 @@
+import { Button } from '@navikt/ds-react';
 import React, { FunctionComponent, MouseEvent } from 'react';
 import { KandidatlisteSammendrag } from '../../../kandidatliste/domene/Kandidatliste';
 import { KanSletteEnum } from '../../Kandidatlisteoversikt';
+import css from './Dropdownmeny.module.css';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
     markerSomMinModal: (kandidatliste: KandidatlisteSammendrag) => void;
     slettKandidatliste: () => void;
-    toggleDisabledMarkerSomMinAnker: (e: MouseEvent<HTMLElement>) => void;
     toggleDisabledSlettknappAnker: (e: MouseEvent<HTMLElement>) => void;
 };
 
@@ -14,7 +15,6 @@ const Dropdownmeny: FunctionComponent<Props> = ({
     kandidatliste,
     markerSomMinModal,
     slettKandidatliste,
-    toggleDisabledMarkerSomMinAnker,
     toggleDisabledSlettknappAnker,
 }) => {
     const onMarkerClick = () => {
@@ -22,35 +22,19 @@ const Dropdownmeny: FunctionComponent<Props> = ({
     };
 
     return (
-        <div className="kandidatlister-meny">
-            {kandidatliste.kanEditere ? (
-                <div
-                    id="kandidatliste-meny-kan-ikke-markere-som-min"
-                    className="kandidatlister-rad__dropdown-valg"
-                    onClick={toggleDisabledMarkerSomMinAnker}
-                >
-                    Marker som min
-                </div>
-            ) : (
-                <button
-                    className="kandidatlister-rad__dropdown-valg-meny__valg"
-                    onClick={onMarkerClick}
-                >
-                    Marker som min
-                </button>
-            )}
-            {kandidatliste.kanSlette === KanSletteEnum.KAN_SLETTES ? (
-                <button className="kandidatlister-rad__dropdown-valg" onClick={slettKandidatliste}>
+        <div className={css.dropdown}>
+            <Button variant="secondary" onClick={onMarkerClick} disabled={kandidatliste.kanEditere}>
+                Marker som min
+            </Button>
+
+            {kandidatliste.kanSlette !== KanSletteEnum.KAN_SLETTES ? (
+                <Button variant="secondary" onClick={slettKandidatliste}>
                     Slett
-                </button>
+                </Button>
             ) : (
-                <div
-                    className="kandidatlister-rad__dropdown-valg"
-                    id="kandidatliste-meny-kan-ikke-slette"
-                    onClick={toggleDisabledSlettknappAnker}
-                >
+                <Button variant="secondary" disabled onClick={toggleDisabledSlettknappAnker}>
                     Slett
-                </div>
+                </Button>
             )}
         </div>
     );

@@ -10,7 +10,7 @@
             'filter'
             'liste'
             'under-liste';
-        grid-gap: 1rem;
+        gap: 1rem;
 
         margin: 0 auto;
         padding: 0 2rem;
@@ -21,34 +21,8 @@
     }
 
     .kandidatlister-table--top {
-        display: flex;
-        justify-content: space-between;
         grid-area: over-liste;
         margin-top: 2.5rem;
-
-        .kandidatlister-table--top__knapper {
-            border-radius: 0;
-            &:last-child {
-                margin-left: 4rem;
-            }
-            padding: 0;
-            border: none;
-            background: none;
-
-            &:hover {
-                border-bottom: 2px solid;
-            }
-        }
-
-        .knapp--aktiv {
-            .typo-element {
-                border-bottom: 2px solid;
-            }
-
-            &:hover {
-                border-bottom: none;
-            }
-        }
     }
 
     .kandidatlister-table {
@@ -76,8 +50,7 @@
             grid-template-columns: 13rem auto;
         }
 
-        .kandidatlister-wrapper,
-        .side-header__innhold {
+        .kandidatlister-wrapper {
             max-width: 99.5rem;
         }
     }
@@ -135,49 +108,4 @@
     .marker-som-min__avbryt {
         margin-left: 1rem;
     }
-}
-
-.kandidatlister-meny {
-    display: flex;
-    flex-direction: column;
-
-    button {
-        background: none;
-        border: none;
-        text-align: left;
-        cursor: pointer;
-        padding: 0.25rem 0;
-
-        &:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px @fokusFarge;
-        }
-
-        &:not(:disabled) {
-            color: @navBla;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-
-        &:disabled {
-            color: @navGra80;
-        }
-
-        &:not(:last-child) {
-            margin-bottom: 0.25rem;
-        }
-    }
-}
-
-.arrow-up {
-    position: absolute;
-    transform: rotate(45deg) translate(calc(5px), calc(65px));
-    width: 10px;
-    height: 10px;
-    background: @rekrutteringsbistandBla;
-    border-left: 1px solid @navGra20;
-    border-top: 1px solid @navGra20;
-    z-index: 1;
 }

@@ -36,26 +36,15 @@ const Rad: FunctionComponent<Props> = ({
     markerKandidatlisteSomMin,
     slettKandidatliste,
 }) => {
-    const [disabledMarkerSomMinAnker, setDisabledMarkerSomMinAnker] = useState<
-        HTMLElement | undefined
-    >(undefined);
     const [disabledSlettknappAnker, setDisabledSlettknappAnker] = useState<HTMLElement | undefined>(
         undefined
     );
-
-    const toggleDisabledMarkerSomMinAnker = (event: MouseEvent<HTMLElement>) => {
-        setDisabledMarkerSomMinAnker(disabledMarkerSomMinAnker ? undefined : event.currentTarget);
-    };
 
     const toggleDisabledSlettknappAnker = (event: MouseEvent<HTMLElement>) => {
         setDisabledSlettknappAnker(disabledSlettknappAnker ? undefined : event.currentTarget);
     };
 
     const onDropdownPopoverClick = () => {
-        if (disabledMarkerSomMinAnker) {
-            setDisabledMarkerSomMinAnker(undefined);
-        }
-
         if (disabledSlettknappAnker) {
             setDisabledSlettknappAnker(undefined);
         }
@@ -134,7 +123,6 @@ const Rad: FunctionComponent<Props> = ({
                             kandidatliste={kandidatlisteSammendrag}
                             markerSomMinModal={markerKandidatlisteSomMin}
                             slettKandidatliste={slettKandidatliste}
-                            toggleDisabledMarkerSomMinAnker={toggleDisabledMarkerSomMinAnker}
                             toggleDisabledSlettknappAnker={toggleDisabledSlettknappAnker}
                         />
                     }
@@ -146,17 +134,6 @@ const Rad: FunctionComponent<Props> = ({
                     />
                 </MedPopover>
             </Table.DataCell>
-            <Popover
-                ankerEl={disabledMarkerSomMinAnker}
-                orientering={PopoverOrientering.Venstre}
-                onRequestClose={() => {
-                    setDisabledMarkerSomMinAnker(undefined);
-                }}
-            >
-                <div className="kandidatlister-rad__feilmelding">
-                    Du eier allerede kandidatlisten
-                </div>
-            </Popover>
             <Popover
                 ankerEl={disabledSlettknappAnker}
                 orientering={PopoverOrientering.Venstre}
