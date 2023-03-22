@@ -27,9 +27,11 @@ const Kandidatlistetabell = ({ children }: Props) => {
             ? Retning.Stigende
             : nesteSorteringsretning(aktivRetning);
 
+        const nyttFelt = nyRetning === null ? null : sorteringsfelt;
+
         dispatch({
             type: ListeoversiktActionType.SetSortering,
-            sortering: { sortField: sorteringsfelt, sortDirection: nyRetning },
+            sortering: { sortField: nyttFelt, sortDirection: nyRetning },
         });
     };
 
