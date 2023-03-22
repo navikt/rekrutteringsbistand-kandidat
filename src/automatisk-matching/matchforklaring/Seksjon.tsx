@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Collapse, Expand } from '@navikt/ds-icons';
+import { ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
 import { tilProsent } from '../formatering';
 import './Seksjon.less';
 
@@ -25,8 +25,8 @@ export const Seksjon = ({
             <summary>
                 <h2>
                     <span className="matchforklaring-seksjon__ikon">
-                        <Expand className="matchforklaring-seksjon__ikon--ned" />
-                        <Collapse className="matchforklaring-seksjon__ikon--opp" />
+                        <ChevronDownIcon className="matchforklaring-seksjon__ikon--ned" />
+                        <ChevronUpIcon className="matchforklaring-seksjon__ikon--opp" />
                     </span>
                     {tittel}
                     {match ? <> (spacy: {tilProsent(match)})</> : ''}

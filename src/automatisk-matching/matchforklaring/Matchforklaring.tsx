@@ -4,7 +4,7 @@ import { Feilmelding } from 'nav-frontend-typografi';
 import useKandidatmatch from '../useKandidatmatch';
 import { booleanTilTekst, tilDato, tilProsent } from '../formatering';
 import Personalia from './Personalia';
-import { Back } from '@navikt/ds-icons';
+import { ChevronLeftIcon } from '@navikt/aksel-icons';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Matrise from './Matrise';
 import Seksjon from './Seksjon';
@@ -34,7 +34,7 @@ const Matchforklaring = () => {
     return (
         <div className="matchforklaring">
             <Link className="lenke" to={`/prototype/stilling/${stillingsId}`}>
-                <Back />
+                <ChevronLeftIcon />
                 Tilbake til oversikten
             </Link>
             <h1 className="blokk-l">

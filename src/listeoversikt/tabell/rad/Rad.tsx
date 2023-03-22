@@ -1,9 +1,7 @@
 import React, { FunctionComponent, MouseEvent, ReactNode, useState } from 'react';
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { formaterDato } from '../../../utils/dateUtils';
-import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import MedPopover from '../../../common/med-popover/MedPopover';
 import {
     erKobletTilStilling,
@@ -18,8 +16,8 @@ import {
     lenkeTilStilling,
 } from '../../../app/paths';
 import './Rad.less';
-import { Edit } from '@navikt/ds-icons';
-import { Flatknapp } from 'nav-frontend-knapper';
+import { PencilIcon, PersonPlusIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, Table } from '@navikt/ds-react';
 
 export type FeilmeldingIMeny = {
     anker?: HTMLElement;
@@ -66,18 +64,19 @@ const Rad: FunctionComponent<Props> = ({
 
     const lenkeTilStillingElement = (stillingId: string) => (
         <Link to={lenkeTilStilling(stillingId, true)}>
-            <Edit />
+            <PencilIcon />
         </Link>
     );
 
     const lenkeknappTilEndreUtenStilling = (
-        <Flatknapp
+        <Button
+            variant="tertiary"
             className="powerknapp"
             aria-label={`Endre kandidatlisten ${kandidatlisteSammendrag.tittel}`}
             onClick={() => endreKandidatliste(kandidatlisteSammendrag)}
         >
-            <Edit />
-        </Flatknapp>
+            <PencilIcon />
+        </Button>
     );
 
     const visKanEndre = erKobletTilStilling(kandidatlisteSammendrag)
@@ -86,67 +85,67 @@ const Rad: FunctionComponent<Props> = ({
 
     const visKanIkkeEndre = (
         <MedPopover hjelpetekst="Du kan ikke redigere en kandidatliste som ikke er din.">
-            <i className="EditDisabled__icon" />
+            <PencilIcon />
         </MedPopover>
     );
 
     return (
-        <div className="liste-rad liste-rad-innhold">
-            <div className="kolonne-middels kandidatlister-rad__sorterbar-kolonne">
-                <Normaltekst className="tekst">{`${formaterDato(
+        <Table.Row>
+            <Table.DataCell>
+                <BodyShort>{`${formaterDato(
                     kandidatlisteSammendrag.opprettetTidspunkt,
                     'numeric'
-                )}`}</Normaltekst>
-            </div>
-            <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne">
+                )}`}</BodyShort>
+            </Table.DataCell>
+            <Table.DataCell>
                 <Link
                     to={lenkeTilKandidatliste(kandidatlisteSammendrag.kandidatlisteId)}
-                    className="tekst lenke"
+                    className="navds-link"
                 >
                     {kandidatlisteSammendrag.tittel}
                 </Link>
-            </div>
-            <div className="kolonne-middels kandidatlister-rad__sorterbar-kolonne">
-                <Normaltekst className="tekst">
-                    {kandidatlisteSammendrag.antallKandidater}
-                </Normaltekst>
-            </div>
-            <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne__last">
-                <Normaltekst className="tekst">{`${kandidatlisteSammendrag.opprettetAv.navn} (${kandidatlisteSammendrag.opprettetAv.ident})`}</Normaltekst>
-            </div>
-            <div className="kolonne-middels__finn-kandidater">
+            </Table.DataCell>
+            <Table.DataCell>
+                <BodyShort>{kandidatlisteSammendrag.antallKandidater}</BodyShort>
+            </Table.DataCell>
+            <Table.DataCell>
+                <BodyShort>{`${kandidatlisteSammendrag.opprettetAv.navn} (${kandidatlisteSammendrag.opprettetAv.ident})`}</BodyShort>
+            </Table.DataCell>
+            <Table.DataCell>
                 <Link
-                    className="FinnKandidater"
+                    className="navds-link"
                     aria-label={`Finn kandidater til listen ${kandidatlisteSammendrag.tittel}`}
                     to={lenkeTilFinnKandidater(
                         kandidatlisteSammendrag.stillingId,
                         kandidatlisteSammendrag.kandidatlisteId
                     )}
                 >
-                    <i className="FinnKandidater__icon" />
+                    <PersonPlusIcon />
                 </Link>
-            </div>
-            <div className="kolonne-smal-knapp">
+            </Table.DataCell>
+            <Table.DataCell>
                 {kandidatlisteSammendrag.kanEditere ? visKanEndre : visKanIkkeEndre}
-            </div>
-            <MedPopover
-                className="kolonne-smal-knapp kandidatlister-rad__popover"
-                onPopoverClick={onDropdownPopoverClick}
-                hjelpetekst={
-                    <Dropdownmeny
-                        kandidatliste={kandidatlisteSammendrag}
-                        markerSomMinModal={markerKandidatlisteSomMin}
-                        slettKandidatliste={slettKandidatliste}
-                        toggleDisabledMarkerSomMinAnker={toggleDisabledMarkerSomMinAnker}
-                        toggleDisabledSlettknappAnker={toggleDisabledSlettknappAnker}
+            </Table.DataCell>
+            <Table.DataCell>
+                <MedPopover
+                    className="kolonne-smal-knapp kandidatlister-rad__popover"
+                    onPopoverClick={onDropdownPopoverClick}
+                    hjelpetekst={
+                        <Dropdownmeny
+                            kandidatliste={kandidatlisteSammendrag}
+                            markerSomMinModal={markerKandidatlisteSomMin}
+                            slettKandidatliste={slettKandidatliste}
+                            toggleDisabledMarkerSomMinAnker={toggleDisabledMarkerSomMinAnker}
+                            toggleDisabledSlettknappAnker={toggleDisabledSlettknappAnker}
+                        />
+                    }
+                >
+                    <Hamburgerknapp
+                        aria-label={`Meny for kandidatlisten ${kandidatlisteSammendrag.tittel}`}
+                        className="KandidatlisteMeny"
                     />
-                }
-            >
-                <Hamburgerknapp
-                    aria-label={`Meny for kandidatlisten ${kandidatlisteSammendrag.tittel}`}
-                    className="KandidatlisteMeny"
-                />
-            </MedPopover>
+                </MedPopover>
+            </Table.DataCell>
             <Popover
                 ankerEl={disabledMarkerSomMinAnker}
                 orientering={PopoverOrientering.Venstre}
@@ -171,7 +170,7 @@ const Rad: FunctionComponent<Props> = ({
                     />
                 </div>
             </Popover>
-        </div>
+        </Table.Row>
     );
 };
 

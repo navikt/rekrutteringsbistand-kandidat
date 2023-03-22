@@ -5,7 +5,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Kandidatfane, lenkeTilKandidatside, lenkeTilStilling } from '../app/paths';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import useKandidatmatch from './useKandidatmatch';
-import { Next } from '@navikt/ds-icons';
+import { ChevronRightIcon } from '@navikt/aksel-icons';
 import { Checkbox } from 'nav-frontend-skjema';
 import useKandidatlisteMedStillingsId from './useKandidatlisteMedStillingsId';
 import './AlleMatcher.less';
@@ -67,7 +67,7 @@ const AlleMatcher = () => {
         <div className="alle-matcher">
             <Link className="lenke" to={lenkeTilStilling(stillingsId)}>
                 Gå til stilling
-                <Next />
+                <ChevronRightIcon />
             </Link>
             <div className="blokk-xxs" />
             <Innholdstittel className="blokk-xxs">
@@ -115,7 +115,7 @@ const AlleMatcher = () => {
                                                     )}
                                                 >
                                                     Se matcheforklaring
-                                                    <Next />
+                                                    <ChevronRightIcon />
                                                 </Link>
                                             </>
                                         }

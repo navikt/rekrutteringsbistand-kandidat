@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
-import { Back, Next } from '@navikt/ds-icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 import css from './ForrigeNeste.module.css';
 
@@ -35,7 +35,7 @@ const ForrigeNeste: FunctionComponent<Props> = ({ kandidatnavigering, lenkeClass
         <div className={css.forrigeNeste}>
             {forrige && (
                 <Link className={forrigeCls} to={forrige || '#'}>
-                    <Back />
+                    <ChevronLeftIcon />
                     Forrige kandidat
                 </Link>
             )}
@@ -44,7 +44,7 @@ const ForrigeNeste: FunctionComponent<Props> = ({ kandidatnavigering, lenkeClass
             </BodyShort>
             <Link className={nesteCls} to={neste || '#'}>
                 Neste kandidat
-                <Next />
+                <ChevronRightIcon />
             </Link>
         </div>
     );

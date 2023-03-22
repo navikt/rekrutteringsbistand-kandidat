@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
-import { AddPeople } from '@navikt/ds-icons';
+import { PersonPlusIcon } from '@navikt/aksel-icons';
 
 import {
     lenkeTilAutomatiskMatching,
@@ -89,7 +89,7 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
                     ) : (
                         <Button
                             size="small"
-                            icon={<AddPeople aria-hidden />}
+                            icon={<PersonPlusIcon aria-hidden />}
                             onClick={() => setVisLagreKandidatModal(true)}
                         >
                             Lagre kandidat

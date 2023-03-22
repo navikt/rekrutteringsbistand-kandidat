@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { AddCircle } from '@navikt/ds-icons';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Flatknapp } from 'nav-frontend-knapper';
 
 type Props = {
@@ -14,7 +14,7 @@ const DelPåNyttKnapp: FunctionComponent<Props> = ({ onDelPåNyttClick }) => {
             kompakt
             mini
         >
-            <AddCircle />
+            <PlusCircleIcon />
             Del på nytt
         </Flatknapp>
     );

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import classNames from 'classnames';
-import { Link as LinkIcon } from '@navikt/ds-icons';
+import { LinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Detail, Table } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';

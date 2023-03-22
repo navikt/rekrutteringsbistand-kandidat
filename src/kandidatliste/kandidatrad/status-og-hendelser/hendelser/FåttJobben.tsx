@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { AddCircle, MinusCircle } from '@navikt/ds-icons';
+import { PlusCircleIcon, MinusCircleIcon } from '@navikt/aksel-icons';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
@@ -68,7 +68,7 @@ const FåttJobben: FunctionComponent<Props> = ({
                             onClick={onRegistrer}
                             className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
                         >
-                            <AddCircle />
+                            <PlusCircleIcon />
                             Registrer at kandidaten har fått jobb
                         </Flatknapp>
                     )}
@@ -99,7 +99,7 @@ const FåttJobben: FunctionComponent<Props> = ({
                             onClick={onFjernRegistrering}
                             className="endre-status-og-hendelser__registrer-hendelse"
                         >
-                            <MinusCircle />
+                            <MinusCircleIcon />
                             Fjern registreringen
                         </Flatknapp>
                     )}
