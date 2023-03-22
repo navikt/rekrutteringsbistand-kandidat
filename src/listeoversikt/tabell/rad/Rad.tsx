@@ -1,5 +1,4 @@
 import React, { FunctionComponent, MouseEvent, ReactNode, useState } from 'react';
-import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
 import { formaterDato } from '../../../utils/dateUtils';
 import MedPopover from '../../../common/med-popover/MedPopover';
@@ -16,7 +15,7 @@ import {
     lenkeTilStilling,
 } from '../../../app/paths';
 import './Rad.less';
-import { PencilIcon, PersonPlusIcon } from '@navikt/aksel-icons';
+import { PencilIcon, PersonPlusIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Table } from '@navikt/ds-react';
 
 export type FeilmeldingIMeny = {
@@ -140,9 +139,10 @@ const Rad: FunctionComponent<Props> = ({
                         />
                     }
                 >
-                    <Hamburgerknapp
+                    <Button
+                        icon={<MenuHamburgerIcon />}
+                        variant="tertiary"
                         aria-label={`Meny for kandidatlisten ${kandidatlisteSammendrag.tittel}`}
-                        className="KandidatlisteMeny"
                     />
                 </MedPopover>
             </Table.DataCell>
