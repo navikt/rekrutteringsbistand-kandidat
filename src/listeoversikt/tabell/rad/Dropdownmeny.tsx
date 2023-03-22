@@ -27,7 +27,7 @@ const Dropdownmeny: FunctionComponent<Props> = ({
                 Marker som min
             </Button>
 
-            {kandidatliste.kanSlette !== KanSletteEnum.KAN_SLETTES ? (
+            {kandidatliste.kanSlette === KanSletteEnum.KAN_SLETTES ? (
                 <Button variant="secondary" onClick={slettKandidatliste}>
                     Slett
                 </Button>
