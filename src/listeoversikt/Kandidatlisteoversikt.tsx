@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Systemtittel } from 'nav-frontend-typografi';
 
 import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
-import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
+import Filter from './filter/Filter';
 import Header from './header/Header';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
@@ -304,7 +304,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                         opprettListe={this.onOpprettClick}
                     />
                     <div className="kandidatlister-wrapper">
-                        <KandidatlisterFilter
+                        <Filter
                             kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
                             onVisMineKandidatlister={this.onVisMineKandidatlister}
                             onVisAlleKandidatlister={this.onVisAlleKandidatlister}
