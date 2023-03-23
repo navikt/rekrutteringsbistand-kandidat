@@ -19,7 +19,7 @@ import {
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
 import './SideHeader.less';
-import { Back } from '@navikt/ds-icons';
+import { ChevronLeftIcon } from '@navikt/aksel-icons';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -52,7 +52,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
             <div className="side-header__inner">
                 <div className="side-header__tilbake">
                     <Link className="navds-link" to={lenkeTilKandidatlisteoversikt}>
-                        <Back />
+                        <ChevronLeftIcon />
                         Til kandidatlister
                     </Link>
                 </div>

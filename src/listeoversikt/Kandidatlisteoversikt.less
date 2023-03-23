@@ -10,7 +10,7 @@
             'filter'
             'liste'
             'under-liste';
-        grid-gap: 1rem;
+        gap: 1rem;
 
         margin: 0 auto;
         padding: 0 2rem;
@@ -20,214 +20,14 @@
         grid-area: filter;
     }
 
-    .side-header {
-        background-color: @rekrutteringsbistandBla;
-        padding: 2.5rem 0rem;
-        border-bottom: 1px solid @navGra40;
-
-        .side-header__innhold {
-            margin: auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: center;
-
-            .header-child {
-                flex: 1;
-            }
-
-            .tittel-wrapper {
-                display: flex;
-                justify-content: center;
-                .kandidatlister__sok {
-                    position: relative;
-                    margin: auto;
-                    .skjemaelement__input {
-                        width: 640px;
-                        height: 3.5rem;
-                        padding: 1rem;
-                        border: 1px solid @navGra40;
-                    }
-                    .search-button {
-                        padding: 18px !important;
-                    }
-                }
-            }
-
-            .knapp-wrapper {
-                display: flex;
-                justify-content: space-between;
-                margin: auto;
-                .nullstill-sok__knapp {
-                    margin-left: 1rem;
-                }
-            }
-        }
-    }
-
-    // Dobbel selector for å overskrive styling fra nav-frontend
-    .kandidatlister__søkeknapp.knapp {
-        position: absolute;
-        right: 0;
-        height: 3.5rem;
-    }
-
     .kandidatlister-table--top {
-        display: flex;
-        justify-content: space-between;
         grid-area: over-liste;
         margin-top: 2.5rem;
-
-        .kandidatlister-table--top__knapper {
-            border-radius: 0;
-            &:last-child {
-                margin-left: 4rem;
-            }
-            padding: 0;
-            border: none;
-            background: none;
-
-            &:hover {
-                border-bottom: 2px solid;
-            }
-        }
-
-        .knapp--aktiv {
-            .typo-element {
-                border-bottom: 2px solid;
-            }
-
-            &:hover {
-                border-bottom: none;
-            }
-        }
     }
 
     .kandidatlister-table {
         grid-area: liste;
         margin-bottom: 2rem;
-
-        .liste-header {
-            border: 1px solid @navGra60;
-            height: 4rem;
-
-            .typo-element {
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
-
-        .hent-kandidatlister--spinner {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .liste-rad__tom {
-            display: flex;
-            justify-content: center;
-            margin-top: 4rem;
-        }
-
-        .liste-rad {
-            border: 1px solid @navGra40;
-            height: 4rem;
-            padding-left: 1rem;
-
-            .tekst {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .edit-lenke {
-                display: flex;
-                align-items: center;
-            }
-
-            .popover__pil {
-                background-color: @navLysBlaLighten80;
-            }
-        }
-
-        .liste-rad-innhold {
-            margin-bottom: 0.5rem;
-            border-radius: 4px;
-            background-color: white;
-            color: #3e3832;
-            min-width: 25rem;
-            display: flex;
-            justify-content: center;
-
-            .kolonne-smal {
-                margin: auto 0;
-                flex: 2;
-                min-width: 4rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                text-align: center;
-            }
-
-            .kolonne-smal-knapp {
-                height: 2.875rem;
-                border-left: 1px solid @navGra20;
-                display: flex;
-                margin: auto 0;
-                flex: 2;
-                min-width: 4rem;
-                justify-content: center;
-                align-items: center;
-
-                .Edit__icon {
-                    margin-left: 0;
-                }
-                .hjelpetekst {
-                    padding-left: 0;
-                    display: flex;
-
-                    .EditDisabled__icon {
-                        margin-right: 0;
-                    }
-                }
-            }
-
-            .kolonne-middels {
-                margin: auto 2rem auto 0;
-                flex: 3;
-                display: flex;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .kolonne-middels__finn-kandidater {
-                margin: auto 2rem auto 0;
-                flex: 3;
-                display: flex;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                justify-content: center;
-                max-width: 5rem;
-            }
-
-            .kolonne-bred {
-                margin: auto 0 auto 0;
-                flex: 9;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 15rem;
-            }
-
-            .sorterbar-kolonne-header {
-                padding-right: 2rem;
-                margin-right: 0;
-
-                &:first-of-type {
-                    padding-left: 1.5rem;
-                }
-
-                &:last-of-type {
-                    margin-right: 0.5rem;
-                }
-            }
-        }
     }
 
     .kandidatlister-table--bottom {
@@ -250,8 +50,7 @@
             grid-template-columns: 13rem auto;
         }
 
-        .kandidatlister-wrapper,
-        .side-header__innhold {
+        .kandidatlister-wrapper {
             max-width: 99.5rem;
         }
     }
@@ -309,49 +108,4 @@
     .marker-som-min__avbryt {
         margin-left: 1rem;
     }
-}
-
-.kandidatlister-meny {
-    display: flex;
-    flex-direction: column;
-
-    button {
-        background: none;
-        border: none;
-        text-align: left;
-        cursor: pointer;
-        padding: 0.25rem 0;
-
-        &:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px @fokusFarge;
-        }
-
-        &:not(:disabled) {
-            color: @navBla;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-
-        &:disabled {
-            color: @navGra80;
-        }
-
-        &:not(:last-child) {
-            margin-bottom: 0.25rem;
-        }
-    }
-}
-
-.arrow-up {
-    position: absolute;
-    transform: rotate(45deg) translate(calc(5px), calc(65px));
-    width: 10px;
-    height: 10px;
-    background: @rekrutteringsbistandBla;
-    border-left: 1px solid @navGra20;
-    border-top: 1px solid @navGra20;
-    z-index: 1;
 }

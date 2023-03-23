@@ -1,0 +1,21 @@
+.tabell {
+    --ac-table-row-zebra: white;
+}
+
+.fantIngenKandidater {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.fantIngenKandidater p {
+    font-size: 1.5rem;
+}
+
+.antallKandidater {
+    padding-right: 2rem;
+}
+
+.disabledValg {
+    color: var(--a-text-subtle);
+}

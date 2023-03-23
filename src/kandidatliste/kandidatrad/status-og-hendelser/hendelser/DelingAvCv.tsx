@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { AddCircle, MinusCircle } from '@navikt/ds-icons';
+import { PlusCircleIcon, MinusCircleIcon } from '@navikt/aksel-icons';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
@@ -140,7 +140,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                             onClick={onRegistrer}
                             className="endre-status-og-hendelser__registrer-hendelse"
                         >
-                            <AddCircle />
+                            <PlusCircleIcon />
                             Registrer manuelt
                         </Flatknapp>
                     )}
@@ -161,7 +161,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                             kompakt
                             mini
                         >
-                            <MinusCircle />
+                            <MinusCircleIcon />
                             Fjern registrering
                         </Flatknapp>
                     )}
@@ -182,7 +182,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                             kompakt
                             mini
                         >
-                            <MinusCircle />
+                            <MinusCircleIcon />
                             Slett CV-en hos arbeidsgiver
                         </Flatknapp>
                     )}

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useRef } from 'react';
-import { Close } from '@navikt/ds-icons';
+import { XMarkIcon } from '@navikt/aksel-icons';
 import { Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -122,7 +122,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                                 className="status-og-hendelser__lukk-popover-knapp"
                                 onClick={lukkPopover}
                             >
-                                <Close />
+                                <XMarkIcon />
                             </Knapp>
                         </div>
                     </Popover>

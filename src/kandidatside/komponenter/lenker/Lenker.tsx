@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Download } from '@navikt/ds-icons';
+import { ExternalLinkIcon, DownloadIcon } from '@navikt/aksel-icons';
 import { Link } from '@navikt/ds-react';
 
 import { sendEvent } from '../../../amplitude/amplitude';
@@ -23,7 +23,7 @@ const Lenker = ({ fødselsnummer, className }: Props) => {
                     onClick={() => sendEvent('cv_aktivitetsplan_lenke', 'klikk')}
                 >
                     Se aktivitetsplan
-                    <ExternalLink />
+                    <ExternalLinkIcon />
                 </Link>
                 <Link
                     target="_blank"
@@ -31,7 +31,7 @@ const Lenker = ({ fødselsnummer, className }: Props) => {
                     onClick={() => sendEvent('cv_last_ned', 'klikk')}
                 >
                     Last ned CV
-                    <Download />
+                    <DownloadIcon />
                 </Link>
             </div>
         </div>

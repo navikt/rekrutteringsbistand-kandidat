@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapse, Expand } from '@navikt/ds-icons';
+import { ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
 import { ErfaringPrototype } from '../Kandidatmatch';
 import { tilProsentpoeng } from '../formatering';
 
@@ -10,8 +10,8 @@ const Matchdetaljer = ({ erfaring }: { erfaring: ErfaringPrototype }) => {
     return (
         <details className="matchdetaljer">
             <summary>
-                <Expand className="matchdetaljer__ikon--ned" />
-                <Collapse className="matchdetaljer__ikon--opp" />
+                <ChevronDownIcon className="matchdetaljer__ikon--ned" />
+                <ChevronUpIcon className="matchdetaljer__ikon--opp" />
                 <span>Matchdetaljer</span>
             </summary>
             <div className="blokk-m">

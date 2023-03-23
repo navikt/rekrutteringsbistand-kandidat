@@ -3,7 +3,7 @@ import { sendEvent } from '../../amplitude/amplitude';
 import useMiljøvariabler from '../../common/useMiljøvariabler';
 import Informasjonspanel from '../Informasjonspanel';
 import { BodyLong, Link } from '@navikt/ds-react';
-import { ExternalLink } from '@navikt/ds-icons';
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import css from './Tilretteleggingsbehov.module.css';
 
 interface Props {
@@ -25,7 +25,7 @@ const Tilretteleggingsbehov = ({ fnr }: Props) => {
                     rel="noopener noreferrer"
                 >
                     Se behov for tilrettelegging.
-                    <ExternalLink aria-hidden />
+                    <ExternalLinkIcon aria-hidden />
                 </Link>
             </BodyLong>
         </Informasjonspanel>

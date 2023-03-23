@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useRef } from 'react';
-import { Close } from '@navikt/ds-icons';
+import { XMarkIcon } from '@navikt/aksel-icons';
 import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
@@ -95,7 +95,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                                 className="status-og-hendelser__lukk-popover-knapp"
                                 onClick={lukkPopover}
                             >
-                                <Close />
+                                <XMarkIcon />
                             </Knapp>
                         </>
                     )}

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, MouseEvent } from 'react';
-import { Eye } from '@navikt/ds-icons';
+import { Eye } from '@navikt/aksel-icons';
 import Lenkeknapp from '../../../../common/lenkeknapp/Lenkeknapp';
 
 type Props = {

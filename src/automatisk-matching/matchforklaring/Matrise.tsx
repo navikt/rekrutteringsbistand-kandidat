@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapse, Expand } from '@navikt/ds-icons';
+import { ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
 import { tilProsent } from '../formatering';
 import { ErfaringPrototype } from '../Kandidatmatch';
 import ForkortetMatrise from './ForkortetMatrise';
@@ -23,8 +23,8 @@ const Matrise = ({ erfaring, tittel, match }: Props) => {
         <details className="matchforklaring-matrise">
             <summary>
                 <h3>
-                    <Expand className="matchforklaring-matrise__down" />
-                    <Collapse className="matchforklaring-matrise__up" />
+                    <ChevronDownIcon className="matchforklaring-matrise__down" />
+                    <ChevronUpIcon className="matchforklaring-matrise__up" />
                     {match !== undefined && <span>({tilProsent(match)})</span>} {tittel}
                 </h3>
             </summary>

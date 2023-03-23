@@ -1,22 +1,23 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Systemtittel } from 'nav-frontend-typografi';
 
 import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
-import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
-import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
+import Filter from './filter/Filter';
+import Header from './header/Header';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import Kandidatlistevisning from './Kandidatlistevisning';
-import ListeHeader from './ListeHeader';
+import TabellBody from './tabell/TabellBody';
+import TabellHeader from './tabell/TabellHeader';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
+import { Heading } from '@navikt/ds-react';
+import Kandidatlistetabell from './tabell/Kandidatlistetabell';
 import './Kandidatlisteoversikt.less';
 
 enum Modalvisning {
@@ -141,8 +142,8 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         }
     };
 
-    onSøkeOrdChange = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setState({ søkeOrd: event.target.value });
+    onSøkeOrdChange = (value: string) => {
+        this.setState({ søkeOrd: value });
     };
 
     onSubmitSøkKandidatlister = (e) => {
@@ -296,7 +297,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                     innhold={successMelding}
                 />
                 <div className="Kandidatlister">
-                    <KandidatlisterSideHeader
+                    <Header
                         søkeOrd={søkeOrd}
                         onSøkeOrdChange={this.onSøkeOrdChange}
                         onSubmitSøkKandidatlister={this.onSubmitSøkKandidatlister}
@@ -304,31 +305,33 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                         opprettListe={this.onOpprettClick}
                     />
                     <div className="kandidatlister-wrapper">
-                        <KandidatlisterFilter
+                        <Filter
                             kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
                             onVisMineKandidatlister={this.onVisMineKandidatlister}
                             onVisAlleKandidatlister={this.onVisAlleKandidatlister}
                             onFilterChange={this.onFilterChange}
                         />
                         <div className="kandidatlister-table--top">
-                            <Systemtittel>{`${
+                            <Heading level="1" size="medium">{`${
                                 totaltAntallKandidatlister === undefined
                                     ? '0'
                                     : totaltAntallKandidatlister
                             } kandidatliste${
                                 totaltAntallKandidatlister === 1 ? '' : 'r'
-                            }`}</Systemtittel>
+                            }`}</Heading>
                         </div>
-                        <div className="kandidatlister-table">
-                            <ListeHeader />
-                            <Kandidatlistevisning
+                        <Kandidatlistetabell
+                            nettstatus={fetchingKandidatlister}
+                            kandidatlister={kandidatlister}
+                        >
+                            <TabellHeader />
+                            <TabellBody
                                 kandidatlister={kandidatlister}
                                 endreKandidatliste={this.onEndreClick}
                                 markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
                                 slettKandidatliste={this.onVisSlettKandidatlisteModal}
-                                fetching={fetchingKandidatlister}
                             />
-                        </div>
+                        </Kandidatlistetabell>
                         {fetchingKandidatlister === Nettstatus.Suksess &&
                             totaltAntallKandidatlister > 0 && (
                                 <Paginering

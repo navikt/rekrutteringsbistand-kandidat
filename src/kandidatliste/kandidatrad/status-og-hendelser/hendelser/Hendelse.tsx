@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { SuccessStroke } from '@navikt/ds-icons';
+import { CheckmarkIcon } from '@navikt/aksel-icons';
 import './Hendelse.less';
 
 export enum Hendelsesstatus {
@@ -44,7 +44,7 @@ const Hendelse: FunctionComponent<Props> = ({
         <li className={className}>
             <div className={ikonClassName}>
                 {status === Hendelsesstatus.Grønn && (
-                    <SuccessStroke className="hendelse__ikon-grafikk-grønn" />
+                    <CheckmarkIcon className="hendelse__ikon-grafikk-grønn" />
                 )}
                 {status === Hendelsesstatus.Oransje && (
                     <Element className="hendelse__ikon-grafikk-oransje">!</Element>

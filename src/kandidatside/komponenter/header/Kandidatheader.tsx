@@ -10,7 +10,7 @@ import Personalia from './Personalia';
 import css from './Kandidatheader.module.css';
 import Fødselsinfo from './Fødselsinfo';
 import { Link } from 'react-router-dom';
-import { Back } from '@navikt/ds-icons';
+import { ChevronLeftIcon } from '@navikt/aksel-icons';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 type Props = {
@@ -31,7 +31,7 @@ const Kandidatheader = ({ cv, tilbakelenke, tilbakelenkeTekst, kandidatnavigerin
             <nav className={css.navigasjon}>
                 <div className={css.column}>
                     <Link className="navds-link" {...tilbakelenke}>
-                        <Back />
+                        <ChevronLeftIcon />
                         {tilbakelenkeTekst}
                     </Link>
                     {kandidatnavigering && <ForrigeNeste kandidatnavigering={kandidatnavigering} />}
