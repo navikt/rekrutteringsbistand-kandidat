@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ChangeEvent } from 'react';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 import { connect } from 'react-redux';
@@ -9,31 +8,70 @@ import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER,
 } from '../../common/typeahead/enhetsregisterReducer';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { capitalizeEmployerName, capitalizeLocation } from '../../kandidatsøk/utils';
+import AppState from '../../AppState';
+import { Dispatch } from 'redux';
 
-export const tomKandidatlisteInfo = () => ({
-    tittel: '',
-    beskrivelse: '',
-    bedrift: undefined,
-});
+export type Kandidatlisteinfo = {
+    tittel: string;
+    beskrivelse: string | null;
+    organisasjonNavn: string | null;
+    organisasjonReferanse: string | null;
+};
 
-class OpprettKandidatlisteForm extends React.Component {
-    constructor(props) {
+type Suggestion = {
+    name: string;
+    orgnr: string;
+    location: {
+        address?: string;
+        postalCode?: string;
+        city?: string;
+    };
+};
+
+type Props = {
+    onSave: (info: Kandidatlisteinfo) => void;
+    resetStatusTilUnsaved: () => void;
+    info: Kandidatlisteinfo;
+    saving: boolean;
+    onAvbrytClick: () => void;
+    knappetekst: string;
+
+    suggestions: Suggestion[];
+    fetchTypeaheadSuggestions: (value: string) => void;
+    clearTypeaheadSuggestions: () => void;
+};
+
+class OpprettKandidatlisteForm extends React.Component<Props> {
+    textArea: HTMLTextAreaElement | null;
+    input: HTMLInputElement | null;
+    state: {
+        visValideringsfeilInput: boolean;
+        typeaheadValue: string;
+        kandidatlisteInfo: Kandidatlisteinfo & {
+            bedrift?: {
+                name: string;
+                orgnr: string;
+            };
+        };
+    };
+
+    constructor(props: Props) {
         super(props);
         this.state = {
             kandidatlisteInfo: {
-                ...props.kandidatlisteInfo,
+                ...props.info,
                 bedrift:
-                    props.kandidatlisteInfo.organisasjonNavn &&
-                    props.kandidatlisteInfo.organisasjonReferanse
+                    props.info.organisasjonNavn && props.info.organisasjonReferanse
                         ? {
-                              name: props.kandidatlisteInfo.organisasjonNavn,
-                              orgnr: props.kandidatlisteInfo.organisasjonReferanse,
+                              name: props.info.organisasjonNavn,
+                              orgnr: props.info.organisasjonReferanse,
                           }
                         : undefined,
             },
             visValideringsfeilInput: false,
-            typeaheadValue: props.kandidatlisteInfo.organisasjonNavn
-                ? this.capitalizeEmployerName(props.kandidatlisteInfo.organisasjonNavn)
+            typeaheadValue: props.info.organisasjonNavn
+                ? capitalizeEmployerName(props.info.organisasjonNavn)
                 : '',
         };
     }
@@ -42,7 +80,7 @@ class OpprettKandidatlisteForm extends React.Component {
         this.props.clearTypeaheadSuggestions();
     }
 
-    onTittelChange = (event) => {
+    onTittelChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
 
         this.setState({
@@ -58,7 +96,7 @@ class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    onBeskrivelseChange = (event) => {
+    onBeskrivelseChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = event.target;
 
         this.setState({
@@ -73,7 +111,7 @@ class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    onBedriftChange = (value) => {
+    onBedriftChange = (value: string) => {
         if (value !== '') {
             this.props.fetchTypeaheadSuggestions(value);
             this.setState({
@@ -95,7 +133,7 @@ class OpprettKandidatlisteForm extends React.Component {
         const bedrift = this.props.suggestions.find((s) => s.orgnr === value);
         if (bedrift) {
             this.setState({
-                typeaheadValue: bedrift ? this.capitalizeEmployerName(bedrift.name) : '',
+                typeaheadValue: bedrift ? capitalizeEmployerName(bedrift.name) : '',
                 kandidatlisteInfo: {
                     ...this.state.kandidatlisteInfo,
                     bedrift,
@@ -117,7 +155,7 @@ class OpprettKandidatlisteForm extends React.Component {
         const bedrift = this.lookUpEmployer(this.state.typeaheadValue);
         if (bedrift) {
             this.setState({
-                typeaheadValue: bedrift ? this.capitalizeEmployerName(bedrift.name) : '',
+                typeaheadValue: bedrift ? capitalizeEmployerName(bedrift.name) : '',
                 kandidatlisteInfo: {
                     ...this.state.kandidatlisteInfo,
                     bedrift,
@@ -126,8 +164,9 @@ class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    getEmployerSuggestionLabel = (suggestion) => {
+    getEmployerSuggestionLabel = (suggestion: Suggestion) => {
         let commaSeparate = [];
+
         if (suggestion.location) {
             if (suggestion.location.address) {
                 commaSeparate = [...commaSeparate, suggestion.location.address];
@@ -136,19 +175,18 @@ class OpprettKandidatlisteForm extends React.Component {
                 commaSeparate = [...commaSeparate, suggestion.location.postalCode];
             }
             if (suggestion.location.city) {
-                commaSeparate = [
-                    ...commaSeparate,
-                    this.capitalizeLocation(suggestion.location.city),
-                ];
+                commaSeparate = [...commaSeparate, capitalizeLocation(suggestion.location.city)];
             }
         }
+
         if (suggestion.orgnr) {
             const groupedOrgNumber = suggestion.orgnr.match(/.{1,3}/g).join(' ');
             commaSeparate = [...commaSeparate, `Virksomhetsnummer: ${groupedOrgNumber}`];
         }
+
         return (
             <div className="Employer__typeahead__item">
-                <Normaltekst>{this.capitalizeEmployerName(suggestion.name)}</Normaltekst>
+                <Normaltekst>{capitalizeEmployerName(suggestion.name)}</Normaltekst>
                 <Undertekst>{commaSeparate.join(', ')}</Undertekst>
             </div>
         );
@@ -160,69 +198,6 @@ class OpprettKandidatlisteForm extends React.Component {
                 employer.name.toLowerCase() === value.toLowerCase() ||
                 employer.orgnr === value.replace(/\s/g, '')
         );
-
-    capitalizeEmployerName = (text) => {
-        const separators = [' ', '-', '(', '/'];
-
-        const ignore = ['i', 'og', 'for', 'på', 'avd', 'av'];
-
-        const keep = ['as', 'ab', 'asa', 'ba', 'sa'];
-
-        if (text) {
-            let capitalized = text.toLowerCase();
-
-            for (let i = 0, len = separators.length; i < len; i += 1) {
-                const fragments = capitalized.split(separators[i]);
-                for (let j = 0, x = fragments.length; j < x; j += 1) {
-                    if (keep.includes(fragments[j])) {
-                        fragments[j] = fragments[j].toUpperCase();
-                    } else if (!ignore.includes(fragments[j])) {
-                        if (fragments[j][0] !== undefined) {
-                            fragments[j] = fragments[j][0].toUpperCase() + fragments[j].substr(1);
-                        }
-                    }
-                }
-                capitalized = fragments.join(separators[i]);
-            }
-
-            return capitalized;
-        }
-        return text;
-    };
-
-    capitalizeLocation = (text) => {
-        const separators = [
-            ' ', // NORDRE LAND skal bli Nordre Land
-            '-', // AUST-AGDER skal bli Aust-Agder
-            '(', // BØ (TELEMARK) skal bli Bø (Telemark)
-        ];
-
-        const ignore = [
-            'i',
-            'og', // MØRE OG ROMSDAL skal bli Møre og Romsdal
-        ];
-
-        if (text) {
-            try {
-                let capitalized = text.toLowerCase();
-
-                for (let i = 0, len = separators.length; i < len; i += 1) {
-                    const fragments = capitalized.split(separators[i]);
-                    for (let j = 0, x = fragments.length; j < x; j += 1) {
-                        if (fragments[j] && !ignore.includes(fragments[j])) {
-                            fragments[j] = fragments[j][0].toUpperCase() + fragments[j].substr(1);
-                        }
-                    }
-                    capitalized = fragments.join(separators[i]);
-                }
-
-                return capitalized;
-            } catch (e) {
-                return text;
-            }
-        }
-        return text;
-    };
 
     validateAndSave = () => {
         if (this.validerTittel() && this.validerBeskrivelse()) {
@@ -239,10 +214,10 @@ class OpprettKandidatlisteForm extends React.Component {
                 {
                     visValideringsfeilInput: true,
                 },
-                () => this.input.focus()
+                () => this.input?.focus()
             );
         } else if (!this.validerBeskrivelse()) {
-            this.textArea.focus();
+            this.textArea?.focus();
         }
     };
 
@@ -253,15 +228,13 @@ class OpprettKandidatlisteForm extends React.Component {
         this.state.kandidatlisteInfo.beskrivelse.length <= 1000;
 
     render() {
-        const { saving, knappTekst, suggestions } = this.props;
+        const { saving, knappetekst, suggestions } = this.props;
         const { bedrift } = this.state.kandidatlisteInfo;
         const location = bedrift ? bedrift.location : undefined;
+
         return (
             <SkjemaGruppe>
                 <div className="OpprettKandidatlisteForm">
-                    <div className="OpprettKandidatlisteForm__input">
-                        <Normaltekst>* felter som må fylles ut</Normaltekst>
-                    </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Input
                             className="skjemaelement--pink"
@@ -299,8 +272,8 @@ class OpprettKandidatlisteForm extends React.Component {
                         />
                         {bedrift && location && (
                             <Undertekst className="OpprettKandidatlisteForm__bedrift">
-                                {this.capitalizeEmployerName(bedrift.name)}, {location.address},{' '}
-                                {location.postalCode} {this.capitalizeLocation(location.city)}
+                                {capitalizeEmployerName(bedrift.name)}, {location.address},{' '}
+                                {location.postalCode} {capitalizeLocation(location.city)}
                             </Undertekst>
                         )}
                     </div>
@@ -309,7 +282,7 @@ class OpprettKandidatlisteForm extends React.Component {
                             id="kandidatliste-beskrivelse-input"
                             textareaClass="OpprettKandidatlisteForm__input__textarea skjemaelement--pink"
                             label="Beskrivelse"
-                            value={this.state.kandidatlisteInfo.beskrivelse}
+                            value={this.state.kandidatlisteInfo.beskrivelse ?? ''}
                             maxLength={1000}
                             feil={
                                 this.state.kandidatlisteInfo.beskrivelse &&
@@ -329,7 +302,7 @@ class OpprettKandidatlisteForm extends React.Component {
                         spinner={saving}
                         disabled={saving}
                     >
-                        {knappTekst}
+                        {knappetekst}
                     </Hovedknapp>
                     <Flatknapp
                         className="knapp--avbryt"
@@ -344,40 +317,12 @@ class OpprettKandidatlisteForm extends React.Component {
     }
 }
 
-OpprettKandidatlisteForm.defaultProps = {
-    saving: false,
-    resetStatusTilUnsaved: undefined,
-    knappTekst: 'Lagre',
-    bedrift: undefined,
-};
-
-OpprettKandidatlisteForm.propTypes = {
-    onSave: PropTypes.func.isRequired,
-    resetStatusTilUnsaved: PropTypes.func,
-    kandidatlisteInfo: PropTypes.shape({
-        tittel: PropTypes.string,
-        beskrivelse: PropTypes.string,
-        organisasjonNavn: PropTypes.string,
-        organisasjonReferanse: PropTypes.string,
-    }).isRequired,
-    saving: PropTypes.bool,
-    onAvbrytClick: PropTypes.func.isRequired,
-    knappTekst: PropTypes.string,
-    suggestions: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string,
-        })
-    ).isRequired,
-    fetchTypeaheadSuggestions: PropTypes.func.isRequired,
-    clearTypeaheadSuggestions: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
     suggestions: state.enhetsregister.suggestions,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    fetchTypeaheadSuggestions: (value) =>
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    fetchTypeaheadSuggestions: (value: string) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER, value }),
     clearTypeaheadSuggestions: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER }),

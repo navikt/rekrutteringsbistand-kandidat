@@ -1,7 +1,3 @@
-.tabell {
-    --ac-table-row-zebra: white;
-}
-
 .fantIngenKandidater {
     display: flex;
     justify-content: center;

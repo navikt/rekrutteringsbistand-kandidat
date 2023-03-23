@@ -34,6 +34,7 @@ import KandidatlisteAction, {
     HentForespørslerOmDelingAvCvAction,
     SendForespørselOmDelingAvCv,
     SlettCvFraArbeidsgiversKandidatliste,
+    OppdaterKandidatlisteAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -74,10 +75,11 @@ const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
 
 function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
     try {
-        yield postKandidatliste(action.kandidatlisteInfo);
+        yield postKandidatliste(action.info);
+
         yield put({
             type: KandidatlisteActionType.OpprettKandidatlisteSuccess,
-            tittel: action.kandidatlisteInfo.tittel,
+            tittel: action.info.tittel,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -414,12 +416,13 @@ function* angreArkiveringForKandidater(action: AngreArkiveringAction) {
     }
 }
 
-function* oppdaterKandidatliste(action) {
+function* oppdaterKandidatliste(action: OppdaterKandidatlisteAction) {
     try {
-        yield putOppdaterKandidatliste(action.kandidatlisteInfo);
+        yield putOppdaterKandidatliste(action.info);
+
         yield put({
             type: KandidatlisteActionType.OppdaterKandidatlisteSuccess,
-            tittel: action.kandidatlisteInfo.tittel,
+            tittel: action.info.tittel,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {

@@ -1,68 +1,57 @@
 import React, { FunctionComponent } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { Systemtittel } from 'nav-frontend-typografi';
+import { useDispatch, useSelector } from 'react-redux';
+import { Heading } from '@navikt/ds-react';
 
-import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
+import Kandidatlisteskjema, { Kandidatlisteinfo } from './Kandidatlisteskjema';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import { Nettstatus } from '../../api/Nettressurs';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
-import KandidatlisteAction, {
-    Kandidatlisteinfo,
-} from '../../kandidatliste/reducer/KandidatlisteAction';
 import AppState from '../../AppState';
-
-const kandidatlisteInfoWrapper = (kandidatliste: KandidatlisteSammendrag) => ({
-    ...kandidatliste,
-    tittel: kandidatliste.tittel || '',
-    beskrivelse: kandidatliste.beskrivelse || '',
-});
+import css from './Modal.module.css';
 
 type Props = {
-    oppdaterKandidatliste: (info: Kandidatlisteinfo) => void;
-    resetStatusTilUnsaved: () => void;
-    lagreStatus: Nettstatus;
-    onAvbrytClick: () => void;
     kandidatliste: KandidatlisteSammendrag;
+    onAvbrytClick: () => void;
 };
 
-const EndreModal: FunctionComponent<Props> = ({
-    oppdaterKandidatliste,
-    resetStatusTilUnsaved,
-    lagreStatus,
-    kandidatliste,
-    onAvbrytClick,
-}) => (
-    <ModalMedKandidatScope
-        open
-        onClose={onAvbrytClick}
-        aria-label="Endre kandidatlisten"
-        className="modal--opprett-kandidatliste__veileder"
-    >
-        <Systemtittel className="blokk-s">Endre kandidatlisten</Systemtittel>
-        <OpprettKandidatlisteForm
-            onSave={oppdaterKandidatliste}
-            resetStatusTilUnsaved={resetStatusTilUnsaved}
-            kandidatlisteInfo={kandidatlisteInfoWrapper(kandidatliste)}
-            saving={lagreStatus === Nettstatus.SenderInn}
-            onAvbrytClick={onAvbrytClick}
-            knappTekst="Lagre endringer"
-        />
-    </ModalMedKandidatScope>
-);
+const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onAvbrytClick }) => {
+    const dispatch = useDispatch();
+    const { lagreStatus } = useSelector((state: AppState) => state.kandidatliste.opprett);
 
-const mapStateToProps = (state: AppState) => ({
-    lagreStatus: state.kandidatliste.opprett.lagreStatus,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
-    oppdaterKandidatliste: (kandidatlisteInfo: Kandidatlisteinfo) => {
-        dispatch({ type: KandidatlisteActionType.OppdaterKandidatliste, kandidatlisteInfo });
-    },
-    resetStatusTilUnsaved: () => {
+    const oppdaterKandidatliste = (info: Kandidatlisteinfo) => {
+        dispatch({ type: KandidatlisteActionType.OppdaterKandidatliste, info });
+    };
+    const resetStatusTilUnsaved = () => {
         dispatch({ type: KandidatlisteActionType.ResetLagreStatus });
-    },
-});
+    };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EndreModal);
+    const kandidatlisteinfo = {
+        ...kandidatliste,
+        tittel: kandidatliste.tittel || '',
+        beskrivelse: kandidatliste.beskrivelse || '',
+    };
+
+    return (
+        <ModalMedKandidatScope
+            open
+            onClose={onAvbrytClick}
+            aria-label="Endre kandidatlisten"
+            className="modal--opprett-kandidatliste__veileder"
+        >
+            <Heading level="2" size="medium" className={css.tittel}>
+                Endre kandidatlisten
+            </Heading>
+            <Kandidatlisteskjema
+                info={kandidatlisteinfo}
+                onSave={oppdaterKandidatliste}
+                resetStatusTilUnsaved={resetStatusTilUnsaved}
+                saving={lagreStatus === Nettstatus.SenderInn}
+                onAvbrytClick={onAvbrytClick}
+                knappetekst="Lagre endringer"
+            />
+        </ModalMedKandidatScope>
+    );
+};
+
+export default EndreModal;

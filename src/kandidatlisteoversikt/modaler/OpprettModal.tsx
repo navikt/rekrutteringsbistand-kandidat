@@ -1,61 +1,57 @@
 import React, { FunctionComponent } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { Systemtittel } from 'nav-frontend-typografi';
-import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { Heading } from '@navikt/ds-react';
+
+import { Nettstatus } from '../../api/Nettressurs';
+import AppState from '../../AppState';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
-import { Nettstatus } from '../../api/Nettressurs';
-import KandidatlisteAction, {
-    Kandidatlisteinfo,
-} from '../../kandidatliste/reducer/KandidatlisteAction';
-import AppState from '../../AppState';
+import Kandidatlisteskjema, { Kandidatlisteinfo } from './Kandidatlisteskjema';
+import css from './Modal.module.css';
 
-type Props = ConnectedProps & {
+type Props = {
     onAvbrytClick: () => void;
 };
 
-type ConnectedProps = {
-    opprettKandidatliste: (info: Kandidatlisteinfo) => void;
-    resetStatusTilUnsaved: () => void;
-    lagreStatus: Nettstatus;
+const OpprettModal: FunctionComponent<Props> = ({ onAvbrytClick }) => {
+    const dispatch = useDispatch();
+    const { lagreStatus } = useSelector((state: AppState) => state.kandidatliste.opprett);
+
+    const opprettKandidatliste = (info: Kandidatlisteinfo) => {
+        dispatch({ type: KandidatlisteActionType.OpprettKandidatliste, info });
+    };
+
+    const resetStatusTilUnsaved = () => {
+        dispatch({ type: KandidatlisteActionType.ResetLagreStatus });
+    };
+
+    const intiellKandidatinfo: Kandidatlisteinfo = {
+        tittel: '',
+        beskrivelse: '',
+        organisasjonNavn: null,
+        organisasjonReferanse: null,
+    };
+
+    return (
+        <ModalMedKandidatScope
+            open
+            aria-label="Opprett kandidatliste"
+            onClose={onAvbrytClick}
+            className="modal--opprett-kandidatliste__veileder"
+        >
+            <Heading level="2" size="medium" className={css.tittel}>
+                Opprett kandidatliste
+            </Heading>
+            <Kandidatlisteskjema
+                info={intiellKandidatinfo}
+                onSave={opprettKandidatliste}
+                resetStatusTilUnsaved={resetStatusTilUnsaved}
+                saving={lagreStatus === Nettstatus.SenderInn}
+                onAvbrytClick={onAvbrytClick}
+                knappetekst="Opprett"
+            />
+        </ModalMedKandidatScope>
+    );
 };
 
-const OpprettModal: FunctionComponent<Props> = ({
-    opprettKandidatliste,
-    resetStatusTilUnsaved,
-    lagreStatus,
-    onAvbrytClick,
-}) => (
-    <ModalMedKandidatScope
-        open
-        aria-label="Opprett kandidatliste"
-        onClose={onAvbrytClick}
-        className="modal--opprett-kandidatliste__veileder"
-    >
-        <Systemtittel className="blokk-s">Opprett kandidatliste</Systemtittel>
-        <OpprettKandidatlisteForm
-            onSave={opprettKandidatliste}
-            resetStatusTilUnsaved={resetStatusTilUnsaved}
-            kandidatlisteInfo={tomKandidatlisteInfo()}
-            saving={lagreStatus === Nettstatus.SenderInn}
-            onAvbrytClick={onAvbrytClick}
-            knappTekst="Opprett"
-        />
-    </ModalMedKandidatScope>
-);
-
-const mapStateToProps = (state: AppState) => ({
-    lagreStatus: state.kandidatliste.opprett.lagreStatus,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
-    opprettKandidatliste: (kandidatlisteInfo: Kandidatlisteinfo) => {
-        dispatch({ type: KandidatlisteActionType.OpprettKandidatliste, kandidatlisteInfo });
-    },
-    resetStatusTilUnsaved: () => {
-        dispatch({ type: KandidatlisteActionType.ResetLagreStatus });
-    },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(OpprettModal);
+export default OpprettModal;

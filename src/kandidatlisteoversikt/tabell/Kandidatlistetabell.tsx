@@ -51,10 +51,10 @@ const Kandidatlistetabell = ({ nettstatus, kandidatlister, className, children }
         : undefined;
 
     if (nettstatus !== Nettstatus.Suksess) {
-        return <Sidelaster className="kandidatlister-table" />;
+        return <Sidelaster className={className} />;
     } else if (kandidatlister.length === 0) {
         return (
-            <div className={classNames('kandidatlister-table', css.fantIngenKandidater)}>
+            <div className={classNames(className, css.fantIngenKandidater)}>
                 <BodyLong size="medium">Fant ingen kandidatlister som matcher søket ditt.</BodyLong>
             </div>
         );
@@ -66,7 +66,7 @@ const Kandidatlistetabell = ({ nettstatus, kandidatlister, className, children }
             size="medium"
             sort={sort as SortState}
             onSortChange={onSortChange}
-            className={classNames(css.tabell, className)}
+            className={classNames(className)}
         >
             {children}
         </Table>

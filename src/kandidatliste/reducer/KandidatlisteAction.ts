@@ -14,6 +14,7 @@ import {
     FormidlingAvUsynligKandidatOutboundDto,
     KandidatOutboundDto,
 } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { Kandidatlisteinfo } from '../../kandidatlisteoversikt/modaler/Kandidatlisteskjema';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
@@ -49,15 +50,9 @@ export interface NullstillKandidatlisteAction {
     type: KandidatlisteActionType.NullstillKandidatliste;
 }
 
-export type Kandidatlisteinfo = {
-    tittel: string;
-    beskrivelse?: string;
-    bedrift?: any;
-};
-
 export interface OpprettKandidatlisteAction {
     type: KandidatlisteActionType.OpprettKandidatliste;
-    kandidatlisteInfo: Kandidatlisteinfo;
+    info: Kandidatlisteinfo;
 }
 
 export interface OpprettKandidatlisteSuccessAction {
@@ -71,6 +66,7 @@ export interface OpprettKandidatlisteFailureAction {
 
 export interface OppdaterKandidatlisteAction {
     type: KandidatlisteActionType.OppdaterKandidatliste;
+    info: Kandidatlisteinfo;
 }
 
 export interface OppdaterKandidatlisteSuccessAction {
