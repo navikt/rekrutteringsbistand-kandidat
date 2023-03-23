@@ -1,16 +1,22 @@
 import React, { ReactNode } from 'react';
-import { SortState, Table } from '@navikt/ds-react';
+import { BodyLong, SortState, Table } from '@navikt/ds-react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../../AppState';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { ListeoversiktActionType } from '../reducer/ListeoversiktAction';
+import { Nettstatus } from '../../api/Nettressurs';
+import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
+import Sidelaster from '../../common/sidelaster/Sidelaster';
+import css from './Kandidatlistetabell.module.css';
 
 type Props = {
+    nettstatus: Nettstatus;
+    kandidatlister: KandidatlisteSammendrag[];
     children: ReactNode;
 };
 
-const Kandidatlistetabell = ({ children }: Props) => {
+const Kandidatlistetabell = ({ nettstatus, kandidatlister, children }: Props) => {
     const dispatch = useDispatch();
 
     const aktivtSorteringsfelt = useSelector(
@@ -41,6 +47,16 @@ const Kandidatlistetabell = ({ children }: Props) => {
               direction: aktivRetning === Retning.Stigende ? 'ascending' : 'descending',
           }
         : undefined;
+
+    if (nettstatus !== Nettstatus.Suksess) {
+        return <Sidelaster />;
+    } else if (kandidatlister.length === 0) {
+        return (
+            <div className={css.fantIngenKandidater}>
+                <BodyLong size="medium">Fant ingen kandidatlister som matcher søket ditt.</BodyLong>
+            </div>
+        );
+    }
 
     return (
         <Table

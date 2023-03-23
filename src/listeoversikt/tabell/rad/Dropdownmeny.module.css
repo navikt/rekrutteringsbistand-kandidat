@@ -1,5 +1,3 @@
-.dropdown {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+.disabledValg {
+    color: var(--a-text-subtle);
 }

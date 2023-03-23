@@ -1,4 +1,5 @@
-.fantIngenKandidater {
+.fantIngenKandidater,
+.lasterInnKandidater {
     display: flex;
     justify-content: center;
     margin-top: 4rem;

@@ -320,14 +320,16 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                                 totaltAntallKandidatlister === 1 ? '' : 'r'
                             }`}</Heading>
                         </div>
-                        <Kandidatlistetabell>
+                        <Kandidatlistetabell
+                            nettstatus={fetchingKandidatlister}
+                            kandidatlister={kandidatlister}
+                        >
                             <TabellHeader />
                             <TabellBody
                                 kandidatlister={kandidatlister}
                                 endreKandidatliste={this.onEndreClick}
                                 markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
                                 slettKandidatliste={this.onVisSlettKandidatlisteModal}
-                                fetching={fetchingKandidatlister}
                             />
                         </Kandidatlistetabell>
                         {fetchingKandidatlister === Nettstatus.Suksess &&

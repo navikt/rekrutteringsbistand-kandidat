@@ -1,22 +1,22 @@
-import React, { FunctionComponent, MouseEvent, ReactNode, useState } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+
 import { formaterDato } from '../../../utils/dateUtils';
-import MedPopover from '../../../common/med-popover/MedPopover';
 import {
     erKobletTilStilling,
     KandidatlisteSammendrag,
 } from '../../../kandidatliste/domene/Kandidatliste';
 import Dropdownmeny from './Dropdownmeny';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
 import {
     lenkeTilFinnKandidater,
     lenkeTilKandidatliste,
     lenkeTilStilling,
 } from '../../../app/paths';
-import './Rad.less';
 import { PencilIcon, PersonPlusIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Table } from '@navikt/ds-react';
+import { BodyShort, Button, Table, Tooltip } from '@navikt/ds-react';
+import { Dropdown } from '@navikt/ds-react-internal';
+import dropdownmenyCss from './Dropdownmeny.module.css';
+import './Rad.less';
 
 export type FeilmeldingIMeny = {
     anker?: HTMLElement;
@@ -36,47 +36,6 @@ const Rad: FunctionComponent<Props> = ({
     markerKandidatlisteSomMin,
     slettKandidatliste,
 }) => {
-    const [disabledSlettknappAnker, setDisabledSlettknappAnker] = useState<HTMLElement | undefined>(
-        undefined
-    );
-
-    const toggleDisabledSlettknappAnker = (event: MouseEvent<HTMLElement>) => {
-        setDisabledSlettknappAnker(disabledSlettknappAnker ? undefined : event.currentTarget);
-    };
-
-    const onDropdownPopoverClick = () => {
-        if (disabledSlettknappAnker) {
-            setDisabledSlettknappAnker(undefined);
-        }
-    };
-
-    const lenkeTilStillingElement = (stillingId: string) => (
-        <Link to={lenkeTilStilling(stillingId, true)}>
-            <PencilIcon />
-        </Link>
-    );
-
-    const lenkeknappTilEndreUtenStilling = (
-        <Button
-            variant="tertiary"
-            className="powerknapp"
-            aria-label={`Endre kandidatlisten ${kandidatlisteSammendrag.tittel}`}
-            onClick={() => endreKandidatliste(kandidatlisteSammendrag)}
-        >
-            <PencilIcon />
-        </Button>
-    );
-
-    const visKanEndre = erKobletTilStilling(kandidatlisteSammendrag)
-        ? lenkeTilStillingElement(kandidatlisteSammendrag.stillingId!)
-        : lenkeknappTilEndreUtenStilling;
-
-    const visKanIkkeEndre = (
-        <MedPopover hjelpetekst="Du kan ikke redigere en kandidatliste som ikke er din.">
-            <PencilIcon />
-        </MedPopover>
-    );
-
     return (
         <Table.Row>
             <Table.DataCell>
@@ -101,52 +60,60 @@ const Rad: FunctionComponent<Props> = ({
             </Table.DataCell>
             <Table.DataCell>
                 <Link
-                    className="navds-link"
-                    aria-label={`Finn kandidater til listen ${kandidatlisteSammendrag.tittel}`}
+                    aria-label={`Finn kandidater til listen «${kandidatlisteSammendrag.tittel}»`}
                     to={lenkeTilFinnKandidater(
                         kandidatlisteSammendrag.stillingId,
                         kandidatlisteSammendrag.kandidatlisteId
                     )}
                 >
-                    <PersonPlusIcon />
+                    <Button variant="tertiary" as="div" icon={<PersonPlusIcon />} />
                 </Link>
             </Table.DataCell>
             <Table.DataCell>
-                {kandidatlisteSammendrag.kanEditere ? visKanEndre : visKanIkkeEndre}
+                {kandidatlisteSammendrag.kanEditere && (
+                    <>
+                        {erKobletTilStilling(kandidatlisteSammendrag) ? (
+                            <Link to={lenkeTilStilling(kandidatlisteSammendrag.stillingId!)}>
+                                <Button variant="tertiary" as="div" icon={<PencilIcon />} />
+                            </Link>
+                        ) : (
+                            <Button
+                                variant="tertiary"
+                                aria-label={`Endre kandidatlisten «${kandidatlisteSammendrag.tittel}»`}
+                                onClick={() => endreKandidatliste(kandidatlisteSammendrag)}
+                                icon={<PencilIcon />}
+                            />
+                        )}
+                    </>
+                )}
+
+                {!kandidatlisteSammendrag.kanEditere && (
+                    <Tooltip content="Du kan ikke redigere en kandidatliste som ikke er din.">
+                        <Button
+                            variant="tertiary"
+                            className={dropdownmenyCss.disabledValg}
+                            icon={<PencilIcon />}
+                        />
+                    </Tooltip>
+                )}
             </Table.DataCell>
             <Table.DataCell>
-                <MedPopover
-                    className="kolonne-smal-knapp kandidatlister-rad__popover"
-                    onPopoverClick={onDropdownPopoverClick}
-                    hjelpetekst={
-                        <Dropdownmeny
-                            kandidatliste={kandidatlisteSammendrag}
-                            markerSomMinModal={markerKandidatlisteSomMin}
-                            slettKandidatliste={slettKandidatliste}
-                            toggleDisabledSlettknappAnker={toggleDisabledSlettknappAnker}
-                        />
-                    }
-                >
+                <Dropdown closeOnSelect={false}>
                     <Button
-                        icon={<MenuHamburgerIcon />}
+                        as={Dropdown.Toggle}
                         variant="tertiary"
+                        icon={<MenuHamburgerIcon />}
                         aria-label={`Meny for kandidatlisten ${kandidatlisteSammendrag.tittel}`}
                     />
-                </MedPopover>
+                    <Dropdown.Menu placement="left">
+                        <Dropdownmeny
+                            kandidatliste={kandidatlisteSammendrag}
+                            onMarkerSomMin={markerKandidatlisteSomMin}
+                            onSlett={slettKandidatliste}
+                        />
+                    </Dropdown.Menu>
+                </Dropdown>
             </Table.DataCell>
-            <Popover
-                ankerEl={disabledSlettknappAnker}
-                orientering={PopoverOrientering.Venstre}
-                onRequestClose={() => {
-                    setDisabledSlettknappAnker(undefined);
-                }}
-            >
-                <div className="kandidatlister-rad__feilmelding">
-                    <ÅrsakTilAtListenIkkeKanSlettes
-                        kandidatlisteSammendrag={kandidatlisteSammendrag}
-                    />
-                </div>
-            </Popover>
         </Table.Row>
     );
 };
