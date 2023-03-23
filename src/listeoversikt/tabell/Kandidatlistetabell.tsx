@@ -9,6 +9,7 @@ import { Nettstatus } from '../../api/Nettressurs';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
 import Sidelaster from '../../common/sidelaster/Sidelaster';
 import css from './Kandidatlistetabell.module.css';
+import classNames from 'classnames';
 
 type Props = {
     nettstatus: Nettstatus;
@@ -61,9 +62,10 @@ const Kandidatlistetabell = ({ nettstatus, kandidatlister, children }: Props) =>
     return (
         <Table
             zebraStripes
+            size="medium"
             sort={sort as SortState}
             onSortChange={onSortChange}
-            className="kandidatlister-table"
+            className={classNames(css.tabell, 'kandidatlister-table')}
         >
             {children}
         </Table>

@@ -1,6 +1,7 @@
+import { Table } from '@navikt/ds-react';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
-import Rad from './rad/Rad';
+import Rad from './Rad';
 
 type Props = {
     kandidatlister: KandidatlisteSammendrag[];
@@ -16,7 +17,7 @@ const TabellBody: FunctionComponent<Props> = ({
     slettKandidatliste,
 }) => {
     return (
-        <>
+        <Table.Body>
             {kandidatlister.map((kandidatliste) => (
                 <Rad
                     key={kandidatliste.kandidatlisteId}
@@ -28,7 +29,7 @@ const TabellBody: FunctionComponent<Props> = ({
                     }}
                 />
             ))}
-        </>
+        </Table.Body>
     );
 };
 

@@ -1,21 +1,17 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
-import { formaterDato } from '../../../utils/dateUtils';
+import { formaterDato } from '../../utils/dateUtils';
 import {
     erKobletTilStilling,
     KandidatlisteSammendrag,
-} from '../../../kandidatliste/domene/Kandidatliste';
+} from '../../kandidatliste/domene/Kandidatliste';
 import Dropdownmeny from './Dropdownmeny';
-import {
-    lenkeTilFinnKandidater,
-    lenkeTilKandidatliste,
-    lenkeTilStilling,
-} from '../../../app/paths';
+import { lenkeTilFinnKandidater, lenkeTilKandidatliste, lenkeTilStilling } from '../../app/paths';
 import { PencilIcon, PersonPlusIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Table, Tooltip } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
-import dropdownmenyCss from './Dropdownmeny.module.css';
+import css from './Kandidatlistetabell.module.css';
 
 export type FeilmeldingIMeny = {
     anker?: HTMLElement;
@@ -36,7 +32,7 @@ const Rad: FunctionComponent<Props> = ({
     slettKandidatliste,
 }) => {
     return (
-        <Table.Row>
+        <Table.Row shadeOnHover={false} className={css.rad}>
             <Table.DataCell>
                 <BodyShort>{`${formaterDato(
                     kandidatlisteSammendrag.opprettetTidspunkt,
@@ -90,7 +86,7 @@ const Rad: FunctionComponent<Props> = ({
                     <Tooltip content="Du kan ikke redigere en kandidatliste som ikke er din.">
                         <Button
                             variant="tertiary"
-                            className={dropdownmenyCss.disabledValg}
+                            className={css.disabledValg}
                             icon={<PencilIcon />}
                         />
                     </Tooltip>

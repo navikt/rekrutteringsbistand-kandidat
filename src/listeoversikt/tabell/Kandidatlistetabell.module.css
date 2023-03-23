@@ -1,6 +1,14 @@
+.tabell {
+    --ac-table-row-zebra: white;
+}
+
 .fantIngenKandidater,
 .lasterInnKandidater {
     display: flex;
     justify-content: center;
     margin-top: 4rem;
+}
+
+.disabledValg {
+    color: var(--a-text-subtle);
 }
