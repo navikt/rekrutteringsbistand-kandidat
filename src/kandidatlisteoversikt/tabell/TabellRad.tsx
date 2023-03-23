@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import { BodyShort, Button, Table } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 import { Link } from 'react-router-dom';
-import { PersonPlusIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
+import { PersonPlusIcon, MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
 
 import { formaterDato } from '../../utils/dateUtils';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
@@ -73,10 +73,10 @@ const TabellRad: FunctionComponent<Props> = ({
                     <Button
                         as={Dropdown.Toggle}
                         variant="tertiary"
-                        icon={<MenuHamburgerIcon />}
+                        icon={<MenuElipsisHorizontalCircleIcon />}
                         aria-label={`Meny for kandidatlisten ${kandidatlisteSammendrag.tittel}`}
                     />
-                    <Dropdown.Menu placement="left">
+                    <Dropdown.Menu>
                         <Dropdownmeny
                             kandidatliste={kandidatlisteSammendrag}
                             onMarkerSomMin={markerKandidatlisteSomMin}

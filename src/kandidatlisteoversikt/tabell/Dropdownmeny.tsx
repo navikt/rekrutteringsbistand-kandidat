@@ -21,8 +21,6 @@ const Dropdownmeny: FunctionComponent<Props> = ({ kandidatliste, onMarkerSomMin,
 
     return (
         <Dropdown.Menu.GroupedList>
-            <Dropdown.Menu.GroupedList.Heading>Handlinger</Dropdown.Menu.GroupedList.Heading>
-
             {kanMarkereSomMin ? (
                 <Dropdown.Menu.GroupedList.Item onClick={handleMarkerSomMinClick}>
                     Marker som min

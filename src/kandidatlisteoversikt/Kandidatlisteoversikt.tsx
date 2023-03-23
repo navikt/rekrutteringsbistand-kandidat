@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
@@ -17,9 +18,8 @@ import OpprettModal from './modaler/OpprettModal';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
 import { Heading, Pagination } from '@navikt/ds-react';
 import Kandidatlistetabell from './tabell/Kandidatlistetabell';
-import './Kandidatlisteoversikt.less';
 import css from './Kandidatlisteoversikt.module.css';
-import classNames from 'classnames';
+import './Kandidatlisteoversikt.less';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',
@@ -292,56 +292,49 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                     type="suksess"
                     innhold={successMelding}
                 />
-                <div className="Kandidatlister">
-                    <Header
-                        søkeOrd={søkeOrd}
-                        onSøkeOrdChange={this.onSøkeOrdChange}
-                        onSubmitSøkKandidatlister={this.onSubmitSøkKandidatlister}
-                        nullstillSøk={this.onNullstillSøkClick}
-                        opprettListe={this.onOpprettClick}
+                <Header
+                    søkeOrd={søkeOrd}
+                    onSøkeOrdChange={this.onSøkeOrdChange}
+                    onSubmitSøkKandidatlister={this.onSubmitSøkKandidatlister}
+                    nullstillSøk={this.onNullstillSøkClick}
+                    opprettListe={this.onOpprettClick}
+                />
+                <div className={css.wrapper}>
+                    <Filter
+                        className={css.filter}
+                        kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                        onVisMineKandidatlister={this.onVisMineKandidatlister}
+                        onVisAlleKandidatlister={this.onVisAlleKandidatlister}
+                        onFilterChange={this.onFilterChange}
                     />
-                    <div className="kandidatlister-wrapper">
-                        <Filter
-                            kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                            onVisMineKandidatlister={this.onVisMineKandidatlister}
-                            onVisAlleKandidatlister={this.onVisAlleKandidatlister}
-                            onFilterChange={this.onFilterChange}
-                        />
-                        <div className="kandidatlister-table--top">
-                            <Heading level="1" size="medium">{`${
-                                totaltAntallKandidatlister === undefined
-                                    ? '0'
-                                    : totaltAntallKandidatlister
-                            } kandidatliste${
-                                totaltAntallKandidatlister === 1 ? '' : 'r'
-                            }`}</Heading>
-                        </div>
-                        <Kandidatlistetabell
-                            nettstatus={fetchingKandidatlister}
-                            kandidatlister={kandidatlister}
-                        >
-                            <TabellHeader />
-                            <TabellBody
-                                kandidatlister={kandidatlister}
-                                endreKandidatliste={this.onEndreClick}
-                                markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
-                                slettKandidatliste={this.onVisSlettKandidatlisteModal}
-                            />
-                        </Kandidatlistetabell>
-                        {fetchingKandidatlister === Nettstatus.Suksess && (
-                            <Pagination
-                                className={classNames(
-                                    'kandidatlister-table--bottom',
-                                    css.paginering
-                                )}
-                                page={kandidatlisterSokeKriterier.pagenumber + 1}
-                                onPageChange={this.onPageChange}
-                                count={Math.ceil(
-                                    totaltAntallKandidatlister / PAGINERING_BATCH_SIZE
-                                )}
-                            />
-                        )}
+                    <div className={css.antallKandidatlister}>
+                        <Heading level="1" size="medium">{`${
+                            totaltAntallKandidatlister === undefined
+                                ? '0'
+                                : totaltAntallKandidatlister
+                        } kandidatliste${totaltAntallKandidatlister === 1 ? '' : 'r'}`}</Heading>
                     </div>
+                    <Kandidatlistetabell
+                        className={css.tabell}
+                        nettstatus={fetchingKandidatlister}
+                        kandidatlister={kandidatlister}
+                    >
+                        <TabellHeader />
+                        <TabellBody
+                            kandidatlister={kandidatlister}
+                            endreKandidatliste={this.onEndreClick}
+                            markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
+                            slettKandidatliste={this.onVisSlettKandidatlisteModal}
+                        />
+                    </Kandidatlistetabell>
+                    {fetchingKandidatlister === Nettstatus.Suksess && (
+                        <Pagination
+                            className={classNames(css.underTabell, css.paginering)}
+                            page={kandidatlisterSokeKriterier.pagenumber + 1}
+                            onPageChange={this.onPageChange}
+                            count={Math.ceil(totaltAntallKandidatlister / PAGINERING_BATCH_SIZE)}
+                        />
+                    )}
                 </div>
             </div>
         );

@@ -28,7 +28,7 @@ const TabellHeader: FunctionComponent = () => (
                 Rediger
             </Table.HeaderCell>
             <Table.HeaderCell scope="col" align="center">
-                Meny
+                Handlinger
             </Table.HeaderCell>
         </Table.Row>
     </Table.Header>
