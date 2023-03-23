@@ -16,7 +16,6 @@ import { PencilIcon, PersonPlusIcon, MenuHamburgerIcon } from '@navikt/aksel-ico
 import { BodyShort, Button, Table, Tooltip } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 import dropdownmenyCss from './Dropdownmeny.module.css';
-import './Rad.less';
 
 export type FeilmeldingIMeny = {
     anker?: HTMLElement;

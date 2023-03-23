@@ -60,6 +60,7 @@ const Kandidatlistetabell = ({ nettstatus, kandidatlister, children }: Props) =>
 
     return (
         <Table
+            zebraStripes
             sort={sort as SortState}
             onSortChange={onSortChange}
             className="kandidatlister-table"
