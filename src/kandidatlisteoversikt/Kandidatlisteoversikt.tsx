@@ -18,6 +18,8 @@ import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
 import { Heading, Pagination } from '@navikt/ds-react';
 import Kandidatlistetabell from './tabell/Kandidatlistetabell';
 import './Kandidatlisteoversikt.less';
+import css from './Kandidatlisteoversikt.module.css';
+import classNames from 'classnames';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',
@@ -328,7 +330,10 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                         </Kandidatlistetabell>
                         {fetchingKandidatlister === Nettstatus.Suksess && (
                             <Pagination
-                                className="kandidatlister-table--bottom"
+                                className={classNames(
+                                    'kandidatlister-table--bottom',
+                                    css.paginering
+                                )}
                                 page={kandidatlisterSokeKriterier.pagenumber + 1}
                                 onPageChange={this.onPageChange}
                                 count={Math.ceil(
