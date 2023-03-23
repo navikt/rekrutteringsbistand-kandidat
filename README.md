@@ -56,7 +56,7 @@ endringene må man restarte webpack-serveren.
 ## For Nav-ansatte
 
 * Dette Git-repositoriet eies
-  av [Team tiltak og inkludering (TOI) i Produktområde arbeidsgiver](https://teamkatalog.nais.adeo.no/team/0150fd7c-df30-43ee-944e-b152d74c64d6)
+  av [Team Toi i Produktområde arbeidsgiver](https://teamkatalog.nav.no/team/76f378c5-eb35-42db-9f4d-0e8197be0131)
   .
 * Slack-kanaler:
     * [#arbeidsgiver-toi-dev](https://nav-it.slack.com/archives/C02HTU8DBSR)
