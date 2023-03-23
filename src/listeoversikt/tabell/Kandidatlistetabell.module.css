@@ -2,11 +2,14 @@
     --ac-table-row-zebra: white;
 }
 
-.fantIngenKandidater,
-.lasterInnKandidater {
+.fantIngenKandidater {
     display: flex;
     justify-content: center;
     margin-top: 4rem;
+}
+
+.fantIngenKandidater p {
+    font-size: 1.5rem;
 }
 
 .disabledValg {

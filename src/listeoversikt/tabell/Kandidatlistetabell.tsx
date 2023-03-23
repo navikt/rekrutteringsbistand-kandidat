@@ -50,10 +50,10 @@ const Kandidatlistetabell = ({ nettstatus, kandidatlister, children }: Props) =>
         : undefined;
 
     if (nettstatus !== Nettstatus.Suksess) {
-        return <Sidelaster />;
+        return <Sidelaster className="kandidatlister-table" />;
     } else if (kandidatlister.length === 0) {
         return (
-            <div className={css.fantIngenKandidater}>
+            <div className={classNames('kandidatlister-table', css.fantIngenKandidater)}>
                 <BodyLong size="medium">Fant ingen kandidatlister som matcher søket ditt.</BodyLong>
             </div>
         );
