@@ -19,6 +19,7 @@ type Props = {
     onVisMineKandidatlister: () => void;
     onVisAlleKandidatlister: () => void;
     onFilterChange: (verdi: string) => void;
+    className?: string;
 };
 
 const Filter = ({
@@ -26,6 +27,7 @@ const Filter = ({
     onVisMineKandidatlister,
     onVisAlleKandidatlister,
     onFilterChange,
+    className,
 }: Props) => {
     const [utenStilling, setUtenStilling] = useState<boolean>(
         kandidatlisterSokeKriterier.type === Stillingsfilter.UtenStilling
@@ -67,7 +69,7 @@ const Filter = ({
     if (medStilling) stillingsfilter.push(Stillingsfilter.MedStilling);
 
     return (
-        <Accordion className="kandidatlister-filter">
+        <Accordion className={className}>
             <Accordion.Item defaultOpen>
                 <Accordion.Header>Kandidatlister</Accordion.Header>
                 <Accordion.Content className={css.innhold}>

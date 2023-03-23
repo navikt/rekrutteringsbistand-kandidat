@@ -14,10 +14,11 @@ import classNames from 'classnames';
 type Props = {
     nettstatus: Nettstatus;
     kandidatlister: KandidatlisteSammendrag[];
+    className?: string;
     children: ReactNode;
 };
 
-const Kandidatlistetabell = ({ nettstatus, kandidatlister, children }: Props) => {
+const Kandidatlistetabell = ({ nettstatus, kandidatlister, className, children }: Props) => {
     const dispatch = useDispatch();
 
     const aktivtSorteringsfelt = useSelector(
@@ -65,7 +66,7 @@ const Kandidatlistetabell = ({ nettstatus, kandidatlister, children }: Props) =>
             size="medium"
             sort={sort as SortState}
             onSortChange={onSortChange}
-            className={classNames(css.tabell, 'kandidatlister-table')}
+            className={classNames(css.tabell, className)}
         >
             {children}
         </Table>

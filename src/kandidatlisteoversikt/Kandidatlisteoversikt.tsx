@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
@@ -14,10 +15,10 @@ import TabellBody from './tabell/TabellBody';
 import TabellHeader from './tabell/TabellHeader';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
-import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
-import { Heading } from '@navikt/ds-react';
+import { Heading, Pagination } from '@navikt/ds-react';
 import Kandidatlistetabell from './tabell/Kandidatlistetabell';
+import css from './Kandidatlisteoversikt.module.css';
 import './Kandidatlisteoversikt.less';
 
 enum Modalvisning {
@@ -226,20 +227,15 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         }
     };
 
-    onHentKandidatlisterForrigeSide = () => {
-        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
+    onPageChange = (nyttSidenummer: number) => {
+        const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
         this.props.hentKandidatlister(
             query,
             type,
             kunEgne,
-            Math.max(pagenumber - 1, 0),
+            nyttSidenummer - 1,
             PAGINERING_BATCH_SIZE
         );
-    };
-
-    onHentKandidatlisterNesteSide = () => {
-        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, type, kunEgne, pagenumber + 1, PAGINERING_BATCH_SIZE);
     };
 
     visSuccessMelding = (melding: string) => {
@@ -296,52 +292,49 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                     type="suksess"
                     innhold={successMelding}
                 />
-                <div className="Kandidatlister">
-                    <Header
-                        søkeOrd={søkeOrd}
-                        onSøkeOrdChange={this.onSøkeOrdChange}
-                        onSubmitSøkKandidatlister={this.onSubmitSøkKandidatlister}
-                        nullstillSøk={this.onNullstillSøkClick}
-                        opprettListe={this.onOpprettClick}
+                <Header
+                    søkeOrd={søkeOrd}
+                    onSøkeOrdChange={this.onSøkeOrdChange}
+                    onSubmitSøkKandidatlister={this.onSubmitSøkKandidatlister}
+                    nullstillSøk={this.onNullstillSøkClick}
+                    opprettListe={this.onOpprettClick}
+                />
+                <div className={css.wrapper}>
+                    <Filter
+                        className={css.filter}
+                        kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                        onVisMineKandidatlister={this.onVisMineKandidatlister}
+                        onVisAlleKandidatlister={this.onVisAlleKandidatlister}
+                        onFilterChange={this.onFilterChange}
                     />
-                    <div className="kandidatlister-wrapper">
-                        <Filter
-                            kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                            onVisMineKandidatlister={this.onVisMineKandidatlister}
-                            onVisAlleKandidatlister={this.onVisAlleKandidatlister}
-                            onFilterChange={this.onFilterChange}
-                        />
-                        <div className="kandidatlister-table--top">
-                            <Heading level="1" size="medium">{`${
-                                totaltAntallKandidatlister === undefined
-                                    ? '0'
-                                    : totaltAntallKandidatlister
-                            } kandidatliste${
-                                totaltAntallKandidatlister === 1 ? '' : 'r'
-                            }`}</Heading>
-                        </div>
-                        <Kandidatlistetabell
-                            nettstatus={fetchingKandidatlister}
-                            kandidatlister={kandidatlister}
-                        >
-                            <TabellHeader />
-                            <TabellBody
-                                kandidatlister={kandidatlister}
-                                endreKandidatliste={this.onEndreClick}
-                                markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
-                                slettKandidatliste={this.onVisSlettKandidatlisteModal}
-                            />
-                        </Kandidatlistetabell>
-                        {fetchingKandidatlister === Nettstatus.Suksess &&
-                            totaltAntallKandidatlister > 0 && (
-                                <Paginering
-                                    kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                                    totaltAntallKandidatlister={totaltAntallKandidatlister}
-                                    forrigeSide={this.onHentKandidatlisterForrigeSide}
-                                    nesteSide={this.onHentKandidatlisterNesteSide}
-                                />
-                            )}
+                    <div className={css.antallKandidatlister}>
+                        <Heading level="1" size="medium">{`${
+                            totaltAntallKandidatlister === undefined
+                                ? '0'
+                                : totaltAntallKandidatlister
+                        } kandidatliste${totaltAntallKandidatlister === 1 ? '' : 'r'}`}</Heading>
                     </div>
+                    <Kandidatlistetabell
+                        className={css.tabell}
+                        nettstatus={fetchingKandidatlister}
+                        kandidatlister={kandidatlister}
+                    >
+                        <TabellHeader />
+                        <TabellBody
+                            kandidatlister={kandidatlister}
+                            endreKandidatliste={this.onEndreClick}
+                            markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
+                            slettKandidatliste={this.onVisSlettKandidatlisteModal}
+                        />
+                    </Kandidatlistetabell>
+                    {fetchingKandidatlister === Nettstatus.Suksess && (
+                        <Pagination
+                            className={classNames(css.underTabell, css.paginering)}
+                            page={kandidatlisterSokeKriterier.pagenumber + 1}
+                            onPageChange={this.onPageChange}
+                            count={Math.ceil(totaltAntallKandidatlister / PAGINERING_BATCH_SIZE)}
+                        />
+                    )}
                 </div>
             </div>
         );
