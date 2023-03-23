@@ -25,7 +25,7 @@ type Props = {
     slettKandidatliste: () => void;
 };
 
-const Rad: FunctionComponent<Props> = ({
+const TabellRad: FunctionComponent<Props> = ({
     kandidatlisteSammendrag,
     endreKandidatliste,
     markerKandidatlisteSomMin,
@@ -113,4 +113,4 @@ const Rad: FunctionComponent<Props> = ({
     );
 };
 
-export default Rad;
+export default TabellRad;
