@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Heading } from '@navikt/ds-react';
+import React, { FunctionComponent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { ErrorMessage, Heading } from '@navikt/ds-react';
 
-import Kandidatlisteskjema, { Kandidatlisteinfo } from './Kandidatlisteskjema';
-import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
-import { Nettstatus } from '../../api/Nettressurs';
+import { feil, Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
-import AppState from '../../AppState';
+import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
+import { endreKandidatliste } from '../../api/api';
+import Kandidatlisteskjema, { KandidatlisteDto } from './Kandidatlisteskjema';
+import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import css from './Modal.module.css';
 
 type Props = {
@@ -17,19 +17,32 @@ type Props = {
 
 const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
     const dispatch = useDispatch();
-    const { lagreStatus } = useSelector((state: AppState) => state.kandidatliste.opprett);
+    const [status, setStatus] = useState<Nettressurs<KandidatlisteDto>>({
+        kind: Nettstatus.IkkeLastet,
+    });
 
-    const oppdaterKandidatliste = (info: Kandidatlisteinfo) => {
-        dispatch({ type: KandidatlisteActionType.OppdaterKandidatliste, info });
-    };
-    const resetStatusTilUnsaved = () => {
-        dispatch({ type: KandidatlisteActionType.ResetLagreStatus });
-    };
+    const oppdaterKandidatliste = async (kandidatlisteDto: KandidatlisteDto) => {
+        setStatus({ kind: Nettstatus.SenderInn });
 
-    const kandidatlisteinfo = {
-        ...kandidatliste,
-        tittel: kandidatliste.tittel || '',
-        beskrivelse: kandidatliste.beskrivelse || '',
+        try {
+            await endreKandidatliste(kandidatliste.kandidatlisteId, kandidatlisteDto);
+
+            dispatch<VarslingAction>({
+                type: VarslingActionType.VisVarsling,
+                innhold: `Endret er lagret for kandidatliste «${kandidatlisteDto.tittel}»`,
+            });
+
+            setStatus({ kind: Nettstatus.Suksess, data: kandidatlisteDto });
+
+            onClose();
+        } catch (e) {
+            setStatus(
+                feil({
+                    message: 'Klarte ikke å opprette kandidatliste',
+                    status: e.status,
+                })
+            );
+        }
     };
 
     return (
@@ -43,13 +56,13 @@ const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
                 Endre kandidatlisten
             </Heading>
             <Kandidatlisteskjema
-                info={kandidatlisteinfo}
+                kandidatliste={kandidatliste}
                 onSave={oppdaterKandidatliste}
-                resetStatusTilUnsaved={resetStatusTilUnsaved}
-                saving={lagreStatus === Nettstatus.SenderInn}
                 onClose={onClose}
+                saving={status.kind === Nettstatus.SenderInn}
                 knappetekst="Lagre endringer"
             />
+            {status.kind === Nettstatus.Feil && <ErrorMessage>{status.error.message}</ErrorMessage>}
         </ModalMedKandidatScope>
     );
 };

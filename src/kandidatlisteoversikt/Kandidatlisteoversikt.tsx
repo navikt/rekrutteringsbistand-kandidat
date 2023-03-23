@@ -50,8 +50,6 @@ type Props = {
     fetchingKandidatlister: any;
     kandidatlister: KandidatlisteSammendrag[];
     totaltAntallKandidatlister: any;
-    lagreStatus: any;
-    resetLagreStatus: any;
     kandidatlisterSokeKriterier: KandidatlisterSøkekriterier;
     markerKandidatlisteSomMin: (kandidatlisteId: string) => void;
     markerSomMinStatus: Nettstatus;
@@ -89,17 +87,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 
     componentDidUpdate(prevProps: Props) {
         if (
-            prevProps.lagreStatus === Nettstatus.SenderInn &&
-            this.props.lagreStatus === Nettstatus.Suksess
-        ) {
-            const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-            this.visSuccessMelding('Endringen er lagret.');
-            this.onLukkModalClick();
-            this.props.resetLagreStatus();
-        }
-
-        if (
             prevProps.sletteStatus.kind === Nettstatus.LasterInn &&
             this.props.sletteStatus.kind === Nettstatus.Suksess
         ) {
@@ -108,7 +95,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
             this.visSuccessMelding(
                 `Kandidatliste "${this.props.sletteStatus.data.slettetTittel}" er slettet`
             );
-            this.onLukkModalClick();
+            this.onLukkModal();
             this.props.resetSletteStatus();
         }
 
@@ -119,7 +106,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
             this.visSuccessMelding('Endringene er lagret');
-            this.onLukkModalClick();
+            this.onLukkModal();
         }
     }
 
@@ -190,11 +177,16 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         });
     };
 
-    onLukkModalClick = () => {
+    onLukkModal = (refreshKandidatlister: boolean = true) => {
         this.setState({
             modalstatus: Modalvisning.Ingen,
             kandidatlisteIEndring: undefined,
         });
+
+        if (refreshKandidatlister) {
+            const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
+            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
+        }
     };
 
     onMarkerKandidatlisteSomMin = () => {
@@ -245,19 +237,16 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         return (
             <div>
                 {modalstatus === Modalvisning.Opprett && (
-                    <OpprettModal onClose={this.onLukkModalClick} />
+                    <OpprettModal onClose={this.onLukkModal} />
                 )}
                 {modalstatus === Modalvisning.Endre && (
-                    <EndreModal
-                        kandidatliste={kandidatlisteIEndring}
-                        onClose={this.onLukkModalClick}
-                    />
+                    <EndreModal kandidatliste={kandidatlisteIEndring} onClose={this.onLukkModal} />
                 )}
                 {modalstatus === Modalvisning.MarkerSomMin && (
                     <MarkerSomMinModal
                         stillingsId={kandidatlisteIEndring.stillingId}
                         markerKandidatlisteSomMin={this.onMarkerKandidatlisteSomMin}
-                        onAvbrytClick={this.onLukkModalClick}
+                        onAvbrytClick={this.onLukkModal}
                     />
                 )}
                 {modalstatus === Modalvisning.Slette && (
@@ -265,7 +254,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                         slettKandidatliste={() => {
                             this.props.slettKandidatliste(kandidatlisteIEndring);
                         }}
-                        onAvbrytClick={this.onLukkModalClick}
+                        onAvbrytClick={this.onLukkModal}
                     />
                 )}
                 <Header
@@ -318,7 +307,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    lagreStatus: state.kandidatliste.opprett.lagreStatus,
     kandidatlister: state.listeoversikt.kandidatlister.liste,
     totaltAntallKandidatlister: state.listeoversikt.kandidatlister.antall,
     fetchingKandidatlister: state.listeoversikt.hentListerStatus,
@@ -337,7 +325,6 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
             pagenumber,
             pagesize,
         }),
-    resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.ResetLagreStatus }),
     markerKandidatlisteSomMin: (kandidatlisteId: string) => {
         dispatch({ type: ListeoversiktActionType.MarkerKandidatlisteSomMin, kandidatlisteId });
     },

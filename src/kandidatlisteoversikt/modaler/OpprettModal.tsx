@@ -2,16 +2,9 @@ import React, { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ErrorMessage, Heading } from '@navikt/ds-react';
 
-import {
-    feil,
-    ikkeLastet,
-    Nettressurs,
-    Nettstatus,
-    senderInn,
-    suksess,
-} from '../../api/Nettressurs';
+import { feil, Nettressurs, Nettstatus, suksess } from '../../api/Nettressurs';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
-import Kandidatlisteskjema, { Kandidatlisteinfo } from './Kandidatlisteskjema';
+import Kandidatlisteskjema, { KandidatlisteDto } from './Kandidatlisteskjema';
 import { postKandidatliste } from '../../api/api';
 import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
 import css from './Modal.module.css';
@@ -22,21 +15,22 @@ type Props = {
 
 const OpprettModal: FunctionComponent<Props> = ({ onClose }) => {
     const dispatch = useDispatch();
+    const [status, setStatus] = useState<Nettressurs<KandidatlisteDto>>({
+        kind: Nettstatus.IkkeLastet,
+    });
 
-    const [status, setStatus] = useState<Nettressurs<Kandidatlisteinfo>>(ikkeLastet());
-
-    const opprettKandidatliste = async (info: Kandidatlisteinfo) => {
-        setStatus(senderInn());
+    const opprettKandidatliste = async (kandidatlisteDto: KandidatlisteDto) => {
+        setStatus({ kind: Nettstatus.SenderInn });
 
         try {
-            await postKandidatliste(info);
+            await postKandidatliste(kandidatlisteDto);
 
             dispatch<VarslingAction>({
                 type: VarslingActionType.VisVarsling,
-                innhold: `Opprettet kandidatliste «${info.tittel}»`,
+                innhold: `Opprettet kandidatliste «${kandidatlisteDto.tittel}»`,
             });
 
-            setStatus(suksess(info));
+            setStatus(suksess(kandidatlisteDto));
             onClose();
         } catch (e) {
             setStatus(
@@ -46,13 +40,6 @@ const OpprettModal: FunctionComponent<Props> = ({ onClose }) => {
                 })
             );
         }
-    };
-
-    const intiellKandidatinfo: Kandidatlisteinfo = {
-        tittel: '',
-        beskrivelse: '',
-        organisasjonNavn: null,
-        organisasjonReferanse: null,
     };
 
     return (
@@ -66,7 +53,6 @@ const OpprettModal: FunctionComponent<Props> = ({ onClose }) => {
                 Opprett kandidatliste
             </Heading>
             <Kandidatlisteskjema
-                info={intiellKandidatinfo}
                 onSave={opprettKandidatliste}
                 saving={status.kind === Nettstatus.SenderInn}
                 onClose={onClose}
