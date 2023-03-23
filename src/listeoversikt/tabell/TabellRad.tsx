@@ -45,13 +45,13 @@ const TabellRad: FunctionComponent<Props> = ({
                     {kandidatlisteSammendrag.tittel}
                 </Link>
             </Table.DataCell>
-            <Table.DataCell align="right">
+            <Table.DataCell align="right" className={css.antallKandidater}>
                 <BodyShort>{kandidatlisteSammendrag.antallKandidater}</BodyShort>
             </Table.DataCell>
             <Table.DataCell>
                 <BodyShort>{`${kandidatlisteSammendrag.opprettetAv.navn} (${kandidatlisteSammendrag.opprettetAv.ident})`}</BodyShort>
             </Table.DataCell>
-            <Table.DataCell>
+            <Table.DataCell align="center">
                 <Link
                     aria-label={`Finn kandidater til listen «${kandidatlisteSammendrag.tittel}»`}
                     to={lenkeTilFinnKandidater(
@@ -62,13 +62,13 @@ const TabellRad: FunctionComponent<Props> = ({
                     <Button variant="tertiary" as="div" icon={<PersonPlusIcon />} />
                 </Link>
             </Table.DataCell>
-            <Table.DataCell>
+            <Table.DataCell align="center">
                 <Redigerknapp
                     kandidatliste={kandidatlisteSammendrag}
                     onRediger={endreKandidatliste}
                 />
             </Table.DataCell>
-            <Table.DataCell>
+            <Table.DataCell align="center">
                 <Dropdown closeOnSelect={false}>
                     <Button
                         as={Dropdown.Toggle}

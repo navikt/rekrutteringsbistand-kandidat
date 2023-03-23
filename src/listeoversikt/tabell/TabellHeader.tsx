@@ -11,15 +11,25 @@ const TabellHeader: FunctionComponent = () => (
             <Table.ColumnHeader sortable sortKey={KandidatlisteSorteringsfelt.Tittel}>
                 Navn på kandidatliste
             </Table.ColumnHeader>
-            <Table.ColumnHeader sortable sortKey={KandidatlisteSorteringsfelt.AntallKandidater}>
+            <Table.ColumnHeader
+                align="right"
+                sortable
+                sortKey={KandidatlisteSorteringsfelt.AntallKandidater}
+            >
                 Antall kandidater
             </Table.ColumnHeader>
             <Table.ColumnHeader sortable sortKey={KandidatlisteSorteringsfelt.OpprettetAv}>
                 Veileder
             </Table.ColumnHeader>
-            <Table.HeaderCell scope="col">Finn kandidater</Table.HeaderCell>
-            <Table.HeaderCell scope="col">Rediger</Table.HeaderCell>
-            <Table.HeaderCell scope="col">Meny</Table.HeaderCell>
+            <Table.HeaderCell scope="col" align="center">
+                Finn kandidater
+            </Table.HeaderCell>
+            <Table.HeaderCell scope="col" align="center">
+                Rediger
+            </Table.HeaderCell>
+            <Table.HeaderCell scope="col" align="center">
+                Meny
+            </Table.HeaderCell>
         </Table.Row>
     </Table.Header>
 );
