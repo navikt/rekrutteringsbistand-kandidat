@@ -10,7 +10,6 @@ enum KandidatlisteActionType {
     OppdaterKandidatlisteSuccess = 'OPPDATER_KANDIDATLISTE_SUCCESS',
     OppdaterKandidatlisteFailure = 'OPPDATER_KANDIDATLISTE_FAILURE',
     OppdaterKandidatlisteMedKandidat = 'OPPDATER_KANDIDATLISTE_MED_KANDIDAT',
-    ResetLagreStatus = 'RESET_LAGRE_STATUS',
     PresenterKandidater = 'PRESENTER_KANDIDATER',
     PresenterKandidaterSuccess = 'PRESENTER_KANDIDATER_SUCCESS',
     PresenterKandidaterFailure = 'PRESENTER_KANDIDATER_FAILURE',

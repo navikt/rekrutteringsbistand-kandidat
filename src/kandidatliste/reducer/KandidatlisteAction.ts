@@ -46,10 +46,6 @@ export interface NullstillKandidatlisteAction {
     type: KandidatlisteActionType.NullstillKandidatliste;
 }
 
-export interface ResetLagreStatusAction {
-    type: KandidatlisteActionType.ResetLagreStatus;
-}
-
 export interface PresenterKandidaterAction {
     type: KandidatlisteActionType.PresenterKandidater;
     kandidatlisteId: string;
@@ -409,7 +405,6 @@ export interface SlettCvFraArbeidsgiversKandidatlisteFailure {
 }
 
 type KandidatlisteAction =
-    | ResetLagreStatusAction
     | HentKandidatlisteMedStillingsIdAction
     | HentKandidatlisteMedStillingsIdSuccessAction
     | HentKandidatlisteMedStillingsIdFailureAction

@@ -33,7 +33,6 @@ type Suggestion = {
 type Props = {
     onSave: (info: KandidatlisteDto) => void;
     onClose: () => void;
-    resetStatusTilUnsaved?: () => void;
     kandidatliste?: KandidatlisteSammendrag;
     saving: boolean;
     knappetekst: string;
@@ -67,6 +66,8 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
                     orgnr: organisasjonReferanse,
                 };
             }
+
+            console.log('Hey ho, kopier mich:', suggestion, props.kandidatliste);
         }
 
         this.state = {

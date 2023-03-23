@@ -43,13 +43,7 @@ export type Kandidatsortering = null | {
 
 export type KandidatlisteState = {
     kandidat?: CvSøkeresultat;
-
-    lagreStatus: Nettstatus;
     deleStatus: Nettstatus;
-    opprett: {
-        lagreStatus: Nettstatus;
-        opprettetKandidatlisteTittel?: string;
-    };
     id?: string;
     kandidatliste: Nettressurs<Kandidatliste>;
     kandidattilstander: Kandidattilstander;
@@ -93,19 +87,11 @@ export type Kandidatlistefilter = {
 };
 
 const initialState: KandidatlisteState = {
-    lagreStatus: Nettstatus.IkkeLastet,
     deleStatus: Nettstatus.IkkeLastet,
-    opprett: {
-        lagreStatus: Nettstatus.IkkeLastet,
-    },
     kandidatliste: ikkeLastet(),
     kandidattilstander: {},
     kandidatnotater: {},
     fodselsnummer: undefined,
-    leggTilKandidater: {
-        lagreStatus: Nettstatus.IkkeLastet,
-        antallLagredeKandidater: 0,
-    },
     hentListeMedAnnonsenummerStatus: Nettstatus.IkkeLastet,
     hentListeMedAnnonsenummerStatusMessage: '',
     kandidatlisteMedAnnonsenummer: undefined,
@@ -138,14 +124,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
     action
 ): KandidatlisteState => {
     switch (action.type) {
-        case KandidatlisteActionType.ResetLagreStatus:
-            return {
-                ...state,
-                opprett: {
-                    ...state.opprett,
-                    lagreStatus: Nettstatus.IkkeLastet,
-                },
-            };
         case KandidatlisteActionType.HentKandidatlisteMedStillingsId:
         case KandidatlisteActionType.HentKandidatlisteMedKandidatlisteId: {
             return {
