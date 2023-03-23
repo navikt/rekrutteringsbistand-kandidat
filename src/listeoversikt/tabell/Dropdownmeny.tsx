@@ -22,6 +22,7 @@ const Dropdownmeny: FunctionComponent<Props> = ({ kandidatliste, onMarkerSomMin,
     return (
         <Dropdown.Menu.GroupedList>
             <Dropdown.Menu.GroupedList.Heading>Handlinger</Dropdown.Menu.GroupedList.Heading>
+
             {kanMarkereSomMin ? (
                 <Dropdown.Menu.GroupedList.Item onClick={handleMarkerSomMinClick}>
                     Marker som min
@@ -47,36 +48,6 @@ const Dropdownmeny: FunctionComponent<Props> = ({ kandidatliste, onMarkerSomMin,
             )}
         </Dropdown.Menu.GroupedList>
     );
-
-    /*
-    return (
-        <div className={css.dropdown}>
-            <Button
-                size="small"
-                variant="tertiary"
-                onClick={onMarkerClick}
-                disabled={kandidatliste.kanEditere}
-            >
-                Marker som min
-            </Button>
-
-            {kandidatliste.kanSlette === KanSletteEnum.KAN_SLETTES ? (
-                <Button size="small" variant="tertiary" onClick={slettKandidatliste}>
-                    Slett
-                </Button>
-            ) : (
-                <Button
-                    disabled
-                    size="small"
-                    variant="tertiary"
-                    onClick={toggleDisabledSlettknappAnker}
-                >
-                    Slett
-                </Button>
-            )}
-        </div>
-    );
-    */
 };
 
 const byggÅrsakTilAtListenIkkeKanSlettes = (kandidatliste: KandidatlisteSammendrag) => {

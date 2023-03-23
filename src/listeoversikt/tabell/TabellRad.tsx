@@ -1,16 +1,14 @@
 import React, { FunctionComponent, ReactNode } from 'react';
+import { BodyShort, Button, Table } from '@navikt/ds-react';
+import { Dropdown } from '@navikt/ds-react-internal';
 import { Link } from 'react-router-dom';
+import { PersonPlusIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
 
 import { formaterDato } from '../../utils/dateUtils';
-import {
-    erKobletTilStilling,
-    KandidatlisteSammendrag,
-} from '../../kandidatliste/domene/Kandidatliste';
+import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
+import { lenkeTilFinnKandidater, lenkeTilKandidatliste } from '../../app/paths';
 import Dropdownmeny from './Dropdownmeny';
-import { lenkeTilFinnKandidater, lenkeTilKandidatliste, lenkeTilStilling } from '../../app/paths';
-import { PencilIcon, PersonPlusIcon, MenuHamburgerIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Table, Tooltip } from '@navikt/ds-react';
-import { Dropdown } from '@navikt/ds-react-internal';
+import Redigerknapp from './Redigerknapp';
 import css from './Kandidatlistetabell.module.css';
 
 export type FeilmeldingIMeny = {
@@ -65,32 +63,10 @@ const TabellRad: FunctionComponent<Props> = ({
                 </Link>
             </Table.DataCell>
             <Table.DataCell>
-                {kandidatlisteSammendrag.kanEditere && (
-                    <>
-                        {erKobletTilStilling(kandidatlisteSammendrag) ? (
-                            <Link to={lenkeTilStilling(kandidatlisteSammendrag.stillingId!)}>
-                                <Button variant="tertiary" as="div" icon={<PencilIcon />} />
-                            </Link>
-                        ) : (
-                            <Button
-                                variant="tertiary"
-                                aria-label={`Endre kandidatlisten «${kandidatlisteSammendrag.tittel}»`}
-                                onClick={() => endreKandidatliste(kandidatlisteSammendrag)}
-                                icon={<PencilIcon />}
-                            />
-                        )}
-                    </>
-                )}
-
-                {!kandidatlisteSammendrag.kanEditere && (
-                    <Tooltip content="Du kan ikke redigere en kandidatliste som ikke er din.">
-                        <Button
-                            variant="tertiary"
-                            className={css.disabledValg}
-                            icon={<PencilIcon />}
-                        />
-                    </Tooltip>
-                )}
+                <Redigerknapp
+                    kandidatliste={kandidatlisteSammendrag}
+                    onRediger={endreKandidatliste}
+                />
             </Table.DataCell>
             <Table.DataCell>
                 <Dropdown closeOnSelect={false}>
