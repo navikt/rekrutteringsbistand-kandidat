@@ -66,7 +66,7 @@ const Kandidatlistetabell = ({ nettstatus, kandidatlister, className, children }
             size="medium"
             sort={sort as SortState}
             onSortChange={onSortChange}
-            className={classNames(className)}
+            className={classNames(css.tabell, className)}
         >
             {children}
         </Table>
