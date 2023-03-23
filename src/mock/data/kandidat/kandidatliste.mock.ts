@@ -2,7 +2,7 @@ import moment from 'moment';
 import { v5 as uuid } from 'uuid';
 
 import type Cv from '../../../cv/reducer/cv-typer';
-import { KanSletteEnum } from '../../../listeoversikt/Kandidatlisteoversikt';
+import { KanSletteEnum } from '../../../kandidatlisteoversikt/Kandidatlisteoversikt';
 import {
     Kandidatliste,
     KandidatlisteSammendrag,
@@ -18,7 +18,7 @@ import {
 import { Veileder } from './veileder.mock';
 import { mockStrings } from './mock-strings';
 
-const antall = 15;
+const antall = 25;
 const tomListe = [...new Array(antall)];
 
 const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');

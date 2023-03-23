@@ -14,9 +14,8 @@ import TabellBody from './tabell/TabellBody';
 import TabellHeader from './tabell/TabellHeader';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
-import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
-import { Heading } from '@navikt/ds-react';
+import { Heading, Pagination } from '@navikt/ds-react';
 import Kandidatlistetabell from './tabell/Kandidatlistetabell';
 import './Kandidatlisteoversikt.less';
 
@@ -226,20 +225,15 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         }
     };
 
-    onHentKandidatlisterForrigeSide = () => {
-        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
+    onPageChange = (nyttSidenummer: number) => {
+        const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
         this.props.hentKandidatlister(
             query,
             type,
             kunEgne,
-            Math.max(pagenumber - 1, 0),
+            nyttSidenummer - 1,
             PAGINERING_BATCH_SIZE
         );
-    };
-
-    onHentKandidatlisterNesteSide = () => {
-        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, type, kunEgne, pagenumber + 1, PAGINERING_BATCH_SIZE);
     };
 
     visSuccessMelding = (melding: string) => {
@@ -332,15 +326,16 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                                 slettKandidatliste={this.onVisSlettKandidatlisteModal}
                             />
                         </Kandidatlistetabell>
-                        {fetchingKandidatlister === Nettstatus.Suksess &&
-                            totaltAntallKandidatlister > 0 && (
-                                <Paginering
-                                    kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                                    totaltAntallKandidatlister={totaltAntallKandidatlister}
-                                    forrigeSide={this.onHentKandidatlisterForrigeSide}
-                                    nesteSide={this.onHentKandidatlisterNesteSide}
-                                />
-                            )}
+                        {fetchingKandidatlister === Nettstatus.Suksess && (
+                            <Pagination
+                                className="kandidatlister-table--bottom"
+                                page={kandidatlisterSokeKriterier.pagenumber + 1}
+                                onPageChange={this.onPageChange}
+                                count={Math.ceil(
+                                    totaltAntallKandidatlister / PAGINERING_BATCH_SIZE
+                                )}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

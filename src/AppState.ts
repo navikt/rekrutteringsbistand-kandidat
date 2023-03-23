@@ -1,4 +1,4 @@
-import { ListeoversiktState } from './listeoversikt/reducer/listeoversiktReducer';
+import { ListeoversiktState } from './kandidatlisteoversikt/reducer/listeoversiktReducer';
 import { CvState } from './cv/reducer/cvReducer';
 import { HistorikkState } from './historikk/historikkReducer';
 import { KandidatlisteState } from './kandidatliste/reducer/kandidatlisteReducer';

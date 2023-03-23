@@ -10,7 +10,7 @@ import AppState from '../AppState';
 import CvSide from '../cv/CvSide';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
 import Historikkside from '../historikk/Historikkside';
-import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
+import Kandidatlisteoversikt from '../kandidatlisteoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
