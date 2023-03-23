@@ -45,7 +45,7 @@ const TabellRad: FunctionComponent<Props> = ({
                     {kandidatlisteSammendrag.tittel}
                 </Link>
             </Table.DataCell>
-            <Table.DataCell>
+            <Table.DataCell align="right">
                 <BodyShort>{kandidatlisteSammendrag.antallKandidater}</BodyShort>
             </Table.DataCell>
             <Table.DataCell>
