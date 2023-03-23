@@ -9,7 +9,6 @@ import Filter from './filter/Filter';
 import Header from './header/Header';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
-import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import TabellBody from './tabell/TabellBody';
 import TabellHeader from './tabell/TabellHeader';
@@ -53,7 +52,6 @@ type Props = {
     totaltAntallKandidatlister: any;
     lagreStatus: any;
     resetLagreStatus: any;
-    opprettetTittel: any;
     kandidatlisterSokeKriterier: KandidatlisterSøkekriterier;
     markerKandidatlisteSomMin: (kandidatlisteId: string) => void;
     markerSomMinStatus: Nettstatus;
@@ -64,12 +62,8 @@ type Props = {
 };
 
 class Kandidatlisteoversikt extends React.Component<Props> {
-    skjulSuccessMeldingCallbackId: any;
-
     state: {
         modalstatus: Modalvisning;
-        visSuccessMelding: boolean;
-        successMelding: string;
         søkeOrd: string;
         kandidatlisteIEndring: any;
         visKandidatlisteMeny: any;
@@ -80,8 +74,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 
         this.state = {
             modalstatus: Modalvisning.Ingen,
-            visSuccessMelding: false,
-            successMelding: '',
             søkeOrd: this.props.kandidatlisterSokeKriterier.query,
             kandidatlisteIEndring: undefined,
             visKandidatlisteMeny: undefined,
@@ -106,6 +98,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
             this.onLukkModalClick();
             this.props.resetLagreStatus();
         }
+
         if (
             prevProps.sletteStatus.kind === Nettstatus.LasterInn &&
             this.props.sletteStatus.kind === Nettstatus.Suksess
@@ -118,6 +111,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
             this.onLukkModalClick();
             this.props.resetSletteStatus();
         }
+
         if (
             prevProps.markerSomMinStatus === Nettstatus.LasterInn &&
             this.props.markerSomMinStatus === Nettstatus.Suksess
@@ -126,12 +120,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
             this.visSuccessMelding('Endringene er lagret');
             this.onLukkModalClick();
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.skjulSuccessMeldingCallbackId) {
-            clearTimeout(this.skjulSuccessMeldingCallbackId);
         }
     }
 
@@ -239,16 +227,11 @@ class Kandidatlisteoversikt extends React.Component<Props> {
     };
 
     visSuccessMelding = (melding: string) => {
+        console.log('SUCCESSMELDING:', melding);
         this.setState({
             visSuccessMelding: true,
             successMelding: melding,
         });
-
-        this.skjulSuccessMeldingCallbackId = setTimeout(this.skjulSuccessMelding, 5000);
-    };
-
-    skjulSuccessMelding = () => {
-        this.setState({ visSuccessMelding: false });
     };
 
     render() {
@@ -258,17 +241,16 @@ class Kandidatlisteoversikt extends React.Component<Props> {
             fetchingKandidatlister,
             kandidatlisterSokeKriterier,
         } = this.props;
-        const { modalstatus, kandidatlisteIEndring, visSuccessMelding, successMelding, søkeOrd } =
-            this.state;
+        const { modalstatus, kandidatlisteIEndring, søkeOrd } = this.state;
         return (
             <div>
                 {modalstatus === Modalvisning.Opprett && (
-                    <OpprettModal onAvbrytClick={this.onLukkModalClick} />
+                    <OpprettModal onClose={this.onLukkModalClick} />
                 )}
                 {modalstatus === Modalvisning.Endre && (
                     <EndreModal
                         kandidatliste={kandidatlisteIEndring}
-                        onAvbrytClick={this.onLukkModalClick}
+                        onClose={this.onLukkModalClick}
                     />
                 )}
                 {modalstatus === Modalvisning.MarkerSomMin && (
@@ -286,12 +268,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                         onAvbrytClick={this.onLukkModalClick}
                     />
                 )}
-                <HjelpetekstFading
-                    id="kandidatliste-lagret-melding"
-                    synlig={visSuccessMelding}
-                    type="suksess"
-                    innhold={successMelding}
-                />
                 <Header
                     søkeOrd={søkeOrd}
                     onSøkeOrdChange={this.onSøkeOrdChange}
@@ -343,7 +319,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 
 const mapStateToProps = (state: AppState) => ({
     lagreStatus: state.kandidatliste.opprett.lagreStatus,
-    opprettetTittel: state.kandidatliste.opprett.opprettetKandidatlisteTittel,
     kandidatlister: state.listeoversikt.kandidatlister.liste,
     totaltAntallKandidatlister: state.listeoversikt.kandidatlister.antall,
     fetchingKandidatlister: state.listeoversikt.hentListerStatus,

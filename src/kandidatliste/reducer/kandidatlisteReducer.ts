@@ -138,34 +138,28 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
     action
 ): KandidatlisteState => {
     switch (action.type) {
-        case KandidatlisteActionType.OpprettKandidatliste:
         case KandidatlisteActionType.OppdaterKandidatliste:
             return {
                 ...state,
                 opprett: {
                     ...state.opprett,
                     lagreStatus: Nettstatus.SenderInn,
-                    opprettetKandidatlisteTittel: undefined,
                 },
             };
-        case KandidatlisteActionType.OpprettKandidatlisteSuccess:
         case KandidatlisteActionType.OppdaterKandidatlisteSuccess:
             return {
                 ...state,
                 opprett: {
                     ...state.opprett,
                     lagreStatus: Nettstatus.Suksess,
-                    opprettetKandidatlisteTittel: action.tittel,
                 },
             };
-        case KandidatlisteActionType.OpprettKandidatlisteFailure:
         case KandidatlisteActionType.OppdaterKandidatlisteFailure:
             return {
                 ...state,
                 opprett: {
                     ...state.opprett,
                     lagreStatus: Nettstatus.Feil,
-                    opprettetKandidatlisteTittel: undefined,
                 },
             };
         case KandidatlisteActionType.ResetLagreStatus:

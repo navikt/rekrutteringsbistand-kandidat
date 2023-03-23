@@ -31,12 +31,11 @@ type Suggestion = {
 
 type Props = {
     onSave: (info: Kandidatlisteinfo) => void;
-    resetStatusTilUnsaved: () => void;
+    resetStatusTilUnsaved?: () => void;
     info: Kandidatlisteinfo;
     saving: boolean;
     onAvbrytClick: () => void;
     knappetekst: string;
-
     suggestions: Suggestion[];
     fetchTypeaheadSuggestions: (value: string) => void;
     clearTypeaheadSuggestions: () => void;

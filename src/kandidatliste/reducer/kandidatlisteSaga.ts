@@ -11,7 +11,6 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import KandidatlisteAction, {
-    OpprettKandidatlisteAction,
     HentKandidatlisteMedStillingsIdAction,
     HentKandidatlisteMedKandidatlisteIdAction,
     PresenterKandidaterAction,
@@ -43,7 +42,6 @@ import {
     fetchKandidatlisteMedStillingsId,
     fetchNotater,
     postDelteKandidater,
-    postKandidatliste,
     postNotat,
     putKandidatliste,
     putNotat,
@@ -72,23 +70,6 @@ const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
         });
     }
 };
-
-function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
-    try {
-        yield postKandidatliste(action.info);
-
-        yield put({
-            type: KandidatlisteActionType.OpprettKandidatlisteSuccess,
-            tittel: action.info.tittel,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.OpprettKandidatlisteFailure, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
 
 function* opprettKandidatlisteForStilling(stillingsId, opprinneligError) {
     try {
@@ -541,7 +522,6 @@ function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
 }
 
 function* kandidatlisteSaga() {
-    yield takeLatest(KandidatlisteActionType.OpprettKandidatliste, opprettKandidatliste);
     yield takeLatest(
         KandidatlisteActionType.HentKandidatlisteMedStillingsId,
         hentKandidatlisteMedStillingsId
@@ -566,7 +546,6 @@ function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.AngreArkivering, angreArkiveringForKandidater);
     yield takeLatest(
         [
-            KandidatlisteActionType.OpprettKandidatlisteFailure,
             KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure,
             KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure,
             KandidatlisteActionType.EndreStatusKandidatFailure,

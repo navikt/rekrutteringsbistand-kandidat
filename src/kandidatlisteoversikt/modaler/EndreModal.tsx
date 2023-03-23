@@ -12,10 +12,10 @@ import css from './Modal.module.css';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
-    onAvbrytClick: () => void;
+    onClose: () => void;
 };
 
-const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onAvbrytClick }) => {
+const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
     const dispatch = useDispatch();
     const { lagreStatus } = useSelector((state: AppState) => state.kandidatliste.opprett);
 
@@ -35,7 +35,7 @@ const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onAvbrytClick }) 
     return (
         <ModalMedKandidatScope
             open
-            onClose={onAvbrytClick}
+            onClose={onClose}
             aria-label="Endre kandidatlisten"
             className="modal--opprett-kandidatliste__veileder"
         >
@@ -47,7 +47,7 @@ const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onAvbrytClick }) 
                 onSave={oppdaterKandidatliste}
                 resetStatusTilUnsaved={resetStatusTilUnsaved}
                 saving={lagreStatus === Nettstatus.SenderInn}
-                onAvbrytClick={onAvbrytClick}
+                onClose={onClose}
                 knappetekst="Lagre endringer"
             />
         </ModalMedKandidatScope>

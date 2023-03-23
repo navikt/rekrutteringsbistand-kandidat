@@ -15,6 +15,7 @@ import { Synlighetsevaluering } from '../kandidatliste/modaler/legg-til-kandidat
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { MineKandidatlister } from '../kandidatside/fraSøkUtenKontekst/lagre-kandidat-modal/useMineKandidatlister';
 import { sendEvent } from '../amplitude/amplitude';
+import { Kandidatlisteinfo } from '../kandidatlisteoversikt/modaler/Kandidatlisteskjema';
 
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
@@ -86,8 +87,8 @@ export const putUtfallKandidat = (
         JSON.stringify({ utfall, navKontor })
     );
 
-export const postKandidatliste = (kandidatlisteInfo) =>
-    postJson(`${KANDIDATSOK_API}/veileder/me/kandidatlister`, JSON.stringify(kandidatlisteInfo));
+export const postKandidatliste = (info: Kandidatlisteinfo) =>
+    postJson(`${KANDIDATSOK_API}/veileder/me/kandidatlister`, JSON.stringify(info));
 
 export function putKandidatliste(stillingsId) {
     return putJson(`${KANDIDATSOK_API}/veileder/stilling/${stillingsId}/kandidatliste/`);

@@ -50,20 +50,6 @@ export interface NullstillKandidatlisteAction {
     type: KandidatlisteActionType.NullstillKandidatliste;
 }
 
-export interface OpprettKandidatlisteAction {
-    type: KandidatlisteActionType.OpprettKandidatliste;
-    info: Kandidatlisteinfo;
-}
-
-export interface OpprettKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.OpprettKandidatlisteSuccess;
-    tittel: string;
-}
-
-export interface OpprettKandidatlisteFailureAction {
-    type: KandidatlisteActionType.OpprettKandidatlisteFailure;
-}
-
 export interface OppdaterKandidatlisteAction {
     type: KandidatlisteActionType.OppdaterKandidatliste;
     info: Kandidatlisteinfo;
@@ -441,9 +427,6 @@ export interface SlettCvFraArbeidsgiversKandidatlisteFailure {
 }
 
 type KandidatlisteAction =
-    | OpprettKandidatlisteAction
-    | OpprettKandidatlisteSuccessAction
-    | OpprettKandidatlisteFailureAction
     | OppdaterKandidatlisteAction
     | OppdaterKandidatlisteSuccessAction
     | OppdaterKandidatlisteFailureAction
