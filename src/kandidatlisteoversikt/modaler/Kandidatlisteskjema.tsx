@@ -261,7 +261,7 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
                     <Button onClick={this.validateAndSave} loading={saving} disabled={saving}>
                         {knappetekst}
                     </Button>
-                    <Button variant="tertiary" onClick={this.props.onClose} disabled={saving}>
+                    <Button variant="secondary" onClick={this.props.onClose} disabled={saving}>
                         Avbryt
                     </Button>
                 </div>

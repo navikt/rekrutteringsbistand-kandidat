@@ -50,7 +50,7 @@ const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
             open
             onClose={onClose}
             aria-label="Endre kandidatlisten"
-            className={css.endreModal}
+            className={css.modal}
         >
             <Heading level="2" size="medium" className={css.tittel}>
                 Endre kandidatlisten

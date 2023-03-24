@@ -14,7 +14,7 @@ import TabellBody from './tabell/TabellBody';
 import TabellHeader from './tabell/TabellHeader';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
-import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
+import SlettModal from './modaler/SlettModal';
 import { Heading, Pagination } from '@navikt/ds-react';
 import Kandidatlistetabell from './tabell/Kandidatlistetabell';
 import css from './Kandidatlisteoversikt.module.css';
@@ -249,7 +249,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                     />
                 )}
                 {modalstatus === Modalvisning.Slette && (
-                    <SlettKandidatlisteModal
+                    <SlettModal
                         slettKandidatliste={() => {
                             this.props.slettKandidatliste(kandidatlisteIEndring);
                         }}
