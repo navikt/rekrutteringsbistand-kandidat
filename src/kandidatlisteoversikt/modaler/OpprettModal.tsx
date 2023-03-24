@@ -47,7 +47,7 @@ const OpprettModal: FunctionComponent<Props> = ({ onClose }) => {
             open
             aria-label="Opprett kandidatliste"
             onClose={onClose}
-            className="modal--opprett-kandidatliste__veileder"
+            className={css.opprettModal}
         >
             <Heading level="2" size="medium" className={css.tittel}>
                 Opprett kandidatliste

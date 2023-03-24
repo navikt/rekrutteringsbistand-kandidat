@@ -1,3 +1,29 @@
+.opprettModal,
+.endreModal {
+    max-width: 40rem;
+}
+
 .tittel {
     margin-bottom: 2rem;
+}
+
+.skjema {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 40rem;
+}
+
+.skjema textarea {
+    min-height: 8.25rem;
+}
+
+.arbeidsgiver p {
+    margin-top: 0.25rem;
+}
+
+.knapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }

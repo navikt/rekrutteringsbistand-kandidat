@@ -1,17 +1,19 @@
 import React, { ChangeEvent } from 'react';
-import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
+import { Textarea } from 'nav-frontend-skjema';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { BodyShort, Detail, TextField } from '@navikt/ds-react';
+import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
     FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER,
     CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER,
 } from '../../common/typeahead/enhetsregisterReducer';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { capitalizeEmployerName, capitalizeLocation } from '../../kandidatsøk/utils';
 import AppState from '../../AppState';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
-import { BodyShort, Detail } from '@navikt/ds-react';
+import css from './Modal.module.css';
 
 export type KandidatlisteDto = {
     tittel: string;
@@ -210,63 +212,56 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
         const location = suggestion ? suggestion.location : undefined;
 
         return (
-            <SkjemaGruppe>
-                <div className="OpprettKandidatlisteForm">
-                    <div className="OpprettKandidatlisteForm__input">
-                        <Input
-                            className="skjemaelement--pink"
-                            id="kandidatliste-navn-input"
-                            label="Navn på kandidatliste *"
-                            placeholder="For eksempel: Jobbmesse, Oslo, 21.05.2019"
-                            value={this.state.tittel}
-                            onChange={this.onTittelChange}
-                            feil={
-                                this.state.visValideringsfeilInput
-                                    ? 'Navn på kandidatliste mangler'
-                                    : undefined
-                            }
-                            inputRef={(input) => {
-                                this.input = input;
-                            }}
-                            autoComplete="off"
-                        />
-                    </div>
-                    <div className="OpprettKandidatlisteForm__input OpprettKandidatlisteForm__typeahead">
-                        <Typeahead
-                            label="Arbeidsgiver (Bedriftens navn hentet fra Enhetsregisteret)"
-                            placeholder="Skriv inn arbeidsgivers navn eller virksomhetsnummer"
-                            onChange={this.onBedriftChange}
-                            onSelect={this.onBedriftSelect}
-                            onSubmit={this.onSuggestionSubmit}
-                            suggestions={suggestions.map((s) => ({
-                                value: s.orgnr,
-                                label: this.getEmployerSuggestionLabel(s),
-                            }))}
-                            value={this.state.typeaheadValue}
-                            id="OpprettKandidatlisteForm__typeahead-bedrift"
-                            onTypeAheadBlur={this.onTypeAheadBlur}
-                            shouldHighlightInput={false}
-                        />
-                        {suggestion && location && (
-                            <Detail className="OpprettKandidatlisteForm__bedrift">
-                                {capitalizeEmployerName(suggestion.name)}, {location.address},{' '}
-                                {location.postalCode}{' '}
-                                {location.city ? capitalizeLocation(location.city) : ''}
-                            </Detail>
-                        )}
-                    </div>
-                    <div className="OpprettKandidatlisteForm__input">
-                        <Textarea
-                            textareaClass="OpprettKandidatlisteForm__input__textarea skjemaelement--pink"
-                            label="Beskrivelse"
-                            value={this.state.beskrivelse ?? ''}
-                            maxLength={1000}
-                            onChange={this.onBeskrivelseChange}
-                            feil={
-                                this.validerBeskrivelse() ? undefined : 'Beskrivelsen er for lang'
-                            }
-                        />
-                    </div>
+            <form className={css.skjema}>
+                <TextField
+                    autoComplete="off"
+                    label="Navn på kandidatliste (må fylles ut)"
+                    placeholder="For eksempel: Jobbmesse, Oslo, 21.05.2019" // TODO: Ikke oppfordre til Jobbmesse?
+                    value={this.state.tittel}
+                    onChange={this.onTittelChange}
+                    error={
+                        this.state.visValideringsfeilInput
+                            ? 'Navn på kandidatliste mangler'
+                            : undefined
+                    }
+                    ref={(input) => (this.input = input)}
+                />
+
+                <div className={css.arbeidsgiver}>
+                    <Typeahead
+                        label="Arbeidsgiver (Bedriftens navn hentet fra Enhetsregisteret)"
+                        placeholder="Skriv inn arbeidsgivers navn eller virksomhetsnummer"
+                        onChange={this.onBedriftChange}
+                        onSelect={this.onBedriftSelect}
+                        onSubmit={this.onSuggestionSubmit}
+                        suggestions={suggestions.map((s) => ({
+                            value: s.orgnr,
+                            label: this.getEmployerSuggestionLabel(s),
+                        }))}
+                        value={this.state.typeaheadValue}
+                        id="OpprettKandidatlisteForm__typeahead-bedrift"
+                        onTypeAheadBlur={this.onTypeAheadBlur}
+                        shouldHighlightInput={false}
+                    />
+                    {suggestion && location && (
+                        <Detail>
+                            {capitalizeEmployerName(suggestion.name)}, {location.address},{' '}
+                            {location.postalCode}{' '}
+                            {location.city ? capitalizeLocation(location.city) : ''}
+                        </Detail>
+                    )}
+                </div>
+                <div className="OpprettKandidatlisteForm__input">
+                    <Textarea
+                        textareaClass="OpprettKandidatlisteForm__input__textarea skjemaelement--pink"
+                        label="Beskrivelse"
+                        value={this.state.beskrivelse ?? ''}
+                        maxLength={1000}
+                        onChange={this.onBeskrivelseChange}
+                        feil={this.validerBeskrivelse() ? undefined : 'Beskrivelsen er for lang'}
+                    />
+                </div>
+                <div className={css.knapper}>
                     <Hovedknapp
                         id="kandidatliste-opprett-knapp"
                         onClick={this.validateAndSave}
@@ -283,7 +278,7 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
                         Avbryt
                     </Flatknapp>
                 </div>
-            </SkjemaGruppe>
+            </form>
         );
     }
 }
