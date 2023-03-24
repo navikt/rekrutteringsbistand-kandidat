@@ -66,8 +66,6 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
                     orgnr: organisasjonReferanse,
                 };
             }
-
-            console.log('Hey ho, kopier mich:', suggestion, props.kandidatliste);
         }
 
         this.state = {
