@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { Heading, Pagination } from '@navikt/ds-react';
 
 import { KandidatlisteSammendrag } from '../kandidatliste/domene/Kandidatliste';
-import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
-import { Nettressurs, Nettstatus } from '../api/Nettressurs';
-import Filter from './filter/Filter';
+import { ListeoversiktAction, ListeoversiktActionType } from './reducer/ListeoversiktAction';
+import { Nettstatus } from '../api/Nettressurs';
+import Filter, { Stillingsfilter } from './filter/Filter';
 import Header from './header/Header';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
@@ -15,105 +16,91 @@ import TabellHeader from './tabell/TabellHeader';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import SlettModal from './modaler/SlettModal';
-import { Heading, Pagination } from '@navikt/ds-react';
 import Kandidatlistetabell from './tabell/Kandidatlistetabell';
 import css from './Kandidatlisteoversikt.module.css';
+import KandidatlisteAction from '../kandidatliste/reducer/KandidatlisteAction';
+import { Søkekriterier } from './reducer/listeoversiktReducer';
+
+const SIDESTØRRELSE = 20;
 
 enum Modalvisning {
-    Ingen = 'INGEN_MODAL',
-    Opprett = 'OPPRETT_MODAL',
-    Endre = 'ENDRE_MODAL',
-    Slette = 'SLETTE_MODAL',
-    MarkerSomMin = 'MARKER_SOM_MIN_MODAL',
+    Ingen,
+    Opprett,
+    Endre,
+    Slette,
+    MarkerSomMin,
 }
 
-const PAGINERING_BATCH_SIZE = 20;
+type ModalMedKandidatliste = {
+    visning: Modalvisning.Endre | Modalvisning.MarkerSomMin | Modalvisning.Slette;
+    kandidatliste: KandidatlisteSammendrag;
+};
 
-export const KanSletteEnum = {
-    KAN_SLETTES: 'KAN_SLETTES',
-    ER_IKKE_DIN: 'ER_IKKE_DIN',
-    HAR_STILLING: 'HAR_STILLING',
-    ER_IKKE_DIN_OG_HAR_STILLING: 'ER_IKKE_DIN_OG_HAR_STILLING',
+type ModalUtenKandidatliste = {
+    visning: Modalvisning.Opprett | Modalvisning.Ingen;
 };
 
 export type KandidatlisterSøkekriterier = {
     query: string;
-    type: string;
+    type: Stillingsfilter;
     kunEgne: boolean;
     pagenumber: number;
     pagesize: number;
 };
 
 type Props = {
-    hentKandidatlister: any;
-    fetchingKandidatlister: any;
+    hentKandidatlister: (søkekriterier: Søkekriterier) => void;
+    kandidatlisterStatus: Nettstatus;
     kandidatlister: KandidatlisteSammendrag[];
-    totaltAntallKandidatlister: any;
-    kandidatlisterSokeKriterier: KandidatlisterSøkekriterier;
-    markerKandidatlisteSomMin: (kandidatlisteId: string) => void;
-    markerSomMinStatus: Nettstatus;
-    slettKandidatliste: any;
-    resetSletteStatus: any;
-    sletteStatus: Nettressurs<{ slettetTittel: string }>;
-    nullstillValgtKandidatIKandidatliste: any;
+    totaltAntallKandidatlister: number;
+    søkekriterier: KandidatlisterSøkekriterier;
+    nullstillValgtKandidatIKandidatliste: () => void;
 };
 
 class Kandidatlisteoversikt extends React.Component<Props> {
     state: {
-        modalstatus: Modalvisning;
         søkeOrd: string;
-        kandidatlisteIEndring: any;
-        visKandidatlisteMeny: any;
+        modal: ModalUtenKandidatliste | ModalMedKandidatliste;
     };
 
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            modalstatus: Modalvisning.Ingen,
-            søkeOrd: this.props.kandidatlisterSokeKriterier.query,
-            kandidatlisteIEndring: undefined,
-            visKandidatlisteMeny: undefined,
+            søkeOrd: this.props.søkekriterier.query,
+            modal: {
+                visning: Modalvisning.Ingen,
+            },
         };
     }
 
     componentDidMount() {
-        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-
-        this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
+        this.refreshKandidatlister();
         this.props.nullstillValgtKandidatIKandidatliste();
     }
 
-    componentDidUpdate(prevProps: Props) {
-        if (
-            prevProps.sletteStatus.kind === Nettstatus.LasterInn &&
-            this.props.sletteStatus.kind === Nettstatus.Suksess
-        ) {
-            const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-            this.visSuccessMelding(
-                `Kandidatliste "${this.props.sletteStatus.data.slettetTittel}" er slettet`
-            );
-            this.onLukkModal();
-            this.props.resetSletteStatus();
-        }
+    refreshKandidatlister = () => {
+        const { query, type, kunEgne, pagenumber } = this.props.søkekriterier;
+        this.props.hentKandidatlister({
+            query,
+            type,
+            kunEgne,
+            pagenumber,
+            pagesize: SIDESTØRRELSE,
+        });
+    };
 
-        if (
-            prevProps.markerSomMinStatus === Nettstatus.LasterInn &&
-            this.props.markerSomMinStatus === Nettstatus.Suksess
-        ) {
-            const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-            this.visSuccessMelding('Endringene er lagret');
-            this.onLukkModal();
-        }
-    }
-
-    onFilterChange = (verdi: string) => {
-        const { query, kunEgne, type } = this.props.kandidatlisterSokeKriterier;
+    onFilterChange = (verdi: Stillingsfilter) => {
+        const { query, kunEgne, type } = this.props.søkekriterier;
 
         if (verdi !== type) {
-            this.props.hentKandidatlister(query, verdi, kunEgne, 0, PAGINERING_BATCH_SIZE);
+            this.props.hentKandidatlister({
+                query,
+                type: verdi,
+                kunEgne,
+                pagenumber: 0,
+                pagesize: SIDESTØRRELSE,
+            });
         }
     };
 
@@ -123,98 +110,115 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 
     onSubmitSøkKandidatlister = (e) => {
         e.preventDefault();
-        const { type, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(this.state.søkeOrd, type, kunEgne, 0, PAGINERING_BATCH_SIZE);
+        const { type, kunEgne } = this.props.søkekriterier;
+        this.props.hentKandidatlister({
+            query: this.state.søkeOrd,
+            type,
+            kunEgne,
+            pagenumber: 0,
+            pagesize: SIDESTØRRELSE,
+        });
     };
 
     onNullstillSøkClick = () => {
-        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
+        const { query, type, kunEgne, pagenumber } = this.props.søkekriterier;
         if (this.state.søkeOrd !== '') {
             this.setState({ søkeOrd: '' });
         }
+
         if (query !== '' || type !== '' || !kunEgne || pagenumber !== 0) {
-            this.props.hentKandidatlister('', '', true, 0, PAGINERING_BATCH_SIZE);
+            this.props.hentKandidatlister({
+                query: '',
+                type: Stillingsfilter.Ingen,
+                kunEgne: true,
+                pagenumber: 0,
+                pagesize: SIDESTØRRELSE,
+            });
         }
     };
 
     onOpprettClick = () => {
         this.setState({
-            modalstatus: Modalvisning.Opprett,
+            modal: {
+                visning: Modalvisning.Opprett,
+            },
         });
     };
 
-    onEndreClick = (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
+    handleRedigerClick = (kandidatliste: KandidatlisteSammendrag) => {
         this.setState({
-            modalstatus: Modalvisning.Endre,
-            kandidatlisteIEndring: kandidatlisteSammendrag,
+            modal: {
+                visning: Modalvisning.Endre,
+                kandidatliste,
+            },
         });
     };
 
-    onMenyClick = (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
-        if (kandidatlisteSammendrag === this.state.visKandidatlisteMeny) {
-            this.setState({ visKandidatlisteMeny: undefined });
-        } else {
-            this.setState({ visKandidatlisteMeny: kandidatlisteSammendrag });
+    handleMarkerSomMinClick = (kandidatliste: KandidatlisteSammendrag) => {
+        this.setState({
+            modal: {
+                visning: Modalvisning.MarkerSomMin,
+                kandidatliste,
+            },
+        });
+    };
+
+    handleSlettClick = (kandidatliste: KandidatlisteSammendrag) => {
+        this.setState({
+            modal: {
+                visning: Modalvisning.Slette,
+                kandidatliste,
+            },
+        });
+    };
+
+    handleLukkModal = (refreshKandidatlister?: boolean) => {
+        this.setState({
+            modal: {
+                visning: Modalvisning.Ingen,
+            },
+        });
+
+        if (refreshKandidatlister === true) {
+            this.refreshKandidatlister();
         }
-    };
-
-    onSkjulMeny = () => {
-        this.setState({ visKandidatlisteMeny: undefined });
-    };
-
-    onVisMarkerSomMinModal = (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
-        this.setState({
-            modalstatus: Modalvisning.MarkerSomMin,
-            kandidatlisteIEndring: kandidatlisteSammendrag,
-        });
-    };
-
-    onVisSlettKandidatlisteModal = (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
-        this.setState({
-            modalstatus: Modalvisning.Slette,
-            kandidatlisteIEndring: kandidatlisteSammendrag,
-        });
-    };
-
-    onLukkModal = (refreshKandidatlister: boolean = true) => {
-        this.setState({
-            modalstatus: Modalvisning.Ingen,
-            kandidatlisteIEndring: undefined,
-        });
-
-        if (refreshKandidatlister) {
-            const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-        }
-    };
-
-    onMarkerKandidatlisteSomMin = () => {
-        this.props.markerKandidatlisteSomMin(this.state.kandidatlisteIEndring.kandidatlisteId);
     };
 
     onVisMineKandidatlister = () => {
-        const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
+        const { query, type, kunEgne } = this.props.søkekriterier;
         if (!kunEgne) {
-            this.props.hentKandidatlister(query, type, true, 0, PAGINERING_BATCH_SIZE);
+            this.props.hentKandidatlister({
+                query,
+                type,
+                kunEgne: true,
+                pagenumber: 0,
+                pagesize: SIDESTØRRELSE,
+            });
         }
     };
 
     onVisAlleKandidatlister = () => {
-        const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
+        const { query, type, kunEgne } = this.props.søkekriterier;
         if (kunEgne) {
-            this.props.hentKandidatlister(query, type, false, 0, PAGINERING_BATCH_SIZE);
+            this.props.hentKandidatlister({
+                query,
+                type,
+                kunEgne: false,
+                pagenumber: 0,
+                pagesize: SIDESTØRRELSE,
+            });
         }
     };
 
     onPageChange = (nyttSidenummer: number) => {
-        const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(
+        const { query, type, kunEgne } = this.props.søkekriterier;
+        this.props.hentKandidatlister({
             query,
             type,
             kunEgne,
-            nyttSidenummer - 1,
-            PAGINERING_BATCH_SIZE
-        );
+            pagenumber: nyttSidenummer - 1,
+            pagesize: SIDESTØRRELSE,
+        });
     };
 
     visSuccessMelding = (melding: string) => {
@@ -225,34 +229,36 @@ class Kandidatlisteoversikt extends React.Component<Props> {
     };
 
     render() {
-        const {
-            kandidatlister,
-            totaltAntallKandidatlister,
-            fetchingKandidatlister,
-            kandidatlisterSokeKriterier,
-        } = this.props;
-        const { modalstatus, kandidatlisteIEndring, søkeOrd } = this.state;
+        const { kandidatlister, totaltAntallKandidatlister, kandidatlisterStatus, søkekriterier } =
+            this.props;
+        const { søkeOrd, modal } = this.state;
+
+        const tittel = `${
+            totaltAntallKandidatlister === undefined ? '0' : totaltAntallKandidatlister
+        } kandidatliste${totaltAntallKandidatlister === 1 ? '' : 'r'}`;
+
         return (
             <div>
-                {modalstatus === Modalvisning.Opprett && (
-                    <OpprettModal onClose={this.onLukkModal} />
+                {modal.visning === Modalvisning.Opprett && (
+                    <OpprettModal onClose={this.handleLukkModal} />
                 )}
-                {modalstatus === Modalvisning.Endre && (
-                    <EndreModal kandidatliste={kandidatlisteIEndring} onClose={this.onLukkModal} />
-                )}
-                {modalstatus === Modalvisning.MarkerSomMin && (
-                    <MarkerSomMinModal
-                        stillingsId={kandidatlisteIEndring.stillingId}
-                        markerKandidatlisteSomMin={this.onMarkerKandidatlisteSomMin}
-                        onAvbrytClick={this.onLukkModal}
+                {modal.visning === Modalvisning.Endre && (
+                    <EndreModal
+                        kandidatliste={modal.kandidatliste}
+                        onClose={this.handleLukkModal}
                     />
                 )}
-                {modalstatus === Modalvisning.Slette && (
+                {modal.visning === Modalvisning.MarkerSomMin && (
+                    <MarkerSomMinModal
+                        kandidatliste={modal.kandidatliste}
+                        stillingsId={modal.kandidatliste.stillingId}
+                        onClose={this.handleLukkModal}
+                    />
+                )}
+                {modal.visning === Modalvisning.Slette && (
                     <SlettModal
-                        slettKandidatliste={() => {
-                            this.props.slettKandidatliste(kandidatlisteIEndring);
-                        }}
-                        onAvbrytClick={this.onLukkModal}
+                        kandidatliste={modal.kandidatliste}
+                        onClose={this.handleLukkModal}
                     />
                 )}
                 <Header
@@ -265,37 +271,35 @@ class Kandidatlisteoversikt extends React.Component<Props> {
                 <div className={css.wrapper}>
                     <Filter
                         className={css.filter}
-                        kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                        søkekriterier={søkekriterier}
                         onVisMineKandidatlister={this.onVisMineKandidatlister}
                         onVisAlleKandidatlister={this.onVisAlleKandidatlister}
                         onFilterChange={this.onFilterChange}
                     />
                     <div className={css.antallKandidatlister}>
-                        <Heading level="1" size="medium">{`${
-                            totaltAntallKandidatlister === undefined
-                                ? '0'
-                                : totaltAntallKandidatlister
-                        } kandidatliste${totaltAntallKandidatlister === 1 ? '' : 'r'}`}</Heading>
+                        <Heading level="1" size="medium">
+                            {tittel}
+                        </Heading>
                     </div>
                     <Kandidatlistetabell
                         className={css.tabell}
-                        nettstatus={fetchingKandidatlister}
+                        nettstatus={kandidatlisterStatus}
                         kandidatlister={kandidatlister}
                     >
                         <TabellHeader />
                         <TabellBody
                             kandidatlister={kandidatlister}
-                            endreKandidatliste={this.onEndreClick}
-                            markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
-                            slettKandidatliste={this.onVisSlettKandidatlisteModal}
+                            onRedigerClick={this.handleRedigerClick}
+                            onMarkerSomMinClick={this.handleMarkerSomMinClick}
+                            onSlettClick={this.handleSlettClick}
                         />
                     </Kandidatlistetabell>
-                    {fetchingKandidatlister === Nettstatus.Suksess && (
+                    {kandidatlisterStatus === Nettstatus.Suksess && (
                         <Pagination
-                            className={classNames(css.underTabell, css.paginering)}
-                            page={kandidatlisterSokeKriterier.pagenumber + 1}
+                            page={søkekriterier.pagenumber + 1}
+                            count={Math.ceil(totaltAntallKandidatlister / SIDESTØRRELSE)}
                             onPageChange={this.onPageChange}
-                            count={Math.ceil(totaltAntallKandidatlister / PAGINERING_BATCH_SIZE)}
+                            className={classNames(css.underTabell, css.paginering)}
                         />
                     )}
                 </div>
@@ -305,36 +309,20 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: AppState) => ({
+    kandidatlisterStatus: state.listeoversikt.hentListerStatus,
     kandidatlister: state.listeoversikt.kandidatlister.liste,
     totaltAntallKandidatlister: state.listeoversikt.kandidatlister.antall,
-    fetchingKandidatlister: state.listeoversikt.hentListerStatus,
-    kandidatlisterSokeKriterier: state.listeoversikt.søkekriterier,
-    markerSomMinStatus: state.listeoversikt.markerSomMinStatus,
-    sletteStatus: state.listeoversikt.slettKandidatlisteStatus,
+    søkekriterier: state.listeoversikt.søkekriterier,
 });
 
-const mapDispatchToProps = (dispatch: (action: any) => void) => ({
-    hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
+const mapDispatchToProps = (
+    dispatch: (action: ListeoversiktAction | KandidatlisteAction) => void
+) => ({
+    hentKandidatlister: (søkekriterier: Søkekriterier) =>
         dispatch({
             type: ListeoversiktActionType.HentKandidatlister,
-            query,
-            listetype: type,
-            kunEgne,
-            pagenumber,
-            pagesize,
+            søkekriterier,
         }),
-    markerKandidatlisteSomMin: (kandidatlisteId: string) => {
-        dispatch({ type: ListeoversiktActionType.MarkerKandidatlisteSomMin, kandidatlisteId });
-    },
-    slettKandidatliste: (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
-        dispatch({
-            type: ListeoversiktActionType.SlettKandidatliste,
-            kandidatliste: kandidatlisteSammendrag,
-        });
-    },
-    resetSletteStatus: () => {
-        dispatch({ type: ListeoversiktActionType.ResetSletteStatus });
-    },
     nullstillValgtKandidatIKandidatliste: () =>
         dispatch({
             type: KandidatlisteActionType.VelgKandidat,

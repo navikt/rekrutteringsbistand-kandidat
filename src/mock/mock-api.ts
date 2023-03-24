@@ -29,6 +29,7 @@ const url = {
     // Kandidatliste
     kandidatlister: `${api}/veileder/kandidatlister`,
     kandidatliste: `${api}/veileder/kandidatlister/:kandidatlisteId`,
+    markerKandidatlisteSomMin: `${api}/veileder/kandidatlister/:kandidatlisteId/eierskap`,
     kandidatlisteMedStilling: `${api}/veileder/stilling/:stillingsId/kandidatliste`,
     kandidatlistePost: `${api}/veileder/me/kandidatlister`,
     notater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater`,
@@ -105,6 +106,12 @@ const getKandidatlister = (url: string) => {
 
 const getKandidatliste = (url: string) => {
     const kandidatlisteId = url.split('/').pop();
+
+    return mock.kandidat.kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+};
+
+const markerKandidatlisteSomMin = (url: string) => {
+    const kandidatlisteId = url.split('/')[4];
 
     return mock.kandidat.kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 };
@@ -375,6 +382,7 @@ fetchMock
     .get(url.kandidatliste, log(getKandidatliste))
     .put(url.kandidatliste, log(getKandidatliste), litenDelay)
     .delete(url.kandidatliste, log(204), litenDelay)
+    .put(url.markerKandidatlisteSomMin, log(markerKandidatlisteSomMin), litenDelay)
 
     .get(url.kandidatlisteMedStilling, log(getKandidatlisteMedStilling))
     .post(url.kandidatlistePost, log(201))

@@ -2,11 +2,11 @@ import moment from 'moment';
 import { v5 as uuid } from 'uuid';
 
 import type Cv from '../../../cv/reducer/cv-typer';
-import { KanSletteEnum } from '../../../kandidatlisteoversikt/Kandidatlisteoversikt';
 import {
     Kandidatliste,
     KandidatlisteSammendrag,
     Kandidatlistestatus,
+    KanSletteKandidatliste,
     Stillingskategori,
 } from '../../../kandidatliste/domene/Kandidatliste';
 import {
@@ -47,7 +47,7 @@ const standardKandidatliste = (eier: Veileder): Kandidatliste => ({
     },
     opprettetTidspunkt: '2019-11-18T11:40:34.732',
     kanEditere: true,
-    kanSlette: KanSletteEnum.KAN_SLETTES,
+    kanSlette: KanSletteKandidatliste.KanSlettes,
     status: Kandidatlistestatus.Åpen,
     stillingskategori: Stillingskategori.Stilling,
     kandidater: [],
@@ -233,7 +233,7 @@ const mockKandidatliste = (
         kandidatlisteId: lagUuid(lagTittel(i)),
         status: erLukket ? Kandidatlistestatus.Lukket : Kandidatlistestatus.Åpen,
         kanEditere: erEier ? kandidatliste.kanEditere : false,
-        kanSlette: erEier ? kandidatliste.kanSlette : KanSletteEnum.ER_IKKE_DIN,
+        kanSlette: erEier ? kandidatliste.kanSlette : KanSletteKandidatliste.ErIkkeDin,
         stillingId: harStilling ? kandidatliste.stillingId : null,
         opprettetAv: erEier
             ? kandidatliste.opprettetAv

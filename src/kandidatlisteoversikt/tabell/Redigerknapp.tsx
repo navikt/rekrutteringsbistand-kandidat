@@ -10,14 +10,10 @@ import css from './Kandidatlistetabell.module.css';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
-    onRediger: (kandidatliste: KandidatlisteSammendrag) => void;
+    onClick: () => void;
 };
 
-const Redigerknapp = ({ kandidatliste, onRediger }: Props) => {
-    const handleRedigerClick = () => {
-        onRediger(kandidatliste);
-    };
-
+const Redigerknapp = ({ kandidatliste, onClick }: Props) => {
     if (kandidatliste.kanEditere) {
         if (erKobletTilStilling(kandidatliste)) {
             return (
@@ -30,7 +26,7 @@ const Redigerknapp = ({ kandidatliste, onRediger }: Props) => {
                 <Button
                     variant="tertiary"
                     aria-label={`Endre kandidatlisten «${kandidatliste.tittel}»`}
-                    onClick={handleRedigerClick}
+                    onClick={onClick}
                     icon={<PencilIcon />}
                 />
             );

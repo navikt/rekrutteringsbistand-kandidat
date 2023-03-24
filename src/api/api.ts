@@ -361,7 +361,7 @@ export const fetchArbeidsgivereEnhetsregisterOrgnr = (orgnr) => {
     return fetchJson(`${ENHETSREGISTER_API}/underenhet/_search?q=organisasjonsnummer:${query}*`);
 };
 
-export const endreEierskapPaKandidatliste = (kandidatlisteId) =>
+export const markerKandidatlisteUtenStillingSomMin = (kandidatlisteId: string) =>
     putJson(`${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/eierskap`);
 
 export async function deleteKandidatliste(kandidatlisteId: string): Promise<Nettressurs<any>> {

@@ -12,7 +12,7 @@ import css from './Modal.module.css';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
-    onClose: () => void;
+    onClose: (refreshKandidatlister?: boolean) => void;
 };
 
 const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
@@ -34,7 +34,7 @@ const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
 
             setStatus({ kind: Nettstatus.Suksess, data: kandidatlisteDto });
 
-            onClose();
+            onClose(true);
         } catch (e) {
             setStatus(
                 feil({

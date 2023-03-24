@@ -1,28 +1,30 @@
 import React, { FunctionComponent } from 'react';
 import { Tooltip } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
-import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
-import { KanSletteEnum } from '../Kandidatlisteoversikt';
+import {
+    KandidatlisteSammendrag,
+    KanSletteKandidatliste,
+} from '../../kandidatliste/domene/Kandidatliste';
 import css from './Kandidatlistetabell.module.css';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
-    onMarkerSomMin: (kandidatliste: KandidatlisteSammendrag) => void;
-    onSlett: () => void;
+    onMarkerSomMinClick: () => void;
+    onSlettClick: () => void;
 };
 
-const Dropdownmeny: FunctionComponent<Props> = ({ kandidatliste, onMarkerSomMin, onSlett }) => {
-    const handleMarkerSomMinClick = () => {
-        onMarkerSomMin(kandidatliste);
-    };
-
+const Dropdownmeny: FunctionComponent<Props> = ({
+    kandidatliste,
+    onMarkerSomMinClick,
+    onSlettClick,
+}) => {
     const kanMarkereSomMin = !kandidatliste.kanEditere;
-    const kanSlette = kandidatliste.kanSlette === KanSletteEnum.KAN_SLETTES;
+    const kanSlette = kandidatliste.kanSlette === KanSletteKandidatliste.KanSlettes;
 
     return (
         <Dropdown.Menu.GroupedList>
             {kanMarkereSomMin ? (
-                <Dropdown.Menu.GroupedList.Item onClick={handleMarkerSomMinClick}>
+                <Dropdown.Menu.GroupedList.Item onClick={onMarkerSomMinClick}>
                     Marker som min
                 </Dropdown.Menu.GroupedList.Item>
             ) : (
@@ -34,7 +36,7 @@ const Dropdownmeny: FunctionComponent<Props> = ({ kandidatliste, onMarkerSomMin,
             )}
 
             {kanSlette ? (
-                <Dropdown.Menu.GroupedList.Item onClick={onSlett}>
+                <Dropdown.Menu.GroupedList.Item onClick={onSlettClick}>
                     Slett
                 </Dropdown.Menu.GroupedList.Item>
             ) : (
@@ -50,11 +52,11 @@ const Dropdownmeny: FunctionComponent<Props> = ({ kandidatliste, onMarkerSomMin,
 
 const byggÅrsakTilAtListenIkkeKanSlettes = (kandidatliste: KandidatlisteSammendrag) => {
     switch (kandidatliste.kanSlette) {
-        case KanSletteEnum.HAR_STILLING:
+        case KanSletteKandidatliste.HarStilling:
             return 'Denne kandidatlisten er knyttet til en stilling og kan ikke slettes.';
-        case KanSletteEnum.ER_IKKE_DIN:
+        case KanSletteKandidatliste.ErIkkeDin:
             return `Denne kandidatlisten tilhører ${kandidatliste.opprettetAv.navn}. Du kan bare slette dine egne lister.`;
-        case KanSletteEnum.ER_IKKE_DIN_OG_HAR_STILLING:
+        case KanSletteKandidatliste.ErIkkeDinOgHarStilling:
             return `Du kan ikke slette kandidatlisten fordi den tilhører ${kandidatliste.opprettetAv.navn} og er knyttet til en stilling.`;
         default:
             return '';

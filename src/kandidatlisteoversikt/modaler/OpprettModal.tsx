@@ -10,7 +10,7 @@ import { VarslingAction, VarslingActionType } from '../../common/varsling/varsli
 import css from './Modal.module.css';
 
 type Props = {
-    onClose: () => void;
+    onClose: (refreshKandidatlister?: boolean) => void;
 };
 
 const OpprettModal: FunctionComponent<Props> = ({ onClose }) => {
@@ -31,7 +31,7 @@ const OpprettModal: FunctionComponent<Props> = ({ onClose }) => {
             });
 
             setStatus(suksess(kandidatlisteDto));
-            onClose();
+            onClose(true);
         } catch (e) {
             setStatus(
                 feil({
