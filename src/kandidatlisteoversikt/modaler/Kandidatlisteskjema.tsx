@@ -1,9 +1,7 @@
 import React, { ChangeEvent } from 'react';
-import { Textarea } from 'nav-frontend-skjema';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { BodyShort, Detail, TextField } from '@navikt/ds-react';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { BodyShort, Button, Detail, Textarea, TextField } from '@navikt/ds-react';
 
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
@@ -229,7 +227,7 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
 
                 <div className={css.arbeidsgiver}>
                     <Typeahead
-                        label="Arbeidsgiver (Bedriftens navn hentet fra Enhetsregisteret)"
+                        label="Arbeidsgiver (bedriftens navn hentet fra Enhetsregisteret)"
                         placeholder="Skriv inn arbeidsgivers navn eller virksomhetsnummer"
                         onChange={this.onBedriftChange}
                         onSelect={this.onBedriftSelect}
@@ -239,7 +237,6 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
                             label: this.getEmployerSuggestionLabel(s),
                         }))}
                         value={this.state.typeaheadValue}
-                        id="OpprettKandidatlisteForm__typeahead-bedrift"
                         onTypeAheadBlur={this.onTypeAheadBlur}
                         shouldHighlightInput={false}
                     />
@@ -251,32 +248,21 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
                         </Detail>
                     )}
                 </div>
-                <div className="OpprettKandidatlisteForm__input">
-                    <Textarea
-                        textareaClass="OpprettKandidatlisteForm__input__textarea skjemaelement--pink"
-                        label="Beskrivelse"
-                        value={this.state.beskrivelse ?? ''}
-                        maxLength={1000}
-                        onChange={this.onBeskrivelseChange}
-                        feil={this.validerBeskrivelse() ? undefined : 'Beskrivelsen er for lang'}
-                    />
-                </div>
+
+                <Textarea
+                    label="Beskrivelse"
+                    value={this.state.beskrivelse}
+                    maxLength={1000}
+                    onChange={this.onBeskrivelseChange}
+                    error={this.validerBeskrivelse() ? undefined : 'Beskrivelsen er for lang'}
+                />
                 <div className={css.knapper}>
-                    <Hovedknapp
-                        id="kandidatliste-opprett-knapp"
-                        onClick={this.validateAndSave}
-                        spinner={saving}
-                        disabled={saving}
-                    >
+                    <Button onClick={this.validateAndSave} loading={saving} disabled={saving}>
                         {knappetekst}
-                    </Hovedknapp>
-                    <Flatknapp
-                        className="knapp--avbryt"
-                        onClick={this.props.onClose}
-                        disabled={saving}
-                    >
+                    </Button>
+                    <Button variant="tertiary" onClick={this.props.onClose} disabled={saving}>
                         Avbryt
-                    </Flatknapp>
+                    </Button>
                 </div>
             </form>
         );

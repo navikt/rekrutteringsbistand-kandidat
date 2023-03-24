@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events,no-trailing-spaces */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Normaltekst } from 'nav-frontend-typografi';
 import TypeaheadSuggestion from './TypeaheadSuggestion';
-import './Typeahead.less';
+import { TextField } from '@navikt/ds-react';
+import css from './Typeahead.module.css';
 
 export default class Typeahead extends React.Component {
     constructor() {
@@ -183,11 +183,9 @@ export default class Typeahead extends React.Component {
             this.state.shouldShowSuggestions &&
             this.props.suggestions.length > 0;
         return (
-            <div className="typeahead typo-normal">
-                {this.props.label && (
-                    <Normaltekst className="skjemaelement__label">{this.props.label}</Normaltekst>
-                )}
-                <input
+            <div className={css.typeahead}>
+                <TextField
+                    label={this.props.label}
                     id={this.props.id}
                     role="combobox"
                     aria-autocomplete="list"
@@ -206,12 +204,11 @@ export default class Typeahead extends React.Component {
                     ref={(input) => {
                         this.input = input;
                     }}
-                    className="skjemaelement__input input--fullbredde skjemaelement--blue"
                 />
                 <ul
                     id={`${this.props.id}-suggestions`}
                     role="listbox"
-                    className={showSuggestions ? '' : 'typeahead-suggestions-hidden'}
+                    className={showSuggestions ? '' : css.skjultForslag}
                     onMouseLeave={this.resetHighlightingSuggestion}
                 >
                     {showSuggestions &&
