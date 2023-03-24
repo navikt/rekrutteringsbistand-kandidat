@@ -17,6 +17,10 @@
     margin-top: 0.25rem;
 }
 
+.feilmelding {
+    margin-top: 0.25rem;
+}
+
 .knapper {
     display: flex;
     align-items: center;

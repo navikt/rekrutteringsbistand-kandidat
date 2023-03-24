@@ -5,16 +5,16 @@ import TabellRad from './TabellRad';
 
 type Props = {
     kandidatlister: KandidatlisteSammendrag[];
-    endreKandidatliste: (kandidatliste: KandidatlisteSammendrag) => void;
-    markerKandidatlisteSomMin: (kandidatliste: KandidatlisteSammendrag) => void;
-    slettKandidatliste: (kandidatliste: KandidatlisteSammendrag) => void;
+    onRedigerClick: (kandidatliste: KandidatlisteSammendrag) => void;
+    onMarkerSomMinClick: (kandidatliste: KandidatlisteSammendrag) => void;
+    onSlettClick: (kandidatliste: KandidatlisteSammendrag) => void;
 };
 
 const TabellBody: FunctionComponent<Props> = ({
     kandidatlister,
-    endreKandidatliste,
-    markerKandidatlisteSomMin,
-    slettKandidatliste,
+    onRedigerClick,
+    onMarkerSomMinClick,
+    onSlettClick,
 }) => {
     return (
         <Table.Body>
@@ -22,11 +22,9 @@ const TabellBody: FunctionComponent<Props> = ({
                 <TabellRad
                     key={kandidatliste.kandidatlisteId}
                     kandidatlisteSammendrag={kandidatliste}
-                    endreKandidatliste={endreKandidatliste}
-                    markerKandidatlisteSomMin={markerKandidatlisteSomMin}
-                    slettKandidatliste={() => {
-                        slettKandidatliste(kandidatliste);
-                    }}
+                    onRedigerClick={() => onRedigerClick(kandidatliste)}
+                    onMarkerSomMinClick={() => onMarkerSomMinClick(kandidatliste)}
+                    onSlettClick={() => onSlettClick(kandidatliste)}
                 />
             ))}
         </Table.Body>

@@ -6,9 +6,6 @@ export enum ListeoversiktActionType {
     HentKandidatlister = 'HENT_KANDIDATLISTER',
     HentKandidatlisterSuccess = 'HENT_KANDIDATLISTER_SUCCESS',
     HentKandidatlisterFailure = 'HENT_KANDIDATLISTER_FAILURE',
-    MarkerKandidatlisteSomMin = 'MARKER_KANDIDATLISTE_SOM_MIN',
-    MarkerKandidatlisteSomMinSuccess = 'MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS',
-    MarkerKandidatlisteSomMinFailure = 'MARKER_KANDIDATLISTE_SOM_MIN',
     SlettKandidatliste = 'SLETT_KANDIDATLISTE',
     SlettKandidatlisteFerdig = 'SLETT_KANDIDATLISTE_FERDIG',
     ResetSletteStatus = 'RESET_SLETTE_STATUS',
@@ -37,19 +34,6 @@ export interface HentKandidatlisterSuccessAction {
 
 export interface HentKandidatlisterFailureAction {
     type: ListeoversiktActionType.HentKandidatlisterFailure;
-}
-
-export interface MarkerKandidatlisteSomMinAction {
-    type: ListeoversiktActionType.MarkerKandidatlisteSomMin;
-    kandidatlisteId: string;
-}
-
-export interface MarkerKandidatlisteSomMinSuccessAction {
-    type: ListeoversiktActionType.MarkerKandidatlisteSomMinSuccess;
-}
-
-export interface MarkerKandidatlisteSomMinFailureAction {
-    type: ListeoversiktActionType.MarkerKandidatlisteSomMinFailure;
 }
 
 export interface SlettKandidatlisteAction {
@@ -86,9 +70,6 @@ export type ListeoversiktAction =
     | HentKandidatlisterAction
     | HentKandidatlisterSuccessAction
     | HentKandidatlisterFailureAction
-    | MarkerKandidatlisteSomMinAction
-    | MarkerKandidatlisteSomMinSuccessAction
-    | MarkerKandidatlisteSomMinFailureAction
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
     | ResetSletteStatusAction

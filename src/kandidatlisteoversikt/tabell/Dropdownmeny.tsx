@@ -7,22 +7,22 @@ import css from './Kandidatlistetabell.module.css';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
-    onMarkerSomMin: (kandidatliste: KandidatlisteSammendrag) => void;
-    onSlett: () => void;
+    onMarkerSomMinClick: () => void;
+    onSlettClick: () => void;
 };
 
-const Dropdownmeny: FunctionComponent<Props> = ({ kandidatliste, onMarkerSomMin, onSlett }) => {
-    const handleMarkerSomMinClick = () => {
-        onMarkerSomMin(kandidatliste);
-    };
-
+const Dropdownmeny: FunctionComponent<Props> = ({
+    kandidatliste,
+    onMarkerSomMinClick,
+    onSlettClick,
+}) => {
     const kanMarkereSomMin = !kandidatliste.kanEditere;
     const kanSlette = kandidatliste.kanSlette === KanSletteEnum.KAN_SLETTES;
 
     return (
         <Dropdown.Menu.GroupedList>
             {kanMarkereSomMin ? (
-                <Dropdown.Menu.GroupedList.Item onClick={handleMarkerSomMinClick}>
+                <Dropdown.Menu.GroupedList.Item onClick={onMarkerSomMinClick}>
                     Marker som min
                 </Dropdown.Menu.GroupedList.Item>
             ) : (
@@ -34,7 +34,7 @@ const Dropdownmeny: FunctionComponent<Props> = ({ kandidatliste, onMarkerSomMin,
             )}
 
             {kanSlette ? (
-                <Dropdown.Menu.GroupedList.Item onClick={onSlett}>
+                <Dropdown.Menu.GroupedList.Item onClick={onSlettClick}>
                     Slett
                 </Dropdown.Menu.GroupedList.Item>
             ) : (

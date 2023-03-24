@@ -18,16 +18,16 @@ export type FeilmeldingIMeny = {
 
 type Props = {
     kandidatlisteSammendrag: KandidatlisteSammendrag;
-    endreKandidatliste: (kandidatlisteSammendrag: KandidatlisteSammendrag) => void;
-    markerKandidatlisteSomMin: (kandidatlisteSammendrag: KandidatlisteSammendrag) => void;
-    slettKandidatliste: () => void;
+    onRedigerClick: () => void;
+    onMarkerSomMinClick: () => void;
+    onSlettClick: () => void;
 };
 
 const TabellRad: FunctionComponent<Props> = ({
     kandidatlisteSammendrag,
-    endreKandidatliste,
-    markerKandidatlisteSomMin,
-    slettKandidatliste,
+    onRedigerClick,
+    onMarkerSomMinClick,
+    onSlettClick,
 }) => {
     return (
         <Table.Row shadeOnHover={false} className={css.rad}>
@@ -63,10 +63,7 @@ const TabellRad: FunctionComponent<Props> = ({
                 </Link>
             </Table.DataCell>
             <Table.DataCell align="center">
-                <Redigerknapp
-                    kandidatliste={kandidatlisteSammendrag}
-                    onRediger={endreKandidatliste}
-                />
+                <Redigerknapp kandidatliste={kandidatlisteSammendrag} onClick={onRedigerClick} />
             </Table.DataCell>
             <Table.DataCell align="center">
                 <Dropdown closeOnSelect={false}>
@@ -79,8 +76,8 @@ const TabellRad: FunctionComponent<Props> = ({
                     <Dropdown.Menu>
                         <Dropdownmeny
                             kandidatliste={kandidatlisteSammendrag}
-                            onMarkerSomMin={markerKandidatlisteSomMin}
-                            onSlett={slettKandidatliste}
+                            onMarkerSomMinClick={onMarkerSomMinClick}
+                            onSlettClick={onSlettClick}
                         />
                     </Dropdown.Menu>
                 </Dropdown>

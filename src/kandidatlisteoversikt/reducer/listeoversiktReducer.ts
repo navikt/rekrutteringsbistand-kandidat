@@ -78,21 +78,6 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
                 ...state,
                 hentListerStatus: Nettstatus.Feil,
             };
-        case ListeoversiktActionType.MarkerKandidatlisteSomMin:
-            return {
-                ...state,
-                markerSomMinStatus: Nettstatus.LasterInn,
-            };
-        case ListeoversiktActionType.MarkerKandidatlisteSomMinSuccess:
-            return {
-                ...state,
-                markerSomMinStatus: Nettstatus.Suksess,
-            };
-        case ListeoversiktActionType.MarkerKandidatlisteSomMinFailure:
-            return {
-                ...state,
-                markerSomMinStatus: Nettstatus.Feil,
-            };
         case ListeoversiktActionType.SlettKandidatliste:
             return {
                 ...state,
