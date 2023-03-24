@@ -14,7 +14,7 @@ import css from './Modal.module.css';
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
     stillingsId: string | null;
-    onClose: () => void;
+    onClose: (refreshKandidatlister?: boolean) => void;
 };
 
 const MarkerSomMinModal = ({ stillingsId, kandidatliste, onClose }: Props) => {
@@ -32,7 +32,7 @@ const MarkerSomMinModal = ({ stillingsId, kandidatliste, onClose }: Props) => {
                 innhold: `Markerte kandidatlisten «${kandidatliste.tittel}» som min`,
             });
 
-            onClose();
+            onClose(true);
         } catch (e) {
             setStatus(Nettstatus.Feil);
         }
@@ -76,7 +76,7 @@ const MarkerSomMinModal = ({ stillingsId, kandidatliste, onClose }: Props) => {
                         >
                             Marker som min
                         </Button>
-                        <Button variant="secondary" onClick={onClose}>
+                        <Button variant="secondary" onClick={() => onClose()}>
                             Avbryt
                         </Button>
                     </div>

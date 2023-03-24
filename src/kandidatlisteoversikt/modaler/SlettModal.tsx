@@ -12,7 +12,7 @@ import css from './Modal.module.css';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
-    onClose: () => void;
+    onClose: (refreshKandidatlister?: boolean) => void;
 };
 
 const SlettModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
@@ -30,7 +30,7 @@ const SlettModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
                 innhold: `Slettet kandidatlisten «${kandidatliste.tittel}»`,
             });
 
-            onClose();
+            onClose(true);
         } catch (e) {
             setStatus(Nettstatus.Feil);
         }
@@ -54,7 +54,7 @@ const SlettModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
                 <Button onClick={handleSlettClick} loading={status === Nettstatus.LasterInn}>
                     Slett
                 </Button>
-                <Button onClick={onClose} variant="secondary">
+                <Button onClick={() => onClose()} variant="secondary">
                     Avbryt
                 </Button>
             </div>

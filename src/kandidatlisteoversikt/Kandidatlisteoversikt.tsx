@@ -91,8 +91,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
     };
 
     onFilterChange = (verdi: Stillingsfilter) => {
-        console.log('Type endret seg:', verdi);
-
         const { query, kunEgne, type } = this.props.søkekriterier;
 
         if (verdi !== type) {
@@ -174,14 +172,14 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         });
     };
 
-    onLukkModal = (refreshKandidatlister: boolean = true) => {
+    handleLukkModal = (refreshKandidatlister?: boolean) => {
         this.setState({
             modal: {
                 visning: Modalvisning.Ingen,
             },
         });
 
-        if (refreshKandidatlister) {
+        if (refreshKandidatlister === true) {
             this.refreshKandidatlister();
         }
     };
@@ -242,20 +240,26 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         return (
             <div>
                 {modal.visning === Modalvisning.Opprett && (
-                    <OpprettModal onClose={this.onLukkModal} />
+                    <OpprettModal onClose={this.handleLukkModal} />
                 )}
                 {modal.visning === Modalvisning.Endre && (
-                    <EndreModal kandidatliste={modal.kandidatliste} onClose={this.onLukkModal} />
+                    <EndreModal
+                        kandidatliste={modal.kandidatliste}
+                        onClose={this.handleLukkModal}
+                    />
                 )}
                 {modal.visning === Modalvisning.MarkerSomMin && (
                     <MarkerSomMinModal
                         kandidatliste={modal.kandidatliste}
                         stillingsId={modal.kandidatliste.stillingId}
-                        onClose={this.onLukkModal}
+                        onClose={this.handleLukkModal}
                     />
                 )}
                 {modal.visning === Modalvisning.Slette && (
-                    <SlettModal kandidatliste={modal.kandidatliste} onClose={this.onLukkModal} />
+                    <SlettModal
+                        kandidatliste={modal.kandidatliste}
+                        onClose={this.handleLukkModal}
+                    />
                 )}
                 <Header
                     søkeOrd={søkeOrd}
