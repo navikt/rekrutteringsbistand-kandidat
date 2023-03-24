@@ -227,6 +227,7 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
 
                 <div className={css.arbeidsgiver}>
                     <Typeahead
+                        id="arbeidsgiver"
                         label="Arbeidsgiver (bedriftens navn hentet fra Enhetsregisteret)"
                         placeholder="Skriv inn arbeidsgivers navn eller virksomhetsnummer"
                         onChange={this.onBedriftChange}
