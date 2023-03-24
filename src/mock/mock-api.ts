@@ -31,7 +31,6 @@ const url = {
     kandidatliste: `${api}/veileder/kandidatlister/:kandidatlisteId`,
     kandidatlisteMedStilling: `${api}/veileder/stilling/:stillingsId/kandidatliste`,
     kandidatlistePost: `${api}/veileder/me/kandidatlister`,
-    kandidatlistePut: `${api}/veileder/kandidatlister/:kandidatlisteId`,
     notater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater`,
     notaterMedId: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater/:notatId`,
     statusPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/status`,
@@ -364,6 +363,8 @@ const log = (response: MockResponse | MockResponseFunction) => {
     };
 };
 
+const litenDelay = { delay: 500 };
+
 fetchMock
     // CV
     .get(url.cv, log(getCv))
@@ -372,9 +373,11 @@ fetchMock
     // Kandidatliste
     .get(url.kandidatlister, log(getKandidatlister))
     .get(url.kandidatliste, log(getKandidatliste))
+    .put(url.kandidatliste, log(getKandidatliste), litenDelay)
+    .delete(url.kandidatliste, log(204), litenDelay)
+
     .get(url.kandidatlisteMedStilling, log(getKandidatlisteMedStilling))
     .post(url.kandidatlistePost, log(201))
-    .put(url.kandidatlistePut, log(getKandidatliste), { delay: 500 })
 
     .get(url.notater, log(mock.kandidat.notater))
     .post(url.notater, log(mock.kandidat.notater))
