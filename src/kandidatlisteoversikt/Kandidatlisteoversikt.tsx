@@ -18,7 +18,6 @@ import SlettModal from './modaler/SlettModal';
 import { Heading, Pagination } from '@navikt/ds-react';
 import Kandidatlistetabell from './tabell/Kandidatlistetabell';
 import css from './Kandidatlisteoversikt.module.css';
-import './Kandidatlisteoversikt.less';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',
