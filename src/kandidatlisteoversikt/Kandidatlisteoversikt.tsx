@@ -219,7 +219,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
     };
 
     visSuccessMelding = (melding: string) => {
-        console.log('SUCCESSMELDING:', melding);
         this.setState({
             visSuccessMelding: true,
             successMelding: melding,
