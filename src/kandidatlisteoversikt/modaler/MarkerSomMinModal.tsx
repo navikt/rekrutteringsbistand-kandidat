@@ -13,7 +13,7 @@ import css from './Modal.module.css';
 
 type Props = {
     kandidatliste: KandidatlisteSammendrag;
-    stillingsId?: string;
+    stillingsId: string | null;
     onClose: () => void;
 };
 
@@ -29,7 +29,7 @@ const MarkerSomMinModal = ({ stillingsId, kandidatliste, onClose }: Props) => {
 
             dispatch<VarslingAction>({
                 type: VarslingActionType.VisVarsling,
-                innhold: `Kandidatlisten «${kandidatliste.tittel}» er nå markert som din`,
+                innhold: `Markerte kandidatlisten «${kandidatliste.tittel}» som min`,
             });
 
             onClose();

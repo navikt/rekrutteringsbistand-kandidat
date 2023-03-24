@@ -10,13 +10,20 @@ export type Kandidatliste = {
     opprettetAv: OpprettetAv;
     opprettetTidspunkt: string;
     kanEditere: boolean;
-    kanSlette: string;
+    kanSlette: KanSletteKandidatliste;
     kandidater: Kandidat[];
     formidlingerAvUsynligKandidat: FormidlingAvUsynligKandidat[];
     status: Kandidatlistestatus;
     antallStillinger: number | null;
     stillingskategori: Stillingskategori | null;
 };
+
+export enum KanSletteKandidatliste {
+    KanSlettes = 'KAN_SLETTES',
+    ErIkkeDin = 'ER_IKKE_DIN',
+    HarStilling = 'HAR_STILLING',
+    ErIkkeDinOgHarStilling = 'ER_IKKE_DIN_OG_HAR_STILLING',
+}
 
 export type KandidatlisteSammendrag = Omit<
     Kandidatliste,

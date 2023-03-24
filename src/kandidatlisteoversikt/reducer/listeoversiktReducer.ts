@@ -1,30 +1,30 @@
-import { ikkeLastet, lasterInn, Nettstatus, Nettressurs, suksess } from '../../api/Nettressurs';
+import { Nettstatus } from '../../api/Nettressurs';
 import { Reducer } from 'redux';
 import { ListeoversiktAction, ListeoversiktActionType } from './ListeoversiktAction';
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
+import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
+import { Stillingsfilter } from '../filter/Filter';
+
+export type Søkekriterier = {
+    query: string;
+    type: Stillingsfilter;
+    kunEgne: boolean;
+    pagenumber: number;
+    pagesize: number;
+};
 
 export type ListeoversiktState = {
     hentListerStatus: Nettstatus;
     kandidatlister: {
-        liste: Array<any>;
+        liste: Array<KandidatlisteSammendrag>;
         antall?: number;
     };
-    søkekriterier: {
-        query: string;
-        type: string;
-        kunEgne: boolean;
-        pagenumber: number;
-        pagesize: number;
-    };
+    søkekriterier: Søkekriterier;
     sortering: {
         sortField: KandidatlisteSorteringsfelt | null;
         sortDirection: Retning | null;
     };
-    slettKandidatlisteStatus: Nettressurs<{
-        slettetTittel: string;
-    }>;
-    markerSomMinStatus: Nettstatus;
 };
 
 const initialState = {
@@ -34,7 +34,7 @@ const initialState = {
     },
     søkekriterier: {
         query: '',
-        type: '',
+        type: Stillingsfilter.Ingen,
         kunEgne: true,
         pagenumber: 0,
         pagesize: 20,
@@ -43,8 +43,6 @@ const initialState = {
         sortField: null,
         sortDirection: null,
     },
-    slettKandidatlisteStatus: ikkeLastet(),
-    markerSomMinStatus: Nettstatus.IkkeLastet,
 };
 
 const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
@@ -56,13 +54,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
             return {
                 ...state,
                 hentListerStatus: Nettstatus.LasterInn,
-                søkekriterier: {
-                    query: action.query,
-                    type: action.listetype,
-                    kunEgne: action.kunEgne,
-                    pagenumber: action.pagenumber,
-                    pagesize: action.pagesize,
-                },
+                søkekriterier: action.søkekriterier,
             };
         case ListeoversiktActionType.HentKandidatlisterSuccess:
             return {
@@ -77,24 +69,6 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
             return {
                 ...state,
                 hentListerStatus: Nettstatus.Feil,
-            };
-        case ListeoversiktActionType.SlettKandidatliste:
-            return {
-                ...state,
-                slettKandidatlisteStatus: lasterInn(),
-            };
-        case ListeoversiktActionType.SlettKandidatlisteFerdig:
-            return {
-                ...state,
-                slettKandidatlisteStatus:
-                    action.result.kind === Nettstatus.Suksess
-                        ? suksess({ slettetTittel: action.kandidatlisteTittel })
-                        : action.result,
-            };
-        case ListeoversiktActionType.ResetSletteStatus:
-            return {
-                ...state,
-                slettKandidatlisteStatus: ikkeLastet(),
             };
         case ListeoversiktActionType.SetSortering:
             return {
@@ -114,7 +88,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
                 },
                 søkekriterier: {
                     query: '',
-                    type: '',
+                    type: Stillingsfilter.Ingen,
                     kunEgne: true,
                     pagenumber: 0,
                     pagesize: 20,

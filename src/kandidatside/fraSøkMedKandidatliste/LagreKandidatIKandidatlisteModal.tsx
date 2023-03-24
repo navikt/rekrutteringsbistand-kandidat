@@ -63,7 +63,7 @@ const LagreKandidatIKandidatlisteModal: FunctionComponent<Props> = ({
         dispatch({
             type: VarslingActionType.VisVarsling,
             alertType: 'suksess',
-            innhold: `Kandidaten er lagret i kandidatlisten «${kandidatliste.tittel}»`,
+            innhold: `Lagret kandidaten i kandidatlisten «${kandidatliste.tittel}»`,
         });
 
         dispatch({

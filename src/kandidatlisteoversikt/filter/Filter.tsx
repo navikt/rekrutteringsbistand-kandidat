@@ -2,20 +2,21 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Accordion, Checkbox, CheckboxGroup, Radio, RadioGroup } from '@navikt/ds-react';
 import css from './Filter.module.css';
+import { Søkekriterier } from '../reducer/listeoversiktReducer';
 
 enum Eierskapsfilter {
     KunMine = 'KUN_MINE',
     AlleSine = 'ALLE_SINE',
 }
 
-enum Stillingsfilter {
+export enum Stillingsfilter {
     MedStilling = 'MED_STILLING',
     UtenStilling = 'UTEN_STILLING',
     Ingen = '',
 }
 
 type Props = {
-    kandidatlisterSokeKriterier: any;
+    søkekriterier: Søkekriterier;
     onVisMineKandidatlister: () => void;
     onVisAlleKandidatlister: () => void;
     onFilterChange: (verdi: string) => void;
@@ -23,18 +24,18 @@ type Props = {
 };
 
 const Filter = ({
-    kandidatlisterSokeKriterier,
+    søkekriterier,
     onVisMineKandidatlister,
     onVisAlleKandidatlister,
     onFilterChange,
     className,
 }: Props) => {
     const [utenStilling, setUtenStilling] = useState<boolean>(
-        kandidatlisterSokeKriterier.type === Stillingsfilter.UtenStilling
+        søkekriterier.type === Stillingsfilter.UtenStilling
     );
 
     const [medStilling, setMedStilling] = useState<boolean>(
-        kandidatlisterSokeKriterier.type === Stillingsfilter.MedStilling
+        søkekriterier.type === Stillingsfilter.MedStilling
     );
 
     const handleEierskapsfilterChange = (eierskap: Eierskapsfilter) => {
@@ -60,7 +61,7 @@ const Filter = ({
         }
     }, [medStilling, utenStilling, onFilterChange]);
 
-    const eierskapsfilter: Eierskapsfilter = kandidatlisterSokeKriterier.kunEgne
+    const eierskapsfilter: Eierskapsfilter = søkekriterier.kunEgne
         ? Eierskapsfilter.KunMine
         : Eierskapsfilter.AlleSine;
 

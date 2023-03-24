@@ -1,13 +1,8 @@
-import { Nettstatus } from '../../api/Nettressurs';
-import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { deleteKandidatliste, fetchKandidatlister } from '../../api/api';
 import AppState from '../../AppState';
-import {
-    ListeoversiktActionType,
-    SlettKandidatlisteAction,
-    SlettKandidatlisteFerdigAction,
-} from './ListeoversiktAction';
+import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
+import { put, select, takeLatest } from 'redux-saga/effects';
+import { fetchKandidatlister } from '../../api/api';
+import { ListeoversiktActionType } from './ListeoversiktAction';
 import { SearchApiError } from '../../api/fetchUtils';
 
 function* hentKandidatlister() {
@@ -29,26 +24,8 @@ function* hentKandidatlister() {
     }
 }
 
-function* slettKandidatliste(action: SlettKandidatlisteAction) {
-    const response = yield call(deleteKandidatliste, action.kandidatliste.kandidatlisteId);
-    yield put({
-        type: ListeoversiktActionType.SlettKandidatlisteFerdig,
-        result: response,
-        kandidatlisteTittel: action.kandidatliste.tittel,
-    });
-}
-
 function* sjekkError() {
     yield put({ type: KandidatsøkActionType.InvalidResponseStatus });
-}
-
-function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
-    if (action.result.kind === Nettstatus.Feil) {
-        yield put({
-            type: KandidatsøkActionType.InvalidResponseStatus,
-            error: action.result.error,
-        });
-    }
 }
 
 function* listeoversiktSaga() {
@@ -57,8 +34,6 @@ function* listeoversiktSaga() {
         hentKandidatlister
     );
     yield takeLatest([ListeoversiktActionType.HentKandidatlisterFailure], sjekkError);
-    yield takeLatest([ListeoversiktActionType.SlettKandidatlisteFerdig], sjekkFerdigActionForError);
-    yield takeLatest(ListeoversiktActionType.SlettKandidatliste, slettKandidatliste);
 }
 
 export default listeoversiktSaga;
