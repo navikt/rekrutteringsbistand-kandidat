@@ -1,5 +1,6 @@
 .wrapper {
     display: grid;
+    align-items: start;
     grid-template-areas:
         'over-tabell'
         'filter'

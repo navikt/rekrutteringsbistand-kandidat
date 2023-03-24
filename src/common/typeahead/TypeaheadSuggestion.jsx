@@ -2,6 +2,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import css from './Typeahead.module.css';
 
 export default class TypeaheadSuggestion extends React.Component {
     constructor(props) {
@@ -34,14 +36,18 @@ export default class TypeaheadSuggestion extends React.Component {
                 onKeyDown={this.props.avoidBlur}
             >
                 {this.props.shouldHighlightInput && matchIndex !== -1 && this.props.match !== '' ? (
-                    <span className={`typetext ${this.props.active && 'active'}`}>
+                    <span
+                        className={classNames(css.typetext, {
+                            [css.aktivtForslag]: this.props.active,
+                        })}
+                    >
                         {this.value.split('').map((c, i) => {
                             if (
                                 i === matchIndex ||
                                 (i > matchIndex && i < matchIndex + this.props.match.length)
                             ) {
                                 return (
-                                    <span className="typeahead-substring" key={`${c}-${i}`}>
+                                    <span className={css.matchendeTekstIForslag} key={`${c}-${i}`}>
                                         {c}
                                     </span>
                                 );
@@ -51,7 +57,9 @@ export default class TypeaheadSuggestion extends React.Component {
                     </span>
                 ) : (
                     <span
-                        className={`typetext typeahead-substring ${this.props.active && 'active'}`}
+                        className={classNames(css.typetext, css.matchendeTekstIForslag, {
+                            [css.aktivtForslag]: this.props.active,
+                        })}
                     >
                         {this.props.label}
                     </span>

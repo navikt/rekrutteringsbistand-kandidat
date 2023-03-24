@@ -363,6 +363,8 @@ const log = (response: MockResponse | MockResponseFunction) => {
     };
 };
 
+const litenDelay = { delay: 500 };
+
 fetchMock
     // CV
     .get(url.cv, log(getCv))
@@ -371,8 +373,12 @@ fetchMock
     // Kandidatliste
     .get(url.kandidatlister, log(getKandidatlister))
     .get(url.kandidatliste, log(getKandidatliste))
+    .put(url.kandidatliste, log(getKandidatliste), litenDelay)
+    .delete(url.kandidatliste, log(204), litenDelay)
+
     .get(url.kandidatlisteMedStilling, log(getKandidatlisteMedStilling))
     .post(url.kandidatlistePost, log(201))
+
     .get(url.notater, log(mock.kandidat.notater))
     .post(url.notater, log(mock.kandidat.notater))
     .mock(url.notaterMedId, log(mock.kandidat.notater))

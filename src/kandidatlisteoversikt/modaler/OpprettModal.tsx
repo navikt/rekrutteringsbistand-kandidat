@@ -1,55 +1,64 @@
-import React, { FunctionComponent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Heading } from '@navikt/ds-react';
+import React, { FunctionComponent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { ErrorMessage, Heading } from '@navikt/ds-react';
 
-import { Nettstatus } from '../../api/Nettressurs';
-import AppState from '../../AppState';
-import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import { feil, Nettressurs, Nettstatus, suksess } from '../../api/Nettressurs';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
-import Kandidatlisteskjema, { Kandidatlisteinfo } from './Kandidatlisteskjema';
+import Kandidatlisteskjema, { KandidatlisteDto } from './Kandidatlisteskjema';
+import { postKandidatliste } from '../../api/api';
+import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
 import css from './Modal.module.css';
 
 type Props = {
-    onAvbrytClick: () => void;
+    onClose: () => void;
 };
 
-const OpprettModal: FunctionComponent<Props> = ({ onAvbrytClick }) => {
+const OpprettModal: FunctionComponent<Props> = ({ onClose }) => {
     const dispatch = useDispatch();
-    const { lagreStatus } = useSelector((state: AppState) => state.kandidatliste.opprett);
+    const [status, setStatus] = useState<Nettressurs<KandidatlisteDto>>({
+        kind: Nettstatus.IkkeLastet,
+    });
 
-    const opprettKandidatliste = (info: Kandidatlisteinfo) => {
-        dispatch({ type: KandidatlisteActionType.OpprettKandidatliste, info });
-    };
+    const opprettKandidatliste = async (kandidatlisteDto: KandidatlisteDto) => {
+        setStatus({ kind: Nettstatus.SenderInn });
 
-    const resetStatusTilUnsaved = () => {
-        dispatch({ type: KandidatlisteActionType.ResetLagreStatus });
-    };
+        try {
+            await postKandidatliste(kandidatlisteDto);
 
-    const intiellKandidatinfo: Kandidatlisteinfo = {
-        tittel: '',
-        beskrivelse: '',
-        organisasjonNavn: null,
-        organisasjonReferanse: null,
+            dispatch<VarslingAction>({
+                type: VarslingActionType.VisVarsling,
+                innhold: `Opprettet kandidatliste «${kandidatlisteDto.tittel}»`,
+            });
+
+            setStatus(suksess(kandidatlisteDto));
+            onClose();
+        } catch (e) {
+            setStatus(
+                feil({
+                    message: 'Klarte ikke å opprette kandidatliste',
+                    status: e.status,
+                })
+            );
+        }
     };
 
     return (
         <ModalMedKandidatScope
             open
             aria-label="Opprett kandidatliste"
-            onClose={onAvbrytClick}
-            className="modal--opprett-kandidatliste__veileder"
+            onClose={onClose}
+            className={css.modal}
         >
             <Heading level="2" size="medium" className={css.tittel}>
                 Opprett kandidatliste
             </Heading>
             <Kandidatlisteskjema
-                info={intiellKandidatinfo}
                 onSave={opprettKandidatliste}
-                resetStatusTilUnsaved={resetStatusTilUnsaved}
-                saving={lagreStatus === Nettstatus.SenderInn}
-                onAvbrytClick={onAvbrytClick}
+                saving={status.kind === Nettstatus.SenderInn}
+                onClose={onClose}
                 knappetekst="Opprett"
             />
+            {status.kind === Nettstatus.Feil && <ErrorMessage>{status.error.message}</ErrorMessage>}
         </ModalMedKandidatScope>
     );
 };

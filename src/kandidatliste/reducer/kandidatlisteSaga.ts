@@ -11,7 +11,6 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import KandidatlisteAction, {
-    OpprettKandidatlisteAction,
     HentKandidatlisteMedStillingsIdAction,
     HentKandidatlisteMedKandidatlisteIdAction,
     PresenterKandidaterAction,
@@ -34,7 +33,6 @@ import KandidatlisteAction, {
     HentForespørslerOmDelingAvCvAction,
     SendForespørselOmDelingAvCv,
     SlettCvFraArbeidsgiversKandidatliste,
-    OppdaterKandidatlisteAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -43,11 +41,9 @@ import {
     fetchKandidatlisteMedStillingsId,
     fetchNotater,
     postDelteKandidater,
-    postKandidatliste,
     postNotat,
     putKandidatliste,
     putNotat,
-    putOppdaterKandidatliste,
     putStatusKandidat,
     putArkivert,
     putFormidlingsutfallForUsynligKandidat,
@@ -72,23 +68,6 @@ const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
         });
     }
 };
-
-function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
-    try {
-        yield postKandidatliste(action.info);
-
-        yield put({
-            type: KandidatlisteActionType.OpprettKandidatlisteSuccess,
-            tittel: action.info.tittel,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.OpprettKandidatlisteFailure, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
 
 function* opprettKandidatlisteForStilling(stillingsId, opprinneligError) {
     try {
@@ -416,23 +395,6 @@ function* angreArkiveringForKandidater(action: AngreArkiveringAction) {
     }
 }
 
-function* oppdaterKandidatliste(action: OppdaterKandidatlisteAction) {
-    try {
-        yield putOppdaterKandidatliste(action.info);
-
-        yield put({
-            type: KandidatlisteActionType.OppdaterKandidatlisteSuccess,
-            tittel: action.info.tittel,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.OppdaterKandidatlisteFailure, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
 function* sjekkError(action) {
     yield put({ type: KandidatsøkActionType.InvalidResponseStatus, error: action.error });
 }
@@ -541,7 +503,6 @@ function* sendForespørselOmDeling(action: SendForespørselOmDelingAvCv) {
 }
 
 function* kandidatlisteSaga() {
-    yield takeLatest(KandidatlisteActionType.OpprettKandidatliste, opprettKandidatliste);
     yield takeLatest(
         KandidatlisteActionType.HentKandidatlisteMedStillingsId,
         hentKandidatlisteMedStillingsId
@@ -562,11 +523,9 @@ function* kandidatlisteSaga() {
         KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer,
         hentKandidatlisteMedAnnonsenummer
     );
-    yield takeLatest(KandidatlisteActionType.OppdaterKandidatliste, oppdaterKandidatliste);
     yield takeLatest(KandidatlisteActionType.AngreArkivering, angreArkiveringForKandidater);
     yield takeLatest(
         [
-            KandidatlisteActionType.OpprettKandidatlisteFailure,
             KandidatlisteActionType.HentKandidatlisteMedStillingsIdFailure,
             KandidatlisteActionType.HentKandidatlisteMedKandidatlisteIdFailure,
             KandidatlisteActionType.EndreStatusKandidatFailure,
