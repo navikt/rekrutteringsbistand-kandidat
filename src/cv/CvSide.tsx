@@ -5,7 +5,6 @@ import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
 import Jobbprofil from './jobbprofil/Jobbprofil';
 import KandidatCv from './cv/Cv';
-import KandidatTilretteleggingsbehov from './tilretteleggingsbehov/Tilretteleggingsbehov';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Sidelaster from '../common/sidelaster/Sidelaster';
 import Sidefeil from '../common/sidefeil/Sidefeil';
@@ -27,9 +26,9 @@ const CvSide: FunctionComponent = () => {
             <div className={css.side}>
                 <Jobbprofil cv={cv.data} />
                 <KandidatCv cv={cv.data} />
-                {cv.data.tilretteleggingsbehov && (
+                {/*cv.data.tilretteleggingsbehov && (
                     <KandidatTilretteleggingsbehov fnr={cv.data.fodselsnummer} />
-                )}
+                )*/}
             </div>
         );
     }
