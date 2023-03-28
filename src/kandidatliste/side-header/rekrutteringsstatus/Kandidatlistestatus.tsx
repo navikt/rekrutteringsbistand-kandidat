@@ -13,7 +13,7 @@ import useLagreKandidatlisteIder from './useLagreKandidatlisteIder';
 import useSletteKandidatlisteIderFraLukkedata from './useSletteLagredeStillinger';
 import { Kandidatlistestatus as Status } from '../../domene/Kandidatliste';
 import { PadlockLockedFillIcon, PadlockUnlockedFillIcon } from '@navikt/aksel-icons';
-import './Kandidatlistestatus.less';
+import css from './Kandidatlistestatus.module.css';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
@@ -90,17 +90,11 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     );
 
     return (
-        <Panel border className={classNames(className, 'kandidatlistestatus')}>
-            <div className="kandidatlistestatus__ikon">
-                {
-                    status === Status.Åpen ? (
-                        <PadlockUnlockedFillIcon />
-                    ) : (
-                        <PadlockLockedFillIcon />
-                    ) /* TODO: Farger */
-                }
+        <Panel border className={classNames(className, css.kandidatlistestatus)}>
+            <div className={classNames(css.ikon, css.ikonÅpen)}>
+                {status === Status.Åpen ? <PadlockUnlockedFillIcon /> : <PadlockLockedFillIcon />}
             </div>
-            <div className="kandidatlistestatus__informasjon">
+            <div className={css.informasjon}>
                 <Label as="p">{kandidatlistestatusToDisplayName(status)}</Label>
                 {erKnyttetTilStilling && antallStillinger != null && antallStillinger > 0 && (
                     <BodyShort>

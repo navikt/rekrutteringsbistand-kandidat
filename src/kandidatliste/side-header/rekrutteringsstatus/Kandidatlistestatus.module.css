@@ -1,0 +1,22 @@
+.kandidatlistestatus {
+    display: flex;
+    align-items: center;
+    transition: all 1s;
+    gap: 1rem;
+}
+
+.ikon {
+    flex-shrink: 0;
+}
+
+.åpen svg {
+    fill: green;
+}
+
+.lukket svg {
+    fill: red;
+}
+
+.informasjon {
+    width: 100%;
+}
