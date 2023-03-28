@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { useDispatch, useSelector } from 'react-redux';
-import Panel from 'nav-frontend-paneler';
 
 import ÅpenHengelås from './ÅpenHengelås';
 import LåstHengelås from './LåstHengelås';
@@ -16,6 +15,8 @@ import useLagreKandidatlisteIder from './useLagreKandidatlisteIder';
 import useSletteKandidatlisteIderFraLukkedata from './useSletteLagredeStillinger';
 import { Kandidatlistestatus as Status } from '../../domene/Kandidatliste';
 import './Kandidatlistestatus.less';
+import { Panel } from '@navikt/ds-react';
+import classNames from 'classnames';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
@@ -69,11 +70,6 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         });
     };
 
-    let klassenavn = className + ' kandidatlistestatus';
-    if (erKnyttetTilStilling) {
-        klassenavn += ' kandidatlistestatus--med-stilling';
-    }
-
     const bekreftNudgeAvsluttOppdragModal = () => {
         dispatch({
             type: KandidatlisteActionType.EndreKandidatlistestatus,
@@ -97,7 +93,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     );
 
     return (
-        <Panel border className={klassenavn}>
+        <Panel border className={classNames(className, 'kandidatlistestatus')}>
             <div className="kandidatlistestatus__ikon">
                 {status === Status.Åpen ? <ÅpenHengelås /> : <LåstHengelås />}
             </div>

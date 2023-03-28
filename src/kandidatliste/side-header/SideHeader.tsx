@@ -94,7 +94,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
                     )}
                 </div>
                 <Kandidatlistestatus
-                    className={css.kandidatlistestatus}
+                    className={css.status}
                     status={kandidatliste.status}
                     erKnyttetTilStilling={erKobletTilStilling(kandidatliste)}
                     kanEditere={kandidatliste.kanEditere}
