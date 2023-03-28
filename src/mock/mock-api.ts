@@ -379,7 +379,7 @@ fetchMock
 
     // Kandidatliste
     .get(url.kandidatlister, log(getKandidatlister))
-    .get(url.kandidatliste, log(getKandidatliste))
+    .get(url.kandidatliste, log(getKandidatliste), litenDelay)
     .put(url.kandidatliste, log(getKandidatliste), litenDelay)
     .delete(url.kandidatliste, log(204), litenDelay)
     .put(url.markerKandidatlisteSomMin, log(markerKandidatlisteSomMin), litenDelay)
