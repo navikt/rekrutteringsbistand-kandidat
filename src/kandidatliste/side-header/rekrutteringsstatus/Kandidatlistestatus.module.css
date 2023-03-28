@@ -9,12 +9,12 @@
     flex-shrink: 0;
 }
 
-.åpen svg {
-    fill: green;
+.åpen {
+    color: green;
 }
 
-.lukket svg {
-    fill: red;
+.lukket {
+    color: red;
 }
 
 .informasjon {

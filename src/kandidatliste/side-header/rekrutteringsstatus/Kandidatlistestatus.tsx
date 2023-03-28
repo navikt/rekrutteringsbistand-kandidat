@@ -91,8 +91,12 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
 
     return (
         <Panel border className={classNames(className, css.kandidatlistestatus)}>
-            <div className={classNames(css.ikon, css.ikonÅpen)}>
-                {status === Status.Åpen ? <PadlockUnlockedFillIcon /> : <PadlockLockedFillIcon />}
+            <div className={css.ikon}>
+                {status === Status.Åpen ? (
+                    <PadlockUnlockedFillIcon fontSize="2rem" className={css.åpen} />
+                ) : (
+                    <PadlockLockedFillIcon fontSize="2rem" className={css.lukket} />
+                )}
             </div>
             <div className={css.informasjon}>
                 <Label as="p">{kandidatlistestatusToDisplayName(status)}</Label>
