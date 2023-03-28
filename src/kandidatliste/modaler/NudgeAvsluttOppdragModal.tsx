@@ -3,6 +3,7 @@ import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './NudgeAvsluttOppdragModal.less';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
+import { BodyShort, Label, Heading, Button } from '@navikt/ds-react';
 
 interface Props {
     antallKandidaterSomHarFåttJobb: number;
@@ -34,20 +35,23 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
                 onClose={onAvbryt}
                 className="nudgeAvsluttOppdragModal"
             >
-                <Systemtittel className="nudgeAvsluttOppdragModal__tittel">
+                <Heading level="3" size="medium" className="nudgeAvsluttOppdragModal__tittel">
                     Ferdig med oppdraget?
-                </Systemtittel>
+                </Heading>
+
                 <div className="nudgeAvsluttOppdragModal__beskrivelse">
-                    <Normaltekst>
+                    <BodyShort spacing>
                         {antallKandidaterSomHarFåttJobb} av {antallStillinger} stilling
                         {antallStillinger === 1 ? '' : 'er'} er besatt
-                    </Normaltekst>
-                    <Normaltekst>Er du ferdig med oppdraget og vil avslutte?</Normaltekst>
+                    </BodyShort>
+                    <BodyShort spacing>Er du ferdig med oppdraget og vil avslutte?</BodyShort>
                 </div>
-                <Hovedknapp onClick={onBekreft} className="nudgeAvsluttOppdragModal__bekreftknapp">
+                <Button onClick={onBekreft} className="nudgeAvsluttOppdragModal__bekreftknapp">
                     Ja, Avslutt
-                </Hovedknapp>
-                <Flatknapp onClick={onAvbryt}>Avbryt</Flatknapp>
+                </Button>
+                <Button variant="secondary" onClick={onAvbryt}>
+                    Avbryt
+                </Button>
             </ModalMedKandidatScope>
         )
     );
