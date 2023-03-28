@@ -1,10 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { BodyShort, Button, Label, Panel } from '@navikt/ds-react';
 import { useDispatch, useSelector } from 'react-redux';
+import classNames from 'classnames';
 
-import ÅpenHengelås from './ÅpenHengelås';
-import LåstHengelås from './LåstHengelås';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import AppState from '../../../AppState';
 import { Nettstatus } from '../../../api/Nettressurs';
@@ -14,9 +12,8 @@ import { skalViseModal } from './skalViseAvsluttOppdragModal';
 import useLagreKandidatlisteIder from './useLagreKandidatlisteIder';
 import useSletteKandidatlisteIderFraLukkedata from './useSletteLagredeStillinger';
 import { Kandidatlistestatus as Status } from '../../domene/Kandidatliste';
+import { PadlockLockedFillIcon, PadlockUnlockedFillIcon } from '@navikt/aksel-icons';
 import './Kandidatlistestatus.less';
-import { Panel } from '@navikt/ds-react';
-import classNames from 'classnames';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
@@ -95,22 +92,28 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     return (
         <Panel border className={classNames(className, 'kandidatlistestatus')}>
             <div className="kandidatlistestatus__ikon">
-                {status === Status.Åpen ? <ÅpenHengelås /> : <LåstHengelås />}
+                {
+                    status === Status.Åpen ? (
+                        <PadlockUnlockedFillIcon />
+                    ) : (
+                        <PadlockLockedFillIcon />
+                    ) /* TODO: Farger */
+                }
             </div>
             <div className="kandidatlistestatus__informasjon">
-                <Element>{kandidatlistestatusToDisplayName(status)}</Element>
+                <Label as="p">{kandidatlistestatusToDisplayName(status)}</Label>
                 {erKnyttetTilStilling && antallStillinger != null && antallStillinger > 0 && (
-                    <Normaltekst>
+                    <BodyShort>
                         {besatteStillinger} av {antallStillinger}{' '}
                         {antallStillinger === 1 ? 'stilling' : 'stillinger'} er besatt
-                    </Normaltekst>
+                    </BodyShort>
                 )}
                 {erKnyttetTilStilling &&
                     !antallStillinger && ( // TODO: fjerne denne bolken når alle kandidatlistene er oppdatert fra stilling
-                        <Normaltekst>
+                        <BodyShort>
                             {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
                             {besatteStillinger === 1 ? '' : 'er'} er besatt
-                        </Normaltekst>
+                        </BodyShort>
                     )}
                 {skalViseAvsluttOppdragModal && (
                     <NudgeAvsluttOppdragModal
@@ -122,15 +125,14 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                 )}
             </div>
             {kanEditere && (
-                <Knapp
-                    mini
-                    kompakt
-                    className="kandidatlistestatus__knapp"
-                    disabled={endreStatusNettstatus === Nettstatus.SenderInn}
+                <Button
+                    size="small"
+                    variant="secondary"
+                    loading={endreStatusNettstatus === Nettstatus.SenderInn}
                     onClick={onEndreStatusClick}
                 >
                     {status === Status.Åpen ? 'Avslutt' : 'Gjenåpne'}
-                </Knapp>
+                </Button>
             )}
         </Panel>
     );
