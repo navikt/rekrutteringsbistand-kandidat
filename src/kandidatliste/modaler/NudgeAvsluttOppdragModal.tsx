@@ -1,9 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import './NudgeAvsluttOppdragModal.less';
+import css from './NudgeAvsluttOppdragModal.module.css';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
-import { BodyShort, Label, Heading, Button } from '@navikt/ds-react';
+import { BodyShort, Heading, Button } from '@navikt/ds-react';
 
 interface Props {
     antallKandidaterSomHarFåttJobb: number;
@@ -33,25 +31,26 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
                 open={true}
                 aria-label="Forslag om å avslutte oppdraget"
                 onClose={onAvbryt}
-                className="nudgeAvsluttOppdragModal"
             >
-                <Heading level="3" size="medium" className="nudgeAvsluttOppdragModal__tittel">
+                <Heading level="3" size="medium" className={css.tittel}>
                     Ferdig med oppdraget?
                 </Heading>
 
-                <div className="nudgeAvsluttOppdragModal__beskrivelse">
+                <div className={css.beskrivelse}>
                     <BodyShort spacing>
                         {antallKandidaterSomHarFåttJobb} av {antallStillinger} stilling
                         {antallStillinger === 1 ? '' : 'er'} er besatt
                     </BodyShort>
                     <BodyShort spacing>Er du ferdig med oppdraget og vil avslutte?</BodyShort>
                 </div>
-                <Button onClick={onBekreft} className="nudgeAvsluttOppdragModal__bekreftknapp">
-                    Ja, Avslutt
-                </Button>
-                <Button variant="secondary" onClick={onAvbryt}>
-                    Avbryt
-                </Button>
+                <div className={css.knapper}>
+                    <Button onClick={onBekreft} className={css.bekreftknapp}>
+                        Ja, Avslutt
+                    </Button>
+                    <Button variant="secondary" onClick={onAvbryt}>
+                        Avbryt
+                    </Button>
+                </div>
             </ModalMedKandidatScope>
         )
     );
