@@ -22,6 +22,7 @@ const kandidatlistestatusToDisplayName = (status: Status) => {
 };
 
 type Props = {
+    className: string;
     status: Status;
     kanEditere: boolean;
     besatteStillinger: number;
@@ -31,6 +32,7 @@ type Props = {
 };
 
 const Kandidatlistestatus: FunctionComponent<Props> = ({
+    className,
     status,
     kanEditere,
     besatteStillinger,
@@ -67,7 +69,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         });
     };
 
-    let klassenavn = 'side-header__kandidatlistestatus kandidatlistestatus';
+    let klassenavn = className + ' kandidatlistestatus';
     if (erKnyttetTilStilling) {
         klassenavn += ' kandidatlistestatus--med-stilling';
     }

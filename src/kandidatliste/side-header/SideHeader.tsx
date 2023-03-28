@@ -17,7 +17,7 @@ import {
     Kandidatutfall,
 } from '../domene/Kandidat';
 import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
-import './SideHeader.less';
+import css from './SideHeader.module.css';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -45,15 +45,15 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
     })`;
 
     return (
-        <header className="side-header">
-            <div className="side-header__inner">
-                <div className="side-header__tilbake">
+        <header className={css.header}>
+            <div className={css.inner}>
+                <div className={css.tilbake}>
                     <Link className="navds-link" to={lenkeTilKandidatlisteoversikt}>
                         <ChevronLeftIcon />
                         Til kandidatlister
                     </Link>
                 </div>
-                <div className="side-header__informasjon">
+                <div>
                     <Heading spacing level="2" size="medium">
                         {kandidatliste.tittel}
                     </Heading>
@@ -61,7 +61,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
                     <Label spacing as="p">
                         {oppsummeringTekst}
                     </Label>
-                    <BodyShort spacing className="side-header__om-kandidatlisten">
+                    <BodyShort spacing className={css.omKandidatlisten}>
                         {erKobletTilArbeidsgiver(kandidatliste) && (
                             <span>
                                 Arbeidsgiver:{' '}
@@ -94,6 +94,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
                     )}
                 </div>
                 <Kandidatlistestatus
+                    className={css.kandidatlistestatus}
                     status={kandidatliste.status}
                     erKnyttetTilStilling={erKobletTilStilling(kandidatliste)}
                     kanEditere={kandidatliste.kanEditere}
