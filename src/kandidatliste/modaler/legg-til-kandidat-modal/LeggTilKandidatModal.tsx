@@ -3,7 +3,6 @@ import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper'
 import { Input } from 'nav-frontend-skjema';
 import { Systemtittel } from 'nav-frontend-typografi';
 import fnrValidator from '@navikt/fnrvalidator';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../../api/api';
 import { Fødselsnummersøk } from '../../../cv/reducer/cv-typer';
@@ -18,6 +17,7 @@ import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke'
 import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 import './LeggTilKandidatModal.less';
+import Sidelaster from '../../../common/sidelaster/Sidelaster';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
@@ -149,9 +149,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
             )}
 
             {(fnrSøk.kind === Nettstatus.LasterInn ||
-                synlighetsevaluering.kind === Nettstatus.LasterInn) && (
-                <NavFrontendSpinner className="LeggTilKandidatModal__spinner" />
-            )}
+                synlighetsevaluering.kind === Nettstatus.LasterInn) && <Sidelaster size="large" />}
 
             {fnrSøk.kind === Nettstatus.Suksess && (
                 <BekreftMedNotat

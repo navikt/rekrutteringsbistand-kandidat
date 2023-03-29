@@ -1,11 +1,11 @@
 import React from 'react';
-import { Loader } from '@navikt/ds-react';
+import { Loader, LoaderProps } from '@navikt/ds-react';
 import css from './Sidelaster.module.css';
 import classNames from 'classnames';
 
-const Sidelaster = ({ className }: { className?: string }) => (
+const Sidelaster = ({ size, className }: LoaderProps) => (
     <div className={classNames(css.wrapper, className)}>
-        <Loader size="2xlarge" />
+        <Loader size={size ?? '2xlarge'} />
     </div>
 );
 
