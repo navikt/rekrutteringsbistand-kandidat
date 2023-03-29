@@ -1,12 +1,5 @@
-.tittel {
-    padding-bottom: 1.25rem;
-}
-
-.beskrivelse {
-    padding-bottom: 2.5rem;
-}
-
 .knapper {
+    margin-top: 2.5rem;
     display: flex;
     gap: 1rem;
 }
