@@ -165,7 +165,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                     <KandidatenFinnesIkke synlighetsevaluering={synlighetsevaluering.data} />
                 )}
 
-            {true && (
+            {fnrSøk.kind === Nettstatus.FinnesIkke && (
                 <InformasjonOmUsynligKandidat
                     fnr={fnr}
                     kandidatliste={kandidatliste}
