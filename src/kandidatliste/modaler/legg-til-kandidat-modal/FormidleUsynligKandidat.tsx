@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
+
 import { CheckboxGruppe, Checkbox } from 'nav-frontend-skjema';
-import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { postFormidlingerAvUsynligKandidat } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
 import { UsynligKandidat } from '../../domene/Kandidat';
 import { Kandidatliste } from '../../domene/Kandidatliste';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
 import { FormidlingAvUsynligKandidatOutboundDto } from './LeggTilKandidatModal';
-import { useDispatch } from 'react-redux';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
@@ -81,14 +81,14 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
 
     return (
         <>
-            <Normaltekst className="blokk-s">
+            <BodyShort spacing>
                 {hentNavnPåUsynligKandidat(usynligKandidat)} ({fnr})
-            </Normaltekst>
-            <AlertStripeInfo className={css.folkeregisterInfo}>
+            </BodyShort>
+            <Alert variant="info" className={css.folkeregisterInfo}>
                 Navnet er hentet fra folkeregisteret. Selv om personen ikke er synlig i
                 Rekrutteringsbistand, kan du allikevel registrere formidlingen her for statistikkens
                 del. Personen vil vises øverst i kandidatlisten.
-            </AlertStripeInfo>
+            </Alert>
             <div className="blokk-m">
                 <CheckboxGruppe legend={`Registrer formidling for ${usynligKandidat[0].fornavn}:`}>
                     <Checkbox
@@ -111,7 +111,9 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
                 avbrytDisabled={formidling.kind === Nettstatus.SenderInn}
             />
             {formidling.kind === Nettstatus.Feil && (
-                <Feilmelding>Det skjedde noe galt under formidling av usynlig kandidat</Feilmelding>
+                <ErrorMessage>
+                    Det skjedde noe galt under formidling av usynlig kandidat
+                </ErrorMessage>
             )}
         </>
     );

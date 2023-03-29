@@ -124,7 +124,7 @@ const mockKandidatliste = (
     const harStilling = i % 5 < 3;
     const erLukket = i % 5 === 2;
     const harUsynligKandidat = i % 5 === 1;
-    const erTomListe = i === 9;
+    const erTomListe = i === 9 || i === 1;
     const harAlleSomFåttJobb = i === 1;
     const enAnnenVeilederHarOgsåLagtTilKandidater = i === 0;
 

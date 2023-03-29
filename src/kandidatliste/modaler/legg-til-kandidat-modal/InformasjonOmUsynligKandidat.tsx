@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { ErrorMessage } from '@navikt/ds-react';
-import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
+import { BodyLong, ErrorMessage, Heading } from '@navikt/ds-react';
 import { fetchUsynligKandidat } from '../../../api/api';
 import { Nettressurs, ikkeLastet, Nettstatus } from '../../../api/Nettressurs';
 import { UsynligKandidat } from '../../domene/Kandidat';
@@ -42,17 +41,21 @@ const InformasjonOmUsynligKandidat: FunctionComponent<Props> = ({
     if (!kandidatliste.kanEditere) {
         return (
             <>
-                <Undertittel className="blokk-xxs">Fra folkeregisteret</Undertittel>
-                <Normaltekst>
+                <Heading spacing level="3" size="small">
+                    Fra folkeregisteret
+                </Heading>
+                <BodyLong>
                     Du er ikke eier av stillingen og kan derfor ikke registrere formidling.
-                </Normaltekst>
+                </BodyLong>
             </>
         );
     }
 
     return (
         <>
-            <Undertittel className="blokk-xxs">Fra folkeregisteret</Undertittel>
+            <Heading spacing level="3" size="small">
+                Fra folkeregisteret
+            </Heading>
             {pdlSøk.kind === Nettstatus.LasterInn && <Sidelaster size="large" />}
 
             {pdlSøk.kind === Nettstatus.FinnesIkke && (
