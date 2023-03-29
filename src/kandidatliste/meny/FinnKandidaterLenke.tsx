@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { lenkeTilFinnKandidater } from '../../app/paths';
+import { MagnifyingGlassIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
 
 type Props = {
     stillingId: string | null;
@@ -10,13 +12,14 @@ type Props = {
 const FinnKandidaterLenke: FunctionComponent<Props> = ({ stillingId, kandidatlisteId }) => (
     <Link
         to={lenkeTilFinnKandidater(stillingId, kandidatlisteId)}
-        className="finn-kandidater FinnKandidater lenke"
+        className="navds-link"
         state={{
             brukKriterierFraStillingen: true,
         }}
     >
-        <i className="FinnKandidater__icon" />
-        <span>Finn kandidater</span>
+        <Button variant="tertiary" as="div" icon={<MagnifyingGlassIcon aria-hidden />}>
+            Finn kandidater
+        </Button>
     </Link>
 );
 
