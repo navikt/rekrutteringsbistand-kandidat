@@ -1,18 +1,17 @@
 import React, { FunctionComponent, useState } from 'react';
-import { CheckboxGruppe, Checkbox } from 'nav-frontend-skjema';
-import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
+import { useDispatch } from 'react-redux';
+import { Alert, BodyShort, Checkbox, CheckboxGroup, ErrorMessage } from '@navikt/ds-react';
 import { postFormidlingerAvUsynligKandidat } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
 import { UsynligKandidat } from '../../domene/Kandidat';
 import { Kandidatliste } from '../../domene/Kandidatliste';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
 import { FormidlingAvUsynligKandidatOutboundDto } from './LeggTilKandidatModal';
-import { useDispatch } from 'react-redux';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
+import css from './LeggTilKandidatModal.module.css';
 
 type Props = {
     fnr: string;
@@ -80,28 +79,25 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
 
     return (
         <>
-            <Normaltekst className="blokk-s">
+            <BodyShort spacing>
                 {hentNavnPåUsynligKandidat(usynligKandidat)} ({fnr})
-            </Normaltekst>
-            <AlertStripeInfo className="LeggTilKandidatModal__folkeregister-info">
+            </BodyShort>
+            <Alert variant="info" className={css.folkeregisterInfo}>
                 Navnet er hentet fra folkeregisteret. Selv om personen ikke er synlig i
                 Rekrutteringsbistand, kan du allikevel registrere formidlingen her for statistikkens
                 del. Personen vil vises øverst i kandidatlisten.
-            </AlertStripeInfo>
-            <div className="blokk-m">
-                <CheckboxGruppe legend={`Registrer formidling for ${usynligKandidat[0].fornavn}:`}>
-                    <Checkbox
-                        label="Registrer at personen er blitt presentert"
-                        checked={presentert}
-                        onChange={(event) => setPresentert(event.target.checked)}
-                    />
-                    <Checkbox
-                        label="Registrer at personen har fått jobb"
-                        checked={fåttJobb}
-                        onChange={(event) => setFåttJobb(event.target.checked)}
-                    />
-                </CheckboxGruppe>
-            </div>
+            </Alert>
+            <CheckboxGroup legend={`Registrer formidling for ${usynligKandidat[0].fornavn}:`}>
+                <Checkbox
+                    value={presentert}
+                    onChange={(event) => setPresentert(event.target.checked)}
+                >
+                    Registrer at personen er blitt presentert
+                </Checkbox>
+                <Checkbox value={fåttJobb} onChange={(event) => setFåttJobb(event.target.checked)}>
+                    Registrer at personen har fått jobb
+                </Checkbox>
+            </CheckboxGroup>
             <LeggTilEllerAvbryt
                 onLeggTilClick={formidleUsynligKandidat}
                 onAvbrytClick={onClose}
@@ -110,7 +106,9 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
                 avbrytDisabled={formidling.kind === Nettstatus.SenderInn}
             />
             {formidling.kind === Nettstatus.Feil && (
-                <Feilmelding>Det skjedde noe galt under formidling av usynlig kandidat</Feilmelding>
+                <ErrorMessage>
+                    Det skjedde noe galt under formidling av usynlig kandidat
+                </ErrorMessage>
             )}
         </>
     );

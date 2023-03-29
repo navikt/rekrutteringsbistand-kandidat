@@ -1,16 +1,15 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { BodyShort, ErrorMessage, Textarea } from '@navikt/ds-react';
 import { useDispatch } from 'react-redux';
-import { Textarea } from 'nav-frontend-skjema';
-import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 
 import { sendEvent } from '../../../amplitude/amplitude';
 import { postKandidatTilKandidatliste } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
 import { Fødselsnummersøk } from '../../../cv/reducer/cv-typer';
 import { Kandidatliste } from '../../domene/Kandidatliste';
+import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 
 const MAKS_NOTATLENGDE = 2000;
@@ -71,17 +70,16 @@ const BekreftMedNotat: FunctionComponent<{
 
     return (
         <>
-            <Normaltekst className="blokk-s">{`${kandidat.fornavn} ${kandidat.etternavn} (${fnr})`}</Normaltekst>
+            <BodyShort spacing>{`${kandidat.fornavn} ${kandidat.etternavn} (${fnr})`}</BodyShort>
             <Textarea
-                id="legg-til-kandidat-notat-input"
                 value={notat}
                 label="Notat om kandidaten"
-                textareaClass="LeggTilKandidatModal__notat"
                 description="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
                 placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
                 maxLength={MAKS_NOTATLENGDE}
                 onChange={onNotatChange}
             />
+
             <LeggTilEllerAvbryt
                 onLeggTilClick={onLeggTilKandidat}
                 onAvbrytClick={onClose}
@@ -93,7 +91,7 @@ const BekreftMedNotat: FunctionComponent<{
                 avbrytDisabled={leggTilKandidat.kind === Nettstatus.SenderInn}
             />
             {leggTilKandidat.kind === Nettstatus.Feil && (
-                <Feilmelding>Klarte ikke å legge til kandidat</Feilmelding>
+                <ErrorMessage>Klarte ikke å legge til kandidat</ErrorMessage>
             )}
         </>
     );
