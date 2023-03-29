@@ -16,7 +16,7 @@ import {
     Kandidatstatus,
     Kandidatutfall,
 } from '../domene/Kandidat';
-import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
+import Kandidatlistestatus from './kandidatlistestatus/Kandidatlistestatus';
 import css from './SideHeader.module.css';
 
 type Props = {
