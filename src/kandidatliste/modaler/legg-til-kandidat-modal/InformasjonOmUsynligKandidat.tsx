@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Undertittel, Normaltekst, Feilmelding } from 'nav-frontend-typografi';
+import { ErrorMessage } from '@navikt/ds-react';
+import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import { fetchUsynligKandidat } from '../../../api/api';
 import { Nettressurs, ikkeLastet, Nettstatus } from '../../../api/Nettressurs';
 import { UsynligKandidat } from '../../domene/Kandidat';
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import FormidleUsynligKandidat from './FormidleUsynligKandidat';
+import Sidelaster from '../../../common/sidelaster/Sidelaster';
 
 type Props = {
     fnr: string;
@@ -52,16 +53,14 @@ const InformasjonOmUsynligKandidat: FunctionComponent<Props> = ({
     return (
         <>
             <Undertittel className="blokk-xxs">Fra folkeregisteret</Undertittel>
-            {pdlSøk.kind === Nettstatus.LasterInn && (
-                <NavFrontendSpinner className="LeggTilKandidatModal__spinner" />
-            )}
+            {pdlSøk.kind === Nettstatus.LasterInn && <Sidelaster size="large" />}
 
             {pdlSøk.kind === Nettstatus.FinnesIkke && (
-                <Feilmelding>Fant ikke personen i folkeregisteret.</Feilmelding>
+                <ErrorMessage>Fant ikke personen i folkeregisteret.</ErrorMessage>
             )}
 
             {pdlSøk.kind === Nettstatus.Feil && (
-                <Feilmelding>Klarte ikke å hente person fra folkeregisteret.</Feilmelding>
+                <ErrorMessage>Klarte ikke å hente person fra folkeregisteret.</ErrorMessage>
             )}
 
             {pdlSøk.kind === Nettstatus.Suksess && (

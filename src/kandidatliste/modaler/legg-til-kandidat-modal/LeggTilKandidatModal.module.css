@@ -11,12 +11,20 @@
     margin: 0 0 1.5rem;
 }
 
-.notat {
-    min-height: 10rem;
-    margin-bottom: 2.5rem;
+.fødselsnummer {
+    margin-bottom: 1.5rem;
+}
+
+.fødselsnummer input {
+    width: unset;
+}
+
+.forklaring ul {
+    margin-bottom: 0;
 }
 
 .knapper {
     display: flex;
     gap: 1rem;
+    margin-top: 1.5rem;
 }

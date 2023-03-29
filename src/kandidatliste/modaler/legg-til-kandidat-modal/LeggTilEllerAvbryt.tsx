@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { Button } from '@navikt/ds-react';
 import css from './LeggTilKandidatModal.module.css';
 
 type Props = {
@@ -18,12 +18,12 @@ const LeggTilEllerAvbryt: FunctionComponent<Props> = ({
     avbrytDisabled,
 }) => (
     <div className={css.knapper}>
-        <Hovedknapp onClick={onLeggTilClick} spinner={leggTilSpinner} disabled={leggTilDisabled}>
+        <Button onClick={onLeggTilClick} loading={leggTilSpinner} disabled={leggTilDisabled}>
             Legg til
-        </Hovedknapp>
-        <Flatknapp onClick={onAvbrytClick} disabled={avbrytDisabled}>
+        </Button>
+        <Button variant="secondary" onClick={onAvbrytClick} disabled={avbrytDisabled}>
             Avbryt
-        </Flatknapp>
+        </Button>
     </div>
 );
 

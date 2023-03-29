@@ -138,6 +138,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
                 placeholder="11 siffer"
                 label="Fødselsnummer på kandidaten"
                 error={feilmelding}
+                className={css.fødselsnummer}
             />
 
             {erAlleredeLagtTil && (
