@@ -12,7 +12,6 @@ type Props = {
 const FinnKandidaterLenke: FunctionComponent<Props> = ({ stillingId, kandidatlisteId }) => (
     <Link
         to={lenkeTilFinnKandidater(stillingId, kandidatlisteId)}
-        className="navds-link"
         state={{
             brukKriterierFraStillingen: true,
         }}
