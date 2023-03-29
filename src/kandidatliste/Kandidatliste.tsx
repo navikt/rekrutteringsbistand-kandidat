@@ -16,13 +16,11 @@ import { Nettstatus } from '../api/Nettressurs';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import AppState from '../AppState';
 import Filter from './filter/Filter';
-import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import Kandidatrad from './kandidatrad/Kandidatrad';
 import KnappeRad from './knappe-rad/KnappeRad';
-import LeggTilKandidatKnapp from './meny/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
 import Meny from './meny/Meny';
 import Navnefilter from './navnefilter/Navnefilter';
@@ -177,6 +175,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                 <>
                     {kandidatlistenErÅpen && (
                         <Meny
+                            border
                             kandidatlisteId={kandidatliste.kandidatlisteId}
                             stillingId={kandidatliste.stillingId}
                             onLeggTilKandidat={onLeggTilKandidat}
@@ -275,13 +274,11 @@ const Kandidatliste: FunctionComponent<Props> = ({
             ) : (
                 <TomListe kandidatlistenErLukket={!kandidatlistenErÅpen}>
                     {kandidatlistenErÅpen && (
-                        <>
-                            <FinnKandidaterLenke
-                                kandidatlisteId={kandidatliste.kandidatlisteId}
-                                stillingId={kandidatliste.stillingId}
-                            />
-                            <LeggTilKandidatKnapp onLeggTilKandidat={onLeggTilKandidat} />
-                        </>
+                        <Meny
+                            kandidatlisteId={kandidatliste.kandidatlisteId}
+                            stillingId={kandidatliste.stillingId}
+                            onLeggTilKandidat={onLeggTilKandidat}
+                        />
                     )}
                 </TomListe>
             )}

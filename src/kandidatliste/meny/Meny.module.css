@@ -6,6 +6,9 @@
     padding: 0.75rem;
     margin: 0 2.5rem 2rem;
     background-color: white;
+}
+
+.border {
     border-bottom: 2px solid var(--a-border-divider);
 }
 
