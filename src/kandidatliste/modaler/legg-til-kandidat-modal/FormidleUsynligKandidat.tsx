@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
-
-import { CheckboxGruppe, Checkbox } from 'nav-frontend-skjema';
+import { Alert, BodyShort, Checkbox, CheckboxGroup, ErrorMessage } from '@navikt/ds-react';
 import { postFormidlingerAvUsynligKandidat } from '../../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../../api/Nettressurs';
 import { UsynligKandidat } from '../../domene/Kandidat';
@@ -89,20 +87,17 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
                 Rekrutteringsbistand, kan du allikevel registrere formidlingen her for statistikkens
                 del. Personen vil vises øverst i kandidatlisten.
             </Alert>
-            <div className="blokk-m">
-                <CheckboxGruppe legend={`Registrer formidling for ${usynligKandidat[0].fornavn}:`}>
-                    <Checkbox
-                        label="Registrer at personen er blitt presentert"
-                        checked={presentert}
-                        onChange={(event) => setPresentert(event.target.checked)}
-                    />
-                    <Checkbox
-                        label="Registrer at personen har fått jobb"
-                        checked={fåttJobb}
-                        onChange={(event) => setFåttJobb(event.target.checked)}
-                    />
-                </CheckboxGruppe>
-            </div>
+            <CheckboxGroup legend={`Registrer formidling for ${usynligKandidat[0].fornavn}:`}>
+                <Checkbox
+                    value={presentert}
+                    onChange={(event) => setPresentert(event.target.checked)}
+                >
+                    Registrer at personen er blitt presentert
+                </Checkbox>
+                <Checkbox value={fåttJobb} onChange={(event) => setFåttJobb(event.target.checked)}>
+                    Registrer at personen har fått jobb
+                </Checkbox>
+            </CheckboxGroup>
             <LeggTilEllerAvbryt
                 onLeggTilClick={formidleUsynligKandidat}
                 onAvbrytClick={onClose}
