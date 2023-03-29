@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useState } from 'react';
-import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import React, { FunctionComponent } from 'react';
+import { BodyLong, BodyShort, Heading, Label, ReadMore } from '@navikt/ds-react';
+import { ChevronLeftIcon } from '@navikt/aksel-icons';
 import { Link } from 'react-router-dom';
-import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeEmployerName } from '../../kandidatsøk/utils';
 import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../app/paths';
@@ -16,10 +16,8 @@ import {
     Kandidatstatus,
     Kandidatutfall,
 } from '../domene/Kandidat';
-import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
-import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
-import './SideHeader.less';
-import { ChevronLeftIcon } from '@navikt/aksel-icons';
+import Kandidatlistestatus from './kandidatlistestatus/Kandidatlistestatus';
+import css from './SideHeader.module.css';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -40,7 +38,6 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
         ikkeArkiverteKandidater.filter(harFåttJobb).length +
         kandidatliste.formidlingerAvUsynligKandidat.filter(usynligKandidatHarFåttJobb).length;
 
-    const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     const oppsummeringTekst = `${
         kandidatliste.kandidater.length
     } kandidater (${antallAktuelleKandidater} er aktuelle${
@@ -48,22 +45,23 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
     })`;
 
     return (
-        <header className="side-header">
-            <div className="side-header__inner">
-                <div className="side-header__tilbake">
+        <header className={css.header}>
+            <div className={css.inner}>
+                <div className={css.tilbake}>
                     <Link className="navds-link" to={lenkeTilKandidatlisteoversikt}>
                         <ChevronLeftIcon />
                         Til kandidatlister
                     </Link>
                 </div>
-                <div className="side-header__informasjon">
-                    <Systemtittel className="side-header__tittel">
+                <div>
+                    <Heading spacing level="2" size="medium">
                         {kandidatliste.tittel}
-                    </Systemtittel>
-                    <Element className="side-header__antall-kandidater">
+                    </Heading>
+
+                    <Label spacing as="p">
                         {oppsummeringTekst}
-                    </Element>
-                    <div className="side-header__om-kandidatlisten">
+                    </Label>
+                    <BodyShort spacing className={css.omKandidatlisten}>
                         {erKobletTilArbeidsgiver(kandidatliste) && (
                             <span>
                                 Arbeidsgiver:{' '}
@@ -78,33 +76,25 @@ const SideHeader: FunctionComponent<Props> = ({ kandidatliste }) => {
                             <span>
                                 <Link
                                     to={lenkeTilStilling(kandidatliste.stillingId!)}
-                                    className="lenke"
+                                    className="navds-link"
                                 >
                                     Se stillingsannonse
                                 </Link>
                             </span>
                         )}
-                        {kandidatliste.beskrivelse && (
-                            <Lenkeknapp
-                                onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
-                            >
-                                {beskrivelseSkalVises ? 'Skjul beskrivelse' : 'Vis beskrivelse'}
-                                <NavFrontendChevron type={beskrivelseSkalVises ? 'opp' : 'ned'} />
-                            </Lenkeknapp>
-                        )}
-                    </div>
-                    {beskrivelseSkalVises && (
-                        <>
-                            <Element className="side-header__beskrivelse-tittel">
+                    </BodyShort>
+
+                    {kandidatliste.beskrivelse && (
+                        <ReadMore header="Vis beskrivelse">
+                            <Heading spacing level="3" size="small">
                                 Beskrivelse
-                            </Element>
-                            <Normaltekst className="side-header__beskrivelse">
-                                {kandidatliste.beskrivelse}
-                            </Normaltekst>
-                        </>
+                            </Heading>
+                            <BodyLong>{kandidatliste.beskrivelse}</BodyLong>
+                        </ReadMore>
                     )}
                 </div>
                 <Kandidatlistestatus
+                    className={css.status}
                     status={kandidatliste.status}
                     erKnyttetTilStilling={erKobletTilStilling(kandidatliste)}
                     kanEditere={kandidatliste.kanEditere}

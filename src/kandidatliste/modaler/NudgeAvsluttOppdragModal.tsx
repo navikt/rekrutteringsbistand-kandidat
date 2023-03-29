@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import './NudgeAvsluttOppdragModal.less';
+import css from './NudgeAvsluttOppdragModal.module.css';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
+import { BodyShort, Heading, Button } from '@navikt/ds-react';
 
 interface Props {
     antallKandidaterSomHarFåttJobb: number;
@@ -18,38 +17,44 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     onAvbryt,
 }) => {
     const [klar, setKlar] = useState<Boolean>(false);
+
     useEffect(() => {
         const klarTimeout = setTimeout(() => {
             setKlar(true);
         }, 400);
+
         return () => {
             clearTimeout(klarTimeout);
         };
     }, []);
+
+    if (!klar) {
+        return null;
+    }
+
     return (
-        klar && (
-            <ModalMedKandidatScope
-                open={true}
-                aria-label="Forslag om å avslutte oppdraget"
-                onClose={onAvbryt}
-                className="nudgeAvsluttOppdragModal"
-            >
-                <Systemtittel className="nudgeAvsluttOppdragModal__tittel">
-                    Ferdig med oppdraget?
-                </Systemtittel>
-                <div className="nudgeAvsluttOppdragModal__beskrivelse">
-                    <Normaltekst>
-                        {antallKandidaterSomHarFåttJobb} av {antallStillinger} stilling
-                        {antallStillinger === 1 ? '' : 'er'} er besatt
-                    </Normaltekst>
-                    <Normaltekst>Er du ferdig med oppdraget og vil avslutte?</Normaltekst>
-                </div>
-                <Hovedknapp onClick={onBekreft} className="nudgeAvsluttOppdragModal__bekreftknapp">
-                    Ja, Avslutt
-                </Hovedknapp>
-                <Flatknapp onClick={onAvbryt}>Avbryt</Flatknapp>
-            </ModalMedKandidatScope>
-        )
+        <ModalMedKandidatScope
+            open={true}
+            aria-label="Forslag om å avslutte oppdraget"
+            onClose={onAvbryt}
+        >
+            <Heading spacing level="2" size="medium" className={css.tittel}>
+                Ferdig med oppdraget?
+            </Heading>
+            <BodyShort spacing>
+                {antallKandidaterSomHarFåttJobb} av {antallStillinger} stilling
+                {antallStillinger === 1 ? '' : 'er'} er besatt
+            </BodyShort>
+            <BodyShort>Er du ferdig med oppdraget og vil avslutte?</BodyShort>
+            <div className={css.knapper}>
+                <Button onClick={onBekreft} className={css.bekreftknapp}>
+                    Avslutt oppdrag
+                </Button>
+                <Button variant="secondary" onClick={onAvbryt}>
+                    Avbryt
+                </Button>
+            </div>
+        </ModalMedKandidatScope>
     );
 };
 
