@@ -13,6 +13,7 @@ import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
+import css from './LeggTilKandidatModal.module.css';
 
 type Props = {
     fnr: string;
@@ -83,7 +84,7 @@ const FormidleUsynligKandidat: FunctionComponent<Props> = ({
             <Normaltekst className="blokk-s">
                 {hentNavnPåUsynligKandidat(usynligKandidat)} ({fnr})
             </Normaltekst>
-            <AlertStripeInfo className="LeggTilKandidatModal__folkeregister-info">
+            <AlertStripeInfo className={css.folkeregisterInfo}>
                 Navnet er hentet fra folkeregisteret. Selv om personen ikke er synlig i
                 Rekrutteringsbistand, kan du allikevel registrere formidlingen her for statistikkens
                 del. Personen vil vises øverst i kandidatlisten.

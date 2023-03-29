@@ -1,0 +1,22 @@
+.modal {
+    max-width: 40rem;
+    min-height: 20rem;
+}
+
+.advarsel {
+    margin-bottom: 1.5rem;
+}
+
+.folkeregisterInfo {
+    margin: 0 0 1.5rem;
+}
+
+.notat {
+    min-height: 10rem;
+    margin-bottom: 2.5rem;
+}
+
+.knapper {
+    display: flex;
+    gap: 1rem;
+}
