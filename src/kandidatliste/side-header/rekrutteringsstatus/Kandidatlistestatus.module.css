@@ -7,14 +7,16 @@
 
 .ikon {
     flex-shrink: 0;
+    font-size: 2rem;
+    line-height: 0rem;
 }
 
-.åpen {
-    color: green;
+.ikonÅpen {
+    color: var(--a-surface-success);
 }
 
-.lukket {
-    color: red;
+.ikonLukket {
+    color: var(--a-surface-warning);
 }
 
 .informasjon {

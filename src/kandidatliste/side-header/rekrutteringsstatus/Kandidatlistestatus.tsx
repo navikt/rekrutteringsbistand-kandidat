@@ -93,9 +93,9 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         <Panel border className={classNames(className, css.kandidatlistestatus)}>
             <div className={css.ikon}>
                 {status === Status.Åpen ? (
-                    <PadlockUnlockedFillIcon fontSize="2rem" className={css.åpen} />
+                    <PadlockUnlockedFillIcon className={css.ikonÅpen} />
                 ) : (
-                    <PadlockLockedFillIcon fontSize="2rem" className={css.lukket} />
+                    <PadlockLockedFillIcon className={css.ikonLukket} />
                 )}
             </div>
             <div className={css.informasjon}>
