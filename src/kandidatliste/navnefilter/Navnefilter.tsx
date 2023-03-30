@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Input } from 'nav-frontend-skjema';
-
-import Søkeikon from './Søkeikon';
-import './Navnefilter.less';
+import { MagnifyingGlassIcon } from '@navikt/aksel-icons';
+import { Button, TextField } from '@navikt/ds-react';
+import css from './Navnefilter.module.css';
 
 interface Props {
     value: string;
@@ -19,27 +18,29 @@ const Navnefilter: FunctionComponent<Props> = ({ value, onChange, onReset }) => 
     const settFokusOgReset = () => {
         onReset();
         if (inputRef) {
+            console.log('ref', inputRef);
             inputRef.focus();
         }
     };
 
     return (
-        <div className="navnefilter">
-            <Søkeikon />
-            <Input
-                inputRef={(e) => setInputRef(e)}
-                className="navnefilter__input navnefilter__søkeikon"
-                placeholder={tittel}
-                label="Søk etter navn i listen"
+        <div className={css.navnefilter}>
+            <MagnifyingGlassIcon className={css.search} fontSize="1.5rem" />
+            <TextField
+                ref={(e) => setInputRef(e)}
+                className="navnfilter-textfield"
+                label={tittel}
                 value={value}
                 onChange={onChange}
+                placeholder={tittel}
             />
             {value.length > 0 && (
-                <button
+                <Button
                     aria-live="polite"
-                    className="navnefilter__tilbakestill"
+                    className={css.tilbakestill}
                     title={knappetekst}
                     onClick={settFokusOgReset}
+                    variant="tertiary"
                 />
             )}
         </div>
