@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import Lukknapp from 'nav-frontend-lukknapp';
 import { Kandidatmeldinger, SmsStatus } from '../domene/Kandidatressurser';
 import { Kandidat } from '../domene/Kandidat';
-import './smsFeilAlertStripe.less';
+import css from './smsFeilAlertStripe.module.css';
+import { Alert } from '@navikt/ds-react';
+import classNames from 'classnames';
 
 const LESTE_SMS_IDER_KEY = 'lesteSmsIder';
 
@@ -67,11 +68,13 @@ const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater, sendteMeldin
         .replace(/,(?=[^,]*$)/, ' og');
 
     return (
-        <AlertStripeFeil className="smsFeilAlertStripe">
-            SMS-en til {navn} ble dessverre ikke sendt. En mulig årsak kan være ugyldig
-            telefonnummer i kontakt og reservasjonsregisteret.
-            <Lukknapp className="smsFeilAlertStripe__lukknapp" onClick={lukkAlert} />
-        </AlertStripeFeil>
+        <Alert variant="error" className={classNames(css.alert, 'sms-ikke-sendt-alert')}>
+            <span className={css.alertstripeBody}>
+                SMS-en til {navn} ble dessverre ikke sendt. En mulig årsak kan være ugyldig
+                telefonnummer i kontakt og reservasjonsregisteret.
+                <Lukknapp className={css.lukknapp} onClick={lukkAlert} />
+            </span>
+        </Alert>
     );
 };
 
