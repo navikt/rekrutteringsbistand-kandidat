@@ -11,7 +11,6 @@ import { Nettstatus } from '../../../api/Nettressurs';
 import AppState from '../../../AppState';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
@@ -21,6 +20,7 @@ import {BeaconSignalsFillIcon} from '@navikt/aksel-icons';
 import './ForespørselOmDelingAvCv.less';
 import knapperadCss from '../KnappeRad.module.css';
 import classNames from 'classnames';
+import LenkeknappNy from '../../../common/lenkeknapp/LenkeknappNy';
 
 type Props = {
     stillingsId: string;
@@ -156,7 +156,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
 
     return (
         <div className="foresporsel-om-deling-av-cv">
-            <Lenkeknapp
+            <LenkeknappNy
                 tittel="Del stillingen med de markerte kandidatene"
                 onClick={onDelMedKandidatClick}
                 className={classNames(knapperadCss.knapp, knapperadCss.knapperadKnapp)}
@@ -164,7 +164,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                 <BeaconSignalsIcon className={classNames(knapperadCss.knapperadIkonIkkeFylt, knapperadCss.knapperadIkon)} fontSize="1.5rem"/>
                 <BeaconSignalsFillIcon className={classNames(knapperadCss.knapperadIkonFylt, knapperadCss.knapperadIkon)} fontSize="1.5rem"/>
                 Del med kandidat
-            </Lenkeknapp>
+            </LenkeknappNy>
             <ModalMedKandidatScope
                 open={modalErÅpen}
                 aria-label="Del stillingen med de markerte kandidatene"

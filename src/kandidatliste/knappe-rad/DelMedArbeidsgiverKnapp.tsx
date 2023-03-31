@@ -3,7 +3,6 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { useSelector } from 'react-redux';
 import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
-import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import MedPopover from '../../common/med-popover/MedPopover';
 import { Kandidat } from '../domene/Kandidat';
 import { kandidaterMåGodkjenneDelingAvCv, Kandidatliste } from '../domene/Kandidatliste';
@@ -16,6 +15,7 @@ import { Link } from '@navikt/ds-react';
 import { TenancyIcon, TenancyFillIcon } from '@navikt/aksel-icons';
 import classNames from 'classnames';
 import css from './KnappeRad.module.css';
+import LenkeknappNy from '../../common/lenkeknapp/LenkeknappNy';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -52,9 +52,9 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
+                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
-                </Lenkeknapp>
+                </LenkeknappNy>
             </MedPopover>
         );
     }
@@ -88,9 +88,9 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 }
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
+                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
-                </Lenkeknapp>
+                </LenkeknappNy>
             </MedPopover>
         );
     }
@@ -106,17 +106,20 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="En av kandidatene har fått CV-en sin sendt til arbeidsgivers kandidatliste, men er blitt slettet i etterkant. Du kan ikke dele CV-en på nytt."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
+                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
-                </Lenkeknapp>
+                </LenkeknappNy>
             </MedPopover>
         );
     }
 
     return (
-        <Lenkeknapp onClick={onKandidatShare} className={classNames(css.knapp, css.knapperadKnapp)}>
+        <LenkeknappNy
+            onClick={onKandidatShare}
+            className={classNames(css.knapp, css.knapperadKnapp)}
+        >
             <DeleIkon />
-        </Lenkeknapp>
+        </LenkeknappNy>
     );
 };
 

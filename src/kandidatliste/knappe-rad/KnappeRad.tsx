@@ -18,6 +18,7 @@ import DelMedArbeidsgiverKnapp from './DelMedArbeidsgiverKnapp';
 import css from './KnappeRad.module.css';
 import classNames from 'classnames';
 import { MobileIcon, MobileFillIcon, TrashIcon, TrashFillIcon } from '@navikt/aksel-icons';
+import LenkeknappNy from '../../common/lenkeknapp/LenkeknappNy';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -73,12 +74,12 @@ const KnappeRad: FunctionComponent<Props> = ({
                 <div className={css.høyre}>
                     {skalViseEkstraKnapper &&
                         (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
-                            <Lenkeknapp
+                            <LenkeknappNy
                                 onClick={onSendSmsClick}
                                 className={classNames(css.knapp, css.knapperadKnapp)}
                             >
                                 <SmsIkon />
-                            </Lenkeknapp>
+                            </LenkeknappNy>
                         ) : (
                             <MedPopover
                                 tittel="Send SMS til de markerte kandidatene"
@@ -88,9 +89,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                                         : 'Du må huke av for kandidatene du ønsker å sende SMS til.'
                                 }
                             >
-                                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
+                                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
                                     <SmsIkon />
-                                </Lenkeknapp>
+                                </LenkeknappNy>
                             </MedPopover>
                         ))}
                     {skalViseDelMedKandidatKnapp && (
@@ -109,21 +110,21 @@ const KnappeRad: FunctionComponent<Props> = ({
                     )}
                     {skalViseAngreSlettingKnapp &&
                         (minstEnKandidatErMarkert ? (
-                            <Lenkeknapp
+                            <LenkeknappNy
                                 onClick={onKandidaterAngreArkivering}
                                 className={classNames(css.knapp, css.knapperadKnapp)}
                             >
                                 <SletteIkon />
-                            </Lenkeknapp>
+                            </LenkeknappNy>
                         ) : (
                             <MedPopover
                                 orientering={PopoverOrientering.UnderVenstre}
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
                                 tittel="Angre sletting for de markerte kandidatene"
                             >
-                                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
+                                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
                                     <SletteIkon />
-                                </Lenkeknapp>
+                                </LenkeknappNy>
                             </MedPopover>
                         ))}
                 </div>
