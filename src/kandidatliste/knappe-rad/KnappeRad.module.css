@@ -1,0 +1,45 @@
+.kandidatlisteknapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.knapp {
+    display: flex;
+    align-items: center;
+    color: var(--a-surface-action);
+    height: 2rem;
+    padding: 0 0.25rem;
+    line-height: 1;
+}
+
+.knapp.typo-normal {
+    margin-left: 1rem;
+}
+
+.knapp:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--a-border-focus);
+}
+
+.knapp i {
+    margin-right: 0.5rem;
+}
+
+.venstre {
+    display: flex;
+}
+
+.høyre {
+    display: flex;
+    align-items: initial;
+}
+
+.smsKnapp:not(:hover, :active, :focus) .smsIkonFylt {
+    display: none;
+}
+
+.smsKnapp:is(:hover, :active, :focus) .smsIkonIkkeFylt {
+    display: none;
+}
