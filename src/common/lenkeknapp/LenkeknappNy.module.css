@@ -1,0 +1,29 @@
+.Lenkeknapp {
+    border: none !important;
+    margin: 0;
+    padding: 0 0.25rem;
+    background: none;
+    color: var(--a-surface-action);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.Lenkeknapp:focus {
+    outline: 3px solid var(--a-blue-800);
+}
+
+.Lenkeknapp:hover {
+    color: var(--a-surface-action);
+    background-color: inherit;
+    border: none;
+}
+
+.Lenkeknapp:active:hover {
+    color: var(--a-surface-action);
+    background-color: inherit;
+}
+
+.navds-label {
+    font-weight: normal;
+}
