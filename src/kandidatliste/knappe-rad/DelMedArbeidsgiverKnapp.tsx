@@ -52,7 +52,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className={classNames(css.knapp, css.delMedArbeidsgiverKnapp)}>
+                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
                 </Lenkeknapp>
             </MedPopover>
@@ -106,7 +106,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="En av kandidatene har fått CV-en sin sendt til arbeidsgivers kandidatliste, men er blitt slettet i etterkant. Du kan ikke dele CV-en på nytt."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className={classNames(css.knapp, css.delMedArbeidsgiverKnapp)}>
+                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
                 </Lenkeknapp>
             </MedPopover>
@@ -114,10 +114,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
     }
 
     return (
-        <Lenkeknapp
-            onClick={onKandidatShare}
-            className={classNames(css.knapp, css.delMedArbeidsgiverKnapp)}
-        >
+        <Lenkeknapp onClick={onKandidatShare} className={classNames(css.knapp, css.knapperadKnapp)}>
             <DeleIkon />
         </Lenkeknapp>
     );
@@ -126,11 +123,11 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
 const DeleIkon: FunctionComponent = () => (
     <>
         <TenancyIcon
-            className={classNames(css.delMedArbeidsgiverIkonIkkeFylt, css.delMedArbeidsgiverIkon)}
+            className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
             fontSize="1.5rem"
         />
         <TenancyFillIcon
-            className={classNames(css.delMedArbeidsgiverIkonFylt, css.delMedArbeidsgiverIkon)}
+            className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
             fontSize="1.5rem"
         />
         <span>Del med arbeidsgiver (presenter)</span>

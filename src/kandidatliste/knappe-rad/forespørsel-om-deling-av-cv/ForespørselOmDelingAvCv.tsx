@@ -159,10 +159,10 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             <Lenkeknapp
                 tittel="Del stillingen med de markerte kandidatene"
                 onClick={onDelMedKandidatClick}
-                className={classNames(knapperadCss.knapp, knapperadCss.forespørselKnapp)}
+                className={classNames(knapperadCss.knapp, knapperadCss.knapperadKnapp)}
             >
-                <BeaconSignalsIcon className={classNames(knapperadCss.forespørselIkonIkkeFylt, knapperadCss.forespørselIkon)} fontSize="1.5rem"/>
-                <BeaconSignalsFillIcon className={classNames(knapperadCss.forespørselIkonFylt, knapperadCss.forespørselIkon)} fontSize="1.5rem"/>
+                <BeaconSignalsIcon className={classNames(knapperadCss.knapperadIkonIkkeFylt, knapperadCss.knapperadIkon)} fontSize="1.5rem"/>
+                <BeaconSignalsFillIcon className={classNames(knapperadCss.knapperadIkonFylt, knapperadCss.knapperadIkon)} fontSize="1.5rem"/>
                 Del med kandidat
             </Lenkeknapp>
             <ModalMedKandidatScope

@@ -33,50 +33,14 @@
     align-items: initial;
 }
 
-.smsKnapp:not(:hover, :active, :focus) .smsIkonFylt {
+.knapperadKnapp:not(:hover, :active, :focus) .knapperadIkonFylt {
     display: none;
 }
 
-.smsKnapp:is(:hover, :active, :focus) .smsIkonIkkeFylt {
+.knapperadKnapp:is(:hover, :active, :focus) .knapperadIkonIkkeFylt {
     display: none;
 }
 
-.smsIkon {
-    margin-right: 0.5rem;
-}
-
-.delMedArbeidsgiverKnapp:not(:hover, :active, :focus) .delMedArbeidsgiverIkonFylt {
-    display: none;
-}
-
-.delMedArbeidsgiverKnapp:is(:hover, :active, :focus) .delMedArbeidsgiverIkonIkkeFylt {
-    display: none;
-}
-
-.delMedArbeidsgiverIkon {
-    margin-right: 0.5rem;
-}
-
-.forespørselKnapp:not(:hover, :active, :focus) .forespørselIkonFylt {
-    display: none;
-}
-
-.forespørselKnapp:is(:hover, :active, :focus) .forespørselIkonIkkeFylt {
-    display: none;
-}
-
-.forespørselIkon {
-    margin-right: 0.5rem;
-}
-
-.angreSlettingKnapp:not(:hover, :active, :focus) .angreSlettingIkonFylt {
-    display: none;
-}
-
-.angreSlettingKnapp:is(:hover, :active, :focus) .angreSlettingIkonIkkeFylt {
-    display: none;
-}
-
-.angreSlettingIkon {
+.knapperadIkon {
     margin-right: 0.5rem;
 }
