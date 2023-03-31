@@ -16,7 +16,6 @@ import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import DelMedArbeidsgiverKnapp from './DelMedArbeidsgiverKnapp';
 import css from './KnappeRad.module.css';
-import './KnappeRad.less';
 import classNames from 'classnames';
 import { MobileIcon, MobileFillIcon, TrashIcon, TrashFillIcon } from '@navikt/aksel-icons';
 
