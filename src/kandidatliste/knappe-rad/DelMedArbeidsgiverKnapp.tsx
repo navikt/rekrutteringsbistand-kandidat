@@ -53,7 +53,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
                 <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
-                    <span>Del med arbeidsgiver (presenter)</span>
+                    <span className={css.knapptekst}>Del med arbeidsgiver (presenter)</span>
                 </LenkeknappNy>
             </MedPopover>
         );
@@ -89,7 +89,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
                 <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
-                    <span>Del med arbeidsgiver (presenter)</span>
+                    <span className={css.knapptekst}>Del med arbeidsgiver (presenter)</span>
                 </LenkeknappNy>
             </MedPopover>
         );
@@ -107,7 +107,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
                 <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
-                    <span>Del med arbeidsgiver (presenter)</span>
+                    <span className={css.knapptekst}>Del med arbeidsgiver (presenter)</span>
                 </LenkeknappNy>
             </MedPopover>
         );
@@ -118,7 +118,9 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
             onClick={onKandidatShare}
             className={classNames(css.knapp, css.knapperadKnapp)}
             icon={DeleIkon}
-        ></LenkeknappNy>
+        >
+            <span className={css.knapptekst}>Del med arbeidsgiver (presenter)</span>
+        </LenkeknappNy>
     );
 };
 

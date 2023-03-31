@@ -1,6 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import {
     erKobletTilArbeidsgiver,
     erKobletTilStilling,
@@ -79,7 +78,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 className={classNames(css.knapp, css.knapperadKnapp)}
                                 icon={SmsIkon}
                             >
-                                <span>Send SMS</span>
+                                <span className={css.knapptekst}>Send SMS</span>
                             </LenkeknappNy>
                         ) : (
                             <MedPopover
@@ -94,7 +93,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                     className={classNames(css.knapp, css.knapperadKnapp)}
                                     icon={SmsIkon}
                                 >
-                                    <span>Send SMS</span>
+                                    <span className={css.knapptekst}>Send SMS</span>
                                 </LenkeknappNy>
                             </MedPopover>
                         ))}
@@ -119,7 +118,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 className={classNames(css.knapp, css.knapperadKnapp)}
                                 icon={AngreSletting}
                             >
-                                <span>Angre sletting</span>
+                                <span className={css.knapptekst}>Angre sletting</span>
                             </LenkeknappNy>
                         ) : (
                             <MedPopover
@@ -131,7 +130,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                     className={classNames(css.knapp, css.knapperadKnapp)}
                                     icon={AngreSletting}
                                 >
-                                    <span>Angre sletting</span>
+                                    <span className={css.knapptekst}>Angre sletting</span>
                                 </LenkeknappNy>
                             </MedPopover>
                         ))}

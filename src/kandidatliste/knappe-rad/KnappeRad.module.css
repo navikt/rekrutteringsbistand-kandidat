@@ -7,8 +7,8 @@
 
 .knapp {
     color: var(--a-surface-action);
-    height: 2rem;
     margin-left: 1.5rem !important;
+    padding: 0.5rem !important;
 }
 
 .venstre {
@@ -30,4 +30,9 @@
 
 .knapperadIkon {
     margin-right: 0.5rem;
+}
+
+.knapptekst {
+    font-size: 1rem;
+    font-weight: normal;
 }

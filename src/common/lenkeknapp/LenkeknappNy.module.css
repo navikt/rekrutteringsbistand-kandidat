@@ -13,8 +13,15 @@
     outline: 3px solid var(--a-blue-800);
 }
 
-.Lenkeknapp:active {
+.Lenkeknapp:hover {
     color: var(--a-surface-action);
+    background-color: inherit;
+    border: none;
+}
+
+.Lenkeknapp:active:hover {
+    color: var(--a-surface-action);
+    background-color: inherit;
 }
 
 .navds-label {

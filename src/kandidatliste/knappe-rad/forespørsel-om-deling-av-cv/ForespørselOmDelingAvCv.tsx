@@ -178,7 +178,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                 className={classNames(knapperadCss.knapp, knapperadCss.knapperadKnapp)}
                 icon={forespørselIcon}
             >
-                Del med kandidat
+                <span className={knapperadCss.knapptekst}>Del med kandidat</span>
             </LenkeknappNy>
             <ModalMedKandidatScope
                 open={modalErÅpen}
