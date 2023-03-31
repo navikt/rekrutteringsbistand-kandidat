@@ -15,15 +15,6 @@
     margin-left: 1rem !important;
 }
 
-.knapp:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--a-border-focus);
-}
-
-.knapp i {
-    margin-right: 0.5rem;
-}
-
 .venstre {
     display: flex;
 }

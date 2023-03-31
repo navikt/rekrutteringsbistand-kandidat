@@ -88,7 +88,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 }
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className={classNames(css.knapp, css.smsKnapp)}>
+                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
                 </Lenkeknapp>
             </MedPopover>
