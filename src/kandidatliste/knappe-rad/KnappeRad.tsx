@@ -135,8 +135,8 @@ const KnappeRad: FunctionComponent<Props> = ({
 
 const SmsIkon: FunctionComponent = () => (
     <>
-        <MobileIcon className={css.smsIkonIkkeFylt} fontSize="1.5rem" />
-        <MobileFillIcon className={css.smsIkonFylt} fontSize="1.5rem" />
+        <MobileIcon className={classNames(css.smsIkonIkkeFylt, css.smsIkon)} fontSize="1.5rem" />
+        <MobileFillIcon className={classNames(css.smsIkonFylt, css.smsIkon)} fontSize="1.5rem" />
         <span>Send SMS</span>
     </>
 );

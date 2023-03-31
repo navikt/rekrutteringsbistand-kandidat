@@ -43,3 +43,7 @@
 .smsKnapp:is(:hover, :active, :focus) .smsIkonIkkeFylt {
     display: none;
 }
+
+.smsIkon {
+    margin-right: 0.5rem;
+}
