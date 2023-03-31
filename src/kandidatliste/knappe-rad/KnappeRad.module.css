@@ -12,10 +12,7 @@
     height: 2rem;
     padding: 0 0.25rem;
     line-height: 1;
-}
-
-.knapp.typo-normal {
-    margin-left: 1rem;
+    margin-left: 1rem !important;
 }
 
 .knapp:focus {
