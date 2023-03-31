@@ -16,7 +16,11 @@ import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import VelgSvarfrist, { lagSvarfristPåSekundet, Svarfrist } from './VelgSvarfrist';
+import {BeaconSignalsIcon} from '@navikt/aksel-icons';
+import {BeaconSignalsFillIcon} from '@navikt/aksel-icons';
 import './ForespørselOmDelingAvCv.less';
+import knapperadCss from '../KnappeRad.module.css';
+import classNames from 'classnames';
 
 type Props = {
     stillingsId: string;
@@ -155,9 +159,10 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             <Lenkeknapp
                 tittel="Del stillingen med de markerte kandidatene"
                 onClick={onDelMedKandidatClick}
-                className="kandidatlisteknapper__knapp DelMedKandidat"
+                className={classNames(knapperadCss.knapp, knapperadCss.knapperadKnapp)}
             >
-                <i className="DelMedKandidat__icon" />
+                <BeaconSignalsIcon className={classNames(knapperadCss.knapperadIkonIkkeFylt, knapperadCss.knapperadIkon)} fontSize="1.5rem"/>
+                <BeaconSignalsFillIcon className={classNames(knapperadCss.knapperadIkonFylt, knapperadCss.knapperadIkon)} fontSize="1.5rem"/>
                 Del med kandidat
             </Lenkeknapp>
             <ModalMedKandidatScope

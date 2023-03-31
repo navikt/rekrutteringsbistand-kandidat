@@ -15,7 +15,9 @@ import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import DelMedArbeidsgiverKnapp from './DelMedArbeidsgiverKnapp';
-import './KnappeRad.less';
+import css from './KnappeRad.module.css';
+import classNames from 'classnames';
+import { MobileIcon, MobileFillIcon, TrashIcon, TrashFillIcon } from '@navikt/aksel-icons';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -65,15 +67,15 @@ const KnappeRad: FunctionComponent<Props> = ({
     const skalViseAngreSlettingKnapp = visArkiverte;
 
     return (
-        <div className="kandidatlisteknapper">
-            <div className="kandidatlisteknapper__venstre">{children}</div>
+        <div className={css.kandidatlisteknapper}>
+            <div className={css.venstre}>{children}</div>
             {kandidatliste.status === Kandidatlistestatus.Åpen && (
-                <div className="kandidatlisteknapper__høyre">
+                <div className={css.høyre}>
                     {skalViseEkstraKnapper &&
                         (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
                             <Lenkeknapp
                                 onClick={onSendSmsClick}
-                                className="kandidatlisteknapper__knapp Sms"
+                                className={classNames(css.knapp, css.knapperadKnapp)}
                             >
                                 <SmsIkon />
                             </Lenkeknapp>
@@ -86,7 +88,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                         : 'Du må huke av for kandidatene du ønsker å sende SMS til.'
                                 }
                             >
-                                <Lenkeknapp className="kandidatlisteknapper__knapp Sms">
+                                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
                                     <SmsIkon />
                                 </Lenkeknapp>
                             </MedPopover>
@@ -109,7 +111,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                         (minstEnKandidatErMarkert ? (
                             <Lenkeknapp
                                 onClick={onKandidaterAngreArkivering}
-                                className="kandidatlisteknapper__knapp Delete"
+                                className={classNames(css.knapp, css.knapperadKnapp)}
                             >
                                 <SletteIkon />
                             </Lenkeknapp>
@@ -119,7 +121,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
                                 tittel="Angre sletting for de markerte kandidatene"
                             >
-                                <Lenkeknapp className="kandidatlisteknapper__knapp Delete">
+                                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
                                     <SletteIkon />
                                 </Lenkeknapp>
                             </MedPopover>
@@ -132,14 +134,28 @@ const KnappeRad: FunctionComponent<Props> = ({
 
 const SmsIkon: FunctionComponent = () => (
     <>
-        <i className="Sms__icon" />
+        <MobileIcon
+            className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
+            fontSize="1.5rem"
+        />
+        <MobileFillIcon
+            className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
+            fontSize="1.5rem"
+        />
         <span>Send SMS</span>
     </>
 );
 
 const SletteIkon: FunctionComponent = () => (
     <>
-        <i className="Delete__icon" />
+        <TrashIcon
+            className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
+            fontSize="1.5rem"
+        />
+        <TrashFillIcon
+            className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
+            fontSize="1.5rem"
+        />
         <span>Angre sletting</span>
     </>
 );

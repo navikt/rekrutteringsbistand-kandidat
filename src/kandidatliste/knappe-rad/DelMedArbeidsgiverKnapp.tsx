@@ -13,6 +13,9 @@ import {
 } from './forespørsel-om-deling-av-cv/Forespørsel';
 import { cvErSendtTilArbeidsgiverOgSlettet } from '../kandidatrad/status-og-hendelser/hendelser/CvErSlettet';
 import { Link } from '@navikt/ds-react';
+import { TenancyIcon, TenancyFillIcon } from '@navikt/aksel-icons';
+import classNames from 'classnames';
+import css from './KnappeRad.module.css';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -49,7 +52,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className="kandidatlisteknapper__knapp Share">
+                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
                 </Lenkeknapp>
             </MedPopover>
@@ -85,7 +88,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 }
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className="kandidatlisteknapper__knapp Share">
+                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
                 </Lenkeknapp>
             </MedPopover>
@@ -103,7 +106,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="En av kandidatene har fått CV-en sin sendt til arbeidsgivers kandidatliste, men er blitt slettet i etterkant. Du kan ikke dele CV-en på nytt."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <Lenkeknapp className="kandidatlisteknapper__knapp Share">
+                <Lenkeknapp className={classNames(css.knapp, css.knapperadKnapp)}>
                     <DeleIkon />
                 </Lenkeknapp>
             </MedPopover>
@@ -111,7 +114,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
     }
 
     return (
-        <Lenkeknapp onClick={onKandidatShare} className="kandidatlisteknapper__knapp Share">
+        <Lenkeknapp onClick={onKandidatShare} className={classNames(css.knapp, css.knapperadKnapp)}>
             <DeleIkon />
         </Lenkeknapp>
     );
@@ -119,7 +122,14 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
 
 const DeleIkon: FunctionComponent = () => (
     <>
-        <i className="Share__icon" />
+        <TenancyIcon
+            className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
+            fontSize="1.5rem"
+        />
+        <TenancyFillIcon
+            className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
+            fontSize="1.5rem"
+        />
         <span>Del med arbeidsgiver (presenter)</span>
     </>
 );
