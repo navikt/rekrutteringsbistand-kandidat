@@ -71,3 +71,15 @@
 .forespørselIkon {
     margin-right: 0.5rem;
 }
+
+.angreSlettingKnapp:not(:hover, :active, :focus) .angreSlettingIkonFylt {
+    display: none;
+}
+
+.angreSlettingKnapp:is(:hover, :active, :focus) .angreSlettingIkonIkkeFylt {
+    display: none;
+}
+
+.angreSlettingIkon {
+    margin-right: 0.5rem;
+}

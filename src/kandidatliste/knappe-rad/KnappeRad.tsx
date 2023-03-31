@@ -18,7 +18,7 @@ import DelMedArbeidsgiverKnapp from './DelMedArbeidsgiverKnapp';
 import css from './KnappeRad.module.css';
 import './KnappeRad.less';
 import classNames from 'classnames';
-import { MobileIcon, MobileFillIcon } from '@navikt/aksel-icons';
+import { MobileIcon, MobileFillIcon, TrashIcon, TrashFillIcon } from '@navikt/aksel-icons';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -112,7 +112,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                         (minstEnKandidatErMarkert ? (
                             <Lenkeknapp
                                 onClick={onKandidaterAngreArkivering}
-                                className="kandidatlisteknapper__knapp Delete"
+                                className={classNames(css.knapp, css.angreSlettingKnapp)}
                             >
                                 <SletteIkon />
                             </Lenkeknapp>
@@ -122,7 +122,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
                                 tittel="Angre sletting for de markerte kandidatene"
                             >
-                                <Lenkeknapp className="kandidatlisteknapper__knapp Delete">
+                                <Lenkeknapp
+                                    className={classNames(css.knapp, css.angreSlettingKnapp)}
+                                >
                                     <SletteIkon />
                                 </Lenkeknapp>
                             </MedPopover>
@@ -143,7 +145,14 @@ const SmsIkon: FunctionComponent = () => (
 
 const SletteIkon: FunctionComponent = () => (
     <>
-        <i className="Delete__icon" />
+        <TrashIcon
+            className={classNames(css.angreSlettingIkonIkkeFylt, css.angreSlettingIkon)}
+            fontSize="1.5rem"
+        />
+        <TrashFillIcon
+            className={classNames(css.angreSlettingIkonFylt, css.angreSlettingIkon)}
+            fontSize="1.5rem"
+        />
         <span>Angre sletting</span>
     </>
 );
