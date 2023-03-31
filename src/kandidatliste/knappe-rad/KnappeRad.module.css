@@ -47,3 +47,27 @@
 .smsIkon {
     margin-right: 0.5rem;
 }
+
+.delMedArbeidsgiverKnapp:not(:hover, :active, :focus) .delMedArbeidsgiverIkonFylt {
+    display: none;
+}
+
+.delMedArbeidsgiverKnapp:is(:hover, :active, :focus) .delMedArbeidsgiverIkonIkkeFylt {
+    display: none;
+}
+
+.delMedArbeidsgiverIkon {
+    margin-right: 0.5rem;
+}
+
+.forespørselKnapp:not(:hover, :active, :focus) .forespørselIkonFylt {
+    display: none;
+}
+
+.forespørselKnapp:is(:hover, :active, :focus) .forespørselIkonIkkeFylt {
+    display: none;
+}
+
+.forespørselIkon {
+    margin-right: 0.5rem;
+}
