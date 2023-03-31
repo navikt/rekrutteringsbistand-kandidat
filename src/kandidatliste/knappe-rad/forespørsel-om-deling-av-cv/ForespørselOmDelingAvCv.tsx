@@ -15,8 +15,8 @@ import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import VelgSvarfrist, { lagSvarfristPåSekundet, Svarfrist } from './VelgSvarfrist';
-import {BeaconSignalsIcon} from '@navikt/aksel-icons';
-import {BeaconSignalsFillIcon} from '@navikt/aksel-icons';
+import { BeaconSignalsIcon } from '@navikt/aksel-icons';
+import { BeaconSignalsFillIcon } from '@navikt/aksel-icons';
 import './ForespørselOmDelingAvCv.less';
 import knapperadCss from '../KnappeRad.module.css';
 import classNames from 'classnames';
@@ -154,15 +154,30 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         });
     };
 
+    const forespørselIcon = (
+        <>
+            <BeaconSignalsIcon
+                className={classNames(
+                    knapperadCss.knapperadIkonIkkeFylt,
+                    knapperadCss.knapperadIkon
+                )}
+                fontSize="1.5rem"
+            />
+            <BeaconSignalsFillIcon
+                className={classNames(knapperadCss.knapperadIkonFylt, knapperadCss.knapperadIkon)}
+                fontSize="1.5rem"
+            />
+        </>
+    );
+
     return (
         <div className="foresporsel-om-deling-av-cv">
             <LenkeknappNy
                 tittel="Del stillingen med de markerte kandidatene"
                 onClick={onDelMedKandidatClick}
                 className={classNames(knapperadCss.knapp, knapperadCss.knapperadKnapp)}
+                icon={forespørselIcon}
             >
-                <BeaconSignalsIcon className={classNames(knapperadCss.knapperadIkonIkkeFylt, knapperadCss.knapperadIkon)} fontSize="1.5rem"/>
-                <BeaconSignalsFillIcon className={classNames(knapperadCss.knapperadIkonFylt, knapperadCss.knapperadIkon)} fontSize="1.5rem"/>
                 Del med kandidat
             </LenkeknappNy>
             <ModalMedKandidatScope

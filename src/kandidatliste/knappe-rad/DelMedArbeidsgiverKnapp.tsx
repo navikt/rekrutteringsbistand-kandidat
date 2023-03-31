@@ -52,8 +52,8 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
-                    <DeleIkon />
+                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
+                    <span>Del med arbeidsgiver (presenter)</span>
                 </LenkeknappNy>
             </MedPopover>
         );
@@ -88,8 +88,8 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 }
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
-                    <DeleIkon />
+                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
+                    <span>Del med arbeidsgiver (presenter)</span>
                 </LenkeknappNy>
             </MedPopover>
         );
@@ -106,8 +106,8 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="En av kandidatene har fått CV-en sin sendt til arbeidsgivers kandidatliste, men er blitt slettet i etterkant. Du kan ikke dele CV-en på nytt."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
-                    <DeleIkon />
+                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
+                    <span>Del med arbeidsgiver (presenter)</span>
                 </LenkeknappNy>
             </MedPopover>
         );
@@ -117,13 +117,12 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
         <LenkeknappNy
             onClick={onKandidatShare}
             className={classNames(css.knapp, css.knapperadKnapp)}
-        >
-            <DeleIkon />
-        </LenkeknappNy>
+            icon={DeleIkon}
+        ></LenkeknappNy>
     );
 };
 
-const DeleIkon: FunctionComponent = () => (
+const DeleIkon = (
     <>
         <TenancyIcon
             className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
@@ -133,7 +132,6 @@ const DeleIkon: FunctionComponent = () => (
             className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
             fontSize="1.5rem"
         />
-        <span>Del med arbeidsgiver (presenter)</span>
     </>
 );
 

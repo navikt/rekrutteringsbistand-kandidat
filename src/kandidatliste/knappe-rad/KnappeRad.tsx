@@ -77,8 +77,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                             <LenkeknappNy
                                 onClick={onSendSmsClick}
                                 className={classNames(css.knapp, css.knapperadKnapp)}
+                                icon={SmsIkon}
                             >
-                                <SmsIkon />
+                                <span>Send SMS</span>
                             </LenkeknappNy>
                         ) : (
                             <MedPopover
@@ -89,8 +90,11 @@ const KnappeRad: FunctionComponent<Props> = ({
                                         : 'Du må huke av for kandidatene du ønsker å sende SMS til.'
                                 }
                             >
-                                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
-                                    <SmsIkon />
+                                <LenkeknappNy
+                                    className={classNames(css.knapp, css.knapperadKnapp)}
+                                    icon={SmsIkon}
+                                >
+                                    <span>Send SMS</span>
                                 </LenkeknappNy>
                             </MedPopover>
                         ))}
@@ -113,8 +117,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                             <LenkeknappNy
                                 onClick={onKandidaterAngreArkivering}
                                 className={classNames(css.knapp, css.knapperadKnapp)}
+                                icon={AngreSletting}
                             >
-                                <SletteIkon />
+                                <span>Angre sletting</span>
                             </LenkeknappNy>
                         ) : (
                             <MedPopover
@@ -122,8 +127,11 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
                                 tittel="Angre sletting for de markerte kandidatene"
                             >
-                                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)}>
-                                    <SletteIkon />
+                                <LenkeknappNy
+                                    className={classNames(css.knapp, css.knapperadKnapp)}
+                                    icon={AngreSletting}
+                                >
+                                    <span>Angre sletting</span>
                                 </LenkeknappNy>
                             </MedPopover>
                         ))}
@@ -133,7 +141,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     );
 };
 
-const SmsIkon: FunctionComponent = () => (
+const SmsIkon = (
     <>
         <MobileIcon
             className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
@@ -143,11 +151,10 @@ const SmsIkon: FunctionComponent = () => (
             className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
             fontSize="1.5rem"
         />
-        <span>Send SMS</span>
     </>
 );
 
-const SletteIkon: FunctionComponent = () => (
+const AngreSletting = (
     <>
         <TrashIcon
             className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
@@ -157,7 +164,6 @@ const SletteIkon: FunctionComponent = () => (
             className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
             fontSize="1.5rem"
         />
-        <span>Angre sletting</span>
     </>
 );
 
