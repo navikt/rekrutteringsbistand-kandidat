@@ -37,6 +37,7 @@ import useSorterteKandidater from './hooks/useSorterteKandidater';
 import { Hendelse } from './kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import FeilVedSendingAvForespørsel from './feil-ved-sending-av-forespørsel/FeilVedSendingAvForespørsel';
 import '../common/ikoner.less';
+import { Search } from '@navikt/ds-react';
 
 type Props = {
     kandidatliste: Kandidatlistetype;
@@ -206,10 +207,11 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                 visArkiverte={filter.visArkiverte}
                                 sendteMeldinger={sendteMeldinger}
                             >
-                                <Navnefilter
-                                    value={filter.navn}
-                                    onChange={(e) => setNavnefilter(e.currentTarget.value)}
-                                    onReset={() => setNavnefilter('')}
+                                <Search
+                                    label="Søk alle NAV sine sider"
+                                    variant="simple"
+                                    onChange={(e) => setNavnefilter(e)}
+                                    title="Søk etter navn i listen"
                                 />
                             </KnappeRad>
                         </div>
