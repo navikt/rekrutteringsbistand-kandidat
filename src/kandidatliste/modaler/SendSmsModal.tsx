@@ -1,10 +1,7 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react';
 import { Dispatch } from 'redux';
-import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { useDispatch, useSelector } from 'react-redux';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
-import { Select } from 'nav-frontend-skjema';
-import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
+import { Button } from '@navikt/ds-react';
 
 import { Kandidatmeldinger, SmsStatus } from '../domene/Kandidatressurser';
 import { Kandidat } from '../domene/Kandidat';
@@ -14,8 +11,8 @@ import AppState from '../../AppState';
 import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Stillingskategori } from '../domene/Kandidatliste';
-import { Link } from '@navikt/ds-react';
-import './SendSmsModal.less';
+import { Alert, BodyShort, Heading, Label, Link, Select } from '@navikt/ds-react';
+import css from './SendSmsModal.module.css';
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
@@ -94,14 +91,14 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
     return (
         <ModalMedKandidatScope
             open={vis}
-            className="send-sms-modal"
+            className={css.sendSmsModal}
             onClose={onClose}
             aria-label={`Send SMS til ${kandidater.length} kandidater`}
         >
             {(kandidaterSomHarFåttSms.length > 0 || harInaktiveKandidater) && (
-                <AlertStripeAdvarsel className="send-sms-modal__allerede-sendt-advarsel">
+                <Alert variant="warning" size="small" className={css.alleredeSendtAdvarsel}>
                     Ikke alle kandidatene vil motta SMS-en
-                    <ul>
+                    <ul className={css.alleredeSendtAdvarselListe}>
                         {kandidaterSomHarFåttSms.length > 0 && (
                             <li>
                                 {kandidaterSomHarFåttSms.length === 1 ? (
@@ -119,24 +116,29 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                             <li>Én eller flere av kandidatene er inaktive.</li>
                         )}
                     </ul>
-                </AlertStripeAdvarsel>
+                </Alert>
             )}
             <div className="send-sms-modal__innhold">
-                <Systemtittel className="send-sms-modal__tittel">Send SMS</Systemtittel>
-                <Ingress className="send-sms-modal__ingress">
+                <Heading size="medium" level="2">
+                    Send SMS
+                </Heading>
+                <BodyShort>
                     Det vil bli sendt SMS til <b>{kandidaterSomIkkeHarFåttSms.length}</b>{' '}
                     {kandidaterSomIkkeHarFåttSms.length === 1 ? 'kandidat' : 'kandidater'}
-                </Ingress>
-                <Normaltekst className="send-sms-modal__ingressbeskrivelse">
+                </BodyShort>
+                <BodyShort size="small">
                     Telefonnummerene blir hentet fra Kontakt- og reservasjonsregisteret.
-                </Normaltekst>
-                <AlertStripeInfo className="send-sms-modal__kontortid-advarsel">
-                    SMS sendes ut mellom 09:00 og 17:15 hver dag. Det kan oppstå forsinkelser.
-                </AlertStripeInfo>
+                </BodyShort>
+                <Alert variant="info" className={css.kontortidAdvarsel}>
+                    <Label size="small">
+                        SMS sendes ut mellom 09:00 og 17:15 hver dag. Det kan oppstå forsinkelser.
+                    </Label>
+                </Alert>
 
                 {stillingskategori !== Stillingskategori.Jobbmesse && (
                     <Select
-                        className="send-sms-modal__velg-mal"
+                        size="small"
+                        className={css.velgMal}
                         label="Velg beskjed som skal vises i SMS-en*"
                         onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                             setValgtMal(e.target.value as Meldingsmal);
@@ -150,26 +152,28 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                         </option>
                     </Select>
                 )}
-
-                <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
+                <Label size="small" htmlFor="forhåndsvisning">
                     Meldingen som vil bli sendt til kandidatene
-                </label>
-                <div id="forhåndsvisning" className="send-sms-modal__forhåndsvisning">
-                    <Normaltekst>
+                </Label>
+                <div id="forhåndsvisning" className={css.forhåndsvisning}>
+                    <BodyShort size="small">
                         <span>{genererMeldingUtenLenke(valgtMal)} </span>
                         <Link href={lenkeMedPrefiks} target="_blank" rel="noopener noreferrer">
                             {lenkeTilStilling}
                         </Link>
-                    </Normaltekst>
+                    </BodyShort>
                 </div>
-                <div className="send-sms-modal__knapper">
-                    <Hovedknapp
-                        spinner={sendStatus === SmsStatus.UnderUtsending}
+                <div className={css.knapper}>
+                    <Button
+                        variant="primary"
+                        loading={sendStatus === SmsStatus.UnderUtsending}
                         onClick={onSendSms}
                     >
                         Send SMS
-                    </Hovedknapp>
-                    <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
+                    </Button>
+                    <Button variant="secondary" onClick={onClose}>
+                        Avbryt
+                    </Button>
                 </div>
             </div>
         </ModalMedKandidatScope>
