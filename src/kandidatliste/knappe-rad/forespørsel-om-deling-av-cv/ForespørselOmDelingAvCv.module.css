@@ -1,0 +1,33 @@
+.tidigereDelt {
+    margin-bottom: 1rem;
+}
+
+.deltAdvarsel {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+.datepicker {
+    margin-left: 2rem;
+}
+
+.knapper {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.deltFeilmelding {
+    margin-top: 1rem;
+}
+
+.ingenValgtPopover {
+    max-width: 20rem;
+}
+
+.ingenValgtPopover > * {
+    background-color: var(--a-surface-info-subtle);
+}
+

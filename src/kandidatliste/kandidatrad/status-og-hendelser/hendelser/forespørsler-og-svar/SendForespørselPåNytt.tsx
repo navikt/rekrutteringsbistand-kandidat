@@ -32,7 +32,7 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({
 
     const { valgtNavKontor } = useSelector((state: AppState) => state.navKontor);
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
-    const [egenvalgtFrist, setEgenvalgtFrist] = useState<string | undefined>();
+    const [egenvalgtFrist, setEgenvalgtFrist] = useState<Date | undefined>();
     const [egenvalgtFristFeilmelding, setEgenvalgtFristFeilmelding] = useState<
         string | undefined
     >();
@@ -90,7 +90,7 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({
         setSvarfrist(event.target.value as Svarfrist);
     };
 
-    const onEgenvalgtFristChange = (dato?: string) => {
+    const onEgenvalgtFristChange = (dato?: Date) => {
         setEgenvalgtFrist(dato);
     };
 
