@@ -1,13 +1,21 @@
 import React, { ChangeEvent } from 'react';
-import { Feilmelding, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Input, Textarea } from 'nav-frontend-skjema';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { inneholderSærnorskeBokstaver, erGyldigEpost } from './epostValidering';
 import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Nettstatus } from '../../../api/Nettressurs';
-import { Link } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyLong,
+    BodyShort,
+    Button,
+    Heading,
+    Label,
+    Link,
+    Textarea,
+    TextField,
+} from '@navikt/ds-react';
 import './PresenterKandidaterModal.less';
+import css from './PresenterKandidaterModal.module.css';
+import { Feilmelding } from 'nav-frontend-typografi';
 
 type Props = {
     vis?: boolean; // Default true
@@ -158,19 +166,24 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
             >
                 <div className="wrapper">
                     {antallSomSkalDeles === 1 ? (
-                        <Systemtittel>Del 1 kandidat med arbeidsgiver</Systemtittel>
+                        <Heading level="2" size="medium">
+                            Del 1 kandidat med arbeidsgiver
+                        </Heading>
                     ) : (
-                        <Systemtittel>{`Del ${antallSomSkalDeles} kandidater med arbeidsgiver`}</Systemtittel>
+                        <Heading
+                            level="2"
+                            size="medium"
+                        >{`Del ${antallSomSkalDeles} kandidater med arbeidsgiver`}</Heading>
                     )}
                     {alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere &&
                         antallKandidaterSomIkkeKanDeles > 0 && (
-                            <AlertStripeAdvarsel>
-                                <Normaltekst className="blokk-xs">
+                            <Alert variant="warning" size="small" className={css.maaGodkjenne}>
+                                <BodyLong size="small" spacing>
                                     {antallKandidaterSomIkkeKanDeles} av kandidatene har ikke svart
                                     eller svart nei på om CV-en kan deles. Du kan derfor ikke dele
                                     disse.
-                                </Normaltekst>
-                                <Normaltekst>
+                                </BodyLong>
+                                <BodyLong size="small" spacing>
                                     Har du hatt dialog med kandidaten, og fått bekreftet at NAV kan
                                     dele CV-en? Da må du registrere dette i aktivitetsplanen. Har du
                                     ikke delt stillingen med kandidaten må du gjøre det først.{' '}
@@ -178,26 +191,28 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                                         Se rutiner
                                     </Link>
                                     .
-                                </Normaltekst>
-                            </AlertStripeAdvarsel>
+                                </BodyLong>
+                            </Alert>
                         )}
                     {!alleKandidaterMåGodkjenneForespørselOmDelingAvCvForÅPresentere && (
-                        <AlertStripeAdvarsel>
-                            <Normaltekst>
+                        <Alert variant="warning" size="small" className={css.maaGodkjenne}>
+                            <BodyLong size="small" spacing>
                                 Husk at du må kontakte kandidatene og undersøke om stillingen er
                                 aktuell før du deler med arbeidsgiver.
-                            </Normaltekst>
-                        </AlertStripeAdvarsel>
+                            </BodyLong>
+                        </Alert>
                     )}
-                    <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
-                    <Normaltekst className="forklaringstekst">
+                    <BodyShort size="small" spacing>
+                        * er obligatoriske felter du må fylle ut
+                    </BodyShort>
+                    <BodyLong size="small" spacing>
                         Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling
                         og lenke for å logge inn. Etter innlogging kan arbeidsgiveren se
                         kandidatlisten.
-                    </Normaltekst>
-                    <div className="mailadresser">
+                    </BodyLong>
+                    <div className={css.mailadresser}>
                         {this.state.mailadresser.map((mailadresseFelt) => (
-                            <Input
+                            <TextField
                                 className={`${mailadresseFelt.show ? ' show' : ''}`}
                                 key={`mailadressefelt_${mailadresseFelt.id}`}
                                 label={
@@ -212,39 +227,45 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                                 }
                                 value={mailadresseFelt.value}
                                 onChange={this.onMailadresseChange(mailadresseFelt.id)}
-                                feil={
+                                error={
                                     mailadresseFelt.errorTekst
                                         ? mailadresseFelt.errorTekst
                                         : undefined
                                 }
                             />
                         ))}
-                        <Flatknapp mini onClick={this.leggTilMailadressefelt}>
+                        <Button
+                            variant="tertiary-neutral"
+                            onClick={this.leggTilMailadressefelt}
+                            className={css.leggTilMailadressefelt}
+                        >
                             + Legg til flere
-                        </Flatknapp>
+                        </Button>
                     </div>
                     <div>
                         <Textarea
                             label="Melding til arbeidsgiver"
-                            textareaClass="beskjed"
                             value={this.state.beskjed}
                             onChange={this.onBeskjedChange}
                         />
                     </div>
-                    <div>
-                        <Hovedknapp
+                    <div className={css.knapper}>
+                        <Button
+                            variant="primary"
                             disabled={deleStatus === Nettstatus.LasterInn}
-                            spinner={deleStatus === Nettstatus.LasterInn}
+                            loading={deleStatus === Nettstatus.LasterInn}
                             onClick={this.validerOgLagre}
                         >
                             Del
-                        </Hovedknapp>
-                        <Flatknapp className="avbryt--knapp" onClick={this.props.onClose}>
+                        </Button>
+                        <Button variant="secondary" onClick={this.props.onClose}>
                             Avbryt
-                        </Flatknapp>
+                        </Button>
                     </div>
-                    {deleStatus === Nettstatus.Feil && (
-                        <Feilmelding>Kunne ikke dele med arbeidsgiver akkurat nå</Feilmelding>
+                    {true && (
+                        <Label size="small" className={css.feilmelding}>
+                            Kunne ikke dele med arbeidsgiver akkurat nå
+                        </Label>
                     )}
                 </div>
             </ModalMedKandidatScope>
