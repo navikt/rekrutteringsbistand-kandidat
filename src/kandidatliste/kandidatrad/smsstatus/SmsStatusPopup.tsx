@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import SendSmsIkon from './SendSmsIkon';
 import { Sms, SmsStatus } from '../../domene/Kandidatressurser';
-import { PopoverOrientering } from 'nav-frontend-popover';
 import MedPopover from '../../../common/med-popover/MedPopover';
 import './SmsStatusPopup.less';
 
@@ -39,11 +38,7 @@ const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
     if (sms.status === SmsStatus.IkkeSendt) return null;
 
     return (
-        <MedPopover
-            className="sms-status-popup"
-            hjelpetekst={<Popuptekst sms={sms} />}
-            orientering={PopoverOrientering.Under}
-        >
+        <MedPopover className="sms-status-popup" hjelpetekst={<Popuptekst sms={sms} />}>
             <SendSmsIkon feil={sms.status === SmsStatus.Feil} />
         </MedPopover>
     );

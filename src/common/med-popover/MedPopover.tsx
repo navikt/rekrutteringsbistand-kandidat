@@ -1,34 +1,23 @@
 import React, { FunctionComponent, useState, MouseEvent, ReactNode } from 'react';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import { Normaltekst } from 'nav-frontend-typografi';
-import './MedPopover.less';
+import css from './MedPopover.module.css';
+import { BodyShort, Popover } from '@navikt/ds-react';
 
 type Props = {
     id?: string;
     tittel?: string;
     hjelpetekst: ReactNode;
-    orientering?: PopoverOrientering;
-    onPopoverClick?: () => void;
     className?: string;
 };
 
-const MedPopover: FunctionComponent<Props> = ({
-    id,
-    tittel,
-    hjelpetekst,
-    orientering,
-    onPopoverClick,
-    className,
-    children,
-}) => {
-    const [anker, setAnker] = useState<HTMLElement | undefined>(undefined);
+const MedPopover: FunctionComponent<Props> = ({ id, tittel, hjelpetekst, className, children }) => {
+    const [anker, setAnker] = useState<Element | null>(null);
 
     const toggleAnker = (event: MouseEvent<HTMLElement>) => {
-        setAnker(anker ? undefined : event.currentTarget);
+        setAnker(anker ? null : event.currentTarget);
     };
 
     const lukkAnker = () => {
-        setAnker(undefined);
+        setAnker(null);
     };
 
     return (
@@ -41,13 +30,17 @@ const MedPopover: FunctionComponent<Props> = ({
         >
             {children}
             <Popover
-                orientering={orientering || PopoverOrientering.Under}
-                ankerEl={anker}
-                onRequestClose={lukkAnker}
+                open
+                anchorEl={anker}
+                onClose={lukkAnker}
+                placement="bottom"
+                className={css.ingenValgtPopover}
             >
-                <Normaltekst onClick={onPopoverClick} tag="div" className="med-popover__popup">
-                    {hjelpetekst}
-                </Normaltekst>
+                <Popover.Content>
+                    <BodyShort size="small" as="div">
+                        {hjelpetekst}
+                    </BodyShort>
+                </Popover.Content>
             </Popover>
         </div>
     );

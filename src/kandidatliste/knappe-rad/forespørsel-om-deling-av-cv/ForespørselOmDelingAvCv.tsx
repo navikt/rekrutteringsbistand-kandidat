@@ -244,7 +244,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             >
                 <Popover.Content>
                     {kanIkkeDeleFeilmelding && (
-                        <BodyShort size="small">{kanIkkeDeleFeilmelding}</BodyShort>
+                        <BodyShort as="div" size="small">{kanIkkeDeleFeilmelding}</BodyShort>
                     )}
                 </Popover.Content>
             </Popover>
