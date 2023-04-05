@@ -1,0 +1,44 @@
+.presenterKandidaterModal {
+    max-width: 40rem;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.mailadresse {
+    transition: all 0.4s ease-in-out;
+    margin-bottom: 0;
+    max-height: 0;
+    opacity: 0;
+}
+.mailadresseshow {
+    margin-bottom: 1rem;
+    max-height: 100px;
+    opacity: 1;
+}
+
+.leggTilMailadressefelt {
+    color: var(--a-text-action);
+}
+
+.leggTilMailadressefelt:hover {
+    color: var(--a-text-action);
+    background-color: inherit;
+}
+
+.leggTilMailadressefelt:active:hover {
+    color: var(--a-text-action);
+    background-color: inherit;
+}
+
+.knapper {
+    display: flex;
+    gap: 1rem;
+}
+
+.feilmelding {
+    color: var(--a-text-danger);
+}
