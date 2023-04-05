@@ -1,11 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { Element } from 'nav-frontend-typografi';
-import Indikator from '../../kandidatliste/liste-header/Indikator';
-import { NedChevron, OppChevron } from 'nav-frontend-chevron';
+import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
 import { Link, useLocation } from 'react-router-dom';
-import classnames from 'classnames';
 import { Retning } from './Retning';
-import './SorterbarKolonneheader.less';
+import { Label } from '@navikt/ds-react';
+import css from './SorterbarKolonneheader.module.css';
 
 interface Props {
     tekst: string;
@@ -13,7 +11,6 @@ interface Props {
     aktivtSorteringsfelt: number | null;
     aktivSorteringsretning: Retning | null;
     onClick: (sorteringsfelt: number) => void;
-    className?: string;
 }
 
 const SorterbarKolonneheader: FunctionComponent<Props> = ({
@@ -22,7 +19,6 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
     aktivtSorteringsfelt,
     aktivSorteringsretning,
     onClick,
-    className,
     children,
 }) => {
     let { pathname, search } = useLocation();
@@ -33,28 +29,24 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
         ariaSort = aktivSorteringsretning === Retning.Stigende ? 'ascending' : 'descending';
     }
 
-    const mainClassName = classnames('sorterbar-kolonneheader', className ? className : undefined, {
-        'sorterbar-kolonneheader--valgt': ariaSort !== 'none',
-    });
-
     return (
         <Link
             to={pathname + search + '#'}
             role="columnheader"
             aria-sort={ariaSort}
             onClick={() => onClick(sorteringsfelt)}
-            className={mainClassName}
+            className={css.sorterbarKolonneheader}
         >
-            <Element tag="div" className="sorterbar-kolonneheader__tekst">
+            <Label as="div" className={css.sorterbarKolonneheaderTekst} size="small">
                 {tekst}
-            </Element>
+            </Label>
             {children}
             {ariaSort === 'none' ? (
-                <Indikator />
+                <ChevronUpDownIcon fontSize={25} />
             ) : ariaSort === 'ascending' ? (
-                <OppChevron className="sorterbar-kolonneheader__chevron" />
+                <ChevronUpIcon fontSize={25} />
             ) : (
-                <NedChevron className="sorterbar-kolonneheader__chevron" />
+                <ChevronDownIcon fontSize={25} />
             )}
         </Link>
     );

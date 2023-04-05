@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
 import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
 import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
-import '../kandidatrad/Kandidatrad.less';
+import { Checkbox, Label } from '@navikt/ds-react';
+import css from './ListeHeader.module.css';
+import classNames from 'classnames';
 
 interface Props {
     kandidatliste: Kandidatliste;
@@ -37,14 +37,15 @@ const Kolonne: FunctionComponent<{
     className?: string;
 }> = ({ tekst, className, children }) => {
     return (
-        <Element
+        <Label
             role="columnheader"
-            tag="div"
-            className={`kandidatliste-kandidat__kolonne-tittel${className ? ' ' + className : ''}`}
+            as="div"
+            size="small"
+            className={classNames(className, css.kolonneTittel)}
         >
             {tekst}
             {children}
-        </Element>
+        </Label>
     );
 };
 
@@ -85,19 +86,19 @@ const ListeHeader: FunctionComponent<Props> = ({
             <div role="row" className={klassenavnForListerad}>
                 <div />
                 <Checkbox
-                    label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
                     checked={alleMarkert}
                     disabled={kandidatliste.status === Kandidatlistestatus.Lukket}
                     onChange={() => onCheckAlleKandidater()}
-                />
+                >
+                    &#8203;
+                </Checkbox>
                 <SorterbarKolonneheader
                     tekst="Navn"
                     sorteringsfelt={KandidatSorteringsfelt.Navn}
                     aktivtSorteringsfelt={aktivtSorteringsfelt}
                     aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
-                    className="kolonne-middels"
                 />
                 <SorterbarKolonneheader
                     tekst="Fødselsnr."
@@ -128,9 +129,9 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onClick={endreSortering}
                 />
                 <Kolonne tekst="Notater" />
-                <Kolonne tekst="Info" className="kandidatliste-kandidat__kolonne-midtstilt" />
+                <Kolonne tekst="Info" className={css.kolonneMidtstilt} />
                 {visArkiveringskolonne && (
-                    <Kolonne tekst="Slett" className="kandidatliste-kandidat__kolonne-høyrestilt" />
+                    <Kolonne tekst="Slett" className={css.kolonneHøyrestilt} />
                 )}
             </div>
         </div>
