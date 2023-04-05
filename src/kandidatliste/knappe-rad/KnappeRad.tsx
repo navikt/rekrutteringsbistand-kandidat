@@ -1,5 +1,4 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { PopoverOrientering } from 'nav-frontend-popover';
 import {
     erKobletTilArbeidsgiver,
     erKobletTilStilling,
@@ -122,7 +121,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                             </LenkeknappNy>
                         ) : (
                             <MedPopover
-                                orientering={PopoverOrientering.UnderVenstre}
+                                placement="bottom-end"
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
                                 tittel="Angre sletting for de markerte kandidatene"
                             >

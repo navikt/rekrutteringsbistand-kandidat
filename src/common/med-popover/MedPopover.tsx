@@ -7,9 +7,29 @@ type Props = {
     tittel?: string;
     hjelpetekst: ReactNode;
     className?: string;
+    placement?:
+        | 'top'
+        | 'bottom'
+        | 'right'
+        | 'left'
+        | 'top-start'
+        | 'top-end'
+        | 'bottom-start'
+        | 'bottom-end'
+        | 'right-start'
+        | 'right-end'
+        | 'left-start'
+        | 'left-end';
 };
 
-const MedPopover: FunctionComponent<Props> = ({ id, tittel, hjelpetekst, className, children }) => {
+const MedPopover: FunctionComponent<Props> = ({
+    id,
+    tittel,
+    hjelpetekst,
+    className,
+    placement,
+    children,
+}) => {
     const [anker, setAnker] = useState<Element | null>(null);
 
     const toggleAnker = (event: MouseEvent<HTMLElement>) => {
@@ -33,7 +53,7 @@ const MedPopover: FunctionComponent<Props> = ({ id, tittel, hjelpetekst, classNa
                 open
                 anchorEl={anker}
                 onClose={lukkAnker}
-                placement="bottom"
+                placement={placement ? placement : 'bottom'}
                 className={css.ingenValgtPopover}
             >
                 <Popover.Content>
