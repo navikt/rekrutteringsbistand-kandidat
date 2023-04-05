@@ -6,7 +6,7 @@ import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/Sorterba
 import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
 import { Checkbox, Label } from '@navikt/ds-react';
 import css from './ListeHeader.module.css';
-import './Kandidatrad.less';
+import '../kandidatrad/Kandidatrad.less';
 import classNames from 'classnames';
 
 interface Props {
@@ -24,7 +24,7 @@ export const modifierTilListeradGrid = (
 ) => {
     if (visUtfallskolonne) {
         return visArkiveringskolonne
-            ? ' kandidatkandidat__radliste---vis-utfall-og-arkivering'
+            ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering'
             : ' kandidatliste-kandidat__rad--vis-utfall';
     } else {
         return visArkiveringskolonne
