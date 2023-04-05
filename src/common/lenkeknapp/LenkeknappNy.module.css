@@ -7,6 +7,8 @@
     text-decoration: none;
     cursor: pointer;
     font-size: 1rem;
+    text-align: left;
+    max-height: 2rem;
 }
 
 .Lenkeknapp:focus {
@@ -22,8 +24,4 @@
 .Lenkeknapp:active:hover {
     color: var(--a-surface-action);
     background-color: inherit;
-}
-
-.navds-label {
-    font-weight: normal;
 }
