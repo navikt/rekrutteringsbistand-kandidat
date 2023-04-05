@@ -13,9 +13,8 @@ import {
     Textarea,
     TextField,
 } from '@navikt/ds-react';
-import './PresenterKandidaterModal.less';
 import css from './PresenterKandidaterModal.module.css';
-import { Feilmelding } from 'nav-frontend-typografi';
+import classNames from 'classnames';
 
 type Props = {
     vis?: boolean; // Default true
@@ -162,9 +161,9 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                 open={vis}
                 onClose={this.props.onClose}
                 aria-label="Del kandidater med arbeidsgiver"
-                className="PresenterKandidaterModal"
+                className={css.presenterKandidaterModal}
             >
-                <div className="wrapper">
+                <div className={css.wrapper}>
                     {antallSomSkalDeles === 1 ? (
                         <Heading level="2" size="medium">
                             Del 1 kandidat med arbeidsgiver
@@ -205,7 +204,7 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                     <BodyShort size="small" spacing>
                         * er obligatoriske felter du må fylle ut
                     </BodyShort>
-                    <BodyLong size="small" spacing>
+                    <BodyLong size="small">
                         Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling
                         og lenke for å logge inn. Etter innlogging kan arbeidsgiveren se
                         kandidatlisten.
@@ -213,7 +212,10 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                     <div className={css.mailadresser}>
                         {this.state.mailadresser.map((mailadresseFelt) => (
                             <TextField
-                                className={`${mailadresseFelt.show ? ' show' : ''}`}
+                                className={classNames(css.mailadresse, {
+                                    [css.mailadresseshow]: mailadresseFelt.show,
+                                })}
+                                size="small"
                                 key={`mailadressefelt_${mailadresseFelt.id}`}
                                 label={
                                     mailadresseFelt.id === 0
@@ -262,7 +264,7 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                             Avbryt
                         </Button>
                     </div>
-                    {true && (
+                    {deleStatus === Nettstatus.Feil && (
                         <Label size="small" className={css.feilmelding}>
                             Kunne ikke dele med arbeidsgiver akkurat nå
                         </Label>

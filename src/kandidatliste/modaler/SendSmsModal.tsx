@@ -168,11 +168,10 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                         variant="primary"
                         loading={sendStatus === SmsStatus.UnderUtsending}
                         onClick={onSendSms}
-                        size="small"
                     >
                         Send SMS
                     </Button>
-                    <Button variant="secondary" onClick={onClose} size="small">
+                    <Button variant="secondary" onClick={onClose}>
                         Avbryt
                     </Button>
                 </div>

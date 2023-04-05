@@ -178,8 +178,8 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             </LenkeknappNy>
             <ModalMedKandidatScope
                 open={modalErÅpen}
-                aria-label="Del stillingen med de markerte kandidatene"
-                className="foresporsel-om-deling-av-cv__modal"
+                aria-label="Del stillingen med de markerte kandidatene2"
+                className={css.foresporselOmDelingAvCvModal}
                 onClose={lukkModal}
             >
                 <Heading size="medium" level="2" spacing>
@@ -217,12 +217,11 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                     <Button
                         onClick={onDelStillingMedKandidater}
                         variant="primary"
-                        size="small"
                         loading={sendForespørselOmDelingAvCv.kind === Nettstatus.SenderInn}
                     >
                         Del stilling
                     </Button>
-                    <Button variant="secondary" size="small" onClick={lukkModal}>
+                    <Button variant="secondary" onClick={lukkModal}>
                         Avbryt
                     </Button>
                 </div>
