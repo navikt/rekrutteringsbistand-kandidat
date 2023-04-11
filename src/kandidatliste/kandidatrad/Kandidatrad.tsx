@@ -220,14 +220,12 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 />
 
                 <div role="cell">
-                    <LenkeknappNy onClick={toggleNotater} className={css.ikonknapp}>
+                    <LenkeknappNy onClick={toggleNotater} className={css.ikonknapp} tittel="Notat">
                         <TasklistIcon
-                            title="notat ikon"
                             fontSize="1.7rem"
                             className={classNames(css.notatIkon, css.kandidatradIkonIkkeFylt)}
                         />
                         <TasklistFillIcon
-                            title="notat ikon"
                             fontSize="1.7rem"
                             className={classNames(css.notatIkon, css.kandidatradIkonFylt)}
                         />
@@ -236,14 +234,16 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 </div>
                 <div role="cell" className={css.kolonneMidtstilt}>
                     {!erInaktiv(kandidat) && (
-                        <LenkeknappNy onClick={toggleMerInfo} className={css.ikonknapp}>
+                        <LenkeknappNy
+                            onClick={toggleMerInfo}
+                            className={css.ikonknapp}
+                            tittel="Mer informasjon"
+                        >
                             <InformationSquareIcon
-                                title="Mer info ikon"
                                 fontSize="1.7rem"
                                 className={css.kandidatradIkonIkkeFylt}
                             />
                             <InformationSquareFillIcon
-                                title="Mer info ikon"
                                 fontSize="1.7rem"
                                 className={css.kandidatradIkonFylt}
                             />
