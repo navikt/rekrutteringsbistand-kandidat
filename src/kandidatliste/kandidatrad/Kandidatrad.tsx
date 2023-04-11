@@ -172,7 +172,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 >
                     &#8203;
                 </Checkbox>
-                <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__kolonne-sorterbar">
+                <div className={css.kolonneSorterbar}>
                     {erInaktiv(kandidat) ? (
                         <BodyShort>{fulltNavn}</BodyShort>
                     ) : (
