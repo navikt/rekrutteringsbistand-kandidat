@@ -1,0 +1,47 @@
+.antallNotater {
+    margin-right: 0.4rem;
+}
+
+.lagtTil {
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.wrapHvorSomHelst {
+    overflow-wrap: anywhere;
+}
+
+.tabellTekstInner {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kolonneMidtstilt {
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.kolonnHøyrestilt {
+    justify-content: flex-end;
+}
+
+.kolonneSorterbar {
+    padding-left: 0.5rem;
+}
+
+.notatIkon {
+    margin-right: 4px;
+}
+
+.ikonknapp {
+    display: flex;
+    align-items: center;
+}
+
+.ikonknapp:not(:hover, :active, :focus) .kandidatradIkonFylt {
+    display: none;
+}
+
+.ikonknapp:is(:hover, :active, :focus) .kandidatradIkonIkkeFylt {
+    display: none;
+}
