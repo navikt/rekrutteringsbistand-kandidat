@@ -87,7 +87,6 @@ const ListeHeader: FunctionComponent<Props> = ({
             <div role="row" className={klassenavnForListerad}>
                 <div />
                 <Checkbox
-                    className="text-hide"
                     checked={alleMarkert}
                     disabled={kandidatliste.status === Kandidatlistestatus.Lukket}
                     onChange={() => onCheckAlleKandidater()}

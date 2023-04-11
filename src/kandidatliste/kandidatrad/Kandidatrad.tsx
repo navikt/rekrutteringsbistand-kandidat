@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Normaltekst } from 'nav-frontend-typografi';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
@@ -14,7 +12,7 @@ import { Visningsstatus } from '../domene/Kandidatressurser';
 import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
+import LenkeknappNy from '../../common/lenkeknapp/Lenkeknapp';
 import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
@@ -25,7 +23,18 @@ import useKandidattilstand from '../hooks/useKandidattilstand';
 import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
 import StatusPåForespørselOmDelingAvCv from './status-på-forespørsel/StatusPåForespørselOmDelingAvCv';
 import { formaterDato } from '../../utils/dateUtils';
+import { BodyShort, Checkbox } from '@navikt/ds-react';
+import {
+    InformationSquareIcon,
+    TasklistIcon,
+    TrashIcon,
+    InformationSquareFillIcon,
+    TasklistFillIcon,
+    TrashFillIcon,
+} from '@navikt/aksel-icons';
 import './Kandidatrad.less';
+import css from './Kandidatrad.module.css';
+import classNames from 'classnames';
 
 type Props = {
     kandidat: Kandidat;
@@ -155,22 +164,22 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <StatusPåForespørselOmDelingAvCv forespørsel={forespørselOmDelingAvCv} />
                 </div>
                 <Checkbox
-                    label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide"
                     disabled={!kandidatenKanMarkeres}
                     checked={tilstand?.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
                     }}
-                />
+                >
+                    &#8203;
+                </Checkbox>
                 <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__kolonne-sorterbar">
                     {erInaktiv(kandidat) ? (
-                        <Normaltekst>{fulltNavn}</Normaltekst>
+                        <BodyShort>{fulltNavn}</BodyShort>
                     ) : (
                         <Link
                             role="cell"
                             title="Vis profil"
-                            className="lenke"
+                            className={classNames('navds-link', css.kolonneMedSmsLenke)}
                             to={lenkeTilCv(
                                 kandidat.kandidatnr,
                                 kandidatliste.kandidatlisteId,
@@ -182,25 +191,16 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     )}
                     {melding && <SmsStatusPopup sms={melding} />}
                 </div>
-                <div
-                    role="cell"
-                    className="kandidatliste-kandidat__wrap-hvor-som-helst kandidatliste-kandidat__kolonne-sorterbar"
-                >
+                <div role="cell" className={classNames(css.kolonneSorterbar, css.wrapHvorSomHelst)}>
                     {erInaktiv(kandidat) ? 'Inaktiv' : kandidat.fodselsnr}
                 </div>
-                <div
-                    role="cell"
-                    className="kandidatliste-kandidat__tabell-tekst kandidatliste-kandidat__kolonne-sorterbar"
-                >
-                    <span className="kandidatliste-kandidat__tabell-tekst-inner">
+                <div role="cell" className={css.kolonneSorterbar}>
+                    <span className={css.tabellTekstInner}>
                         {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
                     </span>
                 </div>
 
-                <div
-                    role="cell"
-                    className="kandidatliste-kandidat__lagt-til kandidatliste-kandidat__kolonne-sorterbar"
-                >
+                <div role="cell" className={classNames(css.kolonneSorterbar, css.lagtTil)}>
                     <span>{formaterDato(kandidat.lagtTilTidspunkt)}</span>
                 </div>
 
@@ -220,35 +220,54 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 />
 
                 <div role="cell">
-                    <Lenkeknapp
-                        onClick={toggleNotater}
-                        className="Notat kandidatliste-kandidat__fokuserbar-knapp"
-                    >
-                        <i className="Notat__icon" />
-                        <span className="kandidatliste-kandidat__antall-notater">
-                            {antallNotater}
-                        </span>
-                    </Lenkeknapp>
+                    <LenkeknappNy onClick={toggleNotater} className={css.ikonknapp}>
+                        <TasklistIcon
+                            title="notat ikon"
+                            fontSize="1.7rem"
+                            className={classNames(css.notatIkon, css.kandidatradIkonIkkeFylt)}
+                        />
+                        <TasklistFillIcon
+                            title="notat ikon"
+                            fontSize="1.7rem"
+                            className={classNames(css.notatIkon, css.kandidatradIkonFylt)}
+                        />
+                        <span className={css.antallNotater}>{antallNotater}</span>
+                    </LenkeknappNy>
                 </div>
-                <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
+                <div role="cell" className={css.kolonneMidtstilt}>
                     {!erInaktiv(kandidat) && (
-                        <Lenkeknapp
-                            onClick={toggleMerInfo}
-                            className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
-                        >
-                            <i className="MerInfo__icon" />
-                        </Lenkeknapp>
+                        <LenkeknappNy onClick={toggleMerInfo} className={css.ikonknapp}>
+                            <InformationSquareIcon
+                                title="Mer info ikon"
+                                fontSize="1.7rem"
+                                className={css.kandidatradIkonIkkeFylt}
+                            />
+                            <InformationSquareFillIcon
+                                title="Mer info ikon"
+                                fontSize="1.7rem"
+                                className={css.kandidatradIkonFylt}
+                            />
+                        </LenkeknappNy>
                     )}
                 </div>
                 {visArkiveringskolonne && (
-                    <div role="cell" className="kandidatliste-kandidat__kolonne-høyrestilt">
-                        <Lenkeknapp
+                    <div role="cell" className={css.kolonnHøyrestilt}>
+                        <LenkeknappNy
                             tittel="Slett kandidat"
                             onClick={onToggleArkivert}
-                            className="Delete kandidatliste-kandidat__fokuserbar-knapp"
+                            className={css.ikonknapp}
                         >
-                            <div className="Delete__icon" />
-                        </Lenkeknapp>
+                            <TrashIcon
+                                title="Slett kandidat"
+                                fontSize="1.7rem"
+                                className={css.kandidatradIkonIkkeFylt}
+                            />
+                            <TrashFillIcon
+                                title="Slett kandidat"
+                                fontSize="1.7rem"
+                                className={css.kandidatradIkonFylt}
+                            />
+                        </LenkeknappNy>
                     </div>
                 )}
             </div>
