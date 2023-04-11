@@ -1,5 +1,7 @@
 .antallNotater {
     margin-right: 0.4rem;
+    font-size: 1rem;
+    font-weight: normal;
 }
 
 .lagtTil {
@@ -29,13 +31,10 @@
     padding-left: 0.5rem;
 }
 
-.notatIkon {
-    margin-right: 4px;
-}
-
 .ikonknapp {
     display: flex;
     align-items: center;
+    grid-gap: 4px;
 }
 
 .ikonknapp:not(:hover, :active, :focus) .kandidatradIkonFylt {

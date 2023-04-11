@@ -12,7 +12,7 @@ import { Visningsstatus } from '../domene/Kandidatressurser';
 import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import LenkeknappNy from '../../common/lenkeknapp/Lenkeknapp';
+import LenkeknappNy from '../../common/lenkeknapp/LenkeknappNy';
 import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
@@ -220,15 +220,26 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 />
 
                 <div role="cell">
-                    <LenkeknappNy onClick={toggleNotater} className={css.ikonknapp} tittel="Notat">
-                        <TasklistIcon
-                            fontSize="1.7rem"
-                            className={classNames(css.notatIkon, css.kandidatradIkonIkkeFylt)}
-                        />
-                        <TasklistFillIcon
-                            fontSize="1.7rem"
-                            className={classNames(css.notatIkon, css.kandidatradIkonFylt)}
-                        />
+                    <LenkeknappNy
+                        onClick={toggleNotater}
+                        className={css.ikonknapp}
+                        tittel="Notat"
+                        icon={
+                            <>
+                                <TasklistIcon
+                                    fontSize="1.7rem"
+                                    className={classNames(
+                                        css.notatIkon,
+                                        css.kandidatradIkonIkkeFylt
+                                    )}
+                                />
+                                <TasklistFillIcon
+                                    fontSize="1.7rem"
+                                    className={css.kandidatradIkonFylt}
+                                />
+                            </>
+                        }
+                    >
                         <span className={css.antallNotater}>{antallNotater}</span>
                     </LenkeknappNy>
                 </div>
@@ -238,16 +249,19 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             onClick={toggleMerInfo}
                             className={css.ikonknapp}
                             tittel="Mer informasjon"
-                        >
-                            <InformationSquareIcon
-                                fontSize="1.7rem"
-                                className={css.kandidatradIkonIkkeFylt}
-                            />
-                            <InformationSquareFillIcon
-                                fontSize="1.7rem"
-                                className={css.kandidatradIkonFylt}
-                            />
-                        </LenkeknappNy>
+                            icon={
+                                <>
+                                    <InformationSquareIcon
+                                        fontSize="1.7rem"
+                                        className={css.kandidatradIkonIkkeFylt}
+                                    />
+                                    <InformationSquareFillIcon
+                                        fontSize="1.7rem"
+                                        className={css.kandidatradIkonFylt}
+                                    />
+                                </>
+                            }
+                        ></LenkeknappNy>
                     )}
                 </div>
                 {visArkiveringskolonne && (
@@ -256,18 +270,21 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             tittel="Slett kandidat"
                             onClick={onToggleArkivert}
                             className={css.ikonknapp}
-                        >
-                            <TrashIcon
-                                title="Slett kandidat"
-                                fontSize="1.7rem"
-                                className={css.kandidatradIkonIkkeFylt}
-                            />
-                            <TrashFillIcon
-                                title="Slett kandidat"
-                                fontSize="1.7rem"
-                                className={css.kandidatradIkonFylt}
-                            />
-                        </LenkeknappNy>
+                            icon={
+                                <>
+                                    <TrashIcon
+                                        title="Slett kandidat"
+                                        fontSize="1.7rem"
+                                        className={css.kandidatradIkonIkkeFylt}
+                                    />
+                                    <TrashFillIcon
+                                        title="Slett kandidat"
+                                        fontSize="1.7rem"
+                                        className={css.kandidatradIkonFylt}
+                                    />
+                                </>
+                            }
+                        ></LenkeknappNy>
                     </div>
                 )}
             </div>
