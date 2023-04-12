@@ -1,9 +1,8 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { Element } from 'nav-frontend-typografi';
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 import './Hendelse.less';
 import css from './Hendelse.module.css';
-import { BodyLong, Heading } from '@navikt/ds-react';
+import { BodyLong, Heading, Label } from '@navikt/ds-react';
 
 export enum Hendelsesstatus {
     Hvit = 'hvit',
@@ -46,17 +45,15 @@ const Hendelse: FunctionComponent<Props> = ({
         <li className={className}>
             <div className={ikonClassName}>
                 {status === Hendelsesstatus.Grønn && (
-                    <CheckmarkIcon className="hendelse__ikon-grafikk-grønn" />
+                    <CheckmarkIcon className={css.ikonGrafikkGrønn} />
                 )}
                 {status === Hendelsesstatus.Oransje && (
-                    <Element className="hendelse__ikon-grafikk-oransje">!</Element>
+                    <Label as="span" className={css.ikonGrafikkOransje}>
+                        !
+                    </Label>
                 )}
-                {status === Hendelsesstatus.Blå && (
-                    <code className="hendelse__ikon-grafikk-blå">i</code>
-                )}
-                {status === Hendelsesstatus.Rød && (
-                    <code className="hendelse__ikon-grafikk-rød">×</code>
-                )}
+                {status === Hendelsesstatus.Blå && <code>i</code>}
+                {status === Hendelsesstatus.Rød && <code>×</code>}
             </div>
             <div className={innholdClassName}>
                 {(tittel || beskrivelse) && (

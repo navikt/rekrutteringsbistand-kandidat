@@ -1,3 +1,16 @@
 .children {
     margin-top: 1.5rem;
 }
+
+.ikonGrafikkGrønn path {
+    fill: white;
+}
+
+.ikonGrafikkOransje {
+    user-select: none;
+    font-size: 1.125rem !important;
+}
+
+.ikonGrafikkOransje path {
+    fill: black;
+}
