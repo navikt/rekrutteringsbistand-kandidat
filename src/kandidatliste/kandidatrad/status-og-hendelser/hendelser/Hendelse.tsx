@@ -1,8 +1,9 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { Element, Undertekst } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 import './Hendelse.less';
 import css from './Hendelse.module.css';
+import { BodyLong, Heading } from '@navikt/ds-react';
 
 export enum Hendelsesstatus {
     Hvit = 'hvit',
@@ -60,14 +61,15 @@ const Hendelse: FunctionComponent<Props> = ({
             <div className={innholdClassName}>
                 {(tittel || beskrivelse) && (
                     <div className="hendelse__tekst">
-                        {tittel && <Element tag="h3">{tittel}</Element>}
+                        {tittel && (
+                            <Heading level="3" size="xsmall">
+                                {tittel}
+                            </Heading>
+                        )}
                         {beskrivelse && (
-                            <Undertekst
-                                tag={beskrivelseContainerTag}
-                                className="hendelse__beskrivelse"
-                            >
+                            <BodyLong as={beskrivelseContainerTag} size="small">
                                 {beskrivelse}
-                            </Undertekst>
+                            </BodyLong>
                         )}
                     </div>
                 )}
