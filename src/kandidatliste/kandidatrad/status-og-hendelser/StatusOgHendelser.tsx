@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useRef } from 'react';
 import { XMarkIcon } from '@navikt/aksel-icons';
-import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
 import { ForespørslerForKandidatForStilling } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
@@ -16,6 +15,8 @@ import Hendelsesetikett from './etiketter/Hendelsesetikett';
 import { erKobletTilStilling, Kandidatliste } from '../../domene/Kandidatliste';
 import { Sms } from '../../domene/Kandidatressurser';
 import './StatusOgHendelser.less';
+import css from './StatusOgHendelser.module.css';
+import { Button } from '@navikt/ds-react';
 
 type Props = {
     kandidat: Kandidat;
@@ -90,13 +91,13 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                                     stillingskategori={kandidatliste.stillingskategori}
                                 />
                             )}
-                            <Knapp
-                                mini
-                                className="status-og-hendelser__lukk-popover-knapp"
+                            <Button
+                                variant="secondary"
+                                className={css.lukkPopoverKnapp}
                                 onClick={lukkPopover}
-                            >
-                                <XMarkIcon />
-                            </Knapp>
+                                icon={<XMarkIcon />}
+                                size="small"
+                            ></Button>
                         </>
                     )}
                 </div>
