@@ -6,6 +6,9 @@
     color: var(--a-surface-action);
     text-decoration: none;
     cursor: pointer;
+    font-size: 1rem;
+    text-align: left;
+    max-height: 2rem;
 }
 
 .Lenkeknapp:focus {
