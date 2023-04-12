@@ -2,6 +2,7 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 import './Hendelse.less';
+import css from './Hendelse.module.css';
 
 export enum Hendelsesstatus {
     Hvit = 'hvit',
@@ -70,7 +71,7 @@ const Hendelse: FunctionComponent<Props> = ({
                         )}
                     </div>
                 )}
-                <div className="hendelse__children">{children}</div>
+                <div className={css.children}>{children}</div>
             </div>
         </li>
     );
