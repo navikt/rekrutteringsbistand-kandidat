@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useRef } from 'react';
+import { Button } from '@navikt/ds-react';
 import { XMarkIcon } from '@navikt/aksel-icons';
 import Popover from 'nav-frontend-popover';
 
@@ -14,9 +15,7 @@ import usePopoverOrientering from './usePopoverOrientering';
 import Hendelsesetikett from './etiketter/Hendelsesetikett';
 import { erKobletTilStilling, Kandidatliste } from '../../domene/Kandidatliste';
 import { Sms } from '../../domene/Kandidatressurser';
-import './StatusOgHendelser.less';
 import css from './StatusOgHendelser.module.css';
-import { Button } from '@navikt/ds-react';
 
 type Props = {
     kandidat: Kandidat;
@@ -50,7 +49,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     const skalVisePopover = kanEditere || kandidatlistenErKobletTilStilling;
 
     return (
-        <div id={id} className="status-og-hendelser" ref={popoverRef}>
+        <div id={id} className={css.statusOgHendelser} ref={popoverRef}>
             <StatusEtikett status={kandidat.status} />
             {kandidatlistenErKobletTilStilling && (
                 <Hendelsesetikett
@@ -65,13 +64,15 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                     sms={sms}
                 />
             )}
-            {skalVisePopover && <StatusOgHendelserKnapp onClick={togglePopover} />}
+            {skalVisePopover && (
+                <StatusOgHendelserKnapp kanEndre={kanEditere} onClick={togglePopover} />
+            )}
             <Popover
                 orientering={popoverOrientering}
                 ankerEl={popoverAnker}
                 onRequestClose={lukkPopover}
             >
-                <div className="status-og-hendelser__popover">
+                <div className={css.popover}>
                     {skalVisePopover && (
                         <>
                             {kanEditere ? (

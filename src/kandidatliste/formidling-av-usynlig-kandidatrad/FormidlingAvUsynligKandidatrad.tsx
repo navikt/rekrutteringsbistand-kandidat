@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef } from 'react';
+import { Button } from '@navikt/ds-react';
 import { XMarkIcon } from '@navikt/aksel-icons';
-import { Knapp } from 'nav-frontend-knapper';
 import { Undertittel } from 'nav-frontend-typografi';
 import { useDispatch, useSelector } from 'react-redux';
 import Popover from 'nav-frontend-popover';
@@ -15,10 +15,10 @@ import Hendelse, { Hendelsesstatus } from '../kandidatrad/status-og-hendelser/he
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker';
 import usePopoverOrientering from '../kandidatrad/status-og-hendelser/usePopoverOrientering';
-import './FormidlingAvUsynligKandidatrad.less';
-import '../kandidatrad/status-og-hendelser/StatusOgHendelser.less';
-import '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.less';
 import Hendelsesetikett from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import css from '../kandidatrad/status-og-hendelser/StatusOgHendelser.module.css';
+import '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.less';
+import './FormidlingAvUsynligKandidatrad.less';
 
 type Props = {
     kandidatlisteId: string;
@@ -82,17 +82,17 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 role="cell"
                 className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne"
             >
-                <div className="status-og-hendelser" ref={popoverRef}>
+                <div className={css.statusOgHendelser} ref={popoverRef}>
                     {formidling.utfall !== Kandidatutfall.IkkePresentert && (
                         <Hendelsesetikett utfall={formidling.utfall} utfallsendringer={[]} />
                     )}
-                    <StatusOgHendelserKnapp onClick={togglePopover} />
+                    <StatusOgHendelserKnapp kanEndre={kanEditere} onClick={togglePopover} />
                     <Popover
                         orientering={popoverOrientering}
                         ankerEl={popoverAnker}
                         onRequestClose={lukkPopover}
                     >
-                        <div className="status-og-hendelser__popover">
+                        <div className={css.popover}>
                             <div className="endre-status-og-hendelser__hendelser">
                                 <Undertittel>Hendelser</Undertittel>
                                 <ol className="endre-status-og-hendelser__hendelsesliste">
@@ -117,13 +117,13 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                                     />
                                 </ol>
                             </div>
-                            <Knapp
-                                mini
-                                className="status-og-hendelser__lukk-popover-knapp"
+                            <Button
+                                variant="secondary"
+                                className={css.lukkPopoverKnapp}
                                 onClick={lukkPopover}
-                            >
-                                <XMarkIcon />
-                            </Knapp>
+                                icon={<XMarkIcon />}
+                                size="small"
+                            ></Button>
                         </div>
                     </Popover>
                 </div>
