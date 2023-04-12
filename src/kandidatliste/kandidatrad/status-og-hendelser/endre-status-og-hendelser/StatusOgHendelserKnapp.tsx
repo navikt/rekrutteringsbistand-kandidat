@@ -10,6 +10,7 @@ type Props = {
 const StatusOgHendelserKnapp: FunctionComponent<Props> = ({ kanEndre, onClick }) => {
     return (
         <Button
+            size="small"
             variant="tertiary"
             onClick={onClick}
             aria-label={kanEndre ? 'Endre status eller hendelser' : 'Se status eller hendelser'}

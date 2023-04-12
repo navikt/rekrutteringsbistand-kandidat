@@ -31,16 +31,10 @@
     padding-left: 0.5rem;
 }
 
-.ikonknapp {
-    display: flex;
-    align-items: center;
-    grid-gap: 4px;
+.visNotaterKnapp {
+    gap: 0.25rem;
 }
 
-.ikonknapp:not(:hover, :active, :focus) .kandidatradIkonFylt {
-    display: none;
-}
-
-.ikonknapp:is(:hover, :active, :focus) .kandidatradIkonIkkeFylt {
-    display: none;
+.visNotaterKnapp span {
+    font-weight: normal;
 }

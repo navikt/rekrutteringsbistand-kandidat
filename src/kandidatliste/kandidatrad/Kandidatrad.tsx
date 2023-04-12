@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
@@ -12,7 +13,6 @@ import { Visningsstatus } from '../domene/Kandidatressurser';
 import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import LenkeknappNy from '../../common/lenkeknapp/LenkeknappNy';
 import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
@@ -23,18 +23,10 @@ import useKandidattilstand from '../hooks/useKandidattilstand';
 import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
 import StatusPåForespørselOmDelingAvCv from './status-på-forespørsel/StatusPåForespørselOmDelingAvCv';
 import { formaterDato } from '../../utils/dateUtils';
-import { BodyShort, Checkbox } from '@navikt/ds-react';
-import {
-    InformationSquareIcon,
-    TasklistIcon,
-    TrashIcon,
-    InformationSquareFillIcon,
-    TasklistFillIcon,
-    TrashFillIcon,
-} from '@navikt/aksel-icons';
-import './Kandidatrad.less';
+import { BodyShort, Button, Checkbox } from '@navikt/ds-react';
+import { InformationSquareIcon, TasklistIcon, TrashIcon } from '@navikt/aksel-icons';
 import css from './Kandidatrad.module.css';
-import classNames from 'classnames';
+import './Kandidatrad.less';
 
 type Props = {
     kandidat: Kandidat;
@@ -220,71 +212,35 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 />
 
                 <div role="cell">
-                    <LenkeknappNy
+                    <Button
+                        size="small"
+                        variant="tertiary"
                         onClick={toggleNotater}
-                        className={css.ikonknapp}
-                        tittel="Notat"
-                        icon={
-                            <>
-                                <TasklistIcon
-                                    fontSize="1.7rem"
-                                    className={classNames(
-                                        css.notatIkon,
-                                        css.kandidatradIkonIkkeFylt
-                                    )}
-                                />
-                                <TasklistFillIcon
-                                    fontSize="1.7rem"
-                                    className={css.kandidatradIkonFylt}
-                                />
-                            </>
-                        }
+                        className={css.visNotaterKnapp}
+                        icon={<TasklistIcon aria-label="Notat" />}
                     >
-                        <span className={css.antallNotater}>{antallNotater}</span>
-                    </LenkeknappNy>
+                        {antallNotater}
+                    </Button>
                 </div>
                 <div role="cell" className={css.kolonneMidtstilt}>
                     {!erInaktiv(kandidat) && (
-                        <LenkeknappNy
+                        <Button
+                            size="small"
+                            variant="tertiary"
                             onClick={toggleMerInfo}
-                            className={css.ikonknapp}
-                            tittel="Mer informasjon"
-                            icon={
-                                <>
-                                    <InformationSquareIcon
-                                        fontSize="1.7rem"
-                                        className={css.kandidatradIkonIkkeFylt}
-                                    />
-                                    <InformationSquareFillIcon
-                                        fontSize="1.7rem"
-                                        className={css.kandidatradIkonFylt}
-                                    />
-                                </>
-                            }
-                        ></LenkeknappNy>
+                            icon={<InformationSquareIcon aria-label="Mer informasjon" />}
+                        ></Button>
                     )}
                 </div>
                 {visArkiveringskolonne && (
                     <div role="cell" className={css.kolonnHøyrestilt}>
-                        <LenkeknappNy
-                            tittel="Slett kandidat"
+                        <Button
+                            size="small"
+                            variant="tertiary"
+                            aria-label="Slett kandidat"
                             onClick={onToggleArkivert}
-                            className={css.ikonknapp}
-                            icon={
-                                <>
-                                    <TrashIcon
-                                        title="Slett kandidat"
-                                        fontSize="1.7rem"
-                                        className={css.kandidatradIkonIkkeFylt}
-                                    />
-                                    <TrashFillIcon
-                                        title="Slett kandidat"
-                                        fontSize="1.7rem"
-                                        className={css.kandidatradIkonFylt}
-                                    />
-                                </>
-                            }
-                        ></LenkeknappNy>
+                            icon={<TrashIcon aria-label="Slett kandidat" />}
+                        ></Button>
                     </div>
                 )}
             </div>
