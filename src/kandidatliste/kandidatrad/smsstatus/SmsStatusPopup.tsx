@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import SendSmsIkon from './SendSmsIkon';
 import { Sms, SmsStatus } from '../../domene/Kandidatressurser';
 import MedPopover from '../../../common/med-popover/MedPopover';
-import './SmsStatusPopup.less';
+import { MobileFillIcon, MobileIcon } from '@navikt/aksel-icons';
+import css from './SmsStatusPopup.module.css';
+import classNames from 'classnames';
 
 const formaterSendtDato = (dato: Date) => {
     return `${dato.toLocaleString('nb-NO', {
@@ -38,8 +39,21 @@ const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
     if (sms.status === SmsStatus.IkkeSendt) return null;
 
     return (
-        <MedPopover className="sms-status-popup" hjelpetekst={<Popuptekst sms={sms} />}>
-            <SendSmsIkon feil={sms.status === SmsStatus.Feil} />
+        <MedPopover className={css.smsStatusPopup} hjelpetekst={<Popuptekst sms={sms} />}>
+            <>
+                <MobileIcon
+                    className={classNames(css.smsIkonIkkeFylt, css.smsIkon, {
+                        [css.fargeleggIkonMedFeil]: sms.status === SmsStatus.Feil,
+                    })}
+                    fontSize="1.5rem"
+                />
+                <MobileFillIcon
+                    className={classNames(css.smsIkonFylt, css.smsIkon, {
+                        [css.fargeleggIkonMedFeil]: sms.status === SmsStatus.Feil,
+                    })}
+                    fontSize="1.5rem"
+                />
+            </>
         </MedPopover>
     );
 };
