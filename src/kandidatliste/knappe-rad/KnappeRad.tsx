@@ -1,4 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
+import { Button } from '@navikt/ds-react';
+import { MobileIcon, TrashIcon } from '@navikt/aksel-icons';
 import {
     erKobletTilArbeidsgiver,
     erKobletTilStilling,
@@ -7,16 +9,13 @@ import {
     Kandidatlistestatus,
     Stillingskategori,
 } from '../domene/Kandidatliste';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import MedPopover from '../../common/med-popover/MedPopover';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
-import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
-import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import DelMedArbeidsgiverKnapp from './DelMedArbeidsgiverKnapp';
 import css from './KnappeRad.module.css';
-import classNames from 'classnames';
-import { MobileIcon, MobileFillIcon, TrashIcon, TrashFillIcon } from '@navikt/aksel-icons';
-import LenkeknappNy from '../../common/lenkeknapp/LenkeknappNy';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -72,13 +71,13 @@ const KnappeRad: FunctionComponent<Props> = ({
                 <div className={css.høyre}>
                     {skalViseEkstraKnapper &&
                         (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
-                            <LenkeknappNy
+                            <Button
+                                variant="tertiary"
                                 onClick={onSendSmsClick}
-                                className={classNames(css.knapp, css.knapperadKnapp)}
-                                icon={SmsIkon}
+                                icon={<MobileIcon />}
                             >
-                                <span className={css.knapptekst}>Send SMS</span>
-                            </LenkeknappNy>
+                                Send SMS
+                            </Button>
                         ) : (
                             <MedPopover
                                 tittel="Send SMS til de markerte kandidatene"
@@ -88,12 +87,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                                         : 'Du må huke av for kandidatene du ønsker å sende SMS til.'
                                 }
                             >
-                                <LenkeknappNy
-                                    className={classNames(css.knapp, css.knapperadKnapp)}
-                                    icon={SmsIkon}
-                                >
-                                    <span className={css.knapptekst}>Send SMS</span>
-                                </LenkeknappNy>
+                                <Button variant="tertiary" icon={<MobileIcon />}>
+                                    Send SMS
+                                </Button>
                             </MedPopover>
                         ))}
                     {skalViseDelMedKandidatKnapp && (
@@ -112,25 +108,26 @@ const KnappeRad: FunctionComponent<Props> = ({
                     )}
                     {skalViseAngreSlettingKnapp &&
                         (minstEnKandidatErMarkert ? (
-                            <LenkeknappNy
+                            <Button
+                                variant="tertiary"
                                 onClick={onKandidaterAngreArkivering}
-                                className={classNames(css.knapp, css.knapperadKnapp)}
-                                icon={AngreSletting}
+                                icon={<TrashIcon aria-hidden />}
                             >
                                 <span className={css.knapptekst}>Angre sletting</span>
-                            </LenkeknappNy>
+                            </Button>
                         ) : (
                             <MedPopover
                                 placement="bottom-end"
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
-                                tittel="Angre sletting for de markerte kandidatene"
                             >
-                                <LenkeknappNy
-                                    className={classNames(css.knapp, css.knapperadKnapp)}
-                                    icon={AngreSletting}
+                                <Button
+                                    variant="tertiary"
+                                    icon={
+                                        <TrashIcon aria-label="Angre sletting for de markerte kandidatene" />
+                                    }
                                 >
                                     <span className={css.knapptekst}>Angre sletting</span>
-                                </LenkeknappNy>
+                                </Button>
                             </MedPopover>
                         ))}
                 </div>
@@ -138,31 +135,5 @@ const KnappeRad: FunctionComponent<Props> = ({
         </div>
     );
 };
-
-const SmsIkon = (
-    <>
-        <MobileIcon
-            className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
-            fontSize="1.5rem"
-        />
-        <MobileFillIcon
-            className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
-            fontSize="1.5rem"
-        />
-    </>
-);
-
-const AngreSletting = (
-    <>
-        <TrashIcon
-            className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
-            fontSize="1.5rem"
-        />
-        <TrashFillIcon
-            className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
-            fontSize="1.5rem"
-        />
-    </>
-);
 
 export default KnappeRad;

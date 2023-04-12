@@ -11,11 +11,8 @@ import {
     TilstandPåForespørsel,
 } from './forespørsel-om-deling-av-cv/Forespørsel';
 import { cvErSendtTilArbeidsgiverOgSlettet } from '../kandidatrad/status-og-hendelser/hendelser/CvErSlettet';
-import { Link } from '@navikt/ds-react';
-import { TenancyIcon, TenancyFillIcon } from '@navikt/aksel-icons';
-import classNames from 'classnames';
-import css from './KnappeRad.module.css';
-import LenkeknappNy from '../../common/lenkeknapp/LenkeknappNy';
+import { Button, Link } from '@navikt/ds-react';
+import { TenancyIcon } from '@navikt/aksel-icons';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -48,13 +45,15 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
 
     if (!minstEnKandidatErMarkert) {
         return (
-            <MedPopover
-                hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
-                tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
-            >
-                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
-                    <span className={css.knapptekst}>Del med arbeidsgiver (presenter)</span>
-                </LenkeknappNy>
+            <MedPopover hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver.">
+                <Button
+                    variant="tertiary"
+                    icon={
+                        <TenancyIcon aria-label="Del de markerte kandidatene med arbeidsgiver (presenter)" />
+                    }
+                >
+                    Del med arbeidsgiver (presenter)
+                </Button>
             </MedPopover>
         );
     }
@@ -88,9 +87,14 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 }
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
-                    <span className={css.knapptekst}>Del med arbeidsgiver (presenter)</span>
-                </LenkeknappNy>
+                <Button
+                    variant="tertiary"
+                    icon={
+                        <TenancyIcon aria-label="Del de markerte kandidatene med arbeidsgiver (presenter)" />
+                    }
+                >
+                    Del med arbeidsgiver (presenter)
+                </Button>
             </MedPopover>
         );
     }
@@ -106,35 +110,30 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                 hjelpetekst="En av kandidatene har fått CV-en sin sendt til arbeidsgivers kandidatliste, men er blitt slettet i etterkant. Du kan ikke dele CV-en på nytt."
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
             >
-                <LenkeknappNy className={classNames(css.knapp, css.knapperadKnapp)} icon={DeleIkon}>
-                    <span className={css.knapptekst}>Del med arbeidsgiver (presenter)</span>
-                </LenkeknappNy>
+                <Button
+                    variant="tertiary"
+                    onClick={onKandidatShare}
+                    icon={
+                        <TenancyIcon aria-label="Del de markerte kandidatene med arbeidsgiver (presenter)" />
+                    }
+                >
+                    Del med arbeidsgiver (presenter)
+                </Button>
             </MedPopover>
         );
     }
 
     return (
-        <LenkeknappNy
+        <Button
+            variant="tertiary"
             onClick={onKandidatShare}
-            className={classNames(css.knapp, css.knapperadKnapp)}
-            icon={DeleIkon}
+            icon={
+                <TenancyIcon aria-label="Del de markerte kandidatene med arbeidsgiver (presenter)" />
+            }
         >
-            <span className={css.knapptekst}>Del med arbeidsgiver (presenter)</span>
-        </LenkeknappNy>
+            Del med arbeidsgiver (presenter)
+        </Button>
     );
 };
-
-const DeleIkon = (
-    <>
-        <TenancyIcon
-            className={classNames(css.knapperadIkonIkkeFylt, css.knapperadIkon)}
-            fontSize="1.5rem"
-        />
-        <TenancyFillIcon
-            className={classNames(css.knapperadIkonFylt, css.knapperadIkon)}
-            fontSize="1.5rem"
-        />
-    </>
-);
 
 export default DelMedArbeidsgiverKnapp;

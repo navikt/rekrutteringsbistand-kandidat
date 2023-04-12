@@ -17,22 +17,5 @@
 
 .høyre {
     display: flex;
-    align-items: initial;
-}
-
-.knapperadKnapp:not(:hover, :active, :focus) .knapperadIkonFylt {
-    display: none;
-}
-
-.knapperadKnapp:is(:hover, :active, :focus) .knapperadIkonIkkeFylt {
-    display: none;
-}
-
-.knapperadIkon {
-    margin-right: 0.5rem;
-}
-
-.knapptekst {
-    font-size: 1rem;
-    font-weight: normal;
+    gap: 0.25rem;
 }

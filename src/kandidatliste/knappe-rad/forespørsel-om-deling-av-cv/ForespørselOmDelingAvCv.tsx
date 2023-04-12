@@ -1,4 +1,6 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
+import { Alert, BodyShort, Button, Heading, Label, Popover } from '@navikt/ds-react';
+import { BeaconSignalsIcon } from '@navikt/aksel-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ForespørselOutboundDto } from './Forespørsel';
@@ -11,13 +13,7 @@ import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import VelgSvarfrist, { lagSvarfristPåSekundet, Svarfrist } from './VelgSvarfrist';
-import { BeaconSignalsIcon } from '@navikt/aksel-icons';
-import { BeaconSignalsFillIcon } from '@navikt/aksel-icons';
-import knapperadCss from '../KnappeRad.module.css';
 import css from './ForespørselOmDelingAvCv.module.css';
-import classNames from 'classnames';
-import LenkeknappNy from '../../../common/lenkeknapp/LenkeknappNy';
-import { Alert, BodyShort, Button, Heading, Label, Popover } from '@navikt/ds-react';
 
 type Props = {
     stillingsId: string;
@@ -150,32 +146,15 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         });
     };
 
-    const forespørselIcon = (
-        <>
-            <BeaconSignalsIcon
-                className={classNames(
-                    knapperadCss.knapperadIkonIkkeFylt,
-                    knapperadCss.knapperadIkon
-                )}
-                fontSize="1.5rem"
-            />
-            <BeaconSignalsFillIcon
-                className={classNames(knapperadCss.knapperadIkonFylt, knapperadCss.knapperadIkon)}
-                fontSize="1.5rem"
-            />
-        </>
-    );
-
     return (
         <div>
-            <LenkeknappNy
-                tittel="Del stillingen med de markerte kandidatene"
+            <Button
+                variant="tertiary"
                 onClick={onDelMedKandidatClick}
-                className={classNames(knapperadCss.knapp, knapperadCss.knapperadKnapp)}
-                icon={forespørselIcon}
+                icon={<BeaconSignalsIcon aria-label="Del stillingen med de markerte kandidatene" />}
             >
-                <span className={knapperadCss.knapptekst}>Del med kandidat</span>
-            </LenkeknappNy>
+                Del med kandidat
+            </Button>
             <ModalMedKandidatScope
                 open={modalErÅpen}
                 aria-label="Del stillingen med de markerte kandidatene2"
@@ -243,7 +222,9 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             >
                 <Popover.Content>
                     {kanIkkeDeleFeilmelding && (
-                        <BodyShort as="div" size="small">{kanIkkeDeleFeilmelding}</BodyShort>
+                        <BodyShort as="div" size="small">
+                            {kanIkkeDeleFeilmelding}
+                        </BodyShort>
                     )}
                 </Popover.Content>
             </Popover>
