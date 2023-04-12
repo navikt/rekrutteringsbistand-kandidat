@@ -3,6 +3,7 @@ import { CheckmarkIcon } from '@navikt/aksel-icons';
 import './Hendelse.less';
 import css from './Hendelse.module.css';
 import { BodyLong, Heading, Label } from '@navikt/ds-react';
+import classNames from 'classnames';
 
 export enum Hendelsesstatus {
     Hvit = 'hvit',
@@ -26,14 +27,7 @@ const Hendelse: FunctionComponent<Props> = ({
     renderChildrenBelowContent,
     children,
 }) => {
-    let className = 'hendelse';
-    let ikonClassName = 'hendelse__ikon';
     let innholdClassName = 'hendelse__innhold';
-
-    if (status !== Hendelsesstatus.Hvit) {
-        className += ` hendelse--${status}`;
-        ikonClassName += ` hendelse__ikon--${status}`;
-    }
 
     if (renderChildrenBelowContent) {
         innholdClassName += ' hendelse__innhold--children-below-content';
@@ -42,8 +36,20 @@ const Hendelse: FunctionComponent<Props> = ({
     const beskrivelseContainerTag = typeof beskrivelse === 'string' ? 'p' : 'div';
 
     return (
-        <li className={className}>
-            <div className={ikonClassName}>
+        <li
+            className={classNames(
+                { [css.heltrukkenStrek]: status !== Hendelsesstatus.Hvit },
+                css.hendelse
+            )}
+        >
+            <div
+                className={classNames(css.ikon, 'hendelse__translateLinje', {
+                    [css.grøntIkon]: status === Hendelsesstatus.Grønn,
+                    [css.oransjeIkon]: status === Hendelsesstatus.Oransje,
+                    [css.blåttIkon]: status === Hendelsesstatus.Blå,
+                    [css.rødtIkon]: status === Hendelsesstatus.Rød,
+                })}
+            >
                 {status === Hendelsesstatus.Grønn && (
                     <CheckmarkIcon className={css.ikonGrafikkGrønn} />
                 )}
@@ -55,6 +61,7 @@ const Hendelse: FunctionComponent<Props> = ({
                 {status === Hendelsesstatus.Blå && <code>i</code>}
                 {status === Hendelsesstatus.Rød && <code>×</code>}
             </div>
+
             <div className={innholdClassName}>
                 {(tittel || beskrivelse) && (
                     <div>
