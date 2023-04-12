@@ -3,8 +3,10 @@ import { Notat } from '../../domene/Kandidatressurser';
 import { Nettstatus, Nettressurs } from '../../../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NotatInfo from './NotatInfo';
-import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import { Normaltekst } from 'nav-frontend-typografi';
+import css from './Notatliste.module.css';
+import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
+import { BodyLong, Button } from '@navikt/ds-react';
 
 interface Props {
     notater: Nettressurs<Notat[]>;
@@ -27,33 +29,31 @@ const Notatliste: FunctionComponent<Props> = ({
 
     if (notater?.kind === Nettstatus.Suksess && notater.data.length !== 0) {
         return (
-            <div className="notater__liste">
+            <div>
                 {notater.data.map((notat) => (
-                    <div className="notater__rad" key={notat.notatId}>
-                        <div className="notater__topprad">
+                    <div className={css.rad} key={notat.notatId}>
+                        <div className={css.topprad}>
                             <NotatInfo notat={notat} />
                             {notat.kanEditere && (
-                                <div className="notater__endre-knapper">
-                                    <Lenkeknapp
-                                        className="Edit "
+                                <div className={css.knapper}>
+                                    <Button
+                                        variant="tertiary"
                                         onClick={() => {
                                             onOpenRedigeringsModal(notat);
                                         }}
-                                    >
-                                        <i className="Edit__icon" />
-                                    </Lenkeknapp>
-                                    <Lenkeknapp
-                                        className="Delete"
+                                        icon={<PencilIcon aria-label="Endre notat" />}
+                                    />
+                                    <Button
+                                        variant="tertiary"
                                         onClick={() => {
                                             onOpenSletteModal(notat);
                                         }}
-                                    >
-                                        <i className="Delete__icon" />
-                                    </Lenkeknapp>
+                                        icon={<TrashIcon aria-label="Slett notat" />}
+                                    />
                                 </div>
                             )}
                         </div>
-                        <Normaltekst className="notater__tekst">{notat.tekst}</Normaltekst>
+                        <BodyLong>{notat.tekst}</BodyLong>
                     </div>
                 ))}
             </div>

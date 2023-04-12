@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Notat } from '../../domene/Kandidatressurser';
 import { formaterTidspunkt } from '../../../utils/dateUtils';
+import { Detail } from '@navikt/ds-react';
+import css from './Notatliste.module.css';
 
 interface NotatInfoProps {
     notat: Notat;
@@ -11,16 +13,16 @@ const NotatInfo: FunctionComponent<NotatInfoProps> = ({ notat }) => {
     const datovisning = formaterTidspunkt(notat.lagtTilTidspunkt);
 
     return (
-        <div className="notater__notatinfo">
+        <Detail>
             <span>{fulltNavn}</span>
             <span> {datovisning}</span>
             {notat.notatEndret && (
                 <span>
                     <span> - </span>
-                    <span className="notater__notatinfo--red-tekst">redigert</span>
+                    <span className={css.erRedigert}>redigert</span>
                 </span>
             )}
-        </div>
+        </Detail>
     );
 };
 

@@ -1,0 +1,20 @@
+.topprad {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rad {
+    border-bottom: 1px solid var(--a-border-divider);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.knapper {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.erRedigert {
+    color: var(--a-text-danger);
+}
