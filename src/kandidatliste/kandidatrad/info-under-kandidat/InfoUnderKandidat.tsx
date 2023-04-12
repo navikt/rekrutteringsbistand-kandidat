@@ -1,5 +1,6 @@
+import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
-import './InfoUnderKandidat.less';
+import css from './InfoUnderKandidat.module.css';
 
 type Props = {
     className?: string;
@@ -7,10 +8,8 @@ type Props = {
 
 const InfoUnderKandidat: FunctionComponent<Props> = ({ className, children }) => {
     return (
-        <div className="info-under-kandidat">
-            <div className={`info-under-kandidat__content${className ? ' ' + className : ''}`}>
-                {children}
-            </div>
+        <div className={css.wrapper}>
+            <div className={classNames(css.innhold, className)}>{children}</div>
         </div>
     );
 };

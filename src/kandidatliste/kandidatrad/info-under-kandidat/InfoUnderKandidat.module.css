@@ -1,11 +1,11 @@
-.info-under-kandidat {
+.wrapper {
     background-color: #f6f5f5;
     display: flex;
     justify-content: center;
     padding-top: 2rem;
     padding-bottom: 2rem;
+}
 
-    &__content {
-        width: 40rem;
-    }
+.innhold {
+    width: 40rem;
 }

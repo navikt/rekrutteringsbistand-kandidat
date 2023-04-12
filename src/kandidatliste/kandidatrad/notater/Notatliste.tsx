@@ -4,8 +4,8 @@ import { BodyLong, Button } from '@navikt/ds-react';
 
 import { Notat } from '../../domene/Kandidatressurser';
 import { Nettstatus, Nettressurs } from '../../../api/Nettressurs';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import NotatInfo from './NotatInfo';
+import Sidelaster from '../../../common/sidelaster/Sidelaster';
 import css from './Notatliste.module.css';
 
 interface Props {
@@ -20,11 +20,7 @@ const Notatliste: FunctionComponent<Props> = ({
     onOpenSletteModal,
 }) => {
     if (notater?.kind === Nettstatus.LasterInn) {
-        return (
-            <div className="notater__spinner">
-                <NavFrontendSpinner />
-            </div>
-        );
+        return <Sidelaster size="large" />;
     }
 
     if (notater?.kind === Nettstatus.Suksess && notater.data.length !== 0) {
