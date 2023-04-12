@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
+import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
+import { BodyLong, Button } from '@navikt/ds-react';
+
 import { Notat } from '../../domene/Kandidatressurser';
 import { Nettstatus, Nettressurs } from '../../../api/Nettressurs';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NotatInfo from './NotatInfo';
-import { Normaltekst } from 'nav-frontend-typografi';
 import css from './Notatliste.module.css';
-import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
-import { BodyLong, Button } from '@navikt/ds-react';
 
 interface Props {
     notater: Nettressurs<Notat[]>;
