@@ -60,7 +60,7 @@ const Hendelse: FunctionComponent<Props> = ({
             </div>
             <div className={innholdClassName}>
                 {(tittel || beskrivelse) && (
-                    <div className="hendelse__tekst">
+                    <div>
                         {tittel && (
                             <Heading level="3" size="xsmall">
                                 {tittel}
