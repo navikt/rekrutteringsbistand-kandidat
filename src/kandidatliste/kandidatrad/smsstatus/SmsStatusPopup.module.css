@@ -18,9 +18,9 @@
 }
 
 .fargeleggIkonMedFeil {
-    color: red;
+    color: var(--a-surface-danger);
 }
 
 .smsIkon:not(.fargeleggIkonMedFeil) {
-    color: green;
+    color: var(--a-surface-success);
 }
