@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { PlusCircleIcon, MinusCircleIcon } from '@navikt/aksel-icons';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
+import { Button } from '@navikt/ds-react';
+import css from './FåttJobben.module.css';
 
 type Props = {
     kanEndre?: boolean;
@@ -62,15 +63,9 @@ const FåttJobben: FunctionComponent<Props> = ({
                     beskrivelse={kanEndre ? undefined : 'Gjøres av eier av stillingen/listen'}
                 >
                     {kanEndre && (
-                        <Flatknapp
-                            mini
-                            kompakt
-                            onClick={onRegistrer}
-                            className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
-                        >
-                            <PlusCircleIcon />
+                        <Button variant="tertiary" onClick={onRegistrer} icon={<PlusCircleIcon />}>
                             Registrer at kandidaten har fått jobb
-                        </Flatknapp>
+                        </Button>
                     )}
                 </Hendelse>
             );
@@ -93,15 +88,14 @@ const FåttJobben: FunctionComponent<Props> = ({
                     beskrivelse={utfallsbeskrivelse}
                 >
                     {kanEndre && (
-                        <Flatknapp
-                            mini
-                            kompakt
+                        <Button
+                            variant="tertiary"
                             onClick={onFjernRegistrering}
-                            className="endre-status-og-hendelser__registrer-hendelse"
+                            icon={<MinusCircleIcon />}
+                            className={css.fjernRegistreringen}
                         >
-                            <MinusCircleIcon />
                             Fjern registreringen
-                        </Flatknapp>
+                        </Button>
                     )}
                 </Hendelse>
             );
@@ -115,19 +109,14 @@ const FåttJobben: FunctionComponent<Props> = ({
                     beskrivelse="Når du registrerer at en kandidat har fått jobb vil resultatet bli telt, og tellingen vil bli brukt til statistikk"
                 >
                     {kanEndre && (
-                        <>
-                            <Hovedknapp
-                                mini
-                                kompakt
-                                onClick={onBekreftRegistreringClick}
-                                className="endre-status-og-hendelser__bekreft-knapp"
-                            >
+                        <div className={css.okAvbrytKnapper}>
+                            <Button variant="primary" onClick={onBekreftRegistreringClick}>
                                 Registrere fått jobben
-                            </Hovedknapp>
-                            <Knapp mini kompakt onClick={onAvbrytRegistrering}>
+                            </Button>
+                            <Button variant="secondary" onClick={onAvbrytRegistrering}>
                                 Avbryt
-                            </Knapp>
-                        </>
+                            </Button>
+                        </div>
                     )}
                 </Hendelse>
             );
@@ -143,19 +132,14 @@ const FåttJobben: FunctionComponent<Props> = ({
                     }
                 >
                     {kanEndre && (
-                        <>
-                            <Hovedknapp
-                                mini
-                                kompakt
-                                onClick={onBekreftFjerningAvRegistrering}
-                                className="endre-status-og-hendelser__bekreft-knapp"
-                            >
+                        <div className={css.okAvbrytKnapper}>
+                            <Button variant="primary" onClick={onBekreftFjerningAvRegistrering}>
                                 Fjern registreringen
-                            </Hovedknapp>
-                            <Knapp mini kompakt onClick={onAvbrytFjerningAvRegistrering}>
+                            </Button>
+                            <Button variant="secondary" onClick={onAvbrytFjerningAvRegistrering}>
                                 Avbryt
-                            </Knapp>
-                        </>
+                            </Button>
+                        </div>
                     )}
                 </Hendelse>
             );
