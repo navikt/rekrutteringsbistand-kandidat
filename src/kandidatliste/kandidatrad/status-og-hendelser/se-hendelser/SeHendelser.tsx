@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { Kandidat } from '../../../domene/Kandidat';
-import { Undertittel } from 'nav-frontend-typografi';
 import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
 import HarFåttJobben from '../hendelser/HarFåttJobben';
 import NyKandidat from '../hendelser/NyKandidat';
@@ -11,6 +10,7 @@ import { Sms } from '../../../domene/Kandidatressurser';
 import SmsSendt from '../hendelser/SmsSendt';
 import { Stillingskategori } from '../../../domene/Kandidatliste';
 import CvErSlettet from '../hendelser/CvErSlettet';
+import { Heading } from '@navikt/ds-react';
 
 type Props = {
     kandidat: Kandidat;
@@ -34,7 +34,9 @@ const SeHendelser: FunctionComponent<Props> = ({
 
     return (
         <>
-            <Undertittel>Hendelser</Undertittel>
+            <Heading level="2" size="medium">
+                Hendelser
+            </Heading>
             <ol className="endre-status-og-hendelser__hendelsesliste">
                 <NyKandidat kandidat={kandidat} />
                 <SmsSendt sms={sms} />

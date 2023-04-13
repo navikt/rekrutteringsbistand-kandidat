@@ -75,23 +75,25 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                 <div className={css.popover}>
                     {skalVisePopover && (
                         <>
-                            {kanEditere ? (
-                                <EndreStatusOgHendelser
-                                    kandidat={kandidat}
-                                    kandidatliste={kandidatliste}
-                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                                    sms={sms}
-                                    onStatusChange={endreStatusOgLukkPopover}
-                                />
-                            ) : (
-                                <SeHendelser
-                                    kandidat={kandidat}
-                                    kandidatlisteId={kandidatliste.kandidatlisteId}
-                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                                    sms={sms}
-                                    stillingskategori={kandidatliste.stillingskategori}
-                                />
-                            )}
+                            {
+                                /*kanEditere*/ false ? (
+                                    <EndreStatusOgHendelser
+                                        kandidat={kandidat}
+                                        kandidatliste={kandidatliste}
+                                        forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                                        sms={sms}
+                                        onStatusChange={endreStatusOgLukkPopover}
+                                    />
+                                ) : (
+                                    <SeHendelser
+                                        kandidat={kandidat}
+                                        kandidatlisteId={kandidatliste.kandidatlisteId}
+                                        forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                                        sms={sms}
+                                        stillingskategori={kandidatliste.stillingskategori}
+                                    />
+                                )
+                            }
                             <Button
                                 variant="secondary"
                                 className={css.lukkPopoverKnapp}
