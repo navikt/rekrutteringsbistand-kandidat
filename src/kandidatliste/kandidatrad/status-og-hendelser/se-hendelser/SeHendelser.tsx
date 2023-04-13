@@ -11,6 +11,7 @@ import SmsSendt from '../hendelser/SmsSendt';
 import { Stillingskategori } from '../../../domene/Kandidatliste';
 import CvErSlettet from '../hendelser/CvErSlettet';
 import { Heading } from '@navikt/ds-react';
+import css from '../endre-status-og-hendelser/EndreStatusOgHendelser.module.css';
 
 type Props = {
     kandidat: Kandidat;
@@ -37,7 +38,7 @@ const SeHendelser: FunctionComponent<Props> = ({
             <Heading level="2" size="medium">
                 Hendelser
             </Heading>
-            <ol className="endre-status-og-hendelser__hendelsesliste">
+            <ol className={css.hendelsesliste}>
                 <NyKandidat kandidat={kandidat} />
                 <SmsSendt sms={sms} />
                 {erStillingEllerFormidling && (
