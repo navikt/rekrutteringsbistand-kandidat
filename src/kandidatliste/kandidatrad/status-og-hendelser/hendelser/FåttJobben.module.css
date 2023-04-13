@@ -9,5 +9,9 @@
 }
 
 .registrertFåttJobb {
-    transform: translateY(-2.2rem);
+    transform: translateY(-1.75rem);
+}
+
+.registrertFåttJobb span {
+    font-size: var(--a-font-size-large);
 }

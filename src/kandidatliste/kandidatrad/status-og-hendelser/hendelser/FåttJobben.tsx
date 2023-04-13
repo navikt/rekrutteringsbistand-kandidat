@@ -63,8 +63,13 @@ const FåttJobben: FunctionComponent<Props> = ({
                     beskrivelse={kanEndre ? undefined : 'Gjøres av eier av stillingen/listen'}
                 >
                     {kanEndre && (
-                        <Button variant="tertiary" onClick={onRegistrer} icon={<PlusCircleIcon />} 
-                        className={css.registrertFåttJobb}>
+                        <Button
+                            variant="tertiary"
+                            size="small"
+                            onClick={onRegistrer}
+                            icon={<PlusCircleIcon />}
+                            className={css.registrertFåttJobb}
+                        >
                             Registrer at kandidaten har fått jobb
                         </Button>
                     )}
@@ -111,10 +116,10 @@ const FåttJobben: FunctionComponent<Props> = ({
                 >
                     {kanEndre && (
                         <div className={css.okAvbrytKnapper}>
-                            <Button variant="primary" onClick={onBekreftRegistreringClick}>
+                            <Button variant="primary" size="small" onClick={onBekreftRegistreringClick}>
                                 Registrere fått jobben
                             </Button>
-                            <Button variant="secondary" onClick={onAvbrytRegistrering}>
+                            <Button variant="secondary" size="small" onClick={onAvbrytRegistrering}>
                                 Avbryt
                             </Button>
                         </div>
@@ -134,10 +139,10 @@ const FåttJobben: FunctionComponent<Props> = ({
                 >
                     {kanEndre && (
                         <div className={css.okAvbrytKnapper}>
-                            <Button variant="primary" onClick={onBekreftFjerningAvRegistrering}>
+                            <Button variant="primary" size="small" onClick={onBekreftFjerningAvRegistrering}>
                                 Fjern registreringen
                             </Button>
-                            <Button variant="secondary" onClick={onAvbrytFjerningAvRegistrering}>
+                            <Button variant="secondary" size="small" onClick={onAvbrytFjerningAvRegistrering}>
                                 Avbryt
                             </Button>
                         </div>
