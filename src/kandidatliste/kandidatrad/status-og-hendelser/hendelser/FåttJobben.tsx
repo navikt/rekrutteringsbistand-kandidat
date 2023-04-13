@@ -63,7 +63,8 @@ const FåttJobben: FunctionComponent<Props> = ({
                     beskrivelse={kanEndre ? undefined : 'Gjøres av eier av stillingen/listen'}
                 >
                     {kanEndre && (
-                        <Button variant="tertiary" onClick={onRegistrer} icon={<PlusCircleIcon />}>
+                        <Button variant="tertiary" onClick={onRegistrer} icon={<PlusCircleIcon />} 
+                        className={css.registrertFåttJobb}>
                             Registrer at kandidaten har fått jobb
                         </Button>
                     )}

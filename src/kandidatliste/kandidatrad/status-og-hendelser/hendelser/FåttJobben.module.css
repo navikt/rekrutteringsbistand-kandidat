@@ -7,3 +7,7 @@
     display: flex;
     gap: 1rem;
 }
+
+.registrertFåttJobb {
+    transform: translateY(-2.2rem);
+}
