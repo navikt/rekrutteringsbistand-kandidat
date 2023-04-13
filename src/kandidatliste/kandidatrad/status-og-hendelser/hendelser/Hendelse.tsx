@@ -1,6 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { CheckmarkIcon } from '@navikt/aksel-icons';
-import './Hendelse.less';
 import css from './Hendelse.module.css';
 import { BodyLong, Heading, Label } from '@navikt/ds-react';
 import classNames from 'classnames';
