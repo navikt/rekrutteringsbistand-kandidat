@@ -1,47 +1,6 @@
 @import '../../../../variabler.less';
 
 .hendelse {
-    &__innhold {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-
-        &--children-below-content {
-            flex-direction: column;
-
-            .hendelse__children {
-                margin-top: 1.5rem;
-            }
-        }
-    }
-
-    &__ikon-grafikk-grønn path {
-        fill: white;
-    }
-
-    &__ikon-grafikk-oransje {
-        user-select: none;
-        font-size: 1.125rem !important;
-
-        path {
-            fill: black;
-        }
-    }
-
-    &__tekst {
-        color: @navGra80;
-        margin-right: 0.5rem;
-        margin-top: 0.0625rem;
-    }
-
-    &__beskrivelse {
-        font-size: 1rem !important;
-    }
-
-    &__feilmelding.typo-feilmelding {
-        margin-top: 0.5rem;
-    }
-
     &__translateLinje {
         transform: translateX(-50% - 4px);
     }
