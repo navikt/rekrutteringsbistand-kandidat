@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { resendForespørselOmDelingAvCv } from '../../../../../api/forespørselOmDelingAvCvApi';
 import {
     ForespørselOmDelingAvCv,
@@ -16,6 +15,8 @@ import { Feilmelding } from 'nav-frontend-typografi';
 import { SearchApiError } from '../../../../../api/fetchUtils';
 import { sendEvent } from '../../../../../amplitude/amplitude';
 import AppState from '../../../../../AppState';
+import { Button } from '@navikt/ds-react';
+import css from './SendForespørselPåNytt.module.css';
 
 type Props = {
     gamleForespørsler: ForespørselOmDelingAvCv[];
@@ -114,21 +115,21 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({
                 onEgenvalgtFristFeilmeldingChange={onEgenvalgtFristFeilmeldingChange}
                 egenvalgtFristFeilmelding={egenvalgtFristFeilmelding}
             />
-            <div className="endre-status-og-hendelser__del-på-nytt-knapper">
-                <Hovedknapp
-                    className="endre-status-og-hendelser__del-på-nytt-knapp"
-                    mini
+            <div className={css.delPåNyttKnapper}>
+                <Button
+                    variant="primary"
+                    size="small"
                     onClick={onDelPåNyttClick}
-                    spinner={senderForespørselPåNytt}
+                    loading={senderForespørselPåNytt}
                 >
                     Del på nytt
-                </Hovedknapp>
-                <Knapp mini onClick={onLukk}>
+                </Button>
+                <Button onClick={onLukk} variant="secondary" size="small">
                     Avbryt
-                </Knapp>
+                </Button>
             </div>
             {feilmelding && (
-                <Feilmelding className="endre-status-og-hendelser__del_på-nytt-feilmelding">
+                <Feilmelding className={css.delPåNyttFeilmelding}>
                     Feilmelding: {feilmelding}
                 </Feilmelding>
             )}
