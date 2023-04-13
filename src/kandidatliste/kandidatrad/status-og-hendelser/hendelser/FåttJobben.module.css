@@ -1,0 +1,9 @@
+.fjernRegistreringen {
+    transform: translateY(-0.8rem);
+    margin-left: 0.1rem;
+}
+
+.okAvbrytKnapper {
+    display: flex;
+    gap: 1rem;
+}
