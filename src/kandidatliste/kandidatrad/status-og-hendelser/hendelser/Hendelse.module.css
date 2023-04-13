@@ -83,3 +83,16 @@
     border-color: darkgrey;
     border-left-style: dotted;
 }
+
+.innhold {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.childrenBelowContent {
+    flex-direction: column;
+}
+
+.children {
+    margin-top: 1.5rem;
+}

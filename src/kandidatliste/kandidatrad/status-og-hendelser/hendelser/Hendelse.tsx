@@ -27,12 +27,6 @@ const Hendelse: FunctionComponent<Props> = ({
     renderChildrenBelowContent,
     children,
 }) => {
-    let innholdClassName = 'hendelse__innhold';
-
-    if (renderChildrenBelowContent) {
-        innholdClassName += ' hendelse__innhold--children-below-content';
-    }
-
     const beskrivelseContainerTag = typeof beskrivelse === 'string' ? 'p' : 'div';
 
     return (
@@ -62,7 +56,11 @@ const Hendelse: FunctionComponent<Props> = ({
                 {status === Hendelsesstatus.Rød && <code>×</code>}
             </div>
 
-            <div className={innholdClassName}>
+            <div
+                className={classNames(css.innhold, {
+                    [css.childrenBelowContent]: renderChildrenBelowContent,
+                })}
+            >
                 {(tittel || beskrivelse) && (
                     <div>
                         {tittel && (
