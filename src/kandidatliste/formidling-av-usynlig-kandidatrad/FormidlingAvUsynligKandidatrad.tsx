@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useRef } from 'react';
-import { Button } from '@navikt/ds-react';
+import { Button, Heading } from '@navikt/ds-react';
 import { XMarkIcon } from '@navikt/aksel-icons';
-import { Undertittel } from 'nav-frontend-typografi';
 import { useDispatch, useSelector } from 'react-redux';
 import Popover from 'nav-frontend-popover';
 
@@ -17,6 +16,8 @@ import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker'
 import usePopoverOrientering from '../kandidatrad/status-og-hendelser/usePopoverOrientering';
 import Hendelsesetikett from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import css from '../kandidatrad/status-og-hendelser/StatusOgHendelser.module.css';
+import endreStatusOgHendelserCss from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.module.css';
+
 import '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.less';
 import './FormidlingAvUsynligKandidatrad.less';
 
@@ -93,9 +94,11 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                         onRequestClose={lukkPopover}
                     >
                         <div className={css.popover}>
-                            <div className="endre-status-og-hendelser__hendelser">
-                                <Undertittel>Hendelser</Undertittel>
-                                <ol className="endre-status-og-hendelser__hendelsesliste">
+                            <div className={endreStatusOgHendelserCss.hendelser}>
+                                <Heading level="2" size="medium">
+                                    Hendelser
+                                </Heading>
+                                <ol className={endreStatusOgHendelserCss.hendelsesliste}>
                                     <Hendelse
                                         status={Hendelsesstatus.Grønn}
                                         tittel="Ny kandidat"
