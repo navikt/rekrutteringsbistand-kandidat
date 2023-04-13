@@ -1,17 +1,8 @@
-.fjernRegistreringen {
-    transform: translateY(-0.8rem);
-    margin-left: 0.1rem;
-}
-
 .okAvbrytKnapper {
     display: flex;
     gap: 1rem;
 }
 
 .registrertFåttJobb {
-    transform: translateY(-1.75rem);
-}
-
-.registrertFåttJobb span {
-    font-size: var(--a-font-size-large);
+    transform: translateY(-0.75rem);
 }

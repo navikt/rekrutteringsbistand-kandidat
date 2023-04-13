@@ -99,6 +99,7 @@ const FåttJobben: FunctionComponent<Props> = ({
                             onClick={onFjernRegistrering}
                             icon={<MinusCircleIcon />}
                             className={css.fjernRegistreringen}
+                            size="small"
                         >
                             Fjern registreringen
                         </Button>
@@ -116,7 +117,11 @@ const FåttJobben: FunctionComponent<Props> = ({
                 >
                     {kanEndre && (
                         <div className={css.okAvbrytKnapper}>
-                            <Button variant="primary" size="small" onClick={onBekreftRegistreringClick}>
+                            <Button
+                                variant="primary"
+                                size="small"
+                                onClick={onBekreftRegistreringClick}
+                            >
                                 Registrere fått jobben
                             </Button>
                             <Button variant="secondary" size="small" onClick={onAvbrytRegistrering}>
@@ -139,10 +144,18 @@ const FåttJobben: FunctionComponent<Props> = ({
                 >
                     {kanEndre && (
                         <div className={css.okAvbrytKnapper}>
-                            <Button variant="primary" size="small" onClick={onBekreftFjerningAvRegistrering}>
+                            <Button
+                                variant="primary"
+                                size="small"
+                                onClick={onBekreftFjerningAvRegistrering}
+                            >
                                 Fjern registreringen
                             </Button>
-                            <Button variant="secondary" size="small" onClick={onAvbrytFjerningAvRegistrering}>
+                            <Button
+                                variant="secondary"
+                                size="small"
+                                onClick={onAvbrytFjerningAvRegistrering}
+                            >
                                 Avbryt
                             </Button>
                         </div>

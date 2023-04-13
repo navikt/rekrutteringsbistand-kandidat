@@ -84,11 +84,13 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    gap: 1rem;
 }
 .childrenBelowContent {
     flex-direction: column;
 }
 
 .children {
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
+    flex-shrink: 0;
 }
