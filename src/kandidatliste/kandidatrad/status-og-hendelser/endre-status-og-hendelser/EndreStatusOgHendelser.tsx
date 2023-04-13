@@ -1,7 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Knapp } from 'nav-frontend-knapper';
-import { Radio, RadioGruppe } from 'nav-frontend-skjema';
-import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 
 import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';
 import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
@@ -12,6 +9,7 @@ import { Nettressurs } from '../../../../api/Nettressurs';
 import NyKandidat from '../hendelser/NyKandidat';
 import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
 import './EndreStatusOgHendelser.less';
+import css from './EndreStatusOgHendelser.module.css';
 import {
     kandidaterMåGodkjenneDelingAvCv,
     Kandidatliste,
@@ -20,6 +18,8 @@ import {
 import { Sms } from '../../../domene/Kandidatressurser';
 import SmsSendt from '../hendelser/SmsSendt';
 import CvErSlettet from '../hendelser/CvErSlettet';
+import { Button, RadioGroup, Radio, Detail, BodyShort, Heading } from '@navikt/ds-react';
+import classNames from 'classnames';
 
 type Props = {
     kandidat: Kandidat;
@@ -53,19 +53,25 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
         kandidaterMåGodkjenneDelingAvCv(kandidatliste) ||
         kandidatliste.stillingskategori === Stillingskategori.Formidling ||
         kandidatliste.stillingskategori === Stillingskategori.Jobbmesse;
-    let className = 'endre-status-og-hendelser';
-    if (visHendelser) className += ' endre-status-og-hendelser--med-makshøyde';
 
     const erStillingEllerFormidling =
         kandidatliste.stillingskategori === Stillingskategori.Stilling ||
         kandidatliste.stillingskategori === Stillingskategori.Formidling ||
         kandidatliste.stillingskategori == null;
     return (
-        <div className={className}>
-            <div className="endre-status-og-hendelser__velg-status">
-                <RadioGruppe
-                    className="endre-status-og-hendelser__statustittel blokk-xs"
-                    legend="Velg status"
+        <div
+            className={classNames(css.endreStatusOgHendelser, {
+                [css.makshøyde]: visHendelser,
+            })}
+        >
+            <div className={css.velgStatus}>
+                <RadioGroup
+                    size="small"
+                    legend={
+                        <Heading level="2" size="small">
+                            Velg status
+                        </Heading>
+                    }
                 >
                     {statuser.map(([statusKey, statusValue]) => {
                         const beskrivelse = hentStatusbeskrivelse(statusValue);
@@ -75,27 +81,32 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                                 key={statusKey}
                                 onChange={() => setStatus(statusValue)}
                                 defaultChecked={statusValue === status}
-                                label={
-                                    <>
-                                        <Normaltekst>
-                                            {statusToDisplayName(statusValue)}
-                                        </Normaltekst>
-                                        {beskrivelse && <Undertekst>{beskrivelse}</Undertekst>}
-                                    </>
-                                }
+                                value={statusValue}
                                 name={`kandidatstatus-${kandidat.kandidatnr}`}
-                            />
+                            >
+                                <>
+                                    <BodyShort>{statusToDisplayName(statusValue)}</BodyShort>
+                                    {beskrivelse && <Detail>{beskrivelse}</Detail>}
+                                </>
+                            </Radio>
                         );
                     })}
-                </RadioGruppe>
-                <Knapp onClick={onConfirmStatus} mini>
+                </RadioGroup>
+                <Button
+                    variant="secondary"
+                    onClick={onConfirmStatus}
+                    size="small"
+                    className={css.lagreStatus}
+                >
                     Lagre status
-                </Knapp>
+                </Button>
             </div>
             {visHendelser && (
-                <div className="endre-status-og-hendelser__hendelser">
-                    <Undertittel>Hendelser</Undertittel>
-                    <ol className="endre-status-og-hendelser__hendelsesliste">
+                <div className={css.hendelser}>
+                    <Heading level="2" size="small">
+                        Hendelser
+                    </Heading>
+                    <ol className={css.hendelsesliste}>
                         <NyKandidat kandidat={kandidat} />
                         <SmsSendt sms={sms} />
                         {erStillingEllerFormidling && (

@@ -1,0 +1,26 @@
+.endreStatusOgHendelser {
+    display: flex;
+}
+
+.makshøyde {
+    height: calc(max(37vh, 26rem));
+}
+
+.hendelser {
+    max-height: 100%;
+}
+
+.hendelsesliste {
+    list-style-type: none;
+    padding: 0 0.25rem;
+    overflow-y: scroll;
+    max-height: calc(max(37vh, 26rem) - 3rem);
+}
+
+.velgStatus {
+    margin-right: 5rem;
+}
+
+.lagreStatus {
+    margin-top: 1rem;
+}
