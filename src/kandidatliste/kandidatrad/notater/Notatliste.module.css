@@ -2,17 +2,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
 }
 
 .rad {
-    border-bottom: 1px solid var(--a-border-divider);
     padding-top: 1rem;
+}
+
+.rad:not(:last-child) {
+    border-bottom: 1px solid var(--a-border-divider);
     padding-bottom: 1rem;
 }
 
 .knapper {
     display: flex;
-    gap: 0.25rem;
+    gap: 0.5rem;
 }
 
 .erRedigert {

@@ -13,7 +13,7 @@ import RedigerNotatModal from './RedigerNotatModal';
 import Slettemodal from './Slettemodal';
 import { Notat } from '../../domene/Kandidatressurser';
 import { BodyLong, Button, Heading, Textarea } from '@navikt/ds-react';
-import './Notater.less';
+import css from './Notater.module.css';
 
 type Props = {
     kandidat: Kandidat;
@@ -110,35 +110,33 @@ const Notater: FunctionComponent<Props> = ({
                 du har spørsmål om en kandidat. Notatene følger ikke brukeren og er bare
                 tilgjengelig via stillingen. Notatene vil være synlige for alle veiledere.
             </BodyLong>
-            <BodyLong>
+            <BodyLong spacing>
                 Notatene blir automatisk slettet 12 måneder etter at kandidaten ble lagt til i
                 kandidatlisten.
             </BodyLong>
-            <div className="notater__nytt-notat-form">
-                {nyttNotatVises ? (
-                    <div>
-                        <Textarea
-                            label="Skriv inn notat"
-                            value={nyttNotatTekst}
-                            onChange={oppdaterNyttNotatTekst}
-                            autoFocus
-                            error={nyttNotatFeil ? 'Tekstfeltet kan ikke være tomt' : undefined}
-                        />
-                        <div className="notater__nytt-notat-knapperad">
-                            <Button variant="primary" size="small" onClick={lagreNyttNotat}>
-                                Lagre
-                            </Button>
-                            <Button variant="secondary" size="small" onClick={toggleNyttNotatVises}>
-                                Avbryt
-                            </Button>
-                        </div>
+            {nyttNotatVises ? (
+                <>
+                    <Textarea
+                        autoFocus
+                        label="Skriv inn notat"
+                        value={nyttNotatTekst}
+                        onChange={oppdaterNyttNotatTekst}
+                        error={nyttNotatFeil ? 'Tekstfeltet kan ikke være tomt' : undefined}
+                    />
+                    <div className={css.knapper}>
+                        <Button variant="primary" size="small" onClick={lagreNyttNotat}>
+                            Lagre
+                        </Button>
+                        <Button variant="secondary" size="small" onClick={toggleNyttNotatVises}>
+                            Avbryt
+                        </Button>
                     </div>
-                ) : (
-                    <Button variant="secondary" size="small" onClick={toggleNyttNotatVises}>
-                        Skriv notat
-                    </Button>
-                )}
-            </div>
+                </>
+            ) : (
+                <Button variant="secondary" size="small" onClick={toggleNyttNotatVises}>
+                    Skriv notat
+                </Button>
+            )}
             <Notatliste
                 notater={notater}
                 onOpenRedigeringsModal={setNotatSomRedigeres}

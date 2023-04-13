@@ -25,7 +25,7 @@ const Notatliste: FunctionComponent<Props> = ({
 
     if (notater?.kind === Nettstatus.Suksess && notater.data.length !== 0) {
         return (
-            <div>
+            <>
                 {notater.data.map((notat) => (
                     <div className={css.rad} key={notat.notatId}>
                         <div className={css.topprad}>
@@ -52,7 +52,7 @@ const Notatliste: FunctionComponent<Props> = ({
                         <BodyLong>{notat.tekst}</BodyLong>
                     </div>
                 ))}
-            </div>
+            </>
         );
     }
 
