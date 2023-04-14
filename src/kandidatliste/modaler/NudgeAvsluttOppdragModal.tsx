@@ -47,9 +47,7 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
             </BodyShort>
             <BodyShort>Er du ferdig med oppdraget og vil avslutte?</BodyShort>
             <div className={css.knapper}>
-                <Button onClick={onBekreft} className={css.bekreftknapp}>
-                    Avslutt oppdrag
-                </Button>
+                <Button onClick={onBekreft}>Avslutt oppdrag</Button>
                 <Button variant="secondary" onClick={onAvbryt}>
                     Avbryt
                 </Button>

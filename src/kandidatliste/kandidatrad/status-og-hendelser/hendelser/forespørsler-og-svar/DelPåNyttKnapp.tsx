@@ -9,11 +9,11 @@ type Props = {
 const DelPåNyttKnapp: FunctionComponent<Props> = ({ onDelPåNyttClick }) => {
     return (
         <Button
-            variant='tertiary'
+            size="small"
+            variant="secondary"
             onClick={onDelPåNyttClick}
             icon={<PlusCircleIcon />}
         >
-            
             Del på nytt
         </Button>
     );

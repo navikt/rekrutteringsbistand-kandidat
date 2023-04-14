@@ -36,7 +36,8 @@ const Hendelse: FunctionComponent<Props> = ({
             )}
         >
             <div
-                className={classNames(css.ikon, 'hendelse__translateLinje', {
+                aria-hidden
+                className={classNames(css.ikon, {
                     [css.grøntIkon]: status === Hendelsesstatus.Grønn,
                     [css.oransjeIkon]: status === Hendelsesstatus.Oransje,
                     [css.blåttIkon]: status === Hendelsesstatus.Blå,

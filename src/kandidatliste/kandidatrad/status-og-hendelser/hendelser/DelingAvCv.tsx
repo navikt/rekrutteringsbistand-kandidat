@@ -9,7 +9,7 @@ import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../.
 import { Nettstatus } from '../../../../api/Nettressurs';
 import AppState from '../../../../AppState';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
-import css from './DelingAvCv.module.css';
+import css from './Hendelse.module.css';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -138,7 +138,6 @@ const DelingAvCv: FunctionComponent<Props> = ({
                         <Button
                             size="small"
                             onClick={onRegistrer}
-                            className={css.knapp}
                             variant="secondary"
                             icon={<PlusCircleIcon aria-hidden />}
                         >
@@ -159,7 +158,6 @@ const DelingAvCv: FunctionComponent<Props> = ({
                         <Button
                             variant="tertiary"
                             onClick={onFjernRegistrering}
-                            className={css.knapp}
                             icon={<MinusCircleIcon />}
                             size="small"
                         >
@@ -181,7 +179,6 @@ const DelingAvCv: FunctionComponent<Props> = ({
                             variant="tertiary"
                             size="small"
                             onClick={onSlettSendtCv}
-                            className={css.knapp}
                             icon={<MinusCircleIcon />}
                         >
                             Slett CV-en hos arbeidsgiver
@@ -199,18 +196,14 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     beskrivelse="Når du registrerer at CV-en er blitt delt med arbeidsgiver vil det bli telt, og tellingen vil bli brukt til statistikk"
                 >
                     {kanEndre && (
-                        <>
-                            <Button
-                                size="small"
-                                onClick={onBekreftRegistreringClick}
-                                className={css.bekreftKnapp}
-                            >
+                        <div className={css.knapperUnderHendelse}>
+                            <Button size="small" onClick={onBekreftRegistreringClick}>
                                 CV-en er blitt delt
                             </Button>
                             <Button variant="secondary" size="small" onClick={onAvbrytRegistrering}>
                                 Avbryt
                             </Button>
-                        </>
+                        </div>
                     )}
                 </Hendelse>
             );
@@ -226,12 +219,8 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     }
                 >
                     {kanEndre && (
-                        <>
-                            <Button
-                                size="small"
-                                onClick={onBekreftFjerningAvRegistrering}
-                                className={css.bekreftKnapp}
-                            >
+                        <div className={css.knapperUnderHendelse}>
+                            <Button size="small" onClick={onBekreftFjerningAvRegistrering}>
                                 Fjern registreringen
                             </Button>
                             <Button
@@ -241,7 +230,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                             >
                                 Avbryt
                             </Button>
-                        </>
+                        </div>
                     )}
                 </Hendelse>
             );
@@ -254,19 +243,19 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="Slett CV-en fra kandidatlisten til arbeidsgiver"
                     beskrivelse={
                         <>
-                            <BodyLong spacing className="blokk-xs">
+                            <BodyLong size="small" spacing>
                                 Hvis du utfører denne handlingen så blir CV-en slettet fra
                                 kandidatlisten til arbeidsgiver. Arbeidsgiver vil ikke kunne se
                                 CV-en til kandidaten.
                             </BodyLong>
-                            <BodyLong>
+                            <BodyLong size="small">
                                 Husk at årsaken til at du sletter CV-en må journalføres.
                             </BodyLong>
                         </>
                     }
                 >
                     {kanEndre && (
-                        <>
+                        <div className={css.knapperUnderHendelse}>
                             <Button
                                 size="small"
                                 loading={slettCvStatus === Nettstatus.SenderInn}
@@ -275,14 +264,13 @@ const DelingAvCv: FunctionComponent<Props> = ({
                                         ? () => {}
                                         : onBekreftSlettSendtCv
                                 }
-                                className={css.bekreftKnapp}
                             >
                                 Slett CV-en
                             </Button>
-                            <Button size="small" variant="tertiary" onClick={onAvbrytSlettSendtCv}>
+                            <Button size="small" variant="secondary" onClick={onAvbrytSlettSendtCv}>
                                 Avbryt
                             </Button>
-                        </>
+                        </div>
                     )}
                     {slettCvStatus === Nettstatus.Feil && (
                         <ErrorMessage>

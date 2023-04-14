@@ -80,9 +80,7 @@ const VelgSvarfrist: FunctionComponent<Props> = ({
                 size="small"
                 legend={
                     <>
-                        <Label as="span" size="small">
-                            {tittel || 'Frist for svar'}
-                        </Label>
+                        <Label as="span">{tittel || 'Frist for svar'}</Label>
                         <BodyShort as="span"> (må fylles ut)</BodyShort>
                     </>
                 }

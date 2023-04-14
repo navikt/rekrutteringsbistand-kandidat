@@ -4,7 +4,7 @@ import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 import { Button } from '@navikt/ds-react';
-import css from './FåttJobben.module.css';
+import css from './Hendelse.module.css';
 
 type Props = {
     kanEndre?: boolean;
@@ -64,11 +64,11 @@ const FåttJobben: FunctionComponent<Props> = ({
                 >
                     {kanEndre && (
                         <Button
-                            variant="tertiary"
                             size="small"
+                            variant="tertiary"
                             onClick={onRegistrer}
+                            className={css.flyttLittOpp}
                             icon={<PlusCircleIcon />}
-                            className={css.registrertFåttJobb}
                         >
                             Registrer at kandidaten har fått jobb
                         </Button>
@@ -95,11 +95,10 @@ const FåttJobben: FunctionComponent<Props> = ({
                 >
                     {kanEndre && (
                         <Button
+                            size="small"
                             variant="tertiary"
                             onClick={onFjernRegistrering}
                             icon={<MinusCircleIcon />}
-                            className={css.fjernRegistreringen}
-                            size="small"
                         >
                             Fjern registreringen
                         </Button>
@@ -116,10 +115,10 @@ const FåttJobben: FunctionComponent<Props> = ({
                     beskrivelse="Når du registrerer at en kandidat har fått jobb vil resultatet bli telt, og tellingen vil bli brukt til statistikk"
                 >
                     {kanEndre && (
-                        <div className={css.okAvbrytKnapper}>
+                        <div className={css.knapperUnderHendelse}>
                             <Button
-                                variant="primary"
                                 size="small"
+                                variant="primary"
                                 onClick={onBekreftRegistreringClick}
                             >
                                 Registrere fått jobben
@@ -137,23 +136,21 @@ const FåttJobben: FunctionComponent<Props> = ({
                 <Hendelse
                     renderChildrenBelowContent
                     status={hendelsesstatus}
-                    tittel={'Fjern registreringen "fått jobben"'}
-                    beskrivelse={
-                        'Hvis du fjerner registreringen vil tellingen på "fått jobben" taes bort.'
-                    }
+                    tittel="Fjern registreringen «fått jobben»"
+                    beskrivelse="Hvis du fjerner registreringen vil tellingen på «fått jobben» forsvinne."
                 >
                     {kanEndre && (
-                        <div className={css.okAvbrytKnapper}>
+                        <div className={css.knapperUnderHendelse}>
                             <Button
-                                variant="primary"
                                 size="small"
+                                variant="primary"
                                 onClick={onBekreftFjerningAvRegistrering}
                             >
                                 Fjern registreringen
                             </Button>
                             <Button
-                                variant="secondary"
                                 size="small"
+                                variant="secondary"
                                 onClick={onAvbrytFjerningAvRegistrering}
                             >
                                 Avbryt
