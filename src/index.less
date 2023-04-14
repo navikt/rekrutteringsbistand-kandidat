@@ -20,82 +20,6 @@ body {
     text-align: center;
 }
 
-.hjelpetekst__apneknapp:focus {
-    box-shadow: 0 0 0 2pt @fokusFarge;
-}
-
-.knapp--sokekriterier {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    text-align: center;
-    word-break: normal;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.fading {
-    -webkit-transition: 0.5s;
-    -moz-transition: 0.5s;
-    -o-transition: 0.5s;
-    transition: 0.5s;
-    opacity: 0;
-    visibility: hidden;
-    margin-bottom: -3.5rem;
-}
-
-.fading.synlig {
-    opacity: 1;
-    visibility: visible;
-}
-
-.HjelpetekstFading {
-    position: fixed;
-    top: 0;
-    z-index: 10000;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.HjelpetekstFading.alertstripe {
-    .alertstripe__tekst {
-        flex: 0 1 auto;
-        -ms-flex: 0 1 auto;
-        -webkit-flex: 0 1 auto;
-    }
-    .alertstripe__ikon {
-        margin-right: 0;
-        padding-right: 0;
-        width: 2.2rem;
-    }
-}
-
-.FadingAlertStripeLiten.alertstripe {
-    .alertstripe__tekst {
-        flex: 0 1 auto;
-        -ms-flex: 0 1 auto;
-        -webkit-flex: 0 1 auto;
-    }
-    .alertstripe__ikon {
-        margin-right: 0;
-        padding-right: 0;
-        width: 2.2rem;
-    }
-    &.fading {
-        margin-right: 2rem;
-        .alertstripe__tekst {
-            display: none;
-        }
-    }
-
-    &.fading.synlig {
-        margin-bottom: 2rem;
-        .alertstripe__tekst {
-            display: block;
-        }
-    }
-}
-
 .modal--bekreft {
     padding: 1.5rem 2rem 1.5rem 2rem !important;
     .knapp--hoved {
@@ -114,38 +38,7 @@ select {
     }
 }
 
-.alertstripe__ikon {
-    align-items: center;
-}
-
-.hjelpetekst__tooltip {
-    background-color: @navBlaDarken80;
-    &:before,
-    :after {
-        background-color: @navBlaDarken80;
-    }
-}
-
 .knapp--flat,
 .knapp--standard:not(:active):not(:hover):not(:disabled) {
     background-color: transparent;
-}
-
-.skjemaelement__input {
-    border-radius: 2px;
-
-    &::-ms-clear {
-        width: 0;
-        height: 0;
-    }
-
-    &:hover {
-        border-color: @navBlaDarken40;
-    }
-}
-
-.Kompetanseforslag__wrapper {
-    margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
 }

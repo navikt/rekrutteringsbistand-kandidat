@@ -67,7 +67,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             dispatch<VarslingAction>({
                 type: VarslingActionType.VisVarsling,
                 innhold: 'Forespørselen ble sendt til kandidatene',
-                alertType: 'suksess',
+                alertType: 'success',
             });
         };
 

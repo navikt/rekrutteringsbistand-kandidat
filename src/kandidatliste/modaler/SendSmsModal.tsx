@@ -119,7 +119,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                 </Alert>
             )}
             <div className="send-sms-modal__innhold">
-                <Heading size="medium" level="2">
+                <Heading spacing size="medium" level="2">
                     Send SMS
                 </Heading>
                 <BodyShort>
@@ -137,7 +137,6 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
 
                 {stillingskategori !== Stillingskategori.Jobbmesse && (
                     <Select
-                        size="small"
                         className={css.velgMal}
                         label="Velg beskjed som skal vises i SMS-en*"
                         onChange={(e: ChangeEvent<HTMLSelectElement>) => {
@@ -152,11 +151,9 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                         </option>
                     </Select>
                 )}
-                <Label size="small" htmlFor="forhåndsvisning">
-                    Meldingen som vil bli sendt til kandidatene
-                </Label>
+                <Label htmlFor="forhåndsvisning">Meldingen som vil bli sendt til kandidatene</Label>
                 <div id="forhåndsvisning" className={css.forhåndsvisning}>
-                    <BodyShort size="small">
+                    <BodyShort>
                         <span>{genererMeldingUtenLenke(valgtMal)} </span>
                         <Link href={lenkeMedPrefiks} target="_blank" rel="noopener noreferrer">
                             {lenkeTilStilling}

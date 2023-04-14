@@ -1,12 +1,13 @@
-import { AlertStripeType } from 'nav-frontend-alertstriper';
 import { ReactNode } from 'react';
 import { takeLatest, put } from 'redux-saga/effects';
 
 const standardVarighet = 4000;
 
+export type AlertType = 'error' | 'warning' | 'info' | 'success';
+
 export type VarslingState = {
     innhold: ReactNode;
-    alertType: AlertStripeType;
+    alertType: AlertType;
 };
 
 const initialState: VarslingState = {
@@ -22,7 +23,7 @@ export enum VarslingActionType {
 type VisVarslingAction = {
     type: VarslingActionType.VisVarsling;
     innhold: ReactNode;
-    alertType?: AlertStripeType;
+    alertType?: AlertType;
     varighetMs?: number;
 };
 
@@ -38,7 +39,7 @@ const varslingReducer = (
 ): VarslingState => {
     switch (action.type) {
         case VarslingActionType.VisVarsling:
-            const { innhold, alertType = 'suksess' } = action;
+            const { innhold, alertType = 'success' } = action;
 
             return {
                 innhold,
