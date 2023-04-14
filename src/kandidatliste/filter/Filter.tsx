@@ -10,7 +10,7 @@ import css from './Filter.module.css';
 import classNames from 'classnames';
 import { Accordion } from '@navikt/ds-react';
 
-interface Props {
+type Props = {
     antallTreff: AntallFiltertreff;
     visArkiverte: boolean;
     statusfilter: Record<Kandidatstatus, boolean>;
@@ -18,7 +18,8 @@ interface Props {
     onToggleArkiverte: () => void;
     onToggleStatus: (status: Kandidatstatus) => void;
     onToggleHendelse: (hendelse: Hendelse) => void;
-}
+    className: string;
+};
 
 const Filter: FunctionComponent<Props> = ({
     antallTreff,
@@ -28,6 +29,7 @@ const Filter: FunctionComponent<Props> = ({
     onToggleArkiverte,
     onToggleStatus,
     onToggleHendelse,
+    className,
 }) => {
     const harStorSkjerm = useVinduErBredereEnn(1280);
 
@@ -75,7 +77,7 @@ const Filter: FunctionComponent<Props> = ({
     );
 
     return harStorSkjerm ? (
-        <aside className={classNames('kandidatliste-filter')}>
+        <aside className={className}>
             <Accordion className={css.accordionStorSkjerm}>
                 <Accordion.Item defaultOpen>
                     <Accordion.Header>Status/hendelser</Accordion.Header>

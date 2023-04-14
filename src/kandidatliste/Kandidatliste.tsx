@@ -36,6 +36,7 @@ import useSorterteKandidater from './hooks/useSorterteKandidater';
 import { Hendelse } from './kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import FeilVedSendingAvForespørsel from './feil-ved-sending-av-forespørsel/FeilVedSendingAvForespørsel';
 import { Search } from '@navikt/ds-react';
+import css from './Kandidatliste.module.css';
 
 type Props = {
     kandidatliste: Kandidatlistetype;
@@ -168,7 +169,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
     const kanArkivereKandidater = !filter.visArkiverte && kandidatlistenErÅpen;
 
     return (
-        <div className="kandidatliste">
+        <>
             <SideHeader kandidatliste={kandidatliste} />
             {listenInneholderKandidater ? (
                 <>
@@ -180,8 +181,8 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             onLeggTilKandidat={onLeggTilKandidat}
                         />
                     )}
-                    <div className="kandidatliste__grid">
-                        <div className="kandidatliste__knapperad-container">
+                    <div className={css.grid}>
+                        <div className={css.knapperad}>
                             {kandidatliste.kanEditere &&
                                 sendteMeldinger.kind === Nettstatus.Suksess && (
                                     <SmsFeilAlertStripe
@@ -214,6 +215,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             </KnappeRad>
                         </div>
                         <Filter
+                            className={css.filter}
                             antallTreff={antallFiltertreff}
                             visArkiverte={filter.visArkiverte}
                             statusfilter={filter.status}
@@ -227,7 +229,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             onToggleStatus={onToggleStatus}
                             onToggleHendelse={onToggleHendelse}
                         />
-                        <div role="table" aria-label="Kandidater" className="kandidatliste__liste">
+                        <div role="table" aria-label="Kandidater" className={css.liste}>
                             <ListeHeader
                                 kandidatliste={kandidatliste}
                                 alleMarkert={alleFiltrerteErMarkerte}
@@ -282,7 +284,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                     )}
                 </TomListe>
             )}
-        </div>
+        </>
     );
 };
 
