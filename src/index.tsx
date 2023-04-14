@@ -3,6 +3,7 @@ import { Modal } from '@navikt/ds-react';
 import { Router } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import ReactDOM from 'react-dom';
+import Navspa from '@navikt/navspa';
 
 import '@navikt/ds-css';
 import '@navikt/ds-css-internal'; // Må importeres etter ds-css
@@ -66,7 +67,6 @@ const renderUtviklingsapp = async () => {
 };
 
 if (skalEksporteres) {
-    const Navspa: any = await import('@navikt/navspa');
     Navspa.eksporter('rekrutteringsbistand-kandidat', AppMedRouter);
 } else {
     renderUtviklingsapp();
