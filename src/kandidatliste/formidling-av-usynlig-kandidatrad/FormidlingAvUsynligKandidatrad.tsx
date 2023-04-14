@@ -1,9 +1,7 @@
-import React, { FunctionComponent, useRef } from 'react';
-import { Close } from '@navikt/ds-icons';
-import { Knapp } from 'nav-frontend-knapper';
-import { Undertittel } from 'nav-frontend-typografi';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Popover from 'nav-frontend-popover';
+import { Button, Heading, Popover } from '@navikt/ds-react';
+import { XMarkIcon } from '@navikt/aksel-icons';
 
 import { formaterDatoNaturlig } from '../../utils/dateUtils';
 import { FormidlingAvUsynligKandidat, Kandidatutfall } from '../domene/Kandidat';
@@ -13,12 +11,12 @@ import StatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-sta
 import FåttJobben from '../kandidatrad/status-og-hendelser/hendelser/FåttJobben';
 import Hendelse, { Hendelsesstatus } from '../kandidatrad/status-og-hendelser/hendelser/Hendelse';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker';
-import usePopoverOrientering from '../kandidatrad/status-og-hendelser/usePopoverOrientering';
-import './FormidlingAvUsynligKandidatrad.less';
-import '../kandidatrad/status-og-hendelser/StatusOgHendelser.less';
-import '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.less';
 import Hendelsesetikett from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
+import endreStatusOgHendelserCss from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.module.css';
+import statusOgHendelsercss from '../kandidatrad/status-og-hendelser/StatusOgHendelser.module.css';
+
+import css from './FormidlingAvUsynligKandidatrad.module.css';
+import classNames from 'classnames';
 
 type Props = {
     kandidatlisteId: string;
@@ -35,10 +33,8 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const valgtNavKontor = useSelector((state: AppState) => state.navKontor.valgtNavKontor);
-
-    const popoverRef = useRef<HTMLDivElement | null>(null);
-    const { popoverAnker, togglePopover, lukkPopover } = usePopoverAnker(popoverRef);
-    const popoverOrientering = usePopoverOrientering(popoverAnker);
+    const popoverRef = useRef<HTMLButtonElement | null>(null);
+    const [visPopover, setVisPopover] = useState<boolean>(false);
 
     const kanEditere = erEierAvKandidatlisten && !kandidatlistenErLukket;
 
@@ -64,67 +60,63 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     return (
         <div
             role="row"
-            className={`formidling-av-usynlig-kandidatrad${
-                kandidatlistenErLukket ? ' formidling-av-usynlig-kandidatrad--lukket-liste' : ''
-            }`}
+            className={classNames(css.formidlingAvUsynligKandidatrad, {
+                [css.lukketListe]: kandidatlistenErLukket,
+            })}
         >
-            <span className="formidling-av-usynlig-kandidatrad__før-navn" />
-            <div
-                role="cell"
-                className="formidling-av-usynlig-kandidatrad__navn formidling-av-usynlig-kandidatrad__kolonne"
-            >
+            <span />
+            <div role="cell" className={css.kolonne}>
                 {fulltNavn}
             </div>
-            <div role="cell" className="formidling-av-usynlig-kandidatrad__ikke-synlig">
-                Ikke synlig i Rekrutteringsbistand
-            </div>
-            <div
-                role="cell"
-                className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne"
-            >
-                <div className="status-og-hendelser" ref={popoverRef}>
+            <div role="cell">Ikke synlig i Rekrutteringsbistand</div>
+            <div role="cell" className={css.kolonne}>
+                <div className={statusOgHendelsercss.statusOgHendelser}>
                     {formidling.utfall !== Kandidatutfall.IkkePresentert && (
                         <Hendelsesetikett utfall={formidling.utfall} utfallsendringer={[]} />
                     )}
-                    <StatusOgHendelserKnapp onClick={togglePopover} />
+                    <StatusOgHendelserKnapp
+                        ref={popoverRef}
+                        kanEndre={kanEditere}
+                        onClick={() => setVisPopover(!visPopover)}
+                    />
                     <Popover
-                        orientering={popoverOrientering}
-                        ankerEl={popoverAnker}
-                        onRequestClose={lukkPopover}
+                        open={visPopover}
+                        anchorEl={popoverRef.current}
+                        onClose={() => setVisPopover(false)}
                     >
-                        <div className="status-og-hendelser__popover">
-                            <div className="endre-status-og-hendelser__hendelser">
-                                <Undertittel>Hendelser</Undertittel>
-                                <ol className="endre-status-og-hendelser__hendelsesliste">
-                                    <Hendelse
-                                        status={Hendelsesstatus.Grønn}
-                                        tittel="Ny kandidat"
-                                        beskrivelse={cvDeltBeskrivelse}
-                                    />
-                                    <DelingAvCv
-                                        kanEndre={kanEditere}
-                                        utfall={formidling.utfall}
-                                        utfallsendringer={[]}
-                                        onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
-                                        onSlettCv={() => {}}
-                                    />
-                                    <FåttJobben
-                                        kanEndre={kanEditere}
-                                        utfall={formidling.utfall}
-                                        utfallsendringer={[]}
-                                        navn={fulltNavn}
-                                        onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
-                                    />
-                                </ol>
-                            </div>
-                            <Knapp
-                                mini
-                                className="status-og-hendelser__lukk-popover-knapp"
-                                onClick={lukkPopover}
-                            >
-                                <Close />
-                            </Knapp>
-                        </div>
+                        <Popover.Content className={statusOgHendelsercss.popover}>
+                            <Heading spacing level="2" size="small">
+                                Hendelser
+                            </Heading>
+                            <ol className={endreStatusOgHendelserCss.hendelsesliste}>
+                                <Hendelse
+                                    status={Hendelsesstatus.Grønn}
+                                    tittel="Ny kandidat"
+                                    beskrivelse={cvDeltBeskrivelse}
+                                />
+                                <DelingAvCv
+                                    kanEndre={kanEditere}
+                                    utfall={formidling.utfall}
+                                    utfallsendringer={[]}
+                                    onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
+                                    onSlettCv={() => {}}
+                                />
+                                <FåttJobben
+                                    kanEndre={kanEditere}
+                                    utfall={formidling.utfall}
+                                    utfallsendringer={[]}
+                                    navn={fulltNavn}
+                                    onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
+                                />
+                            </ol>
+                            <Button
+                                size="small"
+                                variant="secondary"
+                                className={statusOgHendelsercss.lukkPopoverKnapp}
+                                onClick={() => setVisPopover(false)}
+                                icon={<XMarkIcon />}
+                            ></Button>
+                        </Popover.Content>
                     </Popover>
                 </div>
             </div>

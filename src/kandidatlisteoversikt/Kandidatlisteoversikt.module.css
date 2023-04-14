@@ -1,0 +1,46 @@
+.wrapper {
+    display: grid;
+    align-items: start;
+    grid-template-areas:
+        'over-tabell'
+        'filter'
+        'tabell'
+        'under-tabell';
+    gap: 1rem;
+
+    margin: 2.5rem auto 0;
+    padding: 0 1rem;
+    max-width: 110rem;
+}
+
+.filter {
+    grid-area: filter;
+}
+
+.antallKandidatlister {
+    grid-area: over-tabell;
+}
+
+.tabell {
+    grid-area: tabell;
+}
+
+.paginering {
+    display: flex;
+    justify-content: center;
+    grid-area: under-tabell;
+}
+
+@media (min-width: 1280px) {
+    .wrapper {
+        display: grid;
+        grid-template-columns: 14rem auto;
+        grid-template-areas:
+            'over-filter over-tabell'
+            'filter tabell'
+            'under-filter under-tabell';
+
+        gap: 2rem;
+        padding: 0 2rem;
+    }
+}

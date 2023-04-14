@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import './ManglerTilgang.less';
+import css from './ManglerTilgang.module.css';
 
 const ManglerTilgang: FunctionComponent = () => {
     return (
-        <p className="mangler-tilgang" aria-live="assertive">
+        <p className={css.manglerTilgang} aria-live="assertive">
             Du mangler tilgang til å se denne delen av Rekrutteringsbistand
         </p>
     );

@@ -1,22 +1,22 @@
 import React, { FunctionComponent } from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import './IkkeFunnet.less';
+import css from './IkkeFunnet.module.css';
+import { BodyShort, Heading, Label } from '@navikt/ds-react';
 
 const IkkeFunnet: FunctionComponent = () => {
     return (
-        <div className="cv-ikke-funnet">
-            <div className="cv-ikke-funnet__content">
-                <Element tag="h2" className="blokk-s">
+        <div className={css.cvIkkeFunnet}>
+            <div className={css.content}>
+                <Heading level="3" size="medium" spacing>
                     Kandidaten kan ikke vises
-                </Element>
+                </Heading>
                 <div>
-                    <Normaltekst>Mulige årsaker:</Normaltekst>
+                    <Label>Mulige årsaker:</Label>
                     <ul>
-                        <li className="blokk-xxs">
-                            <Normaltekst>Kandidaten har skiftet status</Normaltekst>
+                        <li>
+                            <BodyShort>Kandidaten har skiftet status</BodyShort>
                         </li>
                         <li>
-                            <Normaltekst>Tekniske problemer</Normaltekst>
+                            <BodyShort>Tekniske problemer</BodyShort>
                         </li>
                     </ul>
                 </div>

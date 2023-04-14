@@ -1,13 +1,9 @@
 import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
-import { AddPeople } from '@navikt/ds-icons';
+import { PersonPlusIcon } from '@navikt/aksel-icons';
 
-import {
-    lenkeTilAutomatiskMatching,
-    lenkeTilKandidatliste,
-    lenkeTilNyttKandidatsøk,
-} from '../../app/paths';
+import { lenkeTilKandidatliste, lenkeTilNyttKandidatsøk } from '../../app/paths';
 import { Nettstatus } from '../../api/Nettressurs';
 import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
@@ -24,7 +20,6 @@ type Props = {
     kandidatnr: string;
     kandidatlisteId: string;
     søkeøkt: NyttKandidatsøkØkt;
-    fraAutomatiskMatching: boolean;
 };
 
 const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
@@ -32,7 +27,6 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     kandidatnr,
     kandidatlisteId,
     søkeøkt,
-    fraAutomatiskMatching,
     children,
 }) => {
     useScrollTilToppen(kandidatnr);
@@ -42,23 +36,14 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
 
     const cv = useCv(kandidatnr);
     const kandidatliste = useKandidatliste(kandidatlisteId);
-    const kandidatnavigering = useNavigerbareKandidaterFraSøk(
-        kandidatnr,
-        kandidatlisteId,
-        søkeøkt,
-        fraAutomatiskMatching
-    );
+    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kandidatlisteId, søkeøkt);
 
     useEffect(() => {
         skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
     }, [kandidatnr]);
 
     const lenkeTilFinnKandidater = {
-        to: fraAutomatiskMatching
-            ? lenkeTilAutomatiskMatching(
-                  (kandidatliste.kind === Nettstatus.Suksess && kandidatliste.data.stillingId) || ''
-              )
-            : lenkeTilNyttKandidatsøk(søkeøkt?.searchParams),
+        to: lenkeTilNyttKandidatsøk(søkeøkt?.searchParams),
         state: { scrollTilKandidat: true },
     };
 
@@ -70,7 +55,7 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
         <>
             <Kandidatheader
                 cv={cv}
-                tilbakelenkeTekst={fraAutomatiskMatching ? 'Til resultatet' : 'Til finn kandidater'}
+                tilbakelenkeTekst="Til finn kandidater"
                 tilbakelenke={lenkeTilFinnKandidater}
                 kandidatnavigering={kandidatnavigering}
             />
@@ -89,7 +74,7 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
                     ) : (
                         <Button
                             size="small"
-                            icon={<AddPeople aria-hidden />}
+                            icon={<PersonPlusIcon aria-hidden />}
                             onClick={() => setVisLagreKandidatModal(true)}
                         >
                             Lagre kandidat

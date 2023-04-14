@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Normaltekst } from 'nav-frontend-typografi';
+import classNames from 'classnames';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
@@ -14,7 +13,6 @@ import { Visningsstatus } from '../domene/Kandidatressurser';
 import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
@@ -25,7 +23,9 @@ import useKandidattilstand from '../hooks/useKandidattilstand';
 import useSendtKandidatmelding from '../hooks/useSendtKandidatmelding';
 import StatusPåForespørselOmDelingAvCv from './status-på-forespørsel/StatusPåForespørselOmDelingAvCv';
 import { formaterDato } from '../../utils/dateUtils';
-import './Kandidatrad.less';
+import { BodyShort, Button, Checkbox } from '@navikt/ds-react';
+import { InformationSquareIcon, TasklistIcon, TrashIcon } from '@navikt/aksel-icons';
+import css from './Kandidatrad.module.css';
 
 type Props = {
     kandidat: Kandidat;
@@ -131,15 +131,15 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
     const fulltNavn = `${etternavn}, ${fornavn}`;
 
-    const klassenavnForListerad =
-        'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
+    const klassenavnForListerad = classNames(
+        css.rad,
+        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne)
+    );
 
-    const klassenavn = `kandidatliste-kandidat${
-        kandidatliste.status === Kandidatlistestatus.Lukket
-            ? ' kandidatliste-kandidat--disabled'
-            : ''
-    } ${tilstand?.markert ? 'kandidatliste-kandidat--checked' : ''}`;
+    const klassenavn = classNames(css.kandidat, {
+        [css.kandidatDisabled]: kandidatliste.status === Kandidatlistestatus.Lukket,
+        [css.kandidatChecked]: tilstand?.markert,
+    });
 
     const kanEndreKandidatlisten =
         kandidatliste.status === Kandidatlistestatus.Åpen && kandidatliste.kanEditere;
@@ -155,22 +155,22 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <StatusPåForespørselOmDelingAvCv forespørsel={forespørselOmDelingAvCv} />
                 </div>
                 <Checkbox
-                    label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide"
                     disabled={!kandidatenKanMarkeres}
                     checked={tilstand?.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
                     }}
-                />
-                <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__kolonne-sorterbar">
+                >
+                    &#8203;
+                </Checkbox>
+                <div className={css.kolonneSorterbar}>
                     {erInaktiv(kandidat) ? (
-                        <Normaltekst>{fulltNavn}</Normaltekst>
+                        <BodyShort>{fulltNavn}</BodyShort>
                     ) : (
                         <Link
                             role="cell"
                             title="Vis profil"
-                            className="lenke"
+                            className={classNames('navds-link', css.kolonneMedSmsLenke)}
                             to={lenkeTilCv(
                                 kandidat.kandidatnr,
                                 kandidatliste.kandidatlisteId,
@@ -182,25 +182,16 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     )}
                     {melding && <SmsStatusPopup sms={melding} />}
                 </div>
-                <div
-                    role="cell"
-                    className="kandidatliste-kandidat__wrap-hvor-som-helst kandidatliste-kandidat__kolonne-sorterbar"
-                >
+                <div role="cell" className={classNames(css.kolonneSorterbar, css.wrapHvorSomHelst)}>
                     {erInaktiv(kandidat) ? 'Inaktiv' : kandidat.fodselsnr}
                 </div>
-                <div
-                    role="cell"
-                    className="kandidatliste-kandidat__tabell-tekst kandidatliste-kandidat__kolonne-sorterbar"
-                >
-                    <span className="kandidatliste-kandidat__tabell-tekst-inner">
+                <div role="cell" className={css.kolonneSorterbar}>
+                    <span className={css.tabellTekstInner}>
                         {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
                     </span>
                 </div>
 
-                <div
-                    role="cell"
-                    className="kandidatliste-kandidat__lagt-til kandidatliste-kandidat__kolonne-sorterbar"
-                >
+                <div role="cell" className={classNames(css.kolonneSorterbar, css.lagtTil)}>
                     <span>{formaterDato(kandidat.lagtTilTidspunkt)}</span>
                 </div>
 
@@ -220,35 +211,35 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 />
 
                 <div role="cell">
-                    <Lenkeknapp
+                    <Button
+                        size="small"
+                        variant="tertiary"
                         onClick={toggleNotater}
-                        className="Notat kandidatliste-kandidat__fokuserbar-knapp"
+                        className={css.visNotaterKnapp}
+                        icon={<TasklistIcon aria-label="Notat" />}
                     >
-                        <i className="Notat__icon" />
-                        <span className="kandidatliste-kandidat__antall-notater">
-                            {antallNotater}
-                        </span>
-                    </Lenkeknapp>
+                        {antallNotater}
+                    </Button>
                 </div>
-                <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
+                <div role="cell" className={css.kolonneMidtstilt}>
                     {!erInaktiv(kandidat) && (
-                        <Lenkeknapp
+                        <Button
+                            size="small"
+                            variant="tertiary"
                             onClick={toggleMerInfo}
-                            className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
-                        >
-                            <i className="MerInfo__icon" />
-                        </Lenkeknapp>
+                            icon={<InformationSquareIcon aria-label="Mer informasjon" />}
+                        ></Button>
                     )}
                 </div>
                 {visArkiveringskolonne && (
-                    <div role="cell" className="kandidatliste-kandidat__kolonne-høyrestilt">
-                        <Lenkeknapp
-                            tittel="Slett kandidat"
+                    <div role="cell" className={css.kolonneHøyrestilt}>
+                        <Button
+                            size="small"
+                            variant="tertiary"
+                            aria-label="Slett kandidat"
                             onClick={onToggleArkivert}
-                            className="Delete kandidatliste-kandidat__fokuserbar-knapp"
-                        >
-                            <div className="Delete__icon" />
-                        </Lenkeknapp>
+                            icon={<TrashIcon aria-label="Slett kandidat" />}
+                        ></Button>
                     </div>
                 )}
             </div>

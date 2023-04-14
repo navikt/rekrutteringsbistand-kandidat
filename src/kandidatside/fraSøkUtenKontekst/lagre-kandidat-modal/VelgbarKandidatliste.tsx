@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { ExternalLink } from '@navikt/ds-icons';
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Checkbox, Label } from '@navikt/ds-react';
 
 import { Kandidatliste } from '../../../kandidatliste/domene/Kandidatliste';
@@ -60,7 +60,7 @@ const VelgbarKandidatliste: FunctionComponent<Props> = ({
                 to={lenkeTilKandidatliste(kandidatlisteId)}
                 className="navds-link"
             >
-                <ExternalLink title="Åpne kandidatliste" />
+                <ExternalLinkIcon title="Åpne kandidatliste" />
             </Link>
         </div>
     );

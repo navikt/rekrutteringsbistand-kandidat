@@ -6,7 +6,8 @@ import Navspa from '@navikt/navspa';
 import ReactDOM from 'react-dom';
 
 import '@navikt/ds-css';
-import './index.less';
+import '@navikt/ds-css-internal'; // Må importeres etter ds-css
+import './index.css';
 
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 import { Provider } from 'react-redux';

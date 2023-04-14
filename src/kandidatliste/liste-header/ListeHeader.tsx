@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
+import { Checkbox, Label } from '@navikt/ds-react';
+import classNames from 'classnames';
+
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
-import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
 import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
-import '../kandidatrad/Kandidatrad.less';
+import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
+import css from '../kandidatrad/Kandidatrad.module.css';
 
 interface Props {
     kandidatliste: Kandidatliste;
@@ -22,13 +23,9 @@ export const modifierTilListeradGrid = (
     visArkiveringskolonne: boolean
 ) => {
     if (visUtfallskolonne) {
-        return visArkiveringskolonne
-            ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering'
-            : ' kandidatliste-kandidat__rad--vis-utfall';
+        return visArkiveringskolonne ? css.radVisUtfallOgArkivering : css.radVisUtfall;
     } else {
-        return visArkiveringskolonne
-            ? ' kandidatliste-kandidat__rad--vis-arkivering'
-            : ' kandidatliste-kandidat__rad';
+        return visArkiveringskolonne ? css.radVisArkivering : css.rad;
     }
 };
 
@@ -37,14 +34,10 @@ const Kolonne: FunctionComponent<{
     className?: string;
 }> = ({ tekst, className, children }) => {
     return (
-        <Element
-            role="columnheader"
-            tag="div"
-            className={`kandidatliste-kandidat__kolonne-tittel${className ? ' ' + className : ''}`}
-        >
+        <Label as="div" role="columnheader" className={classNames(className, css.kolonneTittel)}>
             {tekst}
             {children}
-        </Element>
+        </Label>
     );
 };
 
@@ -56,15 +49,14 @@ const ListeHeader: FunctionComponent<Props> = ({
     sortering,
     setSortering,
 }) => {
-    const klassenavn =
-        'kandidatliste-kandidat kandidatliste-kandidat__header' +
-        (kandidatliste.status === Kandidatlistestatus.Lukket
-            ? ' kandidatliste-kandidat--disabled'
-            : '');
+    const klassenavn = classNames(css.header, {
+        [css.kandidatDisabled]: kandidatliste.status === Kandidatlistestatus.Lukket,
+    });
 
-    const klassenavnForListerad =
-        'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
+    const klassenavnForListerad = classNames(
+        css.rad,
+        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne)
+    );
 
     const endreSortering = (sorteringsfeltIndex: number) => {
         const endringPåAktivtFelt = sortering?.felt === sorteringsfeltIndex;
@@ -85,19 +77,18 @@ const ListeHeader: FunctionComponent<Props> = ({
             <div role="row" className={klassenavnForListerad}>
                 <div />
                 <Checkbox
-                    label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide"
                     checked={alleMarkert}
                     disabled={kandidatliste.status === Kandidatlistestatus.Lukket}
                     onChange={() => onCheckAlleKandidater()}
-                />
+                >
+                    &#8203;
+                </Checkbox>
                 <SorterbarKolonneheader
                     tekst="Navn"
                     sorteringsfelt={KandidatSorteringsfelt.Navn}
                     aktivtSorteringsfelt={aktivtSorteringsfelt}
                     aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
-                    className="kolonne-middels"
                 />
                 <SorterbarKolonneheader
                     tekst="Fødselsnr."
@@ -128,9 +119,9 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onClick={endreSortering}
                 />
                 <Kolonne tekst="Notater" />
-                <Kolonne tekst="Info" className="kandidatliste-kandidat__kolonne-midtstilt" />
+                <Kolonne tekst="Info" className={css.kolonneMidtstilt} />
                 {visArkiveringskolonne && (
-                    <Kolonne tekst="Slett" className="kandidatliste-kandidat__kolonne-høyrestilt" />
+                    <Kolonne tekst="Slett" className={css.kolonneHøyrestilt} />
                 )}
             </div>
         </div>

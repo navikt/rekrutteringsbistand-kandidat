@@ -21,9 +21,9 @@ spec:
         path: /rekrutteringsbistand-kandidat/internal/isReady
         initialDelay: 5
     ingresses:
-        - https://rekrutteringsbistand.dev.intern.nav.no/rekrutteringsbistand-kandidat
+        - https://rekrutteringsbistand.intern.dev.nav.no/rekrutteringsbistand-kandidat
     env:
         - name: LAST_NED_CV_URL
           value: https://pam-personbruker-veileder.dev.intern.nav.no/cv/pdf?fnr=
         - name: ARBEIDSRETTET_OPPFOLGING_URL
-          value: https://veilarbpersonflate.dev.intern.nav.no
+          value: https://veilarbpersonflate.intern.dev.nav.no

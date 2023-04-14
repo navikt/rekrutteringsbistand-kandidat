@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Nettstatus } from '../api/Nettressurs';
 import AppState from '../AppState';
 import KandidatlisteOgModaler from './KandidatlisteOgModaler';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import useScrollTilToppen from './hooks/useScrollTilToppen';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
+import Sidelaster from '../common/sidelaster/Sidelaster';
 
 type Props = {
     stillingsId?: string;
@@ -34,11 +34,7 @@ const Kandidatlisteside: FunctionComponent<Props> = ({ stillingsId, kandidatlist
     }, [dispatch, stillingsId, kandidatlisteId]);
 
     if (kandidatliste.kind === Nettstatus.LasterInn) {
-        return (
-            <div className="fullscreen-spinner">
-                <NavFrontendSpinner type="L" />
-            </div>
-        );
+        return <Sidelaster />;
     } else if (kandidatliste.kind !== Nettstatus.Suksess) {
         return null;
     }

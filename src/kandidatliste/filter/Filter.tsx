@@ -1,17 +1,16 @@
 import React, { FunctionComponent } from 'react';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Checkbox, CheckboxGroup, Label } from '@navikt/ds-react';
 
 import { Kandidatstatus } from '../domene/Kandidat';
 import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
 import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
 import { statusToDisplayName } from '../kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
-import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import { Hendelse } from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
-import './Filter.less';
+import css from './Filter.module.css';
+import classNames from 'classnames';
+import { Accordion } from '@navikt/ds-react';
 
-interface Props {
+type Props = {
     antallTreff: AntallFiltertreff;
     visArkiverte: boolean;
     statusfilter: Record<Kandidatstatus, boolean>;
@@ -19,7 +18,8 @@ interface Props {
     onToggleArkiverte: () => void;
     onToggleStatus: (status: Kandidatstatus) => void;
     onToggleHendelse: (hendelse: Hendelse) => void;
-}
+    className: string;
+};
 
 const Filter: FunctionComponent<Props> = ({
     antallTreff,
@@ -29,6 +29,7 @@ const Filter: FunctionComponent<Props> = ({
     onToggleArkiverte,
     onToggleStatus,
     onToggleHendelse,
+    className,
 }) => {
     const harStorSkjerm = useVinduErBredereEnn(1280);
 
@@ -36,12 +37,13 @@ const Filter: FunctionComponent<Props> = ({
         <Checkbox
             key={status}
             value={status}
-            label={`${statusToDisplayName(status)} (${antallTreff.status[status] ?? 0})`}
             checked={statusfilter[status]}
             name="statusfilter"
             className="kandidatliste-filter__checkbox"
             onChange={(e) => onToggleStatus(e.currentTarget.value as Kandidatstatus)}
-        />
+        >
+            {`${statusToDisplayName(status)} (${antallTreff.status[status] ?? 0})`}
+        </Checkbox>
     ));
 
     const filtrerbareHendelser = [
@@ -58,47 +60,74 @@ const Filter: FunctionComponent<Props> = ({
               <Checkbox
                   key={hendelse}
                   value={hendelse}
-                  label={`${hendelseTilLabel(hendelse)} (${antallTreff.hendelse[hendelse] ?? 0})`}
                   checked={hendelsefilter[hendelse]}
                   name="hendelsesfilter"
                   className="kandidatliste-filter__checkbox"
                   onChange={(e) => onToggleHendelse(e.currentTarget.value as Hendelse)}
-              />
+              >
+                  {`${hendelseTilLabel(hendelse)} (${antallTreff.hendelse[hendelse] ?? 0})`}
+              </Checkbox>
           ))
         : undefined;
 
     const arkivfilter = (
-        <Checkbox
-            label={`Vis kun slettede (${antallTreff.arkiverte})`}
-            checked={visArkiverte}
-            onChange={onToggleArkiverte}
-        />
+        <Checkbox checked={visArkiverte} onChange={onToggleArkiverte}>
+            {`Vis kun slettede (${antallTreff.arkiverte})`}
+        </Checkbox>
     );
 
     return harStorSkjerm ? (
-        <aside className="kandidatliste-filter">
-            <KategoriStorSkjerm kategori="Status/hendelser">
-                <CheckboxGruppe legend="Status">{statuscheckbokser}</CheckboxGruppe>
-                {hendelsescheckbokser && (
-                    <CheckboxGruppe legend="Hendelser">{hendelsescheckbokser}</CheckboxGruppe>
-                )}
-            </KategoriStorSkjerm>
-            <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
+        <aside className={className}>
+            <Accordion className={css.accordionStorSkjerm}>
+                <Accordion.Item defaultOpen>
+                    <Accordion.Header>Status/hendelser</Accordion.Header>
+                    <Accordion.Content className={css.innhold}>
+                        <CheckboxGroup legend="Status" size="small">
+                            {statuscheckbokser}
+                        </CheckboxGroup>
+                        {hendelsescheckbokser && (
+                            <CheckboxGroup
+                                legend="Hendelser"
+                                className={css.hendelsesGruppeStorSkjerm}
+                                size="small"
+                            >
+                                {hendelsescheckbokser}
+                            </CheckboxGroup>
+                        )}
+                    </Accordion.Content>
+                </Accordion.Item>
+                <Accordion.Item defaultOpen>
+                    <Accordion.Header>Status/hendelser</Accordion.Header>
+                    <Accordion.Content className={css.innhold}>
+                        <CheckboxGroup legend="Slettet" size="small">
+                            {arkivfilter}
+                        </CheckboxGroup>
+                    </Accordion.Content>
+                </Accordion.Item>
+            </Accordion>
         </aside>
     ) : (
-        <Ekspanderbartpanel
-            tittel={<Undertittel>Filter</Undertittel>}
-            className="kandidatliste-filter--samlet"
-            border
-        >
-            <KategoriLitenSkjerm kategori="Status">{statuscheckbokser}</KategoriLitenSkjerm>
-            {hendelsescheckbokser && (
-                <KategoriLitenSkjerm kategori="Hendelser">
-                    {hendelsescheckbokser}
-                </KategoriLitenSkjerm>
-            )}
-            <KategoriLitenSkjerm kategori="Slettet">{arkivfilter}</KategoriLitenSkjerm>
-        </Ekspanderbartpanel>
+        <Accordion className={css.accordionLitenSkjerm}>
+            <Accordion.Item>
+                <Accordion.Header>Filter</Accordion.Header>
+                <Accordion.Content
+                    className={classNames(css.innhold, css.kandidatlisteFilterKategoriLitenSkjerm)}
+                >
+                    <CheckboxGroup legend={<Label>Status</Label>} size="small">
+                        {statuscheckbokser}
+                    </CheckboxGroup>
+                    {hendelsescheckbokser && (
+                        <CheckboxGroup legend={<Label>Hendelser</Label>} size="small">
+                            {hendelsescheckbokser}
+                        </CheckboxGroup>
+                    )}
+                    <CheckboxGroup legend={<Label>Slettet</Label>} size="small">
+                        {arkivfilter}
+                    </CheckboxGroup>
+                    <div />
+                </Accordion.Content>
+            </Accordion.Item>
+        </Accordion>
     );
 };
 

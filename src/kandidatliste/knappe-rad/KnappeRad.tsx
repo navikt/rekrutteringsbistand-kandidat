@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { PopoverOrientering } from 'nav-frontend-popover';
-import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
+import { Button } from '@navikt/ds-react';
+import { MobileIcon, TrashIcon } from '@navikt/aksel-icons';
 import {
     erKobletTilArbeidsgiver,
     erKobletTilStilling,
@@ -9,13 +9,13 @@ import {
     Kandidatlistestatus,
     Stillingskategori,
 } from '../domene/Kandidatliste';
+import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import MedPopover from '../../common/med-popover/MedPopover';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
-import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
-import { Kandidatmeldinger } from '../domene/Kandidatressurser';
 import DelMedArbeidsgiverKnapp from './DelMedArbeidsgiverKnapp';
-import './KnappeRad.less';
+import css from './KnappeRad.module.css';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -65,18 +65,19 @@ const KnappeRad: FunctionComponent<Props> = ({
     const skalViseAngreSlettingKnapp = visArkiverte;
 
     return (
-        <div className="kandidatlisteknapper">
-            <div className="kandidatlisteknapper__venstre">{children}</div>
+        <div className={css.kandidatlisteknapper}>
+            <div className={css.venstre}>{children}</div>
             {kandidatliste.status === Kandidatlistestatus.Åpen && (
-                <div className="kandidatlisteknapper__høyre">
+                <div className={css.høyre}>
                     {skalViseEkstraKnapper &&
                         (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
-                            <Lenkeknapp
+                            <Button
+                                variant="tertiary"
                                 onClick={onSendSmsClick}
-                                className="kandidatlisteknapper__knapp Sms"
+                                icon={<MobileIcon />}
                             >
-                                <SmsIkon />
-                            </Lenkeknapp>
+                                Send SMS
+                            </Button>
                         ) : (
                             <MedPopover
                                 tittel="Send SMS til de markerte kandidatene"
@@ -86,9 +87,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                                         : 'Du må huke av for kandidatene du ønsker å sende SMS til.'
                                 }
                             >
-                                <Lenkeknapp className="kandidatlisteknapper__knapp Sms">
-                                    <SmsIkon />
-                                </Lenkeknapp>
+                                <Button variant="tertiary" icon={<MobileIcon />}>
+                                    Send SMS
+                                </Button>
                             </MedPopover>
                         ))}
                     {skalViseDelMedKandidatKnapp && (
@@ -107,21 +108,26 @@ const KnappeRad: FunctionComponent<Props> = ({
                     )}
                     {skalViseAngreSlettingKnapp &&
                         (minstEnKandidatErMarkert ? (
-                            <Lenkeknapp
+                            <Button
+                                variant="tertiary"
                                 onClick={onKandidaterAngreArkivering}
-                                className="kandidatlisteknapper__knapp Delete"
+                                icon={<TrashIcon aria-hidden />}
                             >
-                                <SletteIkon />
-                            </Lenkeknapp>
+                                <span className={css.knapptekst}>Angre sletting</span>
+                            </Button>
                         ) : (
                             <MedPopover
-                                orientering={PopoverOrientering.UnderVenstre}
+                                placement="bottom-end"
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
-                                tittel="Angre sletting for de markerte kandidatene"
                             >
-                                <Lenkeknapp className="kandidatlisteknapper__knapp Delete">
-                                    <SletteIkon />
-                                </Lenkeknapp>
+                                <Button
+                                    variant="tertiary"
+                                    icon={
+                                        <TrashIcon aria-label="Angre sletting for de markerte kandidatene" />
+                                    }
+                                >
+                                    <span className={css.knapptekst}>Angre sletting</span>
+                                </Button>
                             </MedPopover>
                         ))}
                 </div>
@@ -129,19 +135,5 @@ const KnappeRad: FunctionComponent<Props> = ({
         </div>
     );
 };
-
-const SmsIkon: FunctionComponent = () => (
-    <>
-        <i className="Sms__icon" />
-        <span>Send SMS</span>
-    </>
-);
-
-const SletteIkon: FunctionComponent = () => (
-    <>
-        <i className="Delete__icon" />
-        <span>Angre sletting</span>
-    </>
-);
 
 export default KnappeRad;

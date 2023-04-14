@@ -10,7 +10,7 @@ import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../common/useScrollTilToppen';
 import useFaner from '../hooks/useFaner';
 import LagreKandidaterIMineKandidatlisterModal from './lagre-kandidat-modal/LagreKandidatIMineKandidatlisterModal';
-import { AddPeople } from '@navikt/ds-icons';
+import { PersonPlusIcon } from '@navikt/aksel-icons';
 import css from './FraSøkUtenKontekst.module.css';
 
 type Props = {
@@ -49,7 +49,7 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søke
                     <Button
                         size="small"
                         className={css.velgKandidatlisterKnapp}
-                        icon={<AddPeople aria-hidden />}
+                        icon={<PersonPlusIcon aria-hidden />}
                         onClick={() => setVisKandidatlisterModal(true)}
                     >
                         Velg kandidatlister

@@ -1,17 +1,18 @@
 import React, { FunctionComponent } from 'react';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Alert, BodyShort, Heading } from '@navikt/ds-react';
 
 const FeilMedApp: FunctionComponent<{
     error: Error;
     eventId: string | null;
 }> = ({ error, eventId }) => (
-    <AlertStripeFeil>
-        <Undertittel>Det har skjedd en feil</Undertittel>
-        <Normaltekst>ID: {eventId}</Normaltekst>
+    <Alert variant="error">
+        <Heading level="2" size="medium">
+            Det har skjedd en feil
+        </Heading>
+        <BodyShort>ID: {eventId}</BodyShort>
         <br />
-        <Normaltekst>Feilmelding: {error.message}</Normaltekst>
-    </AlertStripeFeil>
+        <BodyShort>Feilmelding: {error.message}</BodyShort>
+    </Alert>
 );
 
 export default FeilMedApp;

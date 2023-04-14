@@ -19,6 +19,6 @@
 
 @media (min-width: 1000px) {
     .side {
-        max-width: var(--kandidatsok-innhold-bredde);
+        max-width: var(--kandidatsokInnholdBredde);
     }
 }

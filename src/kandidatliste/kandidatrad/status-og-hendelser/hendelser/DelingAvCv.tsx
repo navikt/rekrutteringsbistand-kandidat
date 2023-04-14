@@ -1,14 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { AddCircle, MinusCircle } from '@navikt/ds-icons';
-import Hendelse, { Hendelsesstatus } from './Hendelse';
-import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
-import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 import { useSelector } from 'react-redux';
-import AppState from '../../../../AppState';
-import { Nettstatus } from '../../../../api/Nettressurs';
-import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
+import { PlusCircleIcon, MinusCircleIcon } from '@navikt/aksel-icons';
+import { BodyLong, Button, ErrorMessage } from '@navikt/ds-react';
+
 import { cvErSendtTilArbeidsgiverOgSlettet } from './CvErSlettet';
+import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
+import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
+import { Nettstatus } from '../../../../api/Nettressurs';
+import AppState from '../../../../AppState';
+import Hendelse, { Hendelsesstatus } from './Hendelse';
+import css from './Hendelse.module.css';
 
 type Props = {
     utfall: Kandidatutfall;
@@ -134,15 +135,14 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     beskrivelse="Gjøres i kandidatlisten"
                 >
                     {kanEndre && (
-                        <Flatknapp
-                            mini
-                            kompakt
+                        <Button
+                            size="small"
                             onClick={onRegistrer}
-                            className="endre-status-og-hendelser__registrer-hendelse"
+                            variant="secondary"
+                            icon={<PlusCircleIcon aria-hidden />}
                         >
-                            <AddCircle />
                             Registrer manuelt
-                        </Flatknapp>
+                        </Button>
                     )}
                 </Hendelse>
             );
@@ -155,15 +155,14 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     beskrivelse={utfallsbeskrivelse}
                 >
                     {kanEndre && !cvErSlettet && !gjeldendeUtfallErFåttJobben && (
-                        <Flatknapp
+                        <Button
+                            variant="tertiary"
                             onClick={onFjernRegistrering}
-                            className="endre-status-og-hendelser__registrer-hendelse"
-                            kompakt
-                            mini
+                            icon={<MinusCircleIcon />}
+                            size="small"
                         >
-                            <MinusCircle />
                             Fjern registrering
-                        </Flatknapp>
+                        </Button>
                     )}
                 </Hendelse>
             );
@@ -176,15 +175,14 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     beskrivelse={utfallsbeskrivelse}
                 >
                     {kanEndre && !gjeldendeUtfallErFåttJobben && (
-                        <Flatknapp
+                        <Button
+                            variant="tertiary"
+                            size="small"
                             onClick={onSlettSendtCv}
-                            className="endre-status-og-hendelser__registrer-hendelse"
-                            kompakt
-                            mini
+                            icon={<MinusCircleIcon />}
                         >
-                            <MinusCircle />
                             Slett CV-en hos arbeidsgiver
-                        </Flatknapp>
+                        </Button>
                     )}
                 </Hendelse>
             );
@@ -198,19 +196,14 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     beskrivelse="Når du registrerer at CV-en er blitt delt med arbeidsgiver vil det bli telt, og tellingen vil bli brukt til statistikk"
                 >
                     {kanEndre && (
-                        <>
-                            <Hovedknapp
-                                mini
-                                kompakt
-                                onClick={onBekreftRegistreringClick}
-                                className="endre-status-og-hendelser__bekreft-knapp"
-                            >
+                        <div className={css.knapperUnderHendelse}>
+                            <Button size="small" onClick={onBekreftRegistreringClick}>
                                 CV-en er blitt delt
-                            </Hovedknapp>
-                            <Knapp mini kompakt onClick={onAvbrytRegistrering}>
+                            </Button>
+                            <Button variant="secondary" size="small" onClick={onAvbrytRegistrering}>
                                 Avbryt
-                            </Knapp>
-                        </>
+                            </Button>
+                        </div>
                     )}
                 </Hendelse>
             );
@@ -222,23 +215,22 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     status={hendelsesstatus}
                     tittel={'Fjern registreringen "delt med arbeidsgiver"'}
                     beskrivelse={
-                        'Hvis du fjerner registreringen vil tellingen på "presentert" taes bort.'
+                        'Hvis du fjerner registreringen vil tellingen på "presentert" forsvinne.'
                     }
                 >
                     {kanEndre && (
-                        <>
-                            <Hovedknapp
-                                mini
-                                kompakt
-                                onClick={onBekreftFjerningAvRegistrering}
-                                className="endre-status-og-hendelser__bekreft-knapp"
-                            >
+                        <div className={css.knapperUnderHendelse}>
+                            <Button size="small" onClick={onBekreftFjerningAvRegistrering}>
                                 Fjern registreringen
-                            </Hovedknapp>
-                            <Knapp mini kompakt onClick={onAvbrytFjerningAvRegistrering}>
+                            </Button>
+                            <Button
+                                size="small"
+                                variant="secondary"
+                                onClick={onAvbrytFjerningAvRegistrering}
+                            >
                                 Avbryt
-                            </Knapp>
-                        </>
+                            </Button>
+                        </div>
                     )}
                 </Hendelse>
             );
@@ -251,41 +243,39 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="Slett CV-en fra kandidatlisten til arbeidsgiver"
                     beskrivelse={
                         <>
-                            <Normaltekst className="blokk-xs">
+                            <BodyLong size="small" spacing>
                                 Hvis du utfører denne handlingen så blir CV-en slettet fra
                                 kandidatlisten til arbeidsgiver. Arbeidsgiver vil ikke kunne se
                                 CV-en til kandidaten.
-                            </Normaltekst>
-                            <Normaltekst>
+                            </BodyLong>
+                            <BodyLong size="small">
                                 Husk at årsaken til at du sletter CV-en må journalføres.
-                            </Normaltekst>
+                            </BodyLong>
                         </>
                     }
                 >
                     {kanEndre && (
-                        <>
-                            <Hovedknapp
-                                mini
-                                kompakt
-                                spinner={slettCvStatus === Nettstatus.SenderInn}
+                        <div className={css.knapperUnderHendelse}>
+                            <Button
+                                size="small"
+                                loading={slettCvStatus === Nettstatus.SenderInn}
                                 onClick={
                                     slettCvStatus === Nettstatus.SenderInn
                                         ? () => {}
                                         : onBekreftSlettSendtCv
                                 }
-                                className="endre-status-og-hendelser__bekreft-knapp"
                             >
                                 Slett CV-en
-                            </Hovedknapp>
-                            <Knapp mini kompakt onClick={onAvbrytSlettSendtCv}>
+                            </Button>
+                            <Button size="small" variant="secondary" onClick={onAvbrytSlettSendtCv}>
                                 Avbryt
-                            </Knapp>
-                        </>
+                            </Button>
+                        </div>
                     )}
                     {slettCvStatus === Nettstatus.Feil && (
-                        <Feilmelding className="hendelse__feilmelding">
+                        <ErrorMessage>
                             Klarte ikke å slette CV-en. Vennligst prøv igjen senere.
-                        </Feilmelding>
+                        </ErrorMessage>
                     )}
                 </Hendelse>
             );

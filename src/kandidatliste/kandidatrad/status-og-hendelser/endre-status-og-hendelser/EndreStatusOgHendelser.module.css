@@ -1,0 +1,14 @@
+.endreStatusOgHendelser {
+    display: flex;
+    gap: 3rem;
+}
+
+.hendelsesliste {
+    list-style-type: none;
+    padding: 0 0.25rem;
+    margin: 0;
+}
+
+.lagreStatus {
+    margin-top: 1rem;
+}

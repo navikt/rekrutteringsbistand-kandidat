@@ -1,47 +1,49 @@
 import React, { FunctionComponent } from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
-import { Kandidat } from '../../domene/Kandidat';
-import useMiljøvariabler from '../../../common/useMiljøvariabler';
-import { Link } from '@navikt/ds-react';
-import { ExternalLink } from '@navikt/ds-icons';
+import { BodyShort, Label, Link } from '@navikt/ds-react';
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 
-interface Props {
+import { Kandidat } from '../../domene/Kandidat';
+import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
+import useMiljøvariabler from '../../../common/useMiljøvariabler';
+import css from './MerInfo.module.css';
+
+type Props = {
     kandidat: Kandidat;
-}
+};
 
 const MerInfo: FunctionComponent<Props> = ({ kandidat }) => {
     const { arbeidsrettetOppfølgingUrl } = useMiljøvariabler();
 
     return (
-        <InfoUnderKandidat className="mer-info">
-            <div className="kontaktinfo-kolonne">
-                <Element>Kontaktinfo</Element>
-                <Normaltekst className="tekst">
+        <InfoUnderKandidat className={css.merInfo}>
+            <div className={css.kontaktinfo}>
+                <Label spacing as="p">
+                    Kontaktinfo:
+                </Label>
+                <BodyShort>
                     E-post:{' '}
                     {kandidat.epost ? (
                         <Link href={`mailto:${kandidat.epost}`}>{kandidat.epost}</Link>
                     ) : (
                         <span>&mdash;</span>
                     )}
-                </Normaltekst>
-                <Normaltekst className="tekst">
+                </BodyShort>
+                <BodyShort>
                     Telefon: {kandidat.telefon ? kandidat.telefon : <span>&mdash;</span>}
-                </Normaltekst>
+                </BodyShort>
             </div>
-            <div className="innsatsgruppe-kolonne">
-                <Normaltekst>
-                    <strong>Innsatsgruppe:</strong>
-                    {` ${kandidat.innsatsgruppe}`}
-                </Normaltekst>
+            <div className={css.innsatsgruppe}>
+                <Label spacing as="p">
+                    Innsatsgruppe:
+                </Label>
+                <span>{kandidat.innsatsgruppe}</span>
                 <Link
-                    className="frittstaende-lenke"
-                    href={`${arbeidsrettetOppfølgingUrl}/${kandidat.fodselsnr}`}
                     target="_blank"
+                    href={`${arbeidsrettetOppfølgingUrl}/${kandidat.fodselsnr}`}
                     rel="noopener noreferrer"
                 >
                     Se aktivitetsplan
-                    <ExternalLink aria-hidden />
+                    <ExternalLinkIcon aria-hidden />
                 </Link>
             </div>
         </InfoUnderKandidat>

@@ -1,9 +1,7 @@
 import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
+import { Alert, BodyShort, Button, Heading, Label, Popover } from '@navikt/ds-react';
+import { BeaconSignalsIcon } from '@navikt/aksel-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import AlertStripe, { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { ForespørselOutboundDto } from './Forespørsel';
 import { Kandidat } from '../../domene/Kandidat';
@@ -11,12 +9,11 @@ import { Nettstatus } from '../../../api/Nettressurs';
 import AppState from '../../../AppState';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import VelgSvarfrist, { lagSvarfristPåSekundet, Svarfrist } from './VelgSvarfrist';
-import './ForespørselOmDelingAvCv.less';
+import css from './ForespørselOmDelingAvCv.module.css';
 
 type Props = {
     stillingsId: string;
@@ -30,7 +27,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     const { sendForespørselOmDelingAvCv } = useSelector((state: AppState) => state.kandidatliste);
     const [modalErÅpen, setModalErÅpen] = useState<boolean>(false);
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
-    const [egenvalgtFrist, setEgenvalgtFrist] = useState<string | undefined>();
+    const [egenvalgtFrist, setEgenvalgtFrist] = useState<Date | undefined>();
     const [egenvalgtFristFeilmelding, setEgenvalgtFristFeilmelding] = useState<
         string | undefined
     >();
@@ -40,9 +37,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         markerteKandidater.length - markerteKandidaterSomIkkeErForespurt.length;
 
     const [kanIkkeDeleFeilmelding, setKanIkkeDeleFeilmelding] = useState<string | undefined>();
-    const [kanIkkeDelePopover, setKanIkkeDelePopover] = useState<HTMLElement | undefined>(
-        undefined
-    );
+    const [kanIkkeDelePopover, setKanIkkeDelePopover] = useState<Element | null>(null);
 
     useEffect(() => {
         if (modalErÅpen) {
@@ -72,7 +67,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             dispatch<VarslingAction>({
                 type: VarslingActionType.VisVarsling,
                 innhold: 'Forespørselen ble sendt til kandidatene',
-                alertType: 'suksess',
+                alertType: 'success',
             });
         };
 
@@ -87,7 +82,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
         setSvarfrist(event.target.value as Svarfrist);
     };
 
-    const onEgenvalgtFristChange = (dato?: string) => {
+    const onEgenvalgtFristChange = (dato?: Date) => {
         setEgenvalgtFrist(dato);
     };
 
@@ -96,7 +91,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     };
 
     const lukkKanIkkeDelePopover = () => {
-        setKanIkkeDelePopover(undefined);
+        setKanIkkeDelePopover(null);
     };
 
     const åpneModal = () => {
@@ -109,7 +104,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
 
     const onDelMedKandidatClick = (event: MouseEvent<HTMLElement>) => {
         if (kanIkkeDelePopover) {
-            setKanIkkeDelePopover(undefined);
+            setKanIkkeDelePopover(null);
         } else {
             if (valgtNavKontor === null) {
                 setKanIkkeDelePopover(event.currentTarget);
@@ -133,7 +128,8 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     };
 
     const onDelStillingMedKandidater = async () => {
-        if (egenvalgtFristFeilmelding) {
+        if ((egenvalgtFristFeilmelding || !egenvalgtFrist) && svarfrist === Svarfrist.Egenvalgt) {
+            onEgenvalgtFristFeilmeldingChange('Mangler gyldig dato');
             return;
         }
 
@@ -151,44 +147,43 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
     };
 
     return (
-        <div className="foresporsel-om-deling-av-cv">
-            <Lenkeknapp
-                tittel="Del stillingen med de markerte kandidatene"
+        <div>
+            <Button
+                variant="tertiary"
                 onClick={onDelMedKandidatClick}
-                className="kandidatlisteknapper__knapp DelMedKandidat"
+                icon={<BeaconSignalsIcon aria-label="Del stillingen med de markerte kandidatene" />}
             >
-                <i className="DelMedKandidat__icon" />
                 Del med kandidat
-            </Lenkeknapp>
+            </Button>
             <ModalMedKandidatScope
                 open={modalErÅpen}
-                aria-label="Del stillingen med de markerte kandidatene"
-                className="foresporsel-om-deling-av-cv__modal"
+                aria-label="Del stillingen med de markerte kandidatene2"
+                className={css.foresporselOmDelingAvCvModal}
                 onClose={lukkModal}
             >
-                <Systemtittel className="blokk-s">
+                <Heading size="medium" level="2" spacing>
                     Del med {markerteKandidaterSomIkkeErForespurt.length}{' '}
                     {markerteKandidaterSomIkkeErForespurt.length === 1 ? 'kandidat' : 'kandidater'}{' '}
                     i aktivitetsplanen
-                </Systemtittel>
+                </Heading>
                 {antallSpurtFraFør > 0 && (
-                    <AlertStripeAdvarsel className="blokk-s">
+                    <Alert variant="warning" size="small" className={css.tidigereDelt}>
                         Du har tidligere delt stillingen med {antallSpurtFraFør}{' '}
                         {antallSpurtFraFør === 1 ? 'kandidat. Denne kandidaten' : 'kandidater. De'}{' '}
                         vil ikke motta stillingen på nytt i aktivitetsplanen.
-                    </AlertStripeAdvarsel>
+                    </Alert>
                 )}
-                <Normaltekst className="blokk-s">
+                <BodyShort size="small" spacing>
                     Det opprettes et stillingskort i Aktivitetsplanen. Kandidatene vil bli varslet
                     på SMS, og kan svare "ja" eller "nei" til at CV-en skal bli delt med
                     arbeidsgiver. Du vil se svaret i kandidatlisten.
-                </Normaltekst>
-                <AlertStripe type="info" form="inline" className="blokk-m">
-                    <Element>
+                </BodyShort>
+                <Alert variant="info" className={css.deltAdvarsel}>
+                    <Label size="small">
                         Stillingsannonsen vil bli delt med kandidaten. Det er viktig at
                         annonseteksten er informativ og lett å forstå.
-                    </Element>
-                </AlertStripe>
+                    </Label>
+                </Alert>
                 <VelgSvarfrist
                     svarfrist={svarfrist}
                     onSvarfristChange={onSvarfristChange}
@@ -197,38 +192,41 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                     onEgenvalgtFristChange={onEgenvalgtFristChange}
                     onEgenvalgtFristFeilmeldingChange={onEgenvalgtFristFeilmeldingChange}
                 />
-                <div className="foresporsel-om-deling-av-cv__knapper">
-                    <Hovedknapp
-                        className="foresporsel-om-deling-av-cv__del-stilling-knapp"
-                        mini
+                <div className={css.knapper}>
+                    <Button
                         onClick={onDelStillingMedKandidater}
-                        spinner={sendForespørselOmDelingAvCv.kind === Nettstatus.SenderInn}
+                        variant="primary"
+                        loading={sendForespørselOmDelingAvCv.kind === Nettstatus.SenderInn}
                     >
                         Del stilling
-                    </Hovedknapp>
-                    <Knapp mini onClick={lukkModal}>
+                    </Button>
+                    <Button variant="secondary" onClick={lukkModal}>
                         Avbryt
-                    </Knapp>
+                    </Button>
                 </div>
                 {sendForespørselOmDelingAvCv.kind === Nettstatus.Feil && (
-                    <AlertStripeFeil className="foresporsel-om-deling-av-cv__feilmelding">
+                    <Alert variant="error" size="small" className={css.deltFeilmelding}>
                         <span>
                             Kunne ikke dele stillingsannonsen med kandidatene. Prøv igjen senere.
                         </span>
-                        <span> Feilmelding: {sendForespørselOmDelingAvCv.error.message}</span>
-                    </AlertStripeFeil>
+                        <span>Feilmelding: {sendForespørselOmDelingAvCv.error.message}</span>
+                    </Alert>
                 )}
             </ModalMedKandidatScope>
             <Popover
-                ankerEl={kanIkkeDelePopover}
-                onRequestClose={lukkKanIkkeDelePopover}
-                orientering={PopoverOrientering.Under}
+                open
+                anchorEl={kanIkkeDelePopover}
+                onClose={lukkKanIkkeDelePopover}
+                placement="bottom"
+                className={css.ingenValgtPopover}
             >
-                {kanIkkeDeleFeilmelding && (
-                    <Normaltekst className="foresporsel-om-deling-av-cv__ingen-valgt-popover">
-                        {kanIkkeDeleFeilmelding}
-                    </Normaltekst>
-                )}
+                <Popover.Content>
+                    {kanIkkeDeleFeilmelding && (
+                        <BodyShort as="div" size="small">
+                            {kanIkkeDeleFeilmelding}
+                        </BodyShort>
+                    )}
+                </Popover.Content>
             </Popover>
         </div>
     );

@@ -1,0 +1,21 @@
+.kandidatlisteknapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.knapp {
+    color: var(--a-surface-action);
+    margin-left: 1.5rem !important;
+    padding: 0.5rem !important;
+}
+
+.venstre {
+    display: flex;
+}
+
+.høyre {
+    display: flex;
+    gap: 0.25rem;
+}

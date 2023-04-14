@@ -6,14 +6,13 @@ import enhetsregisterReducer, {
 } from './common/typeahead/enhetsregisterReducer';
 import { historikkReducer, historikkSaga } from './historikk/historikkReducer';
 import kandidatlisteReducer from './kandidatliste/reducer/kandidatlisteReducer';
-import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
+import listeoversiktReducer from './kandidatlisteoversikt/reducer/listeoversiktReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import searchReducer from './kandidatsøk/reducer/searchReducer';
 import kandidatlisteSaga from './kandidatliste/reducer/kandidatlisteSaga';
-import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
+import listeoversiktSaga from './kandidatlisteoversikt/reducer/listeoversiktSaga';
 import varslingReducer, { varslingSaga } from './common/varsling/varslingReducer';
-import kandidatmatchReducer from './automatisk-matching/kandidatmatchReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -27,7 +26,6 @@ const store = createStore(
         navKontor: valgtNavKontorReducer,
         søk: searchReducer,
         varsling: varslingReducer,
-        kandidatmatch: kandidatmatchReducer,
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );

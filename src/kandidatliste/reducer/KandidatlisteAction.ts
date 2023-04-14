@@ -10,10 +10,7 @@ import { ForespørselOutboundDto } from '../knappe-rad/forespørsel-om-deling-av
 import { Sms } from '../domene/Kandidatressurser';
 import { Kandidatlistefilter, Kandidatsortering } from './kandidatlisteReducer';
 import { ForespørslerForStillingInboundDto } from '../../api/forespørselOmDelingAvCvApi';
-import {
-    FormidlingAvUsynligKandidatOutboundDto,
-    KandidatOutboundDto,
-} from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { FormidlingAvUsynligKandidatOutboundDto } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HentKandidatlisteMedStillingsId;
@@ -47,43 +44,6 @@ export interface HentKandidatlisteMedKandidatlisteIdFailureAction {
 
 export interface NullstillKandidatlisteAction {
     type: KandidatlisteActionType.NullstillKandidatliste;
-}
-
-export type Kandidatlisteinfo = {
-    tittel: string;
-    beskrivelse?: string;
-    bedrift?: any;
-};
-
-export interface OpprettKandidatlisteAction {
-    type: KandidatlisteActionType.OpprettKandidatliste;
-    kandidatlisteInfo: Kandidatlisteinfo;
-}
-
-export interface OpprettKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.OpprettKandidatlisteSuccess;
-    tittel: string;
-}
-
-export interface OpprettKandidatlisteFailureAction {
-    type: KandidatlisteActionType.OpprettKandidatlisteFailure;
-}
-
-export interface OppdaterKandidatlisteAction {
-    type: KandidatlisteActionType.OppdaterKandidatliste;
-}
-
-export interface OppdaterKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.OppdaterKandidatlisteSuccess;
-    tittel: string;
-}
-
-export interface OppdaterKandidatlisteFailureAction {
-    type: KandidatlisteActionType.OppdaterKandidatlisteFailure;
-}
-
-export interface ResetLagreStatusAction {
-    type: KandidatlisteActionType.ResetLagreStatus;
 }
 
 export interface PresenterKandidaterAction {
@@ -445,13 +405,6 @@ export interface SlettCvFraArbeidsgiversKandidatlisteFailure {
 }
 
 type KandidatlisteAction =
-    | OpprettKandidatlisteAction
-    | OpprettKandidatlisteSuccessAction
-    | OpprettKandidatlisteFailureAction
-    | OppdaterKandidatlisteAction
-    | OppdaterKandidatlisteSuccessAction
-    | OppdaterKandidatlisteFailureAction
-    | ResetLagreStatusAction
     | HentKandidatlisteMedStillingsIdAction
     | HentKandidatlisteMedStillingsIdSuccessAction
     | HentKandidatlisteMedStillingsIdFailureAction

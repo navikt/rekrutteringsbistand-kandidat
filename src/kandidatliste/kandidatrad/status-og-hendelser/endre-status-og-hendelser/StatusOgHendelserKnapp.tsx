@@ -1,20 +1,25 @@
-import React, { FunctionComponent, MouseEvent } from 'react';
-import Lenkeknapp from '../../../../common/lenkeknapp/Lenkeknapp';
+import React, { MouseEvent, MutableRefObject, forwardRef } from 'react';
+import { EyeIcon, PencilIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
 
 type Props = {
+    kanEndre: boolean;
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-const StatusOgHendelserKnapp: FunctionComponent<Props> = ({ onClick }) => {
-    return (
-        <Lenkeknapp
-            onClick={onClick}
-            className="status-og-hendelser__knapp"
-            tittel="Endre status eller hendelser"
-        >
-            <i className="status-og-hendelser__knappeikon status-og-hendelser__knappeikon--endre" />
-        </Lenkeknapp>
-    );
-};
+const StatusOgHendelserKnapp = forwardRef(
+    ({ kanEndre, onClick }: Props, ref: MutableRefObject<HTMLButtonElement>) => {
+        return (
+            <Button
+                ref={ref}
+                size="small"
+                variant="tertiary"
+                onClick={onClick}
+                aria-label={kanEndre ? 'Endre status eller hendelser' : 'Se status eller hendelser'}
+                icon={kanEndre ? <PencilIcon /> : <EyeIcon />}
+            />
+        );
+    }
+);
 
 export default StatusOgHendelserKnapp;

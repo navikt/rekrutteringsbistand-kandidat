@@ -98,7 +98,7 @@ const LagreKandidaterIMineKandidatlisterModal: FunctionComponent<Props> = ({
     const visMeldingOmLagredeKandidater = (antallKandidatlister: number) => {
         dispatch({
             type: VarslingActionType.VisVarsling,
-            alertType: 'suksess',
+            alertType: 'success',
             innhold: `Kandidaten er lagret i ${antallKandidatlister} kandidatliste${
                 antallKandidatlister > 1 ? 'r' : ''
             }`,

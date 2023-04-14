@@ -1,0 +1,100 @@
+.ikonGrafikkGrønn path {
+    fill: white;
+}
+
+.ikonGrafikkOransje {
+    user-select: none;
+    font-size: 1.125rem;
+}
+
+.heltrukkenStrek {
+    color: var(--a-border-strong);
+}
+
+.heltrukkenStrek:not(:last-child) {
+    border-color: var(--a-border-strong) !important;
+    border-left-style: solid !important;
+}
+
+.ikon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+    transform: translateX(-54%);
+
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px dotted var(--a-border-default);
+    box-shadow: 0px 0px 0px 2px white;
+}
+
+.grøntIkon {
+    background-color: var(--a-surface-success);
+    border-color: var(--a-surface-success);
+    border-style: solid;
+}
+
+.oransjeIkon {
+    color: white;
+    background-color: var(--a-surface-warning);
+    border-color: var(--a-surface-warning);
+    border-style: solid;
+}
+
+.blåttIkon {
+    color: white;
+    background-color: var(--a-surface-info);
+    border-color: var(--a-surface-info);
+    border-style: solid;
+}
+
+.rødtIkon {
+    color: white;
+    background-color: var(--a-nav-red);
+    border-color: var(--a-nav-red);
+    border-style: solid;
+    font-size: 1.4rem;
+}
+
+.hendelse {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 0.5rem;
+    border-left: 2px solid transparent;
+    max-width: 29rem;
+}
+
+.hendelse:not(:last-child) {
+    padding-bottom: 2rem;
+    border-color: var(--a-border-default);
+    border-left-style: dotted;
+}
+
+.innhold {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+}
+
+.childrenBelowContent {
+    flex-direction: column;
+}
+
+.children {
+    flex-shrink: 0;
+}
+
+.knapperUnderHendelse {
+    display: flex;
+    gap: 1rem;
+}
+
+.flyttLittOpp {
+    transform: translateY(-0.25rem);
+}

@@ -1,0 +1,26 @@
+.smsStatusPopup {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.smsStatusPopup:not(:hover, :active, :focus) .smsIkonFylt {
+    display: none;
+}
+
+.smsStatusPopup:is(:hover, :active, :focus) .smsIkonIkkeFylt {
+    display: none;
+}
+
+.smsStatusPopup:hover {
+    cursor: pointer;
+}
+
+.fargeleggIkonMedFeil {
+    color: var(--a-surface-danger);
+}
+
+.smsIkon:not(.fargeleggIkonMedFeil) {
+    color: var(--a-surface-success);
+}

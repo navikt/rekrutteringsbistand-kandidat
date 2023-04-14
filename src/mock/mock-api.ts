@@ -3,7 +3,6 @@ import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { KANDIDATSOK_API, SMS_API, ENHETSREGISTER_API, SYNLIGHET_API } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
-import { KANDIDATMATCH_API_URL, STILLINGSSØK_PROXY } from '../automatisk-matching/kandidatmatchApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
 
 import { mock } from './mock-data';
@@ -14,9 +13,7 @@ fetchMock.config.fallbackToNetwork = true;
 const api = `express:${KANDIDATSOK_API}`;
 const smsApi = `express:${SMS_API}`;
 const forespørselOmDelingAvCvApi = `express:${FORESPORSEL_OM_DELING_AV_CV_API}`;
-const kandidatmatchApi = `express:${KANDIDATMATCH_API_URL}`;
 const synlighetApi = `express:${SYNLIGHET_API}`;
-const stillingssøkProxy = `express:${STILLINGSSØK_PROXY}`;
 
 const url = {
     fnrsok: `${api}/veileder/kandidatsok/fnrsok`,
@@ -29,6 +26,7 @@ const url = {
     // Kandidatliste
     kandidatlister: `${api}/veileder/kandidatlister`,
     kandidatliste: `${api}/veileder/kandidatlister/:kandidatlisteId`,
+    markerKandidatlisteSomMin: `${api}/veileder/kandidatlister/:kandidatlisteId/eierskap`,
     kandidatlisteMedStilling: `${api}/veileder/stilling/:stillingsId/kandidatliste`,
     kandidatlistePost: `${api}/veileder/me/kandidatlister`,
     notater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater`,
@@ -49,12 +47,6 @@ const url = {
     forespørselOmDelingAvCvForKandidat: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
     postForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
     postResendForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
-
-    // Stillingssøk
-    stilling: `${stillingssøkProxy}/stilling/_doc/:stillingsId`,
-
-    // Kandidatmatch
-    kandidatmatch: `${kandidatmatchApi}/match`,
 
     // Alternative backends
     sms: `${smsApi}/:kandidatlisteId`,
@@ -109,17 +101,16 @@ const getKandidatliste = (url: string) => {
     return mock.kandidat.kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 };
 
+const markerKandidatlisteSomMin = (url: string) => {
+    const kandidatlisteId = url.split('/')[4];
+
+    return mock.kandidat.kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+};
+
 const getKandidatlisteMedStilling = (url: string) => {
     const stillingsId = url.split('/')[4];
 
     return mock.kandidat.kandidatlister.find((liste) => liste.stillingId === stillingsId);
-};
-
-const getStilling = (url: string) => {
-    const stillingsId = url.split('/').pop();
-    return stillingsId === mock.stillingssøk.stilling._source.stilling.uuid
-        ? mock.stillingssøk.stilling
-        : mock.stillingssøk.annenStilling;
 };
 
 const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) => {
@@ -363,6 +354,8 @@ const log = (response: MockResponse | MockResponseFunction) => {
     };
 };
 
+const litenDelay = { delay: 500 };
+
 fetchMock
     // CV
     .get(url.cv, log(getCv))
@@ -370,9 +363,14 @@ fetchMock
 
     // Kandidatliste
     .get(url.kandidatlister, log(getKandidatlister))
-    .get(url.kandidatliste, log(getKandidatliste))
+    .get(url.kandidatliste, log(getKandidatliste), litenDelay)
+    .put(url.kandidatliste, log(getKandidatliste), litenDelay)
+    .delete(url.kandidatliste, log(204), litenDelay)
+    .put(url.markerKandidatlisteSomMin, log(markerKandidatlisteSomMin), litenDelay)
+
     .get(url.kandidatlisteMedStilling, log(getKandidatlisteMedStilling))
     .post(url.kandidatlistePost, log(201))
+
     .get(url.notater, log(mock.kandidat.notater))
     .post(url.notater, log(mock.kandidat.notater))
     .mock(url.notaterMedId, log(mock.kandidat.notater))
@@ -411,12 +409,6 @@ fetchMock
         log(mock.kandidat.kandidatlisteBasertPåAnnonsenummer)
     )
     .put(url.putSlettCvFraArbeidsgiversKandidatliste, log(putSlettCvFraArbeidsgiversKandidatliste))
-
-    // Stillingssøk
-    .get(url.stilling, log(getStilling))
-
-    // Kandidatmatch
-    .post(url.kandidatmatch, log(mock.kandidatmatch.kandidatmatch))
 
     // Misc
     .post(url.enhetsregister, log(mock.kandidat.enhetsregister));

@@ -1,8 +1,15 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
+import css from './ForespørselOmDelingAvCv.module.css';
 import moment from 'moment';
-import { Datepicker } from 'nav-datovelger';
-import { RadioGruppe, Radio, SkjemaGruppe } from 'nav-frontend-skjema';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
+import {
+    BodyShort,
+    DateValidationT,
+    Label,
+    Radio,
+    RadioGroup,
+    UNSAFE_useDatepicker as useDatepicker,
+} from '@navikt/ds-react';
+import { UNSAFE_DatePicker as DatePicker } from '@navikt/ds-react';
 
 export enum Svarfrist {
     ToDager = 'TO_DAGER',
@@ -22,9 +29,9 @@ type Props = {
     tittel?: string;
     svarfrist: Svarfrist;
     onSvarfristChange: (event: ChangeEvent<HTMLInputElement>) => void;
-    egenvalgtFrist?: string;
+    egenvalgtFrist?: Date;
     egenvalgtFristFeilmelding?: string;
-    onEgenvalgtFristChange: (dato?: string) => void;
+    onEgenvalgtFristChange: (dato?: Date) => void;
     onEgenvalgtFristFeilmeldingChange: (feilmelding?: string) => void;
 };
 
@@ -32,76 +39,74 @@ const VelgSvarfrist: FunctionComponent<Props> = ({
     tittel,
     svarfrist,
     onSvarfristChange,
-    egenvalgtFrist,
     egenvalgtFristFeilmelding,
     onEgenvalgtFristChange,
     onEgenvalgtFristFeilmeldingChange,
 }) => {
-    const onEgenvalgtChange = (dato?: string) => {
-        if (!dato || dato === 'Invalid date') {
-            onEgenvalgtFristFeilmeldingChange('Feil datoformat, skriv inn dd.mm.åååå');
-        } else if (moment(dato).isBefore(minDatoForEgenvalgtFrist)) {
-            onEgenvalgtFristFeilmeldingChange('Svarfristen må settes minst to dager frem i tid.');
-        } else if (moment(dato).isAfter(maksDatoForEgenvalgtFrist)) {
-            onEgenvalgtFristFeilmeldingChange(`Svarfristen må være senest ${sisteGyldigeMaksDato}`);
-        } else {
+    const onEgenvalgtChange = (dato?: Date) => {
+        if (egenvalgtFristFeilmelding) {
             onEgenvalgtFristFeilmeldingChange(undefined);
         }
-
-        onEgenvalgtFristChange(dato);
+        if (dato) {
+            onEgenvalgtFristChange(dato);
+        } else {
+            onEgenvalgtFristChange(undefined);
+        }
     };
+
+    const onEgenvalgValidation = (datoValidation: DateValidationT) => {
+        if (datoValidation.isBefore) {
+            onEgenvalgtFristFeilmeldingChange('Svarfristen må settes minst to dager frem i tid.');
+        } else if (datoValidation.isAfter) {
+            onEgenvalgtFristFeilmeldingChange(`Svarfristen må være senest ${sisteGyldigeMaksDato}`);
+        } else if (datoValidation.isEmpty) {
+            onEgenvalgtFristFeilmeldingChange(undefined);
+        }
+    };
+
+    const { datepickerProps, inputProps } = useDatepicker({
+        fromDate: moment().add(2, 'days').toDate(),
+        toDate: moment().add(1, 'month').toDate(),
+        onDateChange: onEgenvalgtChange,
+        onValidate: onEgenvalgValidation,
+        openOnFocus: false,
+        inputFormat: 'dd.MM.yyyy',
+        allowTwoDigitYear: false,
+    });
 
     return (
         <>
-            <RadioGruppe
-                className="foresporsel-om-deling-av-cv__radiogruppe"
+            <RadioGroup
+                size="small"
                 legend={
                     <>
-                        <Element tag="span">{tittel || 'Frist for svar'}</Element>
-                        <Normaltekst tag="span"> (må fylles ut)</Normaltekst>
+                        <Label as="span">{tittel || 'Frist for svar'}</Label>
+                        <BodyShort as="span"> (må fylles ut)</BodyShort>
                     </>
                 }
                 description="Kandidatene kan ikke svare etter denne fristen"
+                defaultValue={Svarfrist.ToDager}
             >
                 {Object.values(Svarfrist).map((value) => (
-                    <Radio
-                        key={value}
-                        label={
-                            <span id={`svarfrist-label_${value}`}>
-                                {`${svarfristLabels[value]} ${lagBeskrivelseAvSvarfrist(value)}`}
-                            </span>
-                        }
-                        name="svarfrist"
-                        value={value}
-                        checked={svarfrist === value}
-                        onChange={onSvarfristChange}
-                    />
+                    <Radio key={value} name="svarfrist" value={value} onChange={onSvarfristChange}>
+                        <span id={`svarfrist-label_${value}`}>
+                            {`${svarfristLabels[value]} ${lagBeskrivelseAvSvarfrist(value)}`}
+                        </span>
+                    </Radio>
                 ))}
-            </RadioGruppe>
+            </RadioGroup>
             {svarfrist === Svarfrist.Egenvalgt && (
-                <SkjemaGruppe
-                    className="foresporsel-om-deling-av-cv__velg-svarfrist"
-                    legend={<Element>Velg frist for svar (Frist ut valgt dato)</Element>}
-                    feil={egenvalgtFristFeilmelding}
-                >
-                    <Datepicker
-                        locale="nb"
-                        inputProps={{
-                            placeholder: 'dd.mm.åååå',
-                            'aria-invalid': egenvalgtFristFeilmelding !== undefined,
-                        }}
-                        value={egenvalgtFrist}
-                        limitations={{
-                            minDate: minDatoForEgenvalgtFrist,
-                            maxDate: maksDatoForEgenvalgtFrist,
-                        }}
-                        onChange={onEgenvalgtChange}
-                        calendarSettings={{
-                            showWeekNumbers: true,
-                            position: 'fullscreen',
-                        }}
-                    />
-                </SkjemaGruppe>
+                <div className={css.datepicker}>
+                    <DatePicker {...datepickerProps}>
+                        <DatePicker.Input
+                            {...inputProps}
+                            error={egenvalgtFristFeilmelding}
+                            label="Velg frist for svar (frist ut valgt dato)"
+                            placeholder="dd.mm.yyyy"
+                            size="small"
+                        />
+                    </DatePicker>
+                </div>
             )}
         </>
     );
@@ -126,10 +131,10 @@ const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
         month: 'long',
     });
 
-    return `(Frist ut ${frist})`;
+    return `(frist ut ${frist})`;
 };
 
-export const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: string) => {
+export const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: Date) => {
     switch (svarfrist) {
         case Svarfrist.ToDager:
             return moment().add(3, 'days').startOf('day').toDate();
@@ -143,7 +148,5 @@ export const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: s
 };
 
 const sisteGyldigeMaksDato = moment().add(1, 'month').format('DD.MM.YYYY');
-const minDatoForEgenvalgtFrist = moment().add(2, 'days').format('YYYY-MM-DD');
-const maksDatoForEgenvalgtFrist = moment().add(1, 'month').format('YYYY-MM-DD');
 
 export default VelgSvarfrist;

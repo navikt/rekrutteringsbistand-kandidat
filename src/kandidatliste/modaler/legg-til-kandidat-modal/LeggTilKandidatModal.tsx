@@ -1,9 +1,6 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
-import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { Input } from 'nav-frontend-skjema';
-import { Systemtittel } from 'nav-frontend-typografi';
+import { Alert, Heading, TextField } from '@navikt/ds-react';
 import fnrValidator from '@navikt/fnrvalidator';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../../api/api';
 import { Fødselsnummersøk } from '../../../cv/reducer/cv-typer';
@@ -17,7 +14,8 @@ import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
 import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
-import './LeggTilKandidatModal.less';
+import Sidelaster from '../../../common/sidelaster/Sidelaster';
+import css from './LeggTilKandidatModal.module.css';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
@@ -121,37 +119,37 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
             open={vis}
             onClose={onClose}
             aria-label="Legg til kandidat-modal"
-            className="LeggTilKandidatModal"
+            className={css.modal}
         >
-            <Systemtittel className="LeggTilKandidatModal__tittel">Legg til kandidat</Systemtittel>
-            <AlertStripeAdvarsel className="LeggTilKandidatModal__advarsel">
+            <Heading spacing level="2" size="medium">
+                Legg til kandidat
+            </Heading>
+
+            <Alert variant="warning" className={css.advarsel}>
                 Før du legger en kandidat på kandidatlisten må du undersøke om personen oppfyller
                 kravene som er nevnt i stillingen.
-            </AlertStripeAdvarsel>
+            </Alert>
 
-            <Input
+            <TextField
                 autoFocus
-                bredde="S"
                 value={fnr}
-                id="legg-til-kandidat-fnr"
+                size="medium"
                 onChange={onFnrChange}
                 placeholder="11 siffer"
                 label="Fødselsnummer på kandidaten"
-                className="blokk-s"
-                feil={feilmelding || undefined}
+                error={feilmelding}
+                className={css.fødselsnummer}
             />
 
             {erAlleredeLagtTil && (
-                <AlertStripeInfo className="LeggTilKandidatModal__advarsel">
+                <Alert variant="info" className={css.advarsel}>
                     Finner du ikke kandidaten i kandidatlisten? Husk å sjekk om kandidaten er
                     slettet ved å huke av "Vis kun slettede".
-                </AlertStripeInfo>
+                </Alert>
             )}
 
             {(fnrSøk.kind === Nettstatus.LasterInn ||
-                synlighetsevaluering.kind === Nettstatus.LasterInn) && (
-                <NavFrontendSpinner className="LeggTilKandidatModal__spinner" />
-            )}
+                synlighetsevaluering.kind === Nettstatus.LasterInn) && <Sidelaster size="large" />}
 
             {fnrSøk.kind === Nettstatus.Suksess && (
                 <BekreftMedNotat

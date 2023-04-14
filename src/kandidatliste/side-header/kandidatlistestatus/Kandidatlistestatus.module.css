@@ -1,0 +1,24 @@
+.kandidatlistestatus {
+    display: flex;
+    align-items: center;
+    transition: all 1s;
+    gap: 1rem;
+}
+
+.ikon {
+    flex-shrink: 0;
+    font-size: 2rem;
+    line-height: 0rem;
+}
+
+.ikonÅpen {
+    color: var(--a-surface-success);
+}
+
+.ikonLukket {
+    color: var(--a-surface-warning);
+}
+
+.informasjon {
+    width: 100%;
+}

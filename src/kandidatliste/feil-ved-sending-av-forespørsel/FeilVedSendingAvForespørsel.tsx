@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
-import { AlertStripeAdvarsel, AlertStripeFeil } from 'nav-frontend-alertstriper';
+import { Alert } from '@navikt/ds-react';
 import {
     ForespørslerGruppertPåAktørId,
     TilstandPåForespørsel,
 } from '../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Kandidatliste } from '../domene/Kandidatliste';
 import useSlettedeKandidater from '../hooks/useIkkeSlettedeKandidater';
-import './FeilVedSendingAvForespørsel.less';
+import css from './FeilVedSendingAvForespørsel.module.css';
 
 type Props = {
     forespørslerOmDelingAvCv: ForespørslerGruppertPåAktørId;
@@ -37,18 +37,18 @@ const FeilVedSendingAvForespørsel: FunctionComponent<Props> = ({
     return (
         <div className="feil-ved-sending-av-forespørsel">
             {antallBrukereDerKortetIkkeBleOpprettet.length > 0 && (
-                <AlertStripeFeil className="feil-ved-sending-av-forespørsel__alertstripe">
+                <Alert variant="error" className={css.alert}>
                     For {antallBrukereDerKortetIkkeBleOpprettet.length} av kandidatene ble
                     stillingskortet ikke opprettet i Aktivitetsplanen. CV-en kan ikke deles med
                     arbeidsgiver.
-                </AlertStripeFeil>
+                </Alert>
             )}
             {antallBrukereDerVeilederKanSvare.length > 0 && (
-                <AlertStripeAdvarsel className="feil-ved-sending-av-forespørsel__alertstripe">
+                <Alert variant="warning" className={css.alert}>
                     {antallBrukereDerVeilederKanSvare.length} av kandidatene bruker ikke digitale
                     tjenester fra NAV. Du må ringe og registrere svaret i stillingskortet i
                     Aktivitetsplanen.
-                </AlertStripeAdvarsel>
+                </Alert>
             )}
         </div>
     );

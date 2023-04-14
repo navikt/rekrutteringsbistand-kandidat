@@ -2,11 +2,11 @@ import moment from 'moment';
 import { v5 as uuid } from 'uuid';
 
 import type Cv from '../../../cv/reducer/cv-typer';
-import { KanSletteEnum } from '../../../listeoversikt/Kandidatlisteoversikt';
 import {
     Kandidatliste,
     KandidatlisteSammendrag,
     Kandidatlistestatus,
+    KanSletteKandidatliste,
     Stillingskategori,
 } from '../../../kandidatliste/domene/Kandidatliste';
 import {
@@ -18,7 +18,7 @@ import {
 import { Veileder } from './veileder.mock';
 import { mockStrings } from './mock-strings';
 
-const antall = 15;
+const antall = 25;
 const tomListe = [...new Array(antall)];
 
 const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
@@ -47,7 +47,7 @@ const standardKandidatliste = (eier: Veileder): Kandidatliste => ({
     },
     opprettetTidspunkt: '2019-11-18T11:40:34.732',
     kanEditere: true,
-    kanSlette: KanSletteEnum.KAN_SLETTES,
+    kanSlette: KanSletteKandidatliste.KanSlettes,
     status: Kandidatlistestatus.Åpen,
     stillingskategori: Stillingskategori.Stilling,
     kandidater: [],
@@ -123,8 +123,8 @@ const mockKandidatliste = (
     const erEier = i < 10;
     const harStilling = i % 5 < 3;
     const erLukket = i % 5 === 2;
-    const harUsynligKandidat = i % 5 === 1;
-    const erTomListe = i === 9;
+    const harUsynligKandidat = i === 0;
+    const erTomListe = i === 9 || i === 1;
     const harAlleSomFåttJobb = i === 1;
     const enAnnenVeilederHarOgsåLagtTilKandidater = i === 0;
 
@@ -233,7 +233,7 @@ const mockKandidatliste = (
         kandidatlisteId: lagUuid(lagTittel(i)),
         status: erLukket ? Kandidatlistestatus.Lukket : Kandidatlistestatus.Åpen,
         kanEditere: erEier ? kandidatliste.kanEditere : false,
-        kanSlette: erEier ? kandidatliste.kanSlette : KanSletteEnum.ER_IKKE_DIN,
+        kanSlette: erEier ? kandidatliste.kanSlette : KanSletteKandidatliste.ErIkkeDin,
         stillingId: harStilling ? kandidatliste.stillingId : null,
         opprettetAv: erEier
             ? kandidatliste.opprettetAv

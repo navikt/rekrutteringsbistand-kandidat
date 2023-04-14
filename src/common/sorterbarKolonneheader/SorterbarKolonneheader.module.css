@@ -1,0 +1,15 @@
+.sorterbarKolonneheader {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 0.5rem;
+    text-decoration: none;
+}
+
+.sorterbarKolonneheader:focus {
+    background-color: var(--a-surface-action-subtle);
+}
+
+.sorterbarKolonneheaderTekst {
+    padding-right: 0.5rem;
+}

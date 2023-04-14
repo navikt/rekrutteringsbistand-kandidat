@@ -1,5 +1,7 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Button, ErrorMessage } from '@navikt/ds-react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { resendForespørselOmDelingAvCv } from '../../../../../api/forespørselOmDelingAvCvApi';
 import {
     ForespørselOmDelingAvCv,
@@ -11,11 +13,10 @@ import VelgSvarfrist, {
 } from '../../../../knappe-rad/forespørsel-om-deling-av-cv/VelgSvarfrist';
 import Hendelse, { Hendelsesstatus } from '../Hendelse';
 import KandidatlisteActionType from '../../../../reducer/KandidatlisteActionType';
-import { useDispatch, useSelector } from 'react-redux';
-import { Feilmelding } from 'nav-frontend-typografi';
 import { SearchApiError } from '../../../../../api/fetchUtils';
 import { sendEvent } from '../../../../../amplitude/amplitude';
 import AppState from '../../../../../AppState';
+import css from './SendForespørselPåNytt.module.css';
 
 type Props = {
     gamleForespørsler: ForespørselOmDelingAvCv[];
@@ -32,7 +33,7 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({
 
     const { valgtNavKontor } = useSelector((state: AppState) => state.navKontor);
     const [svarfrist, setSvarfrist] = useState<Svarfrist>(Svarfrist.ToDager);
-    const [egenvalgtFrist, setEgenvalgtFrist] = useState<string | undefined>();
+    const [egenvalgtFrist, setEgenvalgtFrist] = useState<Date | undefined>();
     const [egenvalgtFristFeilmelding, setEgenvalgtFristFeilmelding] = useState<
         string | undefined
     >();
@@ -90,7 +91,7 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({
         setSvarfrist(event.target.value as Svarfrist);
     };
 
-    const onEgenvalgtFristChange = (dato?: string) => {
+    const onEgenvalgtFristChange = (dato?: Date) => {
         setEgenvalgtFrist(dato);
     };
 
@@ -114,23 +115,23 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({
                 onEgenvalgtFristFeilmeldingChange={onEgenvalgtFristFeilmeldingChange}
                 egenvalgtFristFeilmelding={egenvalgtFristFeilmelding}
             />
-            <div className="endre-status-og-hendelser__del-på-nytt-knapper">
-                <Hovedknapp
-                    className="endre-status-og-hendelser__del-på-nytt-knapp"
-                    mini
+            <div className={css.delPåNyttKnapper}>
+                <Button
+                    size="small"
+                    variant="primary"
                     onClick={onDelPåNyttClick}
-                    spinner={senderForespørselPåNytt}
+                    loading={senderForespørselPåNytt}
                 >
                     Del på nytt
-                </Hovedknapp>
-                <Knapp mini onClick={onLukk}>
+                </Button>
+                <Button onClick={onLukk} variant="secondary" size="small">
                     Avbryt
-                </Knapp>
+                </Button>
             </div>
             {feilmelding && (
-                <Feilmelding className="endre-status-og-hendelser__del_på-nytt-feilmelding">
+                <ErrorMessage className={css.delPåNyttFeilmelding}>
                     Feilmelding: {feilmelding}
-                </Feilmelding>
+                </ErrorMessage>
             )}
         </Hendelse>
     );

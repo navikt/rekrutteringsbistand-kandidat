@@ -1,8 +1,8 @@
-import AlertStripe from 'nav-frontend-alertstriper';
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 import AppState from '../../AppState';
-import './Varsling.less';
+import { Alert } from '@navikt/ds-react';
+import css from './Varsling.module.css';
 
 const Varsling: FunctionComponent = () => {
     const { innhold, alertType } = useSelector((state: AppState) => state.varsling);
@@ -12,9 +12,9 @@ const Varsling: FunctionComponent = () => {
     }
 
     return (
-        <AlertStripe className="varsling" type={alertType} aria-live="assertive">
+        <Alert className={css.varsling} variant={alertType} aria-live="assertive">
             {innhold}
-        </AlertStripe>
+        </Alert>
     );
 };
 

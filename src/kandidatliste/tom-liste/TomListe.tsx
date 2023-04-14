@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Heading } from '@navikt/ds-react';
 import classnames from 'classnames';
-import './TomListe.less';
+import css from './TomListe.module.css';
 
 type Props = {
     children?: ReactNode;
@@ -9,21 +9,23 @@ type Props = {
 };
 
 const TomListe: FunctionComponent<Props> = ({ kandidatlistenErLukket, children }) => (
-    <div className="tom-liste">
+    <div className={css.tomListe}>
         <div
-            className={classnames('tom-liste__content', {
-                'tom-liste__content--lukket-liste': kandidatlistenErLukket,
+            className={classnames(css.content, {
+                [css.contentLukketListe]: kandidatlistenErLukket,
             })}
         >
-            <Undertittel
-                className={classnames('tom-liste__tekst', {
-                    'tom-liste__tekst--med-children': children,
+            <Heading
+                level="2"
+                size="medium"
+                className={classnames(css.tekst, {
+                    [css.tekstMedChildren]: children,
                 })}
             >
                 <span>Du har ingen kandidater i kandidatlisten.</span>
                 {kandidatlistenErLukket && <span> Listen er avsluttet.</span>}
-            </Undertittel>
-            {children && <div className="tom-liste__knapper">{children}</div>}
+            </Heading>
+            {children && <div className={css.knapper}>{children}</div>}
         </div>
     </div>
 );

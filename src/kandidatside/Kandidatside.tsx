@@ -3,7 +3,7 @@ import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { Tabs } from '@navikt/ds-react';
 
 import { hentØktFraNyttKandidatsøk, NyttKandidatsøkØkt } from './søkekontekst';
-import { Applicant, Dialog } from '@navikt/ds-icons';
+import { PersonEnvelopeIcon, Chat2Icon } from '@navikt/aksel-icons';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
 import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
 import Sidefeil from '../common/sidefeil/Sidefeil';
@@ -13,7 +13,6 @@ export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
     StillingId = 'stillingId',
     FraKandidatliste = 'fraKandidatliste',
-    FraAutomatiskMatching = 'fraKandidatmatch',
     FraNyttKandidatsøk = 'fraNyttKandidatsok',
 }
 
@@ -33,8 +32,6 @@ const Kandidatside: FunctionComponent = () => {
     const kommerFraKandidatliste = searchParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
     const kommerFraKandidatsøket =
         searchParams.get(KandidatQueryParam.FraNyttKandidatsøk) === 'true';
-    const kommerFraAutomatiskMatching =
-        searchParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
 
     if (kommerFraKandidatliste) {
         if (kandidatlisteIdFraUrl) {
@@ -50,7 +47,7 @@ const Kandidatside: FunctionComponent = () => {
         } else {
             return <Sidefeil feilmelding="Mangler kandidatlisteId i URL" />;
         }
-    } else if (kommerFraKandidatsøket || kommerFraAutomatiskMatching) {
+    } else if (kommerFraKandidatsøket) {
         if (kandidatlisteIdFraUrl) {
             return (
                 <FraSøkMedKandidatliste
@@ -58,7 +55,6 @@ const Kandidatside: FunctionComponent = () => {
                     kandidatnr={kandidatnr}
                     kandidatlisteId={kandidatlisteIdFraUrl}
                     søkeøkt={søkeøkt}
-                    fraAutomatiskMatching={kommerFraAutomatiskMatching}
                 >
                     <Outlet />
                 </FraSøkMedKandidatliste>
@@ -77,8 +73,8 @@ const Kandidatside: FunctionComponent = () => {
 
 const Faner = () => (
     <Tabs.List>
-        <Tabs.Tab icon={<Applicant />} value="cv" label="CV og Jobbprofil" />
-        <Tabs.Tab icon={<Dialog />} value="historikk" label="Historikk" />
+        <Tabs.Tab icon={<PersonEnvelopeIcon />} value="cv" label="CV og Jobbprofil" />
+        <Tabs.Tab icon={<Chat2Icon />} value="historikk" label="Historikk" />
     </Tabs.List>
 );
 

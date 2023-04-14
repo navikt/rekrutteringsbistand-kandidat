@@ -1,0 +1,18 @@
+.alert {
+    margin-bottom: 2.5rem;
+}
+
+.alertstripeBody {
+    display: flex;
+    justify-content: space-between;
+}
+
+.lukknapp {
+    margin-left: 1rem;
+    color: var(--a-gray-900);
+}
+
+:global(.sms-ikke-sendt-alert .navds-alert__wrapper) {
+    max-width: calc(100% - 2rem);
+    width: calc(100% - 2rem);
+}

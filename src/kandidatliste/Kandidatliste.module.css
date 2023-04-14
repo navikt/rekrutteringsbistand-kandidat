@@ -1,0 +1,36 @@
+.grid {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+        'filter'
+        'knapperad'
+        'liste';
+    grid-row-gap: 1.5rem;
+    max-width: calc(var(--kandidatsokInnholdBredde) + 4rem);
+    margin: 2.5rem 0;
+    padding: 0 2rem;
+}
+
+.filter {
+    grid-area: filter;
+}
+
+.knapperad {
+    grid-area: knapperad;
+}
+
+.liste {
+    grid-area: liste;
+}
+
+@media (min-width: 1281px) {
+    .grid {
+        grid-template-areas:
+            'ingenting knapperad'
+            'filter liste';
+        grid-template-columns: 2fr 9fr;
+        grid-column-gap: 3rem;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+}

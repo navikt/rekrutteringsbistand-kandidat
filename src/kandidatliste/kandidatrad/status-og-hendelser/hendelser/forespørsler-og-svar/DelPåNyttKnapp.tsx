@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { AddCircle } from '@navikt/ds-icons';
-import { Flatknapp } from 'nav-frontend-knapper';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
 
 type Props = {
     onDelPåNyttClick: () => void;
@@ -8,15 +8,14 @@ type Props = {
 
 const DelPåNyttKnapp: FunctionComponent<Props> = ({ onDelPåNyttClick }) => {
     return (
-        <Flatknapp
+        <Button
+            size="small"
+            variant="secondary"
             onClick={onDelPåNyttClick}
-            className="endre-status-og-hendelser__del-på-nytt"
-            kompakt
-            mini
+            icon={<PlusCircleIcon />}
         >
-            <AddCircle />
             Del på nytt
-        </Flatknapp>
+        </Button>
     );
 };
 

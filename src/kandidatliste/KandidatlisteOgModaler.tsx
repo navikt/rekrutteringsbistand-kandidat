@@ -11,7 +11,6 @@ import { Kandidatstatus } from './domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { sendEvent } from '../amplitude/amplitude';
 import AppState from '../AppState';
-import HjelpetekstFading from '../common/varsling/HjelpetekstFading';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import PresenterKandidaterModal from './modaler/presenter-kandidater/PresenterKandidaterModal';
@@ -23,8 +22,8 @@ import {
     ForespørslerGruppertPåAktørId,
     hentForespørslerForKandidatForStilling,
 } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import './Kandidatliste.less';
 import LeggTilKandidatModal from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { AlertType, VarslingAction, VarslingActionType } from '../common/varsling/varslingReducer';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -55,22 +54,16 @@ type ConnectedProps = {
     kandidattilstander: Kandidattilstander;
     sendteMeldinger: Nettressurs<Kandidatmeldinger>;
     forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
+    visVarsling: (innhold: string, alertType: AlertType) => void;
 };
 
 type Props = ConnectedProps & OwnProps;
 
 class KandidatlisteOgModaler extends React.Component<Props> {
-    infobannerCallbackId: any;
-
     state: {
         deleModalOpen: boolean;
         leggTilModalOpen: boolean;
         sendSmsModalOpen: boolean;
-        infobanner: {
-            vis: boolean;
-            tekst: string;
-            type: 'suksess' | 'feil';
-        };
     };
 
     constructor(props: Props) {
@@ -79,11 +72,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             deleModalOpen: false,
             leggTilModalOpen: false,
             sendSmsModalOpen: false,
-            infobanner: {
-                vis: false,
-                tekst: '',
-                type: 'suksess',
-            },
         };
     }
 
@@ -164,15 +152,11 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 
         if (feilMedSmsUtsending) {
             this.props.resetSmsSendStatus();
-            this.visInfobanner('Det skjedde en feil', 'feil');
+            this.visInfobanner('Det skjedde en feil', 'error');
             this.setState({
                 sendSmsModalOpen: false,
             });
         }
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.infobannerCallbackId);
     }
 
     fjernAllMarkering = () => {
@@ -276,27 +260,12 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         );
     };
 
-    visInfobanner = (tekst: string, type = 'suksess') => {
-        clearTimeout(this.infobannerCallbackId);
-        this.setState({
-            infobanner: {
-                vis: true,
-                tekst,
-                type,
-            },
-        });
-        this.infobannerCallbackId = setTimeout(() => {
-            this.setState({
-                infobanner: {
-                    vis: false,
-                    tekst: '',
-                },
-            });
-        }, 5000);
+    visInfobanner = (tekst: string, type: AlertType = 'success') => {
+        this.props.visVarsling(tekst, type);
     };
 
     render() {
-        const { deleModalOpen, infobanner, leggTilModalOpen } = this.state;
+        const { deleModalOpen, leggTilModalOpen } = this.state;
         const { deleStatus, kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
         const { kandidater } = kandidatliste;
         const markerteKandidater = this.hentMarkerteKandidater();
@@ -341,11 +310,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                             />
                         </>
                     )}
-                <HjelpetekstFading
-                    synlig={infobanner.vis}
-                    type={infobanner.type || 'suksess'}
-                    innhold={infobanner.tekst}
-                />
                 <Kandidatliste
                     kandidatliste={kandidatliste}
                     onToggleMarkert={this.toggleMarkert}
@@ -376,7 +340,14 @@ const mapStateToProps = (state: AppState) => ({
     forespørslerOmDelingAvCv: state.kandidatliste.forespørslerOmDelingAvCv,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<KandidatlisteAction | VarslingAction>) => ({
+    visVarsling: (innhold: string, alertType: AlertType) => {
+        dispatch({
+            type: VarslingActionType.VisVarsling,
+            innhold,
+            alertType,
+        });
+    },
     endreStatusKandidat: (status: Kandidatstatus, kandidatlisteId: string, kandidatnr: string) => {
         dispatch({
             type: KandidatlisteActionType.EndreStatusKandidat,

@@ -6,8 +6,7 @@ import { Kandidatnavigering } from '../komponenter/header/forrige-neste/ForrigeN
 const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
     kandidatlisteId: string,
-    økt: NyttKandidatsøkØkt,
-    fraAutomatiskMatching: boolean
+    økt: NyttKandidatsøkØkt
 ): Kandidatnavigering | null => {
     const [fane] = useFaner();
 
@@ -27,25 +26,11 @@ const useNavigerbareKandidaterFraSøk = (
     const nesteKandidatnr = økt.kandidater[index + 1];
 
     if (forrigeKandidatnr) {
-        forrige = lenkeTilKandidatside(
-            forrigeKandidatnr,
-            fane,
-            kandidatlisteId,
-            false,
-            fraAutomatiskMatching,
-            !fraAutomatiskMatching
-        );
+        forrige = lenkeTilKandidatside(forrigeKandidatnr, fane, kandidatlisteId, false, true);
     }
 
     if (nesteKandidatnr) {
-        neste = lenkeTilKandidatside(
-            nesteKandidatnr,
-            fane,
-            kandidatlisteId,
-            false,
-            fraAutomatiskMatching,
-            !fraAutomatiskMatching
-        );
+        neste = lenkeTilKandidatside(nesteKandidatnr, fane, kandidatlisteId, false, true);
     }
 
     return {

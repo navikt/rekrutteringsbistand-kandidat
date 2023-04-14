@@ -16,16 +16,13 @@ import { Nettstatus } from '../api/Nettressurs';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import AppState from '../AppState';
 import Filter from './filter/Filter';
-import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import Kandidatrad from './kandidatrad/Kandidatrad';
 import KnappeRad from './knappe-rad/KnappeRad';
-import LeggTilKandidatKnapp from './meny/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
 import Meny from './meny/Meny';
-import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
@@ -38,7 +35,8 @@ import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import useSorterteKandidater from './hooks/useSorterteKandidater';
 import { Hendelse } from './kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import FeilVedSendingAvForespørsel from './feil-ved-sending-av-forespørsel/FeilVedSendingAvForespørsel';
-import '../common/ikoner.less';
+import { Search } from '@navikt/ds-react';
+import css from './Kandidatliste.module.css';
 
 type Props = {
     kandidatliste: Kandidatlistetype;
@@ -171,19 +169,20 @@ const Kandidatliste: FunctionComponent<Props> = ({
     const kanArkivereKandidater = !filter.visArkiverte && kandidatlistenErÅpen;
 
     return (
-        <div className="kandidatliste">
+        <>
             <SideHeader kandidatliste={kandidatliste} />
             {listenInneholderKandidater ? (
                 <>
                     {kandidatlistenErÅpen && (
                         <Meny
+                            border
                             kandidatlisteId={kandidatliste.kandidatlisteId}
                             stillingId={kandidatliste.stillingId}
                             onLeggTilKandidat={onLeggTilKandidat}
                         />
                     )}
-                    <div className="kandidatliste__grid">
-                        <div className="kandidatliste__knapperad-container">
+                    <div className={css.grid}>
+                        <div className={css.knapperad}>
                             {kandidatliste.kanEditere &&
                                 sendteMeldinger.kind === Nettstatus.Suksess && (
                                     <SmsFeilAlertStripe
@@ -207,14 +206,16 @@ const Kandidatliste: FunctionComponent<Props> = ({
                                 visArkiverte={filter.visArkiverte}
                                 sendteMeldinger={sendteMeldinger}
                             >
-                                <Navnefilter
-                                    value={filter.navn}
-                                    onChange={(e) => setNavnefilter(e.currentTarget.value)}
-                                    onReset={() => setNavnefilter('')}
+                                <Search
+                                    label="Søk alle NAV sine sider"
+                                    variant="simple"
+                                    onChange={(e) => setNavnefilter(e)}
+                                    title="Søk etter navn i listen"
                                 />
                             </KnappeRad>
                         </div>
                         <Filter
+                            className={css.filter}
                             antallTreff={antallFiltertreff}
                             visArkiverte={filter.visArkiverte}
                             statusfilter={filter.status}
@@ -228,7 +229,7 @@ const Kandidatliste: FunctionComponent<Props> = ({
                             onToggleStatus={onToggleStatus}
                             onToggleHendelse={onToggleHendelse}
                         />
-                        <div role="table" aria-label="Kandidater" className="kandidatliste__liste">
+                        <div role="table" aria-label="Kandidater" className={css.liste}>
                             <ListeHeader
                                 kandidatliste={kandidatliste}
                                 alleMarkert={alleFiltrerteErMarkerte}
@@ -275,17 +276,15 @@ const Kandidatliste: FunctionComponent<Props> = ({
             ) : (
                 <TomListe kandidatlistenErLukket={!kandidatlistenErÅpen}>
                     {kandidatlistenErÅpen && (
-                        <>
-                            <FinnKandidaterLenke
-                                kandidatlisteId={kandidatliste.kandidatlisteId}
-                                stillingId={kandidatliste.stillingId}
-                            />
-                            <LeggTilKandidatKnapp onLeggTilKandidat={onLeggTilKandidat} />
-                        </>
+                        <Meny
+                            kandidatlisteId={kandidatliste.kandidatlisteId}
+                            stillingId={kandidatliste.stillingId}
+                            onLeggTilKandidat={onLeggTilKandidat}
+                        />
                     )}
                 </TomListe>
             )}
-        </div>
+        </>
     );
 };
 

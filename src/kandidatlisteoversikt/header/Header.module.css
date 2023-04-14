@@ -1,0 +1,38 @@
+.header {
+    padding: 1.5rem 0rem;
+    background-color: var(--rekrutteringsbistandBla);
+    border-bottom: 2px solid var(--a-border-subtle);
+}
+
+.innhold {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 0 2rem;
+    gap: 1rem;
+    max-width: 110rem;
+}
+
+.søkeskjema {
+    width: 100%;
+    max-width: 40rem;
+}
+
+@media (min-width: 600px) {
+    .innhold {
+        display: grid;
+        grid-template-columns: 4fr 8rem;
+        justify-items: start;
+    }
+
+    .opprettNyKnapp {
+        justify-self: end;
+    }
+}
+
+@media (min-width: 1280px) {
+    .innhold {
+        padding-left: 18rem;
+        grid-template-columns: 4fr 8rem;
+    }
+}

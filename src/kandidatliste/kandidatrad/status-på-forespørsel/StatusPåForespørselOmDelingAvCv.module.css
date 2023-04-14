@@ -1,0 +1,33 @@
+.status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transform: translateX(-2rem);
+    flex-shrink: 0;
+    border: none;
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.status:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--a-border-focus);
+}
+
+.veilederKanSvare {
+    font-size: 1.25rem;
+    background-color: var(--a-orange-300);
+}
+
+.kortetBleIkkeOpprettet {
+    color: white;
+    font-size: 1.5rem;
+    background-color: var(--a-text-danger);
+}
+
+.popover {
+    max-width: 19rem;
+}

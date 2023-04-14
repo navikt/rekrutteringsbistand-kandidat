@@ -1,9 +1,6 @@
 import React, { ChangeEvent, FunctionComponent, useState, useEffect, useCallback } from 'react';
 import { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Hovedknapp, Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Textarea } from 'nav-frontend-skjema';
 
 import { Kandidatliste } from '../../domene/Kandidatliste';
 import { Kandidat } from '../../domene/Kandidat';
@@ -15,7 +12,8 @@ import Notatliste from './Notatliste';
 import RedigerNotatModal from './RedigerNotatModal';
 import Slettemodal from './Slettemodal';
 import { Notat } from '../../domene/Kandidatressurser';
-import './Notater.less';
+import { BodyLong, Button, Heading, Textarea } from '@navikt/ds-react';
+import css from './Notater.module.css';
 
 type Props = {
     kandidat: Kandidat;
@@ -103,43 +101,42 @@ const Notater: FunctionComponent<Props> = ({
                 />
             )}
 
-            <Element>Notater ({antallNotater})</Element>
-            <Normaltekst className="notater__avsnitt">
+            <Heading spacing level="4" size="small">
+                Notater ({antallNotater})
+            </Heading>
+            <BodyLong spacing>
                 Her skal du kun skrive korte meldinger og statusoppdateringer. Sensitive
                 opplysninger skrives <strong>ikke</strong> her. Ta direkte kontakt med veileder hvis
                 du har spørsmål om en kandidat. Notatene følger ikke brukeren og er bare
                 tilgjengelig via stillingen. Notatene vil være synlige for alle veiledere.
-            </Normaltekst>
-            <Normaltekst className="notater__avsnitt">
+            </BodyLong>
+            <BodyLong spacing>
                 Notatene blir automatisk slettet 12 måneder etter at kandidaten ble lagt til i
                 kandidatlisten.
-            </Normaltekst>
-            <div className="notater__nytt-notat-form">
-                {nyttNotatVises ? (
-                    <div>
-                        <Textarea
-                            label="Skriv inn notat"
-                            textareaClass="notater__nytt-notat-tekst"
-                            value={nyttNotatTekst}
-                            onChange={oppdaterNyttNotatTekst}
-                            autoFocus
-                            feil={nyttNotatFeil ? 'Tekstfeltet kan ikke være tomt' : undefined}
-                        />
-                        <div className="notater__nytt-notat-knapperad">
-                            <Hovedknapp mini onClick={lagreNyttNotat}>
-                                Lagre
-                            </Hovedknapp>
-                            <Flatknapp mini onClick={toggleNyttNotatVises}>
-                                Avbryt
-                            </Flatknapp>
-                        </div>
+            </BodyLong>
+            {nyttNotatVises ? (
+                <>
+                    <Textarea
+                        autoFocus
+                        label="Skriv inn notat"
+                        value={nyttNotatTekst}
+                        onChange={oppdaterNyttNotatTekst}
+                        error={nyttNotatFeil ? 'Tekstfeltet kan ikke være tomt' : undefined}
+                    />
+                    <div className={css.knapper}>
+                        <Button variant="primary" size="small" onClick={lagreNyttNotat}>
+                            Lagre
+                        </Button>
+                        <Button variant="secondary" size="small" onClick={toggleNyttNotatVises}>
+                            Avbryt
+                        </Button>
                     </div>
-                ) : (
-                    <Knapp mini onClick={toggleNyttNotatVises}>
-                        Skriv notat
-                    </Knapp>
-                )}
-            </div>
+                </>
+            ) : (
+                <Button variant="secondary" size="small" onClick={toggleNyttNotatVises}>
+                    Skriv notat
+                </Button>
+            )}
             <Notatliste
                 notater={notater}
                 onOpenRedigeringsModal={setNotatSomRedigeres}

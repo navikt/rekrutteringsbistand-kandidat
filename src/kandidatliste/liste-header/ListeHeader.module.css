@@ -1,0 +1,14 @@
+.kolonneTittel {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kolonneMidtstilt {
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.kolonneHøyrestilt {
+    justify-content: flex-end;
+}

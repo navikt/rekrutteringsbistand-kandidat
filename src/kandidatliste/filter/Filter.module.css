@@ -1,0 +1,19 @@
+.innhold {
+    background-color: white;
+}
+
+.kandidatlisteFilterKategoriLitenSkjerm {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hendelsesGruppeStorSkjerm {
+    margin-top: 1rem;
+}
+
+.accordionStorSkjerm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 13rem;
+}

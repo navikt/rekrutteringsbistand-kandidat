@@ -1,7 +1,8 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { Element, Undertekst } from 'nav-frontend-typografi';
-import { SuccessStroke } from '@navikt/ds-icons';
-import './Hendelse.less';
+import { CheckmarkIcon } from '@navikt/aksel-icons';
+import css from './Hendelse.module.css';
+import { BodyLong, Heading, Label } from '@navikt/ds-react';
+import classNames from 'classnames';
 
 export enum Hendelsesstatus {
     Hvit = 'hvit',
@@ -25,52 +26,56 @@ const Hendelse: FunctionComponent<Props> = ({
     renderChildrenBelowContent,
     children,
 }) => {
-    let className = 'hendelse';
-    let ikonClassName = 'hendelse__ikon';
-    let innholdClassName = 'hendelse__innhold';
-
-    if (status !== Hendelsesstatus.Hvit) {
-        className += ` hendelse--${status}`;
-        ikonClassName += ` hendelse__ikon--${status}`;
-    }
-
-    if (renderChildrenBelowContent) {
-        innholdClassName += ' hendelse__innhold--children-below-content';
-    }
-
     const beskrivelseContainerTag = typeof beskrivelse === 'string' ? 'p' : 'div';
 
     return (
-        <li className={className}>
-            <div className={ikonClassName}>
+        <li
+            className={classNames(
+                { [css.heltrukkenStrek]: status !== Hendelsesstatus.Hvit },
+                css.hendelse
+            )}
+        >
+            <div
+                aria-hidden
+                className={classNames(css.ikon, {
+                    [css.grøntIkon]: status === Hendelsesstatus.Grønn,
+                    [css.oransjeIkon]: status === Hendelsesstatus.Oransje,
+                    [css.blåttIkon]: status === Hendelsesstatus.Blå,
+                    [css.rødtIkon]: status === Hendelsesstatus.Rød,
+                })}
+            >
                 {status === Hendelsesstatus.Grønn && (
-                    <SuccessStroke className="hendelse__ikon-grafikk-grønn" />
+                    <CheckmarkIcon className={css.ikonGrafikkGrønn} />
                 )}
                 {status === Hendelsesstatus.Oransje && (
-                    <Element className="hendelse__ikon-grafikk-oransje">!</Element>
+                    <Label as="span" className={css.ikonGrafikkOransje}>
+                        !
+                    </Label>
                 )}
-                {status === Hendelsesstatus.Blå && (
-                    <code className="hendelse__ikon-grafikk-blå">i</code>
-                )}
-                {status === Hendelsesstatus.Rød && (
-                    <code className="hendelse__ikon-grafikk-rød">×</code>
-                )}
+                {status === Hendelsesstatus.Blå && <code>i</code>}
+                {status === Hendelsesstatus.Rød && <code>×</code>}
             </div>
-            <div className={innholdClassName}>
+
+            <div
+                className={classNames(css.innhold, {
+                    [css.childrenBelowContent]: renderChildrenBelowContent,
+                })}
+            >
                 {(tittel || beskrivelse) && (
-                    <div className="hendelse__tekst">
-                        {tittel && <Element tag="h3">{tittel}</Element>}
+                    <div>
+                        {tittel && (
+                            <Heading level="3" size="xsmall">
+                                {tittel}
+                            </Heading>
+                        )}
                         {beskrivelse && (
-                            <Undertekst
-                                tag={beskrivelseContainerTag}
-                                className="hendelse__beskrivelse"
-                            >
+                            <BodyLong as={beskrivelseContainerTag} size="small">
                                 {beskrivelse}
-                            </Undertekst>
+                            </BodyLong>
                         )}
                     </div>
                 )}
-                <div className="hendelse__children">{children}</div>
+                <div className={css.children}>{children}</div>
             </div>
         </li>
     );
