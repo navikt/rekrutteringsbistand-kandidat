@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { useSelector } from 'react-redux';
+import { BodyLong, Button, Link } from '@navikt/ds-react';
+import { TenancyIcon } from '@navikt/aksel-icons';
+
 import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
 import MedPopover from '../../common/med-popover/MedPopover';
@@ -11,8 +13,6 @@ import {
     TilstandPåForespørsel,
 } from './forespørsel-om-deling-av-cv/Forespørsel';
 import { cvErSendtTilArbeidsgiverOgSlettet } from '../kandidatrad/status-og-hendelser/hendelser/CvErSlettet';
-import { Button, Link } from '@navikt/ds-react';
-import { TenancyIcon } from '@navikt/aksel-icons';
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -66,11 +66,11 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
             <MedPopover
                 hjelpetekst={
                     <>
-                        <Normaltekst className="blokk-xs">
+                        <BodyLong spacing>
                             Kandidaten(e) har ikke svart eller svart nei på om CV-en kan deles. Du
                             kan derfor ikke dele disse.
-                        </Normaltekst>
-                        <Normaltekst>
+                        </BodyLong>
+                        <BodyLong>
                             Har du hatt dialog med kandidaten, og fått bekreftet at NAV kan dele
                             CV-en? Da må du registrere dette i aktivitetsplanen. Har du ikke delt
                             stillingen med kandidaten må du gjøre det først.{' '}
@@ -82,7 +82,7 @@ const DelMedArbeidsgiverKnapp: FunctionComponent<Props> = ({
                                 Se rutiner på Navet
                             </Link>
                             .
-                        </Normaltekst>
+                        </BodyLong>
                     </>
                 }
                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"

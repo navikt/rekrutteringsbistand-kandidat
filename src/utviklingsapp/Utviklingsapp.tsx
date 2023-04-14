@@ -1,6 +1,5 @@
 import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { createBrowserHistory } from 'history';
-import { Systemtittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 
 import { AppMedStore } from '../index';
@@ -8,6 +7,7 @@ import CustomRouter from './CustomRouter';
 import { mock } from '../mock/mock-data';
 import { meg } from '../mock/data/kandidat/veileder.mock';
 import css from './Utviklingsapp.module.css';
+import { Heading } from '@navikt/ds-react';
 
 const history = createBrowserHistory();
 
@@ -38,7 +38,9 @@ const Utviklingsapp: FunctionComponent = () => {
     return (
         <CustomRouter history={history}>
             <header className={css.banner}>
-                <Systemtittel>Utviklingsapp</Systemtittel>
+                <Heading level="1" size="small">
+                    Utviklingsapp
+                </Heading>
 
                 <nav className={css.lenker}>
                     <Utviklingslenke to="/kandidater/lister">Kandidatlister</Utviklingslenke>

@@ -1,4 +1,7 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { Button, ErrorMessage } from '@navikt/ds-react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { resendForespørselOmDelingAvCv } from '../../../../../api/forespørselOmDelingAvCvApi';
 import {
     ForespørselOmDelingAvCv,
@@ -10,12 +13,9 @@ import VelgSvarfrist, {
 } from '../../../../knappe-rad/forespørsel-om-deling-av-cv/VelgSvarfrist';
 import Hendelse, { Hendelsesstatus } from '../Hendelse';
 import KandidatlisteActionType from '../../../../reducer/KandidatlisteActionType';
-import { useDispatch, useSelector } from 'react-redux';
-import { Feilmelding } from 'nav-frontend-typografi';
 import { SearchApiError } from '../../../../../api/fetchUtils';
 import { sendEvent } from '../../../../../amplitude/amplitude';
 import AppState from '../../../../../AppState';
-import { Button } from '@navikt/ds-react';
 import css from './SendForespørselPåNytt.module.css';
 
 type Props = {
@@ -129,9 +129,9 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({
                 </Button>
             </div>
             {feilmelding && (
-                <Feilmelding className={css.delPåNyttFeilmelding}>
+                <ErrorMessage className={css.delPåNyttFeilmelding}>
                     Feilmelding: {feilmelding}
-                </Feilmelding>
+                </ErrorMessage>
             )}
         </Hendelse>
     );

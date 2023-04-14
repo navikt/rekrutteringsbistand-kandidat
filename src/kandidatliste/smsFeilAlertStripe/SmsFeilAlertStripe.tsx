@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
-import Lukknapp from 'nav-frontend-lukknapp';
+import classNames from 'classnames';
+import { Alert, Button } from '@navikt/ds-react';
+import { XMarkIcon } from '@navikt/aksel-icons';
+
 import { Kandidatmeldinger, SmsStatus } from '../domene/Kandidatressurser';
 import { Kandidat } from '../domene/Kandidat';
 import css from './smsFeilAlertStripe.module.css';
-import { Alert } from '@navikt/ds-react';
-import classNames from 'classnames';
 
 const LESTE_SMS_IDER_KEY = 'lesteSmsIder';
 
@@ -72,7 +73,13 @@ const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater, sendteMeldin
             <span className={css.alertstripeBody}>
                 SMS-en til {navn} ble dessverre ikke sendt. En mulig årsak kan være ugyldig
                 telefonnummer i kontakt og reservasjonsregisteret.
-                <Lukknapp className={css.lukknapp} onClick={lukkAlert} />
+                <Button
+                    size="small"
+                    variant="secondary-neutral"
+                    icon={<XMarkIcon />}
+                    className={css.lukknapp}
+                    onClick={lukkAlert}
+                />
             </span>
         </Alert>
     );

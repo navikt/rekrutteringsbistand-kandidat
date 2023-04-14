@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Heading } from '@navikt/ds-react';
 import classnames from 'classnames';
 import css from './TomListe.module.css';
 
@@ -15,14 +15,16 @@ const TomListe: FunctionComponent<Props> = ({ kandidatlistenErLukket, children }
                 [css.contentLukketListe]: kandidatlistenErLukket,
             })}
         >
-            <Undertittel
+            <Heading
+                level="2"
+                size="medium"
                 className={classnames(css.tekst, {
                     [css.tekstMedChildren]: children,
                 })}
             >
                 <span>Du har ingen kandidater i kandidatlisten.</span>
                 {kandidatlistenErLukket && <span> Listen er avsluttet.</span>}
-            </Undertittel>
+            </Heading>
             {children && <div className={css.knapper}>{children}</div>}
         </div>
     </div>
