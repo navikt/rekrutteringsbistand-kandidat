@@ -72,6 +72,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                             Velg status
                         </Heading>
                     }
+                    value={status}
                 >
                     {statuser.map(([statusKey, statusValue]) => {
                         const beskrivelse = hentStatusbeskrivelse(statusValue);
@@ -80,7 +81,6 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                             <Radio
                                 key={statusKey}
                                 onChange={() => setStatus(statusValue)}
-                                defaultChecked={statusValue === status}
                                 value={statusValue}
                                 name={`kandidatstatus-${kandidat.kandidatnr}`}
                             >
