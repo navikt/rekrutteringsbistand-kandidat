@@ -1,3 +1,117 @@
+.kandidat {
+    border-radius: 4px;
+    background-color: white;
+}
+
+.kandidat:not(.header) {
+    margin-top: 0.5rem;
+}
+
+.kandidat:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--a-border-focus);
+}
+
+.kandidatChecked {
+    border-color: var(--a-border-focus);
+}
+
+.kandidatDisabled {
+    border-color: var(--a-gray-400);
+    background-color: var(--a-gray-300);
+}
+
+.rad {
+    height: 4.5rem;
+    display: grid;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+
+    /* Ingen arkiveringskolonne, listen har ikke arbeidsgiver */
+    grid-template-columns:
+        0
+        2fr
+        minmax(0, 10fr)
+        minmax(0, 6fr)
+        minmax(0, 10fr)
+        minmax(0, 6fr)
+        minmax(0, 15fr)
+        minmax(0, 3fr)
+        minmax(0, 3fr);
+}
+
+.radVisArkivering {
+    grid-template-columns:
+        0
+        2fr
+        minmax(0, 10fr)
+        minmax(0, 6fr)
+        minmax(0, 10fr)
+        minmax(0, 6fr)
+        minmax(0, 15fr)
+        minmax(0, 3fr)
+        minmax(0, 3fr)
+        minmax(0, 2.5fr);
+}
+
+.radVisUtfall {
+    grid-template-columns:
+        0
+        2fr
+        minmax(0, 10fr)
+        minmax(0, 6fr)
+        minmax(0, 10fr)
+        minmax(0, 6fr)
+        minmax(0, 20fr)
+        minmax(0, 3fr)
+        minmax(0, 3fr);
+}
+
+.radVisUtfallOgArkivering {
+    grid-template-columns:
+        0
+        2fr
+        minmax(0, 10fr) minmax(0, 6fr) minmax(0, 10fr) minmax(0, 6fr)
+        minmax(0, 20fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2.5fr);
+}
+
+.rad > * {
+    display: flex;
+    align-items: center;
+}
+
+.kolonneTittel {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kolonneMidtstilt {
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.kolonneHøyrestilt {
+    justify-content: flex-end;
+}
+
+.kolonneMedHjelpetekst {
+    display: flex;
+    align-items: center;
+}
+
+.kolonneMedHjelpetekst .hjelpetekst {
+    margin-right: 0.5rem;
+    color: var(--a-gray-800);
+}
+
+.kolonneCheckboks {
+    padding-right: 1.25rem;
+}
+
+.kolonneSorterbar {
+    padding-left: 0.5rem;
+}
+
 .antallNotater {
     margin-right: 0.4rem;
     font-size: 1rem;
@@ -16,19 +130,6 @@
 .tabellTekstInner {
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.kolonneMidtstilt {
-    justify-content: center;
-    white-space: nowrap;
-}
-
-.kolonnHøyrestilt {
-    justify-content: flex-end;
-}
-
-.kolonneSorterbar {
-    padding-left: 0.5rem;
 }
 
 .visNotaterKnapp {

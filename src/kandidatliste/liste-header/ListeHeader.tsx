@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
+import { Checkbox, Label } from '@navikt/ds-react';
+import classNames from 'classnames';
+
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
-import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
 import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
-import { Checkbox, Label } from '@navikt/ds-react';
-import css from './ListeHeader.module.css';
-import '../kandidatrad/Kandidatrad.less';
-import classNames from 'classnames';
+import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
+import css from '../kandidatrad/Kandidatrad.module.css';
 
 interface Props {
     kandidatliste: Kandidatliste;
@@ -23,13 +23,9 @@ export const modifierTilListeradGrid = (
     visArkiveringskolonne: boolean
 ) => {
     if (visUtfallskolonne) {
-        return visArkiveringskolonne
-            ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering'
-            : ' kandidatliste-kandidat__rad--vis-utfall';
+        return visArkiveringskolonne ? css.radVisUtfallOgArkivering : css.radVisUtfall;
     } else {
-        return visArkiveringskolonne
-            ? ' kandidatliste-kandidat__rad--vis-arkivering'
-            : ' kandidatliste-kandidat__rad';
+        return visArkiveringskolonne ? css.radVisArkivering : css.rad;
     }
 };
 
@@ -38,12 +34,7 @@ const Kolonne: FunctionComponent<{
     className?: string;
 }> = ({ tekst, className, children }) => {
     return (
-        <Label
-            role="columnheader"
-            as="div"
-            size="small"
-            className={classNames(className, css.kolonneTittel)}
-        >
+        <Label as="div" role="columnheader" className={classNames(className, css.kolonneTittel)}>
             {tekst}
             {children}
         </Label>
@@ -58,15 +49,14 @@ const ListeHeader: FunctionComponent<Props> = ({
     sortering,
     setSortering,
 }) => {
-    const klassenavn =
-        'kandidatliste-kandidat kandidatliste-kandidat__header' +
-        (kandidatliste.status === Kandidatlistestatus.Lukket
-            ? ' kandidatliste-kandidat--disabled'
-            : '');
+    const klassenavn = classNames(css.header, {
+        [css.kandidatDisabled]: kandidatliste.status === Kandidatlistestatus.Lukket,
+    });
 
-    const klassenavnForListerad =
-        'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
+    const klassenavnForListerad = classNames(
+        css.rad,
+        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne)
+    );
 
     const endreSortering = (sorteringsfeltIndex: number) => {
         const endringPåAktivtFelt = sortering?.felt === sorteringsfeltIndex;

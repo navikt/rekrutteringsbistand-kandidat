@@ -26,7 +26,6 @@ import { formaterDato } from '../../utils/dateUtils';
 import { BodyShort, Button, Checkbox } from '@navikt/ds-react';
 import { InformationSquareIcon, TasklistIcon, TrashIcon } from '@navikt/aksel-icons';
 import css from './Kandidatrad.module.css';
-import './Kandidatrad.less';
 
 type Props = {
     kandidat: Kandidat;
@@ -132,15 +131,15 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
     const fulltNavn = `${etternavn}, ${fornavn}`;
 
-    const klassenavnForListerad =
-        'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne);
+    const klassenavnForListerad = classNames(
+        css.rad,
+        modifierTilListeradGrid(erKobletTilStilling(kandidatliste), visArkiveringskolonne)
+    );
 
-    const klassenavn = `kandidatliste-kandidat${
-        kandidatliste.status === Kandidatlistestatus.Lukket
-            ? ' kandidatliste-kandidat--disabled'
-            : ''
-    } ${tilstand?.markert ? 'kandidatliste-kandidat--checked' : ''}`;
+    const klassenavn = classNames(css.kandidat, {
+        [css.kandidatDisabled]: kandidatliste.status === Kandidatlistestatus.Lukket,
+        [css.kandidatChecked]: tilstand?.markert,
+    });
 
     const kanEndreKandidatlisten =
         kandidatliste.status === Kandidatlistestatus.Åpen && kandidatliste.kanEditere;
@@ -233,7 +232,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     )}
                 </div>
                 {visArkiveringskolonne && (
-                    <div role="cell" className={css.kolonnHøyrestilt}>
+                    <div role="cell" className={css.kolonneHøyrestilt}>
                         <Button
                             size="small"
                             variant="tertiary"

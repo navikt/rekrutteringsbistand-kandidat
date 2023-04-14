@@ -3,11 +3,11 @@
     display: flex;
     align-items: center;
     padding-left: 0.5rem;
+    text-decoration: none;
 }
 
 .sorterbarKolonneheader:focus {
-    background-color: var(--a-surface-action-active);
-    color: white;
+    background-color: var(--a-surface-action-subtle);
 }
 
 .sorterbarKolonneheaderTekst {

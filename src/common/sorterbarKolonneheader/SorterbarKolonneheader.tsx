@@ -37,7 +37,7 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
             onClick={() => onClick(sorteringsfelt)}
             className={css.sorterbarKolonneheader}
         >
-            <Label as="div" className={css.sorterbarKolonneheaderTekst} size="small">
+            <Label as="div" className={css.sorterbarKolonneheaderTekst}>
                 {tekst}
             </Label>
             {children}
