@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { Modal } from '@navikt/ds-react';
 import { Router } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
-import Navspa from '@navikt/navspa';
 import ReactDOM from 'react-dom';
 
 import '@navikt/ds-css';
@@ -18,7 +17,8 @@ import { getMiljø, Miljø } from './utils/miljøUtils';
 import { fjernPersonopplysninger } from './utils/sentryUtils';
 import App from './app/App';
 
-const skalEksporteres = import.meta.env.VITE_EXPORT || import.meta.env.MODE === 'production';
+const skalEksporteres =
+    import.meta.env.VITE_EXPORT === true || import.meta.env.MODE === 'production';
 
 const appElement =
     document.getElementById('rekrutteringsbistand-container') ||
@@ -66,6 +66,7 @@ const renderUtviklingsapp = async () => {
 };
 
 if (skalEksporteres) {
+    const Navspa: any = await import('@navikt/navspa');
     Navspa.eksporter('rekrutteringsbistand-kandidat', AppMedRouter);
 } else {
     renderUtviklingsapp();

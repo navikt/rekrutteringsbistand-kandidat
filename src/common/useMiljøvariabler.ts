@@ -7,10 +7,10 @@ const useMiljøvariabler = (): {
     lastNedCvUrl: string;
     arbeidsrettetOppfølgingUrl: string;
 } => {
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.MODE === 'development') {
         return {
-            lastNedCvUrl: process.env.VITE_LAST_NED_CV_URL!,
-            arbeidsrettetOppfølgingUrl: process.env.VITE_ARBEIDSRETTET_OPPFOLGING_URL!,
+            lastNedCvUrl: import.meta.env.VITE_LAST_NED_CV_URL!,
+            arbeidsrettetOppfølgingUrl: import.meta.env.VITE_ARBEIDSRETTET_OPPFOLGING_URL!,
         };
     }
 
