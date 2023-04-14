@@ -101,7 +101,7 @@ const VelgSvarfrist: FunctionComponent<Props> = ({
                         <DatePicker.Input
                             {...inputProps}
                             error={egenvalgtFristFeilmelding}
-                            label="Velg frist for svar (Frist ut valgt dato)"
+                            label="Velg frist for svar (frist ut valgt dato)"
                             placeholder="dd.mm.yyyy"
                             size="small"
                         />
@@ -131,7 +131,7 @@ const lagBeskrivelseAvSvarfrist = (svarfrist: Svarfrist): string => {
         month: 'long',
     });
 
-    return `(Frist ut ${frist})`;
+    return `(frist ut ${frist})`;
 };
 
 export const lagSvarfristPåSekundet = (svarfrist: Svarfrist, egenvalgtFrist?: Date) => {

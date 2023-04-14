@@ -117,8 +117,8 @@ const SendForespørselPåNytt: FunctionComponent<Props> = ({
             />
             <div className={css.delPåNyttKnapper}>
                 <Button
-                    variant="primary"
                     size="small"
+                    variant="primary"
                     onClick={onDelPåNyttClick}
                     loading={senderForespørselPåNytt}
                 >

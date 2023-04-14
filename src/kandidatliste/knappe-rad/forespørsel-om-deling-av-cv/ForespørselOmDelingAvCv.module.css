@@ -10,7 +10,8 @@
 }
 
 .datepicker {
-    margin-left: 2rem;
+    margin-top: 0.5rem;
+    margin-left: 1.75rem;
 }
 
 .knapper {
@@ -30,4 +31,3 @@
 .ingenValgtPopover > * {
     background-color: var(--a-surface-info-subtle);
 }
-
