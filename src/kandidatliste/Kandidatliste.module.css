@@ -33,8 +33,4 @@
         margin: 0 auto;
         padding: 0 2rem;
     }
-
-    .filter {
-        width: var(--kandidatsokSidepanelBredde);
-    }
 }

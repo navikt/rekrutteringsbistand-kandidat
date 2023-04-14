@@ -1,5 +1,5 @@
 .historikk {
-    max-width: var(--kandidatsok-innhold-bredde);
+    max-width: var(--kandidatsokInnholdBredde);
     margin: 0 auto;
 }
 
