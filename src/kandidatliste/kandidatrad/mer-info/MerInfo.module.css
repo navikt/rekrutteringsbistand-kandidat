@@ -1,0 +1,11 @@
+.merInfo {
+    display: flex;
+}
+
+.kontaktinfo {
+    flex: 2;
+}
+
+.innsatsgruppe {
+    flex: 1;
+}
