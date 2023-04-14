@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './TilToppenKnapp.less';
+import { ChevronUpDoubleIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
 import throttle from 'lodash.throttle';
 import classNames from 'classnames';
+import css from './TilToppenKnapp.module.css';
 
 export const TilToppenKnapp = () => {
     const [scrollPosition, setScrollPosition] = useState<number | undefined>();
@@ -11,10 +13,11 @@ export const TilToppenKnapp = () => {
         setScrollPosition(window.scrollY);
     }, 1000);
 
-    const onClick = (e) => {
+    const onClick = () => {
         if (knappSkalVises) {
             window.scrollTo({ top: 0 });
         }
+
         if (knappRef && knappRef.current) {
             knappRef.current.blur();
         }
@@ -31,24 +34,14 @@ export const TilToppenKnapp = () => {
     const knappSkalVises = scrollPosition && scrollPosition > window.innerHeight;
 
     return (
-        <button
+        <Button
             ref={knappRef}
-            className={classNames(
-                'tilToppenKnapp',
-                'knapp',
-                'knapp--hoved',
-                !knappSkalVises && 'tilToppenKnapp--skjul'
-            )}
+            className={classNames(css.knapp, {
+                [css.skjult]: !knappSkalVises,
+            })}
             aria-hidden={!knappSkalVises}
             onClick={onClick}
-        >
-            <svg width="22" height="24" viewBox="0 0 22 24">
-                <title>Til toppen</title>
-                <path
-                    d="M7.14 23.51v-12H1.4a.48.48 0 0 1-.34-.82l9.575-9.607a.482.482 0 0 1 .68-.001l9.604 9.609a.48.48 0 0 1-.34.82h-5.76v12a.48.48 0 0 1-.48.48h-6.72a.48.48 0 0 1-.48-.482z"
-                    fillRule="evenodd"
-                />
-            </svg>
-        </button>
+            icon={<ChevronUpDoubleIcon />}
+        />
     );
 };

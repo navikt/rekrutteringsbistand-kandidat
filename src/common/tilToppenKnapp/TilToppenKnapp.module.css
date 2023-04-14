@@ -1,0 +1,22 @@
+.knapp {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    height: 3rem;
+    width: 3rem;
+
+    transition: opacity 0.5s ease-in;
+    fill: white;
+}
+
+.knapp:focus {
+    fill: var(--a-border-focus);
+}
+
+.skjult {
+    opacity: 0;
+}
+
+.skjult:hover {
+    cursor: unset;
+}
