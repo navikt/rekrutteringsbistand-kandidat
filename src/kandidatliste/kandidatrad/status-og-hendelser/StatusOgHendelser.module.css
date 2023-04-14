@@ -1,13 +1,18 @@
+.popover {
+    padding: 1.5rem;
+    width: 35rem;
+}
+
+.popoverBred {
+    width: 55rem;
+}
+
 .statusOgHendelser {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     position: relative;
     gap: 0.5rem;
-}
-
-.popover {
-    padding: 1.25rem 1rem 1.25rem 2rem;
 }
 
 .lukkPopoverKnapp {

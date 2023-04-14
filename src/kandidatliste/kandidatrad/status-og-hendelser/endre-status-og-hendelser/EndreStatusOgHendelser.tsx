@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
+import { Button, RadioGroup, Radio, Detail, BodyShort, Heading } from '@navikt/ds-react';
 
 import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';
 import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
@@ -8,8 +9,6 @@ import { ForespørslerForKandidatForStilling } from '../../../knappe-rad/foresp�
 import { Nettressurs } from '../../../../api/Nettressurs';
 import NyKandidat from '../hendelser/NyKandidat';
 import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
-import './EndreStatusOgHendelser.less';
-import css from './EndreStatusOgHendelser.module.css';
 import {
     kandidaterMåGodkjenneDelingAvCv,
     Kandidatliste,
@@ -18,8 +17,7 @@ import {
 import { Sms } from '../../../domene/Kandidatressurser';
 import SmsSendt from '../hendelser/SmsSendt';
 import CvErSlettet from '../hendelser/CvErSlettet';
-import { Button, RadioGroup, Radio, Detail, BodyShort, Heading } from '@navikt/ds-react';
-import classNames from 'classnames';
+import css from './EndreStatusOgHendelser.module.css';
 
 type Props = {
     kandidat: Kandidat;
@@ -58,12 +56,9 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
         kandidatliste.stillingskategori === Stillingskategori.Stilling ||
         kandidatliste.stillingskategori === Stillingskategori.Formidling ||
         kandidatliste.stillingskategori == null;
+
     return (
-        <div
-            className={classNames(css.endreStatusOgHendelser, {
-                [css.makshøyde]: visHendelser,
-            })}
-        >
+        <div className={css.endreStatusOgHendelser}>
             <div className={css.velgStatus}>
                 <RadioGroup
                     size="small"
@@ -103,7 +98,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
             </div>
             {visHendelser && (
                 <div className={css.hendelser}>
-                    <Heading level="2" size="small">
+                    <Heading spacing level="2" size="small">
                         Hendelser
                     </Heading>
                     <ol className={css.hendelsesliste}>
