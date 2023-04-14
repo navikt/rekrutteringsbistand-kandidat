@@ -13,9 +13,10 @@ import Hendelse, { Hendelsesstatus } from '../kandidatrad/status-og-hendelser/he
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import Hendelsesetikett from '../kandidatrad/status-og-hendelser/etiketter/Hendelsesetikett';
 import endreStatusOgHendelserCss from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.module.css';
-import css from '../kandidatrad/status-og-hendelser/StatusOgHendelser.module.css';
+import statusOgHendelsercss from '../kandidatrad/status-og-hendelser/StatusOgHendelser.module.css';
 
-import './FormidlingAvUsynligKandidatrad.less';
+import css from './FormidlingAvUsynligKandidatrad.module.css';
+import classNames from 'classnames';
 
 type Props = {
     kandidatlisteId: string;
@@ -59,25 +60,17 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     return (
         <div
             role="row"
-            className={`formidling-av-usynlig-kandidatrad${
-                kandidatlistenErLukket ? ' formidling-av-usynlig-kandidatrad--lukket-liste' : ''
-            }`}
+            className={classNames(css.formidlingAvUsynligKandidatrad, {
+                [css.lukketListe]: kandidatlistenErLukket,
+            })}
         >
-            <span className="formidling-av-usynlig-kandidatrad__før-navn" />
-            <div
-                role="cell"
-                className="formidling-av-usynlig-kandidatrad__navn formidling-av-usynlig-kandidatrad__kolonne"
-            >
+            <span />
+            <div role="cell" className={css.kolonne}>
                 {fulltNavn}
             </div>
-            <div role="cell" className="formidling-av-usynlig-kandidatrad__ikke-synlig">
-                Ikke synlig i Rekrutteringsbistand
-            </div>
-            <div
-                role="cell"
-                className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne"
-            >
-                <div className={css.statusOgHendelser}>
+            <div role="cell">Ikke synlig i Rekrutteringsbistand</div>
+            <div role="cell" className={css.kolonne}>
+                <div className={statusOgHendelsercss.statusOgHendelser}>
                     {formidling.utfall !== Kandidatutfall.IkkePresentert && (
                         <Hendelsesetikett utfall={formidling.utfall} utfallsendringer={[]} />
                     )}
@@ -91,7 +84,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                         anchorEl={popoverRef.current}
                         onClose={() => setVisPopover(false)}
                     >
-                        <Popover.Content className={css.popover}>
+                        <Popover.Content className={statusOgHendelsercss.popover}>
                             <Heading spacing level="2" size="small">
                                 Hendelser
                             </Heading>
@@ -119,7 +112,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                             <Button
                                 size="small"
                                 variant="secondary"
-                                className={css.lukkPopoverKnapp}
+                                className={statusOgHendelsercss.lukkPopoverKnapp}
                                 onClick={() => setVisPopover(false)}
                                 icon={<XMarkIcon />}
                             ></Button>
