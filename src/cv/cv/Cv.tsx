@@ -29,7 +29,11 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
             {cv.utdanning?.length > 0 && (
                 <BolkMedErfaringer tittel="Utdanning">
                     {sortByDato(cv.utdanning).map((utdanning) => (
-                        <Erfaring fraDato={utdanning.fraDato} tilDato={utdanning.tilDato}>
+                        <Erfaring
+                            fraDato={utdanning.fraDato}
+                            tilDato={utdanning.tilDato}
+                            key={`${utdanning.nusKode}${utdanning.fraDato}`}
+                        >
                             <BodyShort className={css.bold}>
                                 {utdanning.alternativtUtdanningsnavn
                                     ? utdanning.alternativtUtdanningsnavn
@@ -85,7 +89,7 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
             {cv.godkjenninger?.length > 0 && (
                 <BolkMedErfaringer tittel="Godkjenninger i lovreguelerte yrker">
                     {cv.godkjenninger.map((godkjenning) => (
-                        <Erfaring fraDato={godkjenning.gjennomfoert}>
+                        <Erfaring fraDato={godkjenning.gjennomfoert} key={godkjenning.konseptId}>
                             <BodyShort className={css.bold}>{godkjenning.tittel}</BodyShort>
                             <BodyShort>{godkjenning.utsteder}</BodyShort>
                             {godkjenning.utloeper && (
@@ -129,7 +133,11 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
             {cv.forerkort?.length > 0 && (
                 <BolkMedErfaringer tittel="Førerkort">
                     {fjernDuplikater(sortByDato(cv.forerkort)).map((førerkort) => (
-                        <Erfaring fraDato={førerkort.fraDato} tilDato={førerkort.tilDato}>
+                        <Erfaring
+                            fraDato={førerkort.fraDato}
+                            tilDato={førerkort.tilDato}
+                            key={førerkort.sertifikatKode}
+                        >
                             <BodyShort className={css.bold}>
                                 {førerkort.alternativtNavn
                                     ? førerkort.alternativtNavn
@@ -144,7 +152,10 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                 <BolkMedToKolonner tittel="Språk">
                     <div className={css.kolonne}>
                         {cv.sprakferdigheter.map((ferdighet) => (
-                            <Språkferdighet ferdighet={ferdighet} />
+                            <Språkferdighet
+                                ferdighet={ferdighet}
+                                key={`${ferdighet.sprak}${ferdighet.ferdighetMuntlig}${ferdighet.ferdighetSkriftlig}`}
+                            />
                         ))}
                     </div>
                 </BolkMedToKolonner>

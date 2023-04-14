@@ -69,7 +69,7 @@ const Filter: FunctionComponent<Props> = ({
         : undefined;
 
     const arkivfilter = (
-        <Checkbox checked={visArkiverte} onChange={onToggleArkiverte}>
+        <Checkbox checked={visArkiverte} onChange={onToggleArkiverte} value="">
             {`Vis kun slettede (${antallTreff.arkiverte})`}
         </Checkbox>
     );
