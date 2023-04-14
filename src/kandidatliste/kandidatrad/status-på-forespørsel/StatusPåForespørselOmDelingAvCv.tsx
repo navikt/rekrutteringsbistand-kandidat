@@ -1,28 +1,20 @@
-import React, { FunctionComponent, useState } from 'react';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { MouseEvent } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
+import classNames from 'classnames';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import {
     ForespørslerForKandidatForStilling,
     TilstandPåForespørsel,
 } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import './StatusPåForespørselOmDelingAvCv.less';
+import { BodyShort, Popover } from '@navikt/ds-react';
+import css from './StatusPåForespørselOmDelingAvCv.module.css';
 
 type Props = {
     forespørsel: Nettressurs<ForespørslerForKandidatForStilling>;
 };
 
 const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespørsel }) => {
-    const [popoverAnker, setPopoverAnker] = useState<HTMLElement | undefined>(undefined);
-
-    const togglePopoverAnker = (event: MouseEvent<HTMLElement>) => {
-        setPopoverAnker(popoverAnker === undefined ? event.currentTarget : undefined);
-    };
-
-    const lukkPopoverAnker = () => {
-        setPopoverAnker(undefined);
-    };
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
+    const [visBeskjed, setVisBeskjed] = useState<boolean>(false);
 
     if (forespørsel.kind !== Nettstatus.Suksess) {
         return null;
@@ -34,43 +26,50 @@ const StatusPåForespørselOmDelingAvCv: FunctionComponent<Props> = ({ forespør
     const veilederKanSvare = tilstand === TilstandPåForespørsel.KanIkkeVarsle;
 
     return (
-        <div className="status-på-forespørsel-om-deling-av-cv">
+        <>
             {kanIkkeOpprette && (
                 <button
-                    onClick={togglePopoverAnker}
-                    className="status-på-forespørsel-om-deling-av-cv__kortet-ble-ikke-opprettet"
+                    ref={buttonRef}
+                    onClick={() => setVisBeskjed(!visBeskjed)}
+                    className={classNames(css.status, css.kortetBleIkkeOpprettet)}
+                    aria-label="Vis beskjed om forespørsel om deling av CV."
                 >
-                    ×
+                    <span aria-hidden>×</span>
                 </button>
             )}
             {veilederKanSvare && (
                 <button
-                    onClick={togglePopoverAnker}
-                    className="status-på-forespørsel-om-deling-av-cv__veileder-kan-svare"
+                    ref={buttonRef}
+                    onClick={() => setVisBeskjed(!visBeskjed)}
+                    className={classNames(css.status, css.veilederKanSvare)}
+                    aria-label="Vis beskjed om forespørsel om deling av CV."
                 >
-                    !
+                    <span aria-hidden>!</span>
                 </button>
             )}
             <Popover
-                ankerEl={popoverAnker}
-                orientering={PopoverOrientering.UnderVenstre}
-                onRequestClose={lukkPopoverAnker}
+                open={visBeskjed}
+                anchorEl={buttonRef.current}
+                placement="bottom"
+                onClose={() => setVisBeskjed(false)}
             >
-                {kanIkkeOpprette && (
-                    <Normaltekst>
-                        Stillingskortet ble ikke opprettet.
-                        <br />
-                        CV-en kan ikke deles med arbeidsgiver.
-                    </Normaltekst>
-                )}
-                {veilederKanSvare && (
-                    <Normaltekst>
-                        Kandidaten bruker ikke digitale tjenester fra NAV. Du må ringe og registrere
-                        svaret i stillingskortet i Aktivitetsplanen.{' '}
-                    </Normaltekst>
-                )}
+                <Popover.Content className={css.popover}>
+                    {kanIkkeOpprette && (
+                        <BodyShort>
+                            Stillingskortet ble ikke opprettet.
+                            <br />
+                            CV-en kan ikke deles med arbeidsgiver.
+                        </BodyShort>
+                    )}
+                    {veilederKanSvare && (
+                        <BodyShort>
+                            Kandidaten bruker ikke digitale tjenester fra NAV. Du må ringe og
+                            registrere svaret i stillingskortet i Aktivitetsplanen.
+                        </BodyShort>
+                    )}
+                </Popover.Content>
             </Popover>
-        </div>
+        </>
     );
 };
 
