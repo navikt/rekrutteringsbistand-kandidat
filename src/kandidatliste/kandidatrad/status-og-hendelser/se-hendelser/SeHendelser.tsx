@@ -1,16 +1,17 @@
 import React, { FunctionComponent } from 'react';
-import { Kandidat } from '../../../domene/Kandidat';
-import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
-import HarFåttJobben from '../hendelser/HarFåttJobben';
-import NyKandidat from '../hendelser/NyKandidat';
-import { Nettressurs } from '../../../../api/Nettressurs';
+import { Heading } from '@navikt/ds-react';
+
 import { ForespørslerForKandidatForStilling } from '../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
+import { Kandidat } from '../../../domene/Kandidat';
+import { Nettressurs } from '../../../../api/Nettressurs';
 import { Sms } from '../../../domene/Kandidatressurser';
-import SmsSendt from '../hendelser/SmsSendt';
 import { Stillingskategori } from '../../../domene/Kandidatliste';
 import CvErSlettet from '../hendelser/CvErSlettet';
-import { Heading } from '@navikt/ds-react';
+import DelCvMedArbeidsgiver from '../hendelser/DelCvMedArbeidsgiver';
+import ForespørslerOgSvar from '../hendelser/forespørsler-og-svar/ForespørslerOgSvar';
+import HarFåttJobben from '../hendelser/HarFåttJobben';
+import NyKandidat from '../hendelser/NyKandidat';
+import SmsSendt from '../hendelser/SmsSendt';
 import css from '../endre-status-og-hendelser/EndreStatusOgHendelser.module.css';
 
 type Props = {
@@ -35,7 +36,7 @@ const SeHendelser: FunctionComponent<Props> = ({
 
     return (
         <>
-            <Heading level="2" size="medium">
+            <Heading spacing level="2" size="small">
                 Hendelser
             </Heading>
             <ol className={css.hendelsesliste}>

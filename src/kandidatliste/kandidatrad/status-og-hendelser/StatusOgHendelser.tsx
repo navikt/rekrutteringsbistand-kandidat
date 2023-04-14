@@ -1,21 +1,18 @@
-import React, { FunctionComponent, useRef } from 'react';
-import { Button } from '@navikt/ds-react';
-import { XMarkIcon } from '@navikt/aksel-icons';
-import Popover from 'nav-frontend-popover';
+import React, { FunctionComponent, useRef, useState } from 'react';
+import { Button, Popover } from '@navikt/ds-react';
+import { EyeIcon, PencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 
 import { ForespørslerForKandidatForStilling } from '../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { Kandidat, Kandidatstatus } from '../../domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
-import StatusOgHendelserKnapp from './endre-status-og-hendelser/StatusOgHendelserKnapp';
 import SeHendelser from './se-hendelser/SeHendelser';
 import StatusEtikett from './etiketter/StatusEtikett';
-import usePopoverAnker from './usePopoverAnker';
-import usePopoverOrientering from './usePopoverOrientering';
 import Hendelsesetikett from './etiketter/Hendelsesetikett';
 import { erKobletTilStilling, Kandidatliste } from '../../domene/Kandidatliste';
 import { Sms } from '../../domene/Kandidatressurser';
 import css from './StatusOgHendelser.module.css';
+import classNames from 'classnames';
 
 type Props = {
     kandidat: Kandidat;
@@ -36,20 +33,19 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     kanEditere,
     id,
 }) => {
-    const popoverRef = useRef<HTMLDivElement | null>(null);
-    const { popoverAnker, togglePopover, lukkPopover } = usePopoverAnker(popoverRef);
-    const popoverOrientering = usePopoverOrientering(popoverAnker);
+    const popoverRef = useRef<HTMLButtonElement | null>(null);
+    const [visPopover, setVisPopover] = useState<boolean>(false);
 
     const endreStatusOgLukkPopover = (status: Kandidatstatus) => {
         onStatusChange(status);
-        lukkPopover();
+        setVisPopover(false);
     };
 
     const kandidatlistenErKobletTilStilling = erKobletTilStilling(kandidatliste);
-    const skalVisePopover = kanEditere || kandidatlistenErKobletTilStilling;
+    const kanEndreStatusOgHendelser = kanEditere || kandidatlistenErKobletTilStilling;
 
     return (
-        <div id={id} className={css.statusOgHendelser} ref={popoverRef}>
+        <div id={id} className={css.statusOgHendelser}>
             <StatusEtikett status={kandidat.status} />
             {kandidatlistenErKobletTilStilling && (
                 <Hendelsesetikett
@@ -64,44 +60,53 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                     sms={sms}
                 />
             )}
-            {skalVisePopover && (
-                <StatusOgHendelserKnapp kanEndre={kanEditere} onClick={togglePopover} />
+            {kanEndreStatusOgHendelser && (
+                <Button
+                    size="small"
+                    variant="tertiary"
+                    ref={popoverRef}
+                    onClick={() => setVisPopover(!visPopover)}
+                    icon={kanEditere ? <PencilIcon /> : <EyeIcon />}
+                    aria-label={
+                        kanEditere ? 'Endre status eller hendelser' : 'Se status eller hendelser'
+                    }
+                />
             )}
             <Popover
-                orientering={popoverOrientering}
-                ankerEl={popoverAnker}
-                onRequestClose={lukkPopover}
+                open={visPopover}
+                anchorEl={popoverRef.current}
+                onClose={() => setVisPopover(false)}
             >
-                <div className={css.popover}>
-                    {skalVisePopover && (
-                        <>
-                            {kanEditere ? (
-                                <EndreStatusOgHendelser
-                                    kandidat={kandidat}
-                                    kandidatliste={kandidatliste}
-                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                                    sms={sms}
-                                    onStatusChange={endreStatusOgLukkPopover}
-                                />
-                            ) : (
-                                <SeHendelser
-                                    kandidat={kandidat}
-                                    kandidatlisteId={kandidatliste.kandidatlisteId}
-                                    forespørselOmDelingAvCv={forespørselOmDelingAvCv}
-                                    sms={sms}
-                                    stillingskategori={kandidatliste.stillingskategori}
-                                />
-                            )}
-                            <Button
-                                variant="secondary"
-                                className={css.lukkPopoverKnapp}
-                                onClick={lukkPopover}
-                                icon={<XMarkIcon />}
-                                size="small"
-                            ></Button>
-                        </>
+                <Popover.Content
+                    className={classNames(css.popover, {
+                        [css.popoverBred]: kanEditere,
+                    })}
+                >
+                    {kanEditere ? (
+                        <EndreStatusOgHendelser
+                            kandidat={kandidat}
+                            kandidatliste={kandidatliste}
+                            forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                            onStatusChange={endreStatusOgLukkPopover}
+                            sms={sms}
+                        />
+                    ) : (
+                        <SeHendelser
+                            kandidat={kandidat}
+                            kandidatlisteId={kandidatliste.kandidatlisteId}
+                            forespørselOmDelingAvCv={forespørselOmDelingAvCv}
+                            stillingskategori={kandidatliste.stillingskategori}
+                            sms={sms}
+                        />
                     )}
-                </div>
+                    <Button
+                        variant="secondary"
+                        className={css.lukkPopoverKnapp}
+                        onClick={() => setVisPopover(false)}
+                        icon={<XMarkIcon />}
+                        size="small"
+                    ></Button>
+                </Popover.Content>
             </Popover>
         </div>
     );

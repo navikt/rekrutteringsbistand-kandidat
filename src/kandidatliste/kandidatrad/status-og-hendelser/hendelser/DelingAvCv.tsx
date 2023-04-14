@@ -215,7 +215,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     status={hendelsesstatus}
                     tittel={'Fjern registreringen "delt med arbeidsgiver"'}
                     beskrivelse={
-                        'Hvis du fjerner registreringen vil tellingen på "presentert" taes bort.'
+                        'Hvis du fjerner registreringen vil tellingen på "presentert" forsvinne.'
                     }
                 >
                     {kanEndre && (
