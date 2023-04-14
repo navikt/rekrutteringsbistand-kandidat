@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { setNavKontorIAmplitude } from '../amplitude/amplitude';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
+import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
 import AppState from '../AppState';
 import CvSide from '../cv/CvSide';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
@@ -14,11 +15,8 @@ import Kandidatlisteoversikt from '../kandidatlisteoversikt/Kandidatlisteoversik
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
-import MatcherForStilling from '../automatisk-matching/AlleMatcher';
-import Matchforklaring from '../automatisk-matching/matchforklaring/Matchforklaring';
 import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import Varsling from '../common/varsling/Varsling';
-import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
 import ManglerTilgang from './ManglerTilgang';
 import css from './App.module.css';
 
@@ -52,14 +50,6 @@ const App: FunctionComponent<Props> = (props) => {
                 <main className={css.main}>
                     <Routes>
                         <Route path="/kandidater/mangler-tilgang" element={<ManglerTilgang />} />
-                        <Route
-                            path="/prototype/stilling/:stillingsId"
-                            element={<MatcherForStilling />}
-                        />
-                        <Route
-                            path="/prototype/stilling/:stillingsId/forklaring/:kandidatNr"
-                            element={<Matchforklaring />}
-                        />
                         <Route path="/kandidater/lister" element={<Kandidatlisteoversikt />} />
                         <Route
                             path="/kandidater/lister/stilling/:id/detaljer"

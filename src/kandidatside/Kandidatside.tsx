@@ -13,7 +13,6 @@ export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
     StillingId = 'stillingId',
     FraKandidatliste = 'fraKandidatliste',
-    FraAutomatiskMatching = 'fraKandidatmatch',
     FraNyttKandidatsøk = 'fraNyttKandidatsok',
 }
 
@@ -33,8 +32,6 @@ const Kandidatside: FunctionComponent = () => {
     const kommerFraKandidatliste = searchParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
     const kommerFraKandidatsøket =
         searchParams.get(KandidatQueryParam.FraNyttKandidatsøk) === 'true';
-    const kommerFraAutomatiskMatching =
-        searchParams.get(KandidatQueryParam.FraAutomatiskMatching) === 'true';
 
     if (kommerFraKandidatliste) {
         if (kandidatlisteIdFraUrl) {
@@ -50,7 +47,7 @@ const Kandidatside: FunctionComponent = () => {
         } else {
             return <Sidefeil feilmelding="Mangler kandidatlisteId i URL" />;
         }
-    } else if (kommerFraKandidatsøket || kommerFraAutomatiskMatching) {
+    } else if (kommerFraKandidatsøket) {
         if (kandidatlisteIdFraUrl) {
             return (
                 <FraSøkMedKandidatliste
@@ -58,7 +55,6 @@ const Kandidatside: FunctionComponent = () => {
                     kandidatnr={kandidatnr}
                     kandidatlisteId={kandidatlisteIdFraUrl}
                     søkeøkt={søkeøkt}
-                    fraAutomatiskMatching={kommerFraAutomatiskMatching}
                 >
                     <Outlet />
                 </FraSøkMedKandidatliste>

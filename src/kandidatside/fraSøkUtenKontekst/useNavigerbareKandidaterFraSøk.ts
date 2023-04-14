@@ -25,11 +25,11 @@ const useNavigerbareKandidaterFraSøk = (
     const nesteKandidatnr = økt.kandidater[index + 1];
 
     if (forrigeKandidatnr) {
-        forrige = lenkeTilKandidatside(forrigeKandidatnr, fane, undefined, false, false, true);
+        forrige = lenkeTilKandidatside(forrigeKandidatnr, fane, undefined, false, true);
     }
 
     if (nesteKandidatnr) {
-        neste = lenkeTilKandidatside(nesteKandidatnr, fane, undefined, false, false, true);
+        neste = lenkeTilKandidatside(nesteKandidatnr, fane, undefined, false, true);
     }
 
     return {
