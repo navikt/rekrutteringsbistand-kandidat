@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
+import { ArrowsUpDownIcon, ArrowUpIcon, ArrowDownIcon } from '@navikt/aksel-icons';
 import { Link, useLocation } from 'react-router-dom';
 import { Retning } from './Retning';
 import { Label } from '@navikt/ds-react';
@@ -42,11 +42,11 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
             </Label>
             {children}
             {ariaSort === 'none' ? (
-                <ChevronUpDownIcon fontSize={25} />
+                <ArrowsUpDownIcon aria-hidden />
             ) : ariaSort === 'ascending' ? (
-                <ChevronUpIcon fontSize={25} />
+                <ArrowUpIcon aria-hidden />
             ) : (
-                <ChevronDownIcon fontSize={25} />
+                <ArrowDownIcon aria-hidden />
             )}
         </Link>
     );

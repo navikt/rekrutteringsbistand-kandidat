@@ -20,57 +20,6 @@ body {
     text-align: center;
 }
 
-.checkboks + .skjemaelement__label {
-    padding-left: 32px;
-    line-height: 24px;
-    width: 100%;
-}
-
-.checkboks + .skjemaelement__label:before {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    border: solid 2px #c6c2bf;
-}
-
-.checkboks:hover + .skjemaelement__label:before {
-    // border-color: @navGronnDarken40;
-    border-width: 2px;
-}
-
-.border--bottom--medium {
-    border-bottom: solid 2px rgba(120, 112, 106, 0.5);
-    border-radius: 0;
-    margin-top: 1rem;
-}
-
-.border--bottom--thin {
-    border-bottom: solid 1px @navGra20;
-    border-radius: 0;
-}
-
-.border--top--thin {
-    border-top: solid 1px rgba(120, 112, 106, 0.5);
-    border-radius: 0;
-}
-
-.border--bottom--thin--margin {
-    margin: 2rem 0 1rem 0;
-}
-
-.TilbakeLenke {
-    display: flex;
-    align-items: center;
-    padding-left: 1rem;
-    padding-bottom: 1rem;
-}
-
-.TilbakeLenke__lenke {
-    margin-left: 4px;
-    font-weight: normal;
-    text-decoration: none;
-}
-
 .hjelpetekst__apneknapp:focus {
     box-shadow: 0 0 0 2pt @fokusFarge;
 }
@@ -182,35 +131,6 @@ select {
     background-color: transparent;
 }
 
-.search-button {
-    padding: 10px !important;
-    border-radius: 0 !important;
-    border: none !important;
-    position: absolute;
-    right: 0;
-    background: transparent;
-}
-
-.search-button:hover,
-.search-button:active {
-    background-color: @navBlaDarken80 !important;
-}
-
-.search-button__icon {
-    width: 20px;
-    height: 20px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cg stroke='%23062140' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 28px;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: block;
-}
-
-.search-button:hover .search-button__icon,
-.search-button:active .search-button__icon {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cg stroke='%23fff' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
-}
-
 .skjemaelement__input {
     border-radius: 2px;
 
@@ -224,100 +144,8 @@ select {
     }
 }
 
-.sokekriterier--kriterier {
-    width: 100%;
-    margin-top: 1rem;
-    margin-bottom: 0;
-
-    .typeahead {
-        max-width: 20rem;
-    }
-
-    .Merkelapp__wrapper {
-        &:empty {
-            display: none;
-        }
-
-        display: flex;
-        flex-wrap: wrap;
-
-        .Merkelapp {
-            margin: 0.5rem 0.5rem 0 0;
-        }
-    }
-}
-
 .Kompetanseforslag__wrapper {
     margin-top: 1rem;
     display: flex;
     flex-wrap: wrap;
-}
-
-.sokekriterier--margin-top-large {
-    margin-top: 1.25rem;
-}
-
-.sokekriterier--margin-top-extra-large {
-    margin-top: 2rem;
-}
-
-.sokekriterier--margin-bottom-medium {
-    margin-bottom: 1rem;
-}
-
-.checkbox--sokekriterier--unchecked {
-    display: inline-flex;
-    margin: 0.5rem 1rem 0 0;
-    padding: 0.7rem 0.7rem;
-    border: solid 2px #c6c2bf;
-    border-radius: 8px;
-}
-
-.checkbox--sokekriterier--checked {
-    display: inline-flex;
-    margin: 0.5rem 1rem 0 0;
-    padding: 0.7rem 0.7rem;
-    border: solid 2px #fff;
-    border-radius: 8px;
-    background-color: #cce1f3;
-}
-
-@media (min-width: @screen-md-min) {
-    .resultatsummering--sokekriterier {
-        text-align: center;
-        padding: 2rem 0;
-        margin: 2rem;
-        position: fixed;
-        width: 18rem;
-        height: 12rem;
-    }
-
-    .antall-treff-sokekriterier-empty {
-        margin-top: 1.5rem;
-    }
-
-    .antall-treff-sokekriterier {
-        margin-top: 1rem;
-    }
-}
-
-.resultatsummering--sokekriterier {
-    text-align: center;
-}
-
-.antall-treff-sokekriterier-empty {
-    margin: 1rem 0;
-}
-
-.antall-treff-sokekriterier {
-    margin: 1rem 0;
-}
-
-.antall-treff-panel {
-    height: 80%;
-    padding-top: 0.5rem;
-}
-
-.text--italic {
-    font-style: italic;
 }
