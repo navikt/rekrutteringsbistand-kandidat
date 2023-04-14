@@ -17,8 +17,7 @@
 }
 
 .kandidatDisabled {
-    border-color: var(--a-gray-400);
-    background-color: var(--a-gray-300);
+    background-color: var(--a-gray-200);
 }
 
 .rad {
