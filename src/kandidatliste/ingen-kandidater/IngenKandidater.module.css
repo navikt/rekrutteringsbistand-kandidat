@@ -1,11 +1,7 @@
-.ingen-kandidater {
+.ingenKandidater {
     padding: 2rem;
     height: 4.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    &.typo-element {
-        margin-top: 0.5rem;
-    }
 }
