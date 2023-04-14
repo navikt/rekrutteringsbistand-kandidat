@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { AppMedStore } from '../index';
 import CustomRouter from './CustomRouter';
 import { mock } from '../mock/mock-data';
-import { Stilling } from '../automatisk-matching/kandidatmatchReducer';
 import { meg } from '../mock/data/kandidat/veileder.mock';
 import css from './Utviklingsapp.module.css';
 
@@ -18,10 +17,7 @@ const Utviklingsapp: FunctionComponent = () => {
     const enKandidatliste = mock.kandidat.kandidatlister[0];
     const enAnnenKandidatliste = mock.kandidat.kandidatlister[1];
     const enKandidat = enKandidatliste.kandidater[0];
-
     const enAnnenKandidat = enKandidatliste.kandidater[1];
-    const enStilling = mock.stillingssøk.stilling._source as unknown as Stilling;
-    const enAnnenStilling = mock.stillingssøk.annenStilling._source as unknown as Stilling;
 
     const stateFraKandidatsøk = {
         kandidater: enKandidatliste.kandidater.map((k) => k.kandidatnr),
@@ -66,18 +62,6 @@ const Utviklingsapp: FunctionComponent = () => {
                         }}
                     >
                         Kandidatside fra liste
-                    </Utviklingslenke>
-                    <Utviklingslenke to={`/prototype/stilling/${enStilling.stilling.uuid}`}>
-                        Kandidatmatch
-                    </Utviklingslenke>
-
-                    <Utviklingslenke
-                        state={{
-                            aktørIder: ['PAM010nudgb5v', 'PAM013tc53ryp'],
-                        }}
-                        to={`/prototype/stilling/${enAnnenStilling.stilling.uuid}`}
-                    >
-                        Kandidatmatch (med aktørIder)
                     </Utviklingslenke>
                 </nav>
             </header>

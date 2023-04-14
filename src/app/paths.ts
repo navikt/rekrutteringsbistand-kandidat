@@ -31,9 +31,6 @@ export const lenkeTilKandidat = (
 export const lenkeTilStilling = (stillingsId: string, redigeringsmodus?: boolean) =>
     `/stillinger/stilling/${stillingsId}${redigeringsmodus ? '?redigeringsmodus=true' : ''}`;
 
-export const lenkeTilAutomatiskMatching = (stillingsId: string) =>
-    `/prototype/stilling/${stillingsId}`;
-
 export const lenkeTilKandidatsøk = (
     params?: string,
     stillingsId?: string,
@@ -81,41 +78,21 @@ export const lenkeTilKandidatside = (
     aktivFane: Kandidatfane,
     kandidatlisteId?: string,
     fraKandidatliste?: boolean,
-    fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
 ) =>
     aktivFane === Kandidatfane.Cv
-        ? lenkeTilCv(
-              kandidatnr,
-              kandidatlisteId,
-              fraKandidatliste,
-              fraKandidatmatch,
-              fraNyttKandidatsøk
-          )
-        : lenkeTilHistorikk(
-              kandidatnr,
-              kandidatlisteId,
-              fraKandidatliste,
-              fraKandidatmatch,
-              fraNyttKandidatsøk
-          );
+        ? lenkeTilCv(kandidatnr, kandidatlisteId, fraKandidatliste, fraNyttKandidatsøk)
+        : lenkeTilHistorikk(kandidatnr, kandidatlisteId, fraKandidatliste, fraNyttKandidatsøk);
 
 export const lenkeTilCv = (
     kandidatnr: string,
     kandidatlisteId?: string,
     fraKandidatliste?: boolean,
-    fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
 ) => {
     let lenke = `/kandidater/kandidat/${kandidatnr}/cv`;
     return (
-        lenke +
-        queryParamsForKandidatside(
-            kandidatlisteId,
-            fraKandidatliste,
-            fraKandidatmatch,
-            fraNyttKandidatsøk
-        )
+        lenke + queryParamsForKandidatside(kandidatlisteId, fraKandidatliste, fraNyttKandidatsøk)
     );
 };
 
@@ -123,36 +100,23 @@ export const lenkeTilHistorikk = (
     kandidatnr: string,
     kandidatlisteId?: string,
     fraKandidatliste?: boolean,
-    fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
 ) => {
     let lenke = `/kandidater/kandidat/${kandidatnr}/historikk`;
     return (
-        lenke +
-        queryParamsForKandidatside(
-            kandidatlisteId,
-            fraKandidatliste,
-            fraKandidatmatch,
-            fraNyttKandidatsøk
-        )
+        lenke + queryParamsForKandidatside(kandidatlisteId, fraKandidatliste, fraNyttKandidatsøk)
     );
 };
 
 const queryParamsForKandidatside = (
     kandidatlisteId?: string,
     fraKandidatliste?: boolean,
-    fraKandidatmatch?: boolean,
     fraNyttKandidatsøk?: boolean
 ) => {
     let queryParams = '';
 
     if (fraKandidatliste) {
         queryParams += nesteSeparator(queryParams) + `${KandidatQueryParam.FraKandidatliste}=true`;
-    }
-
-    if (fraKandidatmatch) {
-        queryParams +=
-            nesteSeparator(queryParams) + `${KandidatQueryParam.FraAutomatiskMatching}=true`;
     }
 
     if (fraNyttKandidatsøk) {

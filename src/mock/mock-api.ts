@@ -3,7 +3,6 @@ import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { KANDIDATSOK_API, SMS_API, ENHETSREGISTER_API, SYNLIGHET_API } from '../api/api';
 import { FORESPORSEL_OM_DELING_AV_CV_API } from '../api/forespørselOmDelingAvCvApi';
-import { KANDIDATMATCH_API_URL, STILLINGSSØK_PROXY } from '../automatisk-matching/kandidatmatchApi';
 import { Kandidatutfall } from '../kandidatliste/domene/Kandidat';
 
 import { mock } from './mock-data';
@@ -14,9 +13,7 @@ fetchMock.config.fallbackToNetwork = true;
 const api = `express:${KANDIDATSOK_API}`;
 const smsApi = `express:${SMS_API}`;
 const forespørselOmDelingAvCvApi = `express:${FORESPORSEL_OM_DELING_AV_CV_API}`;
-const kandidatmatchApi = `express:${KANDIDATMATCH_API_URL}`;
 const synlighetApi = `express:${SYNLIGHET_API}`;
-const stillingssøkProxy = `express:${STILLINGSSØK_PROXY}`;
 
 const url = {
     fnrsok: `${api}/veileder/kandidatsok/fnrsok`,
@@ -50,12 +47,6 @@ const url = {
     forespørselOmDelingAvCvForKandidat: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
     postForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler`,
     postResendForespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/kandidat/:aktorId`,
-
-    // Stillingssøk
-    stilling: `${stillingssøkProxy}/stilling/_doc/:stillingsId`,
-
-    // Kandidatmatch
-    kandidatmatch: `${kandidatmatchApi}/match`,
 
     // Alternative backends
     sms: `${smsApi}/:kandidatlisteId`,
@@ -120,13 +111,6 @@ const getKandidatlisteMedStilling = (url: string) => {
     const stillingsId = url.split('/')[4];
 
     return mock.kandidat.kandidatlister.find((liste) => liste.stillingId === stillingsId);
-};
-
-const getStilling = (url: string) => {
-    const stillingsId = url.split('/').pop();
-    return stillingsId === mock.stillingssøk.stilling._source.stilling.uuid
-        ? mock.stillingssøk.stilling
-        : mock.stillingssøk.annenStilling;
 };
 
 const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) => {
@@ -425,12 +409,6 @@ fetchMock
         log(mock.kandidat.kandidatlisteBasertPåAnnonsenummer)
     )
     .put(url.putSlettCvFraArbeidsgiversKandidatliste, log(putSlettCvFraArbeidsgiversKandidatliste))
-
-    // Stillingssøk
-    .get(url.stilling, log(getStilling))
-
-    // Kandidatmatch
-    .post(url.kandidatmatch, log(mock.kandidatmatch.kandidatmatch))
 
     // Misc
     .post(url.enhetsregister, log(mock.kandidat.enhetsregister));

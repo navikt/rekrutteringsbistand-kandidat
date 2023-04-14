@@ -15,7 +15,6 @@ import {
     mockForespørslerOmDelingAvCv,
     mockForespørslerOmDelingAvCvForKandidat,
 } from './data/forespørselOmDelingAvCv/forespørselOmDelingAvCv.mock';
-import kandidatmatch from './data/kandidatmatch/kandidatmatch.mock.json';
 import enhetsregister from './data/kandidat/enhetsregister.mock.json';
 import notater from './data/kandidat/notater.mock.json';
 import kandidatlisteBasertPåAnnonsenummer from './data/kandidat/kandidatlisteBasertPåAnnonsenummer.mock.json';
@@ -51,9 +50,6 @@ export const mock = {
             kandidat().aktørid!,
             kandidatlisteForKandidat
         ),
-    },
-    kandidatmatch: {
-        kandidatmatch,
     },
     synlighet: {
         usynligKandidat,
