@@ -1,9 +1,13 @@
+import { Label } from '@navikt/ds-react';
 import React, { FunctionComponent } from 'react';
-import { Element } from 'nav-frontend-typografi';
-import './IngenKandidater.less';
+import css from './IngenKandidater.module.css';
 
 const IngenKandidater: FunctionComponent = ({ children }) => {
-    return <Element className="ingen-kandidater">{children}</Element>;
+    return (
+        <Label size="small" className={css.ingenKandidater}>
+            {children}
+        </Label>
+    );
 };
 
 export default IngenKandidater;
