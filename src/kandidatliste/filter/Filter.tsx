@@ -37,7 +37,6 @@ const Filter: FunctionComponent<Props> = ({
         <Checkbox
             key={status}
             value={status}
-            checked={statusfilter[status]}
             name="statusfilter"
             className="kandidatliste-filter__checkbox"
             onChange={(e) => onToggleStatus(e.currentTarget.value as Kandidatstatus)}
@@ -60,7 +59,6 @@ const Filter: FunctionComponent<Props> = ({
               <Checkbox
                   key={hendelse}
                   value={hendelse}
-                  checked={hendelsefilter[hendelse]}
                   name="hendelsesfilter"
                   className="kandidatliste-filter__checkbox"
                   onChange={(e) => onToggleHendelse(e.currentTarget.value as Hendelse)}
@@ -82,7 +80,13 @@ const Filter: FunctionComponent<Props> = ({
                 <Accordion.Item defaultOpen>
                     <Accordion.Header>Status/hendelser</Accordion.Header>
                     <Accordion.Content className={css.innhold}>
-                        <CheckboxGroup legend="Status" size="small">
+                        <CheckboxGroup
+                            legend="Status"
+                            size="small"
+                            value={Object.entries(statusfilter)
+                                .filter(([_, value]) => value)
+                                .map(([key, _]) => key)}
+                        >
                             {statuscheckbokser}
                         </CheckboxGroup>
                         {hendelsescheckbokser && (
@@ -90,6 +94,13 @@ const Filter: FunctionComponent<Props> = ({
                                 legend="Hendelser"
                                 className={css.hendelsesGruppeStorSkjerm}
                                 size="small"
+                                value={
+                                    hendelsefilter
+                                        ? Object.entries(hendelsefilter)
+                                              .filter(([_, value]) => value)
+                                              .map(([key, _]) => key)
+                                        : []
+                                }
                             >
                                 {hendelsescheckbokser}
                             </CheckboxGroup>
