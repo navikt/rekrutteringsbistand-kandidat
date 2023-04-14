@@ -17,7 +17,7 @@ const CvSide: FunctionComponent = () => {
         return <Sidelaster />;
     }
 
-    if (cv.kind === Nettstatus.FinnesIkke) {
+    if (true) {
         return <IkkeFunnet />;
     }
 
