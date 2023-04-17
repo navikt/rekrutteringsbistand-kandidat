@@ -22,8 +22,3 @@ spec:
         initialDelay: 5
     ingresses:
         - https://rekrutteringsbistand.intern.nav.no/rekrutteringsbistand-kandidat
-    env:
-        - name: LAST_NED_CV_URL
-          value: https://pam-personbruker-veileder.intern.nav.no/cv/pdf?fnr=
-        - name: ARBEIDSRETTET_OPPFOLGING_URL
-          value: https://veilarbpersonflate.intern.nav.no

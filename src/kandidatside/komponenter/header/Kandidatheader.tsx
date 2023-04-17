@@ -1,6 +1,4 @@
 import React from 'react';
-import Skeleton from 'react-loading-skeleton';
-
 import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import Cv from '../../../cv/reducer/cv-typer';
@@ -43,20 +41,6 @@ const Kandidatheader = ({ cv, tilbakelenke, tilbakelenkeTekst, kandidatnavigerin
                         <Heading level="1" size="medium">
                             Informasjonen om kandidaten kan ikke vises
                         </Heading>
-                    )}
-
-                    {cv.kind === Nettstatus.LasterInn && (
-                        <>
-                            <Heading level="1" size="medium">
-                                <Skeleton width={200} />
-                            </Heading>
-                            <div className={css.kontaktinfo}>
-                                <Skeleton width={300} />
-                            </div>
-                            <div className={css.kontaktinfo}>
-                                <Skeleton width={600} />
-                            </div>
-                        </>
                     )}
 
                     {cv.kind === Nettstatus.Suksess && (

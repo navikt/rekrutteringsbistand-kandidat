@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { sendEvent } from '../../amplitude/amplitude';
-import useMiljøvariabler from '../../common/useMiljøvariabler';
-import Informasjonspanel from '../Informasjonspanel';
 import { BodyLong, Link } from '@navikt/ds-react';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
+import { sendEvent } from '../../amplitude/amplitude';
+import { arbeidsrettetOppfølgingUrl } from '../../utils/eksterneUrler';
+import Informasjonspanel from '../Informasjonspanel';
 import css from './Tilretteleggingsbehov.module.css';
 
 interface Props {
@@ -11,8 +11,6 @@ interface Props {
 }
 
 const Tilretteleggingsbehov = ({ fnr }: Props) => {
-    const { arbeidsrettetOppfølgingUrl } = useMiljøvariabler();
-
     return (
         <Informasjonspanel tittel="Tilretteleggingsbehov">
             <BodyLong>Kandidaten trenger tilrettelegging</BodyLong>

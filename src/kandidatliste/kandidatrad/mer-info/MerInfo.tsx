@@ -3,8 +3,8 @@ import { BodyShort, Label, Link } from '@navikt/ds-react';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 
 import { Kandidat } from '../../domene/Kandidat';
+import { arbeidsrettetOppfølgingUrl } from '../../../utils/eksterneUrler';
 import InfoUnderKandidat from '../info-under-kandidat/InfoUnderKandidat';
-import useMiljøvariabler from '../../../common/useMiljøvariabler';
 import css from './MerInfo.module.css';
 
 type Props = {
@@ -12,8 +12,6 @@ type Props = {
 };
 
 const MerInfo: FunctionComponent<Props> = ({ kandidat }) => {
-    const { arbeidsrettetOppfølgingUrl } = useMiljøvariabler();
-
     return (
         <InfoUnderKandidat className={css.merInfo}>
             <div className={css.kontaktinfo}>

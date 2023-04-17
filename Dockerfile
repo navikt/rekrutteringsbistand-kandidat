@@ -2,7 +2,7 @@ FROM navikt/node-express:14-alpine
 
 WORKDIR /var
 
-COPY build/ build/
+COPY dist/ dist/
 COPY server/build server/
 COPY server/node_modules  server/node_modules
 

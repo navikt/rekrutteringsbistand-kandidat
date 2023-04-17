@@ -3,7 +3,7 @@ import { ExternalLinkIcon, DownloadIcon } from '@navikt/aksel-icons';
 import { Link } from '@navikt/ds-react';
 
 import { sendEvent } from '../../../amplitude/amplitude';
-import useMiljøvariabler from '../../../common/useMiljøvariabler';
+import { arbeidsrettetOppfølgingUrl, lastNedCvUrl } from '../../../utils/eksterneUrler';
 import css from './Lenker.module.css';
 
 type Props = {
@@ -12,8 +12,6 @@ type Props = {
 };
 
 const Lenker = ({ fødselsnummer, className }: Props) => {
-    const { lastNedCvUrl, arbeidsrettetOppfølgingUrl } = useMiljøvariabler();
-
     return (
         <div className={className}>
             <div className={css.lenker}>
