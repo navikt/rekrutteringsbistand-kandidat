@@ -4,9 +4,6 @@ import { Router } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import ReactDOM from 'react-dom';
 import Navspa from '@navikt/navspa';
-
-import '@navikt/ds-css';
-import '@navikt/ds-css-internal'; // Må importeres etter ds-css
 import './index.css';
 
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
