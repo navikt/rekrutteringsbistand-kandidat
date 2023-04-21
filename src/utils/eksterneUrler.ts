@@ -8,4 +8,4 @@ export const arbeidsrettetOppfølgingUrl =
 export const lastNedCvUrl =
     getMiljø() === Miljø.ProdGcp
         ? 'https://pam-personbruker-veileder.intern.nav.no/cv/pdf?fnr='
-        : 'https://pam-personbruker-veileder.dev.intern.nav.no/cv/pdf?fnr=';
+        : 'https://pam-personbruker-veileder.intern.dev.nav.no/cv/pdf?fnr=';
