@@ -193,24 +193,6 @@ export interface OpprettNotatFailureAction {
     type: KandidatlisteActionType.OpprettNotatFailure;
 }
 
-export interface HentKandidatlisteMedAnnonsenummerAction {
-    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer;
-}
-
-export interface HentKandidatlisteMedAnnonsenummerSuccessAction {
-    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerSuccess;
-    kandidatliste: Kandidatliste;
-}
-
-export interface HentKandidatlisteMedAnnonsenummerNotFoundAction {
-    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerNotFound;
-    message: string;
-}
-
-export interface HentKandidatlisteMedAnnonsenummerFailureAction {
-    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerFailure;
-}
-
 export interface EndreNotatAction {
     type: KandidatlisteActionType.EndreNotat;
     kandidatlisteId: string;
@@ -431,10 +413,6 @@ type KandidatlisteAction =
     | OpprettNotatAction
     | OpprettNotatSuccessAction
     | OpprettNotatFailureAction
-    | HentKandidatlisteMedAnnonsenummerAction
-    | HentKandidatlisteMedAnnonsenummerSuccessAction
-    | HentKandidatlisteMedAnnonsenummerNotFoundAction
-    | HentKandidatlisteMedAnnonsenummerFailureAction
     | EndreNotatAction
     | EndreNotatSuccessAction
     | EndreNotatFailureAction

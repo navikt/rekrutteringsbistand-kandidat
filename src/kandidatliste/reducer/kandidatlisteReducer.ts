@@ -56,9 +56,6 @@ export type KandidatlisteState = {
     sendForespørselOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
     forespørslerOmDelingAvCv: Nettressurs<ForespørslerGruppertPåAktørId>;
     fodselsnummer?: string;
-    hentListeMedAnnonsenummerStatus: Nettstatus;
-    hentListeMedAnnonsenummerStatusMessage?: string;
-    kandidatlisteMedAnnonsenummer?: any;
     arkivering: {
         statusArkivering: Nettstatus;
         statusDearkivering: Nettstatus;
@@ -92,9 +89,6 @@ const initialState: KandidatlisteState = {
     kandidattilstander: {},
     kandidatnotater: {},
     fodselsnummer: undefined,
-    hentListeMedAnnonsenummerStatus: Nettstatus.IkkeLastet,
-    hentListeMedAnnonsenummerStatusMessage: '',
-    kandidatlisteMedAnnonsenummer: undefined,
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: ikkeLastet(),
@@ -324,31 +318,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     ...state.arkivering,
                     statusDearkivering: Nettstatus.Suksess,
                 },
-            };
-        case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer:
-            return {
-                ...state,
-                hentListeMedAnnonsenummerStatus: Nettstatus.LasterInn,
-            };
-        case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerSuccess:
-            return {
-                ...state,
-                hentListeMedAnnonsenummerStatus: Nettstatus.Suksess,
-                kandidatlisteMedAnnonsenummer: {
-                    ...action.kandidatliste,
-                    markert: true,
-                },
-            };
-        case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerNotFound:
-            return {
-                ...state,
-                hentListeMedAnnonsenummerStatus: Nettstatus.FinnesIkke,
-                hentListeMedAnnonsenummerStatusMessage: action.message,
-            };
-        case KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerFailure:
-            return {
-                ...state,
-                hentListeMedAnnonsenummerStatus: Nettstatus.Feil,
             };
         case KandidatlisteActionType.SendSms:
             return {

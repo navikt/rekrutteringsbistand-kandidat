@@ -40,7 +40,6 @@ const url = {
     postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat`,
     putFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat/:formidlingId/utfall`,
     putKandidatlistestatus: `${api}/veileder/kandidatlister/:kandidatlisteId/status`,
-    getKandidatlisteBasertPåAnnonsenummer: `${api}/veileder/stilling/byNr/:annonsenummer/kandidatliste`,
     putSlettCvFraArbeidsgiversKandidatliste: `${api}/veileder/kandidat/arbeidsgiverliste/:kandidatlisteId/:kandidatnummer`,
 
     forespørselOmDelingAvCv: `${forespørselOmDelingAvCvApi}/foresporsler/:stillingsId`,
@@ -403,10 +402,6 @@ fetchMock
     .post(
         url.postResendForespørselOmDelingAvCv,
         log({ body: mock.forespørselOmDelingAvCv.forespørslerOmDelingAvCv, status: 201 })
-    )
-    .get(
-        url.getKandidatlisteBasertPåAnnonsenummer,
-        log(mock.kandidat.kandidatlisteBasertPåAnnonsenummer)
     )
     .put(url.putSlettCvFraArbeidsgiversKandidatliste, log(putSlettCvFraArbeidsgiversKandidatliste))
 

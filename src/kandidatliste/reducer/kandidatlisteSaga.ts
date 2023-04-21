@@ -36,7 +36,6 @@ import KandidatlisteAction, {
 } from './KandidatlisteAction';
 import {
     deleteNotat,
-    fetchKandidatlisteMedAnnonsenummer,
     fetchKandidatlisteMedKandidatlisteId,
     fetchKandidatlisteMedStillingsId,
     fetchNotater,
@@ -283,32 +282,6 @@ function* opprettNotat(action: OpprettNotatAction) {
     }
 }
 
-function* hentKandidatlisteMedAnnonsenummer(action) {
-    try {
-        const kandidatliste = yield fetchKandidatlisteMedAnnonsenummer(action.annonsenummer);
-        yield put({
-            type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerSuccess,
-            kandidatliste,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            if (e.status === 404) {
-                yield put({
-                    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerNotFound,
-                    message: e.message,
-                });
-            } else {
-                yield put({
-                    type: KandidatlisteActionType.HentKandidatlisteMedAnnonsenummerFailure,
-                    error: e,
-                });
-            }
-        } else {
-            throw e;
-        }
-    }
-}
-
 function* endreNotat(action: EndreNotatAction) {
     try {
         const response = yield putNotat(
@@ -519,10 +492,6 @@ function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.EndreNotat, endreNotat);
     yield takeLatest(KandidatlisteActionType.SlettNotat, slettNotat);
     yield takeLatest(KandidatlisteActionType.ToggleArkivert, toggleArkivert);
-    yield takeLatest(
-        KandidatlisteActionType.HentKandidatlisteMedAnnonsenummer,
-        hentKandidatlisteMedAnnonsenummer
-    );
     yield takeLatest(KandidatlisteActionType.AngreArkivering, angreArkiveringForKandidater);
     yield takeLatest(
         [
