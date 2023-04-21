@@ -17,7 +17,6 @@ import {
 } from './data/forespørselOmDelingAvCv/forespørselOmDelingAvCv.mock';
 import enhetsregister from './data/kandidat/enhetsregister.mock.json';
 import notater from './data/kandidat/notater.mock.json';
-import kandidatlisteBasertPåAnnonsenummer from './data/kandidat/kandidatlisteBasertPåAnnonsenummer.mock.json';
 
 const cver = mockCver(meg);
 const kandidatlister = mockKandidatlister(meg, enAnnenVeileder, cver);
@@ -32,7 +31,6 @@ export const mock = {
         cver: mockCver(meg),
         kandidatlister,
         kandidatliste: kandidatlister[0],
-        kandidatlisteBasertPåAnnonsenummer,
         kandidat,
         kandidatlisterForKandidat,
         kandidatlisteForKandidat,

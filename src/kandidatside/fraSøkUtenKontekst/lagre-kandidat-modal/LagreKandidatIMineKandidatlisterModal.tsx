@@ -8,7 +8,6 @@ import { Kandidatliste } from '../../../kandidatliste/domene/Kandidatliste';
 import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
 import KandidatlisteAction from '../../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../../kandidatliste/reducer/KandidatlisteActionType';
-import SøkPåKandidatliste from './SøkPåKandidatliste';
 import VelgKandidatlister from './VelgKandidatlister';
 import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import css from './LagreKandidatIMineKandidatlisterModal.module.css';
@@ -111,11 +110,6 @@ const LagreKandidaterIMineKandidatlisterModal: FunctionComponent<Props> = ({
                 Lagre kandidat i kandidatlister
             </Heading>
             <VelgKandidatlister
-                markerteLister={markerteLister}
-                lagredeLister={lagredeLister}
-                onKandidatlisteMarkert={onKandidatlisteMarkert}
-            />
-            <SøkPåKandidatliste
                 markerteLister={markerteLister}
                 lagredeLister={lagredeLister}
                 onKandidatlisteMarkert={onKandidatlisteMarkert}
