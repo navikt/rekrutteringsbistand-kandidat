@@ -16,6 +16,7 @@ import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 import Sidelaster from '../../../common/sidelaster/Sidelaster';
 import css from './LeggTilKandidatModal.module.css';
+import { getMiljø, Miljø } from '../../../utils/miljøUtils';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
@@ -182,6 +183,12 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
     );
 };
 
-const validerFnr = (fnr: string): boolean => fnrValidator.idnr(fnr).status === 'valid';
+const validerFnr = (fnr: string): boolean =>
+    fnrValidator.idnr(fnr).status === 'valid' || kanVæreSyntetiskFødselsnummer(fnr);
+
+const kanVæreSyntetiskFødselsnummer = (fnr: string): boolean => {
+    const elleveSifre = new RegExp('^\\d{11}$');
+    return elleveSifre.test(fnr) && getMiljø() === Miljø.DevGcp;
+};
 
 export default LeggTilKandidatModal;
