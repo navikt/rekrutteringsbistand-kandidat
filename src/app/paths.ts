@@ -55,8 +55,15 @@ export const lenkeTilNyttKandidatsøk = (searchParams?: string) => {
     return url;
 };
 
-export const lenkeTilFinnKandidater = (stillingId: string | null, kandidatlisteId: string) => {
-    return lenkeTilFinnKandidaterINyttKandidatsøk(kandidatlisteId);
+export const lenkeTilFinnKandidater = (
+    stillingId: string | null,
+    kandidatlisteId: string,
+    brukKriterierFraStillingen: boolean
+) => {
+    const brukKriterierFraStillingeSuffiks = brukKriterierFraStillingen
+        ? '&brukKriterierFraStillingen=true'
+        : '';
+    return `/kandidatsok?kandidatliste=${kandidatlisteId}${brukKriterierFraStillingen}${brukKriterierFraStillingeSuffiks}`;
 };
 
 export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string, params?: string) =>

@@ -25,12 +25,7 @@ const Meny: FunctionComponent<Props> = ({
                 [css.border]: border,
             })}
         >
-            <Link
-                to={lenkeTilFinnKandidater(stillingId, kandidatlisteId)}
-                state={{
-                    brukKriterierFraStillingen: true,
-                }}
-            >
+            <Link to={lenkeTilFinnKandidater(stillingId, kandidatlisteId, true)}>
                 <Button variant="tertiary" as="div" icon={<MagnifyingGlassIcon aria-hidden />}>
                     Finn kandidater
                 </Button>
