@@ -56,7 +56,8 @@ const TabellRad: FunctionComponent<Props> = ({
                     aria-label={`Finn kandidater til listen «${kandidatlisteSammendrag.tittel}»`}
                     to={lenkeTilFinnKandidater(
                         kandidatlisteSammendrag.stillingId,
-                        kandidatlisteSammendrag.kandidatlisteId
+                        kandidatlisteSammendrag.kandidatlisteId,
+                        true
                     )}
                 >
                     <Button variant="tertiary" as="div" icon={<PersonPlusIcon />} />
