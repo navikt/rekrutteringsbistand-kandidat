@@ -60,10 +60,10 @@ export const lenkeTilFinnKandidater = (
     kandidatlisteId: string,
     brukKriterierFraStillingen: boolean
 ) => {
-    const brukKriterierFraStillingeSuffiks = brukKriterierFraStillingen
+    const brukKriterierFraStillingSuffiks = brukKriterierFraStillingen
         ? '&brukKriterierFraStillingen=true'
         : '';
-    return `/kandidatsok?kandidatliste=${kandidatlisteId}${brukKriterierFraStillingen}${brukKriterierFraStillingeSuffiks}`;
+    return `/kandidatsok?kandidatliste=${kandidatlisteId}${brukKriterierFraStillingSuffiks}`;
 };
 
 export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string, params?: string) =>
