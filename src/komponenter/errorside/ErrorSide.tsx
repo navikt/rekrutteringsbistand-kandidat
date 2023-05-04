@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { Alert, BodyLong, Button } from '@navikt/ds-react';
 import { useLocation } from 'react-router-dom';
+
 import ManglerRolle from './ManglerRolle';
-import GenerellFeilside from './GenerellFeilside';
 import NotFound from './NotFound';
+import css from './Errorside.module.css';
 
 const ErrorSide = ({ fjernError, error }) => {
     const { pathname } = useLocation();
@@ -20,7 +22,18 @@ const ErrorSide = ({ fjernError, error }) => {
         return <NotFound />;
     }
 
-    return <GenerellFeilside />;
+    return (
+        <Alert variant="warning">
+            <div className={css.alertBody}>
+                <BodyLong>Det oppstod en feil. Forsøk å laste siden på nytt.</BodyLong>
+                <Button onClick={refreshPage}>Last siden på nytt</Button>
+            </div>
+        </Alert>
+    );
 };
+
+function refreshPage() {
+    window.location.reload();
+}
 
 export default ErrorSide;

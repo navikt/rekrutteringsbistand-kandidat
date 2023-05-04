@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Nettstatus } from '../../../api/Nettressurs';
-import AppState from '../../../AppState';
+import AppState from '../../../state/AppState';
 import { Kandidat } from '../../domene/Kandidat';
 
 const useIkkeForespurteKandidater = (markerteKandidater: Kandidat[]): Kandidat[] => {

@@ -7,7 +7,7 @@ import { Kandidatmeldinger, SmsStatus } from '../domene/Kandidatressurser';
 import { Kandidat } from '../domene/Kandidat';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import Modal from '../../komponenter/modal/Modal';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Stillingskategori } from '../domene/Kandidatliste';

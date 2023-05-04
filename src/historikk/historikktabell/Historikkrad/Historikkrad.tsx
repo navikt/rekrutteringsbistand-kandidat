@@ -5,7 +5,7 @@ import { BodyShort, Detail, Table } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import { capitalizeEmployerName } from '../../../kandidatsøk/utils';
+import { capitalizeEmployerName } from '../../../utils/formateringUtils';
 import { ForespørselOmDelingAvCv } from '../../../kandidatliste/knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../app/paths';

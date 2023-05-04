@@ -8,7 +8,7 @@ import { ListeoversiktAction, ListeoversiktActionType } from './reducer/Listeove
 import { Nettstatus } from '../api/Nettressurs';
 import Filter, { Stillingsfilter } from './filter/Filter';
 import Header from './header/Header';
-import AppState from '../AppState';
+import AppState from '../state/AppState';
 import EndreModal from './modaler/EndreModal';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import TabellBody from './tabell/TabellBody';

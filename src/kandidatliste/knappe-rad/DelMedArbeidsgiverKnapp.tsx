@@ -4,7 +4,7 @@ import { BodyLong, Button, Link } from '@navikt/ds-react';
 import { TenancyIcon } from '@navikt/aksel-icons';
 
 import { Nettstatus } from '../../api/Nettressurs';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import MedPopover from '../med-popover/MedPopover';
 import { Kandidat } from '../domene/Kandidat';
 import { kandidaterMåGodkjenneDelingAvCv, Kandidatliste } from '../domene/Kandidatliste';

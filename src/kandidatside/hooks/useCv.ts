@@ -1,7 +1,7 @@
 import { Dispatch, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import { CvAction, CvActionType } from '../../cv/reducer/cvReducer';
 

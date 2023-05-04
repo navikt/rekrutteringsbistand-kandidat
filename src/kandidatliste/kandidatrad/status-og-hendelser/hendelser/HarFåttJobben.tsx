@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import AppState from '../../../../AppState';
+import AppState from '../../../../state/AppState';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import FåttJobben from './FåttJobben';
 import { Kandidat, Kandidatutfall } from '../../../domene/Kandidat';

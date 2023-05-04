@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { BodyLong, SortState, Table } from '@navikt/ds-react';
 import { useDispatch, useSelector } from 'react-redux';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import {
     nesteSorteringsretning,
     Retning,

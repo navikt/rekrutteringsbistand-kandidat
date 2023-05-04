@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Nettstatus } from '../../api/Nettressurs';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import { Sms } from '../domene/Kandidatressurser';
 import { Fødselsnummer } from '../domene/Kandidat';
 

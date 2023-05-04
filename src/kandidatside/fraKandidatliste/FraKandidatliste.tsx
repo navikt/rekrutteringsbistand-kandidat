@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { lenkeTilKandidatliste } from '../../app/paths';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import Sidefeil from '../../komponenter/sidefeil/Sidefeil';
 import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
 import useScrollTilToppen from '../../utils/useScrollTilToppen';

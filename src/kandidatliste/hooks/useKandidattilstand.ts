@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 
 const useKandidattilstand = (kandidatnr: string) => {
     const { kandidattilstander } = useSelector((state: AppState) => state.kandidatliste);

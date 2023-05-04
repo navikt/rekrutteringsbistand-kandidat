@@ -5,7 +5,7 @@ import { XMarkIcon } from '@navikt/aksel-icons';
 
 import { formaterDatoNaturlig } from '../../utils/dateUtils';
 import { FormidlingAvUsynligKandidat, Kandidatutfall } from '../domene/Kandidat';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import DelingAvCv from '../kandidatrad/status-og-hendelser/hendelser/DelingAvCv';
 import StatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/StatusOgHendelserKnapp';
 import FåttJobben from '../kandidatrad/status-og-hendelser/hendelser/FåttJobben';

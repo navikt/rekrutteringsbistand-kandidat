@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 
 const useMinstEnKandidatErMarkert = (): boolean => {
     return Object.values(

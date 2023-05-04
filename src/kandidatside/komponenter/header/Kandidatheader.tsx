@@ -1,15 +1,16 @@
 import React from 'react';
-import { capitalizeFirstLetter } from '../../../kandidatsøk/utils';
-import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
-import Cv from '../../../cv/reducer/cv-typer';
-import ForrigeNeste, { Kandidatnavigering } from './forrige-neste/ForrigeNeste';
-import useMaskerFødselsnumre from '../../../app/useMaskerFødselsnumre';
-import Personalia from './Personalia';
-import css from './Kandidatheader.module.css';
-import Fødselsinfo from './Fødselsinfo';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon } from '@navikt/aksel-icons';
 import { BodyShort, Heading } from '@navikt/ds-react';
+
+import { capitalizeFirstLetter } from '../../../utils/formateringUtils';
+import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
+import Cv from '../../../cv/reducer/cv-typer';
+import Fødselsinfo from './Fødselsinfo';
+import ForrigeNeste, { Kandidatnavigering } from './forrige-neste/ForrigeNeste';
+import Personalia from './Personalia';
+import useMaskerFødselsnumre from '../../../app/useMaskerFødselsnumre';
+import css from './Kandidatheader.module.css';
 
 type Props = {
     cv: Nettressurs<Cv>;

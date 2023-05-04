@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import { Kandidattilstander } from '../domene/Kandidatressurser';
 import { erInaktiv, Kandidat } from '../domene/Kandidat';
 

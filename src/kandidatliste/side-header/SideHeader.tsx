@@ -3,7 +3,6 @@ import { BodyLong, BodyShort, Heading, Label, ReadMore } from '@navikt/ds-react'
 import { ChevronLeftIcon } from '@navikt/aksel-icons';
 import { Link } from 'react-router-dom';
 
-import { capitalizeEmployerName } from '../../kandidatsøk/utils';
 import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../app/paths';
 import {
     erKobletTilArbeidsgiver,
@@ -16,6 +15,7 @@ import {
     Kandidatstatus,
     Kandidatutfall,
 } from '../domene/Kandidat';
+import { capitalizeEmployerName } from '../../utils/formateringUtils';
 import Kandidatlistestatus from './kandidatlistestatus/Kandidatlistestatus';
 import css from './SideHeader.module.css';
 

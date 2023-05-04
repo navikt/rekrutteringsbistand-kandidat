@@ -5,8 +5,8 @@ import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Checkbox, Label } from '@navikt/ds-react';
 
 import { Kandidatliste } from '../../../kandidatliste/domene/Kandidatliste';
-import { capitalizeEmployerName } from '../../../kandidatsøk/utils';
 import { lenkeTilKandidatliste } from '../../../app/paths';
+import { capitalizeEmployerName } from '../../../utils/formateringUtils';
 import css from './VelgKandidatlister.module.css';
 
 type Props = {

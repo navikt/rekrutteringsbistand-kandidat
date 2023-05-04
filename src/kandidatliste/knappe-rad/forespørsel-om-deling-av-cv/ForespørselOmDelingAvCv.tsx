@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ForespørselOutboundDto } from './Forespørsel';
 import { Kandidat } from '../../domene/Kandidat';
 import { Nettstatus } from '../../../api/Nettressurs';
-import AppState from '../../../AppState';
+import AppState from '../../../state/AppState';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Modal from '../../../komponenter/modal/Modal';

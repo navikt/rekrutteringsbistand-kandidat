@@ -14,7 +14,7 @@ import { Kandidatlistefilter } from './reducer/kandidatlisteReducer';
 import { Kandidatstatus, erInaktiv } from './domene/Kandidat';
 import { Nettstatus } from '../api/Nettressurs';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
-import AppState from '../AppState';
+import AppState from '../state/AppState';
 import Filter from './filter/Filter';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';

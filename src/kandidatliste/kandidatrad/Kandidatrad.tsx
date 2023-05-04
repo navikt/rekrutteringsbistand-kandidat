@@ -3,14 +3,14 @@ import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { erInaktiv, Kandidat } from '../domene/Kandidat';
 import { lenkeTilCv } from '../../app/paths';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../api/Nettressurs';
 import { Visningsstatus } from '../domene/Kandidatressurser';
-import AppState from '../../AppState';
+import { capitalizeFirstLetter } from '../../utils/formateringUtils';
+import AppState from '../../state/AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import MerInfo from './mer-info/MerInfo';

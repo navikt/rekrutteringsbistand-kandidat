@@ -8,7 +8,7 @@ import {
     slettCvFraArbeidsgiversKandidatliste,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
+import { ErrorActionType } from '../../state/errorReducer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import KandidatlisteAction, {
     HentKandidatlisteMedStillingsIdAction,
@@ -369,7 +369,7 @@ function* angreArkiveringForKandidater(action: AngreArkiveringAction) {
 }
 
 function* sjekkError(action) {
-    yield put({ type: KandidatsøkActionType.InvalidResponseStatus, error: action.error });
+    yield put({ type: ErrorActionType.VisError, error: action.error });
 }
 
 function* hentSendteMeldinger(action: HentSendteMeldingerAction) {

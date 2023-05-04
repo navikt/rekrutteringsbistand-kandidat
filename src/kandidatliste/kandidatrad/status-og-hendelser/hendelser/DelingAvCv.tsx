@@ -7,7 +7,7 @@ import { cvErSendtTilArbeidsgiverOgSlettet } from './CvErSlettet';
 import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';
 import { Nettstatus } from '../../../../api/Nettressurs';
-import AppState from '../../../../AppState';
+import AppState from '../../../../state/AppState';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 import css from './Hendelse.module.css';
 

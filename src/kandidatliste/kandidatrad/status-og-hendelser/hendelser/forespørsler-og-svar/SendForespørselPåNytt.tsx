@@ -15,7 +15,7 @@ import Hendelse, { Hendelsesstatus } from '../Hendelse';
 import KandidatlisteActionType from '../../../../reducer/KandidatlisteActionType';
 import { SearchApiError } from '../../../../../api/fetchUtils';
 import { sendEvent } from '../../../../../amplitude/amplitude';
-import AppState from '../../../../../AppState';
+import AppState from '../../../../../state/AppState';
 import css from './SendForespørselPåNytt.module.css';
 
 type Props = {

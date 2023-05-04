@@ -1,15 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Alert, BodyShort, Checkbox, CheckboxGroup, ErrorMessage } from '@navikt/ds-react';
-import { postFormidlingerAvUsynligKandidat } from '../../api/api';
-import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../api/Nettressurs';
-import { UsynligKandidat } from '../../kandidatliste/domene/Kandidat';
-import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
-import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
+
+import { capitalizeFirstLetter } from '../../utils/formateringUtils';
 import { FormidlingAvUsynligKandidatOutboundDto } from './LeggTilKandidatModal';
-import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
+import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
+import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../api/Nettressurs';
+import { postFormidlingerAvUsynligKandidat } from '../../api/api';
+import { UsynligKandidat } from '../../kandidatliste/domene/Kandidat';
 import { VarslingAction, VarslingActionType } from '../../varsling/varslingReducer';
+import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 import css from './LeggTilKandidatModal.module.css';
 

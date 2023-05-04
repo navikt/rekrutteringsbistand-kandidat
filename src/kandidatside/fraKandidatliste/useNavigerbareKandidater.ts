@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { lenkeTilKandidatside, Kandidatfane } from '../../app/paths';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 import { erInaktiv } from '../../kandidatliste/domene/Kandidat';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import useFiltrerteKandidater from '../../kandidatliste/hooks/useFiltrerteKandidater';

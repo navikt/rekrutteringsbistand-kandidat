@@ -8,7 +8,7 @@ import './index.css';
 
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 import { Provider } from 'react-redux';
-import store from './reduxStore';
+import store from './state/reduxStore';
 import { History } from 'history';
 import FeilMedApp from './FeilMedApp';
 import { getMiljø, Miljø } from './utils/miljøUtils';

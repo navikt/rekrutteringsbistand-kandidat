@@ -10,7 +10,7 @@ import {
 import { Kandidatstatus } from './domene/Kandidat';
 import { Nettressurs, Nettstatus } from '../api/Nettressurs';
 import { sendEvent } from '../amplitude/amplitude';
-import AppState from '../AppState';
+import AppState from '../state/AppState';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import PresenterKandidaterModal from './modaler/presenter-kandidater/PresenterKandidaterModal';

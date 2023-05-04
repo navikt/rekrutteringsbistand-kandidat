@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatliste } from '../domene/Kandidatliste';
-import AppState from '../../AppState';
+import AppState from '../../state/AppState';
 
 const useScrollTilToppen = (kandidatliste: Nettressurs<Kandidatliste>) => {
     const sistValgteKandidat = useSelector(

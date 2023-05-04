@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import AppState from '../../../AppState';
+import AppState from '../../../state/AppState';
 import { Nettstatus } from '../../../api/Nettressurs';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';

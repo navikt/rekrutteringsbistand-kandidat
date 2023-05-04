@@ -1,5 +1,5 @@
-import AppState from '../../AppState';
-import { KandidatsøkActionType } from '../../kandidatsøk/reducer/searchReducer';
+import AppState from '../../state/AppState';
+import { ErrorActionType } from '../../state/errorReducer';
 import { put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlister } from '../../api/api';
 import { ListeoversiktActionType } from './ListeoversiktAction';
@@ -25,7 +25,7 @@ function* hentKandidatlister() {
 }
 
 function* sjekkError() {
-    yield put({ type: KandidatsøkActionType.InvalidResponseStatus });
+    yield put({ type: ErrorActionType.VisError });
 }
 
 function* listeoversiktSaga() {
