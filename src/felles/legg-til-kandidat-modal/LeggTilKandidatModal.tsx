@@ -8,6 +8,7 @@ import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import { SearchApiError } from '../../api/fetchUtils';
 import { sendEvent } from '../../amplitude/amplitude';
 import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
+import { fetchKandidatMedFnr, fetchSynlighetsevaluering, Fødselsnummersøk } from './api';
 import BekreftMedNotat from './BekreftMedNotat';
 import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
@@ -15,7 +16,6 @@ import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 import Modal from '../../komponenter/modal/Modal';
 import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
 import css from './LeggTilKandidatModal.module.css';
-import { fetchKandidatMedFnr, fetchSynlighetsevaluering, Fødselsnummersøk } from './api';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;

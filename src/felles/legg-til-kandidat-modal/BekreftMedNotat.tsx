@@ -11,6 +11,7 @@ import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 import { Fødselsnummersøk } from './api';
+import css from './BekreftMedNotat.module.css';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -70,7 +71,9 @@ const BekreftMedNotat: FunctionComponent<{
 
     return (
         <>
-            <BodyShort spacing>{`${kandidat.fornavn} ${kandidat.etternavn} (${fnr})`}</BodyShort>
+            <BodyShort
+                className={css.navn}
+            >{`${kandidat.fornavn} ${kandidat.etternavn} (${fnr})`}</BodyShort>
             <Textarea
                 value={notat}
                 label="Notat om kandidaten"

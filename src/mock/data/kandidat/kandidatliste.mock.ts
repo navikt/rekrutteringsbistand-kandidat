@@ -215,6 +215,12 @@ const mockKandidatliste = (
 
     if (!erTomListe) {
         kandidater = standardKandidater;
+
+        if (i !== 0) {
+            kandidater.push({
+                ...mockKandidat(cver[7], eier, forrigeUke),
+            });
+        }
     }
 
     if (harAlleSomFåttJobb) {

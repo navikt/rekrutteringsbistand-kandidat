@@ -3,8 +3,9 @@
     min-height: 20rem;
 }
 
-.advarsel {
-    margin-bottom: 1.5rem;
+.advarsel,
+.forklaring {
+    margin: 1.5rem 0;
 }
 
 .folkeregisterInfo {
@@ -12,7 +13,7 @@
 }
 
 .fødselsnummer {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .fødselsnummer input {
