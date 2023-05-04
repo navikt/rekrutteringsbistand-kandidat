@@ -1,5 +1,5 @@
 import { Kandidatstatus } from './domene/Kandidat';
-import { Retning } from '../common/sorterbarKolonneheader/Retning';
+import { Retning } from './liste-header/sorterbarKolonneheader/Retning';
 import {
     Hendelse,
     hentKandidatensSisteHendelse,

@@ -1,4 +1,4 @@
-import { Retning } from '../common/sorterbarKolonneheader/Retning';
+import { Retning } from '../kandidatliste/liste-header/sorterbarKolonneheader/Retning';
 
 export enum KandidatlisteSorteringsfelt {
     OpprettetTidspunkt = 'OpprettetTidspunkt',

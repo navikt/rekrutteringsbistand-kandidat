@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Sms, SmsStatus } from '../../domene/Kandidatressurser';
-import MedPopover from '../../../common/med-popover/MedPopover';
+import MedPopover from '../../med-popover/MedPopover';
 import { MobileFillIcon, MobileIcon } from '@navikt/aksel-icons';
 import css from './SmsStatusPopup.module.css';
 import classNames from 'classnames';

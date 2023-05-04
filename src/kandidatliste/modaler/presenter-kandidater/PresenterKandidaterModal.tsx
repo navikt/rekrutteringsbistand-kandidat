@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { inneholderSærnorskeBokstaver, erGyldigEpost } from './epostValidering';
-import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
+import Modal from '../../../komponenter/modal/Modal';
 import { Nettstatus } from '../../../api/Nettressurs';
 import {
     Alert,
@@ -157,7 +157,7 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
             antallMarkerteKandidater - antallKandidaterSomHarSvartJa;
 
         return (
-            <ModalMedKandidatScope
+            <Modal
                 open={vis}
                 onClose={this.props.onClose}
                 aria-label="Del kandidater med arbeidsgiver"
@@ -270,7 +270,7 @@ class PresenterKandidaterModal extends React.Component<Props, State> {
                         </Label>
                     )}
                 </div>
-            </ModalMedKandidatScope>
+            </Modal>
         );
     }
 }

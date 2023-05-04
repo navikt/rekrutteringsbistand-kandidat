@@ -3,7 +3,7 @@ import {
     fetchArbeidsgivereEnhetsregister,
     fetchArbeidsgivereEnhetsregisterOrgnr,
 } from '../../api/api.ts';
-import { SearchApiError } from '../../api/fetchUtils';
+import { SearchApiError } from '../../api/fetchUtils.ts';
 
 /** *********************************************************
  * ACTIONS

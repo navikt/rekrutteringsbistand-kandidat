@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Notat } from '../../domene/Kandidatressurser';
 import NotatInfo from './NotatInfo';
-import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
+import Modal from '../../../komponenter/modal/Modal';
 import { BodyLong, BodyShort, Button, Heading } from '@navikt/ds-react';
 import notatlisteCss from './Notatliste.module.css';
 import css from './Modal.module.css';
@@ -22,13 +22,8 @@ const Slettemodal: FunctionComponent<SlettemodalProps> = ({
     };
 
     return (
-        <ModalMedKandidatScope
-            open
-            aria-label="Rediger notat"
-            onClose={onCloseSletteModal}
-            className="slett-notat-modal"
-        >
-            <Heading spacing level="2" size="medium" className="slett-notat-modal__overskrift">
+        <Modal open aria-label="Rediger notat" onClose={onCloseSletteModal}>
+            <Heading spacing level="2" size="medium">
                 Slett notat
             </Heading>
             <BodyShort spacing>Er du sikker på at du ønsker å slette notatet?</BodyShort>
@@ -42,7 +37,7 @@ const Slettemodal: FunctionComponent<SlettemodalProps> = ({
                     Avbryt
                 </Button>
             </div>
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

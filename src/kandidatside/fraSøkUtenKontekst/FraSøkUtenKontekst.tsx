@@ -7,7 +7,7 @@ import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
-import useScrollTilToppen from '../../common/useScrollTilToppen';
+import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import useFaner from '../hooks/useFaner';
 import LagreKandidaterIMineKandidatlisterModal from './lagre-kandidat-modal/LagreKandidatIMineKandidatlisterModal';
 import { PersonPlusIcon } from '@navikt/aksel-icons';

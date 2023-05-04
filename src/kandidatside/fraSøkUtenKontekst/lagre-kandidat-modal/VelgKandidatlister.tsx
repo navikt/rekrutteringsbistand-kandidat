@@ -5,7 +5,7 @@ import useMineKandidatlister, {
     lagreIMineKandidatlisterSidestørrelse,
 } from './useMineKandidatlister';
 import { Nettstatus } from '../../../api/Nettressurs';
-import Sidelaster from '../../../common/sidelaster/Sidelaster';
+import Sidelaster from '../../../komponenter/sidelaster/Sidelaster';
 import css from './VelgKandidatlister.module.css';
 
 type Props = {

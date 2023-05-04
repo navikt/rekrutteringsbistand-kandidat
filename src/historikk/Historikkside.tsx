@@ -15,7 +15,7 @@ import { sendEvent } from '../amplitude/amplitude';
 import { Sms } from '../kandidatliste/domene/Kandidatressurser';
 import AppState from '../AppState';
 import Cv from '../cv/reducer/cv-typer';
-import Sidelaster from '../common/sidelaster/Sidelaster';
+import Sidelaster from '../komponenter/sidelaster/Sidelaster';
 import css from './Historikkside.module.css';
 
 const Historikkside: FunctionComponent = () => {

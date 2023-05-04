@@ -2,12 +2,15 @@ import React, { ReactNode } from 'react';
 import { BodyLong, SortState, Table } from '@navikt/ds-react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../../AppState';
-import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
+import {
+    nesteSorteringsretning,
+    Retning,
+} from '../../kandidatliste/liste-header/sorterbarKolonneheader/Retning';
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { ListeoversiktActionType } from '../reducer/ListeoversiktAction';
 import { Nettstatus } from '../../api/Nettressurs';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
-import Sidelaster from '../../common/sidelaster/Sidelaster';
+import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
 import css from './Kandidatlistetabell.module.css';
 import classNames from 'classnames';
 

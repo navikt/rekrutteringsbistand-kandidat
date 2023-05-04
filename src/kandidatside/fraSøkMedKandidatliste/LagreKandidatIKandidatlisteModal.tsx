@@ -6,11 +6,11 @@ import { Dispatch } from 'redux';
 import { postKandidatTilKandidatliste } from '../../api/api';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
-import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
+import { VarslingAction, VarslingActionType } from '../../varsling/varslingReducer';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
-import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
-import Sidelaster from '../../common/sidelaster/Sidelaster';
+import Modal from '../../komponenter/modal/Modal';
+import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
 import css from './LagreKandidatIKandidatlisteModal.module.css';
 
 type Props = {
@@ -74,12 +74,7 @@ const LagreKandidatIKandidatlisteModal: FunctionComponent<Props> = ({
     };
 
     return (
-        <ModalMedKandidatScope
-            className={css.modal}
-            open={vis}
-            onClose={onClose}
-            closeButton={false}
-        >
+        <Modal className={css.modal} open={vis} onClose={onClose} closeButton={false}>
             <Heading level="1" size="medium">
                 Lagre kandidaten i kandidatlisten
             </Heading>
@@ -110,7 +105,7 @@ const LagreKandidatIKandidatlisteModal: FunctionComponent<Props> = ({
             {lagreKandidatStatus === Nettstatus.Feil && (
                 <BodyLong>Klarte ikke å lagre kandidat</BodyLong>
             )}
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

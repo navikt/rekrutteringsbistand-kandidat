@@ -6,8 +6,8 @@ import { BodyLong, Button, ErrorMessage, Heading } from '@navikt/ds-react';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
 import { deleteKandidatliste } from '../../api/api';
 import { Nettstatus } from '../../api/Nettressurs';
-import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
-import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
+import { VarslingAction, VarslingActionType } from '../../varsling/varslingReducer';
+import Modal from '../../komponenter/modal/Modal';
 import css from './Modal.module.css';
 
 type Props = {
@@ -37,12 +37,7 @@ const SlettModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
     };
 
     return (
-        <ModalMedKandidatScope
-            open
-            onClose={onClose}
-            aria-label="Slett kandidatliste"
-            className={css.modal}
-        >
+        <Modal open onClose={onClose} aria-label="Slett kandidatliste" className={css.modal}>
             <Heading level="2" size="medium" spacing>
                 Slett kandidatliste
             </Heading>
@@ -63,7 +58,7 @@ const SlettModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
                     Klarte ikke å slette kandidatlisten
                 </ErrorMessage>
             )}
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

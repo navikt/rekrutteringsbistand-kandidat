@@ -5,11 +5,11 @@ import { useDispatch } from 'react-redux';
 import { postKandidatTilKandidatliste } from '../../../api/api';
 import { Nettstatus } from '../../../api/Nettressurs';
 import { Kandidatliste } from '../../../kandidatliste/domene/Kandidatliste';
-import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
+import { VarslingAction, VarslingActionType } from '../../../varsling/varslingReducer';
 import KandidatlisteAction from '../../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../../kandidatliste/reducer/KandidatlisteActionType';
 import VelgKandidatlister from './VelgKandidatlister';
-import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
+import Modal from '../../../komponenter/modal/Modal';
 import css from './LagreKandidatIMineKandidatlisterModal.module.css';
 
 type Props = {
@@ -105,7 +105,7 @@ const LagreKandidaterIMineKandidatlisterModal: FunctionComponent<Props> = ({
     };
 
     return (
-        <ModalMedKandidatScope className={css.modal} open={vis} onClose={onClose}>
+        <Modal className={css.modal} open={vis} onClose={onClose}>
             <Heading size="medium" level="1">
                 Lagre kandidat i kandidatlister
             </Heading>
@@ -127,7 +127,7 @@ const LagreKandidaterIMineKandidatlisterModal: FunctionComponent<Props> = ({
                     Avbryt
                 </Button>
             </div>
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

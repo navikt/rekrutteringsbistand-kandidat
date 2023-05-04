@@ -2,21 +2,21 @@ import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Alert, Heading, TextField } from '@navikt/ds-react';
 import fnrValidator from '@navikt/fnrvalidator';
 
-import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../../api/api';
-import { Fødselsnummersøk } from '../../../cv/reducer/cv-typer';
-import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../../api/Nettressurs';
-import { Kandidatliste } from '../../domene/Kandidatliste';
-import { SearchApiError } from '../../../api/fetchUtils';
-import { sendEvent } from '../../../amplitude/amplitude';
+import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../api/api';
+import { Fødselsnummersøk } from '../../cv/reducer/cv-typer';
+import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../api/Nettressurs';
+import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
+import { SearchApiError } from '../../api/fetchUtils';
+import { sendEvent } from '../../amplitude/amplitude';
 import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluering';
 import BekreftMedNotat from './BekreftMedNotat';
 import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
-import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
+import Modal from '../../komponenter/modal/Modal';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
-import Sidelaster from '../../../common/sidelaster/Sidelaster';
+import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
 import css from './LeggTilKandidatModal.module.css';
-import { getMiljø, Miljø } from '../../../utils/miljøUtils';
+import { getMiljø, Miljø } from '../../utils/miljøUtils';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
@@ -116,7 +116,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
     };
 
     return (
-        <ModalMedKandidatScope
+        <Modal
             open={vis}
             onClose={onClose}
             aria-label="Legg til kandidat-modal"
@@ -179,7 +179,7 @@ const LeggTilKandidatModal: FunctionComponent<Props> = ({
             {fnrSøk.kind !== Nettstatus.Suksess && fnrSøk.kind !== Nettstatus.FinnesIkke && (
                 <LeggTilEllerAvbryt leggTilDisabled onAvbrytClick={onClose} />
             )}
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

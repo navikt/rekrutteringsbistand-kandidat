@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { lenkeTilKandidatliste } from '../../app/paths';
 import AppState from '../../AppState';
-import Sidefeil from '../../common/sidefeil/Sidefeil';
-import Sidelaster from '../../common/sidelaster/Sidelaster';
-import useScrollTilToppen from '../../common/useScrollTilToppen';
+import Sidefeil from '../../komponenter/sidefeil/Sidefeil';
+import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
+import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import Cv from '../../cv/reducer/cv-typer';
 import { Kandidat, Kandidatstatus } from '../../kandidatliste/domene/Kandidat';
 import {

@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { setNavKontorIAmplitude } from '../amplitude/amplitude';
-import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
+import { TilToppenKnapp } from '../komponenter/tilToppenKnapp/TilToppenKnapp';
 import { KandidatsøkAction, KandidatsøkActionType } from '../kandidatsøk/reducer/searchReducer';
 import AppState from '../AppState';
 import CvSide from '../cv/CvSide';
@@ -16,7 +16,7 @@ import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedS
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
 import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
-import Varsling from '../common/varsling/Varsling';
+import Varsling from '../varsling/Varsling';
 import ManglerTilgang from './ManglerTilgang';
 import css from './App.module.css';
 

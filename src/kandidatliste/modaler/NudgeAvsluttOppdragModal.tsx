@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import css from './NudgeAvsluttOppdragModal.module.css';
-import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
+import Modal from '../../komponenter/modal/Modal';
 import { BodyShort, Heading, Button } from '@navikt/ds-react';
 
 interface Props {
@@ -33,11 +33,7 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     }
 
     return (
-        <ModalMedKandidatScope
-            open={true}
-            aria-label="Forslag om å avslutte oppdraget"
-            onClose={onAvbryt}
-        >
+        <Modal open={true} aria-label="Forslag om å avslutte oppdraget" onClose={onAvbryt}>
             <Heading spacing level="2" size="medium" className={css.tittel}>
                 Ferdig med oppdraget?
             </Heading>
@@ -52,7 +48,7 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
                     Avbryt
                 </Button>
             </div>
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

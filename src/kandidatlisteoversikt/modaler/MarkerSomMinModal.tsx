@@ -7,8 +7,8 @@ import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatlist
 import { lenkeTilStilling } from '../../app/paths';
 import { markerKandidatlisteUtenStillingSomMin } from '../../api/api';
 import { Nettstatus } from '../../api/Nettressurs';
-import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
-import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
+import { VarslingAction, VarslingActionType } from '../../varsling/varslingReducer';
+import Modal from '../../komponenter/modal/Modal';
 import css from './Modal.module.css';
 
 type Props = {
@@ -39,12 +39,7 @@ const MarkerSomMinModal = ({ stillingsId, kandidatliste, onClose }: Props) => {
     };
 
     return (
-        <ModalMedKandidatScope
-            open
-            onClose={onClose}
-            aria-label="Marker som min"
-            className={css.modal}
-        >
+        <Modal open onClose={onClose} aria-label="Marker som min" className={css.modal}>
             <Heading level="2" size="medium" spacing>
                 Marker som min
             </Heading>
@@ -87,7 +82,7 @@ const MarkerSomMinModal = ({ stillingsId, kandidatliste, onClose }: Props) => {
                     )}
                 </>
             )}
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

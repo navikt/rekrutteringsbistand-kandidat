@@ -6,7 +6,7 @@ import AppState from '../AppState';
 import KandidatlisteOgModaler from './KandidatlisteOgModaler';
 import useScrollTilToppen from './hooks/useScrollTilToppen';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
-import Sidelaster from '../common/sidelaster/Sidelaster';
+import Sidelaster from '../komponenter/sidelaster/Sidelaster';
 
 type Props = {
     stillingsId?: string;

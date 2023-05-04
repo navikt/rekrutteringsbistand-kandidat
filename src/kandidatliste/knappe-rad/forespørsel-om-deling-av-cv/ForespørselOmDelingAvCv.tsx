@@ -9,9 +9,9 @@ import { Nettstatus } from '../../../api/Nettressurs';
 import AppState from '../../../AppState';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
+import Modal from '../../../komponenter/modal/Modal';
 import useIkkeForespurteKandidater from './useIkkeForespurteKandidater';
-import { VarslingAction, VarslingActionType } from '../../../common/varsling/varslingReducer';
+import { VarslingAction, VarslingActionType } from '../../../varsling/varslingReducer';
 import VelgSvarfrist, { lagSvarfristPåSekundet, Svarfrist } from './VelgSvarfrist';
 import css from './ForespørselOmDelingAvCv.module.css';
 
@@ -155,7 +155,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
             >
                 Del med kandidat
             </Button>
-            <ModalMedKandidatScope
+            <Modal
                 open={modalErÅpen}
                 aria-label="Del stillingen med de markerte kandidatene2"
                 className={css.foresporselOmDelingAvCvModal}
@@ -212,7 +212,7 @@ const ForespørselOmDelingAvCv: FunctionComponent<Props> = ({ stillingsId, marke
                         <span>Feilmelding: {sendForespørselOmDelingAvCv.error.message}</span>
                     </Alert>
                 )}
-            </ModalMedKandidatScope>
+            </Modal>
             <Popover
                 open
                 anchorEl={kanIkkeDelePopover}

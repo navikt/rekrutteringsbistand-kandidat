@@ -6,8 +6,8 @@ import AppState from '../AppState';
 import Jobbprofil from './jobbprofil/Jobbprofil';
 import KandidatCv from './cv/Cv';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
-import Sidelaster from '../common/sidelaster/Sidelaster';
-import Sidefeil from '../common/sidefeil/Sidefeil';
+import Sidelaster from '../komponenter/sidelaster/Sidelaster';
+import Sidefeil from '../komponenter/sidefeil/Sidefeil';
 import css from './CvSide.module.css';
 
 const CvSide: FunctionComponent = () => {

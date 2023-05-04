@@ -4,10 +4,10 @@ import { ErrorMessage, Heading } from '@navikt/ds-react';
 
 import { feil, Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
-import { VarslingAction, VarslingActionType } from '../../common/varsling/varslingReducer';
+import { VarslingAction, VarslingActionType } from '../../varsling/varslingReducer';
 import { endreKandidatliste } from '../../api/api';
 import Kandidatlisteskjema, { KandidatlisteDto } from './Kandidatlisteskjema';
-import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
+import Modal from '../../komponenter/modal/Modal';
 import css from './Modal.module.css';
 
 type Props = {
@@ -46,12 +46,7 @@ const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
     };
 
     return (
-        <ModalMedKandidatScope
-            open
-            onClose={onClose}
-            aria-label="Endre kandidatlisten"
-            className={css.modal}
-        >
+        <Modal open onClose={onClose} aria-label="Endre kandidatlisten" className={css.modal}>
             <Heading level="2" size="medium" className={css.tittel}>
                 Endre kandidatlisten
             </Heading>
@@ -63,7 +58,7 @@ const EndreModal: FunctionComponent<Props> = ({ kandidatliste, onClose }) => {
                 knappetekst="Lagre endringer"
             />
             {status.kind === Nettstatus.Feil && <ErrorMessage>{status.error.message}</ErrorMessage>}
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

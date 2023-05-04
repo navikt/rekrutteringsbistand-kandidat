@@ -4,7 +4,7 @@ import { HistorikkState } from './historikk/historikkReducer';
 import { KandidatlisteState } from './kandidatliste/reducer/kandidatlisteReducer';
 import { NavKontorState } from './navKontor/navKontorReducer';
 import { SearchState } from './kandidatsøk/reducer/searchReducer';
-import { VarslingState } from './common/varsling/varslingReducer';
+import { VarslingState } from './varsling/varslingReducer';
 
 type AppState = {
     cv: CvState;

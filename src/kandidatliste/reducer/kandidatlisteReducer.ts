@@ -27,7 +27,7 @@ import {
 } from '../domene/Kandidatressurser';
 import { SmsStatus, Kandidatmeldinger } from '../domene/Kandidatressurser';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
-import { Retning } from '../../common/sorterbarKolonneheader/Retning';
+import { Retning } from '../liste-header/sorterbarKolonneheader/Retning';
 import {
     ForespørslerGruppertPåAktørId,
     separerGjeldendeForespørselFraRespons,

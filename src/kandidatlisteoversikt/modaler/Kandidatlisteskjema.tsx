@@ -3,11 +3,11 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { BodyShort, Button, Detail, Textarea, TextField } from '@navikt/ds-react';
 
-import Typeahead from '../../common/typeahead/Typeahead';
+import Typeahead from '../../komponenter/typeahead/Typeahead';
 import {
     FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER,
     CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER,
-} from '../../common/typeahead/enhetsregisterReducer';
+} from '../../komponenter/typeahead/enhetsregisterReducer';
 import { capitalizeEmployerName, capitalizeLocation } from '../../kandidatsøk/utils';
 import AppState from '../../AppState';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';

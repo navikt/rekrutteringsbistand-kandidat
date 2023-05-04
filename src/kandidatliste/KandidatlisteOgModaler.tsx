@@ -22,8 +22,8 @@ import {
     ForespørslerGruppertPåAktørId,
     hentForespørslerForKandidatForStilling,
 } from './knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
-import LeggTilKandidatModal from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { AlertType, VarslingAction, VarslingActionType } from '../common/varsling/varslingReducer';
+import LeggTilKandidatModal from '../felles/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { AlertType, VarslingAction, VarslingActionType } from '../varsling/varslingReducer';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;

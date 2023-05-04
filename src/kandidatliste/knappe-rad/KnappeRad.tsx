@@ -11,7 +11,7 @@ import {
 } from '../domene/Kandidatliste';
 import { Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatmeldinger } from '../domene/Kandidatressurser';
-import MedPopover from '../../common/med-popover/MedPopover';
+import MedPopover from '../med-popover/MedPopover';
 import ForespørselOmDelingAvCv from './forespørsel-om-deling-av-cv/ForespørselOmDelingAvCv';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import DelMedArbeidsgiverKnapp from './DelMedArbeidsgiverKnapp';

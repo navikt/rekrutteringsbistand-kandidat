@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import ModalMedKandidatScope from '../../../common/modal/ModalMedKandidatScope';
+import Modal from '../../../komponenter/modal/Modal';
 import { Notat } from '../../domene/Kandidatressurser';
 import { Button, Heading, Textarea } from '@navikt/ds-react';
 import css from './Modal.module.css';
@@ -45,7 +45,7 @@ class RedigerNotatModal extends React.Component<Props> {
         const { notatTekst, feilmelding } = this.state;
 
         return (
-            <ModalMedKandidatScope open aria-label="Rediger notat" onClose={onClose}>
+            <Modal open aria-label="Rediger notat" onClose={onClose}>
                 <div className="RedigerNotatModal">
                     <Heading spacing level="2" size="medium" className="overskrift">
                         Rediger notat
@@ -64,7 +64,7 @@ class RedigerNotatModal extends React.Component<Props> {
                         </Button>
                     </div>
                 </div>
-            </ModalMedKandidatScope>
+            </Modal>
         );
     }
 }

@@ -4,9 +4,9 @@ import classNames from 'classnames';
 
 import { erKobletTilStilling, Kandidatliste, Kandidatlistestatus } from '../domene/Kandidatliste';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
-import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
+import { nesteSorteringsretning, Retning } from './sorterbarKolonneheader/Retning';
 import { Kandidatsortering } from '../reducer/kandidatlisteReducer';
-import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
+import SorterbarKolonneheader from './sorterbarKolonneheader/SorterbarKolonneheader';
 import css from '../kandidatrad/Kandidatrad.module.css';
 
 interface Props {

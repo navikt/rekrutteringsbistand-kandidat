@@ -8,7 +8,7 @@ import { Kandidat } from '../domene/Kandidat';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import AppState from '../../AppState';
-import ModalMedKandidatScope from '../../common/modal/ModalMedKandidatScope';
+import Modal from '../../komponenter/modal/Modal';
 import useMarkerteKandidater from '../hooks/useMarkerteKandidater';
 import { Stillingskategori } from '../domene/Kandidatliste';
 import { Alert, BodyShort, Heading, Label, Link, Select } from '@navikt/ds-react';
@@ -89,7 +89,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <ModalMedKandidatScope
+        <Modal
             open={vis}
             className={css.sendSmsModal}
             onClose={onClose}
@@ -173,7 +173,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                     </Button>
                 </div>
             </div>
-        </ModalMedKandidatScope>
+        </Modal>
     );
 };
 

@@ -2,8 +2,13 @@ import React, { FunctionComponent } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 import Cv from '../reducer/cv-typer';
 import Informasjonspanel from '../Informasjonspanel';
-import { OPPSTARTSKODER } from '../../common/konstanter';
 import css from './Jobbprofil.module.css';
+
+const oppstartskoder = {
+    LEDIG_NAA: { key: 'LEDIG_NAA', label: 'Kandidaten er ledig nå' },
+    ETTER_TRE_MND: { key: 'ETTER_TRE_MND', label: 'Kandidaten har 3 måneder oppsigelse' },
+    ETTER_AVTALE: { key: 'ETTER_AVTALE', label: 'Kandidaten er ledig etter avtale' },
+};
 
 type Props = {
     cv: Cv;
@@ -46,7 +51,7 @@ const Jobbønsker: FunctionComponent<Props> = ({ cv }) => (
                 {cv.oppstartKode && (
                     <Description
                         label="Ledighet"
-                        items={[OPPSTARTSKODER[cv.oppstartKode.toUpperCase()]?.label]}
+                        items={[oppstartskoder[cv.oppstartKode.toUpperCase()]?.label]}
                     />
                 )}
             </dl>

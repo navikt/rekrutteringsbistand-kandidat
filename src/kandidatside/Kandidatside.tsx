@@ -6,7 +6,7 @@ import { hentØktFraNyttKandidatsøk, NyttKandidatsøkØkt } from './søkekontek
 import { PersonEnvelopeIcon, Chat2Icon } from '@navikt/aksel-icons';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
 import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
-import Sidefeil from '../common/sidefeil/Sidefeil';
+import Sidefeil from '../komponenter/sidefeil/Sidefeil';
 import FraSøkMedKandidatliste from './fraSøkMedKandidatliste/FraSøkMedKandidatliste';
 
 export enum KandidatQueryParam {

@@ -1,5 +1,5 @@
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
-import { Retning } from '../../common/sorterbarKolonneheader/Retning';
+import { Retning } from '../../kandidatliste/liste-header/sorterbarKolonneheader/Retning';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
 import { Søkekriterier } from './listeoversiktReducer';
 

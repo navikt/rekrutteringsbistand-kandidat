@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
-import AppState from '../../AppState';
+import AppState from '../AppState';
 import { Alert } from '@navikt/ds-react';
 import css from './Varsling.module.css';
 

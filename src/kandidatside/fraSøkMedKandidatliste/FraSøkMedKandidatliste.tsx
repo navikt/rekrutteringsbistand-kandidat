@@ -12,7 +12,7 @@ import useCv from '../hooks/useCv';
 import useFaner from '../hooks/useFaner';
 import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
-import useScrollTilToppen from '../../common/useScrollTilToppen';
+import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import LagreKandidatIKandidatlisteModal from './LagreKandidatIKandidatlisteModal';
 
 type Props = {

@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { BodyLong, ErrorMessage, Heading } from '@navikt/ds-react';
-import { fetchUsynligKandidat } from '../../../api/api';
-import { Nettressurs, ikkeLastet, Nettstatus } from '../../../api/Nettressurs';
-import { UsynligKandidat } from '../../domene/Kandidat';
-import { Kandidatliste } from '../../domene/Kandidatliste';
+import { fetchUsynligKandidat } from '../../api/api';
+import { Nettressurs, ikkeLastet, Nettstatus } from '../../api/Nettressurs';
+import { UsynligKandidat } from '../../kandidatliste/domene/Kandidat';
+import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import FormidleUsynligKandidat from './FormidleUsynligKandidat';
-import Sidelaster from '../../../common/sidelaster/Sidelaster';
+import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
+import css from './InformasjonOmUsynligKandidat.module.css';
 
 type Props = {
     fnr: string;
@@ -41,7 +42,7 @@ const InformasjonOmUsynligKandidat: FunctionComponent<Props> = ({
     if (!kandidatliste.kanEditere) {
         return (
             <>
-                <Heading spacing level="3" size="small">
+                <Heading className={css.fraFolkeregisteret} spacing level="3" size="small">
                     Fra folkeregisteret
                 </Heading>
                 <BodyLong>
@@ -53,7 +54,7 @@ const InformasjonOmUsynligKandidat: FunctionComponent<Props> = ({
 
     return (
         <>
-            <Heading spacing level="3" size="small">
+            <Heading className={css.fraFolkeregisteret} spacing level="3" size="small">
                 Fra folkeregisteret
             </Heading>
             {pdlSøk.kind === Nettstatus.LasterInn && <Sidelaster size="large" />}

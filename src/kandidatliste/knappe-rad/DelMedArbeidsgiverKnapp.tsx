@@ -5,7 +5,7 @@ import { TenancyIcon } from '@navikt/aksel-icons';
 
 import { Nettstatus } from '../../api/Nettressurs';
 import AppState from '../../AppState';
-import MedPopover from '../../common/med-popover/MedPopover';
+import MedPopover from '../med-popover/MedPopover';
 import { Kandidat } from '../domene/Kandidat';
 import { kandidaterMåGodkjenneDelingAvCv, Kandidatliste } from '../domene/Kandidatliste';
 import {
