@@ -10,7 +10,7 @@ import { VarslingAction, VarslingActionType } from '../../varsling/varslingReduc
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
-import { Fødselsnummersøk } from './fødselsnummersøkApi';
+import { Fødselsnummersøk } from './api';
 
 const MAKS_NOTATLENGDE = 2000;
 

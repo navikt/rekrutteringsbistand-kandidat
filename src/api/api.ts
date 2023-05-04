@@ -1,20 +1,11 @@
 import { Kandidatstatus, Kandidatutfall, UsynligKandidat } from '../kandidatliste/domene/Kandidat';
 import { Nettressurs, Nettstatus } from './Nettressurs';
-import {
-    deleteJsonMedType,
-    deleteReq,
-    fetchJson,
-    postHeaders,
-    postJson,
-    putJson,
-    SearchApiError,
-} from './fetchUtils';
+import { deleteJsonMedType, deleteReq, fetchJson, postJson, putJson } from './fetchUtils';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
-import Cv from '../cv/reducer/cv-typer';
-import { Synlighetsevaluering } from '../felles/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../felles/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { MineKandidatlister } from '../kandidatside/fraSøkUtenKontekst/lagre-kandidat-modal/useMineKandidatlister';
 import { KandidatlisteDto } from '../kandidatlisteoversikt/modaler/Kandidatlisteskjema';
+import Cv from '../cv/reducer/cv-typer';
 
 export const ENHETSREGISTER_API = `/stilling-api/search-api`;
 export const KANDIDATSOK_API = `/kandidat-api`;
@@ -106,34 +97,6 @@ export function fetchGeografiKode(geografiKode) {
 
 export const fetchStillingFraListe = (stillingsId) =>
     fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true);
-
-export const fetchSynlighetsevaluering = async (
-    fødselsnummer: string
-): Promise<Nettressurs<Synlighetsevaluering>> => {
-    const url = `${SYNLIGHET_API}/evaluering/${fødselsnummer}`;
-
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-        });
-
-        if (response.ok) {
-            const body = await response.json();
-
-            return {
-                kind: Nettstatus.Suksess,
-                data: body,
-            };
-        } else {
-            throw await response.text();
-        }
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status,
-        });
-    }
-};
 
 export const fetchNotater = (kandidatlisteId, kandidatnr) =>
     fetchJson(

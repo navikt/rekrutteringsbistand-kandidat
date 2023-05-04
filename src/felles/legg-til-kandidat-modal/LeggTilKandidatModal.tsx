@@ -2,7 +2,6 @@ import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Alert, Heading, TextField } from '@navikt/ds-react';
 import fnrValidator from '@navikt/fnrvalidator';
 
-import { fetchSynlighetsevaluering } from '../../api/api';
 import { getMiljø, Miljø } from '../../utils/miljøUtils';
 import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
@@ -16,7 +15,7 @@ import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
 import Modal from '../../komponenter/modal/Modal';
 import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
 import css from './LeggTilKandidatModal.module.css';
-import { fetchKandidatMedFnr, Fødselsnummersøk } from './fødselsnummersøkApi';
+import { fetchKandidatMedFnr, fetchSynlighetsevaluering, Fødselsnummersøk } from './api';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
