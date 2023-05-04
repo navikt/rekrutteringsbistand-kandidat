@@ -9,13 +9,15 @@ const getApiKey = () => {
 
 const client: AmplitudeClient = amplitudeJs.getInstance();
 
-client.init(getApiKey(), '', {
-    apiEndpoint: 'amplitude.nav.no/collect',
-    saveEvents: false,
-    includeUtm: true,
-    batchEvents: false,
-    includeReferrer: false,
-});
+const initAmplitude = () => {
+    client.init(getApiKey(), '', {
+        apiEndpoint: 'amplitude.nav.no/collect',
+        saveEvents: false,
+        includeUtm: true,
+        batchEvents: false,
+        includeReferrer: false,
+    });
+};
 
 export const setNavKontorIAmplitude = (navKontor: string) => {
     client.setUserProperties({
@@ -26,3 +28,7 @@ export const setNavKontorIAmplitude = (navKontor: string) => {
 export const sendEvent = (område: string, hendelse: string, data?: Object): void => {
     client.logEvent(['#rekrutteringsbistand', område, hendelse].join('-'), data);
 };
+
+if (import.meta.env.PROD) {
+    initAmplitude();
+}

@@ -5,12 +5,12 @@ import { useDispatch } from 'react-redux';
 import { sendEvent } from '../../amplitude/amplitude';
 import { postKandidatTilKandidatliste } from '../../api/api';
 import { Nettressurs, ikkeLastet, senderInn, Nettstatus } from '../../api/Nettressurs';
-import { Fødselsnummersøk } from '../../cv/reducer/cv-typer';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import { VarslingAction, VarslingActionType } from '../../varsling/varslingReducer';
 import KandidatlisteAction from '../../kandidatliste/reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
+import { Fødselsnummersøk } from './fødselsnummersøkApi';
 
 const MAKS_NOTATLENGDE = 2000;
 

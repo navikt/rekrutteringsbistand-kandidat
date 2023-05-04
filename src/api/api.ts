@@ -10,7 +10,7 @@ import {
     SearchApiError,
 } from './fetchUtils';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatliste/domene/Kandidatliste';
-import Cv, { Fødselsnummersøk } from '../cv/reducer/cv-typer';
+import Cv from '../cv/reducer/cv-typer';
 import { Synlighetsevaluering } from '../felles/legg-til-kandidat-modal/kandidaten-finnes-ikke/Synlighetsevaluering';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../felles/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { MineKandidatlister } from '../kandidatside/fraSøkUtenKontekst/lagre-kandidat-modal/useMineKandidatlister';
@@ -106,39 +106,6 @@ export function fetchGeografiKode(geografiKode) {
 
 export const fetchStillingFraListe = (stillingsId) =>
     fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true);
-
-export const fetchKandidatMedFnr = async (fnr: string): Promise<Nettressurs<Fødselsnummersøk>> => {
-    const url = `${KANDIDATSOK_API}/veileder/kandidatsok/fnrsok`;
-    const body = JSON.stringify({ fnr });
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            body,
-            mode: 'cors',
-            credentials: 'include',
-            headers: postHeaders(),
-        });
-
-        if (response.ok) {
-            return {
-                kind: Nettstatus.Suksess,
-                data: await response.json(),
-            };
-        } else if (response.status === 404) {
-            return {
-                kind: Nettstatus.FinnesIkke,
-            };
-        } else {
-            throw await response.text();
-        }
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status,
-        });
-    }
-};
 
 export const fetchSynlighetsevaluering = async (
     fødselsnummer: string

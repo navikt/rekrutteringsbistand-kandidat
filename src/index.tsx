@@ -10,7 +10,7 @@ import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 import { Provider } from 'react-redux';
 import store from './state/reduxStore';
 import { History } from 'history';
-import FeilMedApp from './FeilMedApp';
+import FeilMedApp from './komponenter/FeilMedApp';
 import { getMiljø, Miljø } from './utils/miljøUtils';
 import { fjernPersonopplysninger } from './utils/sentryUtils';
 import App from './app/App';

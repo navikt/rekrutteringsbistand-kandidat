@@ -2,8 +2,8 @@ import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Alert, Heading, TextField } from '@navikt/ds-react';
 import fnrValidator from '@navikt/fnrvalidator';
 
-import { fetchKandidatMedFnr, fetchSynlighetsevaluering } from '../../api/api';
-import { Fødselsnummersøk } from '../../cv/reducer/cv-typer';
+import { fetchSynlighetsevaluering } from '../../api/api';
+import { getMiljø, Miljø } from '../../utils/miljøUtils';
 import { ikkeLastet, lasterInn, Nettressurs, Nettstatus } from '../../api/Nettressurs';
 import { Kandidatliste } from '../../kandidatliste/domene/Kandidatliste';
 import { SearchApiError } from '../../api/fetchUtils';
@@ -12,11 +12,11 @@ import { Synlighetsevaluering } from './kandidaten-finnes-ikke/Synlighetsevaluer
 import BekreftMedNotat from './BekreftMedNotat';
 import InformasjonOmUsynligKandidat from './InformasjonOmUsynligKandidat';
 import KandidatenFinnesIkke from './kandidaten-finnes-ikke/KandidatenFinnesIkke';
-import Modal from '../../komponenter/modal/Modal';
 import LeggTilEllerAvbryt from './LeggTilEllerAvbryt';
+import Modal from '../../komponenter/modal/Modal';
 import Sidelaster from '../../komponenter/sidelaster/Sidelaster';
 import css from './LeggTilKandidatModal.module.css';
-import { getMiljø, Miljø } from '../../utils/miljøUtils';
+import { fetchKandidatMedFnr, Fødselsnummersøk } from './fødselsnummersøkApi';
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
