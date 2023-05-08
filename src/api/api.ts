@@ -202,7 +202,7 @@ export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) =>
 export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkivert: boolean) => {
     return putJson(
         `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater/${kandidatNr}/arkivert`,
-        JSON.stringify(arkivert)
+        JSON.stringify({ arkivert })
     );
 };
 
