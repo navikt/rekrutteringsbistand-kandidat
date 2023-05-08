@@ -15,7 +15,7 @@ import css from './Modal.module.css';
 
 export type KandidatlisteDto = {
     tittel: string;
-    beskrivelse?: string;
+    beskrivelse: string | null;
     orgNr?: string;
     orgNavn?: string;
 };
@@ -46,7 +46,7 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
     input: HTMLInputElement | null;
     state: {
         tittel: string;
-        beskrivelse?: string;
+        beskrivelse: string | null;
         suggestion?: Suggestion;
         typeaheadValue: string;
         visValideringsfeilInput: boolean;
@@ -71,7 +71,7 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
         this.state = {
             suggestion,
             tittel: props.kandidatliste?.tittel || '',
-            beskrivelse: props.kandidatliste?.beskrivelse,
+            beskrivelse: props.kandidatliste?.beskrivelse ?? null,
             visValideringsfeilInput: false,
             typeaheadValue: suggestion?.name ? capitalizeEmployerName(suggestion?.name) : '',
         };
@@ -202,7 +202,7 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
     validerTittel = () => this.state.tittel !== '';
 
     validerBeskrivelse = () =>
-        this.state.beskrivelse === undefined || this.state.beskrivelse.length <= 1000;
+        this.state.beskrivelse === null || this.state.beskrivelse.length <= 1000;
 
     render() {
         const { saving, knappetekst, suggestions } = this.props;
@@ -252,7 +252,7 @@ class OpprettKandidatlisteForm extends React.Component<Props> {
 
                 <Textarea
                     label="Beskrivelse"
-                    value={this.state.beskrivelse}
+                    value={this.state.beskrivelse ?? undefined}
                     maxLength={1000}
                     onChange={this.onBeskrivelseChange}
                     error={this.validerBeskrivelse() ? undefined : 'Beskrivelsen er for lang'}
