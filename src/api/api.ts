@@ -190,13 +190,13 @@ export const postNotat = (kandidatlisteId, kandidatnr, tekst) =>
 
 export const putNotat = (kandidatlisteId, kandidatnr, notatId, tekst) =>
     putJson(
-        `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`,
+        `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}`,
         JSON.stringify({ tekst })
     );
 
 export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) =>
     deleteReq(
-        `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`
+        `${KANDIDATSOK_API}/veileder/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}`
     );
 
 export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkivert: boolean) => {
