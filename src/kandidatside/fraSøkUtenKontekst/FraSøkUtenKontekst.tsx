@@ -1,8 +1,9 @@
 import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { Button, Tabs } from '@navikt/ds-react';
+import { PersonPlusIcon } from '@navikt/aksel-icons';
 
-import { lenkeTilNyttKandidatsøk } from '../../app/paths';
-import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
+import { lenkeTilKandidatsøk } from '../../app/paths';
+import { KandidatsøkØkt } from '../søkekontekst';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';
@@ -10,29 +11,26 @@ import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import useFaner from '../hooks/useFaner';
 import LagreKandidaterIMineKandidatlisterModal from './lagre-kandidat-modal/LagreKandidatIMineKandidatlisterModal';
-import { PersonPlusIcon } from '@navikt/aksel-icons';
 import css from './FraSøkUtenKontekst.module.css';
+import useNavigasjonmellomKandidater from '../hooks/useNavigasjonMellomKandidater';
 
 type Props = {
     tabs: ReactNode;
     kandidatnr: string;
-    søkeøkt: NyttKandidatsøkØkt;
+    søkeøkt: KandidatsøkØkt;
 };
 
 const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søkeøkt, children }) => {
     useScrollTilToppen(kandidatnr);
+    useNavigasjonmellomKandidater(kandidatnr);
 
     const [fane, setFane] = useFaner();
     const cv = useCv(kandidatnr);
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, søkeøkt);
     const [visKandidatlisterModal, setVisKandidatlisterModal] = useState<boolean>(false);
 
-    useEffect(() => {
-        skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
-    }, [kandidatnr]);
-
     const tilbakelenke = {
-        to: lenkeTilNyttKandidatsøk(søkeøkt.searchParams),
+        to: lenkeTilKandidatsøk(søkeøkt.searchParams),
         state: { scrollTilKandidat: true },
     };
 

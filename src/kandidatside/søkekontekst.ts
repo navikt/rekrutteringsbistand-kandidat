@@ -1,11 +1,12 @@
-export type NyttKandidatsøkØkt = Partial<{
+export type KandidatsøkØkt = Partial<{
+    searchParams: string;
     sistBesøkteKandidat: string;
     markerteKandidater: string[];
-    kandidater: string[];
-    searchParams: string;
+    kandidaterPåSiden: string[];
+    totaltAntallKandidater: number;
 }>;
 
-export const hentØktFraNyttKandidatsøk = (): NyttKandidatsøkØkt | null => {
+export const hentØktFraKandidatsøk = (): KandidatsøkØkt | null => {
     const kandidatsøkString = window.sessionStorage.getItem('kandidatsøk');
 
     if (!kandidatsøkString) {
@@ -15,10 +16,10 @@ export const hentØktFraNyttKandidatsøk = (): NyttKandidatsøkØkt | null => {
     return JSON.parse(kandidatsøkString);
 };
 
-export const skrivKandidatnrTilNyttKandidatsøkØkt = (kandidatNr: string) => {
-    const session = hentØktFraNyttKandidatsøk() || {};
+export const skrivKandidatnrTilKandidatsøkØkt = (kandidatNr: string) => {
+    const session = hentØktFraKandidatsøk() || {};
 
-    const oppdatertSession: NyttKandidatsøkØkt = {
+    const oppdatertSession: KandidatsøkØkt = {
         ...session,
         sistBesøkteKandidat: kandidatNr,
     };

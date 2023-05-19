@@ -3,9 +3,9 @@ import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import { PersonPlusIcon } from '@navikt/aksel-icons';
 
-import { lenkeTilKandidatliste, lenkeTilNyttKandidatsøk } from '../../app/paths';
+import { lenkeTilKandidatliste, lenkeTilKandidatsøk } from '../../app/paths';
 import { Nettstatus } from '../../api/Nettressurs';
-import { NyttKandidatsøkØkt, skrivKandidatnrTilNyttKandidatsøkØkt } from '../søkekontekst';
+import { KandidatsøkØkt } from '../søkekontekst';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';
@@ -14,12 +14,13 @@ import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import LagreKandidatIKandidatlisteModal from './LagreKandidatIKandidatlisteModal';
+import useNavigasjonmellomKandidater from '../hooks/useNavigasjonMellomKandidater';
 
 type Props = {
     tabs: ReactNode;
     kandidatnr: string;
     kandidatlisteId: string;
-    søkeøkt: NyttKandidatsøkØkt;
+    søkeøkt: KandidatsøkØkt;
 };
 
 const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
@@ -30,6 +31,7 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     children,
 }) => {
     useScrollTilToppen(kandidatnr);
+    useNavigasjonmellomKandidater(kandidatnr);
 
     const [fane, setFane] = useFaner();
     const [visLagreKandidatModal, setVisLagreKandidatModal] = useState<boolean>(false);
@@ -38,12 +40,8 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     const kandidatliste = useKandidatliste(kandidatlisteId);
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kandidatlisteId, søkeøkt);
 
-    useEffect(() => {
-        skrivKandidatnrTilNyttKandidatsøkØkt(kandidatnr);
-    }, [kandidatnr]);
-
     const lenkeTilFinnKandidater = {
-        to: lenkeTilNyttKandidatsøk(søkeøkt?.searchParams),
+        to: lenkeTilKandidatsøk(søkeøkt?.searchParams),
         state: { scrollTilKandidat: true },
     };
 
