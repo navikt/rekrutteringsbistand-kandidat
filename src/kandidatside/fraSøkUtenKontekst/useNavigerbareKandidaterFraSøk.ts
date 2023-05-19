@@ -14,15 +14,15 @@ const useNavigerbareKandidaterFraSøk = (
     let neste: string | undefined = undefined;
     let antall = 0;
 
-    if (økt?.kandidater === undefined) {
+    if (økt?.kandidaterPåSiden === undefined) {
         return null;
     }
 
-    antall = økt.kandidater.length;
-    index = økt.kandidater.findIndex((kandidat) => kandidat === kandidatnr);
+    antall = økt.kandidaterPåSiden.length;
+    index = økt.kandidaterPåSiden.findIndex((kandidat) => kandidat === kandidatnr);
 
-    const forrigeKandidatnr = økt.kandidater[index - 1];
-    const nesteKandidatnr = økt.kandidater[index + 1];
+    const forrigeKandidatnr = økt.kandidaterPåSiden[index - 1];
+    const nesteKandidatnr = økt.kandidaterPåSiden[index + 1];
 
     if (forrigeKandidatnr) {
         forrige = lenkeTilKandidatside(forrigeKandidatnr, fane, undefined, false, true);

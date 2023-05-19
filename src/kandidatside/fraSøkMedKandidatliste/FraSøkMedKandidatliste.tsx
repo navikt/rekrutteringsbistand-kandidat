@@ -14,7 +14,7 @@ import useKandidatliste from '../hooks/useKandidatliste';
 import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import LagreKandidatIKandidatlisteModal from './LagreKandidatIKandidatlisteModal';
-import useNavigasjonmellomKandidater from '../hooks/useNavigasjonMellomKandidater';
+import useNavigasjonMellomKandidater from '../hooks/useNavigasjonMellomKandidater';
 
 type Props = {
     tabs: ReactNode;
@@ -31,7 +31,7 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     children,
 }) => {
     useScrollTilToppen(kandidatnr);
-    useNavigasjonmellomKandidater(kandidatnr);
+    useNavigasjonMellomKandidater(kandidatnr);
 
     const [fane, setFane] = useFaner();
     const [visLagreKandidatModal, setVisLagreKandidatModal] = useState<boolean>(false);

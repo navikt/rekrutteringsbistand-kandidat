@@ -11,8 +11,8 @@ import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import useFaner from '../hooks/useFaner';
 import LagreKandidaterIMineKandidatlisterModal from './lagre-kandidat-modal/LagreKandidatIMineKandidatlisterModal';
+import useNavigasjonMellomKandidater from '../hooks/useNavigasjonMellomKandidater';
 import css from './FraSøkUtenKontekst.module.css';
-import useNavigasjonmellomKandidater from '../hooks/useNavigasjonMellomKandidater';
 
 type Props = {
     tabs: ReactNode;
@@ -22,7 +22,7 @@ type Props = {
 
 const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søkeøkt, children }) => {
     useScrollTilToppen(kandidatnr);
-    useNavigasjonmellomKandidater(kandidatnr);
+    useNavigasjonMellomKandidater(kandidatnr);
 
     const [fane, setFane] = useFaner();
     const cv = useCv(kandidatnr);

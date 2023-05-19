@@ -3,6 +3,7 @@ export type KandidatsøkØkt = Partial<{
     sistBesøkteKandidat: string;
     markerteKandidater: string[];
     kandidaterPåSiden: string[];
+    sidestørrelse: number;
     totaltAntallKandidater: number;
 }>;
 

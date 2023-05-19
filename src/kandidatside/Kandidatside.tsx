@@ -13,7 +13,7 @@ export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
     StillingId = 'stillingId',
     FraKandidatliste = 'fraKandidatliste',
-    FraKandidatsøk = 'fraNyttKandidatsok',
+    FraKandidatsøk = 'fraKandidatsok',
 }
 
 type RouteParams = {
