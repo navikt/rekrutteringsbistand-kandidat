@@ -1,11 +1,68 @@
 import { useEffect } from 'react';
-import { hentØktFraKandidatsøk, skrivKandidatnrTilKandidatsøkØkt } from '../søkekontekst';
+import {
+    KandidatsøkØkt,
+    hentØktFraKandidatsøk,
+    skrivKandidatnrTilKandidatsøkØkt,
+} from '../søkekontekst';
 
 const kandidatsøkProxy = `/kandidatsok-proxy`;
+
+type Respons = {
+    hits: {
+        hits: Array<{
+            _source: {
+                arenaKandidatnr: string;
+            };
+        }>;
+    };
+};
+
+const søk = async (query: object): Promise<Respons> => {
+    const respons = await fetch(kandidatsøkProxy, {
+        body: JSON.stringify(query),
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (respons.ok) {
+        return await respons.json();
+    } else {
+        throw Error();
+    }
+};
 
 const useNavigasjonMellomKandidater = (kandidatnr: string) => {
     useEffect(() => {
         const økt = hentØktFraKandidatsøk();
+
+        const blaTilNesteSide = async (økt: KandidatsøkØkt, nesteSide: number) => {
+            const queryForNesteSide = {
+                ...økt.query,
+                from: (nesteSide - 1) * (økt.sidestørrelse ?? 1),
+            };
+
+            console.log('Blar til neste side med query:', queryForNesteSide);
+
+            const kandidater = await søk(queryForNesteSide);
+            const kandidaterPåSiden = kandidater.hits.hits.map(
+                (hit) => hit._source.arenaKandidatnr
+            );
+            const searchParamsMedNesteSide = new URLSearchParams(økt.searchParams);
+
+            searchParamsMedNesteSide.set('side', nesteSide.toString());
+
+            const nyØkt: KandidatsøkØkt = {
+                ...økt,
+                kandidaterPåSiden,
+                searchParams: searchParamsMedNesteSide.toString(),
+                query: queryForNesteSide,
+            };
+
+            console.log('Skriv tilbake til SessionStorage:', nyØkt);
+        };
 
         if (økt) {
             const {
@@ -15,6 +72,7 @@ const useNavigasjonMellomKandidater = (kandidatnr: string) => {
                 totaltAntallKandidater = 0,
             } = økt;
 
+            const førsteKandidatPåSiden = kandidaterPåSiden?.at(0);
             const sisteKandidatPåSiden = kandidaterPåSiden?.at(-1);
 
             if (kandidatnr === sisteKandidatPåSiden) {
@@ -27,10 +85,12 @@ const useNavigasjonMellomKandidater = (kandidatnr: string) => {
                 const kanBlaTilNesteSide = totaltAntallVist < totaltAntallKandidater;
 
                 if (kanBlaTilNesteSide) {
-                    const nesteSide = currentPage + 1;
+                    console.log('Blar til neste side som er', currentPage + 1);
 
-                    console.log('Blar til neste side som er', nesteSide);
+                    blaTilNesteSide(økt, currentPage + 1);
                 }
+            } else if (kandidatnr === førsteKandidatPåSiden) {
+                // TODO: Blaing til forrige side
             }
         }
 

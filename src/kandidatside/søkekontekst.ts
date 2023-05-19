@@ -1,5 +1,6 @@
 export type KandidatsøkØkt = Partial<{
     searchParams: string;
+    query: object;
     sistBesøkteKandidat: string;
     markerteKandidater: string[];
     kandidaterPåSiden: string[];
