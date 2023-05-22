@@ -18,7 +18,6 @@ const Utviklingsapp: FunctionComponent = () => {
     const enKandidatliste = mock.kandidat.kandidatlister[0];
     const enAnnenKandidatliste = mock.kandidat.kandidatlister[1];
     const enKandidat = enKandidatliste.kandidater[0];
-    const enAnnenKandidat = enKandidatliste.kandidater[1];
 
     const stateFraKandidatsøk: KandidatsøkØkt = {
         totaltAntallKandidater: 50,
@@ -29,7 +28,6 @@ const Utviklingsapp: FunctionComponent = () => {
             from: 0,
         },
     };
-    console.log('State:', stateFraKandidatsøk);
 
     useEffect(() => {
         const timeout = setTimeout(() => {

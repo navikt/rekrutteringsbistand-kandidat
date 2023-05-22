@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { Tabs } from '@navikt/ds-react';
 
-import { hentØktFraKandidatsøk, KandidatsøkØkt, useKandidatsøkøkt } from './søkekontekst';
+import { hentØktFraKandidatsøk, useKandidatsøkøkt } from './søkekontekst';
 import { PersonEnvelopeIcon, Chat2Icon } from '@navikt/aksel-icons';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
 import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';
@@ -21,7 +21,12 @@ type RouteParams = {
 };
 
 const Kandidatside: FunctionComponent = () => {
-    const søkeøkt = useKandidatsøkøkt((state) => state.økt);
+    const { økt: søkeøkt, setØkt: setSøkeøkt } = useKandidatsøkøkt();
+
+    useEffect(() => {
+        console.log('Henter ny økt fra kandidatsøket pga. navigering');
+        setSøkeøkt(hentØktFraKandidatsøk());
+    }, []);
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -31,8 +36,6 @@ const Kandidatside: FunctionComponent = () => {
     const kandidatlisteIdFraUrl = searchParams.get(KandidatQueryParam.KandidatlisteId);
     const kommerFraKandidatliste = searchParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
     const kommerFraKandidatsøket = searchParams.get(KandidatQueryParam.FraKandidatsøk) === 'true';
-
-    console.log('Hey man:', søkeøkt);
 
     if (kommerFraKandidatliste) {
         if (kandidatlisteIdFraUrl) {
