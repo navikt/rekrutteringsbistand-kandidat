@@ -24,7 +24,6 @@ const Kandidatside: FunctionComponent = () => {
     const { økt: søkeøkt, setØkt: setSøkeøkt } = useKandidatsøkøkt();
 
     useEffect(() => {
-        console.log('Henter ny økt fra kandidatsøket pga. navigering');
         setSøkeøkt(hentØktFraKandidatsøk());
     }, []);
 

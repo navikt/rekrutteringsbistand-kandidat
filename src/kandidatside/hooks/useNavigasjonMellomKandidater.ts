@@ -39,7 +39,7 @@ const useNavigasjonMellomKandidater = (kandidatnr: string) => {
     const { økt, setØkt } = useKandidatsøkøkt();
 
     useEffect(() => {
-        const blaTilNesteSide = async (økt: KandidatsøkØkt, nesteSide: number) => {
+        const blaTilSide = async (økt: KandidatsøkØkt, nesteSide: number) => {
             const queryForNesteSide = {
                 ...økt.query,
                 from: (nesteSide - 1) * (økt.sidestørrelse ?? 1),
@@ -55,15 +55,12 @@ const useNavigasjonMellomKandidater = (kandidatnr: string) => {
 
             searchParamsMedNesteSide.set('side', nesteSide.toString());
 
-            const nyØkt: KandidatsøkØkt = {
+            setØkt({
                 ...økt,
                 kandidaterPåSiden,
                 searchParams: searchParamsMedNesteSide.toString(),
                 query: queryForNesteSide,
-            };
-
-            setØkt(nyØkt);
-            console.log('Skriv tilbake til SessionStorage:', nyØkt);
+            });
         };
 
         const {
@@ -76,22 +73,23 @@ const useNavigasjonMellomKandidater = (kandidatnr: string) => {
         const førsteKandidatPåSiden = kandidaterPåSiden?.at(0);
         const sisteKandidatPåSiden = kandidaterPåSiden?.at(-1);
 
-        if (kandidatnr === sisteKandidatPåSiden) {
-            console.log('Er på siste kandidat, sjekker om vi skal laste inn flere ...');
+        const activeSearch = new URLSearchParams(searchParams);
+        const currentPage = parseInt(activeSearch.get('side') ?? '1');
 
-            const activeSearch = new URLSearchParams(searchParams);
-            const currentPage = parseInt(activeSearch.get('side') ?? '1');
+        if (kandidatnr === sisteKandidatPåSiden) {
             const currentPageSize = kandidaterPåSiden?.length ?? 0;
             const totaltAntallVist = (currentPage - 1) * sidestørrelse + currentPageSize;
             const kanBlaTilNesteSide = totaltAntallVist < totaltAntallKandidater;
 
             if (kanBlaTilNesteSide) {
-                console.log('Blar til neste side som er', currentPage + 1);
-
-                blaTilNesteSide(økt, currentPage + 1);
+                blaTilSide(økt, currentPage + 1);
             }
         } else if (kandidatnr === førsteKandidatPåSiden) {
-            // TODO: Blaing til forrige side
+            const kanBlaTilForrigeSide = currentPage > 1;
+
+            if (kanBlaTilForrigeSide) {
+                blaTilSide(økt, currentPage - 1);
+            }
         }
 
         skrivKandidatnrTilKandidatsøkØkt(kandidatnr);
