@@ -29,6 +29,8 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søke
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, søkeøkt);
     const [visKandidatlisterModal, setVisKandidatlisterModal] = useState<boolean>(false);
 
+    console.log('Navigering:', kandidatnavigering);
+
     const tilbakelenke = {
         to: lenkeTilKandidatsøk(søkeøkt.searchParams),
         state: { scrollTilKandidat: true },

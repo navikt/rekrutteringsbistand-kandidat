@@ -25,7 +25,11 @@ const Utviklingsapp: FunctionComponent = () => {
         searchParams: 'innsatsgruppe=BATT&side=2',
         sidestørrelse: 25,
         kandidaterPåSiden: enKandidatliste.kandidater.map((k) => k.kandidatnr),
+        query: {
+            from: 0,
+        },
     };
+    console.log('State:', stateFraKandidatsøk);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -55,17 +59,11 @@ const Utviklingsapp: FunctionComponent = () => {
                     </Utviklingslenke>
                     <Utviklingslenke
                         to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatsok=true&kandidatlisteId=${enAnnenKandidatliste.kandidatlisteId}`}
-                        state={{
-                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
-                        }}
                     >
                         Kandidatside fra finn kandidater
                     </Utviklingslenke>
                     <Utviklingslenke
                         to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatliste=true&kandidatlisteId=${enKandidatliste.kandidatlisteId}`}
-                        state={{
-                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
-                        }}
                     >
                         Kandidatside fra liste
                     </Utviklingslenke>

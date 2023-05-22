@@ -3,6 +3,7 @@ import {
     KandidatsøkØkt,
     hentØktFraKandidatsøk,
     skrivKandidatnrTilKandidatsøkØkt,
+    useKandidatsøkøkt,
 } from '../søkekontekst';
 
 const kandidatsøkProxy = `/kandidatsok-proxy`;
@@ -35,9 +36,9 @@ const søk = async (query: object): Promise<Respons> => {
 };
 
 const useNavigasjonMellomKandidater = (kandidatnr: string) => {
-    useEffect(() => {
-        const økt = hentØktFraKandidatsøk();
+    const { økt, setØkt } = useKandidatsøkøkt();
 
+    useEffect(() => {
         const blaTilNesteSide = async (økt: KandidatsøkØkt, nesteSide: number) => {
             const queryForNesteSide = {
                 ...økt.query,
@@ -61,37 +62,36 @@ const useNavigasjonMellomKandidater = (kandidatnr: string) => {
                 query: queryForNesteSide,
             };
 
+            setØkt(nyØkt);
             console.log('Skriv tilbake til SessionStorage:', nyØkt);
         };
 
-        if (økt) {
-            const {
-                kandidaterPåSiden,
-                searchParams,
-                sidestørrelse = 0,
-                totaltAntallKandidater = 0,
-            } = økt;
+        const {
+            kandidaterPåSiden,
+            searchParams,
+            sidestørrelse = 0,
+            totaltAntallKandidater = 0,
+        } = økt;
 
-            const førsteKandidatPåSiden = kandidaterPåSiden?.at(0);
-            const sisteKandidatPåSiden = kandidaterPåSiden?.at(-1);
+        const førsteKandidatPåSiden = kandidaterPåSiden?.at(0);
+        const sisteKandidatPåSiden = kandidaterPåSiden?.at(-1);
 
-            if (kandidatnr === sisteKandidatPåSiden) {
-                console.log('Er på siste kandidat, sjekker om vi skal laste inn flere ...');
+        if (kandidatnr === sisteKandidatPåSiden) {
+            console.log('Er på siste kandidat, sjekker om vi skal laste inn flere ...');
 
-                const activeSearch = new URLSearchParams(searchParams);
-                const currentPage = parseInt(activeSearch.get('side') ?? '1');
-                const currentPageSize = kandidaterPåSiden?.length ?? 0;
-                const totaltAntallVist = (currentPage - 1) * sidestørrelse + currentPageSize;
-                const kanBlaTilNesteSide = totaltAntallVist < totaltAntallKandidater;
+            const activeSearch = new URLSearchParams(searchParams);
+            const currentPage = parseInt(activeSearch.get('side') ?? '1');
+            const currentPageSize = kandidaterPåSiden?.length ?? 0;
+            const totaltAntallVist = (currentPage - 1) * sidestørrelse + currentPageSize;
+            const kanBlaTilNesteSide = totaltAntallVist < totaltAntallKandidater;
 
-                if (kanBlaTilNesteSide) {
-                    console.log('Blar til neste side som er', currentPage + 1);
+            if (kanBlaTilNesteSide) {
+                console.log('Blar til neste side som er', currentPage + 1);
 
-                    blaTilNesteSide(økt, currentPage + 1);
-                }
-            } else if (kandidatnr === førsteKandidatPåSiden) {
-                // TODO: Blaing til forrige side
+                blaTilNesteSide(økt, currentPage + 1);
             }
+        } else if (kandidatnr === førsteKandidatPåSiden) {
+            // TODO: Blaing til forrige side
         }
 
         skrivKandidatnrTilKandidatsøkØkt(kandidatnr);

@@ -1,3 +1,10 @@
+import { create } from 'zustand';
+
+export type KandidatsøkøktState = {
+    økt: KandidatsøkØkt;
+    setØkt: (økt: KandidatsøkØkt) => void;
+};
+
 export type KandidatsøkØkt = Partial<{
     searchParams: string;
     query: object;
@@ -8,18 +15,18 @@ export type KandidatsøkØkt = Partial<{
     totaltAntallKandidater: number;
 }>;
 
-export const hentØktFraKandidatsøk = (): KandidatsøkØkt | null => {
+export const hentØktFraKandidatsøk = (): KandidatsøkØkt => {
     const kandidatsøkString = window.sessionStorage.getItem('kandidatsøk');
 
     if (!kandidatsøkString) {
-        return null;
+        return {};
     }
 
     return JSON.parse(kandidatsøkString);
 };
 
 export const skrivKandidatnrTilKandidatsøkØkt = (kandidatNr: string) => {
-    const session = hentØktFraKandidatsøk() || {};
+    const session = hentØktFraKandidatsøk();
 
     const oppdatertSession: KandidatsøkØkt = {
         ...session,
@@ -28,3 +35,8 @@ export const skrivKandidatnrTilKandidatsøkØkt = (kandidatNr: string) => {
 
     window.sessionStorage.setItem('kandidatsøk', JSON.stringify(oppdatertSession));
 };
+
+export const useKandidatsøkøkt = create<KandidatsøkøktState>((set) => ({
+    økt: hentØktFraKandidatsøk(),
+    setØkt: (økt: KandidatsøkØkt) => set({ økt }),
+}));
