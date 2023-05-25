@@ -1,8 +1,8 @@
-import useFaner from './useFaner';
-import { lenkeTilKandidatside } from '../../app/paths';
-import { KandidatsøkØkt, useKandidatsøkøkt } from '../søkekontekst';
+import { useEffect } from 'react';
+import { Kandidatfane, lenkeTilKandidatside } from '../../app/paths';
+import { useKandidatsøkøkt } from '../søkekontekst';
 import { Kandidatnavigering } from '../komponenter/header/forrige-neste/ForrigeNeste';
-import { useContext, useEffect } from 'react';
+import useFaner from './useFaner';
 
 const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
@@ -11,25 +11,13 @@ const useNavigerbareKandidaterFraSøk = (
     const { økt, setØkt } = useKandidatsøkøkt();
     const [fane] = useFaner();
 
-    let index = 0;
-    let forrige: string | undefined = undefined;
-    let neste: string | undefined = undefined;
-    let antall = økt?.totaltAntallKandidater ?? 1;
-
-    if (økt?.navigerbareKandidater !== undefined) {
-        index = økt.navigerbareKandidater.findIndex((kandidat) => kandidat === kandidatnr) ?? -1;
-
-        const forrigeKandidatnr = økt.navigerbareKandidater[index - 1];
-        const nesteKandidatnr = økt.navigerbareKandidater[index + 1];
-
-        if (forrigeKandidatnr) {
-            forrige = lenkeTilKandidatside(forrigeKandidatnr, fane, kandidatlisteId, false, true);
-        }
-
-        if (nesteKandidatnr) {
-            neste = lenkeTilKandidatside(nesteKandidatnr, fane, kandidatlisteId, false, true);
-        }
-    }
+    const totaltAntallKandidater = økt?.totaltAntallKandidater ?? 1;
+    const [index, forrige, neste] = byggLenkeTilForrigeOgNesteKandidat(
+        kandidatnr,
+        økt.navigerbareKandidater,
+        fane,
+        kandidatlisteId
+    );
 
     useEffect(() => {
         const searchParams = new URLSearchParams(økt.searchParams);
@@ -42,7 +30,7 @@ const useNavigerbareKandidaterFraSøk = (
         });
     }, [kandidatnr]);
 
-    if (økt?.navigerbareKandidater === undefined) {
+    if (!økt.navigerbareKandidater) {
         return null;
     }
 
@@ -50,8 +38,34 @@ const useNavigerbareKandidaterFraSøk = (
         index,
         forrige,
         neste,
-        antall,
+        antall: totaltAntallKandidater,
     };
+};
+
+const byggLenkeTilForrigeOgNesteKandidat = (
+    currentKandidat: string,
+    navigerbareKandidater: string[] | undefined,
+    fane: Kandidatfane,
+    kandidatlisteId?: string
+): [number, string | undefined, string | undefined] => {
+    if (!navigerbareKandidater) {
+        return [0, undefined, undefined];
+    }
+
+    const index = navigerbareKandidater.indexOf(currentKandidat);
+    if (index === -1) {
+        return [0, undefined, undefined];
+    }
+
+    const forrige = navigerbareKandidater[index - 1]
+        ? lenkeTilKandidatside(navigerbareKandidater[index - 1], fane, kandidatlisteId, false, true)
+        : undefined;
+
+    const neste = navigerbareKandidater[index + 1]
+        ? lenkeTilKandidatside(navigerbareKandidater[index + 1], fane, kandidatlisteId, false, true)
+        : undefined;
+
+    return [index, forrige, neste];
 };
 
 export default useNavigerbareKandidaterFraSøk;

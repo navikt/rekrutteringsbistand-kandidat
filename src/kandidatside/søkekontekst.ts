@@ -23,18 +23,17 @@ export const hentØktFraKandidatsøk = (): KandidatsøkØkt => {
     return JSON.parse(kandidatsøkString);
 };
 
-export const skrivKandidatnrTilKandidatsøkØkt = (kandidatNr: string) => {
-    const session = hentØktFraKandidatsøk();
-
-    const oppdatertSession: KandidatsøkØkt = {
-        ...session,
-        sistBesøkteKandidat: kandidatNr,
-    };
-
-    window.sessionStorage.setItem('kandidatsøk', JSON.stringify(oppdatertSession));
+export const skrivØktTilSessionStorage = (økt: KandidatsøkØkt) => {
+    window.sessionStorage.setItem('kandidatsøk', JSON.stringify(økt));
 };
 
 export const useKandidatsøkøkt = create<KandidatsøkøktState>((set) => ({
     økt: hentØktFraKandidatsøk(),
-    setØkt: (økt: KandidatsøkØkt) => set({ økt }),
+    setØkt: (økt: KandidatsøkØkt) =>
+        set((state) => {
+            const oppdatertØkt = { ...state.økt, ...økt };
+            skrivØktTilSessionStorage(oppdatertØkt);
+
+            return { økt: oppdatertØkt };
+        }),
 }));

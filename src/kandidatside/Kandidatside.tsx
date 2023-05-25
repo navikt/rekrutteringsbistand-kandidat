@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { Tabs } from '@navikt/ds-react';
 
