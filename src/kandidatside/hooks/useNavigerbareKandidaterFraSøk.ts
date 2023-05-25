@@ -21,7 +21,7 @@ const useNavigerbareKandidaterFraSøk = (
 
     useEffect(() => {
         const searchParams = new URLSearchParams(økt.searchParams);
-        const sidetall = Math.ceil(index / 25);
+        const sidetall = Math.ceil((index + 1) / 25);
         searchParams.set('side', sidetall.toString());
 
         setØkt({
