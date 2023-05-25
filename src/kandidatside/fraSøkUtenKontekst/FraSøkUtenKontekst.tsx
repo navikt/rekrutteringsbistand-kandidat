@@ -24,7 +24,7 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søke
 
     const [fane, setFane] = useFaner();
     const cv = useCv(kandidatnr);
-    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, søkeøkt);
+    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr);
     const [visKandidatlisterModal, setVisKandidatlisterModal] = useState<boolean>(false);
 
     const tilbakelenke = {

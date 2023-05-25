@@ -36,7 +36,7 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
 
     const cv = useCv(kandidatnr);
     const kandidatliste = useKandidatliste(kandidatlisteId);
-    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, søkeøkt, kandidatlisteId);
+    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kandidatlisteId);
 
     const lenkeTilFinnKandidater = {
         to: lenkeTilKandidatsøk(søkeøkt?.searchParams),
