@@ -32,10 +32,15 @@ export const useKandidatsøkøkt = create<KandidatsøkøktState>((set) => ({
     økt: hentØktFraKandidatsøk(),
     resetØkt: () => set({ økt: hentØktFraKandidatsøk() }),
     oppdaterØkt: (felter: KandidatsøkØkt) =>
-        set({
-            økt: {
+        set(() => {
+            const oppdatertØkt = {
                 ...hentØktFraKandidatsøk(),
                 ...felter,
-            },
+            };
+
+            skrivØktTilSessionStorage(oppdatertØkt);
+            return {
+                økt: oppdatertØkt,
+            };
         }),
 }));
