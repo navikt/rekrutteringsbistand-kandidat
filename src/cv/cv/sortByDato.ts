@@ -2,9 +2,7 @@
  * Sorterer items etter dato. Sorterer først på tildato. Er disse like eller er en av disse
  * null sorteres det på fradato
  */
-const sortByDato = <T extends { fraDato?: string | null; tilDato?: string | null }>(
-    items: Array<T>
-): Array<T> => {
+const sortByDato = <T extends { fraDato: any; tilDato: any }>(items: Array<T>): Array<T> => {
     return items.concat().sort((a, b) => {
         if (a.fraDato === null || b.fraDato === null) {
             return -1;
@@ -46,7 +44,7 @@ const sortByDato = <T extends { fraDato?: string | null; tilDato?: string | null
 
 const ISO_8601_DATE = /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d\d\d)|Z)?)?)?)?$/i;
 
-function isValidISOString(isoString: string | null) {
+function isValidISOString(isoString: any) {
     if (isoString === null) {
         return false;
     }
@@ -54,7 +52,7 @@ function isValidISOString(isoString: string | null) {
     return ISO_8601_DATE.test(isoString);
 }
 
-export function toDate(isoString: string | null): Date {
+export function toDate(isoString?: string | null): Date {
     if (!isValidISOString(isoString)) {
         throw Error(`${isoString} is not a valid ISO 8601 date`);
     }

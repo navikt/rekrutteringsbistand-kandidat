@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactNode, useState } from 'react';
 import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import { PersonPlusIcon } from '@navikt/aksel-icons';
@@ -11,10 +11,9 @@ import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';
 import useFaner from '../hooks/useFaner';
 import useKandidatliste from '../hooks/useKandidatliste';
-import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
+import useNavigerbareKandidaterFraSøk from '../hooks/useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import LagreKandidatIKandidatlisteModal from './LagreKandidatIKandidatlisteModal';
-import useNavigasjonMellomKandidater from '../hooks/useNavigasjonMellomKandidater';
 
 type Props = {
     tabs: ReactNode;
@@ -31,14 +30,13 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     children,
 }) => {
     useScrollTilToppen(kandidatnr);
-    useNavigasjonMellomKandidater(kandidatnr);
 
     const [fane, setFane] = useFaner();
     const [visLagreKandidatModal, setVisLagreKandidatModal] = useState<boolean>(false);
 
     const cv = useCv(kandidatnr);
     const kandidatliste = useKandidatliste(kandidatlisteId);
-    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kandidatlisteId, søkeøkt);
+    const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, søkeøkt, kandidatlisteId);
 
     const lenkeTilFinnKandidater = {
         to: lenkeTilKandidatsøk(søkeøkt?.searchParams),

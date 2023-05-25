@@ -7,11 +7,9 @@ export type KandidatsøkøktState = {
 
 export type KandidatsøkØkt = Partial<{
     searchParams: string;
-    query: object;
     sistBesøkteKandidat: string;
     markerteKandidater: string[];
-    kandidaterPåSiden: string[];
-    sidestørrelse: number;
+    navigerbareKandidater: string[];
     totaltAntallKandidater: number;
 }>;
 

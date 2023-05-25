@@ -1,35 +1,35 @@
+import useFaner from './useFaner';
 import { lenkeTilKandidatside } from '../../app/paths';
 import { KandidatsøkØkt } from '../søkekontekst';
-import useFaner from '../hooks/useFaner';
 import { Kandidatnavigering } from '../komponenter/header/forrige-neste/ForrigeNeste';
 
 const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
-    økt: KandidatsøkØkt
+    økt: KandidatsøkØkt,
+    kandidatlisteId?: string
 ): Kandidatnavigering | null => {
     const [fane] = useFaner();
 
     let index = 0;
     let forrige: string | undefined = undefined;
     let neste: string | undefined = undefined;
-    let antall = 0;
+    let antall = økt?.totaltAntallKandidater ?? 1;
 
-    if (økt?.kandidaterPåSiden === undefined) {
+    if (økt?.navigerbareKandidater === undefined) {
         return null;
     }
 
-    antall = økt.kandidaterPåSiden.length;
-    index = økt.kandidaterPåSiden.findIndex((kandidat) => kandidat === kandidatnr);
+    index = økt.navigerbareKandidater.findIndex((kandidat) => kandidat === kandidatnr);
 
-    const forrigeKandidatnr = økt.kandidaterPåSiden[index - 1];
-    const nesteKandidatnr = økt.kandidaterPåSiden[index + 1];
+    const forrigeKandidatnr = økt.navigerbareKandidater[index - 1];
+    const nesteKandidatnr = økt.navigerbareKandidater[index + 1];
 
     if (forrigeKandidatnr) {
-        forrige = lenkeTilKandidatside(forrigeKandidatnr, fane, undefined, false, true);
+        forrige = lenkeTilKandidatside(forrigeKandidatnr, fane, kandidatlisteId, false, true);
     }
 
     if (nesteKandidatnr) {
-        neste = lenkeTilKandidatside(nesteKandidatnr, fane, undefined, false, true);
+        neste = lenkeTilKandidatside(nesteKandidatnr, fane, kandidatlisteId, false, true);
     }
 
     return {

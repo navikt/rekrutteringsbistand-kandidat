@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactNode, useState } from 'react';
 import { Button, Tabs } from '@navikt/ds-react';
 import { PersonPlusIcon } from '@navikt/aksel-icons';
 
@@ -7,11 +7,10 @@ import { KandidatsøkØkt } from '../søkekontekst';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';
-import useNavigerbareKandidaterFraSøk from './useNavigerbareKandidaterFraSøk';
+import useNavigerbareKandidaterFraSøk from '../hooks/useNavigerbareKandidaterFraSøk';
 import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import useFaner from '../hooks/useFaner';
 import LagreKandidaterIMineKandidatlisterModal from './lagre-kandidat-modal/LagreKandidatIMineKandidatlisterModal';
-import useNavigasjonMellomKandidater from '../hooks/useNavigasjonMellomKandidater';
 import css from './FraSøkUtenKontekst.module.css';
 
 type Props = {
@@ -22,7 +21,6 @@ type Props = {
 
 const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søkeøkt, children }) => {
     useScrollTilToppen(kandidatnr);
-    useNavigasjonMellomKandidater(kandidatnr);
 
     const [fane, setFane] = useFaner();
     const cv = useCv(kandidatnr);

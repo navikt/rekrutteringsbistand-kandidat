@@ -22,11 +22,7 @@ const Utviklingsapp: FunctionComponent = () => {
     const stateFraKandidatsøk: KandidatsøkØkt = {
         totaltAntallKandidater: 50,
         searchParams: 'innsatsgruppe=BATT&side=2',
-        sidestørrelse: 25,
-        kandidaterPåSiden: enKandidatliste.kandidater.map((k) => k.kandidatnr),
-        query: {
-            from: 0,
-        },
+        navigerbareKandidater: enKandidatliste.kandidater.map((k) => k.kandidatnr),
     };
 
     useEffect(() => {
