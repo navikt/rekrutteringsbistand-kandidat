@@ -8,7 +8,7 @@ const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
     kandidatlisteId?: string
 ): Kandidatnavigering | null => {
-    const { økt, setØkt } = useKandidatsøkøkt();
+    const { økt, oppdaterØkt } = useKandidatsøkøkt();
     const [fane] = useFaner();
 
     const totaltAntallKandidater = økt?.totaltAntallKandidater ?? 1;
@@ -24,7 +24,7 @@ const useNavigerbareKandidaterFraSøk = (
         const sidetall = Math.ceil((index + 1) / 25);
         searchParams.set('side', sidetall.toString());
 
-        setØkt({
+        oppdaterØkt({
             searchParams: searchParams.toString(),
             sistBesøkteKandidat: kandidatnr,
         });

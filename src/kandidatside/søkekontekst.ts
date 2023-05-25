@@ -2,7 +2,8 @@ import { create } from 'zustand';
 
 export type KandidatsøkøktState = {
     økt: KandidatsøkØkt;
-    setØkt: (økt: KandidatsøkØkt) => void;
+    resetØkt: () => void;
+    oppdaterØkt: (økt: KandidatsøkØkt) => void;
 };
 
 export type KandidatsøkØkt = Partial<{
@@ -29,7 +30,8 @@ export const skrivØktTilSessionStorage = (økt: KandidatsøkØkt) => {
 
 export const useKandidatsøkøkt = create<KandidatsøkøktState>((set) => ({
     økt: hentØktFraKandidatsøk(),
-    setØkt: (økt: KandidatsøkØkt) =>
+    resetØkt: () => set({ økt: hentØktFraKandidatsøk() }),
+    oppdaterØkt: (økt: KandidatsøkØkt) =>
         set((state) => {
             const oppdatertØkt = { ...state.økt, ...økt };
             skrivØktTilSessionStorage(oppdatertØkt);

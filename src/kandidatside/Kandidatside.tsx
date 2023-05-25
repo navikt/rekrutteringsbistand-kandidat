@@ -21,10 +21,10 @@ type RouteParams = {
 };
 
 const Kandidatside: FunctionComponent = () => {
-    const { økt: søkeøkt, setØkt: setSøkeøkt } = useKandidatsøkøkt();
+    const { økt: søkeøkt, resetØkt } = useKandidatsøkøkt();
 
     useEffect(() => {
-        setSøkeøkt(hentØktFraKandidatsøk());
+        resetØkt();
     }, []);
 
     const location = useLocation();
