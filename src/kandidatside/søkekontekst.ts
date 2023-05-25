@@ -31,11 +31,11 @@ export const skrivØktTilSessionStorage = (økt: KandidatsøkØkt) => {
 export const useKandidatsøkøkt = create<KandidatsøkøktState>((set) => ({
     økt: hentØktFraKandidatsøk(),
     resetØkt: () => set({ økt: hentØktFraKandidatsøk() }),
-    oppdaterØkt: (økt: KandidatsøkØkt) =>
-        set((state) => {
-            const oppdatertØkt = { ...state.økt, ...økt };
-            skrivØktTilSessionStorage(oppdatertØkt);
-
-            return { økt: oppdatertØkt };
+    oppdaterØkt: (felter: KandidatsøkØkt) =>
+        set({
+            økt: {
+                ...hentØktFraKandidatsøk(),
+                ...felter,
+            },
         }),
 }));
