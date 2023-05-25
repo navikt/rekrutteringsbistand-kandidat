@@ -24,6 +24,7 @@ const useNavigerbareKandidaterFraSøk = (
         const sidetall = Math.ceil((index + 1) / 25);
         searchParams.set('side', sidetall.toString());
 
+        console.log('Oppdaterer økt med utgangspunkt i ...', økt);
         oppdaterØkt({
             searchParams: searchParams.toString(),
             sistBesøkteKandidat: kandidatnr,

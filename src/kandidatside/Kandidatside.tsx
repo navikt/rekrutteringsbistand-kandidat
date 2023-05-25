@@ -24,6 +24,7 @@ const Kandidatside: FunctionComponent = () => {
     const { økt: søkeøkt, resetØkt } = useKandidatsøkøkt();
 
     useEffect(() => {
+        console.log('Resetter økt fra ', søkeøkt);
         resetØkt();
     }, []);
 
