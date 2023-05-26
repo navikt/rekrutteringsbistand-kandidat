@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { Kandidatfane, lenkeTilKandidatside } from '../../app/paths';
-import { useKandidatsøkøkt } from '../søkekontekst';
+import {
+    hentØktFraKandidatsøk,
+    skrivØktTilSessionStorage,
+    useKandidatsøkøkt,
+} from '../søkekontekst';
 import { Kandidatnavigering } from '../komponenter/header/forrige-neste/ForrigeNeste';
 import useFaner from './useFaner';
 
@@ -8,9 +12,9 @@ const useNavigerbareKandidaterFraSøk = (
     kandidatnr: string,
     kandidatlisteId?: string
 ): Kandidatnavigering | null => {
-    const { økt, oppdaterØkt } = useKandidatsøkøkt();
     const [fane] = useFaner();
 
+    const økt = hentØktFraKandidatsøk();
     const totaltAntallKandidater = økt?.totaltAntallKandidater ?? 1;
     const [index, forrige, neste] = byggLenkeTilForrigeOgNesteKandidat(
         kandidatnr,
@@ -24,7 +28,8 @@ const useNavigerbareKandidaterFraSøk = (
         const sidetall = Math.ceil((index + 1) / 25);
         searchParams.set('side', sidetall.toString());
 
-        oppdaterØkt({
+        skrivØktTilSessionStorage({
+            ...økt,
             searchParams: searchParams.toString(),
             sistBesøkteKandidat: kandidatnr,
         });

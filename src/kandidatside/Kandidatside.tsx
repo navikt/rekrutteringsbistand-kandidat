@@ -21,13 +21,6 @@ type RouteParams = {
 };
 
 const Kandidatside: FunctionComponent = () => {
-    const { økt: søkeøkt, resetØkt } = useKandidatsøkøkt();
-
-    useEffect(() => {
-        console.log('Resetter økt fra ', søkeøkt);
-        resetØkt();
-    }, []);
-
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const routeParams = useParams<RouteParams>();
@@ -58,14 +51,13 @@ const Kandidatside: FunctionComponent = () => {
                     tabs={<Faner />}
                     kandidatnr={kandidatnr}
                     kandidatlisteId={kandidatlisteIdFraUrl}
-                    søkeøkt={søkeøkt}
                 >
                     <Outlet />
                 </FraSøkMedKandidatliste>
             );
         } else {
             return (
-                <FraSøkUtenKontekst tabs={<Faner />} kandidatnr={kandidatnr} søkeøkt={søkeøkt}>
+                <FraSøkUtenKontekst tabs={<Faner />} kandidatnr={kandidatnr}>
                     <Outlet />
                 </FraSøkUtenKontekst>
             );

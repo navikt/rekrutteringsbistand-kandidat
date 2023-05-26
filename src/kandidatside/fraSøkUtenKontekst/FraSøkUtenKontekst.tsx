@@ -3,7 +3,7 @@ import { Button, Tabs } from '@navikt/ds-react';
 import { PersonPlusIcon } from '@navikt/aksel-icons';
 
 import { lenkeTilKandidatsøk } from '../../app/paths';
-import { KandidatsøkØkt } from '../søkekontekst';
+import { KandidatsøkØkt, hentØktFraKandidatsøk } from '../søkekontekst';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';
@@ -16,10 +16,9 @@ import css from './FraSøkUtenKontekst.module.css';
 type Props = {
     tabs: ReactNode;
     kandidatnr: string;
-    søkeøkt: KandidatsøkØkt;
 };
 
-const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søkeøkt, children }) => {
+const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, children }) => {
     useScrollTilToppen(kandidatnr);
 
     const [fane, setFane] = useFaner();
@@ -27,8 +26,9 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, søke
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr);
     const [visKandidatlisterModal, setVisKandidatlisterModal] = useState<boolean>(false);
 
+    const økt = hentØktFraKandidatsøk();
     const tilbakelenke = {
-        to: lenkeTilKandidatsøk(søkeøkt.searchParams),
+        to: lenkeTilKandidatsøk(økt.searchParams),
         state: { scrollTilKandidat: true },
     };
 

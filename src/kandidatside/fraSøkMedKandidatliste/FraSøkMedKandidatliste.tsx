@@ -5,7 +5,7 @@ import { PersonPlusIcon } from '@navikt/aksel-icons';
 
 import { lenkeTilKandidatliste, lenkeTilKandidatsøk } from '../../app/paths';
 import { Nettstatus } from '../../api/Nettressurs';
-import { KandidatsøkØkt } from '../søkekontekst';
+import { KandidatsøkØkt, hentØktFraKandidatsøk } from '../søkekontekst';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';
@@ -19,14 +19,12 @@ type Props = {
     tabs: ReactNode;
     kandidatnr: string;
     kandidatlisteId: string;
-    søkeøkt: KandidatsøkØkt;
 };
 
 const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     tabs,
     kandidatnr,
     kandidatlisteId,
-    søkeøkt,
     children,
 }) => {
     useScrollTilToppen(kandidatnr);
@@ -38,8 +36,9 @@ const FraSøkMedKandidatliste: FunctionComponent<Props> = ({
     const kandidatliste = useKandidatliste(kandidatlisteId);
     const kandidatnavigering = useNavigerbareKandidaterFraSøk(kandidatnr, kandidatlisteId);
 
+    const økt = hentØktFraKandidatsøk();
     const lenkeTilFinnKandidater = {
-        to: lenkeTilKandidatsøk(søkeøkt?.searchParams),
+        to: lenkeTilKandidatsøk(økt.searchParams),
         state: { scrollTilKandidat: true },
     };
 
