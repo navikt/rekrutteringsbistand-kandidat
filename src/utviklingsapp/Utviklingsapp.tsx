@@ -8,6 +8,7 @@ import { mock } from '../mock/mock-data';
 import { meg } from '../mock/data/kandidat/veileder.mock';
 import css from './Utviklingsapp.module.css';
 import { Heading } from '@navikt/ds-react';
+import { KandidatsøkØkt } from '../kandidatside/søkekontekst';
 
 const history = createBrowserHistory();
 
@@ -17,10 +18,11 @@ const Utviklingsapp: FunctionComponent = () => {
     const enKandidatliste = mock.kandidat.kandidatlister[0];
     const enAnnenKandidatliste = mock.kandidat.kandidatlister[1];
     const enKandidat = enKandidatliste.kandidater[0];
-    const enAnnenKandidat = enKandidatliste.kandidater[1];
 
-    const stateFraKandidatsøk = {
-        kandidater: enKandidatliste.kandidater.map((k) => k.kandidatnr),
+    const stateFraKandidatsøk: KandidatsøkØkt = {
+        totaltAntallKandidater: 50,
+        searchParams: 'innsatsgruppe=BATT&side=2',
+        navigerbareKandidater: enKandidatliste.kandidater.map((k) => k.kandidatnr),
     };
 
     useEffect(() => {
@@ -45,23 +47,17 @@ const Utviklingsapp: FunctionComponent = () => {
                 <nav className={css.lenker}>
                     <Utviklingslenke to="/kandidater/lister">Kandidatlister</Utviklingslenke>
                     <Utviklingslenke
-                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true`}
+                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatsok=true`}
                     >
                         Kandidatside fra vanlig søk
                     </Utviklingslenke>
                     <Utviklingslenke
-                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraNyttKandidatsok=true&kandidatlisteId=${enAnnenKandidatliste.kandidatlisteId}`}
-                        state={{
-                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
-                        }}
+                        to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatsok=true&kandidatlisteId=${enAnnenKandidatliste.kandidatlisteId}`}
                     >
                         Kandidatside fra finn kandidater
                     </Utviklingslenke>
                     <Utviklingslenke
                         to={`/kandidater/kandidat/${enKandidat.kandidatnr}/cv?fraKandidatliste=true&kandidatlisteId=${enKandidatliste.kandidatlisteId}`}
-                        state={{
-                            kandidater: [enKandidat.kandidatnr, enAnnenKandidat.kandidatnr],
-                        }}
                     >
                         Kandidatside fra liste
                     </Utviklingslenke>

@@ -53,7 +53,7 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
             {autorisasjoner?.length > 0 && (
                 <BolkMedPunktliste tittel="Fagbrev/svennebrev og mesterbrev">
                     {autorisasjoner.map(({ tittel, type }) => (
-                        <Fragment key={JSON.stringify(tittel)}>
+                        <Fragment key={tittel}>
                             {(tittel || type) && <BodyShort as="li">{tittel ?? type}</BodyShort>}
                         </Fragment>
                     ))}
@@ -64,7 +64,7 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                 <BolkMedErfaringer tittel="Arbeidserfaring">
                     {sortByDato(cv.yrkeserfaring).map((erfaring) => (
                         <Arbeidserfaring
-                            key={JSON.stringify({ erfaring })}
+                            key={`${erfaring.styrkKode}-${erfaring.fraDato}`}
                             arbeidserfaring={erfaring}
                         />
                     ))}
@@ -75,7 +75,7 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                 <BolkMedErfaringer tittel="Annen erfaring">
                     {sortByDato(cv.annenErfaring).map((erfaring, i) => (
                         <Erfaring
-                            key={erfaring.rolle}
+                            key={`${erfaring.rolle}-${erfaring.fraDato}`}
                             fraDato={erfaring.fraDato}
                             tilDato={erfaring.tilDato}
                         >
@@ -89,7 +89,10 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
             {cv.godkjenninger?.length > 0 && (
                 <BolkMedErfaringer tittel="Godkjenninger i lovreguelerte yrker">
                     {cv.godkjenninger.map((godkjenning) => (
-                        <Erfaring fraDato={godkjenning.gjennomfoert} key={godkjenning.konseptId}>
+                        <Erfaring
+                            fraDato={godkjenning.gjennomfoert}
+                            key={`${godkjenning.konseptId}-${godkjenning.gjennomfoert}`}
+                        >
                             <BodyShort className={css.bold}>{godkjenning.tittel}</BodyShort>
                             <BodyShort>{godkjenning.utsteder}</BodyShort>
                             {godkjenning.utloeper && (
@@ -105,7 +108,10 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
             {cv.sertifikater?.length > 0 && (
                 <BolkMedErfaringer tittel="Andre godkjenninger">
                     {sortByDato(cv.sertifikater).map((sertifikat) => (
-                        <Erfaring key={sertifikat.sertifikatKode} fraDato={sertifikat.fraDato}>
+                        <Erfaring
+                            key={`${sertifikat.sertifikatKode}-${sertifikat.alternativtNavn}-${sertifikat.fraDato}`}
+                            fraDato={sertifikat.fraDato}
+                        >
                             <BodyShort className={css.bold}>
                                 {sertifikat.alternativtNavn
                                     ? sertifikat.alternativtNavn
@@ -125,7 +131,7 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
             {cv.kurs?.length > 0 && (
                 <BolkMedErfaringer tittel="Kurs">
                     {sortByDato(cv.kurs).map((kurs, i) => (
-                        <Kurs key={kurs.tittel} kurs={kurs} />
+                        <Kurs key={`${kurs.tittel}-${kurs.fraDato}`} kurs={kurs} />
                     ))}
                 </BolkMedErfaringer>
             )}
@@ -134,9 +140,9 @@ const Cv: FunctionComponent<Props> = ({ cv }) => {
                 <BolkMedErfaringer tittel="Førerkort">
                     {fjernDuplikater(sortByDato(cv.forerkort)).map((førerkort) => (
                         <Erfaring
+                            key={`${førerkort.sertifikatKode}-${førerkort.fraDato}`}
                             fraDato={førerkort.fraDato}
                             tilDato={førerkort.tilDato}
-                            key={førerkort.sertifikatKode}
                         >
                             <BodyShort className={css.bold}>
                                 {førerkort.alternativtNavn

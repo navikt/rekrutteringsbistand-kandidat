@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
+import { createRoot } from 'react-dom/client';
 import { Modal } from '@navikt/ds-react';
 import { Router } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
-import ReactDOM from 'react-dom';
 import Navspa from '@navikt/navspa';
 import './index.css';
 
@@ -60,7 +60,10 @@ const renderUtviklingsapp = async () => {
         await import('./mock/mock-api');
     }
 
-    ReactDOM.render(<Utviklingsapp />, document.getElementById('utviklingsapp'));
+    const utviklingsapp = document.getElementById('utviklingsapp');
+    const root = createRoot(utviklingsapp);
+
+    root.render(<Utviklingsapp />);
 };
 
 if (skalEksporteres) {

@@ -1,27 +1,34 @@
-export type NyttKandidatsøkØkt = Partial<{
+export type KandidatsøkØkt = Partial<{
+    searchParams: string;
     sistBesøkteKandidat: string;
     markerteKandidater: string[];
-    kandidater: string[];
-    searchParams: string;
+    navigerbareKandidater: string[];
+    totaltAntallKandidater: number;
+    pageSize: number;
 }>;
 
-export const hentØktFraNyttKandidatsøk = (): NyttKandidatsøkØkt | null => {
+export const hentØktFraKandidatsøk = (): KandidatsøkØkt => {
     const kandidatsøkString = window.sessionStorage.getItem('kandidatsøk');
 
     if (!kandidatsøkString) {
-        return null;
+        return {};
     }
 
     return JSON.parse(kandidatsøkString);
 };
 
-export const skrivKandidatnrTilNyttKandidatsøkØkt = (kandidatNr: string) => {
-    const session = hentØktFraNyttKandidatsøk() || {};
+export const skrivØktTilSessionStorage = (økt: KandidatsøkØkt) => {
+    window.sessionStorage.setItem('kandidatsøk', JSON.stringify(økt));
+};
 
-    const oppdatertSession: NyttKandidatsøkØkt = {
-        ...session,
-        sistBesøkteKandidat: kandidatNr,
+export const useKandidatsøkøkt = () => {
+    return {
+        økt: hentØktFraKandidatsøk(),
+        oppdaterØkt: (felter: KandidatsøkØkt) => {
+            skrivØktTilSessionStorage({
+                ...hentØktFraKandidatsøk(),
+                ...felter,
+            });
+        },
     };
-
-    window.sessionStorage.setItem('kandidatsøk', JSON.stringify(oppdatertSession));
 };
