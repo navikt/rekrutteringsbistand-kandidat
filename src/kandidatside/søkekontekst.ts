@@ -4,6 +4,7 @@ export type KandidatsøkØkt = Partial<{
     markerteKandidater: string[];
     navigerbareKandidater: string[];
     totaltAntallKandidater: number;
+    pageSize: number;
 }>;
 
 export const hentØktFraKandidatsøk = (): KandidatsøkØkt => {

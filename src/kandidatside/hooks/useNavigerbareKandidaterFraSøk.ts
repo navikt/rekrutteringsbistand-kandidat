@@ -29,8 +29,13 @@ const useNavigerbareKandidaterFraSøk = (
 
     useEffect(() => {
         const searchParams = new URLSearchParams(økt.searchParams);
-        const sidetall = Math.ceil((index + 1) / 25);
-        searchParams.set('side', sidetall.toString());
+        const sidetall = Math.ceil((index + 1) / (økt.pageSize ?? 1));
+
+        if (sidetall > 1) {
+            searchParams.set('side', sidetall.toString());
+        } else {
+            searchParams.delete('side');
+        }
 
         skrivØktTilSessionStorage({
             ...økt,
