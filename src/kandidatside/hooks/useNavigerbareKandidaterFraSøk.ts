@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Kandidatfane, lenkeTilKandidatside } from '../../app/paths';
 import {
     hentØktFraKandidatsøk,
@@ -13,8 +13,8 @@ const useNavigerbareKandidaterFraSøk = (
     kandidatlisteId?: string
 ): Kandidatnavigering | null => {
     const [fane] = useFaner();
+    const [økt, setØkt] = useState(hentØktFraKandidatsøk());
 
-    const økt = hentØktFraKandidatsøk();
     const totaltAntallKandidater = økt?.totaltAntallKandidater ?? 1;
     const [index, forrige, neste] = byggLenkeTilForrigeOgNesteKandidat(
         kandidatnr,
@@ -22,6 +22,10 @@ const useNavigerbareKandidaterFraSøk = (
         fane,
         kandidatlisteId
     );
+
+    useEffect(() => {
+        setØkt(hentØktFraKandidatsøk());
+    }, [kandidatnr]);
 
     useEffect(() => {
         const searchParams = new URLSearchParams(økt.searchParams);
