@@ -1,9 +1,5 @@
-.velgKandidatlisterKnapp span {
-    display: none;
-}
-
-@media (min-width: 600px) {
-    .velgKandidatlisterKnapp span {
-        display: unset;
-    }
+.knapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }

@@ -1,11 +1,9 @@
 import React from 'react';
-import { ExternalLinkIcon, DownloadIcon, MagnifyingGlassIcon } from '@navikt/aksel-icons';
+import { ExternalLinkIcon, DownloadIcon } from '@navikt/aksel-icons';
 import { Link as NavLink } from '@navikt/ds-react';
-import { Link } from 'react-router-dom';
 
 import { sendEvent } from '../../../amplitude/amplitude';
 import { arbeidsrettetOppfølgingUrl, lastNedCvUrl } from '../../../utils/eksterneUrler';
-import { erIkkeProd } from '../../../utils/featureToggleUtils';
 import css from './Lenker.module.css';
 
 type Props = {
@@ -33,15 +31,6 @@ const Lenker = ({ fødselsnummer, className }: Props) => {
                     Last ned CV
                     <DownloadIcon />
                 </NavLink>
-                {erIkkeProd && (
-                    <Link
-                        to={`/stillingssok/${fødselsnummer}`}
-                        className="navds-button navds-button--tertiary navds-button--small"
-                    >
-                        Finn stilling
-                        <MagnifyingGlassIcon />
-                    </Link>
-                )}
             </div>
         </div>
     );

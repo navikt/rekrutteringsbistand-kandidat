@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode, useState } from 'react';
-import { Button, Tabs } from '@navikt/ds-react';
-import { PersonPlusIcon } from '@navikt/aksel-icons';
+import { Button, Label, Tabs } from '@navikt/ds-react';
+import { MagnifyingGlassIcon, PersonPlusIcon } from '@navikt/aksel-icons';
 
 import { lenkeTilKandidatsøk } from '../../app/paths';
 import { KandidatsøkØkt, hentØktFraKandidatsøk } from '../søkekontekst';
@@ -12,6 +12,9 @@ import useScrollTilToppen from '../../utils/useScrollTilToppen';
 import useFaner from '../hooks/useFaner';
 import LagreKandidaterIMineKandidatlisterModal from './lagre-kandidat-modal/LagreKandidatIMineKandidatlisterModal';
 import css from './FraSøkUtenKontekst.module.css';
+import { erIkkeProd } from '../../utils/featureToggleUtils';
+import { Link } from 'react-router-dom';
+import { Nettstatus } from '../../api/Nettressurs';
 
 type Props = {
     tabs: ReactNode;
@@ -32,6 +35,8 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, child
         state: { scrollTilKandidat: true },
     };
 
+    console.log('erikkeprod', erIkkeProd, 'suksess', cv.kind === Nettstatus.Suksess);
+
     return (
         <>
             <Kandidatheader
@@ -42,14 +47,26 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, child
             />
             <Tabs value={fane} onChange={setFane}>
                 <Kandidatmeny tabs={tabs} cv={cv}>
-                    <Button
-                        size="small"
-                        className={css.velgKandidatlisterKnapp}
-                        icon={<PersonPlusIcon aria-hidden />}
-                        onClick={() => setVisKandidatlisterModal(true)}
-                    >
-                        Velg kandidatlister
-                    </Button>
+                    <div className={css.knapper}>
+                        {erIkkeProd && cv.kind === Nettstatus.Suksess && (
+                            <Link
+                                to={`/stillingssok/${cv.data.fodselsnummer}`}
+                                className="navds-button navds-button--secondary navds-button--small"
+                            >
+                                <MagnifyingGlassIcon />
+                                <Label as="span" size="small">
+                                    Finn stilling
+                                </Label>
+                            </Link>
+                        )}
+                        <Button
+                            size="small"
+                            icon={<PersonPlusIcon aria-hidden />}
+                            onClick={() => setVisKandidatlisterModal(true)}
+                        >
+                            Velg kandidatlister
+                        </Button>
+                    </div>
                 </Kandidatmeny>
                 <Tabs.Panel value={fane}>{children}</Tabs.Panel>
             </Tabs>
