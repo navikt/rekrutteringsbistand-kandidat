@@ -35,8 +35,6 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, child
         state: { scrollTilKandidat: true },
     };
 
-    console.log('erikkeprod', erIkkeProd, 'suksess', cv.kind === Nettstatus.Suksess);
-
     return (
         <>
             <Kandidatheader
