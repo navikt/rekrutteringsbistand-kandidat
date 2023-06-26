@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { Checkbox, Label } from '@navikt/ds-react';
 import classNames from 'classnames';
 
@@ -32,6 +32,7 @@ export const modifierTilListeradGrid = (
 const Kolonne: FunctionComponent<{
     tekst: string;
     className?: string;
+    children?: ReactNode;
 }> = ({ tekst, className, children }) => {
     return (
         <Label as="div" role="columnheader" className={classNames(className, css.kolonneTittel)}>

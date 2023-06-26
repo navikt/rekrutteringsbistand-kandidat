@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { Button } from '@navikt/ds-react';
 import { MobileIcon, TrashIcon } from '@navikt/aksel-icons';
 import {

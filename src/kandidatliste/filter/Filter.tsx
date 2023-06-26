@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Checkbox, CheckboxGroup, Label } from '@navikt/ds-react';
 
 import { Kandidatstatus } from '../domene/Kandidat';
@@ -79,7 +79,7 @@ const Filter: FunctionComponent<Props> = ({
             <Accordion className={css.accordionStorSkjerm}>
                 <Accordion.Item defaultOpen>
                     <Accordion.Header>Status/hendelser</Accordion.Header>
-                    <Accordion.Content className={css.innhold}>
+                    <Accordion.Content className={css.content}>
                         <CheckboxGroup
                             legend="Status"
                             size="small"
@@ -105,12 +105,11 @@ const Filter: FunctionComponent<Props> = ({
                                 {hendelsescheckbokser}
                             </CheckboxGroup>
                         )}
-                    </Accordion.Content>
-                </Accordion.Item>
-                <Accordion.Item defaultOpen>
-                    <Accordion.Header>Status/hendelser</Accordion.Header>
-                    <Accordion.Content className={css.innhold}>
-                        <CheckboxGroup legend="Slettet" size="small">
+                        <CheckboxGroup
+                            legend="Slettet"
+                            size="small"
+                            className={css.hendelsesGruppeStorSkjerm}
+                        >
                             {arkivfilter}
                         </CheckboxGroup>
                     </Accordion.Content>
@@ -122,7 +121,7 @@ const Filter: FunctionComponent<Props> = ({
             <Accordion.Item>
                 <Accordion.Header>Filter</Accordion.Header>
                 <Accordion.Content
-                    className={classNames(css.innhold, css.kandidatlisteFilterKategoriLitenSkjerm)}
+                    className={classNames(css.content, css.kandidatlisteFilterKategoriLitenSkjerm)}
                 >
                     <CheckboxGroup legend={<Label>Status</Label>} size="small">
                         {statuscheckbokser}

@@ -1,5 +1,5 @@
 import { Table } from '@navikt/ds-react';
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { KandidatlisteSammendrag } from '../../kandidatliste/domene/Kandidatliste';
 import TabellRad from './TabellRad';
 

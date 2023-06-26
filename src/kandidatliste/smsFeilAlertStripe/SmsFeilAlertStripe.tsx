@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import classNames from 'classnames';
 import { Alert, Button } from '@navikt/ds-react';
 import { XMarkIcon } from '@navikt/aksel-icons';

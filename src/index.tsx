@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Modal } from '@navikt/ds-react';
 import { Router } from 'react-router-dom';
@@ -60,7 +60,7 @@ const renderUtviklingsapp = async () => {
         await import('./mock/mock-api');
     }
 
-    const utviklingsapp = document.getElementById('utviklingsapp');
+    const utviklingsapp = document.getElementById('utviklingsapp')!;
     const root = createRoot(utviklingsapp);
 
     root.render(<Utviklingsapp />);

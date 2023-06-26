@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 import css from './Hendelse.module.css';
 import { BodyLong, Heading, Label } from '@navikt/ds-react';
@@ -17,6 +17,7 @@ type Props = {
     tittel?: string;
     beskrivelse?: ReactNode;
     renderChildrenBelowContent?: boolean;
+    children?: ReactNode;
 };
 
 const Hendelse: FunctionComponent<Props> = ({

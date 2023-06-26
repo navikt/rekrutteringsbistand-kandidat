@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { Heading } from '@navikt/ds-react';
 import classnames from 'classnames';
 import css from './TomListe.module.css';

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FunctionComponent, MouseEvent, useEffect, useState } from 'react';
 import { Alert, BodyShort, Button, Heading, Label, Popover } from '@navikt/ds-react';
 import { BeaconSignalsIcon } from '@navikt/aksel-icons';
 import { useDispatch, useSelector } from 'react-redux';

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 
 import Cv from '../../../cv/reducer/cv-typer';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
@@ -8,6 +8,7 @@ import css from './Kandidatmeny.module.css';
 type Props = {
     cv: Nettressurs<Cv>;
     tabs: ReactNode;
+    children?: ReactNode;
 };
 
 const Kandidatmeny: FunctionComponent<Props> = ({ cv, tabs, children }) => {

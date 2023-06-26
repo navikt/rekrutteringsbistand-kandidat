@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Språkferdighet as SpråkferdighetType, Språkferdighetsnivå } from '../reducer/cv-typer';
 import { BodyShort } from '@navikt/ds-react';
 import css from './Cv.module.css';

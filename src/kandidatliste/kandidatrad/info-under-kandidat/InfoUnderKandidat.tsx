@@ -1,9 +1,10 @@
 import classNames from 'classnames';
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import css from './InfoUnderKandidat.module.css';
 
 type Props = {
     className?: string;
+    children?: ReactNode;
 };
 
 const InfoUnderKandidat: FunctionComponent<Props> = ({ className, children }) => {

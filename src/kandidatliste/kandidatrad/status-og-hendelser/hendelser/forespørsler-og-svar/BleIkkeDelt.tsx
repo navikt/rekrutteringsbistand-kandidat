@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { formaterDatoNaturlig } from '../../../../../utils/dateUtils';
 import { ForespørselOmDelingAvCv } from '../../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import Hendelse, { Hendelsesstatus } from '../Hendelse';
 
 type Props = {
     forespørsel: ForespørselOmDelingAvCv;
+    children: ReactNode;
 };
 
 const BleIkkeDelt: FunctionComponent<Props> = ({ forespørsel, children }) => {

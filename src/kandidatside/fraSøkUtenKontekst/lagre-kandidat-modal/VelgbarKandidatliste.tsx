@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import { ChangeEvent, FunctionComponent } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { BodyShort, Detail } from '@navikt/ds-react';
 import { Kurs as KursType, Omfang, Omfangenhet } from '../reducer/cv-typer';
 import TidspunktMedLabel from './TidspunktMedLabel';

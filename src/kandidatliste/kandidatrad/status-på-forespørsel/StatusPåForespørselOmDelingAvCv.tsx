@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Nettressurs, Nettstatus } from '../../../api/Nettressurs';
 import {

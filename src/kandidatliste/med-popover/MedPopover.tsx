@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, MouseEvent, ReactNode } from 'react';
+import { FunctionComponent, useState, MouseEvent, ReactNode } from 'react';
 import css from './MedPopover.module.css';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
@@ -7,6 +7,7 @@ type Props = {
     tittel?: string;
     hjelpetekst: ReactNode;
     className?: string;
+    children?: ReactNode;
     placement?:
         | 'top'
         | 'bottom'

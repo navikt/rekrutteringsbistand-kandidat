@@ -1,4 +1,4 @@
-import React, { MouseEvent, MutableRefObject, forwardRef } from 'react';
+import { MouseEvent, MutableRefObject, forwardRef } from 'react';
 import { EyeIcon, PencilIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal as DsModal, ModalProps } from '@navikt/ds-react';
 import css from './Modal.module.css';
 import classNames from 'classnames';

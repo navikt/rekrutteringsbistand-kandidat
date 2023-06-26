@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Button, ErrorMessage } from '@navikt/ds-react';
 import { useDispatch, useSelector } from 'react-redux';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { formaterDatoTilMånedOgÅr } from '../../utils/dateUtils';
 
 type Props = {

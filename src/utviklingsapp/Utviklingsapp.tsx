@@ -1,14 +1,14 @@
-import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import { createBrowserHistory } from 'history';
 import { Link } from 'react-router-dom';
 
 import { AppMedStore } from '../index';
-import CustomRouter from './CustomRouter';
 import { mock } from '../mock/mock-data';
 import { meg } from '../mock/data/kandidat/veileder.mock';
-import css from './Utviklingsapp.module.css';
 import { Heading } from '@navikt/ds-react';
 import { KandidatsøkØkt } from '../kandidatside/søkekontekst';
+import CustomRouter from './CustomRouter';
+import css from './Utviklingsapp.module.css';
 
 const history = createBrowserHistory();
 

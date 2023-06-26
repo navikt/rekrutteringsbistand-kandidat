@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { ArrowsUpDownIcon, ArrowUpIcon, ArrowDownIcon } from '@navikt/aksel-icons';
 import { Link, useLocation } from 'react-router-dom';
 import { Retning } from './Retning';
@@ -11,6 +11,7 @@ interface Props {
     aktivtSorteringsfelt: number | null;
     aktivSorteringsretning: Retning | null;
     onClick: (sorteringsfelt: number) => void;
+    children?: ReactNode;
 }
 
 const SorterbarKolonneheader: FunctionComponent<Props> = ({

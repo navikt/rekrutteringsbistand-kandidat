@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { PlusCircleIcon, MinusCircleIcon } from '@navikt/aksel-icons';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { hentSisteKandidatutfall, Kandidatutfall, Utfallsendring } from '../../../domene/Kandidat';

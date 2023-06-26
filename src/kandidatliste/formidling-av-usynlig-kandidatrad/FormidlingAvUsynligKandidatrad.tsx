@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Heading, Popover } from '@navikt/ds-react';
 import { XMarkIcon } from '@navikt/aksel-icons';

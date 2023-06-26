@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import css from './IkkeFunnet.module.css';
+import { FunctionComponent } from 'react';
 import { BodyShort, Heading, Label } from '@navikt/ds-react';
+import css from './IkkeFunnet.module.css';
 
 const IkkeFunnet: FunctionComponent = () => {
     return (

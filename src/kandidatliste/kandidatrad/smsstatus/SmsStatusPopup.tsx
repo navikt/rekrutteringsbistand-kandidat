@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Sms, SmsStatus } from '../../domene/Kandidatressurser';
 import MedPopover from '../../med-popover/MedPopover';
 import { MobileFillIcon, MobileIcon } from '@navikt/aksel-icons';

@@ -1,8 +1,7 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import { Accordion, Checkbox, CheckboxGroup, Radio, RadioGroup } from '@navikt/ds-react';
-import css from './Filter.module.css';
 import { Søkekriterier } from '../reducer/listeoversiktReducer';
+import css from './Filter.module.css';
 
 enum Eierskapsfilter {
     KunMine = 'KUN_MINE',
@@ -73,27 +72,29 @@ const Filter = ({
         <Accordion className={className}>
             <Accordion.Item defaultOpen>
                 <Accordion.Header>Kandidatlister</Accordion.Header>
-                <Accordion.Content className={css.innhold}>
-                    <RadioGroup
-                        hideLegend
-                        legend="Eierskap"
-                        className={css.eierskap}
-                        onChange={handleEierskapsfilterChange}
-                        value={eierskapsfilter}
-                    >
-                        <Radio value={Eierskapsfilter.KunMine}>Vis kun mine</Radio>
-                        <Radio value={Eierskapsfilter.AlleSine}>Vis alle sine</Radio>
-                    </RadioGroup>
+                <Accordion.Content className={css.content}>
+                    <div className={css.innhold}>
+                        <RadioGroup
+                            hideLegend
+                            legend="Eierskap"
+                            className={css.eierskap}
+                            onChange={handleEierskapsfilterChange}
+                            value={eierskapsfilter}
+                        >
+                            <Radio value={Eierskapsfilter.KunMine}>Vis kun mine</Radio>
+                            <Radio value={Eierskapsfilter.AlleSine}>Vis alle sine</Radio>
+                        </RadioGroup>
 
-                    <CheckboxGroup
-                        hideLegend
-                        legend="Stilling"
-                        onChange={handleStillingsfilterChange}
-                        value={stillingsfilter}
-                    >
-                        <Checkbox value={Stillingsfilter.MedStilling}>Med stilling</Checkbox>
-                        <Checkbox value={Stillingsfilter.UtenStilling}>Uten stilling</Checkbox>
-                    </CheckboxGroup>
+                        <CheckboxGroup
+                            hideLegend
+                            legend="Stilling"
+                            onChange={handleStillingsfilterChange}
+                            value={stillingsfilter}
+                        >
+                            <Checkbox value={Stillingsfilter.MedStilling}>Med stilling</Checkbox>
+                            <Checkbox value={Stillingsfilter.UtenStilling}>Uten stilling</Checkbox>
+                        </CheckboxGroup>
+                    </div>
                 </Accordion.Content>
             </Accordion.Item>
         </Accordion>

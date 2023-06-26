@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import css from './NudgeAvsluttOppdragModal.module.css';
 import Modal from '../../komponenter/modal/Modal';
 import { BodyShort, Heading, Button } from '@navikt/ds-react';

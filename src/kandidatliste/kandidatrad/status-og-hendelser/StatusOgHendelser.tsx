@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, useRef, useState } from 'react';
 import { Button, Popover } from '@navikt/ds-react';
 import { EyeIcon, PencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 

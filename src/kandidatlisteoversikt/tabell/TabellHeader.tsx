@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { Table } from '@navikt/ds-react';
 

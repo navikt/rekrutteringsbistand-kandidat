@@ -1,4 +1,3 @@
-import React from 'react';
 import { ExternalLinkIcon, DownloadIcon } from '@navikt/aksel-icons';
 import { Link as NavLink } from '@navikt/ds-react';
 

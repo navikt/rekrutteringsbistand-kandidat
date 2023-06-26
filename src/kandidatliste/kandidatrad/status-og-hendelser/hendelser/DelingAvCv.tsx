@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { PlusCircleIcon, MinusCircleIcon } from '@navikt/aksel-icons';
 import { BodyLong, Button, ErrorMessage } from '@navikt/ds-react';

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { formaterDatoNaturlig } from '../../../../utils/dateUtils';
 import Hendelse, { Hendelsesstatus } from './Hendelse';
 import { Sms, SmsStatus } from '../../../domene/Kandidatressurser';

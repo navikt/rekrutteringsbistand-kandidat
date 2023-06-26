@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Nettstatus } from '../api/Nettressurs';

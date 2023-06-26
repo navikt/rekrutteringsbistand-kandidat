@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { BodyLong, Link } from '@navikt/ds-react';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { sendEvent } from '../../amplitude/amplitude';

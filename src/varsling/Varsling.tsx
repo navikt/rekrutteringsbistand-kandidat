@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
-import AppState from '../state/AppState';
 import { Alert } from '@navikt/ds-react';
+import AppState from '../state/AppState';
 import css from './Varsling.module.css';
 
 const Varsling: FunctionComponent = () => {
