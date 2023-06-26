@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Button, Search } from '@navikt/ds-react';
 import css from './Header.module.css';
 

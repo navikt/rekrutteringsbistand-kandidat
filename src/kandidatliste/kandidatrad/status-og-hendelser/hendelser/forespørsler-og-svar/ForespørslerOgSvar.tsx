@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useState } from 'react';
+import { FunctionComponent, ReactNode, useState } from 'react';
 import { Nettressurs, Nettstatus } from '../../../../../api/Nettressurs';
 import {
     ForespørslerForKandidatForStilling,

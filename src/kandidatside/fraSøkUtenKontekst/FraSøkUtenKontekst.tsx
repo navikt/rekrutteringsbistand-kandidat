@@ -1,9 +1,9 @@
-import React, { FunctionComponent, ReactNode, useState } from 'react';
+import { FunctionComponent, ReactNode, useState } from 'react';
 import { Button, Label, Tabs } from '@navikt/ds-react';
 import { MagnifyingGlassIcon, PersonPlusIcon } from '@navikt/aksel-icons';
 
 import { lenkeTilKandidatsøk } from '../../app/paths';
-import { KandidatsøkØkt, hentØktFraKandidatsøk } from '../søkekontekst';
+import { hentØktFraKandidatsøk } from '../søkekontekst';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';

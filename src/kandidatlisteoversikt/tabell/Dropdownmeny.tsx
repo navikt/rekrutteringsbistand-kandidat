@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Tooltip } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 import {

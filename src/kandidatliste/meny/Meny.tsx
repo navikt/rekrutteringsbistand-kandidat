@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { MagnifyingGlassIcon, PersonPlusIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';

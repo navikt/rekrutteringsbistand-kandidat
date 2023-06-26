@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Alert, BodyLong, Button } from '@navikt/ds-react';
 import { useLocation } from 'react-router-dom';
 

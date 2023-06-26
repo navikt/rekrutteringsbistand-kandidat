@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 import { BodyLong, Button, Link } from '@navikt/ds-react';
 import { TenancyIcon } from '@navikt/aksel-icons';

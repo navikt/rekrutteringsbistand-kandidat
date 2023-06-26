@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Button, RadioGroup, Radio, Detail, BodyShort, Heading } from '@navikt/ds-react';
 
 import { Kandidat, Kandidatstatus } from '../../../domene/Kandidat';

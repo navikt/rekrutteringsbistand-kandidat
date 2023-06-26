@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { BodyShort, Button, Label, Panel } from '@navikt/ds-react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';

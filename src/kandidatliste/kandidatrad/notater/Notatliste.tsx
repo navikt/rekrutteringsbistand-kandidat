@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
 import { BodyLong, Button } from '@navikt/ds-react';
 

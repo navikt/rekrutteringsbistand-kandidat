@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { Tabs } from '@navikt/ds-react';
 
-import { hentØktFraKandidatsøk, useKandidatsøkøkt } from './søkekontekst';
 import { PersonEnvelopeIcon, Chat2Icon } from '@navikt/aksel-icons';
 import FraKandidatliste from './fraKandidatliste/FraKandidatliste';
 import FraSøkUtenKontekst from './fraSøkUtenKontekst/FraSøkUtenKontekst';

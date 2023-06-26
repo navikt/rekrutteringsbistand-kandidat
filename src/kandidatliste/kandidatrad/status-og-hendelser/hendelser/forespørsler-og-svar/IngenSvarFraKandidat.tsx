@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import moment from 'moment';
 import { TilstandPåForespørsel } from '../../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import Hendelse, { Hendelsesstatus } from '../Hendelse';

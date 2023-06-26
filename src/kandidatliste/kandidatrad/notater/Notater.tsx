@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useState, useEffect, useCallback } from 'react';
+import { ChangeEvent, FunctionComponent, useState, useEffect, useCallback } from 'react';
 import { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
 

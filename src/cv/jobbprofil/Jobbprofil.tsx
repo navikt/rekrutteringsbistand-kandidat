@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 import Cv from '../reducer/cv-typer';
 import Informasjonspanel from '../Informasjonspanel';

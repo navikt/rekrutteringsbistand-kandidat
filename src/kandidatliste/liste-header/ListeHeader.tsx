@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Checkbox, Label } from '@navikt/ds-react';
 import classNames from 'classnames';
 

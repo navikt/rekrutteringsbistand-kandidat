@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import { ChangeEvent, FunctionComponent } from 'react';
 import css from './ForespørselOmDelingAvCv.module.css';
 import moment from 'moment';
 import {
@@ -7,9 +7,9 @@ import {
     Label,
     Radio,
     RadioGroup,
-    UNSAFE_useDatepicker as useDatepicker,
+    DatePicker,
+    useDatepicker,
 } from '@navikt/ds-react';
-import { UNSAFE_DatePicker as DatePicker } from '@navikt/ds-react';
 
 export enum Svarfrist {
     ToDager = 'TO_DAGER',

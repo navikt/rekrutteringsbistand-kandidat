@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import classNames from 'classnames';
 import { LinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Detail, Table } from '@navikt/ds-react';

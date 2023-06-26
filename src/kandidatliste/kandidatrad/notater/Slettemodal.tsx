@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Notat } from '../../domene/Kandidatressurser';
 import NotatInfo from './NotatInfo';
 import Modal from '../../../komponenter/modal/Modal';

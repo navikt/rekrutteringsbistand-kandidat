@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronUpDoubleIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 import throttle from 'lodash.throttle';

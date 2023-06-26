@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { BodyLong, SortState, Table } from '@navikt/ds-react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../../state/AppState';

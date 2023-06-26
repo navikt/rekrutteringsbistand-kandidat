@@ -1,6 +1,5 @@
-import React from 'react';
-import css from './Feilside.module.css';
 import { Heading } from '@navikt/ds-react';
+import css from './Feilside.module.css';
 
 const NotFound = () => (
     <Heading level="1" size="large" className={css.feilside}>

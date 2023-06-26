@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon } from '@navikt/aksel-icons';
 import { BodyShort, Heading } from '@navikt/ds-react';

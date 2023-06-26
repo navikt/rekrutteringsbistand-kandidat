@@ -1,8 +1,7 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import { Accordion, Checkbox, CheckboxGroup, Radio, RadioGroup } from '@navikt/ds-react';
-import css from './Filter.module.css';
 import { Søkekriterier } from '../reducer/listeoversiktReducer';
+import css from './Filter.module.css';
 
 enum Eierskapsfilter {
     KunMine = 'KUN_MINE',

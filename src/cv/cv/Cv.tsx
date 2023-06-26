@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, ReactNode } from 'react';
+import { Fragment, FunctionComponent, ReactNode } from 'react';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 
 import sortByDato from './sortByDato';

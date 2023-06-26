@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { BodyLong, ErrorMessage, Heading } from '@navikt/ds-react';
 import { fetchUsynligKandidat } from '../../api/api';
 import { Nettressurs, ikkeLastet, Nettstatus } from '../../api/Nettressurs';

@@ -1,11 +1,11 @@
-import React, { FunctionComponent, ReactNode, useState } from 'react';
+import { FunctionComponent, ReactNode, useState } from 'react';
 import { BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import { PersonPlusIcon } from '@navikt/aksel-icons';
 
 import { lenkeTilKandidatliste, lenkeTilKandidatsøk } from '../../app/paths';
 import { Nettstatus } from '../../api/Nettressurs';
-import { KandidatsøkØkt, hentØktFraKandidatsøk } from '../søkekontekst';
+import { hentØktFraKandidatsøk } from '../søkekontekst';
 import Kandidatheader from '../komponenter/header/Kandidatheader';
 import Kandidatmeny from '../komponenter/meny/Kandidatmeny';
 import useCv from '../hooks/useCv';

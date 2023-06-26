@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import { ChangeEvent, FunctionComponent, useState } from 'react';
 import { CheckboxGroup, Pagination } from '@navikt/ds-react';
 import VelgbarKandidatliste from './VelgbarKandidatliste';
 import useMineKandidatlister, {

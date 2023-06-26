@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import Tidsperiode from './Tidsperiode';
 import { Yrkeserfaring } from '../reducer/cv-typer';
 import { Detail, BodyShort } from '@navikt/ds-react';

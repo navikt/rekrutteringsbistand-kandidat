@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Notat } from '../../domene/Kandidatressurser';
 import { formaterTidspunkt } from '../../../utils/dateUtils';
 import { Detail } from '@navikt/ds-react';

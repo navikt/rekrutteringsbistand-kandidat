@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { BodyLong, Button, Heading } from '@navikt/ds-react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';

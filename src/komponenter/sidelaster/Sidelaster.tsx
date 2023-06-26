@@ -1,4 +1,3 @@
-import React from 'react';
 import { Loader, LoaderProps } from '@navikt/ds-react';
 import css from './Sidelaster.module.css';
 import classNames from 'classnames';

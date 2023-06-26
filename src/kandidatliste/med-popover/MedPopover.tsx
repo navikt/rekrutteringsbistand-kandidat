@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, MouseEvent, ReactNode } from 'react';
+import { FunctionComponent, useState, MouseEvent, ReactNode } from 'react';
 import css from './MedPopover.module.css';
 import { BodyShort, Popover } from '@navikt/ds-react';
 

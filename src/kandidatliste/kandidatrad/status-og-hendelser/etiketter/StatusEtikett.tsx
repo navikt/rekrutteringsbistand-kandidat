@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Kandidatstatus } from '../../../domene/Kandidat';
 import Etikett from './Etikett';
 import css from './StatusEtikett.module.css';

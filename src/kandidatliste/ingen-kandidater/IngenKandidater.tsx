@@ -1,5 +1,5 @@
 import { Label } from '@navikt/ds-react';
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import css from './IngenKandidater.module.css';
 
 const IngenKandidater: FunctionComponent = ({ children }) => {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Modal } from '@navikt/ds-react';
 import { Router } from 'react-router-dom';

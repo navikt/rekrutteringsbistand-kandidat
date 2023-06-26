@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Accordion, Heading } from '@navikt/ds-react';
 import css from './Informasjonspanel.module.css';
 import classNames from 'classnames';
