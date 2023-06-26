@@ -1,6 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { BodyShort, Button, Table } from '@navikt/ds-react';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { BodyShort, Button, Dropdown, Table } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import { PersonPlusIcon, MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
 

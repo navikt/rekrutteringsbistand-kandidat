@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react';
-import { Tooltip } from '@navikt/ds-react';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Dropdown, Tooltip } from '@navikt/ds-react';
 import {
     KandidatlisteSammendrag,
     KanSletteKandidatliste,

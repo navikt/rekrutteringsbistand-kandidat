@@ -1,5 +1,4 @@
 @import '@navikt/ds-css' layer(designsystem);
-@import '@navikt/ds-css-internal' layer(designsystem);
 
 *,
 *::before,
