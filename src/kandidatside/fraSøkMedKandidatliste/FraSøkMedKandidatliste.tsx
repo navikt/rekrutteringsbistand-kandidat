@@ -19,6 +19,7 @@ type Props = {
     tabs: ReactNode;
     kandidatnr: string;
     kandidatlisteId: string;
+    children?: ReactNode;
 };
 
 const FraSøkMedKandidatliste: FunctionComponent<Props> = ({

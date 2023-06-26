@@ -13,13 +13,13 @@ const CustomRouter: FunctionComponent<CustomRouterProps> = ({ history, children 
         location: history.location,
     });
 
-    useLayoutEffect(() => history.listen(setState), [history]);
+    useLayoutEffect(() => history.listen(setState as any), [history]);
 
     return (
         <Router
             children={children}
             location={state.location}
-            navigationType={state.action}
+            navigationType={state.action as any}
             navigator={history}
         />
     );

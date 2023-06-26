@@ -19,6 +19,7 @@ import { Nettstatus } from '../../api/Nettressurs';
 type Props = {
     tabs: ReactNode;
     kandidatnr: string;
+    children?: ReactNode;
 };
 
 const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, children }) => {

@@ -60,7 +60,7 @@ const renderUtviklingsapp = async () => {
         await import('./mock/mock-api');
     }
 
-    const utviklingsapp = document.getElementById('utviklingsapp');
+    const utviklingsapp = document.getElementById('utviklingsapp')!;
     const root = createRoot(utviklingsapp);
 
     root.render(<Utviklingsapp />);

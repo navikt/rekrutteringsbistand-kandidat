@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { formaterDatoNaturlig } from '../../../../../utils/dateUtils';
 import {
     IdentType,
@@ -8,6 +8,7 @@ import Hendelse, { Hendelsesstatus } from '../Hendelse';
 
 type Props = {
     svar: SvarPåForespørsel;
+    children?: ReactNode;
 };
 
 const SvarFraKandidat: FunctionComponent<Props> = ({ svar, children }) => {

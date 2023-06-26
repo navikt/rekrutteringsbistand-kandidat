@@ -7,6 +7,7 @@ type Props = {
     tittel?: string;
     hjelpetekst: ReactNode;
     className?: string;
+    children?: ReactNode;
     placement?:
         | 'top'
         | 'bottom'

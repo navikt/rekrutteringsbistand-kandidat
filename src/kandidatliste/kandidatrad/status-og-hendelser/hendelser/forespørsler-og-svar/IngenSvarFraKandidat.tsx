@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import moment from 'moment';
 import { TilstandPåForespørsel } from '../../../../knappe-rad/forespørsel-om-deling-av-cv/Forespørsel';
 import Hendelse, { Hendelsesstatus } from '../Hendelse';
@@ -7,6 +7,7 @@ import { formaterDatoUtenÅrstall } from '../../../../../utils/dateUtils';
 type Props = {
     tilstand: TilstandPåForespørsel;
     svarfrist: string;
+    children?: ReactNode;
 };
 
 const IngenSvarFraKandidat: FunctionComponent<Props> = ({ svarfrist, tilstand, children }) => {

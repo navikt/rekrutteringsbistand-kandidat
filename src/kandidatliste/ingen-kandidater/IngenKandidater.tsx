@@ -1,8 +1,12 @@
 import { Label } from '@navikt/ds-react';
-import { FunctionComponent } from 'react';
+import { ReactNode } from 'react';
 import css from './IngenKandidater.module.css';
 
-const IngenKandidater: FunctionComponent = ({ children }) => {
+type Props = {
+    children: ReactNode;
+};
+
+const IngenKandidater = ({ children }: Props) => {
     return (
         <Label size="small" className={css.ingenKandidater}>
             {children}

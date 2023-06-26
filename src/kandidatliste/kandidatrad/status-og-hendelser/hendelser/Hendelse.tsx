@@ -17,6 +17,7 @@ type Props = {
     tittel?: string;
     beskrivelse?: ReactNode;
     renderChildrenBelowContent?: boolean;
+    children?: ReactNode;
 };
 
 const Hendelse: FunctionComponent<Props> = ({
