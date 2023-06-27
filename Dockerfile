@@ -1,4 +1,4 @@
-FROM ghcr.io/navikt/baseimages/node-express:16
+FROM gcr.io/distroless/nodejs18-debian11
 
 WORKDIR /var
 
@@ -10,4 +10,4 @@ WORKDIR /var/server
 
 EXPOSE 8080
 
-CMD ["node", "server.js"]
+CMD ["server.js"]
