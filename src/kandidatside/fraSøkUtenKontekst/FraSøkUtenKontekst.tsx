@@ -47,7 +47,7 @@ const FraSøkUtenKontekst: FunctionComponent<Props> = ({ tabs, kandidatnr, child
             <Tabs value={fane} onChange={setFane}>
                 <Kandidatmeny tabs={tabs} cv={cv}>
                     <div className={css.knapper}>
-                        {erIkkeProd && cv.kind === Nettstatus.Suksess && (
+                        {cv.kind === Nettstatus.Suksess && (
                             <Link
                                 to={`/stillingssok/${cv.data.fodselsnummer}?kandidatkriterier`}
                                 className="navds-button navds-button--secondary navds-button--small"
