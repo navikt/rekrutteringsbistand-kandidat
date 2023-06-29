@@ -24,49 +24,47 @@ const KandidatenFinnesIkke: FunctionComponent<Props> = ({ synlighetsevaluering }
 
     let forklaring: ReactNode = null;
 
-    if (ingenKriterierStemmer) {
-        forklaring = <p>Kandidaten finnes ikke.</p>;
-    } else if (alleKriterierStemmer) {
-        forklaring = null;
-    } else {
-        const kandidatensKriterierPerAnsvarsområde =
-            hentKandidatensKriterierPerAnsvarsområde(synlighetsevaluering);
+    if (ingenKriterierStemmer || alleKriterierStemmer) {
+        return null;
+    }
 
-        if (kandidatensKriterierPerAnsvarsområde.utenforNoensKontroll.length) {
-            forklaring = (
-                <>
-                    <span>Mulige årsaker er:</span>
-                    {kandidatensKriterierPerAnsvarsområde.utenforNoensKontroll.map((kriterie) => (
-                        <li>{kriterieTilForklaring(kriterie)}</li>
-                    ))}
-                </>
-            );
-        } else {
-            forklaring = (
-                <>
-                    {kandidatensKriterierPerAnsvarsområde.kandidat.length > 0 && (
-                        <>
-                            <span>For å bli synlig må kandidaten</span>
-                            <ul>
-                                {kandidatensKriterierPerAnsvarsområde.kandidat.map((kriterie) => (
-                                    <li key={kriterie}>{kriterieTilForklaring(kriterie)}</li>
-                                ))}
-                            </ul>
-                        </>
-                    )}
-                    {kandidatensKriterierPerAnsvarsområde.veileder.length > 0 && (
-                        <>
-                            <span>For å bli synlig må du</span>
-                            <ul>
-                                {kandidatensKriterierPerAnsvarsområde.veileder.map((kriterie) => (
-                                    <li key={kriterie}>{kriterieTilForklaring(kriterie)}</li>
-                                ))}
-                            </ul>
-                        </>
-                    )}
-                </>
-            );
-        }
+    const kandidatensKriterierPerAnsvarsområde =
+        hentKandidatensKriterierPerAnsvarsområde(synlighetsevaluering);
+
+    if (kandidatensKriterierPerAnsvarsområde.utenforNoensKontroll.length) {
+        forklaring = (
+            <>
+                <span>Mulige årsaker er:</span>
+                {kandidatensKriterierPerAnsvarsområde.utenforNoensKontroll.map((kriterie) => (
+                    <li>{kriterieTilForklaring(kriterie)}</li>
+                ))}
+            </>
+        );
+    } else {
+        forklaring = (
+            <>
+                {kandidatensKriterierPerAnsvarsområde.kandidat.length > 0 && (
+                    <>
+                        <span>For å bli synlig må kandidaten</span>
+                        <ul>
+                            {kandidatensKriterierPerAnsvarsområde.kandidat.map((kriterie) => (
+                                <li key={kriterie}>{kriterieTilForklaring(kriterie)}</li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+                {kandidatensKriterierPerAnsvarsområde.veileder.length > 0 && (
+                    <>
+                        <span>For å bli synlig må du</span>
+                        <ul>
+                            {kandidatensKriterierPerAnsvarsområde.veileder.map((kriterie) => (
+                                <li key={kriterie}>{kriterieTilForklaring(kriterie)}</li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+            </>
+        );
     }
 
     return (
